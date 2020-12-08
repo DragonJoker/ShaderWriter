@@ -37,6 +37,7 @@ namespace sdw
 		InstanceT operator[]( UInt const & index );
 
 	private:
+		ShaderWriter & m_writer;
 		ast::Shader & m_shader;
 		std::string m_name;
 		ast::InterfaceBlock m_interface;
@@ -46,7 +47,7 @@ namespace sdw
 		var::VariablePtr m_ssboVar;
 	};
 
-	SDW_API void registerSsbo( Shader & shader, std::string const & name, SsboInfo const & info );
+	SDW_API void registerSsbo( ShaderWriter & writer, std::string const & name, SsboInfo const & info );
 }
 
 #include "ArraySsbo.inl"

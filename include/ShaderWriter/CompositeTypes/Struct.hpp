@@ -36,6 +36,7 @@ namespace sdw
 			, Struct const & type );
 
 	private:
+		ShaderWriter * m_writer;
 		Shader * m_shader;
 		type::StructPtr m_type;
 	};

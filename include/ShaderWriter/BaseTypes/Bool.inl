@@ -9,11 +9,11 @@ namespace sdw
 	inline Boolean & Boolean::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		Shader & shader = *findShader( *this, rhs );
-		addStmt( shader
-			, sdw::makeSimple( sdw::makeAssign( getTypesCache( shader ).getBool()
-				, sdw::makeExpr( shader, *this )
-				, sdw::makeExpr( shader, rhs ) ) ) );
+		auto & writer = *findWriter( *this, rhs );
+		addStmt( writer
+			, sdw::makeSimple( sdw::makeAssign( getTypesCache( writer ).getBool()
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, rhs ) ) ) );
 		return *this;
 	}
 
@@ -24,11 +24,11 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -37,7 +37,7 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return RetT{ &shader
+		return RetT{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
@@ -46,11 +46,11 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -59,7 +59,7 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Optional< RetT >{ &shader
+		return Optional< RetT >{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -69,11 +69,11 @@ namespace sdw
 		, Optional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -82,7 +82,7 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Optional< RetT >{ &shader
+		return Optional< RetT >{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -92,11 +92,11 @@ namespace sdw
 		, Optional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -105,7 +105,7 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return Optional< RetT >{ &shader
+		return Optional< RetT >{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
@@ -115,11 +115,11 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -130,12 +130,12 @@ namespace sdw
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< RetT >{ &shader
+			return MaybeOptional< RetT >{ writer
 				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return RetT{ &shader
+		return RetT{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
@@ -144,11 +144,11 @@ namespace sdw
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -159,12 +159,12 @@ namespace sdw
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< RetT >{ &shader
+			return MaybeOptional< RetT >{ writer
 				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return RetT{ &shader
+		return RetT{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 
@@ -173,11 +173,11 @@ namespace sdw
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		Shader & shader = *findShader( lhs, rhs );
-		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
-		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
-		ast::type::TypePtr lhsType = details::getType( shader, lhs );
-		ast::type::TypePtr rhsType = details::getType( shader, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
+		ast::type::TypePtr lhsType = details::getType( writer, lhs );
+		ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 		if ( rhsType != lhsType
 			&& ast::type::getComponentCount( rhsType ) != ast::type::getComponentCount( lhsType )
@@ -188,12 +188,12 @@ namespace sdw
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< RetT >{ &shader
+			return MaybeOptional< RetT >{ writer
 				, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return RetT{ &shader
+		return RetT{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) ) };
 	}
 

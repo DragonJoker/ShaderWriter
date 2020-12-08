@@ -1589,7 +1589,7 @@ namespace sdw
 
 			if ( isAnyOptional( image, params... ) )
 			{
-				return Optional< ReturnT >{ findShader( image, params... )
+				return Optional< ReturnT >{ *findWriter( image, params... )
 					, expr::makeTextureAccessCall( ReturnT::makeType( cache )
 						, TextureAccessT
 						, makeExpr( image )
@@ -1597,38 +1597,11 @@ namespace sdw
 					, areOptionalEnabled( image, params... ) };
 			}
 
-			return ReturnT{ findShader( image, params... )
+			return ReturnT{ *findWriter( image, params... )
 				, expr::makeTextureAccessCall( ReturnT::makeType( cache )
 					, TextureAccessT
 					, makeExpr( image )
 					, makeExpr( params )... ) };
-		}
-
-		//*****************************************************************************************
-
-		template< type::ImageFormat FormatT
-			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT
-			, bool MsT
-			, expr::TextureAccess TextureAccessT
-			, typename ... ParamsT >
-		void writeVoidTextureAccessCall( MaybeOptional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > const & image
-			, MaybeOptional< ParamsT > const & ... params )
-		{
-			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
-			static_assert( TextureAccessT != expr::TextureAccess::eUndefined );
-
-			auto & cache = findTypesCache( image, params... );
-
-			if ( ( !isAnyOptional( image, params... ) )
-				|| areOptionalEnabled( image, params... ) )
-			{
-				expr::makeTextureAccessCall( Void::makeType( cache )
-					, TextureAccessT
-					, makeExpr( image )
-					, makeExpr( params )... );
-			}
 		}
 
 		//*************************************************************************
@@ -3038,9 +3011,9 @@ namespace sdw
 			using GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3108,9 +3081,9 @@ namespace sdw
 			using GradProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 			using GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3161,9 +3134,9 @@ namespace sdw
 			using GradFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3226,9 +3199,9 @@ namespace sdw
 			using GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3270,9 +3243,9 @@ namespace sdw
 			using GatherFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3335,9 +3308,9 @@ namespace sdw
 			using GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 			using GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3406,9 +3379,9 @@ namespace sdw
 			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3459,9 +3432,9 @@ namespace sdw
 			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3506,9 +3479,9 @@ namespace sdw
 			using GradRefFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3559,9 +3532,9 @@ namespace sdw
 			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3598,9 +3571,9 @@ namespace sdw
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3629,9 +3602,9 @@ namespace sdw
 			, public TexSizeFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public FetchFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SampledImageFuncsT( Shader * shader
+			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, shader, std::move( expr ) }
+				: SampledImage{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -3650,7 +3623,7 @@ namespace sdw
 	SampledImage & SampledImage::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = *findShader( *this, rhs );
+		auto & shader = *findWriter( *this, rhs );
 		addStmt( shader
 			, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
 				, makeExpr( shader, getExpr() )
@@ -3665,9 +3638,9 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( Shader * shader
+	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ shader, std::move( expr ) }
+		: sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ) }
 	{
 	}
 

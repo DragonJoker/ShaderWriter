@@ -149,7 +149,7 @@ namespace sdw
 
 	ast::expr::ExprPtr ShaderWriter::loadExpr( Value const & value )
 	{
-		return m_shader->loadExpr( makeExpr( *m_shader, value ) );
+		return m_shader->loadExpr( makeExpr( *this, value ) );
 	}
 
 	void ShaderWriter::forStmt( expr::ExprPtr init
@@ -157,9 +157,9 @@ namespace sdw
 		, expr::ExprPtr incr
 		, std::function< void() > function )
 	{
-		doPushScope( stmt::makeFor( makeExpr( *m_shader, init )
-			, makeExpr( *m_shader, cond )
-			, makeExpr( *m_shader, incr ) ) );
+		doPushScope( stmt::makeFor( makeExpr( *this, init )
+			, makeExpr( *this, cond )
+			, makeExpr( *this, incr ) ) );
 		function();
 		popScope();
 	}
@@ -267,8 +267,8 @@ namespace sdw
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return Boolean{ m_shader.get()
-			, makeExpr( *m_shader, var ) };
+		return Boolean{ *this
+			, makeExpr( *this, var ) };
 	}
 
 	Optional< Boolean > ShaderWriter::declSpecConstant( std::string const & name
@@ -288,8 +288,8 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< Boolean >{ m_shader.get()
-			, makeExpr( *m_shader, var )
+		return Optional< Boolean >{ *this
+			, makeExpr( *this, var )
 			, enabled };
 	}
 
@@ -304,8 +304,8 @@ namespace sdw
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return Int{ m_shader.get()
-			, makeExpr( *m_shader, var ) };
+		return Int{ *this
+			, makeExpr( *this, var ) };
 	}
 
 	Optional< Int > ShaderWriter::declSpecConstant( std::string const & name
@@ -325,8 +325,8 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< Int >{ m_shader.get()
-			, makeExpr( *m_shader, var )
+		return Optional< Int >{ *this
+			, makeExpr( *this, var )
 			, enabled };
 	}
 
@@ -341,8 +341,8 @@ namespace sdw
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return UInt{ m_shader.get()
-			, makeExpr( *m_shader, var ) };
+		return UInt{ *this
+			, makeExpr( *this, var ) };
 	}
 
 	Optional< UInt > ShaderWriter::declSpecConstant( std::string const & name
@@ -362,8 +362,8 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< UInt >{ m_shader.get()
-			, makeExpr( *m_shader, var )
+		return Optional< UInt >{ *this
+			, makeExpr( *this, var )
 			, enabled };
 	}
 
@@ -378,8 +378,8 @@ namespace sdw
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return Float{ m_shader.get()
-			, makeExpr( *m_shader, var ) };
+		return Float{ *this
+			, makeExpr( *this, var ) };
 	}
 
 	Optional< Float > ShaderWriter::declSpecConstant( std::string const & name
@@ -399,8 +399,8 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< Float >{ m_shader.get()
-			, makeExpr( *m_shader, var )
+		return Optional< Float >{ *this
+			, makeExpr( *this, var )
 			, enabled };
 	}
 
@@ -415,8 +415,8 @@ namespace sdw
 		addStmt( sdw::makeSpecConstantDecl( var
 			, location
 			, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
-		return Double{ m_shader.get()
-			, makeExpr( *m_shader, var ) };
+		return Double{ *this
+			, makeExpr( *this, var ) };
 	}
 
 	Optional< Double > ShaderWriter::declSpecConstant( std::string const & name
@@ -436,8 +436,8 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Optional< Double >{ m_shader.get()
-			, makeExpr( *m_shader, var )
+		return Optional< Double >{ *this
+			, makeExpr( *this, var )
 			, enabled };
 	}
 

@@ -26,13 +26,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( radians ) )
 		{
-			return Optional< Float >{ findShader( radians )
+			return Optional< Float >{ *findWriter( radians )
 				, expr::makeDegrees1( findTypesCache( radians )
 					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
-		return Float{ findShader( radians )
+		return Float{ *findWriter( radians )
 			, expr::makeDegrees1( findTypesCache( radians )
 					, makeExpr( radians ) ) };
 	}
@@ -40,13 +40,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( radians ) )
 		{
-			return Optional< Vec2 >{ findShader( radians )
+			return Optional< Vec2 >{ *findWriter( radians )
 				, expr::makeDegrees2( findTypesCache( radians )
 					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
-		return Vec2{ findShader( radians )
+		return Vec2{ *findWriter( radians )
 			, expr::makeDegrees2( findTypesCache( radians )
 					, makeExpr( radians ) ) };
 	}
@@ -54,13 +54,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( radians ) )
 		{
-			return Optional< Vec3 >{ findShader( radians )
+			return Optional< Vec3 >{ *findWriter( radians )
 				, expr::makeDegrees3( findTypesCache( radians )
 					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
-		return Vec3{ findShader( radians )
+		return Vec3{ *findWriter( radians )
 			, expr::makeDegrees3( findTypesCache( radians )
 					, makeExpr( radians ) ) };
 	}
@@ -68,13 +68,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( radians ) )
 		{
-			return Optional< Vec4 >{ findShader( radians )
+			return Optional< Vec4 >{ *findWriter( radians )
 				, expr::makeDegrees4( findTypesCache( radians )
 					, makeExpr( radians ) )
 				, areOptionalEnabled( radians ) };
 		}
 
-		return Vec4{ findShader( radians )
+		return Vec4{ *findWriter( radians )
 			, expr::makeDegrees4( findTypesCache( radians )
 					, makeExpr( radians ) ) };
 	}
@@ -90,13 +90,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( degrees ) )
 		{
-			return Optional< Float >{ findShader( degrees )
+			return Optional< Float >{ *findWriter( degrees )
 				, expr::makeRadians1F( findTypesCache( degrees )
 					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
-		return Float{ findShader( degrees )
+		return Float{ *findWriter( degrees )
 			, expr::makeRadians1F( findTypesCache( degrees )
 					, makeExpr( degrees ) ) };
 	}
@@ -104,13 +104,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( degrees ) )
 		{
-			return Optional< Vec2 >{ findShader( degrees )
+			return Optional< Vec2 >{ *findWriter( degrees )
 				, expr::makeRadians2F( findTypesCache( degrees )
 					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
-		return Vec2{ findShader( degrees )
+		return Vec2{ *findWriter( degrees )
 			, expr::makeRadians2F( findTypesCache( degrees )
 					, makeExpr( degrees ) ) };
 	}
@@ -118,13 +118,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( degrees ) )
 		{
-			return Optional< Vec3 >{ findShader( degrees )
+			return Optional< Vec3 >{ *findWriter( degrees )
 				, expr::makeRadians3F( findTypesCache( degrees )
 					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
-		return Vec3{ findShader( degrees )
+		return Vec3{ *findWriter( degrees )
 			, expr::makeRadians3F( findTypesCache( degrees )
 					, makeExpr( degrees ) ) };
 	}
@@ -132,13 +132,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( degrees ) )
 		{
-			return Optional< Vec4 >{ findShader( degrees )
+			return Optional< Vec4 >{ *findWriter( degrees )
 				, expr::makeRadians4F( findTypesCache( degrees )
 					, makeExpr( degrees ) )
 				, areOptionalEnabled( degrees ) };
 		}
 
-		return Vec4{ findShader( degrees )
+		return Vec4{ *findWriter( degrees )
 			, expr::makeRadians4F( findTypesCache( degrees )
 					, makeExpr( degrees ) ) };
 	}
@@ -154,13 +154,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeCos1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeCos1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -168,13 +168,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeCos2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeCos2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -182,13 +182,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeCos3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeCos3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -196,13 +196,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeCos4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeCos4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -218,13 +218,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeSin1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeSin1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -232,13 +232,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeSin2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeSin2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -246,13 +246,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeSin3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeSin3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -260,13 +260,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeSin4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeSin4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -282,13 +282,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeTan1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeTan1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -296,13 +296,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeTan2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeTan2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -310,13 +310,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeTan3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeTan3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -324,13 +324,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeTan4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeTan4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -346,13 +346,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeCosh1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeCosh1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -360,13 +360,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeCosh2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeCosh2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -374,13 +374,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeCosh3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeCosh3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -388,13 +388,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeCosh4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeCosh4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -410,13 +410,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeSinh1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeSinh1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -424,13 +424,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeSinh2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeSinh2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -438,13 +438,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeSinh3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeSinh3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -452,13 +452,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeSinh4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeSinh4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -474,13 +474,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeTanh1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeTanh1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -488,13 +488,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeTanh2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeTanh2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -502,13 +502,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeTanh3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeTanh3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -516,13 +516,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeTanh4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeTanh4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -538,13 +538,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeAcos1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeAcos1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -552,13 +552,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeAcos2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeAcos2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -566,13 +566,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeAcos3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeAcos3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -580,13 +580,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeAcos4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeAcos4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -602,13 +602,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeAsin1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeAsin1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -616,13 +616,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeAsin2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeAsin2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -630,13 +630,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeAsin3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeAsin3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -644,13 +644,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeAsin4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeAsin4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -666,13 +666,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Float >{ findShader( y_over_x )
+			return Optional< Float >{ *findWriter( y_over_x )
 				, expr::makeAtan1( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Float{ findShader( y_over_x )
+		return Float{ *findWriter( y_over_x )
 			, expr::makeAtan1( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) ) };
 	}
@@ -680,13 +680,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Vec2 >{ findShader( y_over_x )
+			return Optional< Vec2 >{ *findWriter( y_over_x )
 				, expr::makeAtan2( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Vec2{ findShader( y_over_x )
+		return Vec2{ *findWriter( y_over_x )
 			, expr::makeAtan2( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) ) };
 	}
@@ -694,13 +694,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Vec3 >{ findShader( y_over_x )
+			return Optional< Vec3 >{ *findWriter( y_over_x )
 				, expr::makeAtan3( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Vec3{ findShader( y_over_x )
+		return Vec3{ *findWriter( y_over_x )
 			, expr::makeAtan3( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) ) };
 	}
@@ -708,13 +708,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( y_over_x ) )
 		{
-			return Optional< Vec4 >{ findShader( y_over_x )
+			return Optional< Vec4 >{ *findWriter( y_over_x )
 				, expr::makeAtan4( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) )
 				, areOptionalEnabled( y_over_x ) };
 		}
 
-		return Vec4{ findShader( y_over_x )
+		return Vec4{ *findWriter( y_over_x )
 			, expr::makeAtan4( findTypesCache( y_over_x )
 					, makeExpr( y_over_x ) ) };
 	}
@@ -731,14 +731,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( y, x ) )
 		{
-			return Optional< Float >{ findShader( y, x )
+			return Optional< Float >{ *findWriter( y, x )
 				, expr::makeAtan21( findTypesCache( y, x )
 					, makeExpr( y )
 					, makeExpr( x ) )
 				, areOptionalEnabled( y, x ) };
 		}
 
-		return Float{ findShader( y, x )
+		return Float{ *findWriter( y, x )
 			, expr::makeAtan21( findTypesCache( y, x )
 					, makeExpr( y )
 				, makeExpr( x ) ) };
@@ -748,14 +748,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( y, x ) )
 		{
-			return Optional< Vec2 >{ findShader( y, x )
+			return Optional< Vec2 >{ *findWriter( y, x )
 				, expr::makeAtan22( findTypesCache( y, x )
 					, makeExpr( y )
 					, makeExpr( x ) )
 				, areOptionalEnabled( y, x ) };
 		}
 
-		return Vec2{ findShader( y, x )
+		return Vec2{ *findWriter( y, x )
 			, expr::makeAtan22( findTypesCache( y, x )
 					, makeExpr( y )
 				, makeExpr( x ) ) };
@@ -765,14 +765,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( y, x ) )
 		{
-			return Optional< Vec3 >{ findShader( y, x )
+			return Optional< Vec3 >{ *findWriter( y, x )
 				, expr::makeAtan23( findTypesCache( y, x )
 					, makeExpr( y )
 					, makeExpr( x ) )
 				, areOptionalEnabled( y, x ) };
 		}
 
-		return Vec3{ findShader( y, x )
+		return Vec3{ *findWriter( y, x )
 			, expr::makeAtan23( findTypesCache( y, x )
 					, makeExpr( y )
 				, makeExpr( x ) ) };
@@ -782,14 +782,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( y, x ) )
 		{
-			return Optional< Vec4 >{ findShader( y, x )
+			return Optional< Vec4 >{ *findWriter( y, x )
 				, expr::makeAtan24( findTypesCache( y, x )
 					, makeExpr( y )
 					, makeExpr( x ) )
 				, areOptionalEnabled( y, x ) };
 		}
 
-		return Vec4{ findShader( y, x )
+		return Vec4{ *findWriter( y, x )
 			, expr::makeAtan24( findTypesCache( y, x )
 					, makeExpr( y )
 				, makeExpr( x ) ) };
@@ -806,13 +806,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeAcosh1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeAcosh1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -820,13 +820,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeAcosh2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeAcosh2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -834,13 +834,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeAcosh3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeAcosh3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -848,13 +848,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeAcosh4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeAcosh4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -870,13 +870,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeAsinh1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeAsinh1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -884,13 +884,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeAsinh2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeAsinh2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -898,13 +898,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeAsinh3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeAsinh3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -912,13 +912,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeAsinh4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeAsinh4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -934,13 +934,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeAtanh1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeAtanh1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -948,13 +948,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeAtanh2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeAtanh2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -962,13 +962,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeAtanh3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeAtanh3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -976,13 +976,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeAtanh4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeAtanh4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -999,14 +999,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makePow1( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makePow1( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -1016,14 +1016,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec2 >{ findShader( x, y )
+			return Optional< Vec2 >{ *findWriter( x, y )
 				, expr::makePow2( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec2{ findShader( x, y )
+		return Vec2{ *findWriter( x, y )
 			, expr::makePow2( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -1033,14 +1033,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec3 >{ findShader( x, y )
+			return Optional< Vec3 >{ *findWriter( x, y )
 				, expr::makePow3( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec3{ findShader( x, y )
+		return Vec3{ *findWriter( x, y )
 			, expr::makePow3( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -1050,14 +1050,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec4 >{ findShader( x, y )
+			return Optional< Vec4 >{ *findWriter( x, y )
 				, expr::makePow4( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec4{ findShader( x, y )
+		return Vec4{ *findWriter( x, y )
 			, expr::makePow4( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -1074,13 +1074,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeExp1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeExp1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1088,13 +1088,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeExp2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeExp2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1102,13 +1102,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeExp3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeExp3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1116,13 +1116,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeExp4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeExp4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1138,13 +1138,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeLog1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeLog1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1152,13 +1152,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeLog2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeLog2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1166,13 +1166,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeLog3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeLog3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1180,13 +1180,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeLog4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeLog4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1202,13 +1202,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeExp21( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeExp21( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1216,13 +1216,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeExp22( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeExp22( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1230,13 +1230,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeExp23( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeExp23( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1244,13 +1244,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeExp24( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeExp24( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1266,13 +1266,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeLog21( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeLog21( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1280,13 +1280,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeLog22( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeLog22( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1294,13 +1294,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeLog23( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeLog23( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1308,13 +1308,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeLog24( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeLog24( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1330,13 +1330,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeSqrt1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeSqrt1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1344,13 +1344,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeSqrt2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeSqrt2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1358,13 +1358,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeSqrt3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeSqrt3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1372,13 +1372,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeSqrt4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeSqrt4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1386,13 +1386,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeSqrt1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeSqrt1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1400,13 +1400,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeSqrt2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeSqrt2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1414,13 +1414,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeSqrt3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeSqrt3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1428,13 +1428,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeSqrt4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeSqrt4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1450,13 +1450,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeInverseSqrt1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeInverseSqrt1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1464,13 +1464,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeInverseSqrt2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeInverseSqrt2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1478,13 +1478,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeInverseSqrt3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeInverseSqrt3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1492,13 +1492,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeInverseSqrt4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeInverseSqrt4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1506,13 +1506,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeInverseSqrt1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeInverseSqrt1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1520,13 +1520,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeInverseSqrt2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeInverseSqrt2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1534,13 +1534,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeInverseSqrt3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeInverseSqrt3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1548,13 +1548,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeInverseSqrt4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeInverseSqrt4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1570,13 +1570,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeAbs1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeAbs1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1584,13 +1584,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeAbs2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeAbs2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1598,13 +1598,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeAbs3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeAbs3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1612,13 +1612,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeAbs4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeAbs4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1626,13 +1626,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Int >{ findShader( x )
+			return Optional< Int >{ *findWriter( x )
 				, expr::makeAbs1I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Int{ findShader( x )
+		return Int{ *findWriter( x )
 			, expr::makeAbs1I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1640,13 +1640,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< IVec2 >{ findShader( x )
+			return Optional< IVec2 >{ *findWriter( x )
 				, expr::makeAbs2I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return IVec2{ findShader( x )
+		return IVec2{ *findWriter( x )
 			, expr::makeAbs2I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1654,13 +1654,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< IVec3 >{ findShader( x )
+			return Optional< IVec3 >{ *findWriter( x )
 				, expr::makeAbs3I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return IVec3{ findShader( x )
+		return IVec3{ *findWriter( x )
 			, expr::makeAbs3I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1668,13 +1668,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< IVec4 >{ findShader( x )
+			return Optional< IVec4 >{ *findWriter( x )
 				, expr::makeAbs4I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return IVec4{ findShader( x )
+		return IVec4{ *findWriter( x )
 			, expr::makeAbs4I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1682,13 +1682,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeAbs1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeAbs1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1696,13 +1696,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeAbs2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeAbs2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1710,13 +1710,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeAbs3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeAbs3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1724,13 +1724,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeAbs4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeAbs4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1746,13 +1746,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeSign1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeSign1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1760,13 +1760,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeSign2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeSign2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1774,13 +1774,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeSign3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeSign3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1788,13 +1788,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeSign4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeSign4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1802,13 +1802,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Int >{ findShader( x )
+			return Optional< Int >{ *findWriter( x )
 				, expr::makeSign1I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Int{ findShader( x )
+		return Int{ *findWriter( x )
 			, expr::makeSign1I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1816,13 +1816,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< IVec2 >{ findShader( x )
+			return Optional< IVec2 >{ *findWriter( x )
 				, expr::makeSign2I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return IVec2{ findShader( x )
+		return IVec2{ *findWriter( x )
 			, expr::makeSign2I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1830,13 +1830,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< IVec3 >{ findShader( x )
+			return Optional< IVec3 >{ *findWriter( x )
 				, expr::makeSign3I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return IVec3{ findShader( x )
+		return IVec3{ *findWriter( x )
 			, expr::makeSign3I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1844,13 +1844,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< IVec4 >{ findShader( x )
+			return Optional< IVec4 >{ *findWriter( x )
 				, expr::makeSign4I( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return IVec4{ findShader( x )
+		return IVec4{ *findWriter( x )
 			, expr::makeSign4I( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1858,13 +1858,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeSign1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeSign1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1872,13 +1872,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeSign2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeSign2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1886,13 +1886,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeSign3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeSign3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1900,13 +1900,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeSign4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeSign4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1922,13 +1922,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeFloor1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeFloor1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1936,13 +1936,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeFloor2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeFloor2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1950,13 +1950,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeFloor3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeFloor3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1964,13 +1964,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeFloor4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeFloor4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1978,13 +1978,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeFloor1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeFloor1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -1992,13 +1992,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeFloor2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeFloor2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2006,13 +2006,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeFloor3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeFloor3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2020,13 +2020,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeFloor4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeFloor4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2042,13 +2042,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeTrunc1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeTrunc1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2056,13 +2056,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeTrunc2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeTrunc2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2070,13 +2070,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeTrunc3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeTrunc3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2084,13 +2084,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeTrunc4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeTrunc4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2098,13 +2098,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeTrunc1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeTrunc1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2112,13 +2112,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeTrunc2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeTrunc2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2126,13 +2126,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeTrunc3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeTrunc3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2140,13 +2140,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeTrunc4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeTrunc4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2162,13 +2162,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeRound1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeRound1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2176,13 +2176,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeRound2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeRound2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2190,13 +2190,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeRound3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeRound3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2204,13 +2204,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeRound4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeRound4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2218,13 +2218,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeRound1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeRound1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2232,13 +2232,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeRound2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeRound2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2246,13 +2246,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeRound3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeRound3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2260,13 +2260,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeRound4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeRound4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2282,13 +2282,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeRoundEven1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeRoundEven1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2296,13 +2296,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeRoundEven2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeRoundEven2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2310,13 +2310,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeRoundEven3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeRoundEven3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2324,13 +2324,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeRoundEven4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeRoundEven4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2338,13 +2338,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeRoundEven1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeRoundEven1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2352,13 +2352,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeRoundEven2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeRoundEven2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2366,13 +2366,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeRoundEven3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeRoundEven3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2380,13 +2380,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeRoundEven4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeRoundEven4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2402,13 +2402,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeCeil1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeCeil1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2416,13 +2416,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeCeil2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeCeil2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2430,13 +2430,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeCeil3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeCeil3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2444,13 +2444,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeCeil4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeCeil4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2458,13 +2458,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeCeil1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeCeil1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2472,13 +2472,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeCeil2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeCeil2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2486,13 +2486,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeCeil3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeCeil3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2500,13 +2500,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeCeil4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeCeil4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2522,13 +2522,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeFract1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeFract1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2536,13 +2536,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeFract2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeFract2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2550,13 +2550,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeFract3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeFract3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2564,13 +2564,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeFract4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeFract4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2578,13 +2578,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeFract1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeFract1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2592,13 +2592,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeFract2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeFract2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2606,13 +2606,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeFract3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeFract3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2620,13 +2620,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeFract4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeFract4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -2643,14 +2643,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeMod1F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeMod1F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2660,14 +2660,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec2 >{ findShader( x, y )
+			return Optional< Vec2 >{ *findWriter( x, y )
 				, expr::makeMod2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec2{ findShader( x, y )
+		return Vec2{ *findWriter( x, y )
 			, expr::makeMod2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2677,14 +2677,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec3 >{ findShader( x, y )
+			return Optional< Vec3 >{ *findWriter( x, y )
 				, expr::makeMod3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec3{ findShader( x, y )
+		return Vec3{ *findWriter( x, y )
 			, expr::makeMod3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2694,14 +2694,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec4 >{ findShader( x, y )
+			return Optional< Vec4 >{ *findWriter( x, y )
 				, expr::makeMod4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec4{ findShader( x, y )
+		return Vec4{ *findWriter( x, y )
 			, expr::makeMod4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2711,14 +2711,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeMod1D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeMod1D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2728,14 +2728,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec2 >{ findShader( x, y )
+			return Optional< DVec2 >{ *findWriter( x, y )
 				, expr::makeMod2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec2{ findShader( x, y )
+		return DVec2{ *findWriter( x, y )
 			, expr::makeMod2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2745,14 +2745,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec3 >{ findShader( x, y )
+			return Optional< DVec3 >{ *findWriter( x, y )
 				, expr::makeMod3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec3{ findShader( x, y )
+		return DVec3{ *findWriter( x, y )
 			, expr::makeMod3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2762,14 +2762,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec4 >{ findShader( x, y )
+			return Optional< DVec4 >{ *findWriter( x, y )
 				, expr::makeMod4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec4{ findShader( x, y )
+		return DVec4{ *findWriter( x, y )
 			, expr::makeMod4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2787,14 +2787,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< Float >{ findShader( x, i )
+			return Optional< Float >{ *findWriter( x, i )
 				, expr::makeModf1F( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return Float{ findShader( x, i )
+		return Float{ *findWriter( x, i )
 			, expr::makeModf1F( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2804,14 +2804,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< Vec2 >{ findShader( x, i )
+			return Optional< Vec2 >{ *findWriter( x, i )
 				, expr::makeModf2F( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return Vec2{ findShader( x, i )
+		return Vec2{ *findWriter( x, i )
 			, expr::makeModf2F( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2821,14 +2821,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< Vec3 >{ findShader( x, i )
+			return Optional< Vec3 >{ *findWriter( x, i )
 				, expr::makeModf3F( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return Vec3{ findShader( x, i )
+		return Vec3{ *findWriter( x, i )
 			, expr::makeModf3F( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2838,14 +2838,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< Vec4 >{ findShader( x, i )
+			return Optional< Vec4 >{ *findWriter( x, i )
 				, expr::makeModf4F( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return Vec4{ findShader( x, i )
+		return Vec4{ *findWriter( x, i )
 			, expr::makeModf4F( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2855,14 +2855,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< Double >{ findShader( x, i )
+			return Optional< Double >{ *findWriter( x, i )
 				, expr::makeModf1D( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return Double{ findShader( x, i )
+		return Double{ *findWriter( x, i )
 			, expr::makeModf1D( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2872,14 +2872,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< DVec2 >{ findShader( x, i )
+			return Optional< DVec2 >{ *findWriter( x, i )
 				, expr::makeModf2D( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return DVec2{ findShader( x, i )
+		return DVec2{ *findWriter( x, i )
 			, expr::makeModf2D( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2889,14 +2889,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< DVec3 >{ findShader( x, i )
+			return Optional< DVec3 >{ *findWriter( x, i )
 				, expr::makeModf3D( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return DVec3{ findShader( x, i )
+		return DVec3{ *findWriter( x, i )
 			, expr::makeModf3D( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2906,14 +2906,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, i ) )
 		{
-			return Optional< DVec4 >{ findShader( x, i )
+			return Optional< DVec4 >{ *findWriter( x, i )
 				, expr::makeModf4D( findTypesCache( x, i )
 					, makeExpr( x )
 					, makeExpr( i ) )
 				, areOptionalEnabled( x, i ) };
 		}
 
-		return DVec4{ findShader( x, i )
+		return DVec4{ *findWriter( x, i )
 			, expr::makeModf4D( findTypesCache( x, i )
 					, makeExpr( x )
 				, makeExpr( i ) ) };
@@ -2931,14 +2931,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeMin1F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeMin1F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2948,14 +2948,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec2 >{ findShader( x, y )
+			return Optional< Vec2 >{ *findWriter( x, y )
 				, expr::makeMin2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec2{ findShader( x, y )
+		return Vec2{ *findWriter( x, y )
 			, expr::makeMin2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2965,14 +2965,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec3 >{ findShader( x, y )
+			return Optional< Vec3 >{ *findWriter( x, y )
 				, expr::makeMin3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec3{ findShader( x, y )
+		return Vec3{ *findWriter( x, y )
 			, expr::makeMin3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2982,14 +2982,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec4 >{ findShader( x, y )
+			return Optional< Vec4 >{ *findWriter( x, y )
 				, expr::makeMin4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec4{ findShader( x, y )
+		return Vec4{ *findWriter( x, y )
 			, expr::makeMin4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -2999,14 +2999,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeMin1D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeMin1D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3016,14 +3016,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec2 >{ findShader( x, y )
+			return Optional< DVec2 >{ *findWriter( x, y )
 				, expr::makeMin2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec2{ findShader( x, y )
+		return DVec2{ *findWriter( x, y )
 			, expr::makeMin2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3033,14 +3033,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec3 >{ findShader( x, y )
+			return Optional< DVec3 >{ *findWriter( x, y )
 				, expr::makeMin3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec3{ findShader( x, y )
+		return DVec3{ *findWriter( x, y )
 			, expr::makeMin3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3050,14 +3050,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec4 >{ findShader( x, y )
+			return Optional< DVec4 >{ *findWriter( x, y )
 				, expr::makeMin4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec4{ findShader( x, y )
+		return DVec4{ *findWriter( x, y )
 			, expr::makeMin4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3067,14 +3067,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Int >{ findShader( x, y )
+			return Optional< Int >{ *findWriter( x, y )
 				, expr::makeMin1I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Int{ findShader( x, y )
+		return Int{ *findWriter( x, y )
 			, expr::makeMin1I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3084,14 +3084,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< IVec2 >{ findShader( x, y )
+			return Optional< IVec2 >{ *findWriter( x, y )
 				, expr::makeMin2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return IVec2{ findShader( x, y )
+		return IVec2{ *findWriter( x, y )
 			, expr::makeMin2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3101,14 +3101,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< IVec3 >{ findShader( x, y )
+			return Optional< IVec3 >{ *findWriter( x, y )
 				, expr::makeMin3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return IVec3{ findShader( x, y )
+		return IVec3{ *findWriter( x, y )
 			, expr::makeMin3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3118,14 +3118,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< IVec4 >{ findShader( x, y )
+			return Optional< IVec4 >{ *findWriter( x, y )
 				, expr::makeMin4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return IVec4{ findShader( x, y )
+		return IVec4{ *findWriter( x, y )
 			, expr::makeMin4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3135,14 +3135,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UInt >{ findShader( x, y )
+			return Optional< UInt >{ *findWriter( x, y )
 				, expr::makeMin1U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UInt{ findShader( x, y )
+		return UInt{ *findWriter( x, y )
 			, expr::makeMin1U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3152,14 +3152,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UVec2 >{ findShader( x, y )
+			return Optional< UVec2 >{ *findWriter( x, y )
 				, expr::makeMin2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UVec2{ findShader( x, y )
+		return UVec2{ *findWriter( x, y )
 			, expr::makeMin2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3169,14 +3169,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UVec3 >{ findShader( x, y )
+			return Optional< UVec3 >{ *findWriter( x, y )
 				, expr::makeMin3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UVec3{ findShader( x, y )
+		return UVec3{ *findWriter( x, y )
 			, expr::makeMin3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3186,14 +3186,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UVec4 >{ findShader( x, y )
+			return Optional< UVec4 >{ *findWriter( x, y )
 				, expr::makeMin4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UVec4{ findShader( x, y )
+		return UVec4{ *findWriter( x, y )
 			, expr::makeMin4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3211,14 +3211,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeMax1F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeMax1F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3228,14 +3228,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec2 >{ findShader( x, y )
+			return Optional< Vec2 >{ *findWriter( x, y )
 				, expr::makeMax2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec2{ findShader( x, y )
+		return Vec2{ *findWriter( x, y )
 			, expr::makeMax2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3245,14 +3245,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec3 >{ findShader( x, y )
+			return Optional< Vec3 >{ *findWriter( x, y )
 				, expr::makeMax3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec3{ findShader( x, y )
+		return Vec3{ *findWriter( x, y )
 			, expr::makeMax3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3262,14 +3262,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec4 >{ findShader( x, y )
+			return Optional< Vec4 >{ *findWriter( x, y )
 				, expr::makeMax4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec4{ findShader( x, y )
+		return Vec4{ *findWriter( x, y )
 			, expr::makeMax4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3279,14 +3279,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeMax1D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeMax1D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3296,14 +3296,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec2 >{ findShader( x, y )
+			return Optional< DVec2 >{ *findWriter( x, y )
 				, expr::makeMax2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec2{ findShader( x, y )
+		return DVec2{ *findWriter( x, y )
 			, expr::makeMax2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3313,14 +3313,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec3 >{ findShader( x, y )
+			return Optional< DVec3 >{ *findWriter( x, y )
 				, expr::makeMax3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec3{ findShader( x, y )
+		return DVec3{ *findWriter( x, y )
 			, expr::makeMax3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3330,14 +3330,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec4 >{ findShader( x, y )
+			return Optional< DVec4 >{ *findWriter( x, y )
 				, expr::makeMax4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec4{ findShader( x, y )
+		return DVec4{ *findWriter( x, y )
 			, expr::makeMax4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3347,14 +3347,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Int >{ findShader( x, y )
+			return Optional< Int >{ *findWriter( x, y )
 				, expr::makeMax1I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Int{ findShader( x, y )
+		return Int{ *findWriter( x, y )
 			, expr::makeMax1I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3364,14 +3364,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< IVec2 >{ findShader( x, y )
+			return Optional< IVec2 >{ *findWriter( x, y )
 				, expr::makeMax2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return IVec2{ findShader( x, y )
+		return IVec2{ *findWriter( x, y )
 			, expr::makeMax2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3381,14 +3381,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< IVec3 >{ findShader( x, y )
+			return Optional< IVec3 >{ *findWriter( x, y )
 				, expr::makeMax3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return IVec3{ findShader( x, y )
+		return IVec3{ *findWriter( x, y )
 			, expr::makeMax3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3398,14 +3398,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< IVec4 >{ findShader( x, y )
+			return Optional< IVec4 >{ *findWriter( x, y )
 				, expr::makeMax4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return IVec4{ findShader( x, y )
+		return IVec4{ *findWriter( x, y )
 			, expr::makeMax4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3415,14 +3415,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UInt >{ findShader( x, y )
+			return Optional< UInt >{ *findWriter( x, y )
 				, expr::makeMax1U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UInt{ findShader( x, y )
+		return UInt{ *findWriter( x, y )
 			, expr::makeMax1U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3432,14 +3432,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UVec2 >{ findShader( x, y )
+			return Optional< UVec2 >{ *findWriter( x, y )
 				, expr::makeMax2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UVec2{ findShader( x, y )
+		return UVec2{ *findWriter( x, y )
 			, expr::makeMax2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3449,14 +3449,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UVec3 >{ findShader( x, y )
+			return Optional< UVec3 >{ *findWriter( x, y )
 				, expr::makeMax3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UVec3{ findShader( x, y )
+		return UVec3{ *findWriter( x, y )
 			, expr::makeMax3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3466,14 +3466,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< UVec4 >{ findShader( x, y )
+			return Optional< UVec4 >{ *findWriter( x, y )
 				, expr::makeMax4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return UVec4{ findShader( x, y )
+		return UVec4{ *findWriter( x, y )
 			, expr::makeMax4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -3492,7 +3492,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< Float >{ findShader( x, minVal, maxVal )
+			return Optional< Float >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp1F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3500,7 +3500,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return Float{ findShader( x, minVal, maxVal )
+		return Float{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp1F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3512,7 +3512,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< Vec2 >{ findShader( x, minVal, maxVal )
+			return Optional< Vec2 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp2F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3520,7 +3520,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return Vec2{ findShader( x, minVal, maxVal )
+		return Vec2{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp2F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3532,7 +3532,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< Vec3 >{ findShader( x, minVal, maxVal )
+			return Optional< Vec3 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp3F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3540,7 +3540,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return Vec3{ findShader( x, minVal, maxVal )
+		return Vec3{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp3F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3552,7 +3552,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< Vec4 >{ findShader( x, minVal, maxVal )
+			return Optional< Vec4 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp4F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3560,7 +3560,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return Vec4{ findShader( x, minVal, maxVal )
+		return Vec4{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp4F( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3572,7 +3572,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< Double >{ findShader( x, minVal, maxVal )
+			return Optional< Double >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp1D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3580,7 +3580,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return Double{ findShader( x, minVal, maxVal )
+		return Double{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp1D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3592,7 +3592,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< DVec2 >{ findShader( x, minVal, maxVal )
+			return Optional< DVec2 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp2D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3600,7 +3600,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return DVec2{ findShader( x, minVal, maxVal )
+		return DVec2{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp2D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3612,7 +3612,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< DVec3 >{ findShader( x, minVal, maxVal )
+			return Optional< DVec3 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp3D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3620,7 +3620,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return DVec3{ findShader( x, minVal, maxVal )
+		return DVec3{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp3D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3632,7 +3632,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< DVec4 >{ findShader( x, minVal, maxVal )
+			return Optional< DVec4 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp4D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3640,7 +3640,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return DVec4{ findShader( x, minVal, maxVal )
+		return DVec4{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp4D( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3652,7 +3652,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< Int >{ findShader( x, minVal, maxVal )
+			return Optional< Int >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp1I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3660,7 +3660,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return Int{ findShader( x, minVal, maxVal )
+		return Int{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp1I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3672,7 +3672,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< IVec2 >{ findShader( x, minVal, maxVal )
+			return Optional< IVec2 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp2I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3680,7 +3680,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return IVec2{ findShader( x, minVal, maxVal )
+		return IVec2{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp2I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3692,7 +3692,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< IVec3 >{ findShader( x, minVal, maxVal )
+			return Optional< IVec3 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp3I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3700,7 +3700,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return IVec3{ findShader( x, minVal, maxVal )
+		return IVec3{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp3I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3712,7 +3712,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< IVec4 >{ findShader( x, minVal, maxVal )
+			return Optional< IVec4 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp4I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3720,7 +3720,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return IVec4{ findShader( x, minVal, maxVal )
+		return IVec4{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp4I( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3732,7 +3732,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< UInt >{ findShader( x, minVal, maxVal )
+			return Optional< UInt >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp1U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3740,7 +3740,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return UInt{ findShader( x, minVal, maxVal )
+		return UInt{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp1U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3752,7 +3752,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< UVec2 >{ findShader( x, minVal, maxVal )
+			return Optional< UVec2 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp2U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3760,7 +3760,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return UVec2{ findShader( x, minVal, maxVal )
+		return UVec2{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp2U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3772,7 +3772,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< UVec3 >{ findShader( x, minVal, maxVal )
+			return Optional< UVec3 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp3U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3780,7 +3780,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return UVec3{ findShader( x, minVal, maxVal )
+		return UVec3{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp3U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3792,7 +3792,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, minVal, maxVal ) )
 		{
-			return Optional< UVec4 >{ findShader( x, minVal, maxVal )
+			return Optional< UVec4 >{ *findWriter( x, minVal, maxVal )
 				, expr::makeClamp4U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 					, makeExpr( minVal )
@@ -3800,7 +3800,7 @@ namespace sdw
 				, areOptionalEnabled( x, minVal, maxVal ) };
 		}
 
-		return UVec4{ findShader( x, minVal, maxVal )
+		return UVec4{ *findWriter( x, minVal, maxVal )
 			, expr::makeClamp4U( findTypesCache( x, minVal, maxVal )
 					, makeExpr( x )
 				, makeExpr( minVal )
@@ -3820,7 +3820,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< Float >{ findShader( x, y, a )
+			return Optional< Float >{ *findWriter( x, y, a )
 				, expr::makeMix1F( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3828,7 +3828,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return Float{ findShader( x, y, a )
+		return Float{ *findWriter( x, y, a )
 			, expr::makeMix1F( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3840,7 +3840,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< Vec2 >{ findShader( x, y, a )
+			return Optional< Vec2 >{ *findWriter( x, y, a )
 				, expr::makeMix2F( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3848,7 +3848,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return Vec2{ findShader( x, y, a )
+		return Vec2{ *findWriter( x, y, a )
 			, expr::makeMix2F( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3860,7 +3860,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< Vec3 >{ findShader( x, y, a )
+			return Optional< Vec3 >{ *findWriter( x, y, a )
 				, expr::makeMix3F( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3868,7 +3868,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return Vec3{ findShader( x, y, a )
+		return Vec3{ *findWriter( x, y, a )
 			, expr::makeMix3F( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3880,7 +3880,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< Vec4 >{ findShader( x, y, a )
+			return Optional< Vec4 >{ *findWriter( x, y, a )
 				, expr::makeMix4F( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3888,7 +3888,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return Vec4{ findShader( x, y, a )
+		return Vec4{ *findWriter( x, y, a )
 			, expr::makeMix4F( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3900,7 +3900,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< Double >{ findShader( x, y, a )
+			return Optional< Double >{ *findWriter( x, y, a )
 				, expr::makeMix1D( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3908,7 +3908,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return Double{ findShader( x, y, a )
+		return Double{ *findWriter( x, y, a )
 			, expr::makeMix1D( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3920,7 +3920,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< DVec2 >{ findShader( x, y, a )
+			return Optional< DVec2 >{ *findWriter( x, y, a )
 				, expr::makeMix2D( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3928,7 +3928,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return DVec2{ findShader( x, y, a )
+		return DVec2{ *findWriter( x, y, a )
 			, expr::makeMix2D( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3940,7 +3940,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< DVec3 >{ findShader( x, y, a )
+			return Optional< DVec3 >{ *findWriter( x, y, a )
 				, expr::makeMix3D( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3948,7 +3948,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return DVec3{ findShader( x, y, a )
+		return DVec3{ *findWriter( x, y, a )
 			, expr::makeMix3D( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3960,7 +3960,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, a ) )
 		{
-			return Optional< DVec4 >{ findShader( x, y, a )
+			return Optional< DVec4 >{ *findWriter( x, y, a )
 				, expr::makeMix4D( findTypesCache( x, y, a )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -3968,7 +3968,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, a ) };
 		}
 
-		return DVec4{ findShader( x, y, a )
+		return DVec4{ *findWriter( x, y, a )
 			, expr::makeMix4D( findTypesCache( x, y, a )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -3987,14 +3987,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< Float >{ findShader( edge, x )
+			return Optional< Float >{ *findWriter( edge, x )
 				, expr::makeStep1F( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return Float{ findShader( edge, x )
+		return Float{ *findWriter( edge, x )
 			, expr::makeStep1F( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4004,14 +4004,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< Vec2 >{ findShader( edge, x )
+			return Optional< Vec2 >{ *findWriter( edge, x )
 				, expr::makeStep2F( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return Vec2{ findShader( edge, x )
+		return Vec2{ *findWriter( edge, x )
 			, expr::makeStep2F( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4021,14 +4021,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< Vec3 >{ findShader( edge, x )
+			return Optional< Vec3 >{ *findWriter( edge, x )
 				, expr::makeStep3F( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return Vec3{ findShader( edge, x )
+		return Vec3{ *findWriter( edge, x )
 			, expr::makeStep3F( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4038,14 +4038,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< Vec4 >{ findShader( edge, x )
+			return Optional< Vec4 >{ *findWriter( edge, x )
 				, expr::makeStep4F( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return Vec4{ findShader( edge, x )
+		return Vec4{ *findWriter( edge, x )
 			, expr::makeStep4F( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4055,14 +4055,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< Double >{ findShader( edge, x )
+			return Optional< Double >{ *findWriter( edge, x )
 				, expr::makeStep1D( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return Double{ findShader( edge, x )
+		return Double{ *findWriter( edge, x )
 			, expr::makeStep1D( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4072,14 +4072,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< DVec2 >{ findShader( edge, x )
+			return Optional< DVec2 >{ *findWriter( edge, x )
 				, expr::makeStep2D( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return DVec2{ findShader( edge, x )
+		return DVec2{ *findWriter( edge, x )
 			, expr::makeStep2D( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4089,14 +4089,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< DVec3 >{ findShader( edge, x )
+			return Optional< DVec3 >{ *findWriter( edge, x )
 				, expr::makeStep3D( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return DVec3{ findShader( edge, x )
+		return DVec3{ *findWriter( edge, x )
 			, expr::makeStep3D( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4106,14 +4106,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge, x ) )
 		{
-			return Optional< DVec4 >{ findShader( edge, x )
+			return Optional< DVec4 >{ *findWriter( edge, x )
 				, expr::makeStep4D( findTypesCache( edge, x )
 					, makeExpr( edge )
 					, makeExpr( x ) )
 				, areOptionalEnabled( edge, x ) };
 		}
 
-		return DVec4{ findShader( edge, x )
+		return DVec4{ *findWriter( edge, x )
 			, expr::makeStep4D( findTypesCache( edge, x )
 					, makeExpr( edge )
 				, makeExpr( x ) ) };
@@ -4132,7 +4132,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< Float >{ findShader( edge0, edge1, x )
+			return Optional< Float >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep1F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4140,7 +4140,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return Float{ findShader( edge0, edge1, x )
+		return Float{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep1F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4152,7 +4152,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< Vec2 >{ findShader( edge0, edge1, x )
+			return Optional< Vec2 >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep2F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4160,7 +4160,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return Vec2{ findShader( edge0, edge1, x )
+		return Vec2{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep2F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4172,7 +4172,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< Vec3 >{ findShader( edge0, edge1, x )
+			return Optional< Vec3 >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep3F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4180,7 +4180,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return Vec3{ findShader( edge0, edge1, x )
+		return Vec3{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep3F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4192,7 +4192,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< Vec4 >{ findShader( edge0, edge1, x )
+			return Optional< Vec4 >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep4F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4200,7 +4200,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return Vec4{ findShader( edge0, edge1, x )
+		return Vec4{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep4F( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4212,7 +4212,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< Double >{ findShader( edge0, edge1, x )
+			return Optional< Double >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep1D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4220,7 +4220,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return Double{ findShader( edge0, edge1, x )
+		return Double{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep1D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4232,7 +4232,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< DVec2 >{ findShader( edge0, edge1, x )
+			return Optional< DVec2 >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep2D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4240,7 +4240,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return DVec2{ findShader( edge0, edge1, x )
+		return DVec2{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep2D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4252,7 +4252,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< DVec3 >{ findShader( edge0, edge1, x )
+			return Optional< DVec3 >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep3D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4260,7 +4260,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return DVec3{ findShader( edge0, edge1, x )
+		return DVec3{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep3D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4272,7 +4272,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( edge0, edge1, x ) )
 		{
-			return Optional< DVec4 >{ findShader( edge0, edge1, x )
+			return Optional< DVec4 >{ *findWriter( edge0, edge1, x )
 				, expr::makeSmoothStep4D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 					, makeExpr( edge1 )
@@ -4280,7 +4280,7 @@ namespace sdw
 				, areOptionalEnabled( edge0, edge1, x ) };
 		}
 
-		return DVec4{ findShader( edge0, edge1, x )
+		return DVec4{ *findWriter( edge0, edge1, x )
 			, expr::makeSmoothStep4D( findTypesCache( edge0, edge1, x )
 					, makeExpr( edge0 )
 				, makeExpr( edge1 )
@@ -4298,13 +4298,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeIsnan1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeIsnan1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4312,13 +4312,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec2 >{ findShader( x )
+			return Optional< BVec2 >{ *findWriter( x )
 				, expr::makeIsnan2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec2{ findShader( x )
+		return BVec2{ *findWriter( x )
 			, expr::makeIsnan2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4326,13 +4326,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec3 >{ findShader( x )
+			return Optional< BVec3 >{ *findWriter( x )
 				, expr::makeIsnan3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec3{ findShader( x )
+		return BVec3{ *findWriter( x )
 			, expr::makeIsnan3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4340,13 +4340,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec4 >{ findShader( x )
+			return Optional< BVec4 >{ *findWriter( x )
 				, expr::makeIsnan4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec4{ findShader( x )
+		return BVec4{ *findWriter( x )
 			, expr::makeIsnan4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4354,13 +4354,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeIsnan1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeIsnan1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4368,13 +4368,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec2 >{ findShader( x )
+			return Optional< BVec2 >{ *findWriter( x )
 				, expr::makeIsnan2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec2{ findShader( x )
+		return BVec2{ *findWriter( x )
 			, expr::makeIsnan2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4382,13 +4382,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec3 >{ findShader( x )
+			return Optional< BVec3 >{ *findWriter( x )
 				, expr::makeIsnan3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec3{ findShader( x )
+		return BVec3{ *findWriter( x )
 			, expr::makeIsnan3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4396,13 +4396,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec4 >{ findShader( x )
+			return Optional< BVec4 >{ *findWriter( x )
 				, expr::makeIsnan4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec4{ findShader( x )
+		return BVec4{ *findWriter( x )
 			, expr::makeIsnan4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4418,13 +4418,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeIsinf1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeIsinf1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4432,13 +4432,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec2 >{ findShader( x )
+			return Optional< BVec2 >{ *findWriter( x )
 				, expr::makeIsinf2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec2{ findShader( x )
+		return BVec2{ *findWriter( x )
 			, expr::makeIsinf2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4446,13 +4446,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec3 >{ findShader( x )
+			return Optional< BVec3 >{ *findWriter( x )
 				, expr::makeIsinf3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec3{ findShader( x )
+		return BVec3{ *findWriter( x )
 			, expr::makeIsinf3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4460,13 +4460,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec4 >{ findShader( x )
+			return Optional< BVec4 >{ *findWriter( x )
 				, expr::makeIsinf4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec4{ findShader( x )
+		return BVec4{ *findWriter( x )
 			, expr::makeIsinf4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4474,13 +4474,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeIsinf1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeIsinf1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4488,13 +4488,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec2 >{ findShader( x )
+			return Optional< BVec2 >{ *findWriter( x )
 				, expr::makeIsinf2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec2{ findShader( x )
+		return BVec2{ *findWriter( x )
 			, expr::makeIsinf2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4502,13 +4502,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec3 >{ findShader( x )
+			return Optional< BVec3 >{ *findWriter( x )
 				, expr::makeIsinf3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec3{ findShader( x )
+		return BVec3{ *findWriter( x )
 			, expr::makeIsinf3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4516,13 +4516,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec4 >{ findShader( x )
+			return Optional< BVec4 >{ *findWriter( x )
 				, expr::makeIsinf4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec4{ findShader( x )
+		return BVec4{ *findWriter( x )
 			, expr::makeIsinf4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4538,13 +4538,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeFloatBitsToInt1( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeFloatBitsToInt1( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4552,13 +4552,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeFloatBitsToInt2( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeFloatBitsToInt2( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4566,13 +4566,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeFloatBitsToInt3( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeFloatBitsToInt3( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4580,13 +4580,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeFloatBitsToInt4( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeFloatBitsToInt4( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4602,13 +4602,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UInt >{ findShader( value )
+			return Optional< UInt >{ *findWriter( value )
 				, expr::makeFloatBitsToUInt1( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UInt{ findShader( value )
+		return UInt{ *findWriter( value )
 			, expr::makeFloatBitsToUInt1( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4616,13 +4616,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec2 >{ findShader( value )
+			return Optional< UVec2 >{ *findWriter( value )
 				, expr::makeFloatBitsToUInt2( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec2{ findShader( value )
+		return UVec2{ *findWriter( value )
 			, expr::makeFloatBitsToUInt2( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4630,13 +4630,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec3 >{ findShader( value )
+			return Optional< UVec3 >{ *findWriter( value )
 				, expr::makeFloatBitsToUInt3( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec3{ findShader( value )
+		return UVec3{ *findWriter( value )
 			, expr::makeFloatBitsToUInt3( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4644,13 +4644,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec4 >{ findShader( value )
+			return Optional< UVec4 >{ *findWriter( value )
 				, expr::makeFloatBitsToUInt4( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec4{ findShader( value )
+		return UVec4{ *findWriter( value )
 			, expr::makeFloatBitsToUInt4( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -4666,13 +4666,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeIntBitsToFloat1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeIntBitsToFloat1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4680,13 +4680,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeIntBitsToFloat2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeIntBitsToFloat2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4694,13 +4694,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeIntBitsToFloat3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeIntBitsToFloat3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4708,13 +4708,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeIntBitsToFloat4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeIntBitsToFloat4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4730,13 +4730,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeUintBitsToFloat1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeUintBitsToFloat1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4744,13 +4744,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeUintBitsToFloat2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeUintBitsToFloat2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4758,13 +4758,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeUintBitsToFloat3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeUintBitsToFloat3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4772,13 +4772,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeUintBitsToFloat4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeUintBitsToFloat4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -4796,7 +4796,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< Float >{ findShader( a, b, c )
+			return Optional< Float >{ *findWriter( a, b, c )
 				, expr::makeFma1F( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4804,7 +4804,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return Float{ findShader( a, b, c )
+		return Float{ *findWriter( a, b, c )
 			, expr::makeFma1F( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4816,7 +4816,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< Vec2 >{ findShader( a, b, c )
+			return Optional< Vec2 >{ *findWriter( a, b, c )
 				, expr::makeFma2F( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4824,7 +4824,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return Vec2{ findShader( a, b, c )
+		return Vec2{ *findWriter( a, b, c )
 			, expr::makeFma2F( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4836,7 +4836,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< Vec3 >{ findShader( a, b, c )
+			return Optional< Vec3 >{ *findWriter( a, b, c )
 				, expr::makeFma3F( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4844,7 +4844,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return Vec3{ findShader( a, b, c )
+		return Vec3{ *findWriter( a, b, c )
 			, expr::makeFma3F( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4856,7 +4856,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< Vec4 >{ findShader( a, b, c )
+			return Optional< Vec4 >{ *findWriter( a, b, c )
 				, expr::makeFma4F( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4864,7 +4864,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return Vec4{ findShader( a, b, c )
+		return Vec4{ *findWriter( a, b, c )
 			, expr::makeFma4F( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4876,7 +4876,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< Double >{ findShader( a, b, c )
+			return Optional< Double >{ *findWriter( a, b, c )
 				, expr::makeFma1D( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4884,7 +4884,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return Double{ findShader( a, b, c )
+		return Double{ *findWriter( a, b, c )
 			, expr::makeFma1D( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4896,7 +4896,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< DVec2 >{ findShader( a, b, c )
+			return Optional< DVec2 >{ *findWriter( a, b, c )
 				, expr::makeFma2D( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4904,7 +4904,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return DVec2{ findShader( a, b, c )
+		return DVec2{ *findWriter( a, b, c )
 			, expr::makeFma2D( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4916,7 +4916,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< DVec3 >{ findShader( a, b, c )
+			return Optional< DVec3 >{ *findWriter( a, b, c )
 				, expr::makeFma3D( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4924,7 +4924,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return DVec3{ findShader( a, b, c )
+		return DVec3{ *findWriter( a, b, c )
 			, expr::makeFma3D( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4936,7 +4936,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( a, b, c ) )
 		{
-			return Optional< DVec4 >{ findShader( a, b, c )
+			return Optional< DVec4 >{ *findWriter( a, b, c )
 				, expr::makeFma4D( findTypesCache( a, b, c )
 					, makeExpr( a )
 					, makeExpr( b )
@@ -4944,7 +4944,7 @@ namespace sdw
 				, areOptionalEnabled( a, b, c ) };
 		}
 
-		return DVec4{ findShader( a, b, c )
+		return DVec4{ *findWriter( a, b, c )
 			, expr::makeFma4D( findTypesCache( a, b, c )
 					, makeExpr( a )
 				, makeExpr( b )
@@ -4963,14 +4963,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Float >{ findShader( x, exp )
+			return Optional< Float >{ *findWriter( x, exp )
 				, expr::makeFrexp1F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Float{ findShader( x, exp )
+		return Float{ *findWriter( x, exp )
 			, expr::makeFrexp1F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -4980,14 +4980,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Vec2 >{ findShader( x, exp )
+			return Optional< Vec2 >{ *findWriter( x, exp )
 				, expr::makeFrexp2F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Vec2{ findShader( x, exp )
+		return Vec2{ *findWriter( x, exp )
 			, expr::makeFrexp2F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -4997,14 +4997,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Vec3 >{ findShader( x, exp )
+			return Optional< Vec3 >{ *findWriter( x, exp )
 				, expr::makeFrexp3F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Vec3{ findShader( x, exp )
+		return Vec3{ *findWriter( x, exp )
 			, expr::makeFrexp3F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5014,14 +5014,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Vec4 >{ findShader( x, exp )
+			return Optional< Vec4 >{ *findWriter( x, exp )
 				, expr::makeFrexp4F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Vec4{ findShader( x, exp )
+		return Vec4{ *findWriter( x, exp )
 			, expr::makeFrexp4F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5031,14 +5031,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Double >{ findShader( x, exp )
+			return Optional< Double >{ *findWriter( x, exp )
 				, expr::makeFrexp1D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Double{ findShader( x, exp )
+		return Double{ *findWriter( x, exp )
 			, expr::makeFrexp1D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5048,14 +5048,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< DVec2 >{ findShader( x, exp )
+			return Optional< DVec2 >{ *findWriter( x, exp )
 				, expr::makeFrexp2D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return DVec2{ findShader( x, exp )
+		return DVec2{ *findWriter( x, exp )
 			, expr::makeFrexp2D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5065,14 +5065,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< DVec3 >{ findShader( x, exp )
+			return Optional< DVec3 >{ *findWriter( x, exp )
 				, expr::makeFrexp3D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return DVec3{ findShader( x, exp )
+		return DVec3{ *findWriter( x, exp )
 			, expr::makeFrexp3D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5082,14 +5082,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< DVec4 >{ findShader( x, exp )
+			return Optional< DVec4 >{ *findWriter( x, exp )
 				, expr::makeFrexp4D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return DVec4{ findShader( x, exp )
+		return DVec4{ *findWriter( x, exp )
 			, expr::makeFrexp4D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5107,14 +5107,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Float >{ findShader( x, exp )
+			return Optional< Float >{ *findWriter( x, exp )
 				, expr::makeLdexp1F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Float{ findShader( x, exp )
+		return Float{ *findWriter( x, exp )
 			, expr::makeLdexp1F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5124,14 +5124,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Vec2 >{ findShader( x, exp )
+			return Optional< Vec2 >{ *findWriter( x, exp )
 				, expr::makeLdexp2F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Vec2{ findShader( x, exp )
+		return Vec2{ *findWriter( x, exp )
 			, expr::makeLdexp2F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5141,14 +5141,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Vec3 >{ findShader( x, exp )
+			return Optional< Vec3 >{ *findWriter( x, exp )
 				, expr::makeLdexp3F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Vec3{ findShader( x, exp )
+		return Vec3{ *findWriter( x, exp )
 			, expr::makeLdexp3F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5158,14 +5158,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Vec4 >{ findShader( x, exp )
+			return Optional< Vec4 >{ *findWriter( x, exp )
 				, expr::makeLdexp4F( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Vec4{ findShader( x, exp )
+		return Vec4{ *findWriter( x, exp )
 			, expr::makeLdexp4F( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5175,14 +5175,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< Double >{ findShader( x, exp )
+			return Optional< Double >{ *findWriter( x, exp )
 				, expr::makeLdexp1D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return Double{ findShader( x, exp )
+		return Double{ *findWriter( x, exp )
 			, expr::makeLdexp1D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5192,14 +5192,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< DVec2 >{ findShader( x, exp )
+			return Optional< DVec2 >{ *findWriter( x, exp )
 				, expr::makeLdexp2D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return DVec2{ findShader( x, exp )
+		return DVec2{ *findWriter( x, exp )
 			, expr::makeLdexp2D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5209,14 +5209,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< DVec3 >{ findShader( x, exp )
+			return Optional< DVec3 >{ *findWriter( x, exp )
 				, expr::makeLdexp3D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return DVec3{ findShader( x, exp )
+		return DVec3{ *findWriter( x, exp )
 			, expr::makeLdexp3D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5226,14 +5226,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, exp ) )
 		{
-			return Optional< DVec4 >{ findShader( x, exp )
+			return Optional< DVec4 >{ *findWriter( x, exp )
 				, expr::makeLdexp4D( findTypesCache( x, exp )
 					, makeExpr( x )
 					, makeExpr( exp ) )
 				, areOptionalEnabled( x, exp ) };
 		}
 
-		return DVec4{ findShader( x, exp )
+		return DVec4{ *findWriter( x, exp )
 			, expr::makeLdexp4D( findTypesCache( x, exp )
 					, makeExpr( x )
 				, makeExpr( exp ) ) };
@@ -5250,13 +5250,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< Double >{ findShader( v )
+			return Optional< Double >{ *findWriter( v )
 				, expr::makePackDouble2x32( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return Double{ findShader( v )
+		return Double{ *findWriter( v )
 			, expr::makePackDouble2x32( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5272,13 +5272,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< UInt >{ findShader( v )
+			return Optional< UInt >{ *findWriter( v )
 				, expr::makePackHalf2x16( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return UInt{ findShader( v )
+		return UInt{ *findWriter( v )
 			, expr::makePackHalf2x16( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5294,13 +5294,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< UInt >{ findShader( v )
+			return Optional< UInt >{ *findWriter( v )
 				, expr::makePackSnorm2x16( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return UInt{ findShader( v )
+		return UInt{ *findWriter( v )
 			, expr::makePackSnorm2x16( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5316,13 +5316,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< UInt >{ findShader( v )
+			return Optional< UInt >{ *findWriter( v )
 				, expr::makePackSnorm4x8( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return UInt{ findShader( v )
+		return UInt{ *findWriter( v )
 			, expr::makePackSnorm4x8( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5338,13 +5338,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< UInt >{ findShader( v )
+			return Optional< UInt >{ *findWriter( v )
 				, expr::makePackUnorm2x16( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return UInt{ findShader( v )
+		return UInt{ *findWriter( v )
 			, expr::makePackUnorm2x16( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5360,13 +5360,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< UInt >{ findShader( v )
+			return Optional< UInt >{ *findWriter( v )
 				, expr::makePackUnorm4x8( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return UInt{ findShader( v )
+		return UInt{ *findWriter( v )
 			, expr::makePackUnorm4x8( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5382,13 +5382,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( d ) )
 		{
-			return Optional< UVec2 >{ findShader( d )
+			return Optional< UVec2 >{ *findWriter( d )
 				, expr::makeUnpackDouble2x32( findTypesCache( d )
 					, makeExpr( d ) )
 				, areOptionalEnabled( d ) };
 		}
 
-		return UVec2{ findShader( d )
+		return UVec2{ *findWriter( d )
 			, expr::makeUnpackDouble2x32( findTypesCache( d )
 					, makeExpr( d ) ) };
 	}
@@ -5404,13 +5404,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( v ) )
 		{
-			return Optional< Vec2 >{ findShader( v )
+			return Optional< Vec2 >{ *findWriter( v )
 				, expr::makeUnpackHalf2x16( findTypesCache( v )
 					, makeExpr( v ) )
 				, areOptionalEnabled( v ) };
 		}
 
-		return Vec2{ findShader( v )
+		return Vec2{ *findWriter( v )
 			, expr::makeUnpackHalf2x16( findTypesCache( v )
 					, makeExpr( v ) ) };
 	}
@@ -5426,13 +5426,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeUnpackSnorm2x16( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeUnpackSnorm2x16( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -5448,13 +5448,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeUnpackSnorm4x8( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeUnpackSnorm4x8( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -5470,13 +5470,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeUnpackUnorm2x16( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeUnpackUnorm2x16( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -5492,13 +5492,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeUnpackUnorm4x8( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeUnpackUnorm4x8( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -5514,13 +5514,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeLength1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeLength1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5528,13 +5528,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeLength2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeLength2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5542,13 +5542,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeLength3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeLength3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5556,13 +5556,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeLength4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeLength4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5570,13 +5570,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeLength1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeLength1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5584,13 +5584,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeLength2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeLength2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5598,13 +5598,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeLength3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeLength3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5612,13 +5612,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeLength4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeLength4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5635,14 +5635,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Float >{ findShader( p0, p1 )
+			return Optional< Float >{ *findWriter( p0, p1 )
 				, expr::makeDistance1F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Float{ findShader( p0, p1 )
+		return Float{ *findWriter( p0, p1 )
 			, expr::makeDistance1F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5652,14 +5652,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Vec2 >{ findShader( p0, p1 )
+			return Optional< Vec2 >{ *findWriter( p0, p1 )
 				, expr::makeDistance2F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Vec2{ findShader( p0, p1 )
+		return Vec2{ *findWriter( p0, p1 )
 			, expr::makeDistance2F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5669,14 +5669,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Vec3 >{ findShader( p0, p1 )
+			return Optional< Vec3 >{ *findWriter( p0, p1 )
 				, expr::makeDistance3F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Vec3{ findShader( p0, p1 )
+		return Vec3{ *findWriter( p0, p1 )
 			, expr::makeDistance3F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5686,14 +5686,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Vec4 >{ findShader( p0, p1 )
+			return Optional< Vec4 >{ *findWriter( p0, p1 )
 				, expr::makeDistance4F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Vec4{ findShader( p0, p1 )
+		return Vec4{ *findWriter( p0, p1 )
 			, expr::makeDistance4F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5703,14 +5703,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Double >{ findShader( p0, p1 )
+			return Optional< Double >{ *findWriter( p0, p1 )
 				, expr::makeDistance1D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Double{ findShader( p0, p1 )
+		return Double{ *findWriter( p0, p1 )
 			, expr::makeDistance1D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5720,14 +5720,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Double >{ findShader( p0, p1 )
+			return Optional< Double >{ *findWriter( p0, p1 )
 				, expr::makeDistance2D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Double{ findShader( p0, p1 )
+		return Double{ *findWriter( p0, p1 )
 			, expr::makeDistance2D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5737,14 +5737,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Double >{ findShader( p0, p1 )
+			return Optional< Double >{ *findWriter( p0, p1 )
 				, expr::makeDistance3D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Double{ findShader( p0, p1 )
+		return Double{ *findWriter( p0, p1 )
 			, expr::makeDistance3D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5754,14 +5754,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( p0, p1 ) )
 		{
-			return Optional< Double >{ findShader( p0, p1 )
+			return Optional< Double >{ *findWriter( p0, p1 )
 				, expr::makeDistance4D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 					, makeExpr( p1 ) )
 				, areOptionalEnabled( p0, p1 ) };
 		}
 
-		return Double{ findShader( p0, p1 )
+		return Double{ *findWriter( p0, p1 )
 			, expr::makeDistance4D( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) ) };
@@ -5779,14 +5779,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeDot1F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeDot1F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5796,14 +5796,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeDot2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeDot2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5813,14 +5813,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeDot3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeDot3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5830,14 +5830,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Float >{ findShader( x, y )
+			return Optional< Float >{ *findWriter( x, y )
 				, expr::makeDot4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Float{ findShader( x, y )
+		return Float{ *findWriter( x, y )
 			, expr::makeDot4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5847,14 +5847,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeDot1D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeDot1D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5864,14 +5864,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeDot2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeDot2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5881,14 +5881,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeDot3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeDot3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5898,14 +5898,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Double >{ findShader( x, y )
+			return Optional< Double >{ *findWriter( x, y )
 				, expr::makeDot4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Double{ findShader( x, y )
+		return Double{ *findWriter( x, y )
 			, expr::makeDot4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5923,14 +5923,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Vec3 >{ findShader( x, y )
+			return Optional< Vec3 >{ *findWriter( x, y )
 				, expr::makeCrossF( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Vec3{ findShader( x, y )
+		return Vec3{ *findWriter( x, y )
 			, expr::makeCrossF( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5940,14 +5940,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DVec3 >{ findShader( x, y )
+			return Optional< DVec3 >{ *findWriter( x, y )
 				, expr::makeCrossD( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DVec3{ findShader( x, y )
+		return DVec3{ *findWriter( x, y )
 			, expr::makeCrossD( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -5964,13 +5964,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeNormalize1F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeNormalize1F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5978,13 +5978,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeNormalize2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeNormalize2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -5992,13 +5992,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeNormalize3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeNormalize3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -6006,13 +6006,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeNormalize4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeNormalize4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -6020,13 +6020,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Double >{ findShader( x )
+			return Optional< Double >{ *findWriter( x )
 				, expr::makeNormalize1D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Double{ findShader( x )
+		return Double{ *findWriter( x )
 			, expr::makeNormalize1D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -6034,13 +6034,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec2 >{ findShader( x )
+			return Optional< DVec2 >{ *findWriter( x )
 				, expr::makeNormalize2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec2{ findShader( x )
+		return DVec2{ *findWriter( x )
 			, expr::makeNormalize2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -6048,13 +6048,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec3 >{ findShader( x )
+			return Optional< DVec3 >{ *findWriter( x )
 				, expr::makeNormalize3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec3{ findShader( x )
+		return DVec3{ *findWriter( x )
 			, expr::makeNormalize3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -6062,13 +6062,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DVec4 >{ findShader( x )
+			return Optional< DVec4 >{ *findWriter( x )
 				, expr::makeNormalize4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DVec4{ findShader( x )
+		return DVec4{ *findWriter( x )
 			, expr::makeNormalize4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -6086,7 +6086,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< Float >{ findShader( N, I, Nref )
+			return Optional< Float >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward1F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6094,7 +6094,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return Float{ findShader( N, I, Nref )
+		return Float{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward1F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6106,7 +6106,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< Vec2 >{ findShader( N, I, Nref )
+			return Optional< Vec2 >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward2F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6114,7 +6114,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return Vec2{ findShader( N, I, Nref )
+		return Vec2{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward2F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6126,7 +6126,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< Vec3 >{ findShader( N, I, Nref )
+			return Optional< Vec3 >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward3F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6134,7 +6134,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return Vec3{ findShader( N, I, Nref )
+		return Vec3{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward3F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6146,7 +6146,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< Vec4 >{ findShader( N, I, Nref )
+			return Optional< Vec4 >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward4F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6154,7 +6154,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return Vec4{ findShader( N, I, Nref )
+		return Vec4{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward4F( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6166,7 +6166,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< Double >{ findShader( N, I, Nref )
+			return Optional< Double >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward1D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6174,7 +6174,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return Double{ findShader( N, I, Nref )
+		return Double{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward1D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6186,7 +6186,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< DVec2 >{ findShader( N, I, Nref )
+			return Optional< DVec2 >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward2D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6194,7 +6194,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return DVec2{ findShader( N, I, Nref )
+		return DVec2{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward2D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6206,7 +6206,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< DVec3 >{ findShader( N, I, Nref )
+			return Optional< DVec3 >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward3D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6214,7 +6214,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return DVec3{ findShader( N, I, Nref )
+		return DVec3{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward3D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6226,7 +6226,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( N, I, Nref ) )
 		{
-			return Optional< DVec4 >{ findShader( N, I, Nref )
+			return Optional< DVec4 >{ *findWriter( N, I, Nref )
 				, expr::makeFaceForward4D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 					, makeExpr( I )
@@ -6234,7 +6234,7 @@ namespace sdw
 				, areOptionalEnabled( N, I, Nref ) };
 		}
 
-		return DVec4{ findShader( N, I, Nref )
+		return DVec4{ *findWriter( N, I, Nref )
 			, expr::makeFaceForward4D( findTypesCache( N, I, Nref )
 					, makeExpr( N )
 				, makeExpr( I )
@@ -6253,14 +6253,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< Float >{ findShader( I, N )
+			return Optional< Float >{ *findWriter( I, N )
 				, expr::makeReflect1F( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return Float{ findShader( I, N )
+		return Float{ *findWriter( I, N )
 			, expr::makeReflect1F( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6270,14 +6270,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< Vec2 >{ findShader( I, N )
+			return Optional< Vec2 >{ *findWriter( I, N )
 				, expr::makeReflect2F( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return Vec2{ findShader( I, N )
+		return Vec2{ *findWriter( I, N )
 			, expr::makeReflect2F( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6287,14 +6287,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< Vec3 >{ findShader( I, N )
+			return Optional< Vec3 >{ *findWriter( I, N )
 				, expr::makeReflect3F( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return Vec3{ findShader( I, N )
+		return Vec3{ *findWriter( I, N )
 			, expr::makeReflect3F( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6304,14 +6304,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< Vec4 >{ findShader( I, N )
+			return Optional< Vec4 >{ *findWriter( I, N )
 				, expr::makeReflect4F( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return Vec4{ findShader( I, N )
+		return Vec4{ *findWriter( I, N )
 			, expr::makeReflect4F( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6321,14 +6321,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< Double >{ findShader( I, N )
+			return Optional< Double >{ *findWriter( I, N )
 				, expr::makeReflect1D( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return Double{ findShader( I, N )
+		return Double{ *findWriter( I, N )
 			, expr::makeReflect1D( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6338,14 +6338,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< DVec2 >{ findShader( I, N )
+			return Optional< DVec2 >{ *findWriter( I, N )
 				, expr::makeReflect2D( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return DVec2{ findShader( I, N )
+		return DVec2{ *findWriter( I, N )
 			, expr::makeReflect2D( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6355,14 +6355,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< DVec3 >{ findShader( I, N )
+			return Optional< DVec3 >{ *findWriter( I, N )
 				, expr::makeReflect3D( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return DVec3{ findShader( I, N )
+		return DVec3{ *findWriter( I, N )
 			, expr::makeReflect3D( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6372,14 +6372,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N ) )
 		{
-			return Optional< DVec4 >{ findShader( I, N )
+			return Optional< DVec4 >{ *findWriter( I, N )
 				, expr::makeReflect4D( findTypesCache( I, N )
 					, makeExpr( I )
 					, makeExpr( N ) )
 				, areOptionalEnabled( I, N ) };
 		}
 
-		return DVec4{ findShader( I, N )
+		return DVec4{ *findWriter( I, N )
 			, expr::makeReflect4D( findTypesCache( I, N )
 					, makeExpr( I )
 				, makeExpr( N ) ) };
@@ -6398,7 +6398,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Float >{ findShader( I, N, eta )
+			return Optional< Float >{ *findWriter( I, N, eta )
 				, expr::makeRefract1F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6406,7 +6406,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Float{ findShader( I, N, eta )
+		return Float{ *findWriter( I, N, eta )
 			, expr::makeRefract1F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6418,7 +6418,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Vec2 >{ findShader( I, N, eta )
+			return Optional< Vec2 >{ *findWriter( I, N, eta )
 				, expr::makeRefract2F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6426,7 +6426,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Vec2{ findShader( I, N, eta )
+		return Vec2{ *findWriter( I, N, eta )
 			, expr::makeRefract2F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6438,7 +6438,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Vec3 >{ findShader( I, N, eta )
+			return Optional< Vec3 >{ *findWriter( I, N, eta )
 				, expr::makeRefract3F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6446,7 +6446,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Vec3{ findShader( I, N, eta )
+		return Vec3{ *findWriter( I, N, eta )
 			, expr::makeRefract3F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6458,7 +6458,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Vec4 >{ findShader( I, N, eta )
+			return Optional< Vec4 >{ *findWriter( I, N, eta )
 				, expr::makeRefract4F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6466,7 +6466,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Vec4{ findShader( I, N, eta )
+		return Vec4{ *findWriter( I, N, eta )
 			, expr::makeRefract4F( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6478,7 +6478,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< Double >{ findShader( I, N, eta )
+			return Optional< Double >{ *findWriter( I, N, eta )
 				, expr::makeRefract1D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6486,7 +6486,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return Double{ findShader( I, N, eta )
+		return Double{ *findWriter( I, N, eta )
 			, expr::makeRefract1D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6498,7 +6498,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< DVec2 >{ findShader( I, N, eta )
+			return Optional< DVec2 >{ *findWriter( I, N, eta )
 				, expr::makeRefract2D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6506,7 +6506,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return DVec2{ findShader( I, N, eta )
+		return DVec2{ *findWriter( I, N, eta )
 			, expr::makeRefract2D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6518,7 +6518,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< DVec3 >{ findShader( I, N, eta )
+			return Optional< DVec3 >{ *findWriter( I, N, eta )
 				, expr::makeRefract3D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6526,7 +6526,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return DVec3{ findShader( I, N, eta )
+		return DVec3{ *findWriter( I, N, eta )
 			, expr::makeRefract3D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6538,7 +6538,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( I, N, eta ) )
 		{
-			return Optional< DVec4 >{ findShader( I, N, eta )
+			return Optional< DVec4 >{ *findWriter( I, N, eta )
 				, expr::makeRefract4D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 					, makeExpr( N )
@@ -6546,7 +6546,7 @@ namespace sdw
 				, areOptionalEnabled( I, N, eta ) };
 		}
 
-		return DVec4{ findShader( I, N, eta )
+		return DVec4{ *findWriter( I, N, eta )
 			, expr::makeRefract4D( findTypesCache( I, N, eta )
 					, makeExpr( I )
 				, makeExpr( N )
@@ -6565,14 +6565,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat2 >{ findShader( x, y )
+			return Optional< Mat2 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult2x2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat2{ findShader( x, y )
+		return Mat2{ *findWriter( x, y )
 			, expr::makeMatrixCompMult2x2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6582,14 +6582,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat2x3 >{ findShader( x, y )
+			return Optional< Mat2x3 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult2x3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat2x3{ findShader( x, y )
+		return Mat2x3{ *findWriter( x, y )
 			, expr::makeMatrixCompMult2x3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6599,14 +6599,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat2x4 >{ findShader( x, y )
+			return Optional< Mat2x4 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult2x4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat2x4{ findShader( x, y )
+		return Mat2x4{ *findWriter( x, y )
 			, expr::makeMatrixCompMult2x4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6616,14 +6616,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat3x2 >{ findShader( x, y )
+			return Optional< Mat3x2 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult3x2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat3x2{ findShader( x, y )
+		return Mat3x2{ *findWriter( x, y )
 			, expr::makeMatrixCompMult3x2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6633,14 +6633,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat3 >{ findShader( x, y )
+			return Optional< Mat3 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult3x3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat3{ findShader( x, y )
+		return Mat3{ *findWriter( x, y )
 			, expr::makeMatrixCompMult3x3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6650,14 +6650,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat3x4 >{ findShader( x, y )
+			return Optional< Mat3x4 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult3x4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat3x4{ findShader( x, y )
+		return Mat3x4{ *findWriter( x, y )
 			, expr::makeMatrixCompMult3x4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6667,14 +6667,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat4x2 >{ findShader( x, y )
+			return Optional< Mat4x2 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult4x2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat4x2{ findShader( x, y )
+		return Mat4x2{ *findWriter( x, y )
 			, expr::makeMatrixCompMult4x2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6684,14 +6684,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat4x3 >{ findShader( x, y )
+			return Optional< Mat4x3 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult4x3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat4x3{ findShader( x, y )
+		return Mat4x3{ *findWriter( x, y )
 			, expr::makeMatrixCompMult4x3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6701,14 +6701,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< Mat4 >{ findShader( x, y )
+			return Optional< Mat4 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult4x4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return Mat4{ findShader( x, y )
+		return Mat4{ *findWriter( x, y )
 			, expr::makeMatrixCompMult4x4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6718,14 +6718,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat2 >{ findShader( x, y )
+			return Optional< DMat2 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult2x2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat2{ findShader( x, y )
+		return DMat2{ *findWriter( x, y )
 			, expr::makeMatrixCompMult2x2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6735,14 +6735,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat2x3 >{ findShader( x, y )
+			return Optional< DMat2x3 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult2x3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat2x3{ findShader( x, y )
+		return DMat2x3{ *findWriter( x, y )
 			, expr::makeMatrixCompMult2x3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6752,14 +6752,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat2x4 >{ findShader( x, y )
+			return Optional< DMat2x4 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult2x4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat2x4{ findShader( x, y )
+		return DMat2x4{ *findWriter( x, y )
 			, expr::makeMatrixCompMult2x4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6769,14 +6769,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat3x2 >{ findShader( x, y )
+			return Optional< DMat3x2 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult3x2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat3x2{ findShader( x, y )
+		return DMat3x2{ *findWriter( x, y )
 			, expr::makeMatrixCompMult3x2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6786,14 +6786,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat3 >{ findShader( x, y )
+			return Optional< DMat3 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult3x3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat3{ findShader( x, y )
+		return DMat3{ *findWriter( x, y )
 			, expr::makeMatrixCompMult3x3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6803,14 +6803,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat3x4 >{ findShader( x, y )
+			return Optional< DMat3x4 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult3x4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat3x4{ findShader( x, y )
+		return DMat3x4{ *findWriter( x, y )
 			, expr::makeMatrixCompMult3x4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6820,14 +6820,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat4x2 >{ findShader( x, y )
+			return Optional< DMat4x2 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult4x2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat4x2{ findShader( x, y )
+		return DMat4x2{ *findWriter( x, y )
 			, expr::makeMatrixCompMult4x2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6837,14 +6837,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat4x3 >{ findShader( x, y )
+			return Optional< DMat4x3 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult4x3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat4x3{ findShader( x, y )
+		return DMat4x3{ *findWriter( x, y )
 			, expr::makeMatrixCompMult4x3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6854,14 +6854,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< DMat4 >{ findShader( x, y )
+			return Optional< DMat4 >{ *findWriter( x, y )
 				, expr::makeMatrixCompMult4x4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return DMat4{ findShader( x, y )
+		return DMat4{ *findWriter( x, y )
 			, expr::makeMatrixCompMult4x4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -6879,14 +6879,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat2 >{ findShader( c, r )
+			return Optional< Mat2 >{ *findWriter( c, r )
 				, expr::makeOuterProduct2x2F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat2{ findShader( c, r )
+		return Mat2{ *findWriter( c, r )
 			, expr::makeOuterProduct2x2F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6896,14 +6896,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat3 >{ findShader( c, r )
+			return Optional< Mat3 >{ *findWriter( c, r )
 				, expr::makeOuterProduct3x3F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat3{ findShader( c, r )
+		return Mat3{ *findWriter( c, r )
 			, expr::makeOuterProduct3x3F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6913,14 +6913,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat4 >{ findShader( c, r )
+			return Optional< Mat4 >{ *findWriter( c, r )
 				, expr::makeOuterProduct4x4F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat4{ findShader( c, r )
+		return Mat4{ *findWriter( c, r )
 			, expr::makeOuterProduct4x4F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6930,14 +6930,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat2x3 >{ findShader( c, r )
+			return Optional< Mat2x3 >{ *findWriter( c, r )
 				, expr::makeOuterProduct3x2F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat2x3{ findShader( c, r )
+		return Mat2x3{ *findWriter( c, r )
 			, expr::makeOuterProduct3x2F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6947,14 +6947,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat3x2 >{ findShader( c, r )
+			return Optional< Mat3x2 >{ *findWriter( c, r )
 				, expr::makeOuterProduct2x3F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat3x2{ findShader( c, r )
+		return Mat3x2{ *findWriter( c, r )
 			, expr::makeOuterProduct2x3F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6964,14 +6964,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat2x4 >{ findShader( c, r )
+			return Optional< Mat2x4 >{ *findWriter( c, r )
 				, expr::makeOuterProduct4x2F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat2x4{ findShader( c, r )
+		return Mat2x4{ *findWriter( c, r )
 			, expr::makeOuterProduct4x2F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6981,14 +6981,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat4x2 >{ findShader( c, r )
+			return Optional< Mat4x2 >{ *findWriter( c, r )
 				, expr::makeOuterProduct2x4F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat4x2{ findShader( c, r )
+		return Mat4x2{ *findWriter( c, r )
 			, expr::makeOuterProduct2x4F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -6998,14 +6998,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat3x4 >{ findShader( c, r )
+			return Optional< Mat3x4 >{ *findWriter( c, r )
 				, expr::makeOuterProduct4x3F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat3x4{ findShader( c, r )
+		return Mat3x4{ *findWriter( c, r )
 			, expr::makeOuterProduct4x3F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7015,14 +7015,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< Mat4x3 >{ findShader( c, r )
+			return Optional< Mat4x3 >{ *findWriter( c, r )
 				, expr::makeOuterProduct3x4F( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return Mat4x3{ findShader( c, r )
+		return Mat4x3{ *findWriter( c, r )
 			, expr::makeOuterProduct3x4F( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7032,14 +7032,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat2 >{ findShader( c, r )
+			return Optional< DMat2 >{ *findWriter( c, r )
 				, expr::makeOuterProduct2x2D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat2{ findShader( c, r )
+		return DMat2{ *findWriter( c, r )
 			, expr::makeOuterProduct2x2D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7049,14 +7049,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat3 >{ findShader( c, r )
+			return Optional< DMat3 >{ *findWriter( c, r )
 				, expr::makeOuterProduct3x3D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat3{ findShader( c, r )
+		return DMat3{ *findWriter( c, r )
 			, expr::makeOuterProduct3x3D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7066,14 +7066,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat4 >{ findShader( c, r )
+			return Optional< DMat4 >{ *findWriter( c, r )
 				, expr::makeOuterProduct4x4D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat4{ findShader( c, r )
+		return DMat4{ *findWriter( c, r )
 			, expr::makeOuterProduct4x4D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7083,14 +7083,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat2x3 >{ findShader( c, r )
+			return Optional< DMat2x3 >{ *findWriter( c, r )
 				, expr::makeOuterProduct3x2D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat2x3{ findShader( c, r )
+		return DMat2x3{ *findWriter( c, r )
 			, expr::makeOuterProduct3x2D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7100,14 +7100,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat3x2 >{ findShader( c, r )
+			return Optional< DMat3x2 >{ *findWriter( c, r )
 				, expr::makeOuterProduct2x3D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat3x2{ findShader( c, r )
+		return DMat3x2{ *findWriter( c, r )
 			, expr::makeOuterProduct2x3D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7117,14 +7117,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat2x4 >{ findShader( c, r )
+			return Optional< DMat2x4 >{ *findWriter( c, r )
 				, expr::makeOuterProduct4x2D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat2x4{ findShader( c, r )
+		return DMat2x4{ *findWriter( c, r )
 			, expr::makeOuterProduct4x2D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7134,14 +7134,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat4x2 >{ findShader( c, r )
+			return Optional< DMat4x2 >{ *findWriter( c, r )
 				, expr::makeOuterProduct2x4D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat4x2{ findShader( c, r )
+		return DMat4x2{ *findWriter( c, r )
 			, expr::makeOuterProduct2x4D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7151,14 +7151,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat3x4 >{ findShader( c, r )
+			return Optional< DMat3x4 >{ *findWriter( c, r )
 				, expr::makeOuterProduct4x3D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat3x4{ findShader( c, r )
+		return DMat3x4{ *findWriter( c, r )
 			, expr::makeOuterProduct4x3D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7168,14 +7168,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( c, r ) )
 		{
-			return Optional< DMat4x3 >{ findShader( c, r )
+			return Optional< DMat4x3 >{ *findWriter( c, r )
 				, expr::makeOuterProduct3x4D( findTypesCache( c, r )
 					, makeExpr( c )
 					, makeExpr( r ) )
 				, areOptionalEnabled( c, r ) };
 		}
 
-		return DMat4x3{ findShader( c, r )
+		return DMat4x3{ *findWriter( c, r )
 			, expr::makeOuterProduct3x4D( findTypesCache( c, r )
 					, makeExpr( c )
 				, makeExpr( r ) ) };
@@ -7192,13 +7192,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat2 >{ findShader( x )
+			return Optional< Mat2 >{ *findWriter( x )
 				, expr::makeTranspose2x2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat2{ findShader( x )
+		return Mat2{ *findWriter( x )
 			, expr::makeTranspose2x2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7206,13 +7206,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat3x2 >{ findShader( x )
+			return Optional< Mat3x2 >{ *findWriter( x )
 				, expr::makeTranspose2x3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat3x2{ findShader( x )
+		return Mat3x2{ *findWriter( x )
 			, expr::makeTranspose2x3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7220,13 +7220,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat4x2 >{ findShader( x )
+			return Optional< Mat4x2 >{ *findWriter( x )
 				, expr::makeTranspose2x4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat4x2{ findShader( x )
+		return Mat4x2{ *findWriter( x )
 			, expr::makeTranspose2x4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7234,13 +7234,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat2x3 >{ findShader( x )
+			return Optional< Mat2x3 >{ *findWriter( x )
 				, expr::makeTranspose3x2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat2x3{ findShader( x )
+		return Mat2x3{ *findWriter( x )
 			, expr::makeTranspose3x2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7248,13 +7248,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat3 >{ findShader( x )
+			return Optional< Mat3 >{ *findWriter( x )
 				, expr::makeTranspose3x3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat3{ findShader( x )
+		return Mat3{ *findWriter( x )
 			, expr::makeTranspose3x3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7262,13 +7262,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat4x3 >{ findShader( x )
+			return Optional< Mat4x3 >{ *findWriter( x )
 				, expr::makeTranspose3x4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat4x3{ findShader( x )
+		return Mat4x3{ *findWriter( x )
 			, expr::makeTranspose3x4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7276,13 +7276,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat2x4 >{ findShader( x )
+			return Optional< Mat2x4 >{ *findWriter( x )
 				, expr::makeTranspose4x2F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat2x4{ findShader( x )
+		return Mat2x4{ *findWriter( x )
 			, expr::makeTranspose4x2F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7290,13 +7290,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat3x4 >{ findShader( x )
+			return Optional< Mat3x4 >{ *findWriter( x )
 				, expr::makeTranspose4x3F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat3x4{ findShader( x )
+		return Mat3x4{ *findWriter( x )
 			, expr::makeTranspose4x3F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7304,13 +7304,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Mat4 >{ findShader( x )
+			return Optional< Mat4 >{ *findWriter( x )
 				, expr::makeTranspose4x4F( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Mat4{ findShader( x )
+		return Mat4{ *findWriter( x )
 			, expr::makeTranspose4x4F( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7318,13 +7318,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat2 >{ findShader( x )
+			return Optional< DMat2 >{ *findWriter( x )
 				, expr::makeTranspose2x2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat2{ findShader( x )
+		return DMat2{ *findWriter( x )
 			, expr::makeTranspose2x2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7332,13 +7332,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat3x2 >{ findShader( x )
+			return Optional< DMat3x2 >{ *findWriter( x )
 				, expr::makeTranspose2x3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat3x2{ findShader( x )
+		return DMat3x2{ *findWriter( x )
 			, expr::makeTranspose2x3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7346,13 +7346,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat4x2 >{ findShader( x )
+			return Optional< DMat4x2 >{ *findWriter( x )
 				, expr::makeTranspose2x4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat4x2{ findShader( x )
+		return DMat4x2{ *findWriter( x )
 			, expr::makeTranspose2x4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7360,13 +7360,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat2x3 >{ findShader( x )
+			return Optional< DMat2x3 >{ *findWriter( x )
 				, expr::makeTranspose3x2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat2x3{ findShader( x )
+		return DMat2x3{ *findWriter( x )
 			, expr::makeTranspose3x2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7374,13 +7374,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat3 >{ findShader( x )
+			return Optional< DMat3 >{ *findWriter( x )
 				, expr::makeTranspose3x3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat3{ findShader( x )
+		return DMat3{ *findWriter( x )
 			, expr::makeTranspose3x3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7388,13 +7388,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat4x3 >{ findShader( x )
+			return Optional< DMat4x3 >{ *findWriter( x )
 				, expr::makeTranspose3x4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat4x3{ findShader( x )
+		return DMat4x3{ *findWriter( x )
 			, expr::makeTranspose3x4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7402,13 +7402,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat2x4 >{ findShader( x )
+			return Optional< DMat2x4 >{ *findWriter( x )
 				, expr::makeTranspose4x2D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat2x4{ findShader( x )
+		return DMat2x4{ *findWriter( x )
 			, expr::makeTranspose4x2D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7416,13 +7416,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat3x4 >{ findShader( x )
+			return Optional< DMat3x4 >{ *findWriter( x )
 				, expr::makeTranspose4x3D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat3x4{ findShader( x )
+		return DMat3x4{ *findWriter( x )
 			, expr::makeTranspose4x3D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7430,13 +7430,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< DMat4 >{ findShader( x )
+			return Optional< DMat4 >{ *findWriter( x )
 				, expr::makeTranspose4x4D( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return DMat4{ findShader( x )
+		return DMat4{ *findWriter( x )
 			, expr::makeTranspose4x4D( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -7452,13 +7452,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Float >{ findShader( m )
+			return Optional< Float >{ *findWriter( m )
 				, expr::makeDeterminant2x2F( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Float{ findShader( m )
+		return Float{ *findWriter( m )
 			, expr::makeDeterminant2x2F( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7466,13 +7466,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Float >{ findShader( m )
+			return Optional< Float >{ *findWriter( m )
 				, expr::makeDeterminant3x3F( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Float{ findShader( m )
+		return Float{ *findWriter( m )
 			, expr::makeDeterminant3x3F( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7480,13 +7480,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Float >{ findShader( m )
+			return Optional< Float >{ *findWriter( m )
 				, expr::makeDeterminant4x4F( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Float{ findShader( m )
+		return Float{ *findWriter( m )
 			, expr::makeDeterminant4x4F( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7494,13 +7494,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Double >{ findShader( m )
+			return Optional< Double >{ *findWriter( m )
 				, expr::makeDeterminant2x2D( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Double{ findShader( m )
+		return Double{ *findWriter( m )
 			, expr::makeDeterminant2x2D( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7508,13 +7508,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Double >{ findShader( m )
+			return Optional< Double >{ *findWriter( m )
 				, expr::makeDeterminant3x3D( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Double{ findShader( m )
+		return Double{ *findWriter( m )
 			, expr::makeDeterminant3x3D( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7522,13 +7522,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Double >{ findShader( m )
+			return Optional< Double >{ *findWriter( m )
 				, expr::makeDeterminant4x4D( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Double{ findShader( m )
+		return Double{ *findWriter( m )
 			, expr::makeDeterminant4x4D( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7544,13 +7544,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Mat2 >{ findShader( m )
+			return Optional< Mat2 >{ *findWriter( m )
 				, expr::makeInverse2x2F( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Mat2{ findShader( m )
+		return Mat2{ *findWriter( m )
 			, expr::makeInverse2x2F( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7558,13 +7558,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Mat3 >{ findShader( m )
+			return Optional< Mat3 >{ *findWriter( m )
 				, expr::makeInverse3x3F( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Mat3{ findShader( m )
+		return Mat3{ *findWriter( m )
 			, expr::makeInverse3x3F( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7572,13 +7572,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< Mat4 >{ findShader( m )
+			return Optional< Mat4 >{ *findWriter( m )
 				, expr::makeInverse4x4F( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return Mat4{ findShader( m )
+		return Mat4{ *findWriter( m )
 			, expr::makeInverse4x4F( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7586,13 +7586,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< DMat2 >{ findShader( m )
+			return Optional< DMat2 >{ *findWriter( m )
 				, expr::makeInverse2x2D( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return DMat2{ findShader( m )
+		return DMat2{ *findWriter( m )
 			, expr::makeInverse2x2D( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7600,13 +7600,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< DMat3 >{ findShader( m )
+			return Optional< DMat3 >{ *findWriter( m )
 				, expr::makeInverse3x3D( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return DMat3{ findShader( m )
+		return DMat3{ *findWriter( m )
 			, expr::makeInverse3x3D( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7614,13 +7614,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( m ) )
 		{
-			return Optional< DMat4 >{ findShader( m )
+			return Optional< DMat4 >{ *findWriter( m )
 				, expr::makeInverse4x4D( findTypesCache( m )
 					, makeExpr( m ) )
 				, areOptionalEnabled( m ) };
 		}
 
-		return DMat4{ findShader( m )
+		return DMat4{ *findWriter( m )
 			, expr::makeInverse4x4D( findTypesCache( m )
 					, makeExpr( m ) ) };
 	}
@@ -7637,14 +7637,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThan2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThan2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7654,14 +7654,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThan3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThan3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7671,14 +7671,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThan4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThan4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7688,14 +7688,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThan2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThan2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7705,14 +7705,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThan3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThan3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7722,14 +7722,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThan4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThan4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7739,14 +7739,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThan2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThan2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7756,14 +7756,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThan3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThan3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7773,14 +7773,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThan4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThan4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7790,14 +7790,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThan2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThan2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7807,14 +7807,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThan3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThan3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7824,14 +7824,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThan4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThan4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7849,14 +7849,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThanEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7866,14 +7866,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThanEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7883,14 +7883,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThanEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7900,14 +7900,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThanEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7917,14 +7917,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThanEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7934,14 +7934,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThanEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7951,14 +7951,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThanEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7968,14 +7968,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThanEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -7985,14 +7985,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThanEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8002,14 +8002,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeLessThanEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8019,14 +8019,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeLessThanEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8036,14 +8036,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeLessThanEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeLessThanEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8061,14 +8061,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThan2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThan2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8078,14 +8078,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThan3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThan3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8095,14 +8095,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThan4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThan4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8112,14 +8112,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThan2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThan2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8129,14 +8129,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThan3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThan3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8146,14 +8146,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThan4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThan4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8163,14 +8163,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThan2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThan2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8180,14 +8180,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThan3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThan3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8197,14 +8197,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThan4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThan4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8214,14 +8214,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThan2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThan2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8231,14 +8231,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThan3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThan3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8248,14 +8248,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThan4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThan4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8273,14 +8273,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8290,14 +8290,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8307,14 +8307,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8324,14 +8324,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8341,14 +8341,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8358,14 +8358,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8375,14 +8375,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8392,14 +8392,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8409,14 +8409,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8426,14 +8426,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8443,14 +8443,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8460,14 +8460,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeGreaterThanEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeGreaterThanEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8485,14 +8485,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8502,14 +8502,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8519,14 +8519,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8536,14 +8536,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8553,14 +8553,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8570,14 +8570,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8587,14 +8587,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8604,14 +8604,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8621,14 +8621,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8638,14 +8638,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8655,14 +8655,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8672,14 +8672,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8697,14 +8697,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeNotEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeNotEqual2F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8714,14 +8714,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeNotEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeNotEqual3F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8731,14 +8731,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeNotEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeNotEqual4F( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8748,14 +8748,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeNotEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeNotEqual2D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8765,14 +8765,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeNotEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeNotEqual3D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8782,14 +8782,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeNotEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeNotEqual4D( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8799,14 +8799,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeNotEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeNotEqual2I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8816,14 +8816,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeNotEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeNotEqual3I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8833,14 +8833,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeNotEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeNotEqual4I( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8850,14 +8850,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec2 >{ findShader( x, y )
+			return Optional< BVec2 >{ *findWriter( x, y )
 				, expr::makeNotEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec2{ findShader( x, y )
+		return BVec2{ *findWriter( x, y )
 			, expr::makeNotEqual2U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8867,14 +8867,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec3 >{ findShader( x, y )
+			return Optional< BVec3 >{ *findWriter( x, y )
 				, expr::makeNotEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec3{ findShader( x, y )
+		return BVec3{ *findWriter( x, y )
 			, expr::makeNotEqual3U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8884,14 +8884,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y ) )
 		{
-			return Optional< BVec4 >{ findShader( x, y )
+			return Optional< BVec4 >{ *findWriter( x, y )
 				, expr::makeNotEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 					, makeExpr( y ) )
 				, areOptionalEnabled( x, y ) };
 		}
 
-		return BVec4{ findShader( x, y )
+		return BVec4{ *findWriter( x, y )
 			, expr::makeNotEqual4U( findTypesCache( x, y )
 					, makeExpr( x )
 				, makeExpr( y ) ) };
@@ -8908,13 +8908,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeAll2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeAll2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -8922,13 +8922,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeAll3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeAll3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -8936,13 +8936,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeAll4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeAll4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -8958,13 +8958,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeAny2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeAny2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -8972,13 +8972,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeAny3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeAny3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -8986,13 +8986,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Boolean >{ findShader( x )
+			return Optional< Boolean >{ *findWriter( x )
 				, expr::makeAny4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Boolean{ findShader( x )
+		return Boolean{ *findWriter( x )
 			, expr::makeAny4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -9008,13 +9008,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec2 >{ findShader( x )
+			return Optional< BVec2 >{ *findWriter( x )
 				, expr::makeNot2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec2{ findShader( x )
+		return BVec2{ *findWriter( x )
 			, expr::makeNot2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -9022,13 +9022,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec3 >{ findShader( x )
+			return Optional< BVec3 >{ *findWriter( x )
 				, expr::makeNot3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec3{ findShader( x )
+		return BVec3{ *findWriter( x )
 			, expr::makeNot3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -9036,13 +9036,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< BVec4 >{ findShader( x )
+			return Optional< BVec4 >{ *findWriter( x )
 				, expr::makeNot4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return BVec4{ findShader( x )
+		return BVec4{ *findWriter( x )
 			, expr::makeNot4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -9060,7 +9060,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, carry ) )
 		{
-			return Optional< UInt >{ findShader( x, y, carry )
+			return Optional< UInt >{ *findWriter( x, y, carry )
 				, expr::makeUaddCarry1( findTypesCache( x, y, carry )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9068,7 +9068,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
-		return UInt{ findShader( x, y, carry )
+		return UInt{ *findWriter( x, y, carry )
 			, expr::makeUaddCarry1( findTypesCache( x, y, carry )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9080,7 +9080,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, carry ) )
 		{
-			return Optional< UVec2 >{ findShader( x, y, carry )
+			return Optional< UVec2 >{ *findWriter( x, y, carry )
 				, expr::makeUaddCarry2( findTypesCache( x, y, carry )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9088,7 +9088,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
-		return UVec2{ findShader( x, y, carry )
+		return UVec2{ *findWriter( x, y, carry )
 			, expr::makeUaddCarry2( findTypesCache( x, y, carry )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9100,7 +9100,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, carry ) )
 		{
-			return Optional< UVec3 >{ findShader( x, y, carry )
+			return Optional< UVec3 >{ *findWriter( x, y, carry )
 				, expr::makeUaddCarry3( findTypesCache( x, y, carry )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9108,7 +9108,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
-		return UVec3{ findShader( x, y, carry )
+		return UVec3{ *findWriter( x, y, carry )
 			, expr::makeUaddCarry3( findTypesCache( x, y, carry )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9120,7 +9120,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, carry ) )
 		{
-			return Optional< UVec4 >{ findShader( x, y, carry )
+			return Optional< UVec4 >{ *findWriter( x, y, carry )
 				, expr::makeUaddCarry4( findTypesCache( x, y, carry )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9128,7 +9128,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, carry ) };
 		}
 
-		return UVec4{ findShader( x, y, carry )
+		return UVec4{ *findWriter( x, y, carry )
 			, expr::makeUaddCarry4( findTypesCache( x, y, carry )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9148,7 +9148,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, borrow ) )
 		{
-			return Optional< UInt >{ findShader( x, y, borrow )
+			return Optional< UInt >{ *findWriter( x, y, borrow )
 				, expr::makeUsubBorrow1( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9156,7 +9156,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
-		return UInt{ findShader( x, y, borrow )
+		return UInt{ *findWriter( x, y, borrow )
 			, expr::makeUsubBorrow1( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9168,7 +9168,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, borrow ) )
 		{
-			return Optional< UVec2 >{ findShader( x, y, borrow )
+			return Optional< UVec2 >{ *findWriter( x, y, borrow )
 				, expr::makeUsubBorrow2( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9176,7 +9176,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
-		return UVec2{ findShader( x, y, borrow )
+		return UVec2{ *findWriter( x, y, borrow )
 			, expr::makeUsubBorrow2( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9188,7 +9188,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, borrow ) )
 		{
-			return Optional< UVec3 >{ findShader( x, y, borrow )
+			return Optional< UVec3 >{ *findWriter( x, y, borrow )
 				, expr::makeUsubBorrow3( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9196,7 +9196,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
-		return UVec3{ findShader( x, y, borrow )
+		return UVec3{ *findWriter( x, y, borrow )
 			, expr::makeUsubBorrow3( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9208,7 +9208,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, borrow ) )
 		{
-			return Optional< UVec4 >{ findShader( x, y, borrow )
+			return Optional< UVec4 >{ *findWriter( x, y, borrow )
 				, expr::makeUsubBorrow4( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9216,7 +9216,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, borrow ) };
 		}
 
-		return UVec4{ findShader( x, y, borrow )
+		return UVec4{ *findWriter( x, y, borrow )
 			, expr::makeUsubBorrow4( findTypesCache( x, y, borrow )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9237,7 +9237,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeUmulExtended1( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9246,7 +9246,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeUmulExtended1( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9260,7 +9260,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeUmulExtended2( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9269,7 +9269,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeUmulExtended2( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9283,7 +9283,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeUmulExtended3( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9292,7 +9292,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeUmulExtended3( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9306,7 +9306,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeUmulExtended4( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9315,7 +9315,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeUmulExtended4( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9337,7 +9337,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeImulExtended1( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9346,7 +9346,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeImulExtended1( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9360,7 +9360,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeImulExtended2( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9369,7 +9369,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeImulExtended2( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9383,7 +9383,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeImulExtended3( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9392,7 +9392,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeImulExtended3( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9406,7 +9406,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( x, y, msb, lsb ) )
 		{
-			return Optional< Void >{ findShader( x, y, msb, lsb )
+			return Optional< Void >{ *findWriter( x, y, msb, lsb )
 				, expr::makeImulExtended4( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 					, makeExpr( y )
@@ -9415,7 +9415,7 @@ namespace sdw
 				, areOptionalEnabled( x, y, msb, lsb ) };
 		}
 
-		return Void{ findShader( x, y, msb, lsb )
+		return Void{ *findWriter( x, y, msb, lsb )
 			, expr::makeImulExtended4( findTypesCache( x, y, msb, lsb )
 					, makeExpr( x )
 				, makeExpr( y )
@@ -9436,7 +9436,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< Int >{ findShader( value, offset, bits )
+			return Optional< Int >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract1I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9444,7 +9444,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return Int{ findShader( value, offset, bits )
+		return Int{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract1I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9456,7 +9456,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< IVec2 >{ findShader( value, offset, bits )
+			return Optional< IVec2 >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract2I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9464,7 +9464,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return IVec2{ findShader( value, offset, bits )
+		return IVec2{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract2I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9476,7 +9476,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< IVec3 >{ findShader( value, offset, bits )
+			return Optional< IVec3 >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract3I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9484,7 +9484,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return IVec3{ findShader( value, offset, bits )
+		return IVec3{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract3I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9496,7 +9496,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< IVec4 >{ findShader( value, offset, bits )
+			return Optional< IVec4 >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract4I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9504,7 +9504,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return IVec4{ findShader( value, offset, bits )
+		return IVec4{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract4I( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9516,7 +9516,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< UInt >{ findShader( value, offset, bits )
+			return Optional< UInt >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract1U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9524,7 +9524,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return UInt{ findShader( value, offset, bits )
+		return UInt{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract1U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9536,7 +9536,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< UVec2 >{ findShader( value, offset, bits )
+			return Optional< UVec2 >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract2U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9544,7 +9544,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return UVec2{ findShader( value, offset, bits )
+		return UVec2{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract2U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9556,7 +9556,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< UVec3 >{ findShader( value, offset, bits )
+			return Optional< UVec3 >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract3U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9564,7 +9564,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return UVec3{ findShader( value, offset, bits )
+		return UVec3{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract3U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9576,7 +9576,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( value, offset, bits ) )
 		{
-			return Optional< UVec4 >{ findShader( value, offset, bits )
+			return Optional< UVec4 >{ *findWriter( value, offset, bits )
 				, expr::makeBitfieldExtract4U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 					, makeExpr( offset )
@@ -9584,7 +9584,7 @@ namespace sdw
 				, areOptionalEnabled( value, offset, bits ) };
 		}
 
-		return UVec4{ findShader( value, offset, bits )
+		return UVec4{ *findWriter( value, offset, bits )
 			, expr::makeBitfieldExtract4U( findTypesCache( value, offset, bits )
 					, makeExpr( value )
 				, makeExpr( offset )
@@ -9605,7 +9605,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< Int >{ findShader( base, insert, offset, bits )
+			return Optional< Int >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert1I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9614,7 +9614,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return Int{ findShader( base, insert, offset, bits )
+		return Int{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert1I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9628,7 +9628,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< IVec2 >{ findShader( base, insert, offset, bits )
+			return Optional< IVec2 >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert2I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9637,7 +9637,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return IVec2{ findShader( base, insert, offset, bits )
+		return IVec2{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert2I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9651,7 +9651,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< IVec3 >{ findShader( base, insert, offset, bits )
+			return Optional< IVec3 >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert3I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9660,7 +9660,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return IVec3{ findShader( base, insert, offset, bits )
+		return IVec3{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert3I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9674,7 +9674,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< IVec4 >{ findShader( base, insert, offset, bits )
+			return Optional< IVec4 >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert4I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9683,7 +9683,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return IVec4{ findShader( base, insert, offset, bits )
+		return IVec4{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert4I( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9697,7 +9697,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< UInt >{ findShader( base, insert, offset, bits )
+			return Optional< UInt >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert1U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9706,7 +9706,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return UInt{ findShader( base, insert, offset, bits )
+		return UInt{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert1U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9720,7 +9720,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< UVec2 >{ findShader( base, insert, offset, bits )
+			return Optional< UVec2 >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert2U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9729,7 +9729,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return UVec2{ findShader( base, insert, offset, bits )
+		return UVec2{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert2U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9743,7 +9743,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< UVec3 >{ findShader( base, insert, offset, bits )
+			return Optional< UVec3 >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert3U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9752,7 +9752,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return UVec3{ findShader( base, insert, offset, bits )
+		return UVec3{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert3U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9766,7 +9766,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( base, insert, offset, bits ) )
 		{
-			return Optional< UVec4 >{ findShader( base, insert, offset, bits )
+			return Optional< UVec4 >{ *findWriter( base, insert, offset, bits )
 				, expr::makeBitfieldInsert4U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 					, makeExpr( insert )
@@ -9775,7 +9775,7 @@ namespace sdw
 				, areOptionalEnabled( base, insert, offset, bits ) };
 		}
 
-		return UVec4{ findShader( base, insert, offset, bits )
+		return UVec4{ *findWriter( base, insert, offset, bits )
 			, expr::makeBitfieldInsert4U( findTypesCache( base, insert, offset, bits )
 					, makeExpr( base )
 				, makeExpr( insert )
@@ -9794,13 +9794,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeBitfieldReverse1I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeBitfieldReverse1I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9808,13 +9808,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeBitfieldReverse2I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeBitfieldReverse2I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9822,13 +9822,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeBitfieldReverse3I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeBitfieldReverse3I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9836,13 +9836,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeBitfieldReverse4I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeBitfieldReverse4I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9850,13 +9850,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UInt >{ findShader( value )
+			return Optional< UInt >{ *findWriter( value )
 				, expr::makeBitfieldReverse1U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UInt{ findShader( value )
+		return UInt{ *findWriter( value )
 			, expr::makeBitfieldReverse1U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9864,13 +9864,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec2 >{ findShader( value )
+			return Optional< UVec2 >{ *findWriter( value )
 				, expr::makeBitfieldReverse2U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec2{ findShader( value )
+		return UVec2{ *findWriter( value )
 			, expr::makeBitfieldReverse2U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9878,13 +9878,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec3 >{ findShader( value )
+			return Optional< UVec3 >{ *findWriter( value )
 				, expr::makeBitfieldReverse3U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec3{ findShader( value )
+		return UVec3{ *findWriter( value )
 			, expr::makeBitfieldReverse3U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9892,13 +9892,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec4 >{ findShader( value )
+			return Optional< UVec4 >{ *findWriter( value )
 				, expr::makeBitfieldReverse4U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec4{ findShader( value )
+		return UVec4{ *findWriter( value )
 			, expr::makeBitfieldReverse4U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9914,13 +9914,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeBitCount1I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeBitCount1I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9928,13 +9928,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeBitCount2I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeBitCount2I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9942,13 +9942,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeBitCount3I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeBitCount3I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9956,13 +9956,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeBitCount4I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeBitCount4I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9970,13 +9970,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UInt >{ findShader( value )
+			return Optional< UInt >{ *findWriter( value )
 				, expr::makeBitCount1U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UInt{ findShader( value )
+		return UInt{ *findWriter( value )
 			, expr::makeBitCount1U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9984,13 +9984,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec2 >{ findShader( value )
+			return Optional< UVec2 >{ *findWriter( value )
 				, expr::makeBitCount2U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec2{ findShader( value )
+		return UVec2{ *findWriter( value )
 			, expr::makeBitCount2U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -9998,13 +9998,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec3 >{ findShader( value )
+			return Optional< UVec3 >{ *findWriter( value )
 				, expr::makeBitCount3U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec3{ findShader( value )
+		return UVec3{ *findWriter( value )
 			, expr::makeBitCount3U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10012,13 +10012,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< UVec4 >{ findShader( value )
+			return Optional< UVec4 >{ *findWriter( value )
 				, expr::makeBitCount4U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return UVec4{ findShader( value )
+		return UVec4{ *findWriter( value )
 			, expr::makeBitCount4U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10034,13 +10034,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeFindLSB1I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeFindLSB1I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10048,13 +10048,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeFindLSB2I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeFindLSB2I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10062,13 +10062,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeFindLSB3I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeFindLSB3I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10076,13 +10076,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeFindLSB4I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeFindLSB4I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10090,13 +10090,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeFindLSB1U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeFindLSB1U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10104,13 +10104,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeFindLSB2U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeFindLSB2U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10118,13 +10118,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeFindLSB3U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeFindLSB3U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10132,13 +10132,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeFindLSB4U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeFindLSB4U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10154,13 +10154,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeFindMSB1I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeFindMSB1I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10168,13 +10168,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeFindMSB2I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeFindMSB2I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10182,13 +10182,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeFindMSB3I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeFindMSB3I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10196,13 +10196,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeFindMSB4I( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeFindMSB4I( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10210,13 +10210,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< Int >{ findShader( value )
+			return Optional< Int >{ *findWriter( value )
 				, expr::makeFindMSB1U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return Int{ findShader( value )
+		return Int{ *findWriter( value )
 			, expr::makeFindMSB1U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10224,13 +10224,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec2 >{ findShader( value )
+			return Optional< IVec2 >{ *findWriter( value )
 				, expr::makeFindMSB2U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec2{ findShader( value )
+		return IVec2{ *findWriter( value )
 			, expr::makeFindMSB2U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10238,13 +10238,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec3 >{ findShader( value )
+			return Optional< IVec3 >{ *findWriter( value )
 				, expr::makeFindMSB3U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec3{ findShader( value )
+		return IVec3{ *findWriter( value )
 			, expr::makeFindMSB3U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10252,13 +10252,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( value ) )
 		{
-			return Optional< IVec4 >{ findShader( value )
+			return Optional< IVec4 >{ *findWriter( value )
 				, expr::makeFindMSB4U( findTypesCache( value )
 					, makeExpr( value ) )
 				, areOptionalEnabled( value ) };
 		}
 
-		return IVec4{ findShader( value )
+		return IVec4{ *findWriter( value )
 			, expr::makeFindMSB4U( findTypesCache( value )
 					, makeExpr( value ) ) };
 	}
@@ -10275,14 +10275,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicAddI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicAddI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10292,14 +10292,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicAddU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicAddU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10309,14 +10309,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Float >{ findShader( mem, data )
+			return Optional< Float >{ *findWriter( mem, data )
 				, expr::makeAtomicAddF( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Float{ findShader( mem, data )
+		return Float{ *findWriter( mem, data )
 			, expr::makeAtomicAddF( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10326,14 +10326,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< HVec2 >{ findShader( mem, data )
+			return Optional< HVec2 >{ *findWriter( mem, data )
 				, expr::makeAtomicAdd2H( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return HVec2{ findShader( mem, data )
+		return HVec2{ *findWriter( mem, data )
 			, expr::makeAtomicAdd2H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10343,14 +10343,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< HVec4 >{ findShader( mem, data )
+			return Optional< HVec4 >{ *findWriter( mem, data )
 				, expr::makeAtomicAdd4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return HVec4{ findShader( mem, data )
+		return HVec4{ *findWriter( mem, data )
 			, expr::makeAtomicAdd4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10368,14 +10368,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicMinI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicMinI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10385,14 +10385,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicMinU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicMinU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10410,14 +10410,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicMaxI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicMaxI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10427,14 +10427,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicMaxU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicMaxU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10452,14 +10452,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicAndI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicAndI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10469,14 +10469,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicAndU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicAndU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10494,14 +10494,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicOrI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicOrI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10511,14 +10511,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicOrU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicOrU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10536,14 +10536,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicXorI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicXorI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10553,14 +10553,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicXorU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicXorU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10578,14 +10578,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Int >{ findShader( mem, data )
+			return Optional< Int >{ *findWriter( mem, data )
 				, expr::makeAtomicExchangeI( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Int{ findShader( mem, data )
+		return Int{ *findWriter( mem, data )
 			, expr::makeAtomicExchangeI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10595,14 +10595,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, data )
+			return Optional< UInt >{ *findWriter( mem, data )
 				, expr::makeAtomicExchangeU( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return UInt{ findShader( mem, data )
+		return UInt{ *findWriter( mem, data )
 			, expr::makeAtomicExchangeU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10612,14 +10612,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< Float >{ findShader( mem, data )
+			return Optional< Float >{ *findWriter( mem, data )
 				, expr::makeAtomicExchangeF( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return Float{ findShader( mem, data )
+		return Float{ *findWriter( mem, data )
 			, expr::makeAtomicExchangeF( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10629,14 +10629,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< HVec2 >{ findShader( mem, data )
+			return Optional< HVec2 >{ *findWriter( mem, data )
 				, expr::makeAtomicExchange2H( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return HVec2{ findShader( mem, data )
+		return HVec2{ *findWriter( mem, data )
 			, expr::makeAtomicExchange2H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10646,14 +10646,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, data ) )
 		{
-			return Optional< HVec4 >{ findShader( mem, data )
+			return Optional< HVec4 >{ *findWriter( mem, data )
 				, expr::makeAtomicExchange4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 					, makeExpr( data ) )
 				, areOptionalEnabled( mem, data ) };
 		}
 
-		return HVec4{ findShader( mem, data )
+		return HVec4{ *findWriter( mem, data )
 			, expr::makeAtomicExchange4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) ) };
@@ -10672,7 +10672,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, compare, data ) )
 		{
-			return Optional< Int >{ findShader( mem, compare, data )
+			return Optional< Int >{ *findWriter( mem, compare, data )
 				, expr::makeAtomicCompSwapI( findTypesCache( mem, compare, data )
 					, makeExpr( mem )
 					, makeExpr( compare )
@@ -10680,7 +10680,7 @@ namespace sdw
 				, areOptionalEnabled( mem, compare, data ) };
 		}
 
-		return Int{ findShader( mem, compare, data )
+		return Int{ *findWriter( mem, compare, data )
 			, expr::makeAtomicCompSwapI( findTypesCache( mem, compare, data )
 					, makeExpr( mem )
 				, makeExpr( compare )
@@ -10692,7 +10692,7 @@ namespace sdw
 	{
 		if ( isAnyOptional( mem, compare, data ) )
 		{
-			return Optional< UInt >{ findShader( mem, compare, data )
+			return Optional< UInt >{ *findWriter( mem, compare, data )
 				, expr::makeAtomicCompSwapU( findTypesCache( mem, compare, data )
 					, makeExpr( mem )
 					, makeExpr( compare )
@@ -10700,7 +10700,7 @@ namespace sdw
 				, areOptionalEnabled( mem, compare, data ) };
 		}
 
-		return UInt{ findShader( mem, compare, data )
+		return UInt{ *findWriter( mem, compare, data )
 			, expr::makeAtomicCompSwapU( findTypesCache( mem, compare, data )
 					, makeExpr( mem )
 				, makeExpr( compare )
@@ -10718,13 +10718,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeDFdx1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeDFdx1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10732,13 +10732,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeDFdx2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeDFdx2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10746,13 +10746,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeDFdx3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeDFdx3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10760,13 +10760,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeDFdx4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeDFdx4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10782,13 +10782,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeDFdxCoarse1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeDFdxCoarse1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10796,13 +10796,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeDFdxCoarse2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeDFdxCoarse2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10810,13 +10810,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeDFdxCoarse3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeDFdxCoarse3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10824,13 +10824,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeDFdxCoarse4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeDFdxCoarse4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10846,13 +10846,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeDFdxFine1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeDFdxFine1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10860,13 +10860,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeDFdxFine2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeDFdxFine2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10874,13 +10874,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeDFdxFine3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeDFdxFine3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10888,13 +10888,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeDFdxFine4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeDFdxFine4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10910,13 +10910,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeDFdy1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeDFdy1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10924,13 +10924,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeDFdy2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeDFdy2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10938,13 +10938,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeDFdy3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeDFdy3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10952,13 +10952,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeDFdy4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeDFdy4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10974,13 +10974,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeDFdyCoarse1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeDFdyCoarse1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -10988,13 +10988,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeDFdyCoarse2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeDFdyCoarse2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11002,13 +11002,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeDFdyCoarse3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeDFdyCoarse3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11016,13 +11016,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeDFdyCoarse4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeDFdyCoarse4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11038,13 +11038,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeDFdyFine1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeDFdyFine1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11052,13 +11052,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeDFdyFine2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeDFdyFine2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11066,13 +11066,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeDFdyFine3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeDFdyFine3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11080,13 +11080,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeDFdyFine4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeDFdyFine4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11102,13 +11102,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Float >{ findShader( p )
+			return Optional< Float >{ *findWriter( p )
 				, expr::makeFwidth1( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Float{ findShader( p )
+		return Float{ *findWriter( p )
 			, expr::makeFwidth1( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11116,13 +11116,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec2 >{ findShader( p )
+			return Optional< Vec2 >{ *findWriter( p )
 				, expr::makeFwidth2( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec2{ findShader( p )
+		return Vec2{ *findWriter( p )
 			, expr::makeFwidth2( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11130,13 +11130,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec3 >{ findShader( p )
+			return Optional< Vec3 >{ *findWriter( p )
 				, expr::makeFwidth3( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec3{ findShader( p )
+		return Vec3{ *findWriter( p )
 			, expr::makeFwidth3( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11144,13 +11144,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( p ) )
 		{
-			return Optional< Vec4 >{ findShader( p )
+			return Optional< Vec4 >{ *findWriter( p )
 				, expr::makeFwidth4( findTypesCache( p )
 					, makeExpr( p ) )
 				, areOptionalEnabled( p ) };
 		}
 
-		return Vec4{ findShader( p )
+		return Vec4{ *findWriter( p )
 			, expr::makeFwidth4( findTypesCache( p )
 					, makeExpr( p ) ) };
 	}
@@ -11166,13 +11166,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Float >{ findShader( x )
+			return Optional< Float >{ *findWriter( x )
 				, expr::makeInterpolateAtCentroid1( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Float{ findShader( x )
+		return Float{ *findWriter( x )
 			, expr::makeInterpolateAtCentroid1( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -11180,13 +11180,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec2 >{ findShader( x )
+			return Optional< Vec2 >{ *findWriter( x )
 				, expr::makeInterpolateAtCentroid2( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec2{ findShader( x )
+		return Vec2{ *findWriter( x )
 			, expr::makeInterpolateAtCentroid2( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -11194,13 +11194,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec3 >{ findShader( x )
+			return Optional< Vec3 >{ *findWriter( x )
 				, expr::makeInterpolateAtCentroid3( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec3{ findShader( x )
+		return Vec3{ *findWriter( x )
 			, expr::makeInterpolateAtCentroid3( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -11208,13 +11208,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( x ) )
 		{
-			return Optional< Vec4 >{ findShader( x )
+			return Optional< Vec4 >{ *findWriter( x )
 				, expr::makeInterpolateAtCentroid4( findTypesCache( x )
 					, makeExpr( x ) )
 				, areOptionalEnabled( x ) };
 		}
 
-		return Vec4{ findShader( x )
+		return Vec4{ *findWriter( x )
 			, expr::makeInterpolateAtCentroid4( findTypesCache( x )
 					, makeExpr( x ) ) };
 	}
@@ -11231,14 +11231,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, sample ) )
 		{
-			return Optional< Float >{ findShader( interpolant, sample )
+			return Optional< Float >{ *findWriter( interpolant, sample )
 				, expr::makeInterpolateAtSample1( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
-		return Float{ findShader( interpolant, sample )
+		return Float{ *findWriter( interpolant, sample )
 			, expr::makeInterpolateAtSample1( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
@@ -11248,14 +11248,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, sample ) )
 		{
-			return Optional< Vec2 >{ findShader( interpolant, sample )
+			return Optional< Vec2 >{ *findWriter( interpolant, sample )
 				, expr::makeInterpolateAtSample2( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
-		return Vec2{ findShader( interpolant, sample )
+		return Vec2{ *findWriter( interpolant, sample )
 			, expr::makeInterpolateAtSample2( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
@@ -11265,14 +11265,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, sample ) )
 		{
-			return Optional< Vec3 >{ findShader( interpolant, sample )
+			return Optional< Vec3 >{ *findWriter( interpolant, sample )
 				, expr::makeInterpolateAtSample3( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
-		return Vec3{ findShader( interpolant, sample )
+		return Vec3{ *findWriter( interpolant, sample )
 			, expr::makeInterpolateAtSample3( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
@@ -11282,14 +11282,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, sample ) )
 		{
-			return Optional< Vec4 >{ findShader( interpolant, sample )
+			return Optional< Vec4 >{ *findWriter( interpolant, sample )
 				, expr::makeInterpolateAtSample4( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 					, makeExpr( sample ) )
 				, areOptionalEnabled( interpolant, sample ) };
 		}
 
-		return Vec4{ findShader( interpolant, sample )
+		return Vec4{ *findWriter( interpolant, sample )
 			, expr::makeInterpolateAtSample4( findTypesCache( interpolant, sample )
 					, makeExpr( interpolant )
 				, makeExpr( sample ) ) };
@@ -11307,14 +11307,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, offset ) )
 		{
-			return Optional< Float >{ findShader( interpolant, offset )
+			return Optional< Float >{ *findWriter( interpolant, offset )
 				, expr::makeInterpolateAtOffset1( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
-		return Float{ findShader( interpolant, offset )
+		return Float{ *findWriter( interpolant, offset )
 			, expr::makeInterpolateAtOffset1( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
@@ -11324,14 +11324,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, offset ) )
 		{
-			return Optional< Vec2 >{ findShader( interpolant, offset )
+			return Optional< Vec2 >{ *findWriter( interpolant, offset )
 				, expr::makeInterpolateAtOffset2( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
-		return Vec2{ findShader( interpolant, offset )
+		return Vec2{ *findWriter( interpolant, offset )
 			, expr::makeInterpolateAtOffset2( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
@@ -11341,14 +11341,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, offset ) )
 		{
-			return Optional< Vec3 >{ findShader( interpolant, offset )
+			return Optional< Vec3 >{ *findWriter( interpolant, offset )
 				, expr::makeInterpolateAtOffset3( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
-		return Vec3{ findShader( interpolant, offset )
+		return Vec3{ *findWriter( interpolant, offset )
 			, expr::makeInterpolateAtOffset3( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
@@ -11358,14 +11358,14 @@ namespace sdw
 	{
 		if ( isAnyOptional( interpolant, offset ) )
 		{
-			return Optional< Vec4 >{ findShader( interpolant, offset )
+			return Optional< Vec4 >{ *findWriter( interpolant, offset )
 				, expr::makeInterpolateAtOffset4( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 					, makeExpr( offset ) )
 				, areOptionalEnabled( interpolant, offset ) };
 		}
 
-		return Vec4{ findShader( interpolant, offset )
+		return Vec4{ *findWriter( interpolant, offset )
 			, expr::makeInterpolateAtOffset4( findTypesCache( interpolant, offset )
 					, makeExpr( interpolant )
 				, makeExpr( offset ) ) };
@@ -11382,13 +11382,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( stream ) )
 		{
-			return Optional< Void >{ findShader( stream )
+			return Optional< Void >{ *findWriter( stream )
 				, expr::makeEmitStreamVertex( findTypesCache( stream )
 					, makeExpr( stream ) )
 				, areOptionalEnabled( stream ) };
 		}
 
-		return Void{ findShader( stream )
+		return Void{ *findWriter( stream )
 			, expr::makeEmitStreamVertex( findTypesCache( stream )
 					, makeExpr( stream ) ) };
 	}
@@ -11404,13 +11404,13 @@ namespace sdw
 	{
 		if ( isAnyOptional( stream ) )
 		{
-			return Optional< Void >{ findShader( stream )
+			return Optional< Void >{ *findWriter( stream )
 				, expr::makeEndStreamPrimitive( findTypesCache( stream )
 					, makeExpr( stream ) )
 				, areOptionalEnabled( stream ) };
 		}
 
-		return Void{ findShader( stream )
+		return Void{ *findWriter( stream )
 			, expr::makeEndStreamPrimitive( findTypesCache( stream )
 					, makeExpr( stream ) ) };
 	}
@@ -11426,12 +11426,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeEmitVertex( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeEmitVertex( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11446,12 +11446,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeEndPrimitive( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeEndPrimitive( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11466,12 +11466,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11486,12 +11486,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< UInt >{ findShader( writer )
+			return Optional< UInt >{ writer
 				, expr::makeMemoryBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return UInt{ findShader( writer )
+		return UInt{ writer
 			, expr::makeMemoryBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11506,12 +11506,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11526,12 +11526,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeMemoryBarrierShared( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeMemoryBarrierShared( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11546,12 +11546,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeMemoryBarrierImage( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeMemoryBarrierImage( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11566,12 +11566,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ findShader( writer )
+			return Optional< Void >{ writer
 				, expr::makeGroupMemoryBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ findShader( writer )
+		return Void{ writer
 			, expr::makeGroupMemoryBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/

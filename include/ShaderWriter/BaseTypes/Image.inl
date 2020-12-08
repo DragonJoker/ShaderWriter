@@ -1069,7 +1069,7 @@ namespace sdw
 
 			if ( isAnyOptional( image, params... ) )
 			{
-				return Optional< ReturnT >{ findShader( image, params... )
+				return Optional< ReturnT >{ *findWriter( image, params... )
 					, expr::makeImageAccessCall( ReturnT::makeType( cache )
 						, ImageAccessT
 						, makeExpr( image )
@@ -1077,7 +1077,7 @@ namespace sdw
 					, areOptionalEnabled( image, params... ) };
 			}
 
-			return ReturnT{ findShader( image, params... )
+			return ReturnT{ *findWriter( image, params... )
 				, expr::makeImageAccessCall( ReturnT::makeType( cache )
 					, ImageAccessT
 					, makeExpr( image )
@@ -1100,15 +1100,17 @@ namespace sdw
 			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
 			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
 
-			auto & cache = findTypesCache( image, params... );
+			auto & writer = *findWriter( image, params... );
+			auto & cache = findTypesCache( writer );
 
 			if ( ( !isAnyOptional( image, params... ) )
 				|| areOptionalEnabled( image, params... ) )
 			{
-				expr::makeImageAccessCall( Void::makeType( cache )
-					, ImageAccessT
-					, makeExpr( image )
-					, makeExpr( params )... );
+				addStmt( writer
+					, makeSimple( expr::makeImageAccessCall( Void::makeType( cache )
+						, ImageAccessT
+						, makeExpr( image )
+						, makeExpr( params )... ) ) );
 			}
 		}
 
@@ -1759,9 +1761,9 @@ namespace sdw
 			: public Image
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -1799,9 +1801,9 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -1839,9 +1841,9 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -1881,9 +1883,9 @@ namespace sdw
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -1925,9 +1927,9 @@ namespace sdw
 			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -1975,9 +1977,9 @@ namespace sdw
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2015,9 +2017,9 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2056,9 +2058,9 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2097,9 +2099,9 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2140,9 +2142,9 @@ namespace sdw
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2185,9 +2187,9 @@ namespace sdw
 			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2236,9 +2238,9 @@ namespace sdw
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
-			ImageFuncsT( Shader * shader
+			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr )
-				: Image{ FormatT, shader, std::move( expr ) }
+				: Image{ FormatT, writer, std::move( expr ) }
 			{
 			}
 
@@ -2262,7 +2264,7 @@ namespace sdw
 	Image & Image::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = *findShader( *this, rhs );
+		auto & shader = *findWriter( *this, rhs );
 		addStmt( shader
 			, makeSimple( makeAssign( getExpr()->getType()
 				, makeExpr( shader, getExpr() )
@@ -2278,9 +2280,9 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( Shader * shader
+	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ shader, std::move( expr ) }
+		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ) }
 	{
 	}
 

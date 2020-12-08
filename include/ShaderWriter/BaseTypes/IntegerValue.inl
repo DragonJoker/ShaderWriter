@@ -6,9 +6,9 @@ namespace sdw
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT >::IntegerValue( Shader * shader
+	IntegerValue< KindT >::IntegerValue( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 	}
 
@@ -26,13 +26,13 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	IntegerValue< KindT >::IntegerValue( CppTypeT< IntegerValue< KindT > > rhs )
-		: Value{ &sdw::getShader( sdw::getCurrentWriter() ), makeExpr( sdw::getShader( sdw::getCurrentWriter() ), rhs ) }
+		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ) }
 	{
 	}
 
 	template< ast::type::Kind KindT >
 	IntegerValue< KindT >::IntegerValue( IncDecWrapperT< KindT > rhs )
-		: Value{ rhs.getShader(), rhs.release() }
+		: Value{ *rhs.getWriter(), rhs.release() }
 	{
 	}
 
@@ -120,7 +120,7 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	expr::ExprPtr IntegerValue< KindT >::makeCondition()const
 	{
-		auto & shader = *findShader( *this );
+		auto & shader = *findWriter( *this );
 		return sdw::makeNEqual( makeExpr( shader, *this )
 			, makeExpr( shader, CppTypeT< IntegerValue< KindT > >{} ) );
 	}
@@ -1304,9 +1304,9 @@ namespace sdw
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT >::IncDecWrapperT( Shader * shader
+	IncDecWrapperT< KindT >::IncDecWrapperT( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: m_value{ shader, std::move( expr ) }
+		: m_value{ writer, std::move( expr ) }
 	{
 	}
 
@@ -1327,7 +1327,7 @@ namespace sdw
 	{
 		if ( m_value.getExpr() )
 		{
-			addStmt( *getShader(), makeSimple( release() ) );
+			addStmt( *getWriter(), makeSimple( release() ) );
 		}
 	}
 
@@ -1335,7 +1335,7 @@ namespace sdw
 	sdw::expr::ExprPtr IncDecWrapperT< KindT >::release()const
 	{
 		assert( m_value.getExpr() );
-		auto result = makeExpr( *getShader(), m_value.getExpr() );
+		auto result = makeExpr( *getWriter(), m_value.getExpr() );
 		m_value.updateExpr( nullptr );
 		return result;
 	}
@@ -1344,6 +1344,12 @@ namespace sdw
 	expr::ExprPtr IncDecWrapperT< KindT >::makeCondition()const
 	{
 		return release();
+	}
+
+	template< ast::type::Kind KindT >
+	ShaderWriter * IncDecWrapperT< KindT >::getWriter()const
+	{
+		return m_value.getWriter();
 	}
 
 	template< ast::type::Kind KindT >
@@ -1361,7 +1367,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, IncDecWrapperT< KindT > variable
 		, bool force )
 	{

@@ -7,7 +7,7 @@ namespace sdw
 	Sampler & Sampler::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = *findShader( *this, rhs );
+		auto & shader = *findWriter( *this, rhs );
 		addStmt( shader
 			, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
 				, makeExpr( shader, getExpr() )

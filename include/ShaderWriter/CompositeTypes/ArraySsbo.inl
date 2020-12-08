@@ -24,6 +24,15 @@ namespace sdw
 			result->declMember( name + "Data", dataType, type::UnknownArraySize );
 			return result;
 		}
+
+		template< typename InstanceT >
+		inline ast::type::StructPtr makeSsboType( ShaderWriter & writer )
+		{
+			auto & cache = getTypesCache( writer );
+			ast::type::StructPtr result = InstanceT::makeType( cache );
+			sdw::addStmt( writer, sdw::makeStructDecl( result ) );
+			return result;
+		}
 	}
 
 	template< typename InstanceT >
@@ -33,7 +42,8 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, uint32_t bind
 		, uint32_t set )
-		: m_shader{ sdw::getShader( writer ) }
+		: m_writer{ writer }
+		, m_shader{ sdw::getShader( m_writer ) }
 		, m_name{ name }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ) }
 		, m_info{ m_interface.getType(), bind, set }
@@ -41,13 +51,13 @@ namespace sdw
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{
-		addStmt( m_shader
+		addStmt( m_writer
 			, sdw::makeShaderStructBufferDecl( m_name
 				, m_ssboVar
 				, m_dataVar
 				, bind
 				, set ) );
-		registerSsbo( m_shader, m_name, m_info );
+		registerSsbo( m_writer, m_name, m_info );
 	}
 
 	template< typename InstanceT >
@@ -56,7 +66,8 @@ namespace sdw
 		, ast::type::StructPtr dataType
 		, uint32_t bind
 		, uint32_t set )
-		: m_shader{ sdw::getShader( writer ) }
+		: m_writer{ writer }
+		, m_shader{ sdw::getShader( m_writer ) }
 		, m_name{ name }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType ) }
 		, m_info{ m_interface.getType(), bind, set }
@@ -64,13 +75,13 @@ namespace sdw
 		, m_dataVar{ var::makeVariable( m_ssboType->getMember( m_name + "Data" ).type, m_name + "Data", var::Flag::eUniform ) }
 		, m_ssboVar{ var::makeVariable( m_ssboType, m_name + "Inst", var::Flag::eUniform ) }
 	{
-		addStmt( m_shader
+		addStmt( m_writer
 			, sdw::makeShaderStructBufferDecl( m_name
 				, m_ssboVar
 				, m_dataVar
 				, bind
 				, set ) );
-		registerSsbo( m_shader, m_name, m_info );
+		registerSsbo( m_writer, m_name, m_info );
 	}
 
 	template< typename InstanceT >
@@ -78,29 +89,29 @@ namespace sdw
 		, std::string const & name
 		, uint32_t bind
 		, uint32_t set )
-		: ArraySsboT{ writer, name, InstanceT::makeType( getTypesCache( writer ) ), bind, set }
+		: ArraySsboT{ writer, name, details::makeSsboType< InstanceT >( writer ), bind, set }
 	{
 	}
 
 	template< typename InstanceT >
 	InstanceT ArraySsboT< InstanceT >::operator[]( uint32_t index )
 	{
-		return InstanceT{ &m_shader
+		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_shader ), m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_writer ), m_ssboVar )
 					, 0u
 					, m_dataVar->getFlags() )
-				, makeExpr( m_shader, index ) ) };
+				, makeExpr( m_writer, index ) ) };
 	}
 
 	template< typename InstanceT >
 	InstanceT ArraySsboT< InstanceT >::operator[]( UInt const & index )
 	{
-		return InstanceT{ &m_shader
+		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_shader ), m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_writer ), m_ssboVar )
 					, 0u
 					, m_dataVar->getFlags() )
-				, makeExpr( m_shader, index ) ) };
+				, makeExpr( m_writer, index ) ) };
 	}
 }

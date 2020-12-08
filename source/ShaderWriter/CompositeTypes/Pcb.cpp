@@ -12,7 +12,8 @@ namespace sdw
 	Pcb::Pcb( ShaderWriter & writer
 		, std::string const & name
 		, ast::type::MemoryLayout layout )
-		: m_shader{ writer.getShader() }
+		: m_writer{ writer }
+		, m_shader{ m_writer.getShader() }
 		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
 		, m_name{ name }
 		, m_info{ writer.getTypesCache(), layout, name }
@@ -28,9 +29,9 @@ namespace sdw
 	StructInstance Pcb::declMember( std::string const & name, Struct const & s )
 	{
 		auto type = m_info.registerMember( name, s.getType() );
-		auto var = registerMember( m_shader, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
-		return StructInstance{ &m_shader
-			, makeExpr( m_shader, var ) };
+		return StructInstance{ m_writer
+			, makeExpr( m_writer, var ) };
 	}
 }

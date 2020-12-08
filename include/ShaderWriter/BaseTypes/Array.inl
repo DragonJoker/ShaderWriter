@@ -6,9 +6,9 @@ namespace sdw
 	//*********************************************************************************************
 
 	template< typename ValueT >
-	Array< ValueT >::Array( Shader * shader
+	Array< ValueT >::Array( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 	}
 

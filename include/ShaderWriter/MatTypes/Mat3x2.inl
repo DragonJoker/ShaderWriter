@@ -4,15 +4,15 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename ValueT >
-	Mat3x2T< ValueT >::Mat3x2T( Shader * shader
+	Mat3x2T< ValueT >::Mat3x2T( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 	}
 
 	template< typename ValueT >
 	Mat3x2T< ValueT >::Mat3x2T( Mat3x2T const & rhs )
-		: Value{ rhs.getShader(), makeExpr( *findShader( *this, rhs ), rhs ) }
+		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ) }
 	{
 	}
 

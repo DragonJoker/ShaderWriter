@@ -12,13 +12,13 @@ namespace test
 	{
 		if ( isAnyOptional( a, b ) )
 		{
-			return sdw::Optional< sdw::Int >{ sdw::findShader( a, b )
-				, sdw::makeExpr( *sdw::findShader( a, b ), a + b )
+			return sdw::Optional< sdw::Int >{ *sdw::findWriter( a, b )
+				, sdw::makeExpr( *sdw::findWriter( a, b ), a + b )
 				, areOptionalEnabled( a, b ) };
 		}
 
-		return sdw::Int{ sdw::findShader( a, b )
-			, sdw::makeExpr( *sdw::findShader( a, b ), a + b ) };
+		return sdw::Int{ *sdw::findWriter( a, b )
+			, sdw::makeExpr( *sdw::findWriter( a, b ), a + b ) };
 	}
 	
 	sdw::MaybeOptional< sdw::Int > dummyFunc( sdw::MaybeOptional< sdw::Array< sdw::Int > > const & a
@@ -26,13 +26,13 @@ namespace test
 	{
 		if ( isAnyOptional( a, b ) )
 		{
-			return sdw::Optional< sdw::Int >{ sdw::findShader( a, b )
-				, sdw::makeExpr( *sdw::findShader( a, b ), a[0] + b[0] )
+			return sdw::Optional< sdw::Int >{ *sdw::findWriter( a, b )
+				, sdw::makeExpr( *sdw::findWriter( a, b ), a[0] + b[0] )
 				, areOptionalEnabled( a, b ) };
 		}
 
-		return sdw::Int{ sdw::findShader( a, b )
-			, sdw::makeExpr( *sdw::findShader( a, b ), a[0] + b[0] ) };
+		return sdw::Int{ *sdw::findWriter( a, b )
+			, sdw::makeExpr( *sdw::findWriter( a, b ), a[0] + b[0] ) };
 	}
 
 	void testMaybeOptional( test::sdw_test::TestCounts & testCounts )
@@ -168,8 +168,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ) );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( !c.isOptional() );
 					check( c.isEnabled() );
@@ -181,8 +181,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ), true );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( c.isEnabled() );
@@ -194,8 +194,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ), false );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( !c.isEnabled() );
@@ -207,8 +207,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ) );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ), true );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( c.isEnabled() );
@@ -220,8 +220,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ) );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ), false );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( !c.isEnabled() );
@@ -233,8 +233,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ), true );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ), true );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( c.isEnabled() );
@@ -246,8 +246,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ), true );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ), false );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( !c.isEnabled() );
@@ -259,8 +259,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), true );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ), false );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ), true );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( !c.isEnabled() );
@@ -272,8 +272,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
-					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer.getShader(), 2u ), false );
+					auto a = writer.declLocaleArray( "a", 2u, test::getDefaultVector< Int >( writer, 2u ), false );
+					auto b = writer.declLocaleArray( "b", 2u, test::getDefaultVector< Int >( writer, 2u ), false );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( !c.isEnabled() );
@@ -446,8 +446,8 @@ namespace test
 		using namespace sdw;
 		{
 			VertexWriter writer;
-			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
-			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
+			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -458,7 +458,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -471,11 +471,11 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			auto b = writer.declInputArray( "b", 1u, 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( !c.isOptional() );
 				} );
@@ -483,7 +483,7 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -496,11 +496,11 @@ namespace test
 		}
 		{
 			VertexWriter writer;
-			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+			auto a = writer.declInputArray( "a", 0u, 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( !c.isOptional() );
 				} );
@@ -524,8 +524,8 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
-					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( !c.isOptional() );
 				} );
@@ -536,7 +536,7 @@ namespace test
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto a = writer.declLocaleArray< Int >( "a", 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 					auto b = writer.declLocaleArray< Int >( "b", 2u, false );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
@@ -550,7 +550,7 @@ namespace test
 				, [&]()
 				{
 					auto a = writer.declLocaleArray< Int >( "a", 2u, false );
-					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer.getShader(), 2u ) );
+					auto b = writer.declLocaleArray< Int >( "b", 2u, false, test::getDefaultVector< Int >( writer, 2u ) );
 					auto c = writer.declLocale( "c", dummyFunc( a, b ) );
 					check( c.isOptional() );
 					check( !c.isEnabled() );

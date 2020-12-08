@@ -7,9 +7,9 @@ namespace sdw
 {
 	//*************************************************************************
 
-	Boolean::Boolean( Shader * shader
+	Boolean::Boolean( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 	}
 
@@ -24,7 +24,7 @@ namespace sdw
 	}
 
 	Boolean::Boolean( bool rhs )
-		: Value{ &sdw::getShader( sdw::getCurrentWriter() ), makeExpr( sdw::getShader( sdw::getCurrentWriter() ), rhs ) }
+		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ) }
 	{
 	}
 
@@ -37,11 +37,11 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			Shader & shader = *findShader( *this, rhs );
-			addStmt( shader
+			ShaderWriter & writer = *findWriter( *this, rhs );
+			addStmt( writer
 				, sdw::makeSimple( sdw::makeAssign( getType()
-					, makeExpr( shader, *this )
-					, makeExpr( shader, rhs ) ) ) );
+					, makeExpr( writer, *this )
+					, makeExpr( writer, rhs ) ) ) );
 		}
 		else
 		{
@@ -57,11 +57,11 @@ namespace sdw
 		{
 			if ( getContainer() )
 			{
-				Shader & shader = *findShader( *this, rhs );
-				addStmt( shader
+				ShaderWriter & writer = *findWriter( *this, rhs );
+				addStmt( writer
 					, sdw::makeSimple( sdw::makeAssign( getType()
-						, makeExpr( shader, *this )
-						, makeExpr( shader, rhs ) ) ) );
+						, makeExpr( writer, *this )
+						, makeExpr( writer, rhs ) ) ) );
 			}
 			else
 			{
@@ -78,11 +78,11 @@ namespace sdw
 		{
 			if ( getContainer() )
 			{
-				Shader & shader = *findShader( *this, rhs );
-				addStmt( shader
+				ShaderWriter & writer = *findWriter( *this, rhs );
+				addStmt( writer
 					, sdw::makeSimple( sdw::makeAssign( getType()
-						, makeExpr( shader, *this )
-						, makeExpr( shader, rhs ) ) ) );
+						, makeExpr( writer, *this )
+						, makeExpr( writer, rhs ) ) ) );
 			}
 			else
 			{
@@ -95,23 +95,23 @@ namespace sdw
 
 	expr::ExprPtr Boolean::makeCondition()const
 	{
-		return makeExpr( *findShader( *this ), *this );
+		return makeExpr( *findWriter( *this ), *this );
 	}
 
 	Boolean & Boolean::operator=( bool rhs )
 	{
-		Shader & shader = *findShader( *this, rhs );
-		addStmt( shader
+		ShaderWriter & writer = *findWriter( *this, rhs );
+		addStmt( writer
 			, sdw::makeSimple( sdw::makeAssign( getType()
-				, makeExpr( shader, *this )
-				, makeExpr( shader, rhs ) ) ) );
+				, makeExpr( writer, *this )
+				, makeExpr( writer, rhs ) ) ) );
 		return *this;
 	}
 
 	Boolean Boolean::operator!()
 	{
-		Shader & shader = *findShader( *this );
-		return Boolean{ &shader, sdw::makeLogNot( makeCondition() ) };
+		ShaderWriter & writer = *findWriter( *this );
+		return Boolean{ writer, sdw::makeLogNot( makeCondition() ) };
 	}
 
 	Boolean::operator bool()

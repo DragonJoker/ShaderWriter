@@ -14,7 +14,7 @@ namespace sdw
 
 	struct Value
 	{
-		SDW_API Value( Shader * shader
+		SDW_API Value( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		SDW_API Value( Value && rhs );
 		SDW_API Value( Value const & rhs );
@@ -32,6 +32,11 @@ namespace sdw
 		inline expr::Expr * getExpr()const
 		{
 			return m_expr.get();
+		}
+
+		inline ShaderWriter * getWriter()const
+		{
+			return m_writer;
 		}
 
 		inline Shader * getShader()const
@@ -57,12 +62,13 @@ namespace sdw
 		template< typename OutputT, size_t CountT >
 		static inline Value ctorCast( Value op )
 		{
-			return Value{ op.m_shader
+			return Value{ *op.m_writer
 				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) ) };
 		}
 
 	protected:
 		expr::ExprPtr m_expr;
+		ShaderWriter * m_writer;
 		Shader * m_shader;
 		stmt::Container * m_container;
 	};
@@ -70,18 +76,18 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
 	template< typename ... ValuesT >
-	inline Shader * findShader( ValuesT const & ... values );
+	inline ShaderWriter * findWriter( ValuesT const & ... values );
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
-	SDW_API expr::ExprPtr getDummyExpr( Shader & shader
+	SDW_API expr::ExprPtr getDummyExpr( ShaderWriter & writer
 		, type::TypePtr type );
 	SDW_API expr::ExprPtr makeExpr( Value const & variable
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, Value const & variable
 		, bool force = true );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, Value const & variable );
 
 	template< typename ReturnT, typename OperandT, typename CreatorT >

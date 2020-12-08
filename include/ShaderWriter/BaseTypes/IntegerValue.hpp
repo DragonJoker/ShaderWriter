@@ -13,7 +13,7 @@ namespace sdw
 	struct IntegerValue
 		: public Value
 	{
-		IntegerValue( Shader * shader
+		IntegerValue( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		IntegerValue( IntegerValue && rhs );
 		IntegerValue( IntegerValue const & rhs );
@@ -79,7 +79,7 @@ namespace sdw
 		IncDecWrapperT & operator=( IncDecWrapperT const & rhs ) = delete;
 		IncDecWrapperT & operator=( IncDecWrapperT && rhs ) = delete;
 
-		IncDecWrapperT( Shader * shader
+		IncDecWrapperT( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		explicit IncDecWrapperT( IntegerValue< KindT > const & rhs );
 		IncDecWrapperT( IncDecWrapperT && rhs );
@@ -87,6 +87,7 @@ namespace sdw
 
 		sdw::expr::ExprPtr release()const;
 		expr::ExprPtr makeCondition()const;
+		ShaderWriter * getWriter()const;
 		Shader * getShader()const;
 
 		explicit operator IntegerValue< KindT >();
@@ -96,7 +97,7 @@ namespace sdw
 	};
 
 	template< ast::type::Kind KindT >
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, IncDecWrapperT< KindT > variable
 		, bool force = true );
 

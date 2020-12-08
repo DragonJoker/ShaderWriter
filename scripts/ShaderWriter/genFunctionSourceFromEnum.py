@@ -433,7 +433,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			outs.write( "\n\t{" )
 			outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, ",", 1 ) + " ) )" )
 			outs.write( "\n\t\t{" )
-			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
 			outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
@@ -443,7 +443,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
 			outs.write( "\n\t\t}" )
 			outs.write( "\n" )
-			outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			outs.write( "\n\t\treturn " + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
 			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
@@ -483,7 +483,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
 					# Header finished, write content
 					outs.write( "\n\t{" )
-					outs.write( "\n\t\treturn Void{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+					outs.write( "\n\t\treturn Void{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				else:
 					# Write function name and return
 					outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
@@ -499,7 +499,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( "\n\t{" )
 					outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, ",", 1 ) + " ) )" )
 					outs.write( "\n\t\t{" )
-					outs.write( "\n\t\t\treturn Optional< " + ret + " >{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+					outs.write( "\n\t\t\treturn Optional< " + ret + " >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 					# Write arguments
 					outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 					#	Image argument
@@ -509,7 +509,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
 					outs.write( "\n\t\t}" )
 					outs.write( "\n" )
-					outs.write( "\n\t\treturn " + ret + "{ findShader( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+					outs.write( "\n\t\treturn " + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				# Write arguments
 				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				#	Image argument
@@ -529,13 +529,13 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	outs.write( "\n\t{" )
 	outs.write( "\n\t\tif ( isAnyOptional(" + listParams( paramsGroup, "", 0 ) + " ) )" )
 	outs.write( "\n\t\t{" )
-	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ findShader(" + listParams( paramsGroup, "", 0 ) + " )" )
+	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( "\n\t\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
 	outs.write( "\n\t\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "", 0 ) + " ) };" )
 	outs.write( "\n\t\t}" )
 	outs.write( "\n" )
-	outs.write( "\n\t\treturn " + retType + "{ findShader(" + listParams( paramsGroup, "", 0 ) + " )" )
+	outs.write( "\n\t\treturn " + retType + "{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " ) };" )
 	outs.write( "\n\t}" )

@@ -17,7 +17,7 @@ namespace sdw
 		using my_vec = Vec4T< ValueT >;
 		using my_mat = Mat2x4T< ValueT >;
 
-		inline Mat2x4T( Shader * shader
+		inline Mat2x4T( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		inline Mat2x4T( Mat2x4T const & rhs );
 

@@ -7,20 +7,20 @@ namespace sdw
 
 	namespace details
 	{
-		inline void getFunctionCallParamsRec( Shader & shader
+		inline void getFunctionCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool isEnabled )
 		{
 		}
 
 		template< typename Param >
-		inline void getFunctionCallParamsRec( Shader & shader
+		inline void getFunctionCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool isEnabled
 			, Param const & last )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( last );
-			auto lastArgs = makeFnArg( shader, last );
+			auto lastArgs = makeFnArg( writer, last );
 
 			for ( auto & expr : lastArgs )
 			{
@@ -29,21 +29,21 @@ namespace sdw
 		}
 
 		template< typename Param, typename ... Params >
-		inline void getFunctionCallParamsRec( Shader & shader
+		inline void getFunctionCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool isEnabled
 			, Param const & current
 			, Params const & ... params )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( current );
-			auto currentArgs = makeFnArg( shader, current );
+			auto currentArgs = makeFnArg( writer, current );
 
 			for ( auto & expr : currentArgs )
 			{
 				args.emplace_back( std::move( expr ) );
 			}
 
-			getFunctionCallParamsRec( shader, args, isEnabled, params... );
+			getFunctionCallParamsRec( writer, args, isEnabled, params... );
 		}
 	}
 
@@ -92,20 +92,20 @@ namespace sdw
 		}
 
 		template< typename ParamT, size_t CountT >
-		inline void getCtorCallParamsRec( Shader & shader
+		inline void getCtorCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool isEnabled )
 		{
 		}
 
 		template< typename ParamT, size_t CountT, typename Param >
-		inline void getCtorCallParamsRec( Shader & shader
+		inline void getCtorCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool isEnabled
 			, Param const & last )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( last );
-			auto lastArgs = makeFnArg( shader, details::ctorCast< ParamT, CountT >( last ) );
+			auto lastArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( last ) );
 
 			for ( auto & expr : lastArgs )
 			{
@@ -114,34 +114,34 @@ namespace sdw
 		}
 
 		template< typename ParamT, size_t CountT, typename Param, typename ... Params >
-		inline void getCtorCallParamsRec( Shader & shader
+		inline void getCtorCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool isEnabled
 			, Param const & current
 			, Params const & ... params )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( current );
-			auto currentArgs = makeFnArg( shader, details::ctorCast< ParamT, CountT >( current ) );
+			auto currentArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( current ) );
 
 			for ( auto & expr : currentArgs )
 			{
 				args.emplace_back( std::move( expr ) );
 			}
 
-			getCtorCallParamsRec< ParamT, CountT >( shader, args, isEnabled, params... );
+			getCtorCallParamsRec< ParamT, CountT >( writer, args, isEnabled, params... );
 		}
 
 		template< typename ReturnT, typename ParamT, size_t CountT >
 		struct CtorCallGetter
 		{
 			template< typename ... ParamsT >
-			static inline ReturnT submit( Shader & shader
+			static inline ReturnT submit( ShaderWriter & writer
 				, ParamsT const & ... params )
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getCtorCallParamsRec< ParamT, CountT >( shader, args, isEnabled, params... );
-				return ReturnT{ &shader
+				getCtorCallParamsRec< ParamT, CountT >( writer, args, isEnabled, params... );
+				return ReturnT{ writer
 					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
 						, type::getScalarType( typeEnum< ReturnT > )
 						, std::move( args ) ) };
@@ -152,13 +152,13 @@ namespace sdw
 		struct CtorCallGetter< Optional< ReturnT >, ParamT, CountT >
 		{
 			template< typename ... ParamsT >
-			static inline Optional< ReturnT > submit( Shader & shader
+			static inline Optional< ReturnT > submit( ShaderWriter & writer
 				, ParamsT const & ... params )
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getCtorCallParamsRec< ParamT, CountT >( shader, args, isEnabled, params... );
-				return Optional< ReturnT >{ &shader
+				getCtorCallParamsRec< ParamT, CountT >( writer, args, isEnabled, params... );
+				return Optional< ReturnT >{ writer
 					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
 						, type::getScalarType( typeEnum< ReturnT > )
 						, std::move( args ) )
@@ -251,17 +251,17 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getCtorCall( Shader & shader
+	inline ReturnT getCtorCall( ShaderWriter & writer
 		, ParamsT const & ... params )
 	{
-		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( shader, params... );
+		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( writer, params... );
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Optional< ReturnT > getOptCtorCall( Shader & shader
+	inline Optional< ReturnT > getOptCtorCall( ShaderWriter & writer
 		, ParamsT const & ... params )
 	{
-		return details::CtorCallGetter< Optional< ReturnT >, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( shader, params... );
+		return details::CtorCallGetter< Optional< ReturnT >, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( writer, params... );
 	}
 
 	//***********************************************************************************************
@@ -272,16 +272,16 @@ namespace sdw
 		struct FunctionCallGetter
 		{
 			template< typename ... ParamsT >
-			static inline ReturnT submit( Shader & shader
+			static inline ReturnT submit( ShaderWriter & writer
 				, ast::type::FunctionPtr type
 				, std::string const & name
 				, ParamsT const & ... params )
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getFunctionCallParamsRec( shader, args, isEnabled, params... );
-				auto & cache = getTypesCache( shader );
-				return ReturnT{ &shader
+				getFunctionCallParamsRec( writer, args, isEnabled, params... );
+				auto & cache = getTypesCache( writer );
+				return ReturnT{ writer
 					, sdw::makeFnCall( ReturnT::makeType( cache )
 						, sdw::makeIdent( cache, var::makeFunction( type, name ) )
 						, std::move( args ) ) };
@@ -292,16 +292,16 @@ namespace sdw
 		struct FunctionCallGetter< Optional< ReturnT > >
 		{
 			template< typename ... ParamsT >
-			static inline Optional< ReturnT > submit( Shader & shader
+			static inline Optional< ReturnT > submit( ShaderWriter & writer
 				, ast::type::FunctionPtr type
 				, std::string const & name
 				, ParamsT const & ... params )
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getFunctionCallParamsRec( shader, args, isEnabled, params... );
-				auto & cache = getTypesCache( shader );
-				return Optional< ReturnT >{ &shader
+				getFunctionCallParamsRec( writer, args, isEnabled, params... );
+				auto & cache = getTypesCache( writer );
+				return Optional< ReturnT >{ writer
 					, sdw::makeFnCall( ReturnT::makeType( cache )
 						, sdw::makeIdent( cache, var::makeFunction( type, name ) )
 						, std::move( args ) )
@@ -311,24 +311,24 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getFunctionCall( Shader & shader
+	inline ReturnT getFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params )
 	{
-		return details::FunctionCallGetter< ReturnT >::submit( shader
+		return details::FunctionCallGetter< ReturnT >::submit( writer
 			, type
 			, name
 			, params... );
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Optional< ReturnT > getOptFunctionCall( Shader & shader
+	inline Optional< ReturnT > getOptFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params )
 	{
-		return details::FunctionCallGetter< Optional< ReturnT > >::submit( shader
+		return details::FunctionCallGetter< Optional< ReturnT > >::submit( writer
 			, type
 			, name
 			, params... );
@@ -375,23 +375,23 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline stmt::FunctionDeclPtr getFunctionHeader( Shader & shader
+	inline stmt::FunctionDeclPtr getFunctionHeader( ShaderWriter & writer
 		, ast::var::VariableList & args
 		, std::string const & name
 		, ParamsT && ... params )
 	{
-		auto & cache = getTypesCache( shader );
+		auto & cache = getTypesCache( writer );
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 		return stmt::makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
 			, name );
 	}
 
 	template<>
-	inline stmt::FunctionDeclPtr getFunctionHeader< void >( Shader & shader
+	inline stmt::FunctionDeclPtr getFunctionHeader< void >( ShaderWriter & writer
 		, ast::var::VariableList & args
 		, std::string const & name )
 	{
-		auto & cache = getTypesCache( shader );
+		auto & cache = getTypesCache( writer );
 		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), args )
 			, name );
 	}
@@ -403,7 +403,7 @@ namespace sdw
 		template< typename ReturnT >
 		struct StmtAdder
 		{
-			static inline void submit( Shader & shader, ReturnT const & result )
+			static inline void submit( ShaderWriter & writer, ReturnT const & result )
 			{
 			}
 		};
@@ -411,9 +411,9 @@ namespace sdw
 		template<>
 		struct StmtAdder< Void >
 		{
-			static inline void submit( Shader & shader, Void const & result )
+			static inline void submit( ShaderWriter & writer, Void const & result )
 			{
-				sdw::addStmt( shader, sdw::makeSimple( sdw::makeExpr( shader, result ) ) );
+				sdw::addStmt( writer, sdw::makeSimple( sdw::makeExpr( writer, result ) ) );
 			}
 		};
 	}
@@ -421,10 +421,11 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Function< ReturnT, ParamsT... >::Function( Shader * shader
+	inline Function< ReturnT, ParamsT... >::Function( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string const & name )
-		: m_shader{ shader }
+		: m_writer{ &writer }
+		, m_shader{ &getShader( *m_writer ) }
 		, m_type{ type }
 		, m_name{ name }
 	{
@@ -434,7 +435,7 @@ namespace sdw
 	inline ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
-		return getFunctionCall< ReturnT >( *m_shader
+		return getFunctionCall< ReturnT >( *m_writer
 			, m_type
 			, m_name
 			, std::forward< ParamsT >( params )... );

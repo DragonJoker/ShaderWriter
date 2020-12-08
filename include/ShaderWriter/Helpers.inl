@@ -43,7 +43,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline expr::ExprPtr makeConstExpr( Shader const & shader
+	inline expr::ExprPtr makeConstExpr( ShaderWriter const & shader
 		, T const & value
 		, bool force )
 	{
@@ -58,7 +58,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	expr::ExprList makeExpr( Shader const & shader
+	expr::ExprList makeExpr( ShaderWriter const & shader
 		, std::vector< T > const & values
 		, bool force )
 	{
@@ -73,7 +73,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline expr::ExprList makeConstExpr( Shader const & shader
+	inline expr::ExprList makeConstExpr( ShaderWriter const & shader
 		, std::vector< T > const & values
 		, bool force )
 	{

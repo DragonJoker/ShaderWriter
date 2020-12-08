@@ -6,9 +6,9 @@ namespace sdw
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT >::ArithmeticValue( Shader * shader
+	ArithmeticValue< KindT >::ArithmeticValue( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 		assert( this->getType()->getKind() == KindT );
 	}
@@ -27,7 +27,7 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	ArithmeticValue< KindT >::ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs )
-		: Value{ &sdw::getShader( sdw::getCurrentWriter() ), makeExpr( sdw::getShader( sdw::getCurrentWriter() ), rhs ) }
+		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ) }
 	{
 		assert( this->getType()->getKind() == KindT );
 	}
@@ -110,9 +110,9 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	expr::ExprPtr ArithmeticValue< KindT >::makeCondition()const
 	{
-		auto & shader = *findShader( *this );
-		return sdw::makeNEqual( makeExpr( shader, *this )
-			, makeExpr( shader, CppTypeT< ArithmeticValue< KindT > >{} ) );
+		auto & writer = *findWriter( *this );
+		return sdw::makeNEqual( makeExpr( writer, *this )
+			, makeExpr( writer, CppTypeT< ArithmeticValue< KindT > >{} ) );
 	}
 
 	template< ast::type::Kind KindT >

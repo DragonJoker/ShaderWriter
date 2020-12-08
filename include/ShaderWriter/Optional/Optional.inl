@@ -30,7 +30,7 @@ namespace sdw
 		template< typename TypeT >
 		struct TypeGetter
 		{
-			static inline ast::type::TypePtr get( Shader & shader, TypeT const & value )
+			static inline ast::type::TypePtr get( ShaderWriter & writer, TypeT const & value )
 			{
 				return value.getType();
 			}
@@ -39,53 +39,53 @@ namespace sdw
 		template<>
 		struct TypeGetter< int32_t >
 		{
-			static inline ast::type::TypePtr get( Shader & shader, int32_t )
+			static inline ast::type::TypePtr get( ShaderWriter & writer, int32_t )
 			{
-				return getTypesCache( shader ).getInt();
+				return getTypesCache( writer ).getInt();
 			}
 		};
 
 		template<>
 		struct TypeGetter< uint32_t >
 		{
-			static inline ast::type::TypePtr get( Shader & shader, uint32_t )
+			static inline ast::type::TypePtr get( ShaderWriter & writer, uint32_t )
 			{
-				return getTypesCache( shader ).getUInt();
+				return getTypesCache( writer ).getUInt();
 			}
 		};
 
 		template<>
 		struct TypeGetter< float >
 		{
-			static inline ast::type::TypePtr get( Shader & shader, float )
+			static inline ast::type::TypePtr get( ShaderWriter & writer, float )
 			{
-				return getTypesCache( shader ).getFloat();
+				return getTypesCache( writer ).getFloat();
 			}
 		};
 
 		template<>
 		struct TypeGetter< double >
 		{
-			static inline ast::type::TypePtr get( Shader & shader, double )
+			static inline ast::type::TypePtr get( ShaderWriter & writer, double )
 			{
-				return getTypesCache( shader ).getDouble();
+				return getTypesCache( writer ).getDouble();
 			}
 		};
 
 		template< typename TypeT >
-		inline ast::type::TypePtr getType( Shader & shader, TypeT const & value )
+		inline ast::type::TypePtr getType( ShaderWriter & writer, TypeT const & value )
 		{
-			return TypeGetter< TypeT >::get( shader, value );
+			return TypeGetter< TypeT >::get( writer, value );
 		}
 	}
 
 	//*************************************************************************
 
 	template< typename ValueT >
-	Optional< ValueT >::Optional( Shader * shader
+	Optional< ValueT >::Optional( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: ValueT{ shader, std::move( expr ) }
+		: ValueT{ writer, std::move( expr ) }
 		, m_enabled{ enabled }
 	{
 	}
@@ -217,17 +217,17 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename T >
-	inline expr::ExprPtr makeExpr( Shader & shader
+	inline expr::ExprPtr makeExpr( ShaderWriter & writer
 		, Optional< T > const & value
 		, bool force )
 	{
 		if ( value.isEnabled() || force )
 		{
-			return makeExpr( shader
+			return makeExpr( writer
 				, static_cast< T const & >( value ) );
 		}
 
-		return getDummyExpr( shader, value.getType() );
+		return getDummyExpr( writer, value.getType() );
 	}
 
 	template< typename T >
@@ -255,9 +255,9 @@ namespace sdw
 	inline Optional< ReturnT > writeUnOperator( Optional< OperandT > const & operand
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( operand );
-		return Optional< ReturnT >{ &shader
-			, creator( makeExpr( shader, operand ) )
+		ShaderWriter & writer = *findWriter( operand );
+		return Optional< ReturnT >{ writer
+			, creator( makeExpr( writer, operand ) )
 			, operand.isEnabled() };
 	}
 
@@ -268,11 +268,11 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
-		return Optional< ReturnT >{ &shader
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		return Optional< ReturnT >{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs, true )
-				, makeExpr( shader, rhs ) )
+				, makeExpr( writer, lhs, true )
+				, makeExpr( writer, rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
@@ -281,11 +281,11 @@ namespace sdw
 		, Optional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
-		return Optional< ReturnT >{ &shader
+		ShaderWriter & writer = *findWriter( lhs, rhs );
+		return Optional< ReturnT >{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs )
-				, makeExpr( shader, rhs, true ) )
+				, makeExpr( writer, lhs )
+				, makeExpr( writer, rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 
@@ -294,11 +294,11 @@ namespace sdw
 		, Optional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
-		return Optional< ReturnT >{ &shader
+		auto & writer = *findWriter( lhs, rhs );
+		return Optional< ReturnT >{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs, true )
-				, makeExpr( shader, rhs, true ) )
+				, makeExpr( writer, lhs, true )
+				, makeExpr( writer, rhs, true ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}
 

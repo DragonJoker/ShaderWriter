@@ -13,7 +13,7 @@ namespace sdw
 	struct Boolean
 		: public Value
 	{
-		SDW_API Boolean( Shader * shader
+		SDW_API Boolean( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		SDW_API Boolean( Boolean && rhs );
 		SDW_API Boolean( Boolean const & rhs );

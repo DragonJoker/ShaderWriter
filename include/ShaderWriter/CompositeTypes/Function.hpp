@@ -45,27 +45,27 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getCtorCall( Shader & shader
+	inline ReturnT getCtorCall( ShaderWriter & writer
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Optional< ReturnT > getOptCtorCall( Shader & shader
+	inline Optional< ReturnT > getOptCtorCall( ShaderWriter & writer
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getFunctionCall( Shader & shader
+	inline ReturnT getFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Optional< ReturnT > getOptFunctionCall( Shader & shader
+	inline Optional< ReturnT > getOptFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline stmt::FunctionDeclPtr getFunctionHeader( Shader & shader
+	inline stmt::FunctionDeclPtr getFunctionHeader( ShaderWriter & writer
 		, ast::var::VariableList & args
 		, std::string const & name
 		, ParamsT && ... params );
@@ -77,13 +77,14 @@ namespace sdw
 	{
 	public:
 		inline Function() = default;
-		inline Function( Shader * shader
+		inline Function( ShaderWriter & writer
 			, ast::type::FunctionPtr type
 			, std::string const & name );
 		inline ReturnT operator()( ParamsT && ... params )const;
 		inline operator bool()const;
 
 	private:
+		mutable ShaderWriter * m_writer{ nullptr };
 		mutable Shader * m_shader{ nullptr };
 		ast::type::FunctionPtr m_type;
 		std::string m_name;

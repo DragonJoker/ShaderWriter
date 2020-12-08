@@ -14,7 +14,8 @@ namespace sdw
 		, uint32_t bind
 		, uint32_t set
 		, ast::type::MemoryLayout layout )
-		: m_shader{ writer.getShader() }
+		: m_writer{ writer }
+		, m_shader{ m_writer.getShader() }
 		, m_name{ name }
 		, m_interface{ writer.getTypesCache(), layout, name + "Block" }
 		, m_info{ m_interface.getType(), bind, set }
@@ -33,10 +34,10 @@ namespace sdw
 		, Struct const & s )
 	{
 		auto type = m_interface.registerMember( name, s.getType() );
-		auto var = registerMember( m_shader, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
-		return StructInstance{ &m_shader
-			, makeExpr( m_shader, var ) };
+		return StructInstance{ m_writer
+			, makeExpr( m_writer, var ) };
 	}
 
 	Array< StructInstance > Ssbo::declStructMember( std::string const & name
@@ -44,9 +45,9 @@ namespace sdw
 		, uint32_t dimension )
 	{
 		auto type = m_interface.registerMember( name, s.getType(), dimension );
-		auto var = registerMember( m_shader, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, name, type );
 		m_stmt->add( stmt::makeVariableDecl( var ) );
-		return Array< StructInstance >{ &m_shader
-			, makeExpr( m_shader, var ) };
+		return Array< StructInstance >{ m_writer
+			, makeExpr( m_writer, var ) };
 	}
 }

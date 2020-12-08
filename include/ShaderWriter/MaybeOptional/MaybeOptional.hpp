@@ -16,9 +16,9 @@ namespace sdw
 		using MyValue = ValueT;
 
 	public:
-		inline MaybeOptional( Shader * shader
+		inline MaybeOptional( ShaderWriter & writer
 			, expr::ExprPtr expr );
-		inline MaybeOptional( Shader * shader
+		inline MaybeOptional( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 		inline MaybeOptional( MyValue const & rhs );

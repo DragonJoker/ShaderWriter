@@ -17,8 +17,7 @@ namespace sdw
 	struct PerVertex
 		: public Value
 	{
-		SDW_API PerVertex();
-		SDW_API PerVertex( ast::Shader * shader
+		SDW_API PerVertex( ShaderWriter & writer
 			, ast::expr::ExprPtr expr );
 		SDW_API PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );

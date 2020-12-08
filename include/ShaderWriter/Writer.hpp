@@ -807,18 +807,17 @@ namespace sdw
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	{\
 		auto & writerInt = ( Writer );\
-		auto & shaderInt = writerInt.getShader();\
 		writerInt.pushScope();\
-		auto ctrlVar##Name = writerInt.registerLoopVar( #Name, Type::makeType( shaderInt.getTypesCache() ) );\
-		Type Name{ &shaderInt, sdw::makeExpr( shaderInt, ctrlVar##Name ) };\
+		auto ctrlVar##Name = writerInt.registerLoopVar( #Name, Type::makeType( writerInt.getTypesCache() ) );\
+		Type Name{ writerInt, sdw::makeExpr( writerInt, ctrlVar##Name ) };\
 		writerInt.saveNextExpr();\
-		Type incr##Name{ &shaderInt, writerInt.loadExpr( Type{ Incr } ) };\
-		Name.updateExpr( sdw::makeExpr( shaderInt, ctrlVar##Name ) );\
-		sdw::Boolean cond##Name{ &shaderInt, sdw::makeCondition( Cond ) };\
+		Type incr##Name{ writerInt, writerInt.loadExpr( Type{ Incr } ) };\
+		Name.updateExpr( sdw::makeExpr( writerInt, ctrlVar##Name ) );\
+		sdw::Boolean cond##Name{ writerInt, sdw::makeCondition( Cond ) };\
 		writerInt.forStmt( sdw::makeInit( ctrlVar##Name\
-			, sdw::makeExpr( shaderInt, Init ) )\
-			, sdw::makeExpr( shaderInt, cond##Name )\
-			, sdw::makeExpr( shaderInt, incr##Name )\
+			, sdw::makeExpr( writerInt, Init ) )\
+			, sdw::makeExpr( writerInt, cond##Name )\
+			, sdw::makeExpr( writerInt, incr##Name )\
 			, [&]()
 
 #define ROF\
@@ -856,18 +855,17 @@ namespace sdw
 
 #define TERNARY( Writer, ExprType, Condition, Left, Right )\
 	( Writer ).ternary< ExprType >( sdw::makeCondition( Condition )\
-		, sdw::makeExpr( Writer.getShader(), Left )\
-		, sdw::makeExpr( Writer.getShader(), Right ) )
+		, sdw::makeExpr( Writer, Left )\
+		, sdw::makeExpr( Writer, Right ) )
 
 #define SWITCH( Writer, Value )\
 	{\
 		auto & writer_int = ( Writer );\
-		auto & shader_int = writer_int.getShader();\
-		writer_int.switchStmt( sdw::makeExpr( shader_int, Value )\
+		writer_int.switchStmt( sdw::makeExpr( writer_int, Value )\
 			, [&]()
 
 #define CASE( Literal )\
-			writer_int.caseStmt( sdw::makeLiteral( shader_int, Literal )\
+			writer_int.caseStmt( sdw::makeLiteral( writer_int, Literal )\
 				, [&]()
 
 #define ESAC\

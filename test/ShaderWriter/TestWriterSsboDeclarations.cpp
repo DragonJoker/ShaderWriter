@@ -28,7 +28,7 @@ namespace
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementFunction< sdw::Void >( "main", [&]()
 				{
-					retrieved = test::getDefault< T >( writer.getShader() );
+					retrieved = test::getDefault< T >( writer );
 				} );
 			test::writeShader( writer, testCounts, true, false );
 		}
@@ -53,7 +53,7 @@ namespace
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementFunction< sdw::Void >( "main", [&]()
 				{
-					retrieved[0] = test::getDefault< T >( writer.getShader() );
+					retrieved[0] = test::getDefault< T >( writer );
 				} );
 			test::writeShader( writer, testCounts, true, false );
 		}
@@ -78,7 +78,7 @@ namespace
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementFunction< sdw::Void >( "main", [&]()
 				{
-					retrieved[0] = test::getDefault< T >( writer.getShader() );
+					retrieved[0] = test::getDefault< T >( writer );
 				} );
 			test::writeShader( writer, testCounts, true, false );
 		}

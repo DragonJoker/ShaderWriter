@@ -14,7 +14,7 @@ namespace sdw
 		: public Value
 	{
 	public:
-		SDW_API StructInstance( Shader * shader
+		SDW_API StructInstance( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		SDW_API StructInstance & operator=( StructInstance const & rhs );
 

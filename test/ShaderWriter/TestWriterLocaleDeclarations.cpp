@@ -34,7 +34,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ) );
+					auto value = writer.declLocale< T >( name, test::getDefault< T >( writer ) );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -70,7 +70,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ) );
+					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ) );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 3u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -106,7 +106,7 @@ namespace
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
-					auto value = writer.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( shader ), false } );
+					auto value = writer.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( writer ), false } );
 					check( !value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -124,7 +124,7 @@ namespace
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
-					auto value = writer.declLocale< T >( "value", test::getDefault< T >( shader ), false );
+					auto value = writer.declLocale< T >( "value", test::getDefault< T >( writer ), false );
 					check( !value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -160,7 +160,7 @@ namespace
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
-					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( shader, 3u ), false );
+					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ), false );
 					check( !value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 3u );
@@ -197,7 +197,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( shader ), true } );
+					auto value = writer.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( writer ), true } );
 					check( value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -216,7 +216,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocale< T >( name, test::getDefault< T >( shader ), true );
+					auto value = writer.declLocale< T >( name, test::getDefault< T >( writer ), true );
 					check( value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -254,7 +254,7 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( shader, 3u ), true );
+					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ), true );
 					check( value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == 3u );

@@ -58,19 +58,19 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename ValueT >
-	inline MaybeOptional< ValueT >::MaybeOptional( Shader * shader
+	inline MaybeOptional< ValueT >::MaybeOptional( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: ValueT{ shader, std::move( expr ) }
+		: ValueT{ writer, std::move( expr ) }
 		, m_optional{ false }
 		, m_enabled{ true }
 	{
 	}
 
 	template< typename ValueT >
-	inline MaybeOptional< ValueT >::MaybeOptional( Shader * shader
+	inline MaybeOptional< ValueT >::MaybeOptional( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: ValueT{ shader, std::move( expr ) }
+		: ValueT{ writer, std::move( expr ) }
 		, m_optional{ true }
 		, m_enabled{ enabled }
 	{
@@ -187,14 +187,14 @@ namespace sdw
 	inline expr::ExprPtr makeExpr( MaybeOptional< ValueT > const & value
 		, bool force )
 	{
-		auto & shader = *findShader( value );
+		ShaderWriter & writer = *findWriter( value );
 
 		if ( value.isEnabled() || force )
 		{
-			return makeExpr( shader, static_cast< ValueT const & >( value ) );
+			return makeExpr( writer, static_cast< ValueT const & >( value ) );
 		}
 
-		return getDummyExpr( shader, value.getType() );
+		return getDummyExpr( writer, value.getType() );
 	}
 
 	//*************************************************************************
@@ -203,17 +203,17 @@ namespace sdw
 	inline MaybeOptional< ReturnT > writeUnOperator( MaybeOptional< OperandT > const & operand
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( operand );
+		ShaderWriter & writer = *findWriter( operand );
 
 		if ( isAnyOptional( operand ) )
 		{
-			return MaybeOptional< ReturnT >{ &shader
-				, creator( makeExpr( shader, operand ) )
+			return MaybeOptional< ReturnT >{ writer
+				, creator( makeExpr( writer, operand ) )
 				, operand.isEnabled() };
 		}
 
-		return ReturnT{ &shader
-			, creator( makeExpr( shader, operand ) ) };
+		return ReturnT{ writer
+			, creator( makeExpr( writer, operand ) ) };
 	}
 
 	//*************************************************************************
@@ -223,21 +223,21 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< ReturnT >{ &shader
+			return MaybeOptional< ReturnT >{ writer
 				, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( shader, lhs, true )
-					, makeExpr( shader, rhs ) )
+					, makeExpr( writer, lhs, true )
+					, makeExpr( writer, rhs ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return ReturnT{ &shader
+		return ReturnT{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs, true )
-				, makeExpr( shader, rhs ) ) };
+				, makeExpr( writer, lhs, true )
+				, makeExpr( writer, rhs ) ) };
 	}
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
@@ -245,21 +245,21 @@ namespace sdw
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< ReturnT >{ &shader
+			return MaybeOptional< ReturnT >{ writer
 				, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( shader, lhs )
-					, makeExpr( shader, rhs, true ) )
+					, makeExpr( writer, lhs )
+					, makeExpr( writer, rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return ReturnT{ &shader
+		return ReturnT{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs )
-				, makeExpr( shader, rhs, true ) ) };
+				, makeExpr( writer, lhs )
+				, makeExpr( writer, rhs, true ) ) };
 	}
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
@@ -267,21 +267,21 @@ namespace sdw
 		, MaybeOptional< RhsT > const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
+		ShaderWriter & writer = *findWriter( lhs, rhs );
 
 		if ( isAnyOptional( lhs, rhs ) )
 		{
-			return MaybeOptional< ReturnT >{ &shader
+			return MaybeOptional< ReturnT >{ writer
 				, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-					, makeExpr( shader, lhs, true )
-					, makeExpr( shader, rhs, true ) )
+					, makeExpr( writer, lhs, true )
+					, makeExpr( writer, rhs, true ) )
 				, areOptionalEnabled( lhs, rhs ) };
 		}
 
-		return ReturnT{ &shader
+		return ReturnT{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs, true )
-				, makeExpr( shader, rhs, true ) ) };
+				, makeExpr( writer, lhs, true )
+				, makeExpr( writer, rhs, true ) ) };
 	}
 
 	//*************************************************************************
@@ -293,21 +293,21 @@ namespace sdw
 	{
 		if ( areOptionalEnabled( lhs, rhs ) )
 		{
-			Shader & shader = *findShader( lhs, rhs );
-			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( shader, lhs, true );
-			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( shader, rhs, true );
-			ast::type::TypePtr lhsType = details::getType( shader, lhs );
-			ast::type::TypePtr rhsType = details::getType( shader, rhs );
+			ShaderWriter & writer = *findWriter( lhs, rhs );
+			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
+			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
+			ast::type::TypePtr lhsType = details::getType( writer, lhs );
+			ast::type::TypePtr rhsType = details::getType( writer, rhs );
 
 			if ( rhsType != lhsType )
 			{
 				rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 			}
 
-			addStmt( shader
-				, sdw::makeSimple( creator( ReturnT::makeType( getTypesCache( shader ) )
-					, makeExpr( shader, lhs )
-					, makeExpr( shader, rhs ) ) ) );
+			addStmt( writer
+				, sdw::makeSimple( creator( ReturnT::makeType( getTypesCache( writer ) )
+					, makeExpr( writer, lhs )
+					, makeExpr( writer, rhs ) ) ) );
 		}
 	}
 

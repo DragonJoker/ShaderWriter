@@ -10,22 +10,24 @@ namespace sdw
 	Struct::Struct( ShaderWriter & writer
 		, std::string name
 		, type::MemoryLayout layout )
-		: m_shader{ &writer.getShader() }
+		: m_writer{ &writer }
+		, m_shader{ &m_writer->getShader() }
 		, m_type{ writer.getTypesCache().getStruct( layout, std::move( name ) ) }
 	{
 	}
 
 	Struct::Struct( ShaderWriter & writer
 		, ast::type::StructPtr type )
-		: m_shader{ &writer.getShader() }
+		: m_writer{ &writer }
+		, m_shader{ &m_writer->getShader() }
 		, m_type{ std::move( type ) }
 	{
-		addStmt( *m_shader, sdw::makeStructDecl( m_type ) );
+		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
 	}
 
 	void Struct::end()
 	{
-		addStmt( *m_shader, sdw::makeStructDecl( m_type ) );
+		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
 	}
 
 	void Struct::declMember( std::string name
