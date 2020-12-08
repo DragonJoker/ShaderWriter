@@ -8,8 +8,8 @@ namespace sdw
 	template< typename ValueT >
 	Param< ValueT >::Param( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: ValueT{ writer
+			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eParam ) ) }
@@ -33,7 +33,7 @@ namespace sdw
 	template< typename ValueT >
 	void Param< ValueT >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 	
@@ -42,8 +42,8 @@ namespace sdw
 	template< typename ValueT >
 	InParam< ValueT >::InParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: ValueT{ writer
+			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eInputParam ) ) }
@@ -67,7 +67,7 @@ namespace sdw
 	template< typename ValueT >
 	void InParam< ValueT >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 
@@ -76,8 +76,8 @@ namespace sdw
 	template< typename ValueT >
 	OutParam< ValueT >::OutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: ValueT{ writer
+			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eOutputParam ) ) }
@@ -101,7 +101,7 @@ namespace sdw
 	template< typename ValueT >
 	void OutParam< ValueT >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 
@@ -110,8 +110,8 @@ namespace sdw
 	template< typename ValueT >
 	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
 		, std::string name )
-		: ValueT{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: ValueT{ writer
+			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
 					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
@@ -135,7 +135,7 @@ namespace sdw
 	template< typename ValueT >
 	void InOutParam< ValueT >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 	
@@ -145,8 +145,8 @@ namespace sdw
 	Param< Array< ValueT > >::Param( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: Array< ValueT >{ writer
+			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eParam ) ) }
@@ -170,7 +170,7 @@ namespace sdw
 	template< typename ValueT >
 	void Param< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 	
@@ -180,8 +180,8 @@ namespace sdw
 	InParam< Array< ValueT > >::InParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: Array< ValueT >{ writer
+			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eInputParam ) ) }
@@ -205,7 +205,7 @@ namespace sdw
 	template< typename ValueT >
 	void InParam< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 
@@ -215,8 +215,8 @@ namespace sdw
 	OutParam< Array< ValueT > >::OutParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: Array< ValueT >{ writer
+			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eOutputParam ) ) }
@@ -240,7 +240,7 @@ namespace sdw
 	template< typename ValueT >
 	void OutParam< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 
@@ -250,8 +250,8 @@ namespace sdw
 	InOutParam< Array< ValueT > >::InOutParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize )
-		: Array< ValueT >{ &sdw::getShader( writer )
-			, makeExpr( sdw::getShader( writer )
+		: Array< ValueT >{ writer
+			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
 					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
@@ -275,7 +275,7 @@ namespace sdw
 	template< typename ValueT >
 	void InOutParam< Array< ValueT > >::setVar( var::VariableList::const_iterator & var )
 	{
-		this->updateExpr( makeExpr( *this->getShader(), *var ) );
+		this->updateExpr( makeExpr( *this->getWriter(), *var ) );
 		++var;
 	}
 

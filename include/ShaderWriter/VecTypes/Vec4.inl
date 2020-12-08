@@ -6,15 +6,15 @@ namespace sdw
 	//*********************************************************************************************
 
 	template< typename ValueT >
-	inline Vec4T< ValueT >::Vec4T( Shader * shader
+	inline Vec4T< ValueT >::Vec4T( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 	}
 
 	template< typename ValueT >
 	Vec4T< ValueT >::Vec4T( Vec4T const & rhs )
-		: Value{ rhs.getShader(), makeExpr( *findShader( *this, rhs ), rhs ) }
+		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ) }
 	{
 	}
 

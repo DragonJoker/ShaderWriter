@@ -73,9 +73,9 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	stmt::Container * getContainer( Shader & shader )
+	stmt::Container * getContainer( ShaderWriter & writer )
 	{
-		return shader.getContainer();
+		return writer.getShader().getContainer();
 	}
 
 	ShaderWriter & getCurrentWriter()
@@ -109,208 +109,208 @@ namespace sdw
 		return writer.getShader();
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, bool value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return expr::makeLiteral( writer.getTypesCache(), value );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int32_t value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return expr::makeLiteral( writer.getTypesCache(), value );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int64_t value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), int32_t( value ) );
+		return expr::makeLiteral( writer.getTypesCache(), int32_t( value ) );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint32_t value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return expr::makeLiteral( writer.getTypesCache(), value );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint64_t value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), uint32_t( value ) );
+		return expr::makeLiteral( writer.getTypesCache(), uint32_t( value ) );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, float value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return expr::makeLiteral( writer.getTypesCache(), value );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, double value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), value );
+		return expr::makeLiteral( writer.getTypesCache(), value );
 	}
 
-	expr::LiteralPtr makeLiteral( Shader const & shader
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, long double value )
 	{
-		return expr::makeLiteral( shader.getTypesCache(), double( value ) );
+		return expr::makeLiteral( writer.getTypesCache(), double( value ) );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, var::VariablePtr const & var
 		, bool force )
 	{
-		return expr::makeIdentifier( shader.getTypesCache(), var );
+		return expr::makeIdentifier( writer.getTypesCache(), var );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, bool value
 		, bool force )
 	{
-		return makeLiteral( shader, value );
+		return makeLiteral( writer, value );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int32_t value
 		, bool force )
 	{
-		return makeLiteral( shader, value );
+		return makeLiteral( writer, value );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int64_t value
 		, bool force )
 	{
-		return makeLiteral( shader, int32_t( value ) );
+		return makeLiteral( writer, int32_t( value ) );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint32_t value
 		, bool force )
 	{
-		return makeLiteral( shader, value );
+		return makeLiteral( writer, value );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint64_t value
 		, bool force )
 	{
-		return makeLiteral( shader, uint32_t( value ) );
+		return makeLiteral( writer, uint32_t( value ) );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, float value
 		, bool force )
 	{
-		return makeLiteral( shader, value );
+		return makeLiteral( writer, value );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, double value
 		, bool force )
 	{
-		return makeLiteral( shader, value );
+		return makeLiteral( writer, value );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, long double value
 		, bool force )
 	{
-		return makeLiteral( shader, double( value ) );
+		return makeLiteral( writer, double( value ) );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, expr::ExprPtr const & expr
 		, bool force )
 	{
 		return ExprCloner::submit( expr );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, expr::Expr * expr
 		, bool force )
 	{
 		return ExprCloner::submit( expr );
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, bool value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int32_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int64_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, uint32_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, uint64_t value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, float value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, double value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, long double value )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, value ) );
+		result.emplace_back( makeExpr( writer, value ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, expr::ExprPtr const & expr )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, expr ) );
+		result.emplace_back( makeExpr( writer, expr ) );
 		return result;
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, expr::Expr * expr )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader, expr ) );
+		result.emplace_back( makeExpr( writer, expr ) );
 		return result;
 	}
 
@@ -840,41 +840,47 @@ namespace sdw
 		shader.addStmt( std::move( stmt ) );
 	}
 
+	void addStmt( ShaderWriter & writer
+		, stmt::StmtPtr stmt )
+	{
+		addStmt( writer.getShader(), std::move( stmt ) );
+	}
+
 	void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt )
 	{
 		container.addStmt( std::move( stmt ) );
 	}
 
-	var::VariablePtr registerName( Shader & shader
+	var::VariablePtr registerName( ShaderWriter & writer
 		, std::string const & name
 		, type::TypePtr type )
 	{
-		return shader.registerName( name
+		return writer.getShader().registerName( name
 			, type );
 	}
 
-	var::VariablePtr registerMember( Shader & shader
+	var::VariablePtr registerMember( ShaderWriter & writer
 		, var::VariablePtr outer
 		, std::string const & name
 		, type::TypePtr type )
 	{
-		return shader.registerMember( outer
+		return writer.getShader().registerMember( outer
 			, name
 			, type );
 	}
 
-	SDW_API var::VariablePtr registerBlockVariable( Shader & shader
+	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
 		, std::string const & name
 		, type::TypePtr type )
 	{
-		return shader.registerBlockVariable( name
+		return writer.getShader().registerBlockVariable( name
 			, type );
 	}
 
-	var::VariablePtr getVar( Shader & shader
+	var::VariablePtr getVar( ShaderWriter & writer
 		, std::string const & name )
 	{
-		return shader.getVar( name );
+		return writer.getShader().getVar( name );
 	}
 }

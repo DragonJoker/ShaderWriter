@@ -7,90 +7,85 @@ namespace sdw
 
 	namespace details
 	{
-		inline Shader * getShader( bool const & value )
+		inline ShaderWriter * getWriter( bool const & value )
 		{
 			return nullptr;
 		}
 		
-		inline Shader * getShader( int32_t const & value )
+		inline ShaderWriter * getWriter( int32_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline Shader * getShader( int64_t const & value )
+		inline ShaderWriter * getWriter( int64_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline Shader * getShader( uint32_t const & value )
+		inline ShaderWriter * getWriter( uint32_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline Shader * getShader( uint64_t const & value )
+		inline ShaderWriter * getWriter( uint64_t const & value )
 		{
 			return nullptr;
 		}
 
-		inline Shader * getShader( float const & value )
+		inline ShaderWriter * getWriter( float const & value )
 		{
 			return nullptr;
 		}
 
-		inline Shader * getShader( double const & value )
+		inline ShaderWriter * getWriter( double const & value )
 		{
 			return nullptr;
 		}
 
-		inline Shader * getShader( long double const & value )
+		inline ShaderWriter * getWriter( long double const & value )
 		{
 			return nullptr;
 		}
 
 		template< typename ValueT >
-		inline Shader * getShader( ValueT const & value )
+		inline ShaderWriter * getWriter( ValueT const & value )
 		{
-			return value.getShader();
+			return value.getWriter();
 		}
 	}
 
 	//***********************************************************************************************
 
-	inline void findShaderRec( Shader *& result )
+	inline void findWriterRec( ShaderWriter *& result )
 	{
 	}
 
 	template< typename ValueT >
-	inline void findShaderRec( Shader *& result
+	inline void findWriterRec( ShaderWriter *& result
 		, ValueT const & last )
 	{
-		result = details::getShader( last );
+		result = details::getWriter( last );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
-	inline void findShaderRec( Shader *& result
+	inline void findWriterRec( ShaderWriter *& result
 		, ValueT const & current
 		, ValuesT const & ... values )
 	{
-		result = details::getShader( current );
+		result = details::getWriter( current );
 
 		if ( !result )
 		{
-			findShaderRec( result, values... );
+			findWriterRec( result, values... );
 		}
 	}
 
 	template< typename ... ValuesT >
-	inline Shader * findShader( ValuesT const & ... values )
+	inline ShaderWriter * findWriter( ValuesT const & ... values )
 	{
-		Shader * result{ nullptr };
-		findShaderRec( result, values... );
+		ShaderWriter * result{ nullptr };
+		findWriterRec( result, values... );
 		return result;
-	}
-
-	inline Shader * findShader( ShaderWriter const & value )
-	{
-		return &sdw::getShader( value );
 	}
 
 	//***********************************************************************************************
@@ -98,29 +93,29 @@ namespace sdw
 	namespace details
 	{
 		inline void findExprRec( ast::expr::ExprPtr & result
-			, Shader & shader )
+			, ShaderWriter & writer )
 		{
 		}
 
 		template< typename ValueT >
 		inline void findExprRec( ast::expr::ExprPtr & result
-			, Shader & shader
+			, ShaderWriter & writer
 			, ValueT const & last )
 		{
-			result = makeExpr( shader, last );
+			result = makeExpr( writer, last );
 		}
 
 		template< typename ValueT, typename ... ValuesT >
 		inline void findExprRec( ast::expr::ExprPtr & result
-			, Shader & shader
+			, ShaderWriter & writer
 			, ValueT const & current
 			, ValuesT const & ... values )
 		{
-			result = makeExpr( shader, current );
+			result = makeExpr( writer, current );
 
 			if ( !result )
 			{
-				findExprRec( result, shader, values... );
+				findExprRec( result, writer, values... );
 			}
 		}
 
@@ -128,8 +123,8 @@ namespace sdw
 		inline ast::expr::ExprPtr findExpr( ValuesT const & ... values )
 		{
 			ast::expr::ExprPtr result{ nullptr };
-			auto & shader = *findShader( values... );
-			findExprRec( result, shader, values... );
+			auto & writer = *findWriter( values... );
+			findExprRec( result, writer, values... );
 			return result;
 		}
 	}
@@ -139,11 +134,11 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values )
 	{
-		Shader * shader = findShader( values... );
+		ShaderWriter * writer = findWriter( values... );
 
-		if ( shader )
+		if ( writer )
 		{
-			return getTypesCache( *shader );
+			return getTypesCache( *writer );
 		}
 
 		auto expr = details::findExpr( values... );
@@ -161,12 +156,12 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values )
 	{
-		Shader * shader = findShader( values... );
+		ShaderWriter * writer = findWriter( values... );
 		stmt::Container * result{ nullptr };
 
-		if ( shader )
+		if ( writer )
 		{
-			result = getContainer( *shader );
+			result = getContainer( *writer );
 		}
 
 		return result;
@@ -178,9 +173,9 @@ namespace sdw
 	inline ReturnT writeUnOperator( OperandT const & operand
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( operand );
-		return ReturnT{ &shader
-			, creator( makeExpr( shader, operand ) ) };
+		auto & writer = *findWriter( operand );
+		return ReturnT{ writer
+			, creator( makeExpr( writer, operand ) ) };
 	}
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
@@ -188,11 +183,11 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		auto & shader = *findShader( lhs, rhs );
-		return ReturnT{ &shader
+		auto & writer = *findWriter( lhs, rhs );
+		return ReturnT{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
-				, makeExpr( shader, lhs )
-				, makeExpr( shader, rhs ) ) };
+				, makeExpr( writer, lhs )
+				, makeExpr( writer, rhs ) ) };
 	}
 
 	//***********************************************************************************************

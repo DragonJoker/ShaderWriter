@@ -6,10 +6,10 @@ namespace sdw
 	template< typename InstanceT >
 	InstanceT Struct::getInstance( std::string const & name )const
 	{
-		auto var = registerBlockVariable( *m_shader, name, m_type );
-		addStmt( *m_shader, sdw::makeVariableDecl( var ) );
-		return InstanceT{ m_shader
-			, makeExpr( *m_shader, var ) };
+		auto var = registerBlockVariable( *m_writer, name, m_type );
+		addStmt( *m_writer, sdw::makeVariableDecl( var ) );
+		return InstanceT{ *m_writer
+			, makeExpr( *m_writer, var ) };
 	}
 
 	template< typename T >
@@ -20,7 +20,7 @@ namespace sdw
 		static_assert( typeEnum< T > != type::Kind::eVec3B, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B, "Can't put a boolean type inside a structure" );
 		m_type->declMember( name
-			, T::makeType( getTypesCache( *m_shader ) ) );
+			, T::makeType( getTypesCache( *m_writer ) ) );
 	}
 
 	template< typename T >

@@ -13,7 +13,7 @@ namespace sdw
 	struct Optional
 		: public ValueT
 	{
-		inline Optional( Shader * shader
+		inline Optional( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 		inline Optional( ValueT const & other

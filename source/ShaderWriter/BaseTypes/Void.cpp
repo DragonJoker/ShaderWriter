@@ -8,14 +8,14 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Void::Void( Shader * shader
+	Void::Void( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool writeStmt )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 		if ( writeStmt )
 		{
-			shader->addStmt( sdw::makeSimple( makeExpr( *this ) ) );
+			getShader()->addStmt( sdw::makeSimple( makeExpr( *this ) ) );
 		}
 	}
 

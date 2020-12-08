@@ -57,20 +57,20 @@ namespace sdw
 		}
 	}
 
-	PerVertex::PerVertex( ast::Shader * shader
+	PerVertex::PerVertex( ShaderWriter & writer
 		, ast::expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
-		, position{ shader, getMbr( *this, 0u ) }
-		, pointSize{ shader, getMbr( *this, 1u ) }
-		, clipDistance{ shader, getMbr( *this, 2u ) }
-		, cullDistance{ shader, getMbr( *this, 3u ) }
+		: Value{ writer, std::move( expr ) }
+		, position{ writer, getMbr( *this, 0u ) }
+		, pointSize{ writer, getMbr( *this, 1u ) }
+		, clipDistance{ writer, getMbr( *this, 2u ) }
+		, cullDistance{ writer, getMbr( *this, 3u ) }
 	{
 	}
 
 	PerVertex::PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
-		: PerVertex{ &writer.getShader()
-			, makeExpr( writer.getShader(), var::makeVariable( getBaseType( writer.getTypesCache() ), "" ) ) }
+		: PerVertex{ writer
+			, makeExpr( writer, var::makeVariable( getBaseType( writer.getTypesCache() ), "" ) ) }
 	{
 	}
 

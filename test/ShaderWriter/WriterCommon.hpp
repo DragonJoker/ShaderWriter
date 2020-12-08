@@ -33,347 +33,353 @@ namespace test
 	}
 
 	template< typename T >
-	T getDefault( ast::Shader & shader );
+	T getDefault( sdw::ShaderWriter & writer );
 
 	template<>
-	inline sdw::Boolean getDefault< sdw::Boolean >( ast::Shader & shader )
+	inline sdw::Boolean getDefault< sdw::Boolean >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Boolean{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), true ) };
+		return sdw::Boolean{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), true ) };
 	}
 
 	template<>
-	inline sdw::Int getDefault< sdw::Int >( ast::Shader & shader )
+	inline sdw::Int getDefault< sdw::Int >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Int{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), 1 ) };
+		return sdw::Int{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1 ) };
 	}
 
 	template<>
-	inline sdw::UInt getDefault< sdw::UInt >( ast::Shader & shader )
+	inline sdw::UInt getDefault< sdw::UInt >( sdw::ShaderWriter & writer )
 	{
-		return sdw::UInt{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), 1u ) };
+		return sdw::UInt{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1u ) };
 	}
 
 	template<>
-	inline sdw::Half getDefault< sdw::Half >( ast::Shader & shader )
+	inline sdw::Half getDefault< sdw::Half >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Half{ &shader, sdw::expr::makeCast( shader.getTypesCache().getHalf()
-			, sdw::expr::makeLiteral( shader.getTypesCache(), 1.0f ) ) };
+		return sdw::Half{ writer
+			, sdw::expr::makeCast( writer.getTypesCache().getHalf()
+				, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f ) ) };
 	}
 
 	template<>
-	inline sdw::Float getDefault< sdw::Float >( ast::Shader & shader )
+	inline sdw::Float getDefault< sdw::Float >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Float{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), 1.0f ) };
+		return sdw::Float{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f ) };
 	}
 
 	template<>
-	inline sdw::Double getDefault< sdw::Double >( ast::Shader & shader )
+	inline sdw::Double getDefault< sdw::Double >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Double{ &shader, sdw::expr::makeLiteral( shader.getTypesCache(), 1.0 ) };
+		return sdw::Double{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0 ) };
 	}
 
 	template<>
-	inline sdw::Vec2 getDefault< sdw::Vec2 >( ast::Shader & shader )
+	inline sdw::Vec2 getDefault< sdw::Vec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::vec2( getDefault< sdw::Float >( shader )
-			, getDefault< sdw::Float >( shader ) );
+		return sdw::vec2( getDefault< sdw::Float >( writer )
+			, getDefault< sdw::Float >( writer ) );
 	}
 
 	template<>
-	inline sdw::Vec3 getDefault< sdw::Vec3 >( ast::Shader & shader )
+	inline sdw::Vec3 getDefault< sdw::Vec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::vec3( getDefault< sdw::Float >( shader )
-			, getDefault< sdw::Float >( shader )
-			, getDefault< sdw::Float >( shader ) );
+		return sdw::vec3( getDefault< sdw::Float >( writer )
+			, getDefault< sdw::Float >( writer )
+			, getDefault< sdw::Float >( writer ) );
 	}
 
 	template<>
-	inline sdw::Vec4 getDefault< sdw::Vec4 >( ast::Shader & shader )
+	inline sdw::Vec4 getDefault< sdw::Vec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::vec4( getDefault< sdw::Float >( shader )
-			, getDefault< sdw::Float >( shader )
-			, getDefault< sdw::Float >( shader )
-			, getDefault< sdw::Float >( shader ) );
+		return sdw::vec4( getDefault< sdw::Float >( writer )
+			, getDefault< sdw::Float >( writer )
+			, getDefault< sdw::Float >( writer )
+			, getDefault< sdw::Float >( writer ) );
 	}
 
 	template<>
-	inline sdw::DVec2 getDefault< sdw::DVec2 >( ast::Shader & shader )
+	inline sdw::DVec2 getDefault< sdw::DVec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dvec2( getDefault< sdw::Double >( shader )
-			, getDefault< sdw::Double >( shader ) );
+		return sdw::dvec2( getDefault< sdw::Double >( writer )
+			, getDefault< sdw::Double >( writer ) );
 	}
 
 	template<>
-	inline sdw::DVec3 getDefault< sdw::DVec3 >( ast::Shader & shader )
+	inline sdw::DVec3 getDefault< sdw::DVec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dvec3( getDefault< sdw::Double >( shader )
-			, getDefault< sdw::Double >( shader )
-			, getDefault< sdw::Double >( shader ) );
+		return sdw::dvec3( getDefault< sdw::Double >( writer )
+			, getDefault< sdw::Double >( writer )
+			, getDefault< sdw::Double >( writer ) );
 	}
 
 	template<>
-	inline sdw::DVec4 getDefault< sdw::DVec4 >( ast::Shader & shader )
+	inline sdw::DVec4 getDefault< sdw::DVec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dvec4( getDefault< sdw::Double >( shader )
-			, getDefault< sdw::Double >( shader )
-			, getDefault< sdw::Double >( shader )
-			, getDefault< sdw::Double >( shader ) );
+		return sdw::dvec4( getDefault< sdw::Double >( writer )
+			, getDefault< sdw::Double >( writer )
+			, getDefault< sdw::Double >( writer )
+			, getDefault< sdw::Double >( writer ) );
 	}
 
 	template<>
-	inline sdw::HVec2 getDefault< sdw::HVec2 >( ast::Shader & shader )
+	inline sdw::HVec2 getDefault< sdw::HVec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::f16vec2( getDefault< sdw::Vec2 >( shader ) );
+		return sdw::f16vec2( getDefault< sdw::Vec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::HVec4 getDefault< sdw::HVec4 >( ast::Shader & shader )
+	inline sdw::HVec4 getDefault< sdw::HVec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::f16vec4( getDefault< sdw::Vec4 >( shader ) );
+		return sdw::f16vec4( getDefault< sdw::Vec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::BVec2 getDefault< sdw::BVec2 >( ast::Shader & shader )
+	inline sdw::BVec2 getDefault< sdw::BVec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::bvec2( getDefault< sdw::Boolean >( shader )
-			, getDefault< sdw::Boolean >( shader ) );
+		return sdw::bvec2( getDefault< sdw::Boolean >( writer )
+			, getDefault< sdw::Boolean >( writer ) );
 	}
 
 	template<>
-	inline sdw::BVec3 getDefault< sdw::BVec3 >( ast::Shader & shader )
+	inline sdw::BVec3 getDefault< sdw::BVec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::bvec3( getDefault< sdw::Boolean >( shader )
-			, getDefault< sdw::Boolean >( shader )
-			, getDefault< sdw::Boolean >( shader ) );
+		return sdw::bvec3( getDefault< sdw::Boolean >( writer )
+			, getDefault< sdw::Boolean >( writer )
+			, getDefault< sdw::Boolean >( writer ) );
 	}
 
 	template<>
-	inline sdw::BVec4 getDefault< sdw::BVec4 >( ast::Shader & shader )
+	inline sdw::BVec4 getDefault< sdw::BVec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::bvec4( getDefault< sdw::Boolean >( shader )
-			, getDefault< sdw::Boolean >( shader )
-			, getDefault< sdw::Boolean >( shader )
-			, getDefault< sdw::Boolean >( shader ) );
+		return sdw::bvec4( getDefault< sdw::Boolean >( writer )
+			, getDefault< sdw::Boolean >( writer )
+			, getDefault< sdw::Boolean >( writer )
+			, getDefault< sdw::Boolean >( writer ) );
 	}
 
 	template<>
-	inline sdw::IVec2 getDefault< sdw::IVec2 >( ast::Shader & shader )
+	inline sdw::IVec2 getDefault< sdw::IVec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::ivec2( getDefault< sdw::Int >( shader )
-			, getDefault< sdw::Int >( shader ) );
+		return sdw::ivec2( getDefault< sdw::Int >( writer )
+			, getDefault< sdw::Int >( writer ) );
 	}
 
 	template<>
-	inline sdw::IVec3 getDefault< sdw::IVec3 >( ast::Shader & shader )
+	inline sdw::IVec3 getDefault< sdw::IVec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::ivec3( getDefault< sdw::Int >( shader )
-			, getDefault< sdw::Int >( shader )
-			, getDefault< sdw::Int >( shader ) );
+		return sdw::ivec3( getDefault< sdw::Int >( writer )
+			, getDefault< sdw::Int >( writer )
+			, getDefault< sdw::Int >( writer ) );
 	}
 
 	template<>
-	inline sdw::IVec4 getDefault< sdw::IVec4 >( ast::Shader & shader )
+	inline sdw::IVec4 getDefault< sdw::IVec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::ivec4( getDefault< sdw::Int >( shader )
-			, getDefault< sdw::Int >( shader )
-			, getDefault< sdw::Int >( shader )
-			, getDefault< sdw::Int >( shader ) );
+		return sdw::ivec4( getDefault< sdw::Int >( writer )
+			, getDefault< sdw::Int >( writer )
+			, getDefault< sdw::Int >( writer )
+			, getDefault< sdw::Int >( writer ) );
 	}
 
 	template<>
-	inline sdw::UVec2 getDefault< sdw::UVec2 >( ast::Shader & shader )
+	inline sdw::UVec2 getDefault< sdw::UVec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::uvec2( getDefault< sdw::UInt >( shader )
-			, getDefault< sdw::UInt >( shader ) );
+		return sdw::uvec2( getDefault< sdw::UInt >( writer )
+			, getDefault< sdw::UInt >( writer ) );
 	}
 
 	template<>
-	inline sdw::UVec3 getDefault< sdw::UVec3 >( ast::Shader & shader )
+	inline sdw::UVec3 getDefault< sdw::UVec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::uvec3( getDefault< sdw::UInt >( shader )
-			, getDefault< sdw::UInt >( shader )
-			, getDefault< sdw::UInt >( shader ) );
+		return sdw::uvec3( getDefault< sdw::UInt >( writer )
+			, getDefault< sdw::UInt >( writer )
+			, getDefault< sdw::UInt >( writer ) );
 	}
 
 	template<>
-	inline sdw::UVec4 getDefault< sdw::UVec4 >( ast::Shader & shader )
+	inline sdw::UVec4 getDefault< sdw::UVec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::uvec4( getDefault< sdw::UInt >( shader )
-			, getDefault< sdw::UInt >( shader )
-			, getDefault< sdw::UInt >( shader )
-			, getDefault< sdw::UInt >( shader ) );
+		return sdw::uvec4( getDefault< sdw::UInt >( writer )
+			, getDefault< sdw::UInt >( writer )
+			, getDefault< sdw::UInt >( writer )
+			, getDefault< sdw::UInt >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat2 getDefault< sdw::Mat2 >( ast::Shader & shader )
+	inline sdw::Mat2 getDefault< sdw::Mat2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat2( getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader ) );
+		return sdw::mat2( getDefault< sdw::Vec2 >( writer )
+			, getDefault< sdw::Vec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat2x3 getDefault< sdw::Mat2x3 >( ast::Shader & shader )
+	inline sdw::Mat2x3 getDefault< sdw::Mat2x3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat2x3( getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader ) );
+		return sdw::mat2x3( getDefault< sdw::Vec3 >( writer )
+			, getDefault< sdw::Vec3 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat2x4 getDefault< sdw::Mat2x4 >( ast::Shader & shader )
+	inline sdw::Mat2x4 getDefault< sdw::Mat2x4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat2x4( getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader ) );
+		return sdw::mat2x4( getDefault< sdw::Vec4 >( writer )
+			, getDefault< sdw::Vec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat3 getDefault< sdw::Mat3 >( ast::Shader & shader )
+	inline sdw::Mat3 getDefault< sdw::Mat3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat3( getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader ) );
+		return sdw::mat3( getDefault< sdw::Vec3 >( writer )
+			, getDefault< sdw::Vec3 >( writer )
+			, getDefault< sdw::Vec3 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat3x2 getDefault< sdw::Mat3x2 >( ast::Shader & shader )
+	inline sdw::Mat3x2 getDefault< sdw::Mat3x2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat3x2( getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader ) );
+		return sdw::mat3x2( getDefault< sdw::Vec2 >( writer )
+			, getDefault< sdw::Vec2 >( writer )
+			, getDefault< sdw::Vec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat3x4 getDefault< sdw::Mat3x4 >( ast::Shader & shader )
+	inline sdw::Mat3x4 getDefault< sdw::Mat3x4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat3x4( getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader ) );
+		return sdw::mat3x4( getDefault< sdw::Vec4 >( writer )
+			, getDefault< sdw::Vec4 >( writer )
+			, getDefault< sdw::Vec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat4 getDefault< sdw::Mat4 >( ast::Shader & shader )
+	inline sdw::Mat4 getDefault< sdw::Mat4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat4( getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader )
-			, getDefault< sdw::Vec4 >( shader ) );
+		return sdw::mat4( getDefault< sdw::Vec4 >( writer )
+			, getDefault< sdw::Vec4 >( writer )
+			, getDefault< sdw::Vec4 >( writer )
+			, getDefault< sdw::Vec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat4x2 getDefault< sdw::Mat4x2 >( ast::Shader & shader )
+	inline sdw::Mat4x2 getDefault< sdw::Mat4x2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat4x2( getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader )
-			, getDefault< sdw::Vec2 >( shader ) );
+		return sdw::mat4x2( getDefault< sdw::Vec2 >( writer )
+			, getDefault< sdw::Vec2 >( writer )
+			, getDefault< sdw::Vec2 >( writer )
+			, getDefault< sdw::Vec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::Mat4x3 getDefault< sdw::Mat4x3 >( ast::Shader & shader )
+	inline sdw::Mat4x3 getDefault< sdw::Mat4x3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::mat4x3( getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader )
-			, getDefault< sdw::Vec3 >( shader ) );
+		return sdw::mat4x3( getDefault< sdw::Vec3 >( writer )
+			, getDefault< sdw::Vec3 >( writer )
+			, getDefault< sdw::Vec3 >( writer )
+			, getDefault< sdw::Vec3 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat2 getDefault< sdw::DMat2 >( ast::Shader & shader )
+	inline sdw::DMat2 getDefault< sdw::DMat2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat2( getDefault< sdw::DVec2 >( shader )
-			, getDefault< sdw::DVec2 >( shader ) );
+		return sdw::dmat2( getDefault< sdw::DVec2 >( writer )
+			, getDefault< sdw::DVec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat2x3 getDefault< sdw::DMat2x3 >( ast::Shader & shader )
+	inline sdw::DMat2x3 getDefault< sdw::DMat2x3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat2x3( getDefault< sdw::DVec3 >( shader )
-			, getDefault< sdw::DVec3 >( shader ) );
+		return sdw::dmat2x3( getDefault< sdw::DVec3 >( writer )
+			, getDefault< sdw::DVec3 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat2x4 getDefault< sdw::DMat2x4 >( ast::Shader & shader )
+	inline sdw::DMat2x4 getDefault< sdw::DMat2x4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat2x4( getDefault< sdw::DVec4 >( shader )
-			, getDefault< sdw::DVec4 >( shader ) );
+		return sdw::dmat2x4( getDefault< sdw::DVec4 >( writer )
+			, getDefault< sdw::DVec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat3 getDefault< sdw::DMat3 >( ast::Shader & shader )
+	inline sdw::DMat3 getDefault< sdw::DMat3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat3( getDefault< sdw::DVec3 >( shader )
-			, getDefault< sdw::DVec3 >( shader )
-			, getDefault< sdw::DVec3 >( shader ) );
+		return sdw::dmat3( getDefault< sdw::DVec3 >( writer )
+			, getDefault< sdw::DVec3 >( writer )
+			, getDefault< sdw::DVec3 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat3x2 getDefault< sdw::DMat3x2 >( ast::Shader & shader )
+	inline sdw::DMat3x2 getDefault< sdw::DMat3x2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat3x2( getDefault< sdw::DVec2 >( shader )
-			, getDefault< sdw::DVec2 >( shader )
-			, getDefault< sdw::DVec2 >( shader ) );
+		return sdw::dmat3x2( getDefault< sdw::DVec2 >( writer )
+			, getDefault< sdw::DVec2 >( writer )
+			, getDefault< sdw::DVec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat3x4 getDefault< sdw::DMat3x4 >( ast::Shader & shader )
+	inline sdw::DMat3x4 getDefault< sdw::DMat3x4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat3x4( getDefault< sdw::DVec4 >( shader )
-			, getDefault< sdw::DVec4 >( shader )
-			, getDefault< sdw::DVec4 >( shader ) );
+		return sdw::dmat3x4( getDefault< sdw::DVec4 >( writer )
+			, getDefault< sdw::DVec4 >( writer )
+			, getDefault< sdw::DVec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat4 getDefault< sdw::DMat4 >( ast::Shader & shader )
+	inline sdw::DMat4 getDefault< sdw::DMat4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat4( getDefault< sdw::DVec4 >( shader )
-			, getDefault< sdw::DVec4 >( shader )
-			, getDefault< sdw::DVec4 >( shader )
-			, getDefault< sdw::DVec4 >( shader ) );
+		return sdw::dmat4( getDefault< sdw::DVec4 >( writer )
+			, getDefault< sdw::DVec4 >( writer )
+			, getDefault< sdw::DVec4 >( writer )
+			, getDefault< sdw::DVec4 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat4x2 getDefault< sdw::DMat4x2 >( ast::Shader & shader )
+	inline sdw::DMat4x2 getDefault< sdw::DMat4x2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat4x2( getDefault< sdw::DVec2 >( shader )
-			, getDefault< sdw::DVec2 >( shader )
-			, getDefault< sdw::DVec2 >( shader )
-			, getDefault< sdw::DVec2 >( shader ) );
+		return sdw::dmat4x2( getDefault< sdw::DVec2 >( writer )
+			, getDefault< sdw::DVec2 >( writer )
+			, getDefault< sdw::DVec2 >( writer )
+			, getDefault< sdw::DVec2 >( writer ) );
 	}
 
 	template<>
-	inline sdw::DMat4x3 getDefault< sdw::DMat4x3 >( ast::Shader & shader )
+	inline sdw::DMat4x3 getDefault< sdw::DMat4x3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::dmat4x3( getDefault< sdw::DVec3 >( shader )
-			, getDefault< sdw::DVec3 >( shader )
-			, getDefault< sdw::DVec3 >( shader )
-			, getDefault< sdw::DVec3 >( shader ) );
+		return sdw::dmat4x3( getDefault< sdw::DVec3 >( writer )
+			, getDefault< sdw::DVec3 >( writer )
+			, getDefault< sdw::DVec3 >( writer )
+			, getDefault< sdw::DVec3 >( writer ) );
 	}
 
 	template< typename T >
-	inline std::vector< T > getDefaultVector( ast::Shader & shader
+	inline std::vector< T > getDefaultVector( sdw::ShaderWriter & writer
 		, uint32_t dimension )
 	{
 		std::vector< T > result;
 
 		for ( auto i = 0u; i < dimension; ++i )
 		{
-			result.emplace_back( getDefault< T >( shader ) );
+			result.emplace_back( getDefault< T >( writer ) );
 		}
 
 		return result;
 	}
 
 	template< typename T >
-	inline sdw::Array< T > getDefaultArray( ast::Shader & shader
+	inline sdw::Array< T > getDefaultArray( sdw::ShaderWriter & writer
 		, uint32_t dimension )
 	{
 		ast::expr::ExprList initialisers;
 
 		for ( auto i = 0u; i < dimension; ++i )
 		{
-			initialisers.emplace_back( sdw::makeExpr( getDefault< T >( shader ) ) );
+			initialisers.emplace_back( sdw::makeExpr( getDefault< T >( writer ) ) );
 		}
 
-		return sdw::Array< T >{ &shader
+		return sdw::Array< T >{ &writer
 			, ast::expr::makeAggrInit( ast::type::TypePtr{}
 				, std::move( initialisers ) ) };
 	}
@@ -390,7 +396,7 @@ namespace test
 		, bool validateGlsl = true );
 	void validateShaders( ast::ShaderArray const & shaders
 		, sdw_test::TestCounts & testCounts );
-	void validateShader( ast::Shader const & shader
+	void validateShader( ast::Shader const & writer
 		, sdw_test::TestCounts & testCounts );
 	void expectError( std::string const & value
 		, sdw_test::TestCounts & testCounts );

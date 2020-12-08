@@ -44,6 +44,7 @@ namespace sdw
 		inline Array< T > getMemberArray( std::string const & name );
 
 	private:
+		ShaderWriter & m_writer;
 		ast::Shader & m_shader;
 		std::string m_name;
 		ast::InterfaceBlock m_interface;

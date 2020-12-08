@@ -6,15 +6,15 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Image::Image( ast::type::ImageFormat format
-		, Shader * shader
+		, ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 		, m_format{ format }
 	{
 	}
 
 	Image::Image( Image const & rhs )
-		: Value{ rhs.getShader(), makeExpr( *rhs.getShader(), rhs ) }
+		: Value{ *rhs.getWriter(), makeExpr( *rhs.getWriter(), rhs ) }
 		, m_format{ rhs.m_format }
 	{
 	}

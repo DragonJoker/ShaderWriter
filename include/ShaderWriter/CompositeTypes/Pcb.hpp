@@ -45,6 +45,7 @@ namespace sdw
 			, bool enabled );
 
 	private:
+		ShaderWriter & m_writer;
 		ast::Shader & m_shader;
 		stmt::PushConstantsBufferDeclPtr m_stmt;
 		std::string m_name;

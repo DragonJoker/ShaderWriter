@@ -68,7 +68,7 @@ namespace sdw
 		: public Value
 	{
 		SDW_API Image( ast::type::ImageFormat format
-			, Shader * shader
+			, ShaderWriter & writer
 			, expr::ExprPtr expr );
 		SDW_API Image( Image const & rhs );
 		template< typename T >
@@ -91,7 +91,7 @@ namespace sdw
 		struct ImageFuncsT
 			: public Image
 		{
-			inline ImageFuncsT( Shader * shader
+			inline ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr );
 			template< typename T >
 			inline ImageFuncsT & operator=( T const & rhs );
@@ -107,7 +107,7 @@ namespace sdw
 	struct ImageT
 		: public img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 	{
-		inline ImageT( Shader * shader
+		inline ImageT( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		inline ImageT( ImageT const & rhs );
 		template< typename T >

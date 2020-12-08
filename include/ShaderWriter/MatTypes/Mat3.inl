@@ -6,15 +6,15 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename ValueT >
-	Mat3T< ValueT >::Mat3T( Shader * shader
+	Mat3T< ValueT >::Mat3T( ShaderWriter & writer
 		, expr::ExprPtr expr )
-		: Value{ shader, std::move( expr ) }
+		: Value{ writer, std::move( expr ) }
 	{
 	}
 
 	template< typename ValueT >
 	Mat3T< ValueT >::Mat3T( Mat3T const & rhs )
-		: Value{ rhs.getShader(), makeExpr( *findShader( *this, rhs ), rhs ) }
+		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ) }
 	{
 	}
 

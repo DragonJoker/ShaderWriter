@@ -139,14 +139,13 @@ namespace
 			{
 				{
 					auto & writerInt = ( writer );
-					auto & shaderInt = writerInt.getShader();
 					writerInt.pushScope();
-					auto iName = writerInt.registerLoopVar( "i", Int::makeType( shaderInt.getTypesCache() ) );
-					Int i{ &shaderInt, sdw::makeExpr( shaderInt, iName ) };
+					auto iName = writerInt.registerLoopVar( "i", Int::makeType( writerInt.getTypesCache() ) );
+					Int i{ writerInt, sdw::makeExpr( writerInt, iName ) };
 					writerInt.forStmt( sdw::makeInit( iName
-						, sdw::makeExpr( shaderInt, 0_i ) )
+						, sdw::makeExpr( writerInt, 0_i ) )
 						, sdw::makeCondition( i < 12_i )
-						, sdw::makeExpr( shaderInt, i++ )
+						, sdw::makeExpr( writerInt, i++ )
 						, [&]()
 						{
 							auto j = writer.declLocale( "j", i );

@@ -17,12 +17,18 @@ namespace sdw
 	{
 		SDW_API Builtin( ShaderWriter & writer );
 
+		inline ShaderWriter * getWriter()const
+		{
+			return m_writer;
+		}
+
 		inline ast::Shader * getShader()const
 		{
 			return m_shader;
 		}
 
 	private:
+		ShaderWriter * m_writer;
 		ast::Shader * m_shader;
 	};
 

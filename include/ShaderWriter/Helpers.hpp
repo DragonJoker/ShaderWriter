@@ -32,87 +32,87 @@ namespace sdw
 	expr::ExprPtr makeCondition( ValueT const & value );
 	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig();
-	SDW_API ast::stmt::Container * getContainer( Shader & shader );
+	SDW_API ast::stmt::Container * getContainer( ShaderWriter & shader );
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter const & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );
 	SDW_API Shader & getShader( ShaderWriter & writer );
 	SDW_API Shader & getShader( ShaderWriter const & writer );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, bool value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int32_t value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int64_t value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint32_t value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint64_t value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, float value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, double value );
-	SDW_API expr::LiteralPtr makeLiteral( Shader const & shader
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, long double value );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, var::VariablePtr const & var
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, bool value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int32_t value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int64_t value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint32_t value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint64_t value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, float value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, double value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, long double value
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, ast::expr::Expr * expr
 		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( Shader const & shader
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, ast::expr::ExprPtr const & expr
 		, bool force = true );
 
 	template< typename T >
-	expr::ExprPtr makeConstExpr( Shader const & shader
+	expr::ExprPtr makeConstExpr( ShaderWriter const & writer
 		, T const & value
 		, bool force = true );
 
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, bool value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int32_t value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int64_t value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, uint32_t value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, uint64_t value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, float value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, double value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, long double value );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, ast::expr::Expr * expr );
-	SDW_API expr::ExprList makeFnArg( Shader const & shader
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, ast::expr::ExprPtr const & expr );
 
 	SDW_API expr::ExprPtr makeInit( var::VariablePtr var
@@ -273,29 +273,31 @@ namespace sdw
 		, std::string name );
 
 	template< typename T >
-	expr::ExprList makeExpr( Shader const & shader
+	expr::ExprList makeExpr( ShaderWriter const & writer
 		, std::vector< T > const & values
 		, bool force = true );
 	template< typename T >
-	expr::ExprList makeConstExpr( Shader const & shader
+	expr::ExprList makeConstExpr( ShaderWriter const & writer
 		, std::vector< T > const & value
 		, bool force = true );
 
 	SDW_API void addStmt( Shader & shader
 		, stmt::StmtPtr stmt );
+	SDW_API void addStmt( ShaderWriter & writer
+		, stmt::StmtPtr stmt );
 	SDW_API void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
-	SDW_API var::VariablePtr registerName( Shader & shader
+	SDW_API var::VariablePtr registerName( ShaderWriter & writer
 		, std::string const & name
 		, type::TypePtr type );
-	SDW_API var::VariablePtr registerMember( Shader & shader
+	SDW_API var::VariablePtr registerMember( ShaderWriter & writer
 		, var::VariablePtr outer
 		, std::string const & name
 		, type::TypePtr type );
-	SDW_API var::VariablePtr registerBlockVariable( Shader & shader
+	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
 		, std::string const & name
 		, type::TypePtr type );
-	SDW_API var::VariablePtr getVar( Shader & shader
+	SDW_API var::VariablePtr getVar( ShaderWriter & writer
 		, std::string const & name );
 }
 

@@ -13,7 +13,7 @@ namespace sdw
 	struct Array
 		: public Value
 	{
-		Array( Shader * shader
+		Array( ShaderWriter & writer
 			, expr::ExprPtr expr );
 		Array( Array const & rhs );
 		template< typename IndexT >

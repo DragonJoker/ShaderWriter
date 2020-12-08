@@ -146,7 +146,7 @@ namespace
 					, [&]()
 					{
 						auto j = writer.declLocale( "j"
-							, s.getLod( test::getDefault< QueryLodT >( writer.getShader() ) ) );
+							, s.getLod( test::getDefault< QueryLodT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts
@@ -265,7 +265,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() ) ) );
+							, s.sample( test::getDefault< SampleT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -296,7 +296,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
+							, s.sample( test::getDefault< SampleT >( writer )
 								, 0.5_f ) );
 					} );
 				test::writeShader( writer
@@ -354,7 +354,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
+							, s.sample( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -389,7 +389,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
+							, s.sample( test::getDefault< SampleT >( writer )
 								, 0.5_f
 								, 1.0_f ) );
 					} );
@@ -444,7 +444,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() ) ) );
+							, s.proj( test::getDefault< SampleProjT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -477,7 +477,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f ) );
 					} );
 				test::writeShader( writer
@@ -531,7 +531,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -564,7 +564,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
 								, 1.0_f ) );
 					} );
@@ -623,7 +623,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer.getShader() )
+							, s.lod( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -657,7 +657,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer.getShader() )
+							, s.lod( test::getDefault< SampleT >( writer )
 								, 0.5_f
 								, 1.0_f ) );
 					} );
@@ -715,8 +715,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault < OffsetT >( writer.getShader() ) ) );
+							, s.sample( test::getDefault< SampleT >( writer )
+								, test::getDefault < OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -752,9 +752,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
+							, s.sample( test::getDefault< SampleT >( writer )
 								, 0.5_f
-								, test::getDefault < OffsetT >( writer.getShader() ) ) );
+								, test::getDefault < OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -810,8 +810,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() )
+							, s.sample( test::getDefault< SampleT >( writer )
+								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -845,9 +845,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer.getShader() )
+							, s.sample( test::getDefault< SampleT >( writer )
 								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -903,7 +903,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.fetch( test::getDefault< FetchT >( writer.getShader() )
+							, s.fetch( test::getDefault< FetchT >( writer )
 								, 1_i ) );
 					} );
 				test::writeShader( writer
@@ -935,7 +935,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.fetch( test::getDefault< FetchT >( writer.getShader() ) ) );
+							, s.fetch( test::getDefault< FetchT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -991,9 +991,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.fetch( test::getDefault< FetchT >( writer.getShader() )
+							, s.fetch( test::getDefault< FetchT >( writer )
 								, 1_i
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1047,8 +1047,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+							, s.proj( test::getDefault< SampleProjT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1082,9 +1082,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1138,8 +1138,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() )
+							, s.proj( test::getDefault< SampleProjT >( writer )
+								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -1173,9 +1173,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() )
+								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -1232,9 +1232,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer.getShader() )
+							, s.lod( test::getDefault< SampleT >( writer )
 								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1268,10 +1268,10 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer.getShader() )
+							, s.lod( test::getDefault< SampleT >( writer )
 								, 0.5_f
 								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1324,7 +1324,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.projLod( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
@@ -1357,7 +1357,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.projLod( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
 								, 1.0_f ) );
 					} );
@@ -1413,9 +1413,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.projLod( test::getDefault< SampleProjT >( writer )
 								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1448,10 +1448,10 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.projLod( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
 								, 1.0_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1509,9 +1509,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+							, s.grad( test::getDefault< SampleT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1546,10 +1546,10 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer.getShader() )
+							, s.grad( test::getDefault< SampleT >( writer )
 								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1606,10 +1606,10 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+							, s.grad( test::getDefault< SampleT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1646,11 +1646,11 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer.getShader() )
+							, s.grad( test::getDefault< SampleT >( writer )
 								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1704,9 +1704,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+							, s.projGrad( test::getDefault< SampleProjT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1740,10 +1740,10 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.projGrad( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() ) ) );
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1798,10 +1798,10 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+							, s.projGrad( test::getDefault< SampleProjT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1836,11 +1836,11 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer.getShader() )
+							, s.projGrad( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< DerivativeT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< DerivativeT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1894,7 +1894,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() ) ) );
+							, s.gather( test::getDefault< GatherT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1929,7 +1929,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f ) );
 					} );
 				test::writeShader( writer
@@ -1984,7 +1984,7 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
 								, 1_i ) );
 					} );
 				test::writeShader( writer
@@ -2038,8 +2038,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+							, s.gather( test::getDefault< GatherT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2073,9 +2073,9 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f
-								, test::getDefault< OffsetT >( writer.getShader() ) ) );
+								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2128,8 +2128,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
-								, test::getDefault< OffsetT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
+								, test::getDefault< OffsetT >( writer )
 								, 1_i ) );
 					} );
 				test::writeShader( writer
@@ -2180,12 +2180,12 @@ namespace
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
-					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
+					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
 								, offsets ) );
 					} );
 				test::writeShader( writer
@@ -2217,12 +2217,12 @@ namespace
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
-					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
+					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f
 								, offsets ) );
 					} );
@@ -2274,12 +2274,12 @@ namespace
 				FragmentWriter writer;
 				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
-					, test::getDefaultVector< OffsetT >( writer.getShader(), 4u ) );
+					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer.getShader() )
+							, s.gather( test::getDefault< GatherT >( writer )
 								, offsets
 								, 1_i ) );
 					} );

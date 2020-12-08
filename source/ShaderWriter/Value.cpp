@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Value.hpp"
 
+#include "ShaderWriter/Writer.hpp"
 #include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
 
 #include <ShaderAST/Expr/ExprAddAssign.hpp>
@@ -19,16 +20,18 @@ namespace sdw
 {
 	//*****************************************************************************************
 
-	Value::Value( Shader * shader
+	Value::Value( ShaderWriter & writer
 		, expr::ExprPtr expr )
 		: m_expr{ std::move( expr ) }
-		, m_shader{ shader }
+		, m_writer{ &writer }
+		, m_shader{ &m_writer->getShader() }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
 	{
 	}
 
 	Value::Value( Value const & rhs )
-		: m_expr{ makeExpr( *findShader( rhs ), rhs ) }
+		: m_expr{ makeExpr( *rhs.m_writer, rhs ) }
+		, m_writer{ rhs.m_writer }
 		, m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
 	{
@@ -36,6 +39,7 @@ namespace sdw
 
 	Value::Value( Value && rhs )
 		: m_expr( std::move( rhs.m_expr ) )
+		, m_writer{ rhs.m_writer }
 		, m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
 	{
@@ -77,35 +81,35 @@ namespace sdw
 		m_expr = std::move( expr );
 	}
 
-	expr::ExprPtr getDummyExpr( Shader & shader
+	expr::ExprPtr getDummyExpr( ShaderWriter & writer
 		, type::TypePtr type )
 	{
-		return shader.getDummyExpr( type );
+		return writer.getShader().getDummyExpr( type );
 	}
 
 	expr::ExprPtr makeExpr( Value const & variable
 		, bool force )
 	{
 		assert( variable.getShader() && "Can't use this overload of makeExpr if the Value doesn't have a Shader" );
-		return makeExpr( *variable.getShader()
+		return makeExpr( *variable.getWriter()
 			, variable.getExpr()
 			, force );
 	}
 
-	expr::ExprPtr makeExpr( Shader const & shader
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, Value const & variable
 		, bool force )
 	{
-		return makeExpr( shader
+		return makeExpr( writer
 			, variable.getExpr()
 			, force );
 	}
 
-	expr::ExprList makeFnArg( Shader const & shader
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, Value const & variable )
 	{
 		expr::ExprList result;
-		result.emplace_back( makeExpr( shader
+		result.emplace_back( makeExpr( writer
 			, variable.getExpr()
 			, true ) );
 		return result;

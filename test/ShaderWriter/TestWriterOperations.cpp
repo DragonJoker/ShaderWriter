@@ -851,10 +851,10 @@ namespace
 					auto a = writer.declLocale< VecType >( "a" );
 					auto b = writer.declLocale< VecType >( "b" );
 					auto c = writer.declLocale< VecType >( "c" );
-					testVecAssignOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ) );
+					testVecAssignOperators( writer, testCounts, c, test::getDefault< VecType >( writer ) );
 					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer.getShader() ) );
-					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ), a );
+					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer ) );
+					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer ), a );
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
@@ -871,8 +871,8 @@ namespace
 					auto b = writer.declLocale< VecType >( "b", true );
 					auto c = writer.declLocale< VecType >( "c", true );
 					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer.getShader() ) );
-					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ), a );
+					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer ) );
+					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer ), a );
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
@@ -889,8 +889,8 @@ namespace
 					auto b = writer.declLocale< VecType >( "b", false );
 					auto c = writer.declLocale< VecType >( "c", false );
 					testVecAssignOperators( writer, testCounts, c, b );
-					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer.getShader() ) );
-					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer.getShader() ), a );
+					testVecOperators( writer, testCounts, c, a, test::getDefault< VecType >( writer ) );
+					testVecOperators( writer, testCounts, c, test::getDefault< VecType >( writer ), a );
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
