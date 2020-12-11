@@ -25,7 +25,7 @@
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
 
-#define SDW_Test_DisplayShaders 0
+#define SDW_Test_DisplayShaders 1
 
 namespace test
 {
@@ -107,6 +107,7 @@ namespace test
 		void doSetupOptions( spirv_cross::CompilerGLSL & compiler )
 		{
 			auto options = compiler.get_common_options();
+			options.separate_shader_objects = true;
 			options.vulkan_semantics = false;
 			compiler.set_common_options( options );
 		}

@@ -92,6 +92,7 @@ namespace hlsl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
+						|| name == "gl_CullDistance"
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_Layer"
 						|| name == "gl_ViewportIndex" ) )
@@ -99,6 +100,7 @@ namespace hlsl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
+						|| name == "gl_CullDistance"
 						|| name == "gl_TessLevelInner"
 						|| name == "gl_TessLevelOuter" ) )
 				|| ( type == ast::ShaderStage::eTessellationEvaluation
@@ -108,7 +110,8 @@ namespace hlsl
 				|| ( type == ast::ShaderStage::eVertex
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
-						|| name == "gl_ClipDistance" ) );
+						|| name == "gl_ClipDistance"
+						|| name == "gl_CullDistance" ) );
 		}
 
 		ast::type::Kind getBuiltinHlslKind( std::string const & name
@@ -282,33 +285,30 @@ namespace hlsl
 
 		for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 		{
-			if ( member.name == "gl_Position" )
-			{
-				auto mbrType = ( count == ast::type::NotArray
-					? member.type
-					: m_cache.getArray( member.type, count ) );
-				auto var = ( m_shader.hasVar( member.name )
-					? m_shader.getVar( member.name, mbrType )
-					: m_shader.registerName( member.name, mbrType ) );
+			auto mbrType = ( count == ast::type::NotArray
+				? member.type
+				: m_cache.getArray( m_cache.getArray( getNonArrayType( member.type ), getArraySize( member.type ) * count ) ) );
+			auto var = ( m_shader.hasVar( member.name )
+				? m_shader.getVar( member.name, mbrType )
+				: m_shader.registerName( member.name, mbrType ) );
 
-				if ( isOutput( stmt->getSource() ) )
-				{
-					m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
-					m_adaptationData.outputMembers.emplace( var
-						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-							, uint32_t( m_adaptationData.outputMembers.size() )
-							, var->getFlags() ) );
-					m_adaptationData.outputVars.emplace( index, var );
-				}
-				else
-				{
-					m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
-					m_adaptationData.inputMembers.emplace( var
-						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
-							, uint32_t( m_adaptationData.inputMembers.size() )
-							, var->getFlags() ) );
-					m_adaptationData.inputVars.emplace( index, var );
-				}
+			if ( isOutput( stmt->getSource() ) )
+			{
+				m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
+				m_adaptationData.outputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+						, uint32_t( m_adaptationData.outputMembers.size() )
+						, var->getFlags() ) );
+				m_adaptationData.outputVars.emplace( index++, var );
+			}
+			else
+			{
+				m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
+				m_adaptationData.inputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
+						, uint32_t( m_adaptationData.inputMembers.size() )
+						, var->getFlags() ) );
+				m_adaptationData.inputVars.emplace( index++, var );
 			}
 		}
 	}

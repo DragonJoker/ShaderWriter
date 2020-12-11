@@ -1531,6 +1531,64 @@ namespace
 				, true, false, true );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
+		testEnd();
+	}
+
+	void clipDistance( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "clipDistance" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			VertexWriter writer;
+			auto position = writer.declInput< Vec4 >( "position", 0u );
+			auto cfg = writer.declUniformBuffer( "Config", 0u, 0u );
+			auto mvps = cfg.declMember< sdw::Mat4 >( "mvps", 6u );
+			auto tiles = cfg.declMember< sdw::Vec4 >( "tiles" );
+			auto instances = cfg.declMember< sdw::UVec4 >( "instances", 6u );
+			cfg.end();
+			auto in = writer.getIn();
+			auto out = writer.getOut();
+
+			writer.implementMain( [&]()
+				{
+					auto tileIndex = writer.declLocale( "tileIndex"
+						, instances[in.instanceIndex / 4][in.instanceIndex % 4] );
+					auto tileMin = writer.declLocale( "tileMin"
+						, ( ( tiles.zw() * 2.0_f - 1.0_f )
+							* vec2( writer.cast< Float >( tileIndex % writer.cast< UInt >( tiles.x() ) )
+								, writer.cast< Float >( tileIndex / writer.cast< UInt >( tiles.x() ) ) ) ) );
+					auto tileMax = writer.declLocale( "tileMax"
+						, tileMin + tiles.zw() * 2.0_f );
+
+					auto p = writer.declLocale( "p"
+						, mvps[tileIndex] * position );
+					out.vtx.position = p;
+
+					out.vtx.clipDistance[0] = dot( vec4( 1.0_f, 0.0_f, 0.0_f, -tileMin.x() ), p );
+					out.vtx.clipDistance[1] = dot( vec4( -1.0_f, 0.0_f, 0.0_f, tileMax.x() ), p );
+					out.vtx.clipDistance[2] = dot( vec4( 0.0_f, -1.0_f, 0.0_f, -tileMin.y() ), p );
+					out.vtx.clipDistance[3] = dot( vec4( 0.0_f, 1.0_f, 0.0_f, tileMax.y() ), p );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, true );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			FragmentWriter writer;
+
+			auto outColor = writer.declOutput< sdw::Vec4 >( "outColor", 0u );
+
+			writer.implementMain( [&]()
+				{
+					outColor = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, true );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
 		test::validateShaders( shaders
 			, testCounts );
 		testEnd();
@@ -1751,6 +1809,7 @@ sdwTestSuiteMain( TestWriterShader )
 	voxelGeometry( testCounts );
 	simpleStore( testCounts );
 	voxelToTexture( testCounts );
+	clipDistance( testCounts );
 	sdwTestSuiteEnd();
 }
 
