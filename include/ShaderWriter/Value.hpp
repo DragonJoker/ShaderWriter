@@ -76,7 +76,7 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
 	template< typename ... ValuesT >
-	inline ShaderWriter * findWriter( ValuesT const & ... values );
+	inline ShaderWriter * findWriter( ValuesT && ... values );
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 

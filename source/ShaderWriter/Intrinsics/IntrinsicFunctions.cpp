@@ -11426,12 +11426,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeEmitVertex( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeEmitVertex( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11446,12 +11446,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeEndPrimitive( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeEndPrimitive( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11466,12 +11466,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11486,12 +11486,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< UInt >{ writer
+			return Optional< UInt >{ *findWriter( writer )
 				, expr::makeMemoryBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return UInt{ writer
+		return UInt{ *findWriter( writer )
 			, expr::makeMemoryBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11506,12 +11506,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11526,12 +11526,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeMemoryBarrierShared( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeMemoryBarrierShared( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11546,12 +11546,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeMemoryBarrierImage( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeMemoryBarrierImage( findTypesCache( writer ) ) };
 	}
 	/**@}*/
@@ -11566,12 +11566,12 @@ namespace sdw
 	{
 		if ( isAnyOptional( writer ) )
 		{
-			return Optional< Void >{ writer
+			return Optional< Void >{ *findWriter( writer )
 				, expr::makeGroupMemoryBarrier( findTypesCache( writer ) )
 				, areOptionalEnabled( writer ) };
 		}
 
-		return Void{ writer
+		return Void{ *findWriter( writer )
 			, expr::makeGroupMemoryBarrier( findTypesCache( writer ) ) };
 	}
 	/**@}*/
