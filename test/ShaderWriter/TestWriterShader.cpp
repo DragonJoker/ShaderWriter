@@ -1543,6 +1543,7 @@ namespace
 			ComputeWriter writer;
 			auto kernelImage =
 				writer.declImage<RWFImg2DRgba32>( "kernelImage", 0, 0 );
+			writer.inputLayout( 32u );
 			auto in = writer.getIn();
 
 			writer.implementMain( [&]()
@@ -1566,31 +1567,31 @@ namespace
 int main( int argc, char ** argv )
 {
 	sdwTestSuiteBegin( "TestWriterShader" );
-	//reference( testCounts );
-	//vertex( testCounts );
-	//fragment( testCounts );
-	//compute( testCounts );
-	//params( testCounts );
-	//swizzles( testCounts );
-	//arrayAccesses( testCounts );
-	//removeGamma( testCounts );
-	//conversions( testCounts );
-	//returns( testCounts );
-	//outputs( testCounts );
-	//skybox( testCounts );
-	//vtx_frag( testCounts );
-	//charles( testCounts );
-	//charles_approx( testCounts );
-	//charles_latest( testCounts );
-	//radiance_computer( testCounts );
-	//arthapzMin( testCounts );
-	//arthapz( testCounts, false, false );
-	//arthapz( testCounts, false, true );
-	//arthapz( testCounts, true, false );
-	//arthapz( testCounts, true, true );
-	//onlyGeometry( testCounts );
-	//basicGeometry( testCounts );
-	//voxelGeometry( testCounts );
+	reference( testCounts );
+	vertex( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
+	params( testCounts );
+	swizzles( testCounts );
+	arrayAccesses( testCounts );
+	removeGamma( testCounts );
+	conversions( testCounts );
+	returns( testCounts );
+	outputs( testCounts );
+	skybox( testCounts );
+	vtx_frag( testCounts );
+	charles( testCounts );
+	charles_approx( testCounts );
+	charles_latest( testCounts );
+	radiance_computer( testCounts );
+	arthapzMin( testCounts );
+	arthapz( testCounts, false, false );
+	arthapz( testCounts, false, true );
+	arthapz( testCounts, true, false );
+	arthapz( testCounts, true, true );
+	onlyGeometry( testCounts );
+	basicGeometry( testCounts );
+	voxelGeometry( testCounts );
 	simpleStore( testCounts );
 	sdwTestSuiteEnd();
 }

@@ -52,6 +52,11 @@ namespace sdw
 		{
 			return value.getWriter();
 		}
+
+		inline ShaderWriter * getWriter( ShaderWriter & value )
+		{
+			return &value;
+		}
 	}
 
 	//***********************************************************************************************
@@ -62,15 +67,15 @@ namespace sdw
 
 	template< typename ValueT >
 	inline void findWriterRec( ShaderWriter *& result
-		, ValueT const & last )
+		, ValueT && last )
 	{
 		result = details::getWriter( last );
 	}
 
 	template< typename ValueT, typename ... ValuesT >
 	inline void findWriterRec( ShaderWriter *& result
-		, ValueT const & current
-		, ValuesT const & ... values )
+		, ValueT && current
+		, ValuesT && ... values )
 	{
 		result = details::getWriter( current );
 
@@ -81,7 +86,7 @@ namespace sdw
 	}
 
 	template< typename ... ValuesT >
-	inline ShaderWriter * findWriter( ValuesT const & ... values )
+	inline ShaderWriter * findWriter( ValuesT && ... values )
 	{
 		ShaderWriter * result{ nullptr };
 		findWriterRec( result, values... );
