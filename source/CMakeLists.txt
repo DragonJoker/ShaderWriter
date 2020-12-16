@@ -62,6 +62,12 @@ if ( SDW_GENERATE_SOURCE )
 	find_package( PythonInterp QUIET )
 endif ()
 
+if ( WIN32 )
+	set( SDW_LIB_PREFIX sdw )
+else ()
+	set( SDW_LIB_PREFIX libsdw )
+endif ()
+
 add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
 add_subdirectory( VulkanLayer )

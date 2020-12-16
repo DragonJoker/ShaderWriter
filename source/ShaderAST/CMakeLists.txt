@@ -521,7 +521,7 @@ add_library( sdw::${_FOLDER_NAME}
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
 		CXX_STANDARD 17
-		PREFIX sdw
+		PREFIX ${SDW_LIB_PREFIX}
 		FOLDER "${SDW_BASE_DIR}/Core"
 )
 target_add_precompiled_header( ${PROJECT_NAME}
