@@ -94,14 +94,14 @@ endif ()
 install(
 	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
 	EXPORT ShaderWriter
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
 )
 install( EXPORT ShaderWriter
 	FILE ShaderWriterConfig.cmake
 	NAMESPACE sdw::
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/shaderwriter
+	DESTINATION lib/cmake/shaderwriter
 )
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file( ShaderWriterConfigVersion.cmake
