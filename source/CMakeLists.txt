@@ -62,6 +62,12 @@ if ( SDW_GENERATE_SOURCE )
 	find_package( PythonInterp QUIET )
 endif ()
 
+if ( WIN32 )
+	set( SDW_LIB_PREFIX sdw )
+else ()
+	set( SDW_LIB_PREFIX libsdw )
+endif ()
+
 add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
 add_subdirectory( VulkanLayer )
@@ -88,14 +94,14 @@ endif ()
 install(
 	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
 	EXPORT ShaderWriter
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 install( EXPORT ShaderWriter
 	FILE ShaderWriterConfig.cmake
 	NAMESPACE sdw::
-	DESTINATION lib/cmake/shaderwriter
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/shaderwriter
 )
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file( ShaderWriterConfigVersion.cmake
