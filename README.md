@@ -3,8 +3,7 @@
 </p>
 
 
-ShaderWriter
-============
+# ShaderWriter
 
 This library is used to write shaders directly from C++ code.
 
@@ -16,8 +15,20 @@ ShaderWriter is based on ShaderAST, and is fully typed, to be able to write GLSL
 
 The compiler libraries allow exporting the generated AST in either of these shader languages. 
 
-Examples
---------
+## How to build
+### Using packages repositories
+You can find shaderwriter on several packages repositories:
+- ArchLinux's <a href="https://aur.archlinux.org/packages/shaderwriter-git/">AUR</a> (thanks to <a href="https://github.com/Arthapz">Arthapz</a>)
+- <a href="https://github.com/xmake-io/xmake-repo">xmake-repo</a> (thanks to <a href="https://github.com/WubiCookie">WubiCookie</a>)
+- <a href="https://github.com/microsoft/vcpkg">vcpkg</a>
+
+### Using cmake
+The following command line should be a good start to build ShaderWriter:
+```bash
+cmake <shaderwriter_root> -DCMAKE_BUILD_TYPE=Release -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
+```
+
+## Examples
 
 Let's take the following vertex shader code, written in C++:
 
@@ -207,7 +218,6 @@ STFUNCDECL VOID main()
         STSIMPLE ASSIGN (MBRSELECT (IDENT ) (IDENT gl_Position)) (COMPOSITECONSTRUCT VEC4 FLOAT ((SWIZZLE x (IDENT position)), (SWIZZLE y (IDENT position)), (LITERAL 0.0), (LITERAL 1.0)))
 ```
 
-Contact
--------
+## Contact
 
-You can reach me on the Discord server dedicated to my projects: [DragonJoker's Lair](https://discord.gg/jue8kW)
+You can reach me on the Discord server dedicated to my projects: [DragonJoker's Lair](https://discord.gg/9A97r44tgP)
