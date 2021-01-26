@@ -63,7 +63,7 @@ namespace test
 		char res[128];
 		FILE * fp = popen( "/bin/cat /proc/cpuinfo | grep -c '^processor'", "r" );
 		auto read = fread( res, 1, sizeof( res ) - 1, fp );
-		CU_Ensure( read && read < sizeof( res ) );
+		assert( read && read < sizeof( res ) );
 		pclose( fp );
 		return uint32_t( res[0] );
 	}
