@@ -147,9 +147,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterConstantDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterConstantDeclarations" );
+	sdwTestSuiteBegin();
 	testConstant< sdw::Boolean >( testCounts );
 	testConstant< sdw::Int >( testCounts );
 	testConstant< sdw::UInt >( testCounts );
@@ -190,3 +190,5 @@ int main( int argc, char ** argv )
 	testConstant< sdw::DMat4x3 >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterConstantDeclarations )

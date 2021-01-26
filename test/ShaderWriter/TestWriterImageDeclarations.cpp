@@ -175,9 +175,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterImageDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterImageDeclarations" );
+	sdwTestSuiteBegin();
 	testImageFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
 	testImageFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
 	testImageFormat< ast::type::ImageFormat::eRg32f >( testCounts );
@@ -204,3 +204,5 @@ int main( int argc, char ** argv )
 	testImageFormat< ast::type::ImageFormat::eR8u >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterImageDeclarations )

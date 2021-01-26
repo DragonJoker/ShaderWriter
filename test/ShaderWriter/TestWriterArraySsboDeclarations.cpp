@@ -77,9 +77,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterArraySsboDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterArraySsboDeclarations" );
+	sdwTestSuiteBegin();
 	testStructuredSsbo< sdw::Int >( testCounts );
 	testStructuredSsbo< sdw::UInt >( testCounts );
 	testStructuredSsbo< sdw::Float >( testCounts );
@@ -150,3 +150,5 @@ int main( int argc, char ** argv )
 	testArraySsbo< sdw::DMat4x3 >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterArraySsboDeclarations )

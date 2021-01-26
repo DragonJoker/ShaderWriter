@@ -240,13 +240,15 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterCustomType )
 {
-	sdwTestSuiteBegin( "TestWriterCustomTypes" );
-	//singleLightUbo( testCounts );
-	//lightArrayUbo( testCounts );
-	//singleLightSsbo( testCounts );
-	//lightArraySsbo( testCounts );
+	sdwTestSuiteBegin();
+	singleLightUbo( testCounts );
+	lightArrayUbo( testCounts );
+	singleLightSsbo( testCounts );
+	lightArraySsbo( testCounts );
 	arraySsboLight( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterCustomType )

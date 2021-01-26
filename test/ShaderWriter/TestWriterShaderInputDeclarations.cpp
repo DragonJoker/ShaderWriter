@@ -114,9 +114,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterShaderInputDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterShaderInputDeclarations" );
+	sdwTestSuiteBegin();
 	testShaderInput< sdw::Int >( testCounts );
 	testShaderInput< sdw::UInt >( testCounts );
 	testShaderInput< sdw::Float >( testCounts );
@@ -140,3 +140,5 @@ int main( int argc, char ** argv )
 	testShaderInput< sdw::Mat4x3 >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterShaderInputDeclarations )

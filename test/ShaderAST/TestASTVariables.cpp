@@ -44,7 +44,7 @@ namespace
 		}
 
 		ast::var::Variable dummyVar{ type, "dummyVar" };
-		std::cout << printVariable( dummyVar ) << std::endl;
+		testCounts.streams.cout << printVariable( dummyVar ) << std::endl;
 		check( getNonArrayKind( dummyVar.getType() ) == kind );
 		check( getArraySize( dummyVar.getType() ) == arraySize );
 		check( dummyVar.getName() == "dummyVar" );
@@ -71,9 +71,11 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+testSuiteMain( TestASTVariables )
 {
-	testSuiteBegin( "TestASTVariables" );
+	testSuiteBegin();
 	testVariable( testCounts );
 	testSuiteEnd();
 }
+
+testSuiteLaunch( TestASTVariables )

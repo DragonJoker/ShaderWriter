@@ -188,7 +188,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::InputComputeLayout">
-		<DisplayString>{{kind={m_kind} x={m_workGroupsX} y={m_workGroupsX} z={m_workGroupsX}}}</DisplayString>
+		<DisplayString>{{kind={m_kind} x={m_workGroupsX} y={m_workGroupsY} z={m_workGroupsZ}}}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="x">m_workGroupsX</Item>

@@ -492,7 +492,7 @@ namespace test
 		}
 		catch ( std::exception & exc )
 		{
-			std::cout << exc.what() << std::endl;
+			testCounts.streams.cout << exc.what() << std::endl;
 		}
 
 		return result;

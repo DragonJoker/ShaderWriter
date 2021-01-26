@@ -2377,11 +2377,11 @@ namespace
 #pragma endregion
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterTextureAccesses )
 {
 #if !defined( __APPLE__ )
 
-	sdwTestSuiteBegin( "TestWriterTextureAccesses" );
+	sdwTestSuiteBegin();
 	testsTextures< TextureSizeTester >( testCounts );
 	testsTextures< TextureQueryLodTester >( testCounts );
 	testsTextures< TextureQueryLevelsTester >( testCounts );
@@ -2413,3 +2413,5 @@ int main( int argc, char ** argv )
 
 #endif
 }
+
+sdwTestSuiteLaunch( TestWriterTextureAccesses )

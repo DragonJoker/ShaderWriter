@@ -1562,36 +1562,193 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	struct Voxel
+		: public sdw::StructInstance
+	{
+		Voxel( sdw::ShaderWriter & writer
+			, ast::expr::ExprPtr expr )
+			: StructInstance{ writer, std::move( expr ) }
+			, colorMask{ getMember< sdw::UInt >( "colorMask" ) }
+			, normalMask{ getMember< sdw::UInt >( "normalMask" ) }
+		{
+		}
+
+		Voxel & operator=( Voxel const & rhs )
+		{
+			StructInstance::operator=( rhs );
+			return *this;
+		}
+
+		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd430
+				, "Voxel" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colorMask", ast::type::Kind::eUInt );
+				result->declMember( "normalMask", ast::type::Kind::eUInt );
+			}
+
+			return result;
+		}
+
+		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
+		{
+			return std::make_unique< sdw::Struct >( writer
+				, makeType( writer.getTypesCache() ) );
+		}
+
+		// Raw values
+		sdw::UInt colorMask;
+		sdw::UInt normalMask;
+
+		static uint32_t constexpr DataSize = 8u;
+
+	private:
+		using sdw::StructInstance::getMember;
+		using sdw::StructInstance::getMemberArray;
+	};
+
+	void voxelToTexture( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "voxelToTexture" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+
+		{
+			enum IDs : uint32_t
+			{
+				eVoxelUbo,
+				eVoxels,
+				eResult,
+			};
+
+			using namespace sdw;
+			ComputeWriter writer;
+
+			writer.inputLayout( 256u, 1u, 1u );
+
+			// Inputs
+			sdw::Ubo voxelizer{ writer
+				, "VoxelUbo"
+				, eVoxelUbo
+				, 0u };
+			auto c3d_voxelTransform = voxelizer.declMember< sdw::Mat4 >( "c3d_voxelTransform" );
+			auto c3d_voxelCenter = voxelizer.declMember< sdw::Vec4 >( "c3d_voxelCenter" );
+			auto c3d_voxelSize = voxelizer.declMember< sdw::Float >( "c3d_voxelSize" );
+			auto c3d_voxelSizeInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelSizeInverse" );
+			auto c3d_voxelResolution = voxelizer.declMember< sdw::Float >( "c3d_voxelResolution" );
+			auto c3d_voxelResolutionInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelResolutionInverse" );
+			voxelizer.end();
+
+			auto voxels( writer.declArrayShaderStorageBuffer< Voxel >( "voxels"
+				, eVoxels
+				, 0u ) );
+			auto in = writer.getIn();
+
+			// Outputs
+			auto output( writer.declImage< RWFImg3DRgba32 >( "voxels"
+				, eResult
+				, 0u ) );
+
+			auto decodeColor = writer.implementFunction< Vec4 >( "decodeColor"
+				, [&]( UInt const & colorMask )
+				{
+					auto hdrRange = writer.declConstant( "hdrRange", 10.0_f );
+
+					auto color = writer.declLocale< Vec4 >( "color" );
+					auto hdr = writer.declLocale( "hdr"
+						, writer.cast< Float >( ( colorMask >> 24u ) & 0x0000007f ) );
+					color.r() = writer.cast< Float >( ( colorMask >> 16u ) & 0x000000ff );
+					color.g() = writer.cast< Float >( ( colorMask >> 8u ) & 0x000000ff );
+					color.b() = writer.cast< Float >( colorMask & 0x000000ff );
+
+					hdr /= 127.0f;
+					color.rgb() /= vec3( 255.0_f );
+
+					color.rgb() *= hdr * hdrRange;
+
+					color.a() = writer.cast< Float >( ( colorMask >> 31u ) & 0x00000001_u );
+
+					writer.returnStmt( color );
+				}
+				, InUInt{ writer, "colorMask" } );
+
+			auto unflatten = writer.implementFunction< UVec3 >( "unflatten3D"
+				, [&]( UInt idx
+					, UVec3 const & dim )
+				{
+					auto z = writer.declLocale( "z"
+						, idx / ( dim.x() * dim.y() ) );
+					idx -= ( z * dim.x() * dim.y() );
+					auto y = writer.declLocale( "y"
+						, idx / dim.x() );
+					auto x = writer.declLocale( "x"
+						, idx % dim.x() );
+					writer.returnStmt( uvec3( x, y, z ) );
+				}
+				, InUInt{ writer, "idx" }
+				, InUVec3{ writer, "dim" } );
+
+			writer.implementMain( [&]()
+				{
+					auto color = writer.declLocale( "color"
+						, decodeColor( voxels[in.globalInvocationID.x()].colorMask ) );
+
+					IF( writer, color.a() > 0.0_f )
+					{
+						auto coord = writer.declLocale( "coord"
+							, ivec3( unflatten( in.globalInvocationID.x()
+								, uvec3( writer.cast< UInt >( c3d_voxelResolution ) ) ) ) );
+						output.store( coord, color );
+					}
+					FI;
+
+					voxels[in.globalInvocationID.x()].colorMask = 0_u;
+				} );
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts );
+		testEnd();
+	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterShader )
 {
-	sdwTestSuiteBegin( "TestWriterShader" );
-	reference( testCounts );
-	vertex( testCounts );
-	fragment( testCounts );
-	compute( testCounts );
-	params( testCounts );
-	swizzles( testCounts );
-	arrayAccesses( testCounts );
-	removeGamma( testCounts );
-	conversions( testCounts );
-	returns( testCounts );
-	outputs( testCounts );
-	skybox( testCounts );
-	vtx_frag( testCounts );
-	charles( testCounts );
-	charles_approx( testCounts );
-	charles_latest( testCounts );
-	radiance_computer( testCounts );
-	arthapzMin( testCounts );
-	arthapz( testCounts, false, false );
-	arthapz( testCounts, false, true );
-	arthapz( testCounts, true, false );
-	arthapz( testCounts, true, true );
-	onlyGeometry( testCounts );
-	basicGeometry( testCounts );
-	voxelGeometry( testCounts );
-	simpleStore( testCounts );
+	sdwTestSuiteBegin();
+	//reference( testCounts );
+	//vertex( testCounts );
+	//fragment( testCounts );
+	//compute( testCounts );
+	//params( testCounts );
+	//swizzles( testCounts );
+	//arrayAccesses( testCounts );
+	//removeGamma( testCounts );
+	//conversions( testCounts );
+	//returns( testCounts );
+	//outputs( testCounts );
+	//skybox( testCounts );
+	//vtx_frag( testCounts );
+	//charles( testCounts );
+	//charles_approx( testCounts );
+	//charles_latest( testCounts );
+	//radiance_computer( testCounts );
+	//arthapzMin( testCounts );
+	//arthapz( testCounts, false, false );
+	//arthapz( testCounts, false, true );
+	//arthapz( testCounts, true, false );
+	//arthapz( testCounts, true, true );
+	//onlyGeometry( testCounts );
+	//basicGeometry( testCounts );
+	//voxelGeometry( testCounts );
+	//simpleStore( testCounts );
+	voxelToTexture( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterShader )

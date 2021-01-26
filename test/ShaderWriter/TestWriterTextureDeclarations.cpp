@@ -168,9 +168,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterTextureDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterTextureDeclarations" );
+	sdwTestSuiteBegin();
 	testSampledImageFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
 	testSampledImageFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
 	testSampledImageFormat< ast::type::ImageFormat::eRg32f >( testCounts );
@@ -197,3 +197,5 @@ int main( int argc, char ** argv )
 	testSampledImageFormat< ast::type::ImageFormat::eR8u >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterTextureDeclarations )

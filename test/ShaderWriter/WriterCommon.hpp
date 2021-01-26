@@ -19,16 +19,28 @@ namespace test
 		struct GLSLContext;
 		struct HLSLContext;
 		struct SPIRVContext;
+
 		struct TestCounts
 			: test::TestCounts
 		{
-			void initialise( std::string const & name );
-			void cleanup();
+			TestCounts( test::TestSuite & suite );
+
+			void initialise();
+			TestResults cleanup();
 
 			std::shared_ptr< GLSLContext > glsl;
 			std::shared_ptr< HLSLContext > hlsl;
 			std::shared_ptr< SPIRVContext > spirv;
 			std::string expectedError;
+		};
+
+		struct TestSuite
+			: test::TestSuite
+		{
+			using TestCountsType = test::sdw_test::TestCounts;
+
+			TestSuite( std::string const & name );
+			~TestSuite();
 		};
 	}
 
@@ -402,9 +414,14 @@ namespace test
 		, sdw_test::TestCounts & testCounts );
 }
 
-#define sdwTestSuiteBegin( name )\
-	test::sdw_test::TestCounts testCounts;\
-	testSuiteBeginEx( name, testCounts )
+#define sdwTestSuiteMain( testName )\
+	test::TestResults launch##testName( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
+
+#define sdwTestSuiteBegin()\
+	testSuiteBeginEx( testCounts )
+
+#define sdwTestSuiteLaunch( name )\
+	testSuiteLaunchEx( name, test::sdw_test::TestSuite )
 
 #define sdwTestSuiteEnd()\
 	testSuiteEnd()

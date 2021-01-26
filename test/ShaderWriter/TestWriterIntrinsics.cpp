@@ -11478,9 +11478,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterIntrinsics )
 {
-	sdwTestSuiteBegin( "TestWriterIntrinsics" );
+	sdwTestSuiteBegin();
 	testDegrees1F( testCounts );
 	testDegrees2F( testCounts );
 	testDegrees3F( testCounts );
@@ -12132,3 +12132,5 @@ int main( int argc, char ** argv )
 	testInterpolateAtOffset4( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterIntrinsics )

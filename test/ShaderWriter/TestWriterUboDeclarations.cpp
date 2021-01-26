@@ -155,9 +155,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterUboDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterUboDeclarations" );
+	sdwTestSuiteBegin();
 	testUbo< sdw::Int >( testCounts );
 	testUbo< sdw::UInt >( testCounts );
 	testUbo< sdw::Float >( testCounts );
@@ -194,3 +194,5 @@ int main( int argc, char ** argv )
 	testUbo< sdw::DMat4x3 >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterUboDeclarations )

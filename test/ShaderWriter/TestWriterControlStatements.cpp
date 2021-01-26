@@ -425,9 +425,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )	
+sdwTestSuiteMain( TestWriterControlStatements )
 {
-	sdwTestSuiteBegin( "TestWriterControlStatements" );
+	sdwTestSuiteBegin();
 	testIf(  testCounts );
 	testIfElse(  testCounts );
 	testIfElseIf(  testCounts );
@@ -444,3 +444,5 @@ int main( int argc, char ** argv )
 	testNestedDoWhile(  testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterControlStatements )
