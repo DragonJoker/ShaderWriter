@@ -5,9 +5,11 @@
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 
+#include <atomic>
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
+#include <sstream>
 
 namespace test
 {
@@ -132,23 +134,117 @@ namespace test
 		}
 	};
 
+	struct TestCounts;
+	struct TestSuite;
+
+	struct TestStringStreams
+	{
+		TestStringStreams( std::string & sout )
+			: cout{ sout }
+			, cerr{ cout }
+			, clog{ cout }
+		{
+		}
+
+		std::stringstream cout;
+		std::stringstream & cerr;
+		std::stringstream & clog;
+	};
+
+	struct TestResults
+	{
+		uint32_t totalCount{ 0u };
+		uint32_t errorCount{ 0u };
+	};
+
 	struct TestCounts
 	{
-		void initialise( std::string const & name );
-		void cleanup();
+		TestCounts( TestSuite & suite );
+		~TestCounts()noexcept;
+
+		void initialise();
+		TestResults cleanup();
+
+		uint32_t getTotalCount()
+		{
+			return result.totalCount;
+		}
+
+		void incTest();
+		void incErr();
 
 		std::string testName;
-		uint32_t totalCount = 0u;
-		uint32_t errorCount = 0u;
-		uint32_t curTestErrors = 0u;
+		uint32_t curTestErrors{ 0u };
+		std::string sout;
+		TestStringStreams streams;
 
 	private:
+		TestSuite & suite;
+		TestResults result{};
+	};
+
+	using TestCountsPtr = std::unique_ptr< TestCounts >;
+
+	struct TestSuite
+	{
+		using TestCountsType = test::TestCounts;
+		using TestSuiteLaunch = TestResults( * )( test::TestSuite &, test::TestCounts & );
+
+		TestSuite( std::string const & name );
+		~TestSuite()noexcept;
+
+		void registerTests( std::string name
+			, TestSuiteLaunch launch
+			, TestCountsPtr testCounts );
+		int run();
+
+		template< typename TestSuiteT >
+		void registerTests( std::string name
+			, TestSuiteLaunch launch )
+		{
+			return registerTests( std::move( name )
+				, std::move( launch )
+				, std::make_unique< typename TestSuiteT::TestCountsType >( *this ) );
+		}
+
+		template< typename TestSuiteT
+			, typename TestCountsT >
+		void registerTests( std::string name
+			, TestResults( *launch )( TestSuiteT &, TestCountsT & ) )
+		{
+			return registerTests( std::move( name )
+				, reinterpret_cast< TestSuiteLaunch >( launch )
+				, std::make_unique< typename TestSuiteT::TestCountsType >( *this ) );
+		}
+
+		std::atomic_uint32_t totalCount{ 0u };
+		std::atomic_uint32_t errorCount{ 0u };
+
+	private:
+		struct TestSuiteRun
+		{
+			TestSuiteRun( TestSuiteLaunch launch
+				, std::string name
+				, TestCountsPtr testCount )
+				: launch{ std::move( launch ) }
+				, name{ std::move( name ) }
+				, testCount{ std::move( testCount ) }
+			{
+			}
+
+			TestSuiteLaunch launch;
+			std::string name;
+			TestCountsPtr testCount;
+		};
+		using TestSuiteRunPtr = std::unique_ptr< TestSuiteRun >;
+
+		std::string suiteName;
+		std::vector< TestSuiteRunPtr > tests;
 		std::unique_ptr< std::streambuf > tclog;
 		std::unique_ptr< std::streambuf > tcout;
 		std::unique_ptr< std::streambuf > tcerr;
 	};
 
-	int reportTestSuite( TestCounts const & testCounts );
 	void beginTest( TestCounts & testCounts
 		, std::string const & name );
 	void endTest( TestCounts & testCounts );
@@ -164,6 +260,23 @@ namespace test
 		reportFailure( error.c_str(), function, line, testCounts );
 	}
 
+#	define testSuiteMain( testName )\
+	test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
+
+#if defined( SDW_COMPILE_TESTS )
+#	define testSuiteLaunchEx( testName, suiteType )\
+	int main( int argv, char ** argc )\
+	{\
+		suiteType suite{ #testName };\
+		suite.registerTests< suiteType >( #testName, launch##testName );\
+		return suite.run();\
+	}
+#else
+#	define testSuiteLaunchEx( testName, suiteType )
+#endif
+
+#define testSuiteLaunch( name )\
+	testSuiteLaunchEx( name, test::TestSuite )
 
 #define testStringify( x )\
 	#x
@@ -177,8 +290,8 @@ namespace test
 #define testConcat4( x, y, z, w )\
 	testConcat3( x, y, z ) testStringify( w )
 
-#define testSuiteBeginEx( name, testCounts )\
-	testCounts.initialise( name );\
+#define testSuiteBeginEx( testCounts )\
+	testCounts.initialise();\
 	try\
 	{\
 
@@ -192,13 +305,10 @@ namespace test
 	{\
 		test::reportFailure( "Test failed, Unhandled exception: Unknown", __FUNCTION__, __LINE__, testCounts );\
 	}\
-	auto result = test::reportTestSuite( testCounts );\
-	testCounts.cleanup();\
-	return result;
+	return testCounts.cleanup();
 
-#define testSuiteBegin( name )\
-	test::TestCounts testCounts;\
-	testSuiteBeginEx( name, testCounts )
+#define testSuiteBegin()\
+	testSuiteBeginEx( testCounts )
 
 #define testBegin( name )\
 	test::beginTest( testCounts, name );\
@@ -210,22 +320,22 @@ namespace test
 	}\
 	catch ( std::exception & exc )\
 	{\
-		std::cout << testCounts.testName << " Failed: " << exc.what() << std::endl;\
+		testCounts.streams.cout << testCounts.testName << " Failed: " << exc.what() << std::endl;\
 	}\
 	catch ( ... )\
 	{\
-		std::cout << testCounts.testName << " Failed: Unknown unhandled exception" << std::endl;\
+		testCounts.streams.cout << testCounts.testName << " Failed: Unknown unhandled exception" << std::endl;\
 	}\
 	test::endTest( testCounts );
 
 #define failure( x )\
-	++testCounts.totalCount;\
+	testCounts.incTest();\
 	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts );\
 
 #define require( x )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " failed" };\
@@ -239,7 +349,7 @@ namespace test
 #define beginRequire( x )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " failed" };\
@@ -255,7 +365,7 @@ namespace test
 #define check( x )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
 			test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
@@ -269,7 +379,7 @@ namespace test
 #define checkEqual( x, y )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		if ( ( x ) != ( y ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " == " + std::string{ #y } + " failed" };\
@@ -283,7 +393,7 @@ namespace test
 #define checkNotEqual( x, y )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		if ( ( x ) == ( y ) )\
 		{\
 			throw std::runtime_error{ std::string{ #x } + " != " + std::string{ #y } + " failed" };\
@@ -297,7 +407,7 @@ namespace test
 #define checkThrow( x )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		( x ); \
 		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
@@ -308,7 +418,7 @@ namespace test
 #define checkNoThrow( x )\
 	try\
 	{\
-		++testCounts.totalCount;\
+		testCounts.incTest();\
 		( x ); \
 	}\
 	catch ( std::exception & exc )\

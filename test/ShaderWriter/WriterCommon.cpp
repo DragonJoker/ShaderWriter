@@ -25,7 +25,7 @@
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
 
-#define SDW_Test_DisplayShaders 0
+#define SDW_Test_DisplayShaders 1
 
 namespace test
 {
@@ -119,7 +119,8 @@ namespace test
 		}
 
 		std::string compileSpirV( std::string const & language
-			, spirv_cross::Compiler & compiler )
+			, spirv_cross::Compiler & compiler
+			, test::TestCounts & testCounts )
 		{
 			std::string result;
 			try
@@ -128,17 +129,17 @@ namespace test
 			}
 			catch ( spirv_cross::CompilerError & exc )
 			{
-				std::cout << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << std::endl;
+				testCounts.streams.cout << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << std::endl;
 				throw;
 			}
 			catch ( std::exception & exc )
 			{
-				std::cout << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << std::endl;
+				testCounts.streams.cout << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << std::endl;
 				throw;
 			}
 			catch ( ... )
 			{
-				std::cout << "SPIRV-Cross(" << language << "), shader compilation failed: Unknown error" << std::endl;
+				testCounts.streams.cout << "SPIRV-Cross(" << language << "), shader compilation failed: Unknown error" << std::endl;
 				throw;
 			}
 
@@ -146,34 +147,37 @@ namespace test
 		}
 
 		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
-			, ast::ShaderStage stage )
+			, ast::ShaderStage stage
+			, test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
 			doSetupOptions( *compiler );
-			return compileSpirV( "GLSL", *compiler );
+			return compileSpirV( "GLSL", *compiler, testCounts );
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
-			, ast::ShaderStage stage )
+			, ast::ShaderStage stage
+			, test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
 			doSetupHlslOptions( *compiler );
 			doSetupOptions( *compiler );
-			return compileSpirV( "HLSL", *compiler );
+			return compileSpirV( "HLSL", *compiler, testCounts );
 		}
 
 		void displayShader( std::string const & name
 			, std::string const & shader
+			, test::TestCounts & testCounts
 			, bool force = false )
 		{
 			if ( force || SDW_Test_DisplayShaders )
 			{
-				std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-				std::cout << "// " << name << std::endl;
-				std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-				std::cout << std::endl << shader << std::endl;
+				testCounts.streams.cout << "////////////////////////////////////////////////////////////" << std::endl;
+				testCounts.streams.cout << "// " << name << std::endl;
+				testCounts.streams.cout << "////////////////////////////////////////////////////////////" << std::endl;
+				testCounts.streams.cout << std::endl << shader << std::endl;
 			}
 		}
 
@@ -188,14 +192,14 @@ namespace test
 
 			if ( !errors.empty() )
 			{
-				std::cout << "VkShaderModule creation raised messages, for CompilerSpv output:" << std::endl;
-				std::cout << errors << std::endl;
+				testCounts.streams.cout << "VkShaderModule creation raised messages, for CompilerSpv output:" << std::endl;
+				testCounts.streams.cout << errors << std::endl;
 				result = false;
 
 				if ( checkRef )
 				{
 					failure( "compileSpirV( spirv, stage )" );
-					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.totalCount ) + ".spv";
+					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.getTotalCount() ) + ".spv";
 					FILE * fileOut = fopen( fileName.c_str(), "wb" );
 
 					if ( fileOut )
@@ -207,7 +211,7 @@ namespace test
 						fclose( fileOut );
 					}
 
-					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.totalCount ) + ".ref.spv";
+					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.getTotalCount() ) + ".ref.spv";
 					FILE * fileIn = fopen( fileName.c_str(), "rb" );
 
 					if ( fileIn )
@@ -246,19 +250,19 @@ namespace test
 			{
 				if ( validateGlsl )
 				{
-					auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType() );
-					displayShader( "SPIRV-Cross GLSL", crossGlsl );
+					auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
+					displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts );
 				}
 
 				if ( validateHlsl )
 				{
-					auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType() );
-					displayShader( "SPIRV-Cross HLSL", crossHlsl );
+					auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
+					displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts );
 				}
 			}
 			else
 			{
-				displayShader( "SPIR-V", text, true );
+				displayShader( "SPIR-V", text, testCounts, true );
 
 #if SDW_HasCompilerGlsl
 
@@ -273,13 +277,13 @@ namespace test
 
 					if ( !errors.empty() )
 					{
-						std::cout << "VkShaderModule creation raised messages, for glslang output:" << std::endl;
-						std::cout << errors << std::endl;
+						testCounts.streams.cout << "VkShaderModule creation raised messages, for glslang output:" << std::endl;
+						testCounts.streams.cout << errors << std::endl;
 					}
 				}
 				catch ( std::exception & exc )
 				{
-					std::cerr << exc.what() << std::endl;
+					testCounts.streams.cerr << exc.what() << std::endl;
 				}
 
 #endif
@@ -287,10 +291,11 @@ namespace test
 		}
 
 		void testWriteDebug( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation )
+			, ::sdw::SpecialisationInfo const & specialisation
+			, test::TestCounts & testCounts )
 		{
 			auto debug = ::sdw::writeDebug( shader );
-			displayShader( "Statements", debug );
+			displayShader( "Statements", debug, testCounts );
 		}
 
 		void testWriteGlsl( ::ast::Shader const & shader
@@ -312,13 +317,13 @@ namespace test
 					, errors
 					, testCounts ) )
 				{
-					displayShader( "GLSL", glsl, true );
-					std::cout << errors << std::endl;
+					displayShader( "GLSL", glsl, testCounts, true );
+					testCounts.streams.cout << errors << std::endl;
 					failure( "compileGlsl( glsl, stage )" );
 				}
 				else
 				{
-					displayShader( "GLSL", glsl );
+					displayShader( "GLSL", glsl, testCounts );
 				}
 			}
 
@@ -344,13 +349,13 @@ namespace test
 					, errors
 					, testCounts ) )
 				{
-					displayShader( "HLSL", hlsl, true );
-					std::cout << errors << std::endl;
+					displayShader( "HLSL", hlsl, testCounts, true );
+					testCounts.streams.cout << errors << std::endl;
 					failure( "compileHlsl( hlsl, stage )" );
 				}
 				else
 				{
-					displayShader( "HLSL", hlsl );
+					displayShader( "HLSL", hlsl, testCounts );
 				}
 			}
 
@@ -371,7 +376,7 @@ namespace test
 				if ( validateSpirV )
 				{
 					auto textSpirv = spirv::writeSpirv( shader );
-					displayShader( "SPIR-V", textSpirv );
+					displayShader( "SPIR-V", textSpirv, testCounts );
 					std::vector< uint32_t > spirv;
 
 					try
@@ -380,7 +385,7 @@ namespace test
 					}
 					catch ( ... )
 					{
-						displayShader( "SPIR-V", textSpirv, true );
+						displayShader( "SPIR-V", textSpirv, testCounts, true );
 						throw;
 					}
 
@@ -404,15 +409,15 @@ namespace test
 								&& text.find( "not supported on HLSL" ) == std::string::npos
 								&& text.find( "exist in HLSL" ) == std::string::npos )
 							{
-								displayShader( "SPIR-V", textSpirv, true );
-								std::cout << "spirv_cross exception: " << exc.what() << std::endl;
+								displayShader( "SPIR-V", textSpirv, testCounts, true );
+								testCounts.streams.cout << "spirv_cross exception: " << exc.what() << std::endl;
 								throw;
 							}
 						}
 						catch ( std::exception & exc )
 						{
-							displayShader( "SPIR-V", textSpirv, true );
-							std::cout << "std exception: " << exc.what() << std::endl;
+							displayShader( "SPIR-V", textSpirv, testCounts, true );
+							testCounts.streams.cout << "std exception: " << exc.what() << std::endl;
 							throw;
 						}
 					}
@@ -449,22 +454,36 @@ namespace test
 
 	namespace sdw_test
 	{
-		void TestCounts::initialise( std::string const & name )
+		TestSuite::TestSuite( std::string const & name )
+			: test::TestSuite{ name }
 		{
-			test::TestCounts::initialise( name );
+			initialiseGlslang();
+		}
+		
+		TestSuite::~TestSuite()
+		{
+			cleanupGlslang();
+		}
+
+		TestCounts::TestCounts( test::TestSuite & suite )
+			: test::TestCounts{ suite }
+		{
+		}
+
+		void TestCounts::initialise()
+		{
+			test::TestCounts::initialise();
 			createGLSLContext( *this );
 			createHLSLContext( *this );
 			createSPIRVContext( *this );
-			initialiseGlslang();
 		}
 
-		void TestCounts::cleanup()
+		TestResults TestCounts::cleanup()
 		{
-			cleanupGlslang();
 			destroySPIRVContext( *this );
 			destroyHLSLContext( *this );
 			destroyGLSLContext( *this );
-			test::TestCounts::cleanup();
+			return test::TestCounts::cleanup();
 		}
 	}
 
@@ -475,7 +494,7 @@ namespace test
 		, bool validateGlsl )
 	{
 		auto specialisation = getSpecialisationInfo( shader );
-		checkNoThrow( testWriteDebug( shader, specialisation ) );
+		checkNoThrow( testWriteDebug( shader, specialisation, testCounts ) );
 		checkNoThrow( testWriteSpirV( shader, specialisation, validateSpirV, validateHlsl, validateGlsl, testCounts ) );
 		checkNoThrow( testWriteGlsl( shader, specialisation, validateGlsl, testCounts ) );
 		checkNoThrow( testWriteHlsl( shader, specialisation, validateHlsl, testCounts ) );
@@ -528,11 +547,11 @@ namespace test
 			}
 			catch ( std::exception & exc )
 			{
-				std::cerr << "Unhandled exception: " << exc.what() << std::endl;
+				testCounts.streams.cerr << "Unhandled exception: " << exc.what() << std::endl;
 			}
 			catch ( ... )
 			{
-				std::cerr << "Unhandled exception: Unknown" << std::endl;
+				testCounts.streams.cerr << "Unhandled exception: Unknown" << std::endl;
 			}
 		}
 #endif
@@ -563,11 +582,11 @@ namespace test
 			}
 			catch ( std::exception & exc )
 			{
-				std::cerr << "Unhandled exception: " << exc.what() << std::endl;
+				testCounts.streams.cerr << "Unhandled exception: " << exc.what() << std::endl;
 			}
 			catch ( ... )
 			{
-				std::cerr << "Unhandled exception: Unknown" << std::endl;
+				testCounts.streams.cerr << "Unhandled exception: Unknown" << std::endl;
 			}
 		}
 #endif

@@ -561,12 +561,14 @@ namespace test
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterMaybeOptional )
 {
-	sdwTestSuiteBegin( "TestWriterMaybeOptional" );
+	sdwTestSuiteBegin();
 	testMaybeOptional( testCounts );
 	testMaybeOptionalArray( testCounts );
 	testMaybeOptionalDefaultValue( testCounts );
 	testMaybeOptionalArrayDefaultValue( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterMaybeOptional )

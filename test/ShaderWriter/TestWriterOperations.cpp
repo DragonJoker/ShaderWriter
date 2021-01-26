@@ -900,9 +900,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterOperations )
 {
-	sdwTestSuiteBegin( "TestWriterOperations" );
+	sdwTestSuiteBegin();
 	testBool( testCounts );
 	testFloat< sdw::Float >( testCounts );
 	testFloat< sdw::Double >( testCounts );
@@ -924,3 +924,5 @@ int main( int argc, char ** argv )
 	testVec< sdw::Vec4T, sdw::UInt >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterOperations )

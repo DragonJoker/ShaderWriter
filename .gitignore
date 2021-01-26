@@ -2,6 +2,7 @@
 /binaries
 /build
 /setup
+/doc/coverage
 /doc/x86
 /doc/x64
 /.gitattributes

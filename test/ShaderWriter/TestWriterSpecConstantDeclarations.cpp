@@ -76,9 +76,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterSpecConstantDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterSpecConstantDeclarations" );
+	sdwTestSuiteBegin();
 	testSpecConstant< bool >( testCounts );
 	testSpecConstant< int32_t >( testCounts );
 	testSpecConstant< uint32_t >( testCounts );
@@ -86,3 +86,5 @@ int main( int argc, char ** argv )
 	testSpecConstant< double >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterSpecConstantDeclarations )

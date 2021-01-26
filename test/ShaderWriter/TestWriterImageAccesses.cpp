@@ -849,11 +849,11 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterImageAccesses )
 {
 #if !defined( __APPLE__ )
 
-	sdwTestSuiteBegin( "TestWriterImageAccesses" );
+	sdwTestSuiteBegin();
 	testsImage< ImageSizeTester >( testCounts );
 	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
@@ -870,3 +870,5 @@ int main( int argc, char ** argv )
 
 #endif
 }
+
+sdwTestSuiteLaunch( TestWriterImageAccesses )

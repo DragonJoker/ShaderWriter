@@ -190,9 +190,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterIncrement )
 {
-	sdwTestSuiteBegin( "TestWriterIncrement" );
+	sdwTestSuiteBegin();
 	singlePostIncrement( testCounts );
 	singlePreIncrement( testCounts );
 	assignPostIncrement( testCounts );
@@ -203,3 +203,5 @@ int main( int argc, char ** argv )
 	loopPreIncrement( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterIncrement )

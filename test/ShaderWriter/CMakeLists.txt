@@ -123,6 +123,10 @@ add_library( TestWriterCommon
 	${TEST_WRITER_COMMON_HEADER_FILES}
 	${TEST_WRITER_COMMON_SOURCE_FILES}
 )
+add_library( sdw::test::WriterCommon
+	ALIAS
+	TestWriterCommon
+)
 target_link_libraries( TestWriterCommon
 	PUBLIC
 		sdw::ShaderAST
@@ -151,11 +155,28 @@ set_target_properties( TestWriterCommon
 		FOLDER "Tests/ShaderWriter"
 )
 set( TargetLinkLibraries
-	TestWriterCommon
+	sdw::test::WriterCommon
 )
+
+if ( PROJECTS_COVERAGE )
+	set( PROJECTS_COVERAGE_LIB_FILES
+		${PROJECTS_COVERAGE_LIB_FILES}
+		sdw::test::WriterCommon
+	)
+endif ()
 
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
+	if ( PROJECTS_COVERAGE )
+		set( PROJECTS_COVERAGE_SRC_FILES
+			${PROJECTS_COVERAGE_SRC_FILES}
+			${TEST_FILE}
+		)
+		set( PROJECTS_COVERAGE_TEST_NAMES
+			${PROJECTS_COVERAGE_TEST_NAMES}
+			${TEST_NAME}
+		)
+	endif ()
 	add_executable( ${TEST_NAME}
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
@@ -168,6 +189,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	)
 	target_compile_definitions( ${TEST_NAME} PRIVATE
 		${TargetCompileDefinitions}
+		SDW_COMPILE_TESTS
 	)
 	set_target_properties( ${TEST_NAME} PROPERTIES
 		CXX_STANDARD 17
@@ -178,6 +200,13 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		target_compile_options( ${TEST_NAME} PRIVATE
 			-bigobj
 		)
+
+		if ( PROJECTS_COVERAGE )
+			OpenCppCoverage_add_target( ${TEST_NAME}
+				MODULES $<TARGET_FILE_NAME:ShaderAST> $<TARGET_FILE_NAME:ShaderWriter>
+				SOURCES ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/source
+			)
+		endif ()
 	endif ()
 
 	add_test(
@@ -185,3 +214,18 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		COMMAND ${TEST_NAME}
 	)
 endforeach ()
+
+if ( PROJECTS_COVERAGE )
+	set( PROJECTS_COVERAGE_LIB_FILES
+		${PROJECTS_COVERAGE_LIB_FILES}
+		PARENT_SCOPE
+	)
+	set( PROJECTS_COVERAGE_SRC_FILES
+		${PROJECTS_COVERAGE_SRC_FILES}
+		PARENT_SCOPE
+	)
+	set( PROJECTS_COVERAGE_TEST_NAMES
+		${PROJECTS_COVERAGE_TEST_NAMES}
+		PARENT_SCOPE
+	)
+endif ()

@@ -141,9 +141,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterPcbDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterPcbDeclarations" );
+	sdwTestSuiteBegin();
 	testPcb< sdw::Int >( testCounts );
 	testPcb< sdw::UInt >( testCounts );
 	testPcb< sdw::Float >( testCounts );
@@ -180,3 +180,5 @@ int main( int argc, char ** argv )
 	testPcb< sdw::DMat4x3 >( testCounts );
 	sdwTestSuiteEnd();
 }
+
+sdwTestSuiteLaunch( TestWriterPcbDeclarations )

@@ -24,11 +24,31 @@ target_link_libraries( TestCommon
 		sdw::ShaderAST
 		${SDW_EXPORTERS_LIST}
 )
+if ( NOT WIN32 )
+	target_link_libraries( TestCommon
+		PUBLIC
+			pthread
+	)
+endif ()
 set_target_properties( TestCommon
 	PROPERTIES
 		CXX_STANDARD 17
 		FOLDER "Tests"
 )
 
+if ( PROJECTS_COVERAGE )
+	set( PROJECTS_COVERAGE_LIB_FILES
+		sdw::test::Common
+	)
+endif ()
+
+include( OpenCppCoverage )
+
 add_subdirectory( ShaderAST )
 add_subdirectory( ShaderWriter )
+
+if ( PROJECTS_COVERAGE )
+	OpenCppCoverage_add_merge_target( ShaderWriterCoverage
+		${PROJECTS_DOCUMENTATION_OUTPUT_DIR}/${TARGET_NAME}Coverage
+		FORMAT html )
+endif ()

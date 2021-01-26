@@ -270,9 +270,9 @@ namespace
 	}
 }
 
-int main( int argc, char ** argv )
+sdwTestSuiteMain( TestWriterLocaleDeclarations )
 {
-	sdwTestSuiteBegin( "TestWriterLocaleDeclarations" );
+	sdwTestSuiteBegin();
 	testLocale< sdw::Boolean >( testCounts );
 	testLocale< sdw::Int >( testCounts );
 	testLocale< sdw::UInt >( testCounts );
@@ -316,3 +316,4 @@ int main( int argc, char ** argv )
 	sdwTestSuiteEnd();
 }
 
+sdwTestSuiteLaunch( TestWriterLocaleDeclarations )
