@@ -7,7 +7,9 @@
 #	include <dirent.h>
 #	include <pwd.h>
 #elif defined( __APPLE__ )
-#include <mach-o/dyld.h>
+#	include <mach-o/dyld.h>
+#	include <cpuid.h>
+#	include <sys/sysctl.h>
 #endif
 
 #include <thread>
