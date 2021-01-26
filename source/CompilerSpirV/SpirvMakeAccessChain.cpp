@@ -618,12 +618,19 @@ namespace spirv
 		return result;
 	}
 
+	bool isBuiltIn( ast::expr::Expr * expr )
+	{
+		return expr->getKind() == ast::expr::Kind::eIdentifier
+			&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
+	}
+
 	bool isAccessChain( ast::expr::Expr * expr )
 	{
 		return expr->getKind() == ast::expr::Kind::eArrayAccess
 			|| expr->getKind() == ast::expr::Kind::eMbrSelect
 			|| ( expr->getKind() == ast::expr::Kind::eSwizzle
-				&& !isScalarType( expr->getType()->getKind() ) )
+				&& ( !isScalarType( expr->getType()->getKind() )
+					|| isBuiltIn( static_cast< ast::expr::Swizzle const & >( *expr ).getOuterExpr() ) ) )
 			|| ( expr->getKind() == ast::expr::Kind::eIdentifier
 				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() );
 	}
