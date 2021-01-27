@@ -15,9 +15,10 @@ See LICENSE file in root folder
 namespace sdw
 {
 #if Writer_UseSwizzle
+
 	template< typename Input, typename Output >
 	struct Swizzle
-		: public Expr
+		: public Output
 	{
 		inline Swizzle( std::string const & p_name
 			, Input * input );
@@ -208,7 +209,8 @@ namespace sdw
 		auto & shader = *findWriter( *this );\
 		return Output{ shader\
 			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
-				, expr::SwizzleKind::e##Name ) };\
+				, expr::SwizzleKind::e##Name )\
+			, this->isEnabled() };\
 	}
 
 #	define Writer_FirstSwizzle( Input, Output, Name )\
@@ -216,45 +218,6 @@ namespace sdw
 
 #	define Writer_LastSwizzle( Input, Output, Name )\
 	Writer_Swizzle( Input, Output, Name )
-
-#	define Writer_OptSwizzle( Input, Output, Name )\
-	inline Output Name()const\
-	{\
-		auto & shader = *findWriter( *this );\
-		return Output{ shader\
-			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
-				, expr::SwizzleKind::e##Name )\
-			, this->isEnabled() };\
-	}
-
-#	define Writer_FirstOptSwizzle( Input, Output, Name )\
-	Writer_OptSwizzle( Input, Output, Name )
-
-#	define Writer_LastOptSwizzle( Input, Output, Name )\
-	Writer_OptSwizzle( Input, Output, Name )
-
-#	define Writer_MayOptSwizzle( Input, Output, Name )\
-	inline Output Name()const\
-	{\
-		auto & shader = *findWriter( *this );\
-		if ( isAnyOptional( *this ) )\
-		{\
-			return Output{ shader\
-				, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
-					, expr::SwizzleKind::e##Name )\
-				, this->isEnabled() };\
-		}\
-		return Output{ shader\
-			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
-				, expr::SwizzleKind::e##Name ) };\
-	}
-
-#	define Writer_FirstMayOptSwizzle( Input, Output, Name )\
-	Writer_MayOptSwizzle( Input, Output, Name )
-
-#	define Writer_LastMayOptSwizzle( Input, Output, Name )\
-	Writer_MayOptSwizzle( Input, Output, Name )
-
 
 #	define Swizzle_X x()
 #	define Swizzle_Y y()

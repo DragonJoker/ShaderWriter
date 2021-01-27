@@ -21,37 +21,10 @@ namespace
 				auto out = writer.declLocale< T >( "outValue", value );
 			} );
 	}
-	
-	template< typename T >
-	void simpleMain( sdw::ShaderWriter & writer
-		, sdw::Optional< T > const & value )
-	{
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
-			{
-				auto out = writer.declLocale< T >( "outValue", value );
-			} );
-	}
 
 	template< typename T >
 	void arrayMain( sdw::ShaderWriter & writer
 		, sdw::Array< T > const & value
-		, uint32_t size )
-	{
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
-			{
-				auto out = writer.declLocaleArray< T >( "outValue", size );
-				for ( uint32_t i = 0u; i < size; ++i )
-				{
-					out[i] = value[i];
-				}
-			} );
-	}
-
-	template< typename T >
-	void arrayMain( sdw::ShaderWriter & writer
-		, sdw::Optional< sdw::Array< T > > const & value
 		, uint32_t size )
 	{
 		writer.implementFunction< sdw::Void >( "main"

@@ -18,7 +18,8 @@ namespace sdw
 		: public Value
 	{
 		SDW_API PerVertex( ShaderWriter & writer
-			, ast::expr::ExprPtr expr );
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
 		SDW_API PerVertex( ShaderWriter & writer
 			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
 		Vec4 position;

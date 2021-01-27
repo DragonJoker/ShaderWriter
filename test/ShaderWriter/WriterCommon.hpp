@@ -51,21 +51,24 @@ namespace test
 	inline sdw::Boolean getDefault< sdw::Boolean >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Boolean{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), true ) };
+			, sdw::expr::makeLiteral( writer.getTypesCache(), true )
+			, true };
 	}
 
 	template<>
 	inline sdw::Int getDefault< sdw::Int >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Int{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1 ) };
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1 )
+			, true };
 	}
 
 	template<>
 	inline sdw::UInt getDefault< sdw::UInt >( sdw::ShaderWriter & writer )
 	{
 		return sdw::UInt{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1u ) };
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1u )
+			, true };
 	}
 
 	template<>
@@ -73,21 +76,24 @@ namespace test
 	{
 		return sdw::Half{ writer
 			, sdw::expr::makeCast( writer.getTypesCache().getHalf()
-				, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f ) ) };
+				, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f ) )
+			, true };
 	}
 
 	template<>
 	inline sdw::Float getDefault< sdw::Float >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Float{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f ) };
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f )
+			, true };
 	}
 
 	template<>
 	inline sdw::Double getDefault< sdw::Double >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Double{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0 ) };
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0 )
+			, true };
 	}
 
 	template<>

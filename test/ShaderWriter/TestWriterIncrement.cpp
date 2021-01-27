@@ -141,7 +141,7 @@ namespace
 					auto & writerInt = ( writer );
 					writerInt.pushScope();
 					auto iName = writerInt.registerLoopVar( "i", Int::makeType( writerInt.getTypesCache() ) );
-					Int i{ writerInt, sdw::makeExpr( writerInt, iName ) };
+					Int i{ writerInt, sdw::makeExpr( writerInt, iName ), true };
 					writerInt.forStmt( sdw::makeInit( iName
 						, sdw::makeExpr( writerInt, 0_i ) )
 						, sdw::makeCondition( i < 12_i )

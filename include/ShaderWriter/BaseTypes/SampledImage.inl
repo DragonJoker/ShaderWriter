@@ -1579,29 +1579,19 @@ namespace sdw
 			, bool MsT
 			, expr::TextureAccess TextureAccessT
 			, typename ... ParamsT >
-		MaybeOptional< ReturnT > writeTextureAccessCall( MaybeOptional< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > const & image
-			, MaybeOptional< ParamsT > const & ... params )
+		ReturnT writeTextureAccessCall( SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & image
+			, ParamsT const & ... params )
 		{
 			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
 			static_assert( TextureAccessT != expr::TextureAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
-
-			if ( isAnyOptional( image, params... ) )
-			{
-				return Optional< ReturnT >{ *findWriter( image, params... )
-					, expr::makeTextureAccessCall( ReturnT::makeType( cache )
-						, TextureAccessT
-						, makeExpr( image )
-						, makeExpr( params )... )
-					, areOptionalEnabled( image, params... ) };
-			}
-
 			return ReturnT{ *findWriter( image, params... )
 				, expr::makeTextureAccessCall( ReturnT::makeType( cache )
 					, TextureAccessT
 					, makeExpr( image )
-					, makeExpr( params )... ) };
+					, makeExpr( params )... )
+				, areOptionalEnabled( image, params... ) };
 		}
 
 		//*************************************************************************
@@ -1615,7 +1605,7 @@ namespace sdw
 		{
 			using SizeT = SampledImageSizeT< DimT, ArrayedT >;
 
-			MaybeOptional< SizeT > getSize()const
+			SizeT getSize()const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
@@ -1639,7 +1629,7 @@ namespace sdw
 		{
 			using SizeT = SampledImageSizeT< DimT, ArrayedT >;
 
-			MaybeOptional< SizeT > getSize( MaybeOptional< Int > const & level )const
+			SizeT getSize( Int const & level )const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
@@ -1664,7 +1654,7 @@ namespace sdw
 		{
 			using QueryLodT = SampledImageQueryLodT< DimT, ArrayedT >;
 
-			MaybeOptional< Vec2 > getLod( MaybeOptional< QueryLodT > const & coord )const
+			Vec2 getLod( QueryLodT const & coord )const
 			{
 				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureQueryLod[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
@@ -1687,7 +1677,7 @@ namespace sdw
 			, bool MsT >
 		struct QueryLevelsFuncT
 		{
-			MaybeOptional< Int > getLevels()const
+			Int getLevels()const
 			{
 				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureQueryLevels[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
@@ -1710,7 +1700,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord )const
+			ImageSampleT< FormatT > sample( SampleT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1734,8 +1724,8 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -1760,8 +1750,8 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1786,9 +1776,9 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, Float const & ref
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -1815,8 +1805,8 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1842,9 +1832,9 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, Float const & ref
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -1871,9 +1861,9 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< OffsetT > const & offset
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, OffsetT const & offset
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1900,10 +1890,10 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > sample( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< OffsetT > const & offset
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > sample( SampleT const & coord
+				, Float const & ref
+				, OffsetT const & offset
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -1930,8 +1920,8 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > lod( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & lod )const
+			ImageSampleT< FormatT > lod( SampleT const & coord
+				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1956,9 +1946,9 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > lod( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Float > const & lod )const
+			ImageSampleT< FormatT > lod( SampleT const & coord
+				, Float const & ref
+				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -1985,9 +1975,9 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > lod( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & lod
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > lod( SampleT const & coord
+				, Float const & lod
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2014,10 +2004,10 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > lod( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Float > const & lod
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > lod( SampleT const & coord
+				, Float const & ref
+				, Float const & lod
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2044,7 +2034,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2068,8 +2058,8 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2094,8 +2084,8 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2120,9 +2110,9 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, Float const & ref
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2149,8 +2139,8 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2176,9 +2166,9 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, Float const & ref
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2205,9 +2195,9 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< OffsetT > const & offset
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, OffsetT const & offset
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2234,10 +2224,10 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > proj( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< OffsetT > const & offset
-				, MaybeOptional< Float > const & bias )const
+			ImageSampleT< FormatT > proj( SampleProjT const & coord
+				, Float const & ref
+				, OffsetT const & offset
+				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2264,8 +2254,8 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projLod( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & lod )const
+			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2290,9 +2280,9 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projLod( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Float > const & lod )const
+			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+				, Float const & ref
+				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2319,9 +2309,9 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projLod( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & lod
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+				, Float const & lod
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2348,10 +2338,10 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projLod( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Float > const & lod
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+				, Float const & ref
+				, Float const & lod
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2378,7 +2368,7 @@ namespace sdw
 		{
 			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > fetch( MaybeOptional< FetchT > const & coord )const
+			ImageSampleT< FormatT > fetch( FetchT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2402,8 +2392,8 @@ namespace sdw
 		{
 			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > fetch( MaybeOptional< FetchT > const & coord
-				, MaybeOptional< Int > const & level )const
+			ImageSampleT< FormatT > fetch( FetchT const & coord
+				, Int const & level )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2429,9 +2419,9 @@ namespace sdw
 			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > fetch( MaybeOptional< FetchT > const & coord
-				, MaybeOptional< Int > const & level
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > fetch( FetchT const & coord
+				, Int const & level
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texelFetchOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2458,9 +2448,9 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > grad( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy )const
+			ImageSampleT< FormatT > grad( SampleT const & coord
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2487,10 +2477,10 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > grad( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy )const
+			ImageSampleT< FormatT > grad( SampleT const & coord
+				, Float const & ref
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2519,10 +2509,10 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > grad( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > grad( SampleT const & coord
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2551,11 +2541,11 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > grad( MaybeOptional< SampleT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > grad( SampleT const & coord
+				, Float const & ref
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2584,9 +2574,9 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projGrad( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy )const
+			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2613,10 +2603,10 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projGrad( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy )const
+			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+				, Float const & ref
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2645,10 +2635,10 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projGrad( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2676,11 +2666,11 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageSampleT< FormatT > > projGrad( MaybeOptional< SampleProjT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< DerivativeT > const & dPdx
-				, MaybeOptional< DerivativeT > const & dPdy
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+				, Float const & ref
+				, DerivativeT const & dPdx
+				, DerivativeT const & dPdy
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2708,7 +2698,7 @@ namespace sdw
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord )const
+			ImageGatherT< FormatT > gather( GatherT const & coord )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2732,8 +2722,8 @@ namespace sdw
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< Float > const & ref )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2758,8 +2748,8 @@ namespace sdw
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< Int > const & comp )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2785,8 +2775,8 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2812,9 +2802,9 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< OffsetT > const & offset )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Float const & ref
+				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2841,9 +2831,9 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< OffsetT > const & offset
-				, MaybeOptional< Int > const & comp )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, OffsetT const & offset
+				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsetComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2870,8 +2860,8 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< Array< OffsetT > > const & offsets )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2897,9 +2887,9 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< Float > const & ref
-				, MaybeOptional< Array< OffsetT > > const & offsets )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Float const & ref
+				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
@@ -2926,9 +2916,9 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			MaybeOptional< ImageGatherT< FormatT > > gather( MaybeOptional< GatherT > const & coord
-				, MaybeOptional< Array< OffsetT > > const & offsets
-				, MaybeOptional< Int > const & comp )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Array< OffsetT > const & offsets
+				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsetsComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -3012,8 +3002,9 @@ namespace sdw
 			using GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3082,8 +3073,9 @@ namespace sdw
 			using GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3135,8 +3127,9 @@ namespace sdw
 			using GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3200,8 +3193,9 @@ namespace sdw
 			using GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3244,8 +3238,9 @@ namespace sdw
 			using GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3309,8 +3304,9 @@ namespace sdw
 			using GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3380,8 +3376,9 @@ namespace sdw
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3433,8 +3430,9 @@ namespace sdw
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3480,8 +3478,9 @@ namespace sdw
 			using GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3533,8 +3532,9 @@ namespace sdw
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3572,8 +3572,9 @@ namespace sdw
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3603,8 +3604,9 @@ namespace sdw
 			, public FetchFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
 			SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: SampledImage{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3624,10 +3626,15 @@ namespace sdw
 	{
 		this->updateContainer( rhs );
 		auto & shader = *findWriter( *this, rhs );
-		addStmt( shader
-			, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
-				, makeExpr( shader, getExpr() )
-				, makeExpr( shader, rhs ) ) ) );
+
+		if ( areOptionalEnabled( *this, rhs ) )
+		{
+			addStmt( shader
+				, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
+					, makeExpr( shader, getExpr() )
+					, makeExpr( shader, rhs ) ) ) );
+		}
+
 		return *this;
 	}
 
@@ -3639,8 +3646,9 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
 	{
 	}
 

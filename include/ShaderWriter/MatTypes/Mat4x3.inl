@@ -5,52 +5,20 @@ namespace sdw
 {
 	template< typename ValueT >
 	Mat4x3T< ValueT >::Mat4x3T( ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 	{
 	}
 
 	template< typename ValueT >
 	Mat4x3T< ValueT >::Mat4x3T( Mat4x3T const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ) }
+		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ), rhs.isEnabled() }
 	{
 	}
 
 	template< typename ValueT >
 	Mat4x3T< ValueT > & Mat4x3T< ValueT >::operator=( Mat4x3T< ValueT > const & rhs )
-	{
-		if ( this->getContainer() )
-		{
-			writeAssignOperator< Mat4x3T< ValueT > >( *this, rhs, sdw::makeAssign );
-		}
-		else
-		{
-			Value::operator=( rhs );
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
-	inline Mat4x3T< ValueT > & Mat4x3T< ValueT >::operator=( Optional< Mat4x3T< ValueT > > const & rhs )
-	{
-		if ( rhs.isEnabled() )
-		{
-			if ( this->getContainer() )
-			{
-				writeAssignOperator< Mat4x3T< ValueT > >( *this, rhs, sdw::makeAssign );
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
-	inline Mat4x3T< ValueT > & Mat4x3T< ValueT >::operator=( MaybeOptional< Mat4x3T< ValueT > > const & rhs )
 	{
 		if ( rhs.isEnabled() )
 		{

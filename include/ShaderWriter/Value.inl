@@ -7,6 +7,79 @@ namespace sdw
 
 	namespace details
 	{
+	//*************************************************************************
+
+		inline bool areOptionalEnabledRec()
+		{
+			return true;
+		}
+
+		template< typename ParamT >
+		inline bool areOptionalEnabledRec( ParamT const & value )
+		{
+			return isOptionalEnabled( value );
+		}
+
+		template< typename ParamT
+			, typename ... ParamsT >
+			inline bool areOptionalEnabledRec( ParamT const & value
+				, ParamsT const & ... values )
+		{
+			return isOptionalEnabled( value )
+				&& areOptionalEnabledRec( values... );
+		}
+
+		template< typename TypeT >
+		struct TypeGetter
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, TypeT const & value )
+			{
+				return value.getType();
+			}
+		};
+
+		template<>
+		struct TypeGetter< int32_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, int32_t )
+			{
+				return getTypesCache( writer ).getInt();
+			}
+		};
+
+		template<>
+		struct TypeGetter< uint32_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, uint32_t )
+			{
+				return getTypesCache( writer ).getUInt();
+			}
+		};
+
+		template<>
+		struct TypeGetter< float >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, float )
+			{
+				return getTypesCache( writer ).getFloat();
+			}
+		};
+
+		template<>
+		struct TypeGetter< double >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, double )
+			{
+				return getTypesCache( writer ).getDouble();
+			}
+		};
+
+		template< typename TypeT >
+		inline ast::type::TypePtr getType( ShaderWriter & writer, TypeT const & value )
+		{
+			return TypeGetter< TypeT >::get( writer, value );
+		}
+
 		inline ShaderWriter * getWriter( bool const & value )
 		{
 			return nullptr;
@@ -57,6 +130,20 @@ namespace sdw
 		{
 			return &value;
 		}
+	}
+
+	//***********************************************************************************************
+
+	template< typename ValueT >
+	inline bool isOptionalEnabled( ValueT const & value )
+	{
+		return value.isEnabled();
+	}
+
+	template< typename ... ParamsT >
+	inline bool areOptionalEnabled( ParamsT const & ... values )
+	{
+		return details::areOptionalEnabledRec( values... );
 	}
 
 	//***********************************************************************************************
@@ -174,13 +261,39 @@ namespace sdw
 
 	//***********************************************************************************************
 
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	void writeAssignOperator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator )
+	{
+		if ( areOptionalEnabled( lhs, rhs ) )
+		{
+			ShaderWriter & writer = *findWriter( lhs, rhs );
+			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
+			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
+			ast::type::TypePtr lhsType = details::getType( writer, lhs );
+			ast::type::TypePtr rhsType = details::getType( writer, rhs );
+
+			if ( rhsType != lhsType )
+			{
+				rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+			}
+
+			addStmt( writer
+				, sdw::makeSimple( creator( ReturnT::makeType( getTypesCache( writer ) )
+					, makeExpr( writer, lhs )
+					, makeExpr( writer, rhs ) ) ) );
+		}
+	}
+
 	template< typename ReturnT, typename OperandT, typename CreatorT >
 	inline ReturnT writeUnOperator( OperandT const & operand
 		, CreatorT creator )
 	{
 		auto & writer = *findWriter( operand );
 		return ReturnT{ writer
-			, creator( makeExpr( writer, operand ) ) };
+			, creator( makeExpr( writer, operand ) )
+			, operand.isEnabled() };
 	}
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
@@ -192,7 +305,8 @@ namespace sdw
 		return ReturnT{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( writer, lhs )
-				, makeExpr( writer, rhs ) ) };
+				, makeExpr( writer, rhs ) )
+			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	//***********************************************************************************************

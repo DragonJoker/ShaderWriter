@@ -1059,29 +1059,19 @@ namespace sdw
 			, bool MsT
 			, expr::ImageAccess ImageAccessT
 			, typename ... ParamsT >
-		MaybeOptional< ReturnT > writeImageAccessCall( MaybeOptional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > const & image
-			, MaybeOptional< ParamsT > const & ... params )
+		ReturnT writeImageAccessCall( ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > const & image
+			, ParamsT const & ... params )
 		{
 			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
 			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
-
-			if ( isAnyOptional( image, params... ) )
-			{
-				return Optional< ReturnT >{ *findWriter( image, params... )
-					, expr::makeImageAccessCall( ReturnT::makeType( cache )
-						, ImageAccessT
-						, makeExpr( image )
-						, makeExpr( params )... )
-					, areOptionalEnabled( image, params... ) };
-			}
-
 			return ReturnT{ *findWriter( image, params... )
 				, expr::makeImageAccessCall( ReturnT::makeType( cache )
 					, ImageAccessT
 					, makeExpr( image )
-					, makeExpr( params )... ) };
+					, makeExpr( params )... )
+				, areOptionalEnabled( image, params... ) };
 		}
 
 		//*****************************************************************************************
@@ -1094,8 +1084,8 @@ namespace sdw
 			, bool MsT
 			, expr::ImageAccess ImageAccessT
 			, typename ... ParamsT >
-		void writeVoidImageAccessCall( MaybeOptional< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > const & image
-			, MaybeOptional< ParamsT > const & ... params )
+		void writeVoidImageAccessCall( ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > const & image
+			, ParamsT const & ... params )
 		{
 			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
 			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
@@ -1103,8 +1093,7 @@ namespace sdw
 			auto & writer = *findWriter( image, params... );
 			auto & cache = findTypesCache( writer );
 
-			if ( ( !isAnyOptional( image, params... ) )
-				|| areOptionalEnabled( image, params... ) )
+			if ( areOptionalEnabled( image, params... ) )
 			{
 				addStmt( writer
 					, makeSimple( expr::makeImageAccessCall( Void::makeType( cache )
@@ -1126,7 +1115,7 @@ namespace sdw
 		{
 			using SizeT = ImageSizeT< DimT, ArrayedT >;
 
-			MaybeOptional< SizeT > getSize()const
+			SizeT getSize()const
 			{
 				return writeImageAccessCall< SizeT, FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
 					, ImageFormatTraitsT< FormatT >::imageSize[getImgArrayIndex< DimT, ArrayedT, MsT >()] >( get() );
@@ -1148,7 +1137,7 @@ namespace sdw
 			, bool DepthT >
 		struct ImgSamplesFuncT
 		{
-			MaybeOptional< Int > getSamples()const
+			Int getSamples()const
 			{
 				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageSamples[getImgArrayIndex< DimT, ArrayedT, true >()] >( get() );
@@ -1173,7 +1162,7 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > load( MaybeOptional< CoordsT > const & coord )const
+			FetchT load( CoordsT const & coord )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1199,8 +1188,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > load( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample )const
+			FetchT load( CoordsT const & coord
+				, Int const & sample )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1227,8 +1216,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			void store( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			void store( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageStore[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1255,9 +1244,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			void store( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			void store( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageStore[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1285,8 +1274,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicAdd( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicAdd( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicAdd[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1313,9 +1302,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicAdd( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicAdd( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicAdd[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1343,8 +1332,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicMin( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicMin( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicMin[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1371,9 +1360,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicMin( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicMin( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicMin[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1401,8 +1390,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicMax( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicMax( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicMax[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1429,9 +1418,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicMax( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicMax( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicMax[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1459,8 +1448,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicAnd( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicAnd( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicAnd[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1487,9 +1476,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicAnd( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicAnd( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicAnd[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1517,8 +1506,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicOr( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicOr( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicOr[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1545,9 +1534,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicOr( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicOr( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicOr[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1575,8 +1564,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicXor( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicXor( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicXor[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1603,9 +1592,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicXor( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicXor( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicXor[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1633,8 +1622,8 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicExchange( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicExchange( CoordsT const & coord
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicExchange[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1661,9 +1650,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicExchange( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & value )const
+			FetchT atomicExchange( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicExchange[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1691,9 +1680,9 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicCompSwap( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< FetchT > const & compare
-				, MaybeOptional< FetchT > const & data )const
+			FetchT atomicCompSwap( CoordsT const & coord
+				, FetchT const & compare
+				, FetchT const & data )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicCompSwap[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
@@ -1721,10 +1710,10 @@ namespace sdw
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
 			using FetchT = ImageFetchT< FormatT >;
 
-			MaybeOptional< FetchT > atomicCompSwap( MaybeOptional< CoordsT > const & coord
-				, MaybeOptional< Int > const & sample
-				, MaybeOptional< FetchT > const & compare
-				, MaybeOptional< FetchT > const & data )const
+			FetchT atomicCompSwap( CoordsT const & coord
+				, Int const & sample
+				, FetchT const & compare
+				, FetchT const & data )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicCompSwap[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1762,8 +1751,9 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1802,8 +1792,9 @@ namespace sdw
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1842,8 +1833,9 @@ namespace sdw
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1884,8 +1876,9 @@ namespace sdw
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1928,8 +1921,9 @@ namespace sdw
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1978,8 +1972,9 @@ namespace sdw
 			, public ImgAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2018,8 +2013,9 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2059,8 +2055,9 @@ namespace sdw
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2100,8 +2097,9 @@ namespace sdw
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2143,8 +2141,9 @@ namespace sdw
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2188,8 +2187,9 @@ namespace sdw
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2239,8 +2239,9 @@ namespace sdw
 			, public ImgMsAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr )
-				: Image{ FormatT, writer, std::move( expr ) }
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2265,10 +2266,15 @@ namespace sdw
 	{
 		this->updateContainer( rhs );
 		auto & shader = *findWriter( *this, rhs );
-		addStmt( shader
-			, makeSimple( makeAssign( getExpr()->getType()
-				, makeExpr( shader, getExpr() )
-				, makeExpr( shader, rhs ) ) ) );
+
+		if ( areOptionalEnabled( *this, rhs ) )
+		{
+			addStmt( shader
+				, makeSimple( makeAssign( getExpr()->getType()
+					, makeExpr( shader, getExpr() )
+					, makeExpr( shader, rhs ) ) ) );
+		}
+
 		return *this;
 	}
 
@@ -2281,8 +2287,9 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
 	{
 	}
 

@@ -8,10 +8,15 @@ namespace sdw
 	{
 		this->updateContainer( rhs );
 		auto & shader = *findWriter( *this, rhs );
-		addStmt( shader
-			, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
-				, makeExpr( shader, getExpr() )
-				, makeExpr( shader, rhs ) ) ) );
+
+		if ( areOptionalEnabled( *this, rhs ) )
+		{
+			addStmt( shader
+				, sdw::makeSimple( sdw::makeAssign( getExpr()->getType()
+					, makeExpr( shader, getExpr() )
+					, makeExpr( shader, rhs ) ) ) );
+		}
+
 		return *this;
 	}
 }

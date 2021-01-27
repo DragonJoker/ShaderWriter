@@ -58,12 +58,13 @@ namespace sdw
 	}
 
 	PerVertex::PerVertex( ShaderWriter & writer
-		, ast::expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
-		, position{ writer, getMbr( *this, 0u ) }
-		, pointSize{ writer, getMbr( *this, 1u ) }
-		, clipDistance{ writer, getMbr( *this, 2u ) }
-		, cullDistance{ writer, getMbr( *this, 3u ) }
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), true }
+		, position{ writer, getMbr( *this, 0u ), true }
+		, pointSize{ writer, getMbr( *this, 1u ), true }
+		, clipDistance{ writer, getMbr( *this, 2u ), true }
+		, cullDistance{ writer, getMbr( *this, 3u ), true }
 	{
 	}
 

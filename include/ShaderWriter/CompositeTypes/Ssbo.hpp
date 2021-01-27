@@ -18,30 +18,45 @@ namespace sdw
 			, std::string const & name
 			, uint32_t bind
 			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, bool enabled = true );
 		SDW_API void end();
 
 		SDW_API StructInstance declStructMember( std::string const & name
-			, Struct const & s );
+			, Struct const & s
+			, bool enabled = true );
 		SDW_API Array< StructInstance > declStructMember( std::string const & name
 			, Struct const & s
-			, uint32_t dimension );
+			, uint32_t dimension
+			, bool enabled = true );
 		template< typename T >
-		inline T declStructMember( std::string const & name );
+		inline T declStructMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declStructMember( std::string const & name
-			, uint32_t dimension );
+			, uint32_t dimension
+			, bool enabled = true );
 		template< typename T >
-		inline T declMember( std::string const & name );
+		inline T declMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declMember( std::string const & name
-			, uint32_t dimension );
+			, uint32_t dimension
+			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declMemberArray( std::string const & name );
+		inline Array< T > declMemberArray( std::string const & name
+			, bool enabled = true );
 		template< typename T >
-		inline T getMember( std::string const & name );
+		inline T getMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name );
+		inline Array< T > getMemberArray( std::string const & name
+			, bool enabled = true );
+
+		bool isEnabled()const
+		{
+			return m_enabled;
+		}
 
 	private:
 		ShaderWriter & m_writer;
@@ -51,6 +66,7 @@ namespace sdw
 		ast::SsboInfo m_info;
 		var::VariablePtr m_var;
 		stmt::ShaderBufferDeclPtr m_stmt;
+		bool m_enabled;
 	};
 }
 

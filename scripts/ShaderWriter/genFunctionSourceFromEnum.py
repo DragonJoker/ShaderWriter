@@ -184,9 +184,9 @@ def computeParams( params, sep, allowEmpty ):
 			index += 1
 			if len(typeQualifier) > 0:
 				if isArray( resParam[index] ):
-					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[index] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
 				else:
-					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[index]
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			else:
 				if isArray( resParam[index] ):
 					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
@@ -222,9 +222,9 @@ def computeParamsEx( params, sep, lastType ):
 
 			if len(typeQualifier) > 0:
 				if isArray( resParam[curIndex] ):
-					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
 				else:
-					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[curIndex]
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[curIndex]
 			else:
 				if isArray( resParam[curIndex] ):
 					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
@@ -423,33 +423,22 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
 			# Write function name and return
-			outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
+			outs.write( "\n\t" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
 			# Write parameters
 			#	Image parameter
-			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+			outs.write( " " + imageFullType + fmt + " const & image" )
 			#	Remaining function parameters
 			outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
 			# Header finished, write content
 			outs.write( "\n\t{" )
-			outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, ",", 1 ) + " ) )" )
-			outs.write( "\n\t\t{" )
-			outs.write( "\n\t\t\treturn Optional< " + ret + " >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-			# Write arguments
-			outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-			#	Image argument
-			outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
-			#	Remaining arguments
-			outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-			outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
-			outs.write( "\n\t\t}" )
-			outs.write( "\n" )
 			outs.write( "\n\t\treturn " + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
 			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
 			outs.write( "\n\t\t\t\t, makeExpr( image )" )
 			#	Remaining arguments
-			outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " ) };" )
+			outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
+			outs.write( "\n\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
 			outs.write( "\n\t}" )
 
 def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
@@ -478,7 +467,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( "\n\tVoid " + computeIntrinsicName( functionGroup ) + "(" )
 					# Write parameters
 					#	Image parameter
-					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+					outs.write( " " + imageFullType + fmt + " const & image" )
 					#	Remaining function parameters
 					outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
 					# Header finished, write content
@@ -486,10 +475,10 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( "\n\t\treturn Void{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				else:
 					# Write function name and return
-					outs.write( "\n\tMaybeOptional< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
+					outs.write( "\n\t" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
 					# Write parameters
 					#	Image parameter
-					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+					outs.write( " " + imageFullType + fmt + " const & image" )
 					#	Remaining function parameters
 					if intrinsicName.find( "Atomic" ) != -1:
 						outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
@@ -497,47 +486,29 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 						outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
 					# Header finished, write content
 					outs.write( "\n\t{" )
-					outs.write( "\n\t\tif ( isAnyOptional( image" + listParams( paramsGroup, ",", 1 ) + " ) )" )
-					outs.write( "\n\t\t{" )
-					outs.write( "\n\t\t\treturn Optional< " + ret + " >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-					# Write arguments
-					outs.write( "\n\t\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-					#	Image argument
-					outs.write( "\n\t\t\t\t\t, makeExpr( image )" )
-					#	Remaining arguments
-					outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-					outs.write( "\n\t\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
-					outs.write( "\n\t\t}" )
-					outs.write( "\n" )
 					outs.write( "\n\t\treturn " + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				# Write arguments
 				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				#	Image argument
 				outs.write( "\n\t\t\t\t, makeExpr( image )" )
 				#	Remaining arguments
-				outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " ) };" )
+				outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
+				outs.write( "\n\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
 				outs.write( "\n\t}" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	fullName = computeFullName( functionGroup )
 	# Write function name and return
-	outs.write( "\n\tMaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "", 0 ) + " )" )
 	# Header finished, write content
 	outs.write( "\n\t{" )
-	outs.write( "\n\t\tif ( isAnyOptional(" + listParams( paramsGroup, "", 0 ) + " ) )" )
-	outs.write( "\n\t\t{" )
-	outs.write( "\n\t\t\treturn Optional< " + retType + " >{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
-	outs.write( "\n\t\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
-	outs.write( computeArgs( paramsGroup, "\t\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
-	outs.write( "\n\t\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "", 0 ) + " ) };" )
-	outs.write( "\n\t\t}" )
-	outs.write( "\n" )
 	outs.write( "\n\t\treturn " + retType + "{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
-	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " ) };" )
+	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
+	outs.write( "\n\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "", 0 ) + " ) };" )
 	outs.write( "\n\t}" )
 	
 def endFunctionGroup( outs ):

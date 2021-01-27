@@ -3,9 +3,6 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/Value.hpp"
 
-#include "ShaderWriter/Writer.hpp"
-#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
-
 #include <ShaderAST/Expr/ExprAddAssign.hpp>
 #include <ShaderAST/Expr/ExprAssign.hpp>
 #include <ShaderAST/Expr/ExprDivideAssign.hpp>
@@ -21,11 +18,13 @@ namespace sdw
 	//*****************************************************************************************
 
 	Value::Value( ShaderWriter & writer
-		, expr::ExprPtr expr )
+		, expr::ExprPtr expr
+		, bool enabled )
 		: m_expr{ std::move( expr ) }
 		, m_writer{ &writer }
-		, m_shader{ &m_writer->getShader() }
+		, m_shader{ &sdw::getShader( *m_writer ) }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
+		, m_enabled{ enabled }
 	{
 	}
 
@@ -34,6 +33,7 @@ namespace sdw
 		, m_writer{ rhs.m_writer }
 		, m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
+		, m_enabled{ rhs.isEnabled() }
 	{
 	}
 
@@ -42,6 +42,7 @@ namespace sdw
 		, m_writer{ rhs.m_writer }
 		, m_shader{ rhs.m_shader }
 		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
+		, m_enabled{ rhs.isEnabled() }
 	{
 	}
 
@@ -81,10 +82,10 @@ namespace sdw
 		m_expr = std::move( expr );
 	}
 
-	expr::ExprPtr getDummyExpr( ShaderWriter & writer
+	expr::ExprPtr getDummyExpr( ShaderWriter const & writer
 		, type::TypePtr type )
 	{
-		return writer.getShader().getDummyExpr( type );
+		return getShader( writer ).getDummyExpr( type );
 	}
 
 	expr::ExprPtr makeExpr( Value const & variable
@@ -97,12 +98,17 @@ namespace sdw
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, Value const & variable
+		, Value const & value
 		, bool force )
 	{
-		return makeExpr( writer
-			, variable.getExpr()
-			, force );
+		if ( value.isEnabled() || force )
+		{
+			return makeExpr( writer
+				, value.getExpr()
+				, force );
+		}
+
+		return getDummyExpr( writer, value.getType() );
 	}
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer

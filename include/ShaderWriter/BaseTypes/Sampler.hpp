@@ -12,7 +12,8 @@ namespace sdw
 		: public Value
 	{
 		SDW_API Sampler( ShaderWriter & writer
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool enabled );
 		template< typename T >
 		inline Sampler & operator=( T const & rhs );
 		SDW_API operator uint32_t();

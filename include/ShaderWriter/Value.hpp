@@ -15,7 +15,8 @@ namespace sdw
 	struct Value
 	{
 		SDW_API Value( ShaderWriter & writer
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool enabled );
 		SDW_API Value( Value && rhs );
 		SDW_API Value( Value const & rhs );
 		SDW_API virtual ~Value();
@@ -44,6 +45,11 @@ namespace sdw
 			return m_shader;
 		}
 
+		inline bool isEnabled()const
+		{
+			return m_enabled;
+		}
+
 		template< typename OutputT, size_t CountT >
 		static inline expr::ExprPtr ctorCast( expr::ExprPtr op )
 		{
@@ -63,7 +69,8 @@ namespace sdw
 		static inline Value ctorCast( Value op )
 		{
 			return Value{ *op.m_writer
-				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) ) };
+				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) )
+				, op.isEnabled() };
 		}
 
 	protected:
@@ -71,7 +78,79 @@ namespace sdw
 		ShaderWriter * m_writer;
 		Shader * m_shader;
 		stmt::Container * m_container;
+		bool m_enabled;
 	};
+
+	inline bool isOptionalEnabled( bool const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( int8_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( int16_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( int32_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( int64_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( uint8_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( uint16_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( uint32_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( uint64_t const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( float const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( double const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( long double const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( ShaderWriter const & value )
+	{
+		return true;
+	}
+
+	template< typename ValueT >
+	inline bool isOptionalEnabled( ValueT const & value );
+
+	template< typename ... ParamsT >
+	inline bool areOptionalEnabled( ParamsT const & ... values );
 
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values );
@@ -80,7 +159,7 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
-	SDW_API expr::ExprPtr getDummyExpr( ShaderWriter & writer
+	SDW_API expr::ExprPtr getDummyExpr( ShaderWriter const & writer
 		, type::TypePtr type );
 	SDW_API expr::ExprPtr makeExpr( Value const & variable
 		, bool force = true );
@@ -89,6 +168,11 @@ namespace sdw
 		, bool force = true );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, Value const & variable );
+
+	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
+	void writeAssignOperator( LhsT const & lhs
+		, RhsT const & rhs
+		, CreatorT creator );
 
 	template< typename ReturnT, typename OperandT, typename CreatorT >
 	inline ReturnT writeUnOperator( OperandT const & operand

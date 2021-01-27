@@ -199,33 +199,6 @@ set( ${PROJECT_NAME}_HEADER_FILES
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptional.hpp
-	${INCLUDE_DIR}/MaybeOptional/MaybeOptional.inl
-)
-source_group( "Header Files\\MaybeOptional"
-	FILES
-		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-)
-set( ${PROJECT_NAME}_HEADER_FILES
-	${${PROJECT_NAME}_HEADER_FILES}
-	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-)
-
-set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
-	${INCLUDE_DIR}/Optional/Optional.hpp
-	${INCLUDE_DIR}/Optional/Optional.inl
-	${INCLUDE_DIR}/Optional/OptionalUbo.hpp
-	${INCLUDE_DIR}/Optional/OptionalUbo.inl
-)
-source_group( "Header Files\\Optional"
-	FILES
-		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-)
-set( ${PROJECT_NAME}_HEADER_FILES
-	${${PROJECT_NAME}_HEADER_FILES}
-	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-)
-set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/VecTypes/Swizzle.hpp
 	${INCLUDE_DIR}/VecTypes/Swizzle.inl
 	${INCLUDE_DIR}/VecTypes/Vec2.hpp

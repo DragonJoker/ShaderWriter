@@ -132,7 +132,8 @@ namespace sdw
 	{
 		SDW_API SampledImage( ast::type::ImageFormat format
 			, ShaderWriter & writer
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool enabled );
 		template< typename T >
 		inline SampledImage & operator=( T const & rhs );
 		SDW_API operator uint32_t();
@@ -150,7 +151,8 @@ namespace sdw
 			: public SampledImage
 		{
 			inline SampledImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr );
+				, expr::ExprPtr expr
+				, bool enabled );
 			template< typename T >
 			inline SampledImageFuncsT & operator=( T const & rhs );
 		};
@@ -165,7 +167,8 @@ namespace sdw
 		: public sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
 	{
 		inline SampledImageT( ShaderWriter & writer
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool enabled );
 		template< typename T >
 		inline SampledImageT & operator=( T const & rhs );
 

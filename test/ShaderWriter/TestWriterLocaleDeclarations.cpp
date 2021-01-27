@@ -106,7 +106,7 @@ namespace
 				, [&]()
 				{
 					auto count = shader.getContainer()->size();
-					auto value = writer.declLocale< T >( "value", sdw::Optional< T >{ test::getDefault< T >( writer ), false } );
+					auto value = writer.declLocale< T >( "value", T{ writer, makeExpr( test::getDefault< T >( writer ) ), false } );
 					check( !value.isEnabled() );
 					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -187,44 +187,6 @@ namespace
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
-				} );
-			test::writeShader( writer, testCounts );
-		}
-		{
-			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt";
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto value = writer.declLocale< T >( name, sdw::Optional< T >{ test::getDefault< T >( writer ), true } );
-					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					auto & stmt = *shader.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
-				} );
-			test::writeShader( writer, testCounts );
-		}
-		{
-			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned_opt2";
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
-				{
-					auto value = writer.declLocale< T >( name, test::getDefault< T >( writer ), true );
-					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					auto & stmt = *shader.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts );
 		}

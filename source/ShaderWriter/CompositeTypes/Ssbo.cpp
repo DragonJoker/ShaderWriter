@@ -13,7 +13,8 @@ namespace sdw
 		, std::string const & name
 		, uint32_t bind
 		, uint32_t set
-		, ast::type::MemoryLayout layout )
+		, ast::type::MemoryLayout layout
+		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
 		, m_name{ name }
@@ -21,33 +22,51 @@ namespace sdw
 		, m_info{ m_interface.getType(), bind, set }
 		, m_var{ var::makeVariable( m_interface.getType(), m_name, var::Flag::eUniform ) }
 		, m_stmt{ stmt::makeShaderBufferDecl( m_var, bind, set ) }
+		, m_enabled{ enabled }
 	{
 	}
 
 	void Ssbo::end()
 	{
-		addStmt( m_shader, std::move( m_stmt ) );
-		m_shader.registerSsbo( m_name, m_info );
+		if ( isEnabled() )
+		{
+			addStmt( m_shader, std::move( m_stmt ) );
+			m_shader.registerSsbo( m_name, m_info );
+		}
 	}
 
 	StructInstance Ssbo::declStructMember( std::string const & name
-		, Struct const & s )
+		, Struct const & s
+		, bool enabled )
 	{
 		auto type = m_interface.registerMember( name, s.getType() );
 		auto var = registerMember( m_writer, m_var, name, type );
-		m_stmt->add( stmt::makeVariableDecl( var ) );
+
+		if ( isEnabled() && enabled )
+		{
+			m_stmt->add( stmt::makeVariableDecl( var ) );
+		}
+
 		return StructInstance{ m_writer
-			, makeExpr( m_writer, var ) };
+			, makeExpr( m_writer, var )
+			, isEnabled() && enabled };
 	}
 
 	Array< StructInstance > Ssbo::declStructMember( std::string const & name
 		, Struct const & s
-		, uint32_t dimension )
+		, uint32_t dimension
+		, bool enabled )
 	{
 		auto type = m_interface.registerMember( name, s.getType(), dimension );
 		auto var = registerMember( m_writer, m_var, name, type );
-		m_stmt->add( stmt::makeVariableDecl( var ) );
+
+		if ( isEnabled() && enabled )
+		{
+			m_stmt->add( stmt::makeVariableDecl( var ) );
+		}
+
 		return Array< StructInstance >{ m_writer
-			, makeExpr( m_writer, var ) };
+			, makeExpr( m_writer, var )
+			, isEnabled() && enabled};
 	}
 }

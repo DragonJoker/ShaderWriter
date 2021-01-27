@@ -8,8 +8,8 @@ namespace
 	struct Light
 		: public sdw::StructInstance
 	{
-		Light( sdw::ShaderWriter & writer, ast::expr::ExprPtr expr )
-			: StructInstance{ writer, std::move( expr ) }
+		Light( sdw::ShaderWriter & writer, ast::expr::ExprPtr expr, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
 			, colorIntensity{ getMember< sdw::Vec4 >( "colorIntensity" ) }
 			, color{ colorIntensity.xyz() }
 			, intensity{ colorIntensity.w() }

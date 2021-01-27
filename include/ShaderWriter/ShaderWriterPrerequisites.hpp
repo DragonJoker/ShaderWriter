@@ -91,10 +91,6 @@ namespace sdw
 	template< typename TypeT >
 	struct InOutParam;
 	template< typename TypeT >
-	struct Optional;
-	template< typename TypeT >
-	struct MaybeOptional;
-	template< typename TypeT >
 	struct Vec2T;
 	template< typename TypeT >
 	struct Vec3T;
@@ -193,8 +189,6 @@ namespace sdw
 	using DMat4 = Mat4T< Double >;
 	using DMat4x2 = Mat4x2T< Double >;
 	using DMat4x3 = Mat4x3T< Double >;
-
-	using StructuredSsbo = ArraySsboT< StructInstance >;
 
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using ImageBufferT = ImageT< FormatT

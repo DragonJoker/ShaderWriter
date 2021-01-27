@@ -43,44 +43,23 @@ namespace
 
 	template< typename LHS, typename RHS >
 	struct ValueTypeGetter< LHS, RHS
-		, std::enable_if_t< !sdw::isOptional< LHS > && !sdw::isOptional< RHS > && isSdwValue< LHS > && isSdwValue< RHS > > >
+		, std::enable_if_t< isSdwValue< LHS > && isSdwValue< RHS > > >
 	{
 		using Type = LHS;
 	};
 
 	template< typename LHS, typename RHS >
 	struct ValueTypeGetter< LHS, RHS
-		, std::enable_if_t< !sdw::isOptional< LHS > && !sdw::isOptional< RHS > && isSdwValue< LHS > && !isSdwValue< RHS > > >
+		, std::enable_if_t< isSdwValue< LHS > && !isSdwValue< RHS > > >
 	{
 		using Type = LHS;
 	};
 
 	template< typename LHS, typename RHS >
 	struct ValueTypeGetter< LHS, RHS
-		, std::enable_if_t< !sdw::isOptional< LHS > && !sdw::isOptional< RHS > && !isSdwValue< LHS > && isSdwValue< RHS > > >
+		, std::enable_if_t< !isSdwValue< LHS > && isSdwValue< RHS > > >
 	{
 		using Type = RHS;
-	};
-
-	template< typename LHS, typename RHS >
-	struct ValueTypeGetter< LHS, RHS
-		, std::enable_if_t< sdw::isOptional< LHS > && !sdw::isOptional< RHS > > >
-	{
-		using Type = LHS;
-	};
-
-	template< typename LHS, typename RHS >
-	struct ValueTypeGetter< LHS, RHS
-		, std::enable_if_t< !sdw::isOptional< LHS > && sdw::isOptional< RHS > > >
-	{
-		using Type = RHS;
-	};
-
-	template< typename LHS, typename RHS >
-	struct ValueTypeGetter< LHS, RHS
-		, std::enable_if_t< sdw::isOptional< LHS > && sdw::isOptional< RHS > > >
-	{
-		using Type = LHS;
 	};
 
 	template< typename LHS, typename RHS >

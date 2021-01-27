@@ -4,12 +4,19 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename InstanceT >
-	InstanceT Struct::getInstance( std::string const & name )const
+	InstanceT Struct::getInstance( std::string const & name
+		, bool enabled )const
 	{
 		auto var = registerBlockVariable( *m_writer, name, m_type );
-		addStmt( *m_writer, sdw::makeVariableDecl( var ) );
+
+		if ( enabled )
+		{
+			addStmt( *m_writer, sdw::makeVariableDecl( var ) );
+		}
+
 		return InstanceT{ *m_writer
-			, makeExpr( *m_writer, var ) };
+			, makeExpr( *m_writer, var )
+			, enabled };
 	}
 
 	template< typename T >

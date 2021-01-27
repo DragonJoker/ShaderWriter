@@ -18,12 +18,11 @@ namespace sdw
 		using my_mat = Mat2x4T< ValueT >;
 
 		inline Mat2x4T( ShaderWriter & writer
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool enabled );
 		inline Mat2x4T( Mat2x4T const & rhs );
 
 		inline Mat2x4T & operator=( Mat2x4T const & rhs );
-		inline Mat2x4T & operator=( Optional< Mat2x4T > const & rhs );
-		inline Mat2x4T & operator=( MaybeOptional< Mat2x4T > const & rhs );
 
 		template< typename RhsT >
 		inline Mat2x4T< ValueT > & operator=( RhsT const & rhs );

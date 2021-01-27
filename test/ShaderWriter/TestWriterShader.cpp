@@ -7,8 +7,9 @@ namespace
 		: public sdw::StructInstance
 	{
 		St( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr )
-			: StructInstance{ writer, std::move( expr ) }
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
 			, a{ getMember< sdw::Vec4 >( "a" ) }
 			, b{ getMemberArray< sdw::Vec4 >( "b" ) }
 		{
@@ -47,8 +48,9 @@ namespace
 		: public sdw::StructInstance
 	{
 		St2( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr )
-			: StructInstance{ writer, std::move( expr ) }
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
 			, a{ getMember< St >( "a" ) }
 			, b{ getMember< sdw::Vec4 >( "b" ) }
 		{
@@ -249,7 +251,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 		auto in = writer.getIn();
-		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u };
+		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declImage< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.inputLayout( 16u, 16u );
@@ -353,7 +355,7 @@ namespace
 				foo03( m, v );
 				auto r = writer.declLocale< Vec4 >( "r"
 					, foo03( c3d_viewMatrix, v ) );
-				auto inst = st->getInstance< St >( "inst" );
+				auto inst = st->getInstance< St >( "inst", true );
 				v = foo04( inst, v );
 				v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
 				auto e = writer.declLocale< Vec2 >( "e" );
@@ -1567,8 +1569,9 @@ namespace
 		: public sdw::StructInstance
 	{
 		Voxel( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr )
-			: StructInstance{ writer, std::move( expr ) }
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
 			, colorMask{ getMember< sdw::UInt >( "colorMask" ) }
 			, normalMask{ getMember< sdw::UInt >( "normalMask" ) }
 		{
@@ -1721,32 +1724,32 @@ namespace
 sdwTestSuiteMain( TestWriterShader )
 {
 	sdwTestSuiteBegin();
-	//reference( testCounts );
-	//vertex( testCounts );
-	//fragment( testCounts );
-	//compute( testCounts );
-	//params( testCounts );
-	//swizzles( testCounts );
-	//arrayAccesses( testCounts );
-	//removeGamma( testCounts );
-	//conversions( testCounts );
-	//returns( testCounts );
-	//outputs( testCounts );
-	//skybox( testCounts );
-	//vtx_frag( testCounts );
-	//charles( testCounts );
-	//charles_approx( testCounts );
-	//charles_latest( testCounts );
-	//radiance_computer( testCounts );
-	//arthapzMin( testCounts );
-	//arthapz( testCounts, false, false );
-	//arthapz( testCounts, false, true );
-	//arthapz( testCounts, true, false );
-	//arthapz( testCounts, true, true );
-	//onlyGeometry( testCounts );
-	//basicGeometry( testCounts );
-	//voxelGeometry( testCounts );
-	//simpleStore( testCounts );
+	reference( testCounts );
+	vertex( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
+	params( testCounts );
+	swizzles( testCounts );
+	arrayAccesses( testCounts );
+	removeGamma( testCounts );
+	conversions( testCounts );
+	returns( testCounts );
+	outputs( testCounts );
+	skybox( testCounts );
+	vtx_frag( testCounts );
+	charles( testCounts );
+	charles_approx( testCounts );
+	charles_latest( testCounts );
+	radiance_computer( testCounts );
+	arthapzMin( testCounts );
+	arthapz( testCounts, false, false );
+	arthapz( testCounts, false, true );
+	arthapz( testCounts, true, false );
+	arthapz( testCounts, true, true );
+	onlyGeometry( testCounts );
+	basicGeometry( testCounts );
+	voxelGeometry( testCounts );
+	simpleStore( testCounts );
 	voxelToTexture( testCounts );
 	sdwTestSuiteEnd();
 }

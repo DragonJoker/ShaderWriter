@@ -7,8 +7,9 @@ namespace sdw
 
 	template< typename ValueT >
 	Array< ValueT >::Array( ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -48,7 +49,7 @@ namespace sdw
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( Array< ValueT > const & value )
 	{
-		return makeExpr( value.getExpr() );
+		return makeExpr( *value.getWriter(), value.getExpr() );
 	}
 
 	//*********************************************************************************************
