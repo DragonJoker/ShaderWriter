@@ -706,11 +706,6 @@ namespace sdw
 #define FI\
  ).endIf();
 
-#define TERNARY( Writer, ExprType, Condition, Left, Right )\
-	( Writer ).ternary< ExprType >( sdw::makeCondition( Condition )\
-		, sdw::makeExpr( Writer, Left )\
-		, sdw::makeExpr( Writer, Right ) )
-
 #define SWITCH( Writer, Value )\
 	{\
 		auto & writer_int = ( Writer );\
