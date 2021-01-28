@@ -46,7 +46,7 @@ void vertex()
 	auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
 	auto out = writer.getOut();
 
-	writer.implementFunction< sdw::Void >( "main", [&]()
+	writer.implementMain( [&]()
 		{
 			vtx_texture = texcoord;
 			out.vtx.position = vec4( position.x(), position.y(), 0.0, 1.0 );
@@ -131,7 +131,7 @@ HLSL_SDW_MainOutput main(HLSL_SDW_MainInput sdwMainInput)
 And the following SPIR-V listing:
 ```
 ; Magic:     0x07230203
-; Version:   0x00010000
+; Version:   0x00010300
 ; Generator: 0x00100001
 ; Bound:     33
 ; Schema:    0
@@ -139,31 +139,31 @@ And the following SPIR-V listing:
         OpCapability Shader
    %1 = OpExtInstImport "GLSL.std.450"
         OpMemoryModel Logical GLSL450
-        OpEntryPoint Vertex %17 "main" %2 %6 %7 %9
+        OpEntryPoint Vertex %17 "main" %2 %6 %7 %14
 
 ; Debug
         OpSource GLSL 460
         OpName %2(position) "position"
         OpName %6(texcoord) "texcoord"
-        OpName %7(vtx_texture) "vtx_texture"
-        OpName %9() ""
-        OpName %10(gl_PerVertex) "gl_PerVertex"
-        OpMemberName %10(gl_PerVertex) 0 "gl_Position"
-        OpMemberName %10(gl_PerVertex) 1 "gl_PointSize"
-        OpMemberName %10(gl_PerVertex) 2 "gl_ClipDistance"
-        OpMemberName %10(gl_PerVertex) 3 "gl_CullDistance"
+        OpName %7() ""
+        OpName %8(gl_PerVertex) "gl_PerVertex"
+        OpMemberName %8(gl_PerVertex) 0 "gl_Position"
+        OpMemberName %8(gl_PerVertex) 1 "gl_PointSize"
+        OpMemberName %8(gl_PerVertex) 2 "gl_ClipDistance"
+        OpMemberName %8(gl_PerVertex) 3 "gl_CullDistance"
+        OpName %14(vtx_texture) "vtx_texture"
         OpName %17(main) "main"
 
 ; Decorations
-        OpDecorate %14 ArrayStride 4
-        OpMemberDecorate %10(gl_PerVertex) 0 BuiltIn Position
-        OpMemberDecorate %10(gl_PerVertex) 1 BuiltIn PointSize
-        OpMemberDecorate %10(gl_PerVertex) 2 BuiltIn ClipDistance
-        OpMemberDecorate %10(gl_PerVertex) 3 BuiltIn CullDistance
-        OpDecorate %10(gl_PerVertex) Block
+        OpDecorate %12 ArrayStride 4
+        OpMemberDecorate %8(gl_PerVertex) 0 BuiltIn Position
+        OpMemberDecorate %8(gl_PerVertex) 1 BuiltIn PointSize
+        OpMemberDecorate %8(gl_PerVertex) 2 BuiltIn ClipDistance
+        OpMemberDecorate %8(gl_PerVertex) 3 BuiltIn CullDistance
+        OpDecorate %8(gl_PerVertex) Block
         OpDecorate %2(position) Location 0
         OpDecorate %6(texcoord) Location 1
-        OpDecorate %7(vtx_texture) Location 0
+        OpDecorate %14(vtx_texture) Location 0
 
 ; Types, Constants, and Global Variables
    %3 = OpTypeFloat 32
@@ -171,21 +171,21 @@ And the following SPIR-V listing:
    %5 = OpTypePointer Input %4(v2float)
    %2 = OpVariable %5(v2floatInputPtr) Input
    %6 = OpVariable %5(v2floatInputPtr) Input
-   %8 = OpTypePointer Output %4(v2float)
-   %7 = OpVariable %8(v2floatOutputPtr) Output
-  %11 = OpTypeVector %3(float) 4
-  %13 = OpTypeInt 32 0
-  %12 = OpConstant %13(uint) 8
-  %14 = OpTypeArray %3(float) %12(8)
-  %10 = OpTypeStruct %11(v4float) %3(float) %14(array) %14(array)
-  %15 = OpTypePointer Output %10(gl_PerVertex)
-   %9 = OpVariable %15(structOutputPtr) Output
+   %9 = OpTypeVector %3(float) 4
+  %11 = OpTypeInt 32 0
+  %10 = OpConstant %11(uint) 8
+  %12 = OpTypeArray %3(float) %10(8)
+   %8 = OpTypeStruct %9(v4float) %3(float) %12(array) %12(array)
+  %13 = OpTypePointer Output %8(gl_PerVertex)
+   %7 = OpVariable %13(structOutputPtr) Output
+  %15 = OpTypePointer Output %4(v2float)
+  %14 = OpVariable %15(v2floatOutputPtr) Output
   %16 = OpTypeVoid
   %18 = OpTypeFunction %16
-  %21 = OpConstant %13(uint) 0
-  %22 = OpTypePointer Output %11(v4float)
+  %21 = OpConstant %11(uint) 0
+  %22 = OpTypePointer Output %9(v4float)
   %24 = OpTypePointer Input %3(float)
-  %27 = OpConstant %13(uint) 1
+  %27 = OpConstant %11(uint) 1
   %30 = OpConstant %3(float) 0
   %31 = OpConstant %3(float) 1
 
@@ -193,13 +193,13 @@ And the following SPIR-V listing:
   %17 = OpFunction %16 [None]  %18(func)
   %19 = OpLabel
   %20 = OpLoad %4(v2float) %6(texcoord)
-        OpStore %7(vtx_texture) %20
-  %23 = OpAccessChain %22(v4floatOutputPtr) %9() %21(0)
+        OpStore %14(vtx_texture) %20
+  %23 = OpAccessChain %22(v4floatOutputPtr) %7() %21(0)
   %25 = OpAccessChain %24(floatInputPtr) %2(position) %21(0)
   %26 = OpLoad %3(float) %25
   %28 = OpAccessChain %24(floatInputPtr) %2(position) %27(1)
   %29 = OpLoad %3(float) %28
-  %32 = OpCompositeConstruct %11(v4float) %26 %29 %30(0.000000) %31(1.000000)
+  %32 = OpCompositeConstruct %9(v4float) %26 %29 %30(0.000000) %31(1.000000)
         OpStore %23 %32
         OpReturn
         OpFunctionEnd
