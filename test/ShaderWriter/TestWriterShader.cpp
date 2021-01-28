@@ -1571,8 +1571,7 @@ namespace
 					out.vtx.clipDistance[3] = dot( vec4( 0.0_f, 1.0_f, 0.0_f, tileMax.y() ), p );
 				} );
 			test::writeShader( writer
-				, testCounts
-				, true, false, true );
+				, testCounts );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -1585,8 +1584,7 @@ namespace
 					outColor = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
 				} );
 			test::writeShader( writer
-				, testCounts
-				, true, false, true );
+				, testCounts );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -1710,7 +1708,7 @@ namespace
 			auto in = writer.getIn();
 
 			// Outputs
-			auto output( writer.declImage< RWFImg3DRgba32 >( "voxels"
+			auto result( writer.declImage< RWFImg3DRgba32 >( "result"
 				, eResult
 				, 0u ) );
 
@@ -1763,7 +1761,7 @@ namespace
 						auto coord = writer.declLocale( "coord"
 							, ivec3( unflatten( in.globalInvocationID.x()
 								, uvec3( writer.cast< UInt >( c3d_voxelResolution ) ) ) ) );
-						output.store( coord, color );
+						result.store( coord, color );
 					}
 					FI;
 
@@ -1782,34 +1780,34 @@ namespace
 sdwTestSuiteMain( TestWriterShader )
 {
 	sdwTestSuiteBegin();
-	//reference( testCounts );
+	reference( testCounts );
 	vertex( testCounts );
-	//fragment( testCounts );
-	//compute( testCounts );
-	//params( testCounts );
-	//swizzles( testCounts );
-	//arrayAccesses( testCounts );
-	//removeGamma( testCounts );
-	//conversions( testCounts );
-	//returns( testCounts );
-	//outputs( testCounts );
-	//skybox( testCounts );
-	//vtx_frag( testCounts );
-	//charles( testCounts );
-	//charles_approx( testCounts );
-	//charles_latest( testCounts );
-	//radiance_computer( testCounts );
-	//arthapzMin( testCounts );
-	//arthapz( testCounts, false, false );
-	//arthapz( testCounts, false, true );
-	//arthapz( testCounts, true, false );
-	//arthapz( testCounts, true, true );
-	//onlyGeometry( testCounts );
-	//basicGeometry( testCounts );
-	//voxelGeometry( testCounts );
-	//simpleStore( testCounts );
-	//voxelToTexture( testCounts );
-	//clipDistance( testCounts );
+	fragment( testCounts );
+	compute( testCounts );
+	params( testCounts );
+	swizzles( testCounts );
+	arrayAccesses( testCounts );
+	removeGamma( testCounts );
+	conversions( testCounts );
+	returns( testCounts );
+	outputs( testCounts );
+	skybox( testCounts );
+	vtx_frag( testCounts );
+	charles( testCounts );
+	charles_approx( testCounts );
+	charles_latest( testCounts );
+	radiance_computer( testCounts );
+	arthapzMin( testCounts );
+	arthapz( testCounts, false, false );
+	arthapz( testCounts, false, true );
+	arthapz( testCounts, true, false );
+	arthapz( testCounts, true, true );
+	onlyGeometry( testCounts );
+	basicGeometry( testCounts );
+	voxelGeometry( testCounts );
+	simpleStore( testCounts );
+	voxelToTexture( testCounts );
+	clipDistance( testCounts );
 	sdwTestSuiteEnd();
 }
 

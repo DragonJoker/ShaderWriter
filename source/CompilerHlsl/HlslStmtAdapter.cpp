@@ -535,30 +535,49 @@ namespace hlsl
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
-			if ( isSignedIntType( output.second->getType()->getKind() )
-				|| isUnsignedIntType( output.second->getType()->getKind() ) )
+			if ( output.second->getName() == "gl_ClipDistance" )
 			{
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+				auto type = m_cache.getVec4F();
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName() + "0"
 					+ ": "
-					+ getSemantic( output.second->getName(), *pintSem )
-					, output.second->getType() );
+					+ "SV_ClipDistance0"
+					, type );
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName() + "1"
+					+ ": "
+					+ "SV_ClipDistance1"
+					, type );
+			}
+			else if ( output.second->getName() == "gl_CullDistance" )
+			{
+				// Merged with SV_ClipDistance ?
 			}
 			else
 			{
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-					+ ": "
-					+ getSemantic( output.second->getName(), *pfltSem )
-					, output.second->getType() );
-			}
+				if ( isSignedIntType( output.second->getType()->getKind() )
+					|| isUnsignedIntType( output.second->getType()->getKind() ) )
+				{
+					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+						+ ": "
+						+ getSemantic( output.second->getName(), *pintSem )
+						, output.second->getType() );
+				}
+				else
+				{
+					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+						+ ": "
+						+ getSemantic( output.second->getName(), *pfltSem )
+						, output.second->getType() );
+				}
 
-			if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
-			{
-				m_adaptationData.globalOutputStruct->declMember( output.second->getName()
-					, output.second->getType() );
-			}
-			else
-			{
-				assert( output.second->getType()->getKind() == m_adaptationData.globalOutputStruct->getMember( output.second->getName() ).type->getKind() );
+				if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
+				{
+					m_adaptationData.globalOutputStruct->declMember( output.second->getName()
+						, output.second->getType() );
+				}
+				else
+				{
+					assert( output.second->getType()->getKind() == m_adaptationData.globalOutputStruct->getMember( output.second->getName() ).type->getKind() );
+				}
 			}
 		}
 	}
@@ -615,10 +634,76 @@ namespace hlsl
 		{
 			// Declare output.
 			cont->addStmt( ast::stmt::makeVariableDecl( mainOutputVar ) );
-			// Assign global outputs to main outputs
-			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.mainOutputStruct
-				, ast::expr::makeIdentifier( m_cache, mainOutputVar )
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) ) );
+
+			if ( m_shader.getType() == ast::ShaderStage::eVertex )
+			{
+				// Assign global outputs to main outputs, member wise
+				auto inIndex = 0u;
+				auto outIndex = 0u;
+
+				for ( auto & var : m_adaptationData.outputVars )
+				{
+					if ( var.second->getName() == "gl_ClipDistance" )
+					{
+
+						for ( uint32_t i = 0u; i < 4u; ++i )
+						{
+							ast::expr::SwizzleKind;
+							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
+								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
+										, inIndex
+										, 0u )
+									, ast::expr::SwizzleKind::fromOffset( i ) )
+								, ast::expr::makeArrayAccess( m_cache.getFloat()
+									, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+										, outIndex
+										, 0u )
+									, ast::expr::makeLiteral( m_cache, i ) ) ) ) );
+						}
+
+						++inIndex;
+
+						for ( uint32_t i = 0u; i < 4u; ++i )
+						{
+							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
+								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
+										, inIndex
+										, 0u )
+									, ast::expr::SwizzleKind::fromOffset( i ) )
+								, ast::expr::makeArrayAccess( m_cache.getFloat()
+									, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+										, outIndex
+										, 0u )
+									, ast::expr::makeLiteral( m_cache, i + 4u ) ) ) ) );
+						}
+
+						++inIndex;
+						++outIndex;
+					}
+					else if ( var.second->getName() == "gl_CullDistance" )
+					{
+					}
+					else
+					{
+						cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
+								, inIndex
+								, uint32_t( ast::var::Flag::eImplicit ) )
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+								, outIndex
+								, uint32_t( ast::var::Flag::eImplicit ) ) ) ) );
+						++inIndex;
+						++outIndex;
+					}
+				}
+			}
+			else
+			{
+				// Assign global outputs to main outputs
+				cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.mainOutputStruct
+					, ast::expr::makeIdentifier( m_cache, mainOutputVar )
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) ) );
+			}
 			// Return output.
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, mainOutputVar ) ) );
 		}
