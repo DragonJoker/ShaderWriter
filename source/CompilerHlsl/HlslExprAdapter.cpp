@@ -1274,28 +1274,53 @@ namespace hlsl
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
+		auto processed = false;
+
 		if ( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier )
 		{
 			auto var = static_cast< ast::expr::Identifier const * >( expr->getOuterExpr() )->getVariable();
-			auto it = std::find( m_adaptationData.ssboList.begin()
-				, m_adaptationData.ssboList.end()
-				, var );
 
-			if ( it != m_adaptationData.ssboList.end() )
+			if ( var->isBuiltin()
+				&& var->getType()->getKind() == ast::type::Kind::eStruct )
 			{
-				auto var = ast::var::makeVariable( expr->getType()
-					, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
-					, expr->getMemberFlags() );
-				m_result = ast::expr::makeIdentifier( m_cache, var );
+				auto mbrName = ( static_cast< ast::type::Struct const & >( *var->getType() ).begin() + expr->getMemberIndex() )->name;
+
+				auto it = std::find_if( m_adaptationData.outputVars.begin()
+					, m_adaptationData.outputVars.end()
+					, [&mbrName]( VariableIdMap::value_type const & lookup )
+					{
+						return mbrName == lookup.second->getName();
+					} );
+
+				if ( it != m_adaptationData.outputVars.end() )
+				{
+					auto itMbr = m_adaptationData.outputMembers.find( it->second );
+
+					if ( itMbr != m_adaptationData.outputMembers.end() )
+					{
+						m_result = ast::ExprCloner::submit( itMbr->second );
+						processed = true;
+					}
+				}
 			}
 			else
 			{
-				m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
-					, expr->getMemberIndex()
-					, expr->getMemberFlags() );
+				auto it = std::find( m_adaptationData.ssboList.begin()
+					, m_adaptationData.ssboList.end()
+					, var );
+
+				if ( it != m_adaptationData.ssboList.end() )
+				{
+					auto var = ast::var::makeVariable( expr->getType()
+						, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
+						, expr->getMemberFlags() );
+					m_result = ast::expr::makeIdentifier( m_cache, var );
+					processed = true;
+				}
 			}
 		}
-		else
+
+		if ( !processed )
 		{
 			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 				, expr->getMemberIndex()

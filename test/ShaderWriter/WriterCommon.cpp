@@ -25,7 +25,7 @@
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
 
-#define SDW_Test_DisplayShaders 1
+#define SDW_Test_DisplayShaders 0
 
 namespace test
 {
@@ -534,16 +534,17 @@ namespace test
 				{
 					auto sdwSpirV = spirv::serialiseSpirv( shader );
 					auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-						, shader.getType() );
+						, shader.getType()
+						, testCounts );
 					auto textSpirv = spirv::writeSpirv( shader );
-					displayShader( "SPIR-V", textSpirv, true );
-					displayShader( "SpirV-Cross GLSL", crossGlsl, true );
+					displayShader( "SPIR-V", textSpirv, testCounts, true );
+					displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
 					auto glslangSpirv = compileGlslToSpv( shader.getType()
 						, glsl::compileGlsl( shader
 							, ast::SpecialisationInfo{}
 							, getDefaultGlslConfig() ) );
 					auto module = spirv::Module::deserialize( glslangSpirv );
-					displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), true );
+					displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), testCounts, true );
 				}
 			}
 			catch ( std::exception & exc )
@@ -570,16 +571,26 @@ namespace test
 			{
 				auto sdwSpirV = spirv::serialiseSpirv( shader );
 				auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-					, shader.getType() );
+					, shader.getType()
+					, testCounts );
 				auto textSpirv = spirv::writeSpirv( shader );
-				displayShader( "SPIR-V", textSpirv, true );
-				displayShader( "SpirV-Cross GLSL", crossGlsl, true );
+				displayShader( "SPIR-V"
+					, textSpirv
+					, testCounts
+					, true );
+				displayShader( "SpirV-Cross GLSL"
+					, crossGlsl
+					, testCounts
+					, true );
 				auto glslangSpirv = compileGlslToSpv( shader.getType()
 					, glsl::compileGlsl( shader
 						, ast::SpecialisationInfo{}
 						, getDefaultGlslConfig() ) );
 				auto module = spirv::Module::deserialize( glslangSpirv );
-				displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), true );
+				displayShader( "glslang SPIR-V"
+					, spirv::Module::write( module, true )
+					, testCounts
+					, true );
 			}
 			catch ( std::exception & exc )
 			{

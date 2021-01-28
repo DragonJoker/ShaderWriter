@@ -490,8 +490,10 @@ namespace hlsl
 
 	void StmtAdapter::rewriteShaderIOVars()
 	{
-		std::string floatName = "TEXCOORD";
-		std::string intName = "BLENDINDICES";
+		Semantic intSem{ "BLENDINDICES", 0u };
+		Semantic fltSem{ "TEXCOORD", 0u };
+		Semantic * pintSem{ &intSem };
+		Semantic * pfltSem{ &fltSem };
 
 		for ( auto & input : m_adaptationData.inputVars )
 		{
@@ -500,18 +502,14 @@ namespace hlsl
 			{
 				m_adaptationData.mainInputStruct->declMember( input.second->getName()
 					+ ": "
-					+ getSemantic( input.second->getName()
-						, intName
-						, input.first )
+					+ getSemantic( input.second->getName(), *pintSem )
 					, input.second->getType() );
 			}
 			else
 			{
 				m_adaptationData.mainInputStruct->declMember( input.second->getName()
 					+ ": "
-					+ getSemantic( input.second->getName()
-						, floatName
-						, input.first )
+					+ getSemantic( input.second->getName(), *pfltSem )
 					, input.second->getType() );
 			}
 
@@ -528,9 +526,12 @@ namespace hlsl
 
 		if ( m_shader.getType() == ast::ShaderStage::eFragment )
 		{
-			intName = "SV_Target";
-			floatName = "SV_Target";
+			intSem.name = "SV_Target";
+			pfltSem = &intSem;
 		}
+
+		intSem.index = 0u;
+		fltSem.index = 0u;
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
@@ -539,18 +540,14 @@ namespace hlsl
 			{
 				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
 					+ ": "
-					+ getSemantic( output.second->getName()
-						, intName
-						, output.first )
+					+ getSemantic( output.second->getName(), *pintSem )
 					, output.second->getType() );
 			}
 			else
 			{
 				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
 					+ ": "
-					+ getSemantic( output.second->getName()
-						, floatName
-						, output.first )
+					+ getSemantic( output.second->getName(), *pfltSem )
 					, output.second->getType() );
 			}
 
