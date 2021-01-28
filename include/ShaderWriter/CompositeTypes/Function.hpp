@@ -6,7 +6,6 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/BaseTypes/Array.hpp"
-#include "ShaderWriter/Optional/Optional.hpp"
 #include "FunctionParam.hpp"
 
 #include <functional>
@@ -49,17 +48,7 @@ namespace sdw
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Optional< ReturnT > getOptCtorCall( ShaderWriter & writer
-		, ParamsT const & ... params );
-
-	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getFunctionCall( ShaderWriter & writer
-		, ast::type::FunctionPtr type
-		, std::string const & name
-		, ParamsT const & ... params );
-
-	template< typename ReturnT, typename ... ParamsT >
-	inline Optional< ReturnT > getOptFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string const & name
 		, ParamsT const & ... params );

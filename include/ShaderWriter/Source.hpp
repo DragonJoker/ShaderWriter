@@ -19,8 +19,6 @@ See LICENSE file in root folder
 #include "ShaderWriter/MatTypes/Mat4x2.hpp"
 #include "ShaderWriter/MatTypes/Mat4x3.hpp"
 
-#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"
-
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 #include "ShaderWriter/Writer.hpp"

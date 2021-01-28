@@ -8,7 +8,9 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	void registerSsbo( ShaderWriter & writer, std::string const & name, SsboInfo const & info )
+	void registerSsbo( ShaderWriter & writer
+		, std::string const & name
+		, SsboInfo const & info )
 	{
 		writer.getShader().registerSsbo( name, info );
 	}

@@ -11,27 +11,40 @@ namespace sdw
 {
 	Pcb::Pcb( ShaderWriter & writer
 		, std::string const & name
-		, ast::type::MemoryLayout layout )
+		, ast::type::MemoryLayout layout
+		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
 		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
 		, m_name{ name }
 		, m_info{ writer.getTypesCache(), layout, name }
 		, m_var{ var::makeVariable( m_info.getType(), m_name, var::Flag::ePushConstant ) }
+		, m_enabled{ enabled }
 	{
 	}
 
 	void Pcb::end()
 	{
-		addStmt( m_shader, std::move( m_stmt ) );
+		if ( isEnabled() )
+		{
+			addStmt( m_shader, std::move( m_stmt ) );
+		}
 	}
 
-	StructInstance Pcb::declMember( std::string const & name, Struct const & s )
+	StructInstance Pcb::declMember( std::string const & name
+		, Struct const & s
+		, bool enabled )
 	{
 		auto type = m_info.registerMember( name, s.getType() );
 		auto var = registerMember( m_writer, m_var, name, type );
-		m_stmt->add( stmt::makeVariableDecl( var ) );
+
+		if ( isEnabled() && enabled )
+		{
+			m_stmt->add( stmt::makeVariableDecl( var ) );
+		}
+
 		return StructInstance{ m_writer
-			, makeExpr( m_writer, var ) };
+			, makeExpr( m_writer, var )
+			, isEnabled() && enabled };
 	}
 }

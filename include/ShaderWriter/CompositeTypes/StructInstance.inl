@@ -11,7 +11,8 @@ namespace sdw
 		return T{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
 				, member.type->getIndex()
-				, 0u ) };
+				, 0u )
+			, true};
 	}
 
 	template< typename T >
@@ -22,6 +23,7 @@ namespace sdw
 		return Array< T >{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
 				, member.type->getIndex()
-				, 0u ) };
+				, 0u )
+			, true };
 	}
 }

@@ -12,7 +12,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
-					, var::Flag::eParam ) ) }
+					, var::Flag::eParam ) )
+			, true }
 	{
 	}
 
@@ -46,7 +47,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
-					, var::Flag::eInputParam ) ) }
+					, var::Flag::eInputParam ) )
+			, true }
 	{
 	}
 
@@ -80,7 +82,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
-					, var::Flag::eOutputParam ) ) }
+					, var::Flag::eOutputParam ) )
+			, true }
 	{
 	}
 
@@ -114,7 +117,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( ValueT::makeType( getTypesCache( writer ) )
 					, std::move( name )
-					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
+					, var::Flag::eInputParam | var::Flag::eOutputParam ) )
+			, true }
 	{
 	}
 
@@ -149,7 +153,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
-					, var::Flag::eParam ) ) }
+					, var::Flag::eParam ) )
+			, true }
 	{
 	}
 
@@ -184,7 +189,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
-					, var::Flag::eInputParam ) ) }
+					, var::Flag::eInputParam ) )
+			, true }
 	{
 	}
 
@@ -219,7 +225,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
-					, var::Flag::eOutputParam ) ) }
+					, var::Flag::eOutputParam ) )
+			, true }
 	{
 	}
 
@@ -254,7 +261,8 @@ namespace sdw
 			, makeExpr( writer
 				, var::makeVariable( Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
 					, std::move( name )
-					, var::Flag::eInputParam | var::Flag::eOutputParam ) ) }
+					, var::Flag::eInputParam | var::Flag::eOutputParam ) )
+			, true }
 	{
 	}
 

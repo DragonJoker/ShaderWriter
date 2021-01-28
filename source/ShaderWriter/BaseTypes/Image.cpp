@@ -7,14 +7,15 @@ namespace sdw
 {
 	Image::Image( ast::type::ImageFormat format
 		, ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 		, m_format{ format }
 	{
 	}
 
 	Image::Image( Image const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( *rhs.getWriter(), rhs ) }
+		: Value{ *rhs.getWriter(), makeExpr( *rhs.getWriter(), rhs ), rhs.isEnabled() }
 		, m_format{ rhs.m_format }
 	{
 	}

@@ -18,41 +18,42 @@ namespace sdw
 			, std::string const & name
 			, uint32_t bind
 			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140 );
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, bool enabled = true );
 		SDW_API void end();
 
 		SDW_API StructInstance declStructMember( std::string const & name
-			, Struct const & s );
+			, Struct const & s
+			, bool enabled = true );
 		SDW_API Array< StructInstance > declStructMember( std::string const & name
 			, Struct const & s
-			, uint32_t dimension );
+			, uint32_t dimension
+			, bool enabled = true );
 		template< typename T >
-		inline T declStructMember( std::string const & name );
+		inline T declStructMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declStructMember( std::string const & name
-			, uint32_t dimension );
+			, uint32_t dimension
+			, bool enabled = true );
 		template< typename T >
-		inline T declMember( std::string const & name );
+		inline T declMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declMember( std::string const & name
-			, uint32_t dimension );
-		template< typename T >
-		inline Optional< T > declMember( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > declMember( std::string const & name
 			, uint32_t dimension
-			, bool enabled );
+			, bool enabled = true );
 		template< typename T >
-		inline T getMember( std::string const & name );
+		inline T getMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name );
-		template< typename T >
-		inline Optional< T > getMember( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > getMemberArray( std::string const & name
-			, bool enabled );
+		inline Array< T > getMemberArray( std::string const & name
+			, bool enabled = true );
+
+		bool isEnabled()const
+		{
+			return m_enabled;
+		}
 
 	private:
 		ShaderWriter & m_writer;
@@ -62,6 +63,7 @@ namespace sdw
 		ast::InterfaceBlock m_interface;
 		ast::UboInfo m_info;
 		var::VariablePtr m_var;
+		bool m_enabled;
 	};
 }
 

@@ -6,8 +6,9 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Sampler::Sampler( ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 	{
 	}
 

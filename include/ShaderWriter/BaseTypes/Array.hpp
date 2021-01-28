@@ -14,7 +14,8 @@ namespace sdw
 		: public Value
 	{
 		Array( ShaderWriter & writer
-			, expr::ExprPtr expr );
+			, expr::ExprPtr expr
+			, bool enabled );
 		Array( Array const & rhs );
 		template< typename IndexT >
 		ValueT operator[]( IndexT const & offset )const;

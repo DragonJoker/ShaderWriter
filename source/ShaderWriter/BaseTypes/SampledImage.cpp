@@ -7,8 +7,9 @@ namespace sdw
 {
 	SampledImage::SampledImage( ast::type::ImageFormat /*format*/
 		, ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 	{
 	}
 

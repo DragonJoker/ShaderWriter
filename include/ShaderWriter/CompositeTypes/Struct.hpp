@@ -20,7 +20,8 @@ namespace sdw
 			, ast::type::StructPtr type );
 		SDW_API void end();
 		template< typename InstanceT = StructInstance >
-		InstanceT getInstance( std::string const & name )const;
+		InstanceT getInstance( std::string const & name
+			, bool enabled )const;
 
 		inline type::StructPtr getType()const
 		{

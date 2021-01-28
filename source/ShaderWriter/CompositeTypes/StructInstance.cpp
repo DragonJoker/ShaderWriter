@@ -6,8 +6,9 @@ See LICENSE file in root folder
 namespace sdw
 {
 	StructInstance::StructInstance( ShaderWriter & writer
-		, expr::ExprPtr expr )
-		: Value{ writer, std::move( expr ) }
+		, expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 		, m_type{ std::static_pointer_cast< type::Struct >( getType() ) }
 	{
 	}
@@ -16,11 +17,14 @@ namespace sdw
 	{
 		if ( getContainer() )
 		{
-			auto & writer = *findWriter( *this, rhs );
-			addStmt( writer
-				, sdw::makeSimple( sdw::makeAssign( getType()
-					, makeExpr( writer, *this )
-					, makeExpr( writer, rhs ) ) ) );
+			if ( isEnabled() )
+			{
+				auto & writer = *findWriter( *this, rhs );
+				addStmt( writer
+					, sdw::makeSimple( sdw::makeAssign( getType()
+						, makeExpr( writer, *this )
+						, makeExpr( writer, rhs ) ) ) );
+			}
 		}
 		else
 		{

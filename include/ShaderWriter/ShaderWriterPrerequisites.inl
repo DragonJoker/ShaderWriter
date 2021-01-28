@@ -464,22 +464,6 @@ namespace sdw
 	};
 
 	template< typename T >
-	struct TypeTraits< Optional< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< T >::CppType;
-	};
-
-	template< typename T >
-	struct TypeTraits< MaybeOptional< T > >
-	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< T >::CppType;
-	};
-
-	template< typename T >
 	struct TypeTraits< InParam< T > >
 	{
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
@@ -1211,18 +1195,6 @@ namespace sdw
 
 	template< typename T >
 	struct RealTypeGetter< InParam< T > >
-	{
-		using Type = T;
-	};
-
-	template< typename T >
-	struct RealTypeGetter< Optional< T > >
-	{
-		using Type = T;
-	};
-
-	template< typename T >
-	struct RealTypeGetter< MaybeOptional< T > >
 	{
 		using Type = T;
 	};

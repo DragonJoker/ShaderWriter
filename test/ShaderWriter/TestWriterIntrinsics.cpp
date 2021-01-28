@@ -10139,7 +10139,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10165,7 +10165,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10191,7 +10191,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Float >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10221,7 +10221,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::HVec2 >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10251,7 +10251,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::HVec4 >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10281,7 +10281,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10306,7 +10306,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10331,7 +10331,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10356,7 +10356,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10381,7 +10381,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10406,7 +10406,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10431,7 +10431,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10456,7 +10456,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10481,7 +10481,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10506,7 +10506,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10531,7 +10531,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10556,7 +10556,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10581,7 +10581,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Float >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10610,7 +10610,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::HVec2 >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10639,7 +10639,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::HVec4 >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10668,7 +10668,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
@@ -10694,7 +10694,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
 			type.end();
-			sdw::StructuredSsbo bo{ writer, "Datas", type.getType(), 1u, 1u };
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{

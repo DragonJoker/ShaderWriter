@@ -25,7 +25,7 @@
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
 
-#define SDW_Test_DisplayShaders 1
+#define SDW_Test_DisplayShaders 0
 
 namespace test
 {

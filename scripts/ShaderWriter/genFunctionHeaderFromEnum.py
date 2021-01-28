@@ -64,7 +64,6 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/MatTypes/Mat4.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MatTypes/Mat4x2.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MatTypes/Mat4x3.hpp"' )
-	outs.write( '\n#include "ShaderWriter/MaybeOptional/MaybeOptional.hpp"' )
 	outs.write( "\n" )
 	outs.write( '\n#include <ShaderAST/Expr/Make' + enumName + '.hpp>' )
 	outs.write( "\n" )
@@ -195,9 +194,9 @@ def computeParams( params, sep, allowEmpty ):
 			index += 1
 			if len(typeQualifier) > 0:
 				if isArray( resParam[index] ):
-					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[index] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
 				else:
-					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[index]
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
 			else:
 				if isArray( resParam[index] ):
 					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
@@ -233,9 +232,9 @@ def computeParamsEx( params, sep, lastType ):
 
 			if len(typeQualifier) > 0:
 				if isArray( resParam[curIndex] ):
-					result += sep + " MaybeOptional< Array< " + paramType + " > > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
 				else:
-					result += sep + " MaybeOptional< " + paramType + " > " + typeQualifier + "& " + resParam[curIndex]
+					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[curIndex]
 			else:
 				if isArray( resParam[curIndex] ):
 					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
@@ -433,10 +432,10 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
 			# Write function name and return
-			outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
+			outs.write( "\n\tSDW_API " + ret + " " + intrinsicName + "(" )
 			# Write parameters
 			#	Image parameter
-			outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+			outs.write( " " + imageFullType + fmt + " const & image" )
 			#	Remaining function parameters
 			outs.write( computeParams( paramsGroup, ",", 1 ) + " );" )
 
@@ -457,7 +456,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( "\n\tSDW_API Void " + intrinsicName + "(" )
 					# Write parameters
 					#	Image parameter
-					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+					outs.write( " " + imageFullType + fmt + " const & image" )
 					#	Remaining function parameters
 					outs.write( computeParamsEx( paramsGroup, ",", last ) + " );" )
 		else:
@@ -470,10 +469,10 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			for imageFullType in imageFullTypes:
 				for fmt, ret in formats:
 					# Write function name and return
-					outs.write( "\n\tSDW_API MaybeOptional< " + ret + " > " + intrinsicName + "(" )
+					outs.write( "\n\tSDW_API " + ret + " " + intrinsicName + "(" )
 					# Write parameters
 					#	Image parameter
-					outs.write( " MaybeOptional< " + imageFullType + fmt + " > const & image" )
+					outs.write( " " + imageFullType + fmt + " const & image" )
 					#	Remaining function parameters
 					if intrinsicName.find( "Atomic" ) != -1:
 						outs.write( computeParamsEx( paramsGroup, ",", ret ) + " );" )
@@ -483,7 +482,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	# Write function name and return
-	outs.write( "\n\tSDW_API MaybeOptional< " + retType + " > " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\tSDW_API " + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "", 0 ) + " );" )
 	

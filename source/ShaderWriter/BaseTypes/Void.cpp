@@ -11,7 +11,7 @@ namespace sdw
 	Void::Void( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool writeStmt )
-		: Value{ writer, std::move( expr ) }
+		: Value{ writer, std::move( expr ), true }
 	{
 		if ( writeStmt )
 		{

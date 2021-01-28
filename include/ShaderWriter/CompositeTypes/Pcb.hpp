@@ -17,32 +17,31 @@ namespace sdw
 	public:
 		SDW_API Pcb( ShaderWriter & writer
 			, std::string const & name
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430 );
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, bool enabled = true );
 		SDW_API void end();
 
-		SDW_API StructInstance declMember( std::string const & name, Struct const & s );
+		SDW_API StructInstance declMember( std::string const & name
+			, Struct const & s
+			, bool enabled = true );
 		template< typename T >
-		inline T declMember( std::string const & name );
+		inline T declMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declMember( std::string const & name
-			, uint32_t dimension );
-		template< typename T >
-		inline Optional< T > declMember( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > declMember( std::string const & name
 			, uint32_t dimension
-			, bool enabled );
+			, bool enabled = true );
 		template< typename T >
-		inline T getMember( std::string const & name );
+		inline T getMember( std::string const & name
+			, bool enabled = true );
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name );
-		template< typename T >
-		inline Optional< T > getMember( std::string const & name
-			, bool enabled );
-		template< typename T >
-		inline Optional< Array< T > > getMemberArray( std::string const & name
-			, bool enabled );
+		inline Array< T > getMemberArray( std::string const & name
+			, bool enabled = true );
+
+		bool isEnabled()const
+		{
+			return m_enabled;
+		}
 
 	private:
 		ShaderWriter & m_writer;
@@ -51,6 +50,7 @@ namespace sdw
 		std::string m_name;
 		ast::PcbInfo m_info;
 		var::VariablePtr m_var;
+		bool m_enabled;
 	};
 }
 

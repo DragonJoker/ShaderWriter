@@ -70,7 +70,7 @@ namespace sdw
 
 	template< typename Input, typename Output >
 	Swizzle< Input, Output >::Swizzle( std::string const & p_name, Input * p_input )
-		: Expr( p_input->m_container, p_name )
+		: Output( p_input->m_container, p_name, p_input->isEnabled() )
 		, m_input( p_input )
 	{
 	}
@@ -78,14 +78,17 @@ namespace sdw
 	template< typename Input, typename Output >
 	Swizzle< Input, Output > & Swizzle< Input, Output >::operator=( Swizzle const & rhs )
 	{
-		if ( m_container )
+		if ( rhs.isEnabled() )
 		{
-			m_container->writeAssign( *this, rhs );
-		}
-		else
-		{
-			Expr::operator=( rhs );
-			m_container = rhs.m_container;
+			if ( m_container )
+			{
+				m_container->writeAssign( *this, rhs );
+			}
+			else
+			{
+				Expr::operator=( rhs );
+				m_container = rhs.m_container;
+			}
 		}
 
 		return *this;
