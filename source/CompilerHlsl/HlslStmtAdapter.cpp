@@ -645,10 +645,8 @@ namespace hlsl
 				{
 					if ( var.second->getName() == "gl_ClipDistance" )
 					{
-
 						for ( uint32_t i = 0u; i < 4u; ++i )
 						{
-							ast::expr::SwizzleKind;
 							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
 								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
 										, inIndex
