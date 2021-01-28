@@ -12,6 +12,21 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
+	namespace
+	{
+		std::string removeSemantics( std::string const & name )
+		{
+			auto it = name.find_last_of( ":" );
+
+			if ( it != std::string::npos )
+			{
+				return name.substr( 0, it );
+			}
+
+			return name;
+		}
+	}
+
 	std::string ExprVisitor::submit( ast::expr::Expr * expr )
 	{
 		std::string result;
@@ -199,7 +214,7 @@ namespace hlsl
 			it = m_result.find( ".." );
 		}
 
-		m_result += expr->getOuterType()->getMember( expr->getMemberIndex() ).name;
+		m_result += removeSemantics( expr->getOuterType()->getMember( expr->getMemberIndex() ).name );
 	}
 
 	void ExprVisitor::visitFnCallExpr( ast::expr::FnCall * expr )

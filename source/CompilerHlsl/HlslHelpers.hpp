@@ -26,10 +26,14 @@ namespace hlsl
 		, ast::type::Kind component );
 	std::string getSampledName( ast::type::ImageFormat value );
 	std::string getName( ast::type::ImageDim value );
-	std::string getSemantic( std::string const & name
-		, std::string const & defaultName
-		, uint32_t index );
 	bool isUnaryPre( ast::expr::Kind kind );
+	struct Semantic
+	{
+		std::string name;
+		uint32_t index;
+	};
+	std::string getSemantic( std::string const & name
+		, Semantic & defaultSemantic );
 
 	using LinkedVars = std::map< ast::var::VariablePtr, std::pair< ast::var::VariablePtr, ast::var::VariablePtr > >;
 	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var, LinkedVars & linkedVars );

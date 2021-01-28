@@ -97,6 +97,34 @@ namespace
 		testEnd();
 	}
 
+	void testSwitch( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSwitch" );
+		sdw::VertexWriter writer;
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto ctrl = writer.declLocale< sdw::Int >( "ctrl" );
+				SWITCH( writer, ctrl )
+				{
+					CASE( 0 )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i" );
+					}
+					ESAC;
+					CASE( 1 )
+					{
+						auto j = writer.declLocale< sdw::Int >( "j" );
+					}
+					ESAC;
+				}
+				HCTIWS;
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
 	void testFor( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testFor" );
@@ -423,25 +451,44 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	void testTernary( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testTernary" );
+		sdw::VertexWriter writer;
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto ctrl = writer.declLocale< sdw::Int >( "ctrl", 20_i );
+				auto res1 = writer.declLocale< sdw::Int >( "res1", 20_i );
+				auto res2 = writer.declLocale< sdw::Int >( "res2", 10_i );
+				writer.ternary( ctrl > 10_i, res1, res2 );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterControlStatements )
 {
 	sdwTestSuiteBegin();
-	testIf(  testCounts );
-	testIfElse(  testCounts );
-	testIfElseIf(  testCounts );
-	testIfElseIfElse(  testCounts );
-	testFor(  testCounts );
-	testWhile(  testCounts );
-	testDoWhile(  testCounts );
-	testNestedIf(  testCounts );
-	testNestedIfElse(  testCounts );
-	testNestedIfElseIf(  testCounts );
-	testNestedIfElseIfElse(  testCounts );
-	testNestedFor(  testCounts );
-	testNestedWhile(  testCounts );
-	testNestedDoWhile(  testCounts );
+	testIf( testCounts );
+	testIfElse( testCounts );
+	testIfElseIf( testCounts );
+	testIfElseIfElse( testCounts );
+	testSwitch(testCounts );
+	testFor( testCounts );
+	testWhile( testCounts );
+	testDoWhile( testCounts );
+	testNestedIf( testCounts );
+	testNestedIfElse( testCounts );
+	testNestedIfElseIf( testCounts );
+	testNestedIfElseIfElse( testCounts );
+	testNestedFor( testCounts );
+	testNestedWhile( testCounts );
+	testNestedDoWhile( testCounts );
+	testTernary( testCounts );
 	sdwTestSuiteEnd();
 }
 

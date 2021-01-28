@@ -92,6 +92,7 @@ namespace hlsl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
+						|| name == "gl_CullDistance"
 						|| name == "gl_PrimitiveID"
 						|| name == "gl_Layer"
 						|| name == "gl_ViewportIndex" ) )
@@ -99,6 +100,7 @@ namespace hlsl
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
 						|| name == "gl_ClipDistance"
+						|| name == "gl_CullDistance"
 						|| name == "gl_TessLevelInner"
 						|| name == "gl_TessLevelOuter" ) )
 				|| ( type == ast::ShaderStage::eTessellationEvaluation
@@ -108,7 +110,8 @@ namespace hlsl
 				|| ( type == ast::ShaderStage::eVertex
 					&& ( name == "gl_Position"
 						|| name == "gl_PointSize"
-						|| name == "gl_ClipDistance" ) );
+						|| name == "gl_ClipDistance"
+						|| name == "gl_CullDistance" ) );
 		}
 
 		ast::type::Kind getBuiltinHlslKind( std::string const & name
@@ -282,33 +285,30 @@ namespace hlsl
 
 		for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 		{
-			if ( member.name == "gl_Position" )
-			{
-				auto mbrType = ( count == ast::type::NotArray
-					? member.type
-					: m_cache.getArray( member.type, count ) );
-				auto var = ( m_shader.hasVar( member.name )
-					? m_shader.getVar( member.name, mbrType )
-					: m_shader.registerName( member.name, mbrType ) );
+			auto mbrType = ( count == ast::type::NotArray
+				? member.type
+				: m_cache.getArray( m_cache.getArray( getNonArrayType( member.type ), getArraySize( member.type ) * count ) ) );
+			auto var = ( m_shader.hasVar( member.name )
+				? m_shader.getVar( member.name, mbrType )
+				: m_shader.registerName( member.name, mbrType ) );
 
-				if ( isOutput( stmt->getSource() ) )
-				{
-					m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
-					m_adaptationData.outputMembers.emplace( var
-						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-							, uint32_t( m_adaptationData.outputMembers.size() )
-							, var->getFlags() ) );
-					m_adaptationData.outputVars.emplace( index, var );
-				}
-				else
-				{
-					m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
-					m_adaptationData.inputMembers.emplace( var
-						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
-							, uint32_t( m_adaptationData.inputMembers.size() )
-							, var->getFlags() ) );
-					m_adaptationData.inputVars.emplace( index, var );
-				}
+			if ( isOutput( stmt->getSource() ) )
+			{
+				m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
+				m_adaptationData.outputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+						, uint32_t( m_adaptationData.outputMembers.size() )
+						, var->getFlags() ) );
+				m_adaptationData.outputVars.emplace( index++, var );
+			}
+			else
+			{
+				m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
+				m_adaptationData.inputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
+						, uint32_t( m_adaptationData.inputMembers.size() )
+						, var->getFlags() ) );
+				m_adaptationData.inputVars.emplace( index++, var );
 			}
 		}
 	}
@@ -490,8 +490,10 @@ namespace hlsl
 
 	void StmtAdapter::rewriteShaderIOVars()
 	{
-		std::string floatName = "TEXCOORD";
-		std::string intName = "BLENDINDICES";
+		Semantic intSem{ "BLENDINDICES", 0u };
+		Semantic fltSem{ "TEXCOORD", 0u };
+		Semantic * pintSem{ &intSem };
+		Semantic * pfltSem{ &fltSem };
 
 		for ( auto & input : m_adaptationData.inputVars )
 		{
@@ -500,18 +502,14 @@ namespace hlsl
 			{
 				m_adaptationData.mainInputStruct->declMember( input.second->getName()
 					+ ": "
-					+ getSemantic( input.second->getName()
-						, intName
-						, input.first )
+					+ getSemantic( input.second->getName(), *pintSem )
 					, input.second->getType() );
 			}
 			else
 			{
 				m_adaptationData.mainInputStruct->declMember( input.second->getName()
 					+ ": "
-					+ getSemantic( input.second->getName()
-						, floatName
-						, input.first )
+					+ getSemantic( input.second->getName(), *pfltSem )
 					, input.second->getType() );
 			}
 
@@ -528,40 +526,58 @@ namespace hlsl
 
 		if ( m_shader.getType() == ast::ShaderStage::eFragment )
 		{
-			intName = "SV_Target";
-			floatName = "SV_Target";
+			intSem.name = "SV_Target";
+			pfltSem = &intSem;
 		}
+
+		intSem.index = 0u;
+		fltSem.index = 0u;
 
 		for ( auto & output : m_adaptationData.outputVars )
 		{
-			if ( isSignedIntType( output.second->getType()->getKind() )
-				|| isUnsignedIntType( output.second->getType()->getKind() ) )
+			if ( output.second->getName() == "gl_ClipDistance" )
 			{
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+				auto type = m_cache.getVec4F();
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName() + "0"
 					+ ": "
-					+ getSemantic( output.second->getName()
-						, intName
-						, output.first )
-					, output.second->getType() );
+					+ "SV_ClipDistance0"
+					, type );
+				m_adaptationData.mainOutputStruct->declMember( output.second->getName() + "1"
+					+ ": "
+					+ "SV_ClipDistance1"
+					, type );
+			}
+			else if ( output.second->getName() == "gl_CullDistance" )
+			{
+				// Merged with SV_ClipDistance ?
 			}
 			else
 			{
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-					+ ": "
-					+ getSemantic( output.second->getName()
-						, floatName
-						, output.first )
-					, output.second->getType() );
-			}
+				if ( isSignedIntType( output.second->getType()->getKind() )
+					|| isUnsignedIntType( output.second->getType()->getKind() ) )
+				{
+					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+						+ ": "
+						+ getSemantic( output.second->getName(), *pintSem )
+						, output.second->getType() );
+				}
+				else
+				{
+					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
+						+ ": "
+						+ getSemantic( output.second->getName(), *pfltSem )
+						, output.second->getType() );
+				}
 
-			if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
-			{
-				m_adaptationData.globalOutputStruct->declMember( output.second->getName()
-					, output.second->getType() );
-			}
-			else
-			{
-				assert( output.second->getType()->getKind() == m_adaptationData.globalOutputStruct->getMember( output.second->getName() ).type->getKind() );
+				if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
+				{
+					m_adaptationData.globalOutputStruct->declMember( output.second->getName()
+						, output.second->getType() );
+				}
+				else
+				{
+					assert( output.second->getType()->getKind() == m_adaptationData.globalOutputStruct->getMember( output.second->getName() ).type->getKind() );
+				}
 			}
 		}
 	}
@@ -618,10 +634,74 @@ namespace hlsl
 		{
 			// Declare output.
 			cont->addStmt( ast::stmt::makeVariableDecl( mainOutputVar ) );
-			// Assign global outputs to main outputs
-			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.mainOutputStruct
-				, ast::expr::makeIdentifier( m_cache, mainOutputVar )
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) ) );
+
+			if ( m_shader.getType() == ast::ShaderStage::eVertex )
+			{
+				// Assign global outputs to main outputs, member wise
+				auto inIndex = 0u;
+				auto outIndex = 0u;
+
+				for ( auto & var : m_adaptationData.outputVars )
+				{
+					if ( var.second->getName() == "gl_ClipDistance" )
+					{
+						for ( uint32_t i = 0u; i < 4u; ++i )
+						{
+							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
+								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
+										, inIndex
+										, 0u )
+									, ast::expr::SwizzleKind::fromOffset( i ) )
+								, ast::expr::makeArrayAccess( m_cache.getFloat()
+									, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+										, outIndex
+										, 0u )
+									, ast::expr::makeLiteral( m_cache, i ) ) ) ) );
+						}
+
+						++inIndex;
+
+						for ( uint32_t i = 0u; i < 4u; ++i )
+						{
+							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
+								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
+										, inIndex
+										, 0u )
+									, ast::expr::SwizzleKind::fromOffset( i ) )
+								, ast::expr::makeArrayAccess( m_cache.getFloat()
+									, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+										, outIndex
+										, 0u )
+									, ast::expr::makeLiteral( m_cache, i + 4u ) ) ) ) );
+						}
+
+						++inIndex;
+						++outIndex;
+					}
+					else if ( var.second->getName() == "gl_CullDistance" )
+					{
+					}
+					else
+					{
+						cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.second->getType()
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, mainOutputVar )
+								, inIndex
+								, uint32_t( ast::var::Flag::eImplicit ) )
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
+								, outIndex
+								, uint32_t( ast::var::Flag::eImplicit ) ) ) ) );
+						++inIndex;
+						++outIndex;
+					}
+				}
+			}
+			else
+			{
+				// Assign global outputs to main outputs
+				cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.mainOutputStruct
+					, ast::expr::makeIdentifier( m_cache, mainOutputVar )
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) ) );
+			}
 			// Return output.
 			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, mainOutputVar ) ) );
 		}
