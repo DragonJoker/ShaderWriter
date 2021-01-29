@@ -24,7 +24,7 @@ namespace sdw
 		ReturnWrapperT( ReturnWrapperT && rhs );
 		~ReturnWrapperT();
 
-		sdw::expr::ExprPtr release();
+		sdw::expr::ExprPtr release()const;
 		expr::ExprPtr makeCondition();
 
 		operator ValueT();
@@ -34,7 +34,7 @@ namespace sdw
 
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, ReturnWrapperT< ValueT > variable
+		, ReturnWrapperT< ValueT > const & variable
 		, bool force = true );
 
 	template< typename ValueT >

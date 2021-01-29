@@ -35,11 +35,11 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	sdw::expr::ExprPtr ReturnWrapperT< ValueT >::release()
+	sdw::expr::ExprPtr ReturnWrapperT< ValueT >::release()const
 	{
 		assert( this->getExpr() );
 		auto result = makeExpr( *this->getWriter(), this->getExpr() );
-		this->updateExpr( nullptr );
+		const_cast< ReturnWrapperT< ValueT > & >( *this ).updateExpr( nullptr );
 		return result;
 	}
 
@@ -65,7 +65,7 @@ namespace sdw
 
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, ReturnWrapperT< ValueT > variable
+		, ReturnWrapperT< ValueT > const & variable
 		, bool force )
 	{
 		return variable.release();
