@@ -23,8 +23,9 @@ namespace ast::type
 	Array::Array( Struct * parent
 		, uint32_t index
 		, TypePtr type
+		, Array const & nonMbr
 		, uint32_t arraySize )
-		: Type{ type->getCache(), parent, index, Kind::eArray }
+		: Type{ type->getCache(), parent, index, nonMbr }
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
@@ -34,8 +35,9 @@ namespace ast::type
 	Array::Array( Struct & parent
 		, uint32_t index
 		, TypePtr type
+		, Array const & nonMbr
 		, uint32_t arraySize )
-		: Array{ &parent, index, type, arraySize }
+		: Array{ &parent, index, type, nonMbr, arraySize }
 	{
 	}
 
@@ -44,6 +46,7 @@ namespace ast::type
 		return std::make_shared< Array >( parent
 			, index
 			, getType()
+			, *this
 			, getArraySize() );
 	}
 

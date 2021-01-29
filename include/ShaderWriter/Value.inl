@@ -279,12 +279,15 @@ namespace sdw
 			ShaderWriter & writer = *findWriter( lhs, rhs );
 			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
 			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
-			ast::type::TypePtr lhsType = details::getType( writer, lhs );
-			ast::type::TypePtr rhsType = details::getType( writer, rhs );
+			ast::type::TypePtr lhsType = lhsExpr->getType();
+			ast::type::TypePtr rhsType = rhsExpr->getType();
 
-			if ( rhsType != lhsType )
+			if constexpr ( !std::is_same_v< CppTypeT< LhsT >, CppTypeT< RhsT > > )
 			{
-				rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+				if ( rhsType->getNonMemberType() != lhsType->getNonMemberType() )
+				{
+					rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+				}
 			}
 
 			addStmt( writer

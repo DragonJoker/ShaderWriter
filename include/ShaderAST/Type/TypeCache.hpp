@@ -119,6 +119,7 @@ namespace ast::type
 		ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize );
 
 		TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex );
+		Type const * getNonMemberType( TypePtr type );
 
 	private:
 		std::array< TypePtr, size_t( Kind::eMax ) > m_basicTypes;

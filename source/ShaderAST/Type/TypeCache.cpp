@@ -665,5 +665,10 @@ namespace ast::type
 		return type->getMemberType( parent, memberIndex );
 	}
 
+	Type const * TypesCache::getNonMemberType( TypePtr type )
+	{
+		return type->getNonMemberType();
+	}
+
 	//*************************************************************************
 }

@@ -21,10 +21,12 @@ namespace ast::type
 		Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
+			, Array const & nonMbr
 			, uint32_t arraySize = UnknownArraySize );
 		Array( Struct & parent
 			, uint32_t index
 			, TypePtr type
+			, Array const & nonMbr
 			, uint32_t arraySize = UnknownArraySize );
 		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
