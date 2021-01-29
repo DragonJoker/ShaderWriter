@@ -325,7 +325,7 @@ namespace ast::type
 		, Struct * parent
 		, uint32_t index
 		, Struct const & copy )
-		: Type{ cache, parent, index, Kind::eStruct }
+		: Type{ cache, parent, index, copy }
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
 	{

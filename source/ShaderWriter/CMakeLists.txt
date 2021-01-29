@@ -59,6 +59,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/Int.inl
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.hpp
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.inl
+	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.hpp
+	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.inl
 	${INCLUDE_DIR}/BaseTypes/SampledImage.hpp
 	${INCLUDE_DIR}/BaseTypes/SampledImage.inl
 	${INCLUDE_DIR}/BaseTypes/Sampler.hpp

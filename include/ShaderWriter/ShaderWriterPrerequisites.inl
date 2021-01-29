@@ -102,24 +102,6 @@ namespace sdw
 	};
 
 	template<>
-	struct TypeTraits< IncDecWrapperT< ast::type::Kind::eInt > >
-	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = int32_t;
-		using Type = IntegerValue< ast::type::Kind::eInt >;
-	};
-
-	template<>
-	struct TypeTraits< IncDecWrapperT< ast::type::Kind::eUInt > >
-	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = uint32_t;
-		using Type = IntegerValue< ast::type::Kind::eUInt >;
-	};
-
-	template<>
 	struct TypeTraits< ArithmeticValue< ast::type::Kind::eFloat > >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
@@ -487,6 +469,15 @@ namespace sdw
 		using CppType = typename TypeTraits< T >::CppType;
 	};
 
+	template< typename ValueT >
+	struct TypeTraits< ReturnWrapperT< ValueT > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< ValueT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< ValueT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< ValueT >::CppType;
+		using Type = ValueT;
+	};
+
 	//***********************************************************************************************
 
 	template<>
@@ -661,6 +652,38 @@ namespace sdw
 	struct TypeKindTraits< ast::type::Kind::eMat4x4F >
 	{
 		using Type = Mat4;
+	};
+
+	//***********************************************************************************************
+
+	template< typename OpT >
+	struct AreCompatibleT< OpT, ReturnWrapperT< OpT > >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< ReturnWrapperT< OpT >, OpT >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< OpT, OpT >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< OpT, CppTypeT< OpT > >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< CppTypeT< OpT >, OpT >
+		: std::true_type
+	{
 	};
 
 	//***********************************************************************************************

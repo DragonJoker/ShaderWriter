@@ -142,9 +142,6 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	struct IntegerValue;
 
-	template< ast::type::Kind KindT >
-	struct IncDecWrapperT;
-
 	using Half = ArithmeticValue< ast::type::Kind::eHalf >;
 	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
 	using Double = ArithmeticValue< ast::type::Kind::eDouble >;
@@ -429,6 +426,8 @@ namespace sdw
 	struct OutParam;
 	template< typename TypeT >
 	struct InOutParam;
+	template< typename ValueT >
+	struct ReturnWrapperT;
 
 	Writer_Parameter( Double );
 	Writer_Parameter( Float );
@@ -1027,6 +1026,15 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	using TypeKindT = typename TypeKindTraits< KindT >::Type;
+
+	template< typename LhsT, typename RhsT >
+	struct AreCompatibleT
+		: std::false_type
+	{
+	};
+
+	template< typename LhsT, typename RhsT >
+	static bool constexpr areCompatible = AreCompatibleT< LhsT, RhsT >::value;
 }
 
 #undef Writer_SampledImage

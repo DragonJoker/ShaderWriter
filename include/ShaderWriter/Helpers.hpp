@@ -29,7 +29,7 @@ namespace sdw
 	template< typename ValueT >
 	ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	template< typename ValueT >
-	expr::ExprPtr makeCondition( ValueT const & value );
+	expr::ExprPtr makeCondition( ValueT value );
 	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig();
 	SDW_API ast::stmt::Container * getContainer( ShaderWriter & shader );

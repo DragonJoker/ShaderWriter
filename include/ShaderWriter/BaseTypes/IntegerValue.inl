@@ -32,12 +32,6 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT >::IntegerValue( IncDecWrapperT< KindT > rhs )
-		: Value{ *rhs.getWriter(), rhs.release(), rhs.isEnabled() }
-	{
-	}
-
-	template< ast::type::Kind KindT >
 	IntegerValue< KindT >::IntegerValue( Value rhs )
 		: Value{ ctorCast< IntegerValue< KindT >, 1u >( std::move( rhs ) ) }
 	{
@@ -58,13 +52,6 @@ namespace sdw
 			}
 		}
 
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > & IntegerValue< KindT >::operator=( IncDecWrapperT< KindT > rhs )
-	{
-		this->updateExpr( rhs.release() );
 		return *this;
 	}
 
@@ -94,27 +81,27 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT > IntegerValue< KindT >::operator++()
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator++()
 	{
-		return writeUnOperator< IncDecWrapperT< KindT > >( *this, sdw::makePreInc );
+		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePreInc );
 	}
 
 	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT > IntegerValue< KindT >::operator++( int )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator++( int )
 	{
-		return writeUnOperator< IncDecWrapperT< KindT > >( *this, sdw::makePostInc );
+		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePostInc );
 	}
 
 	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT > IntegerValue< KindT >::operator--()
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator--()
 	{
-		return writeUnOperator< IncDecWrapperT< KindT > >( *this, sdw::makePreDec );
+		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePreDec );
 	}
 
 	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT > IntegerValue< KindT >::operator--( int )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator--( int )
 	{
-		return writeUnOperator< IncDecWrapperT< KindT > >( *this, sdw::makePostDec );
+		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePostDec );
 	}
 
 	template< ast::type::Kind KindT >
@@ -621,86 +608,6 @@ namespace sdw
 		, CppTypeT< IntegerValue< KindT > > const & rhs )
 	{
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
-	}
-
-	//*************************************************************************
-
-	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT >::IncDecWrapperT( ShaderWriter & writer
-		, expr::ExprPtr expr
-		, bool enabled )
-		: m_value{ writer, std::move( expr ), enabled }
-	{
-	}
-
-	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT >::IncDecWrapperT( IntegerValue< KindT > const & rhs )
-		: m_value{ rhs }
-	{
-	}
-
-	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT >::IncDecWrapperT( IncDecWrapperT && rhs )
-		: m_value{ std::move( rhs.m_value ) }
-	{
-	}
-
-	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT >::~IncDecWrapperT()
-	{
-		if ( m_value.getExpr() && m_value.isEnabled() )
-		{
-			addStmt( *getWriter(), makeSimple( release() ) );
-		}
-	}
-
-	template< ast::type::Kind KindT >
-	sdw::expr::ExprPtr IncDecWrapperT< KindT >::release()const
-	{
-		assert( m_value.getExpr() );
-		auto result = makeExpr( *getWriter(), m_value.getExpr() );
-		m_value.updateExpr( nullptr );
-		return result;
-	}
-
-	template< ast::type::Kind KindT >
-	expr::ExprPtr IncDecWrapperT< KindT >::makeCondition()const
-	{
-		return release();
-	}
-
-	template< ast::type::Kind KindT >
-	ShaderWriter * IncDecWrapperT< KindT >::getWriter()const
-	{
-		return m_value.getWriter();
-	}
-
-	template< ast::type::Kind KindT >
-	Shader * IncDecWrapperT< KindT >::getShader()const
-	{
-		return m_value.getShader();
-	}
-
-	template< ast::type::Kind KindT >
-	bool IncDecWrapperT< KindT >::isEnabled()const
-	{
-		return m_value.isEnabled();
-	}
-
-	template< ast::type::Kind KindT >
-	IncDecWrapperT< KindT >::operator IntegerValue< KindT >()
-	{
-		return std::move( m_value );
-	}
-
-	//*************************************************************************
-
-	template< ast::type::Kind KindT >
-	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, IncDecWrapperT< KindT > variable
-		, bool force )
-	{
-		return variable.release();
 	}
 
 	//*************************************************************************

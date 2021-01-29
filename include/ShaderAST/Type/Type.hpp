@@ -83,12 +83,13 @@ namespace ast::type
 		Type( TypesCache & cache
 			, Struct * parent
 			, uint32_t index
-			, Kind kind );
+			, Type const & nonMbr );
 		Type( TypesCache & cache
 			, Struct & parent
 			, uint32_t index
-			, Kind kind );
+			, Type const & nonMbr );
 		virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
+		Type const * getNonMemberType()const;
 
 		virtual ~Type();
 
@@ -122,6 +123,7 @@ namespace ast::type
 		Kind m_kind;
 		Struct * m_parent;
 		uint32_t m_index;
+		Type const * m_nonMbr;
 	};
 
 	bool operator==( Type const & lhs, Type const & rhs );

@@ -2311,8 +2311,8 @@ namespace hlsl
 
 	ast::var::VariablePtr ExprAdapter::doMakeAlias( ast::type::TypePtr type )
 	{
-		++m_aliasId;
+		++m_adaptationData.aliasId;
 		return ast::var::makeVariable( std::move( type )
-			, "temp_" + std::to_string( m_aliasId ) );
+			, "temp_" + std::to_string( m_adaptationData.aliasId ) );
 	}
 }

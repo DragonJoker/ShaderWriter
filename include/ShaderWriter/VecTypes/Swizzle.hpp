@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_Swizzle_H___
 #define ___SDW_Swizzle_H___
 
-#include "ShaderWriter/Value.hpp"
+#include "ShaderWriter/BaseTypes/Bool.hpp"
 
 #define Writer_UseSwizzle 0
 

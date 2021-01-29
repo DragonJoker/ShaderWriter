@@ -1353,11 +1353,11 @@ namespace sdw
 	*	atomicAdd
 	*/
 	/**@{*/
-	SDW_API Int atomicAdd( Int const & mem, Int const & data );
-	SDW_API UInt atomicAdd( UInt const & mem, UInt const & data );
-	SDW_API Float atomicAdd( Float const & mem, Float const & data );
-	SDW_API HVec2 atomicAdd( HVec2 const & mem, HVec2 const & data );
-	SDW_API HVec4 atomicAdd( HVec4 const & mem, HVec4 const & data );
+	SDW_API ReturnWrapperT< Int > atomicAdd( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicAdd( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Float > atomicAdd( Float const & mem, Float const & data );
+	SDW_API ReturnWrapperT< HVec2 > atomicAdd( HVec2 const & mem, HVec2 const & data );
+	SDW_API ReturnWrapperT< HVec4 > atomicAdd( HVec4 const & mem, HVec4 const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicMin
@@ -1366,8 +1366,8 @@ namespace sdw
 	*	atomicMin
 	*/
 	/**@{*/
-	SDW_API Int atomicMin( Int const & mem, Int const & data );
-	SDW_API UInt atomicMin( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicMin( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicMin( UInt const & mem, UInt const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicMax
@@ -1376,8 +1376,8 @@ namespace sdw
 	*	atomicMax
 	*/
 	/**@{*/
-	SDW_API Int atomicMax( Int const & mem, Int const & data );
-	SDW_API UInt atomicMax( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicMax( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicMax( UInt const & mem, UInt const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicAnd
@@ -1386,8 +1386,8 @@ namespace sdw
 	*	atomicAnd
 	*/
 	/**@{*/
-	SDW_API Int atomicAnd( Int const & mem, Int const & data );
-	SDW_API UInt atomicAnd( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicAnd( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicAnd( UInt const & mem, UInt const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicOr
@@ -1396,8 +1396,8 @@ namespace sdw
 	*	atomicOr
 	*/
 	/**@{*/
-	SDW_API Int atomicOr( Int const & mem, Int const & data );
-	SDW_API UInt atomicOr( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicOr( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicOr( UInt const & mem, UInt const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicXor
@@ -1406,8 +1406,8 @@ namespace sdw
 	*	atomicXor
 	*/
 	/**@{*/
-	SDW_API Int atomicXor( Int const & mem, Int const & data );
-	SDW_API UInt atomicXor( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicXor( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicXor( UInt const & mem, UInt const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicExchange
@@ -1416,11 +1416,11 @@ namespace sdw
 	*	atomicExchange
 	*/
 	/**@{*/
-	SDW_API Int atomicExchange( Int const & mem, Int const & data );
-	SDW_API UInt atomicExchange( UInt const & mem, UInt const & data );
-	SDW_API Float atomicExchange( Float const & mem, Float const & data );
-	SDW_API HVec2 atomicExchange( HVec2 const & mem, HVec2 const & data );
-	SDW_API HVec4 atomicExchange( HVec4 const & mem, HVec4 const & data );
+	SDW_API ReturnWrapperT< Int > atomicExchange( Int const & mem, Int const & data );
+	SDW_API ReturnWrapperT< UInt > atomicExchange( UInt const & mem, UInt const & data );
+	SDW_API ReturnWrapperT< Float > atomicExchange( Float const & mem, Float const & data );
+	SDW_API ReturnWrapperT< HVec2 > atomicExchange( HVec2 const & mem, HVec2 const & data );
+	SDW_API ReturnWrapperT< HVec4 > atomicExchange( HVec4 const & mem, HVec4 const & data );
 	/**@}*/
 #pragma endregion
 #pragma region atomicCompSwap
@@ -1429,8 +1429,8 @@ namespace sdw
 	*	atomicCompSwap
 	*/
 	/**@{*/
-	SDW_API Int atomicCompSwap( Int const & mem, UInt const & compare, UInt const & data );
-	SDW_API UInt atomicCompSwap( UInt const & mem, UInt const & compare, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicCompSwap( Int const & mem, UInt const & compare, UInt const & data );
+	SDW_API ReturnWrapperT< UInt > atomicCompSwap( UInt const & mem, UInt const & compare, UInt const & data );
 	/**@}*/
 #pragma endregion
 #pragma region dFdx

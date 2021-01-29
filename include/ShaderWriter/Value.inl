@@ -184,39 +184,47 @@ namespace sdw
 
 	namespace details
 	{
+		template< typename ValueT >
+		inline ast::type::TypePtr getType( ValueT const & value )
+		{
+			return nullptr;
+		}
+
+		inline ast::type::TypePtr getType( Value const & value )
+		{
+			return value.getType();
+		}
+
 		inline void findExprRec( ast::expr::ExprPtr & result
 			, ShaderWriter & writer )
 		{
 		}
 
 		template< typename ValueT >
-		inline void findExprRec( ast::expr::ExprPtr & result
-			, ShaderWriter & writer
+		inline void findTypeRec( ast::type::TypePtr & result
 			, ValueT const & last )
 		{
-			result = makeExpr( writer, last );
+			result = getType( last );
 		}
 
 		template< typename ValueT, typename ... ValuesT >
-		inline void findExprRec( ast::expr::ExprPtr & result
-			, ShaderWriter & writer
+		inline void findTypeRec( ast::type::TypePtr & result
 			, ValueT const & current
 			, ValuesT const & ... values )
 		{
-			result = makeExpr( writer, current );
+			result = getType( current );
 
 			if ( !result )
 			{
-				findExprRec( result, writer, values... );
+				findTypeRec( result, values... );
 			}
 		}
 
 		template< typename ... ValuesT >
-		inline ast::expr::ExprPtr findExpr( ValuesT const & ... values )
+		inline ast::type::TypePtr findType( ValuesT const & ... values )
 		{
-			ast::expr::ExprPtr result{ nullptr };
-			auto & writer = *findWriter( values... );
-			findExprRec( result, writer, values... );
+			ast::type::TypePtr result{ nullptr };
+			findTypeRec( result, values... );
 			return result;
 		}
 	}
@@ -233,9 +241,9 @@ namespace sdw
 			return getTypesCache( *writer );
 		}
 
-		auto expr = details::findExpr( values... );
-		assert( expr );
-		return expr->getCache();
+		auto type = details::findType( values... );
+		assert( type );
+		return type->getCache();
 	}
 
 	inline ast::type::TypesCache & findTypesCache( ShaderWriter const & value )
@@ -271,18 +279,21 @@ namespace sdw
 			ShaderWriter & writer = *findWriter( lhs, rhs );
 			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
 			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
-			ast::type::TypePtr lhsType = details::getType( writer, lhs );
-			ast::type::TypePtr rhsType = details::getType( writer, rhs );
+			ast::type::TypePtr lhsType = lhsExpr->getType();
+			ast::type::TypePtr rhsType = rhsExpr->getType();
 
-			if ( rhsType != lhsType )
+			if constexpr ( !std::is_same_v< CppTypeT< LhsT >, CppTypeT< RhsT > > )
 			{
-				rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+				if ( rhsType->getNonMemberType() != lhsType->getNonMemberType() )
+				{
+					rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
+				}
 			}
 
 			addStmt( writer
 				, sdw::makeSimple( creator( ReturnT::makeType( getTypesCache( writer ) )
-					, makeExpr( writer, lhs )
-					, makeExpr( writer, rhs ) ) ) );
+					, std::move( lhsExpr )
+					, std::move( rhsExpr ) ) ) );
 		}
 	}
 

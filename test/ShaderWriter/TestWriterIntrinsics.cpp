@@ -10146,6 +10146,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicAdd( bo[0].getMember< sdw::Int >( name ), x );
+					atomicAdd( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10172,6 +10174,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicAdd( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicAdd( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10198,6 +10202,8 @@ namespace
 					auto x = writer.declLocale< Float >( "x", 0.0_f );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::Float >( name ), x ) );
+					atomicAdd( bo[0].getMember< sdw::Float >( name ), x );
+					atomicAdd( bo[0].getMember< sdw::Float >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -10228,6 +10234,8 @@ namespace
 					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x ) );
+					atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x );
+					atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -10258,6 +10266,8 @@ namespace
 					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
 					writer.declLocale( "r"
 						, atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x ) );
+					atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x );
+					atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -10288,6 +10298,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicMin( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicMin( bo[0].getMember< sdw::Int >( name ), x );
+					atomicMin( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10313,6 +10325,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicMin( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicMin( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicMin( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10338,6 +10352,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicMax( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicMax( bo[0].getMember< sdw::Int >( name ), x );
+					atomicMax( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10363,6 +10379,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicMax( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicMax( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicMax( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10388,6 +10406,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicAnd( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicAnd( bo[0].getMember< sdw::Int >( name ), x );
+					atomicAnd( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10413,6 +10433,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicAnd( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicAnd( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicAnd( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10438,6 +10460,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicOr( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicOr( bo[0].getMember< sdw::Int >( name ), x );
+					atomicOr( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10463,6 +10487,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicOr( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicOr( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicOr( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10488,6 +10514,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicXor( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicXor( bo[0].getMember< sdw::Int >( name ), x );
+					atomicXor( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10513,6 +10541,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicXor( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicXor( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicXor( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10538,6 +10568,8 @@ namespace
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::Int >( name ), x ) );
+					atomicExchange( bo[0].getMember< sdw::Int >( name ), x );
+					atomicExchange( bo[0].getMember< sdw::Int >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10563,6 +10595,8 @@ namespace
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::UInt >( name ), x ) );
+					atomicExchange( bo[0].getMember< sdw::UInt >( name ), x );
+					atomicExchange( bo[0].getMember< sdw::UInt >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10588,6 +10622,8 @@ namespace
 					auto x = writer.declLocale< Float >( "x", 0.0_f );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::Float >( name ), x ) );
+					atomicExchange( bo[0].getMember< sdw::Float >( name ), x );
+					atomicExchange( bo[0].getMember< sdw::Float >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -10617,6 +10653,8 @@ namespace
 					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x ) );
+					atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x );
+					atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -10646,6 +10684,8 @@ namespace
 					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
 					writer.declLocale( "r"
 						, atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x ) );
+					atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x );
+					atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -10676,6 +10716,8 @@ namespace
 					auto v = writer.declLocale< UInt >( "v", 1_u );
 					writer.declLocale( "r"
 						, atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v ) );
+					atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v );
+					atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v ) * writer.cast< Int >( c );
 				} );
 			test::writeShader( writer
 				, testCounts );
@@ -10702,6 +10744,8 @@ namespace
 					auto v = writer.declLocale< UInt >( "v", 1_u );
 					writer.declLocale( "r"
 						, atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v ) );
+					atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v );
+					atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v ) * c;
 				} );
 			test::writeShader( writer
 				, testCounts );

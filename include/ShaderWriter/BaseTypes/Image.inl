@@ -1272,7 +1272,7 @@ namespace sdw
 		struct ImgAtomicAddFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicAdd( CoordsT const & coord
 				, FetchT const & value )const
@@ -1300,7 +1300,7 @@ namespace sdw
 		struct ImgMsAtomicAddFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicAdd( CoordsT const & coord
 				, Int const & sample
@@ -1330,7 +1330,7 @@ namespace sdw
 		struct ImgAtomicMinFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicMin( CoordsT const & coord
 				, FetchT const & value )const
@@ -1358,7 +1358,7 @@ namespace sdw
 		struct ImgMsAtomicMinFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicMin( CoordsT const & coord
 				, Int const & sample
@@ -1388,7 +1388,7 @@ namespace sdw
 		struct ImgAtomicMaxFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicMax( CoordsT const & coord
 				, FetchT const & value )const
@@ -1416,7 +1416,7 @@ namespace sdw
 		struct ImgMsAtomicMaxFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicMax( CoordsT const & coord
 				, Int const & sample
@@ -1446,7 +1446,7 @@ namespace sdw
 		struct ImgAtomicAndFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicAnd( CoordsT const & coord
 				, FetchT const & value )const
@@ -1474,7 +1474,7 @@ namespace sdw
 		struct ImgMsAtomicAndFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicAnd( CoordsT const & coord
 				, Int const & sample
@@ -1504,7 +1504,7 @@ namespace sdw
 		struct ImgAtomicOrFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicOr( CoordsT const & coord
 				, FetchT const & value )const
@@ -1532,7 +1532,7 @@ namespace sdw
 		struct ImgMsAtomicOrFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicOr( CoordsT const & coord
 				, Int const & sample
@@ -1562,7 +1562,7 @@ namespace sdw
 		struct ImgAtomicXorFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicXor( CoordsT const & coord
 				, FetchT const & value )const
@@ -1590,7 +1590,7 @@ namespace sdw
 		struct ImgMsAtomicXorFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicXor( CoordsT const & coord
 				, Int const & sample
@@ -1620,7 +1620,7 @@ namespace sdw
 		struct ImgAtomicExchangeFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicExchange( CoordsT const & coord
 				, FetchT const & value )const
@@ -1648,7 +1648,7 @@ namespace sdw
 		struct ImgMsAtomicExchangeFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicExchange( CoordsT const & coord
 				, Int const & sample
@@ -1678,7 +1678,7 @@ namespace sdw
 		struct ImgAtomicCompSwapFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicCompSwap( CoordsT const & coord
 				, FetchT const & compare
@@ -1708,7 +1708,7 @@ namespace sdw
 		struct ImgMsAtomicCompSwapFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
-			using FetchT = ImageFetchT< FormatT >;
+			using FetchT = ReturnWrapperT< ImageFetchT< FormatT > >;
 
 			FetchT atomicCompSwap( CoordsT const & coord
 				, Int const & sample

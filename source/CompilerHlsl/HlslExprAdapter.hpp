@@ -86,7 +86,6 @@ namespace hlsl
 		HlslConfig const & m_writerConfig;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_intrinsics;
-		uint32_t m_aliasId{ 0u };
 	};
 }
 
