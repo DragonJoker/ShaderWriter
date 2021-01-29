@@ -246,12 +246,27 @@ namespace
 									, s.atomicAdd( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicAdd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicAdd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicAdd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicAdd( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicAdd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicAdd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicAdd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 
@@ -312,12 +327,27 @@ namespace
 									, s.atomicMin( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicMin( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicMin( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicMin( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicMin( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicMin( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicMin( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicMin( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 					test::writeShader( writer
@@ -373,12 +403,27 @@ namespace
 									, s.atomicMax( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicMax( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicMax( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicMax( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicMax( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicMax( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicMax( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicMax( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 					test::writeShader( writer
@@ -434,12 +479,27 @@ namespace
 									, s.atomicAnd( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicAnd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicAnd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicAnd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicAnd( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicAnd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicAnd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicAnd( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 					test::writeShader( writer
@@ -495,12 +555,27 @@ namespace
 									, s.atomicOr( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicOr( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicOr( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicOr( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicOr( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicOr( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicOr( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicOr( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 					test::writeShader( writer
@@ -556,12 +631,27 @@ namespace
 									, s.atomicXor( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicXor( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicXor( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicXor( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicXor( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicXor( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicXor( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicXor( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 					test::writeShader( writer
@@ -618,12 +708,27 @@ namespace
 									, s.atomicExchange( test::getDefault< CoordsT >( writer )
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicExchange( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicExchange( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicExchange( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
 								auto j = writer.declLocale( "j"
 									, s.atomicExchange( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicExchange( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicExchange( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicExchange( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 
@@ -685,6 +790,17 @@ namespace
 										, test::getDefault< sdw::Int >( writer )
 										, test::getDefault< FetchT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicCompSwap( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicCompSwap( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicCompSwap( test::getDefault< CoordsT >( writer )
+									, test::getDefault< sdw::Int >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 							else
 							{
@@ -692,6 +808,15 @@ namespace
 									, s.atomicCompSwap( test::getDefault< CoordsT >( writer )
 										, test::getDefault< FetchT >( writer )
 										, test::getDefault< FetchT >( writer ) ) );
+								s.atomicCompSwap( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j * s.atomicCompSwap( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer )
+									, test::getDefault< FetchT >( writer ) );
+								j = s.atomicCompSwap( test::getDefault< CoordsT >( writer )
+									, test::getDefault< FetchT >( writer )
+									, test::getDefault< FetchT >( writer ) );
 							}
 						} );
 					test::writeShader( writer

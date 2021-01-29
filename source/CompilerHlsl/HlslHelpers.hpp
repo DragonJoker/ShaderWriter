@@ -75,6 +75,7 @@ namespace hlsl
 		LinkedVars linkedVars;
 		FuncNames funcs;
 		VarReplacements replacedVars;
+		uint32_t aliasId{ 0u };
 	};
 
 	struct IntrinsicsConfig
