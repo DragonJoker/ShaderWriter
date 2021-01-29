@@ -499,8 +499,11 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	fullName = computeFullName( functionGroup )
+	intrinsicName = computeIntrinsicName( functionGroup )
+	if intrinsicName.find( "atomic" ) != -1:
+		retType = "ReturnWrapperT< " + retType + " >"
 	# Write function name and return
-	outs.write( "\n\t" + retType + " " + computeIntrinsicName( functionGroup ) + "(" )
+	outs.write( "\n\t" + retType + " " + intrinsicName + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "", 0 ) + " )" )
 	# Header finished, write content

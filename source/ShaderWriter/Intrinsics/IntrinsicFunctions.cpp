@@ -5713,46 +5713,46 @@ namespace sdw
 	*	atomicAdd
 	*/
 	/**@{*/
-	Int atomicAdd( Int const & mem
+	ReturnWrapperT< Int > atomicAdd( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicAddI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicAdd( UInt const & mem
+	ReturnWrapperT< UInt > atomicAdd( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicAddU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	Float atomicAdd( Float const & mem
+	ReturnWrapperT< Float > atomicAdd( Float const & mem
 		, Float const & data )
 	{
-		return Float{ *findWriter( mem, data )
+		return ReturnWrapperT< Float >{ *findWriter( mem, data )
 			, expr::makeAtomicAddF( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	HVec2 atomicAdd( HVec2 const & mem
+	ReturnWrapperT< HVec2 > atomicAdd( HVec2 const & mem
 		, HVec2 const & data )
 	{
-		return HVec2{ *findWriter( mem, data )
+		return ReturnWrapperT< HVec2 >{ *findWriter( mem, data )
 			, expr::makeAtomicAdd2H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	HVec4 atomicAdd( HVec4 const & mem
+	ReturnWrapperT< HVec4 > atomicAdd( HVec4 const & mem
 		, HVec4 const & data )
 	{
-		return HVec4{ *findWriter( mem, data )
+		return ReturnWrapperT< HVec4 >{ *findWriter( mem, data )
 			, expr::makeAtomicAdd4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5766,19 +5766,19 @@ namespace sdw
 	*	atomicMin
 	*/
 	/**@{*/
-	Int atomicMin( Int const & mem
+	ReturnWrapperT< Int > atomicMin( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicMinI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicMin( UInt const & mem
+	ReturnWrapperT< UInt > atomicMin( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicMinU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5792,19 +5792,19 @@ namespace sdw
 	*	atomicMax
 	*/
 	/**@{*/
-	Int atomicMax( Int const & mem
+	ReturnWrapperT< Int > atomicMax( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicMaxI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicMax( UInt const & mem
+	ReturnWrapperT< UInt > atomicMax( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicMaxU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5818,19 +5818,19 @@ namespace sdw
 	*	atomicAnd
 	*/
 	/**@{*/
-	Int atomicAnd( Int const & mem
+	ReturnWrapperT< Int > atomicAnd( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicAndI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicAnd( UInt const & mem
+	ReturnWrapperT< UInt > atomicAnd( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicAndU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5844,19 +5844,19 @@ namespace sdw
 	*	atomicOr
 	*/
 	/**@{*/
-	Int atomicOr( Int const & mem
+	ReturnWrapperT< Int > atomicOr( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicOrI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicOr( UInt const & mem
+	ReturnWrapperT< UInt > atomicOr( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicOrU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5870,19 +5870,19 @@ namespace sdw
 	*	atomicXor
 	*/
 	/**@{*/
-	Int atomicXor( Int const & mem
+	ReturnWrapperT< Int > atomicXor( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicXorI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicXor( UInt const & mem
+	ReturnWrapperT< UInt > atomicXor( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicXorU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5896,46 +5896,46 @@ namespace sdw
 	*	atomicExchange
 	*/
 	/**@{*/
-	Int atomicExchange( Int const & mem
+	ReturnWrapperT< Int > atomicExchange( Int const & mem
 		, Int const & data )
 	{
-		return Int{ *findWriter( mem, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, data )
 			, expr::makeAtomicExchangeI( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	UInt atomicExchange( UInt const & mem
+	ReturnWrapperT< UInt > atomicExchange( UInt const & mem
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, data )
 			, expr::makeAtomicExchangeU( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	Float atomicExchange( Float const & mem
+	ReturnWrapperT< Float > atomicExchange( Float const & mem
 		, Float const & data )
 	{
-		return Float{ *findWriter( mem, data )
+		return ReturnWrapperT< Float >{ *findWriter( mem, data )
 			, expr::makeAtomicExchangeF( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	HVec2 atomicExchange( HVec2 const & mem
+	ReturnWrapperT< HVec2 > atomicExchange( HVec2 const & mem
 		, HVec2 const & data )
 	{
-		return HVec2{ *findWriter( mem, data )
+		return ReturnWrapperT< HVec2 >{ *findWriter( mem, data )
 			, expr::makeAtomicExchange2H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
-	HVec4 atomicExchange( HVec4 const & mem
+	ReturnWrapperT< HVec4 > atomicExchange( HVec4 const & mem
 		, HVec4 const & data )
 	{
-		return HVec4{ *findWriter( mem, data )
+		return ReturnWrapperT< HVec4 >{ *findWriter( mem, data )
 			, expr::makeAtomicExchange4H( findTypesCache( mem, data )
 					, makeExpr( mem )
 				, makeExpr( data ) )
@@ -5949,22 +5949,22 @@ namespace sdw
 	*	atomicCompSwap
 	*/
 	/**@{*/
-	Int atomicCompSwap( Int const & mem
+	ReturnWrapperT< Int > atomicCompSwap( Int const & mem
 		, UInt const & compare
 		, UInt const & data )
 	{
-		return Int{ *findWriter( mem, compare, data )
+		return ReturnWrapperT< Int >{ *findWriter( mem, compare, data )
 			, expr::makeAtomicCompSwapI( findTypesCache( mem, compare, data )
 					, makeExpr( mem )
 				, makeExpr( compare )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, compare, data ) };
 	}
-	UInt atomicCompSwap( UInt const & mem
+	ReturnWrapperT< UInt > atomicCompSwap( UInt const & mem
 		, UInt const & compare
 		, UInt const & data )
 	{
-		return UInt{ *findWriter( mem, compare, data )
+		return ReturnWrapperT< UInt >{ *findWriter( mem, compare, data )
 			, expr::makeAtomicCompSwapU( findTypesCache( mem, compare, data )
 					, makeExpr( mem )
 				, makeExpr( compare )

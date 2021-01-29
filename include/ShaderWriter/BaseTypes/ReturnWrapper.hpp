@@ -11,6 +11,7 @@ namespace sdw
 {
 	template< typename ValueT >
 	struct ReturnWrapperT
+		: public ValueT
 	{
 		ReturnWrapperT( ReturnWrapperT const & rhs ) = delete;
 		ReturnWrapperT & operator=( ReturnWrapperT const & rhs ) = delete;
@@ -23,28 +24,17 @@ namespace sdw
 		ReturnWrapperT( ReturnWrapperT && rhs );
 		~ReturnWrapperT();
 
-		sdw::expr::ExprPtr release()const;
-		expr::ExprPtr makeCondition()const;
-		ShaderWriter * getWriter()const;
-		Shader * getShader()const;
-		bool isEnabled()const;
+		sdw::expr::ExprPtr release();
+		expr::ExprPtr makeCondition();
 
-		inline type::TypePtr getType()const
-		{
-			return m_value.getType();
-		}
-
-		operator ValueT()const;
+		operator ValueT();
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
-
-	private:
-		mutable ValueT m_value;
 	};
 
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, ReturnWrapperT< ValueT > const & variable
+		, ReturnWrapperT< ValueT > variable
 		, bool force = true );
 
 	template< typename ValueT >

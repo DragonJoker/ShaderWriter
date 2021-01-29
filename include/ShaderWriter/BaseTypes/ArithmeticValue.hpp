@@ -19,22 +19,22 @@ namespace sdw
 		ArithmeticValue( ArithmeticValue && rhs );
 		ArithmeticValue( ArithmeticValue const & rhs );
 		explicit ArithmeticValue( Value value );
-		explicit ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs );
+		explicit ArithmeticValue( CppTypeT< ArithmeticValue > rhs );
 
 		inline ArithmeticValue & operator=( ArithmeticValue const & rhs );
 
 		template< typename T >
 		ArithmeticValue & operator=( T const & rhs );
-		ArithmeticValue & operator=( CppTypeT< ArithmeticValue< KindT > > const & rhs );
+		ArithmeticValue & operator=( CppTypeT< ArithmeticValue > const & rhs );
 		expr::ExprPtr makeCondition()const;
 		ArithmeticValue & operator+=( ArithmeticValue const & rhs );
 		ArithmeticValue & operator-=( ArithmeticValue const & rhs );
 		ArithmeticValue & operator*=( ArithmeticValue const & rhs );
 		ArithmeticValue & operator/=( ArithmeticValue const & rhs );
-		ArithmeticValue & operator+=( CppTypeT< ArithmeticValue< KindT > > const & rhs );
-		ArithmeticValue & operator-=( CppTypeT< ArithmeticValue< KindT > > const & rhs );
-		ArithmeticValue & operator*=( CppTypeT< ArithmeticValue< KindT > > const & rhs );
-		ArithmeticValue & operator/=( CppTypeT< ArithmeticValue< KindT > > const & rhs );
+		ArithmeticValue & operator+=( CppTypeT< ArithmeticValue > const & rhs );
+		ArithmeticValue & operator-=( CppTypeT< ArithmeticValue > const & rhs );
+		ArithmeticValue & operator*=( CppTypeT< ArithmeticValue > const & rhs );
+		ArithmeticValue & operator/=( CppTypeT< ArithmeticValue > const & rhs );
 		ArithmeticValue operator-()const;
 		ArithmeticValue operator+()const;
 

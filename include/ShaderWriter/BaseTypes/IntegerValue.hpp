@@ -17,45 +17,43 @@ namespace sdw
 		IntegerValue( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		IntegerValue( IntegerValue< KindT > && rhs );
-		IntegerValue( IntegerValue< KindT > const & rhs );
+		IntegerValue( IntegerValue && rhs );
+		IntegerValue( IntegerValue const & rhs );
 		explicit IntegerValue( Value value );
-		explicit IntegerValue( CppTypeT< IntegerValue< KindT > > rhs );
-		explicit IntegerValue( ReturnWrapperT< IntegerValue< KindT > > rhs );
+		explicit IntegerValue( CppTypeT< IntegerValue > rhs );
 
-		inline IntegerValue< KindT > & operator=( IntegerValue< KindT > const & rhs );
-		inline IntegerValue< KindT > & operator=( ReturnWrapperT< IntegerValue< KindT > > rhs );
+		inline IntegerValue & operator=( IntegerValue const & rhs );
 
 		template< typename T >
-		IntegerValue< KindT > & operator=( T const & rhs );
-		IntegerValue< KindT > & operator=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue & operator=( T const & rhs );
+		IntegerValue & operator=( CppTypeT< IntegerValue > const & rhs );
 		expr::ExprPtr makeCondition()const;
-		ReturnWrapperT< IntegerValue< KindT > > operator++();
-		ReturnWrapperT< IntegerValue< KindT > > operator++( int );
-		ReturnWrapperT< IntegerValue< KindT > > operator--();
-		ReturnWrapperT< IntegerValue< KindT > > operator--( int );
-		IntegerValue< KindT > & operator+=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator-=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator*=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator/=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator%=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator<<=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator>>=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator&=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator|=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator^=( IntegerValue< KindT > const & rhs );
-		IntegerValue< KindT > & operator+=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator-=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator*=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator/=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator%=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator<<=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator>>=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator&=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator|=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > & operator^=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue< KindT > operator-()const;
-		IntegerValue< KindT > operator+()const;
+		ReturnWrapperT< IntegerValue > operator++();
+		ReturnWrapperT< IntegerValue > operator++( int );
+		ReturnWrapperT< IntegerValue > operator--();
+		ReturnWrapperT< IntegerValue > operator--( int );
+		IntegerValue & operator+=( IntegerValue const & rhs );
+		IntegerValue & operator-=( IntegerValue const & rhs );
+		IntegerValue & operator*=( IntegerValue const & rhs );
+		IntegerValue & operator/=( IntegerValue const & rhs );
+		IntegerValue & operator%=( IntegerValue const & rhs );
+		IntegerValue & operator<<=( IntegerValue const & rhs );
+		IntegerValue & operator>>=( IntegerValue const & rhs );
+		IntegerValue & operator&=( IntegerValue const & rhs );
+		IntegerValue & operator|=( IntegerValue const & rhs );
+		IntegerValue & operator^=( IntegerValue const & rhs );
+		IntegerValue & operator+=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator-=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator*=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator/=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator%=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator<<=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator>>=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator&=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator|=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue & operator^=( CppTypeT< IntegerValue > const & rhs );
+		IntegerValue operator-()const;
+		IntegerValue operator+()const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};

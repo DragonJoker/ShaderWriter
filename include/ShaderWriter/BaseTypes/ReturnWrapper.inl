@@ -9,72 +9,50 @@ namespace sdw
 	ReturnWrapperT< ValueT >::ReturnWrapperT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: m_value{ writer, std::move( expr ), enabled }
+		: ValueT{ writer, std::move( expr ), enabled }
 	{
 	}
 
 	template< typename ValueT >
 	ReturnWrapperT< ValueT >::ReturnWrapperT( ValueT const & rhs )
-		: m_value{ rhs }
+		: ValueT{ rhs }
 	{
 	}
 
 	template< typename ValueT >
 	ReturnWrapperT< ValueT >::ReturnWrapperT( ReturnWrapperT && rhs )
-		: m_value{ std::move( rhs.m_value ) }
+		: ValueT{ std::move( rhs ) }
 	{
 	}
 
 	template< typename ValueT >
 	ReturnWrapperT< ValueT >::~ReturnWrapperT()
 	{
-		if ( m_value.getExpr() && m_value.isEnabled() )
+		if ( this->getExpr() && this->isEnabled() )
 		{
-			addStmt( *getWriter(), makeSimple( release() ) );
+			addStmt( *this->getWriter(), makeSimple( release() ) );
 		}
 	}
 
 	template< typename ValueT >
-	sdw::expr::ExprPtr ReturnWrapperT< ValueT >::release()const
+	sdw::expr::ExprPtr ReturnWrapperT< ValueT >::release()
 	{
-		if ( !m_value.getExpr() )
-		{
-			return makeDummyExpr( *getWriter(), getType() );
-		}
-
-		auto result = makeExpr( *getWriter(), m_value.getExpr() );
-		m_value.updateExpr( nullptr );
+		assert( this->getExpr() );
+		auto result = makeExpr( *this->getWriter(), this->getExpr() );
+		this->updateExpr( nullptr );
 		return result;
 	}
 
 	template< typename ValueT >
-	expr::ExprPtr ReturnWrapperT< ValueT >::makeCondition()const
+	expr::ExprPtr ReturnWrapperT< ValueT >::makeCondition()
 	{
 		return release();
 	}
 
 	template< typename ValueT >
-	ShaderWriter * ReturnWrapperT< ValueT >::getWriter()const
+	ReturnWrapperT< ValueT >::operator ValueT()
 	{
-		return m_value.getWriter();
-	}
-
-	template< typename ValueT >
-	Shader * ReturnWrapperT< ValueT >::getShader()const
-	{
-		return m_value.getShader();
-	}
-
-	template< typename ValueT >
-	bool ReturnWrapperT< ValueT >::isEnabled()const
-	{
-		return m_value.isEnabled();
-	}
-
-	template< typename ValueT >
-	ReturnWrapperT< ValueT >::operator ValueT()const
-	{
-		return std::move( m_value );
+		return ValueT{ *this->getWriter(), release(), this->isEnabled() };
 	}
 
 	template< typename ValueT >
@@ -87,7 +65,7 @@ namespace sdw
 
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, ReturnWrapperT< ValueT > const & variable
+		, ReturnWrapperT< ValueT > variable
 		, bool force )
 	{
 		return variable.release();

@@ -108,7 +108,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	expr::ExprPtr makeCondition( ValueT const & value )
+	expr::ExprPtr makeCondition( ValueT value )
 	{
 		return value.makeCondition();
 	}

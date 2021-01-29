@@ -656,6 +656,38 @@ namespace sdw
 
 	//***********************************************************************************************
 
+	template< typename OpT >
+	struct AreCompatibleT< OpT, ReturnWrapperT< OpT > >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< ReturnWrapperT< OpT >, OpT >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< OpT, OpT >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< OpT, CppTypeT< OpT > >
+		: std::true_type
+	{
+	};
+
+	template< typename OpT >
+	struct AreCompatibleT< CppTypeT< OpT >, OpT >
+		: std::true_type
+	{
+	};
+
+	//***********************************************************************************************
+
 #define Writer_Image( Prefix, TypeName, Format, Value )\
 	template<>\
 	struct TypeTraits< R##Prefix##TypeName##Format >\

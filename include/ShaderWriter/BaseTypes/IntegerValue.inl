@@ -32,12 +32,6 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT >::IntegerValue( ReturnWrapperT< IntegerValue< KindT > > rhs )
-		: Value{ *rhs.getWriter(), rhs.release(), rhs.isEnabled() }
-	{
-	}
-
-	template< ast::type::Kind KindT >
 	IntegerValue< KindT >::IntegerValue( Value rhs )
 		: Value{ ctorCast< IntegerValue< KindT >, 1u >( std::move( rhs ) ) }
 	{
@@ -58,13 +52,6 @@ namespace sdw
 			}
 		}
 
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > & IntegerValue< KindT >::operator=( ReturnWrapperT< IntegerValue< KindT > > rhs )
-	{
-		this->updateExpr( rhs.release() );
 		return *this;
 	}
 
