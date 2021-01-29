@@ -89,7 +89,7 @@ namespace sdw
 		, ast::expr::ExprPtr const & expr
 		, bool force = true );
 
-	expr::ExprPtr makeDummyExpr( ShaderWriter const & writer
+	SDW_API expr::ExprPtr makeDummyExpr( ShaderWriter const & writer
 		, ast::type::TypePtr const & type );
 
 	template< typename T >

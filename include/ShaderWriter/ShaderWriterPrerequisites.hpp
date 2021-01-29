@@ -142,8 +142,8 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	struct IntegerValue;
 
-	template< ast::type::Kind KindT >
-	struct IncDecWrapperT;
+	template< typename ValueT >
+	struct ReturnWrapperT;
 
 	using Half = ArithmeticValue< ast::type::Kind::eHalf >;
 	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
