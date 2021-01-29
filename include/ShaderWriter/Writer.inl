@@ -258,7 +258,7 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	inline IntegerValue< KindT > ShaderWriter::declConstant( std::string const & name
-		, IncDecWrapperT< KindT > rhs
+		, ReturnWrapperT< IntegerValue< KindT > > rhs
 		, bool enabled )
 	{
 		return declConstant( name, IntegerValue< KindT >{ std::move( rhs ) }, enabled );
@@ -955,22 +955,20 @@ namespace sdw
 			, true };
 	}
 
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > ShaderWriter::declLocale( std::string const & name
-		, IncDecWrapperT< KindT > rhs
+	template< typename T >
+	inline T ShaderWriter::declLocale( std::string const & name
+		, ReturnWrapperT< T > rhs
 		, bool enabled )
 	{
-		using T = IntegerValue< KindT >;
-		return declLocale( name, IntegerValue< KindT >{ std::move( rhs ) }, enabled );
+		return declLocale( name, T{ std::move( rhs ) }, enabled );
 	}
 
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > ShaderWriter::declLocale( std::string const & name
+	template< typename T >
+	inline T ShaderWriter::declLocale( std::string const & name
 		, bool enabled
-		, IncDecWrapperT< KindT > defaultValue )
+		, ReturnWrapperT< T > defaultValue )
 	{
-		using T = IntegerValue< KindT >;
-		return declLocale( name, enabled, IntegerValue< KindT >{ std::move( defaultValue ) } );
+		return declLocale( name, enabled, T{ std::move( defaultValue ) } );
 	}
 	/**@}*/
 #pragma endregion

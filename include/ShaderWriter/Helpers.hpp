@@ -89,6 +89,9 @@ namespace sdw
 		, ast::expr::ExprPtr const & expr
 		, bool force = true );
 
+	expr::ExprPtr makeDummyExpr( ShaderWriter const & writer
+		, ast::type::TypePtr const & type );
+
 	template< typename T >
 	expr::ExprPtr makeConstExpr( ShaderWriter const & writer
 		, T const & value

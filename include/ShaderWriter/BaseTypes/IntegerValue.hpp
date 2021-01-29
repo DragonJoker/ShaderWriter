@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ArithmeticValue.hpp"
+#include "ReturnWrapper.hpp"
 
 namespace sdw
 {
@@ -16,81 +17,48 @@ namespace sdw
 		IntegerValue( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		IntegerValue( IntegerValue && rhs );
-		IntegerValue( IntegerValue const & rhs );
+		IntegerValue( IntegerValue< KindT > && rhs );
+		IntegerValue( IntegerValue< KindT > const & rhs );
 		explicit IntegerValue( Value value );
 		explicit IntegerValue( CppTypeT< IntegerValue< KindT > > rhs );
-		explicit IntegerValue( IncDecWrapperT< KindT > rhs );
+		explicit IntegerValue( ReturnWrapperT< IntegerValue< KindT > > rhs );
 
-		inline IntegerValue & operator=( IntegerValue const & rhs );
-		inline IntegerValue & operator=( IncDecWrapperT< KindT > rhs );
+		inline IntegerValue< KindT > & operator=( IntegerValue< KindT > const & rhs );
+		inline IntegerValue< KindT > & operator=( ReturnWrapperT< IntegerValue< KindT > > rhs );
 
 		template< typename T >
-		IntegerValue & operator=( T const & rhs );
-		IntegerValue & operator=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator=( T const & rhs );
+		IntegerValue< KindT > & operator=( CppTypeT< IntegerValue< KindT > > const & rhs );
 		expr::ExprPtr makeCondition()const;
-		IncDecWrapperT< KindT > operator++();
-		IncDecWrapperT< KindT > operator++( int );
-		IncDecWrapperT< KindT > operator--();
-		IncDecWrapperT< KindT > operator--( int );
-		IntegerValue & operator+=( IntegerValue const & rhs );
-		IntegerValue & operator-=( IntegerValue const & rhs );
-		IntegerValue & operator*=( IntegerValue const & rhs );
-		IntegerValue & operator/=( IntegerValue const & rhs );
-		IntegerValue & operator%=( IntegerValue const & rhs );
-		IntegerValue & operator<<=( IntegerValue const & rhs );
-		IntegerValue & operator>>=( IntegerValue const & rhs );
-		IntegerValue & operator&=( IntegerValue const & rhs );
-		IntegerValue & operator|=( IntegerValue const & rhs );
-		IntegerValue & operator^=( IntegerValue const & rhs );
-		IntegerValue & operator+=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator-=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator*=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator/=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator%=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator<<=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator>>=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator&=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator|=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue & operator^=( CppTypeT< IntegerValue< KindT > > const & rhs );
-		IntegerValue operator-()const;
-		IntegerValue operator+()const;
+		ReturnWrapperT< IntegerValue< KindT > > operator++();
+		ReturnWrapperT< IntegerValue< KindT > > operator++( int );
+		ReturnWrapperT< IntegerValue< KindT > > operator--();
+		ReturnWrapperT< IntegerValue< KindT > > operator--( int );
+		IntegerValue< KindT > & operator+=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator-=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator*=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator/=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator%=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator<<=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator>>=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator&=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator|=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator^=( IntegerValue< KindT > const & rhs );
+		IntegerValue< KindT > & operator+=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator-=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator*=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator/=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator%=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator<<=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator>>=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator&=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator|=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > & operator^=( CppTypeT< IntegerValue< KindT > > const & rhs );
+		IntegerValue< KindT > operator-()const;
+		IntegerValue< KindT > operator+()const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
-
-	template< ast::type::Kind KindT >
-	struct IncDecWrapperT
-	{
-		using ValueT = IntegerValue< KindT >;
-
-		IncDecWrapperT( IncDecWrapperT const & rhs ) = delete;
-		IncDecWrapperT & operator=( IncDecWrapperT const & rhs ) = delete;
-		IncDecWrapperT & operator=( IncDecWrapperT && rhs ) = delete;
-
-		IncDecWrapperT( ShaderWriter & writer
-			, expr::ExprPtr expr
-			, bool enabled );
-		explicit IncDecWrapperT( IntegerValue< KindT > const & rhs );
-		IncDecWrapperT( IncDecWrapperT && rhs );
-		~IncDecWrapperT();
-
-		sdw::expr::ExprPtr release()const;
-		expr::ExprPtr makeCondition()const;
-		ShaderWriter * getWriter()const;
-		Shader * getShader()const;
-		bool isEnabled()const;
-
-		explicit operator IntegerValue< KindT >();
-
-	private:
-		mutable IntegerValue< KindT > m_value;
-	};
-
-	template< ast::type::Kind KindT >
-	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, IncDecWrapperT< KindT > variable
-		, bool force = true );
 
 	template< ast::type::Kind KindT >
 	IntegerValue< KindT > operator+( IntegerValue< KindT > const & lhs

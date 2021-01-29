@@ -234,6 +234,12 @@ namespace sdw
 		return ExprCloner::submit( expr );
 	}
 
+	expr::ExprPtr makeDummyExpr( ShaderWriter const & writer
+		, ast::type::TypePtr const & type )
+	{
+		return writer.getShader().getDummyExpr( type );
+	}
+
 	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, bool value )
 	{

@@ -168,7 +168,7 @@ namespace sdw
 			, bool enabled = true );
 		template< ast::type::Kind KindT >
 		inline IntegerValue< KindT > declConstant( std::string const & name
-			, IncDecWrapperT< KindT > rhs
+			, ReturnWrapperT< IntegerValue< KindT > > rhs
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -437,14 +437,14 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled
 			, std::vector< T > const & defaultValue );
-		template< ast::type::Kind KindT >
-		inline IntegerValue< KindT > declLocale( std::string const & name
-			, IncDecWrapperT< KindT > rhs
+		template< typename T >
+		inline T declLocale( std::string const & name
+			, ReturnWrapperT< T > rhs
 			, bool enabled = true );
-		template< ast::type::Kind KindT >
-		inline IntegerValue< KindT > declLocale( std::string const & name
+		template< typename T >
+		inline T declLocale( std::string const & name
 			, bool enabled
-			, IncDecWrapperT< KindT > defaultValue );
+			, ReturnWrapperT< T > defaultValue );
 		/**@}*/
 #pragma endregion
 #pragma region Already declared variable getters
