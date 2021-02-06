@@ -71,13 +71,21 @@ namespace spirv
 		ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & cache
 			, ast::type::SampledImage const & qualified )
 		{
-			return cache.getSampledImage( qualified.getConfig() );
+			auto config = qualified.getConfig();
+			// Ignore access kind, since it's not handled in non Kernel programs.
+			// Prevents generating duplicate types in SPIRV programs.
+			config.accessKind = ast::type::AccessKind::eReadWrite;
+			return cache.getSampledImage( config );
 		}
 
 		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & cache
 			, ast::type::Image const & qualified )
 		{
-			return cache.getImage( qualified.getConfig() );
+			auto config = qualified.getConfig();
+			// Ignore access kind, since it's not handled in non Kernel programs.
+			// Prevents generating duplicate types in SPIRV programs.
+			config.accessKind = ast::type::AccessKind::eReadWrite;
+			return cache.getImage( config );
 		}
 
 		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
