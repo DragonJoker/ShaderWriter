@@ -1775,6 +1775,36 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	void imageArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "imageArray" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			ComputeWriter writer;
+			auto srcImage = writer.declImage<RFImg2DRgba32>( "srcImage", 0, 0 );
+			auto dstImage = writer.declImageArray<RWFImg2DRgba32>( "dstImage", 1, 0, 8u );
+			writer.inputLayout( 32u );
+			auto in = writer.getIn();
+
+			writer.implementMain( [&]()
+				{
+					IVec2 iuv = writer.declLocale(
+						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
+							writer.cast<Int>( in.globalInvocationID.y() ) ) );
+
+					dstImage[1].store( iuv, srcImage.load( iuv ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
@@ -1808,6 +1838,7 @@ sdwTestSuiteMain( TestWriterShader )
 	simpleStore( testCounts );
 	voxelToTexture( testCounts );
 	clipDistance( testCounts );
+	imageArray( testCounts );
 	sdwTestSuiteEnd();
 }
 
