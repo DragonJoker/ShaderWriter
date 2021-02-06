@@ -20,8 +20,8 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	template< typename IndexT >
-	ValueT Array< ValueT >::operator[]( IndexT const & offset )const
+	template< ast::type::Kind KindT >
+	ValueT Array< ValueT >::operator[]( IntegerValue< KindT > const & offset )const
 	{
 		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
 	}

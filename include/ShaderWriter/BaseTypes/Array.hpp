@@ -17,8 +17,8 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled );
 		Array( Array const & rhs );
-		template< typename IndexT >
-		ValueT operator[]( IndexT const & offset )const;
+		template< ast::type::Kind KindT >
+		ValueT operator[]( IntegerValue< KindT > const & offset )const;
 		ValueT operator[]( int32_t offset )const;
 		ValueT operator[]( uint32_t offset )const;
 
