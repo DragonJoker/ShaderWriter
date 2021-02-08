@@ -507,13 +507,32 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	)
 endif ()
 
-add_library( ${PROJECT_NAME}
-	STATIC
-	${${PROJECT_NAME}_ENUM_FILES}
-	${${PROJECT_NAME}_HEADER_FILES}
-	${${PROJECT_NAME}_SOURCE_FILES}
-	${${PROJECT_NAME}_SCRIPT_FILES}
-)
+if ( SDW_BUILD_STATIC_SDAST )
+	add_library( ${PROJECT_NAME}
+		STATIC
+		${${PROJECT_NAME}_ENUM_FILES}
+		${${PROJECT_NAME}_HEADER_FILES}
+		${${PROJECT_NAME}_SOURCE_FILES}
+		${${PROJECT_NAME}_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PUBLIC
+			${_FOLDER_NAME}_Static
+	)
+else ()
+	add_library( ${PROJECT_NAME}
+		SHARED
+		${${PROJECT_NAME}_ENUM_FILES}
+		${${PROJECT_NAME}_HEADER_FILES}
+		${${PROJECT_NAME}_SOURCE_FILES}
+		${${PROJECT_NAME}_SCRIPT_FILES}
+	)
+	target_compile_definitions( ${PROJECT_NAME}
+		PRIVATE
+			${_FOLDER_NAME}_Exports
+	)
+endif ()
+
 add_library( sdw::${_FOLDER_NAME}
 	ALIAS
 	${PROJECT_NAME}

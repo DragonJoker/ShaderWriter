@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		LogOr( type::TypePtr type
+		SDAST_API LogOr( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using LogOrPtr = std::unique_ptr< LogOr >;
 

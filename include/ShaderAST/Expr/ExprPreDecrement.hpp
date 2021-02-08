@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		PreDecrement( type::TypePtr type
+		SDAST_API PreDecrement( type::TypePtr type
 			, ExprPtr operand );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using PreDecrementPtr = std::unique_ptr< PreDecrement >;
 

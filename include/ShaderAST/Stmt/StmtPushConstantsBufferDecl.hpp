@@ -16,11 +16,11 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		PushConstantsBufferDecl( std::string name
+		SDAST_API PushConstantsBufferDecl( std::string name
 			, type::MemoryLayout layout );
-		void add( VariableDeclPtr decl );
+		SDAST_API void add( VariableDeclPtr decl );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{

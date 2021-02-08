@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		RShiftAssign( type::TypePtr type
+		SDAST_API RShiftAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using RShiftAssignPtr = std::unique_ptr< RShiftAssign >;
 

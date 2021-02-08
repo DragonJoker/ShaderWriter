@@ -12,7 +12,17 @@ See LICENSE file in root folder
 #include <string>
 #include <vector>
 
-#include "ShaderAST/Expr/SwizzleKind.hpp"
+#if defined( ShaderAST_Static )
+#	define SDAST_API
+#elif defined( _WIN32 )
+#	if defined( ShaderAST_Exports )
+#		define SDAST_API __declspec( dllexport )
+#	else
+#		define SDAST_API __declspec( dllimport )
+#	endif
+#else
+#	define SDAST_API
+#endif
 
 namespace ast
 {

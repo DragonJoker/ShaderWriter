@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		DivideAssign( type::TypePtr type
+		SDAST_API DivideAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using DivideAssignPtr = std::unique_ptr< DivideAssign >;
 

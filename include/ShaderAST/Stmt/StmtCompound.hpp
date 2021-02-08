@@ -13,12 +13,12 @@ namespace ast::stmt
 		: public Container
 	{
 	protected:
-		Compound( Kind kind );
+		SDAST_API Compound( Kind kind );
 
 	public:
-		Compound();
+		SDAST_API Compound();
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using CompoundPtr = std::unique_ptr< Compound >;
 

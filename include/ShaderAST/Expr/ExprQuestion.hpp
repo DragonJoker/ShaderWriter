@@ -13,12 +13,12 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Question( type::TypePtr type
+		SDAST_API Question( type::TypePtr type
 			, ExprPtr ctrlExpr
 			, ExprPtr trueExpr
 			, ExprPtr falseExpr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Expr * getCtrlExpr()const
 		{

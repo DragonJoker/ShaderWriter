@@ -33,40 +33,40 @@ namespace ast::type
 		};
 
 	private:
-		Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & cache
 			, Struct const & rhs );
-		Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & cache
 			, Struct * parent
 			, uint32_t index
 			, Struct const & copy );
-		Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & cache
 			, Struct & parent
 			, uint32_t index
 			, Struct const & copy );
 
 	public:
-		Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & cache
 			, MemoryLayout layout
 			, std::string name );
-		Member declMember( std::string name
+		SDAST_API Member declMember( std::string name
 			, type::Kind kind
 			, uint32_t arraySize = NotArray );
-		Member declMember( std::string name
+		SDAST_API Member declMember( std::string name
 			, type::TypePtr type );
-		Member declMember( std::string name
+		SDAST_API Member declMember( std::string name
 			, type::StructPtr type );
-		Member declMember( std::string name
+		SDAST_API Member declMember( std::string name
 			, type::ArrayPtr type
 			, uint32_t arraySize );
-		Member declMember( std::string name
+		SDAST_API Member declMember( std::string name
 			, type::StructPtr type
 			, uint32_t arraySize );
-		Member declMember( std::string name
+		SDAST_API Member declMember( std::string name
 			, type::ArrayPtr type );
-		Member getMember( uint32_t index );
-		Member getMember( std::string const & name );
-		uint32_t findMember( std::string const & name );
-		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
+		SDAST_API Member getMember( uint32_t index );
+		SDAST_API Member getMember( std::string const & name );
+		SDAST_API uint32_t findMember( std::string const & name );
+		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		inline bool hasMember( std::string const & name )
 		{
@@ -114,9 +114,9 @@ namespace ast::type
 		}
 
 	private:
-		Member doAddMember( type::TypePtr type
+		SDAST_API Member doAddMember( type::TypePtr type
 			, std::string const & name );
-		void doUpdateOffsets();
+		SDAST_API void doUpdateOffsets();
 
 	private:
 		std::string m_name;
@@ -125,25 +125,25 @@ namespace ast::type
 	};
 	using StructPtr = std::shared_ptr< Struct >;
 
-	size_t getHash( type::MemoryLayout layout, std::string const & name );
+	SDAST_API size_t getHash( type::MemoryLayout layout, std::string const & name );
 
-	bool operator==( Struct const & lhs, Struct const & rhs );
+	SDAST_API bool operator==( Struct const & lhs, Struct const & rhs );
 
-	uint32_t getSize( Type const & type
+	SDAST_API uint32_t getSize( Type const & type
 		, MemoryLayout layout );
-	uint32_t getSize( TypePtr type
+	SDAST_API uint32_t getSize( TypePtr type
 		, MemoryLayout layout );
-	uint32_t getAlignment( Type const & type
+	SDAST_API uint32_t getAlignment( Type const & type
 		, MemoryLayout layout );
-	uint32_t getAlignment( TypePtr type
+	SDAST_API uint32_t getAlignment( TypePtr type
 		, MemoryLayout layout );
-	uint32_t getArrayStride( Array const & type
+	SDAST_API uint32_t getArrayStride( Array const & type
 		, MemoryLayout layout );
-	uint32_t getArrayStride( ArrayPtr type
+	SDAST_API uint32_t getArrayStride( ArrayPtr type
 		, MemoryLayout layout );
-	uint32_t getArrayStride( Type const & type
+	SDAST_API uint32_t getArrayStride( Type const & type
 		, MemoryLayout layout );
-	uint32_t getArrayStride( TypePtr type
+	SDAST_API uint32_t getArrayStride( TypePtr type
 		, MemoryLayout layout );
 }
 

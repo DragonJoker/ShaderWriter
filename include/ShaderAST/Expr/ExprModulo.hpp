@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Modulo( type::TypePtr type
+		SDAST_API Modulo( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using ModuloPtr = std::unique_ptr< Modulo >;
 

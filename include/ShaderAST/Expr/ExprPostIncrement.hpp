@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		PostIncrement( type::TypePtr type
+		SDAST_API PostIncrement( type::TypePtr type
 			, ExprPtr operand );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using PostIncrementPtr = std::unique_ptr< PostIncrement >;
 

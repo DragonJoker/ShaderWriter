@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/SpirvModule.hpp"
 
+#include <ShaderAST/Expr/SwizzleKind.hpp>
+
 namespace spirv
 {
 	spv::Id writeShuffle( Module & module

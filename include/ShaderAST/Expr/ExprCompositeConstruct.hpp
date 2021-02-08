@@ -14,11 +14,11 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		CompositeConstruct( CompositeType composite
+		SDAST_API CompositeConstruct( CompositeType composite
 			, type::Kind component
 			, ExprList && argList );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline ExprList const & getArgList()const
 		{

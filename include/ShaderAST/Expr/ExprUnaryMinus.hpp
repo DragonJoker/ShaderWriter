@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		UnaryMinus( type::TypePtr type
+		SDAST_API UnaryMinus( type::TypePtr type
 			, ExprPtr operand );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using UnaryMinusPtr = std::unique_ptr< UnaryMinus >;
 

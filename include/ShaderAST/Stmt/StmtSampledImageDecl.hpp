@@ -13,11 +13,11 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SampledImageDecl( var::VariablePtr variable
+		SDAST_API SampledImageDecl( var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const
 		{

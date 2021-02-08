@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		TimesAssign( type::TypePtr type
+		SDAST_API TimesAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using TimesAssignPtr = std::unique_ptr< TimesAssign >;
 

@@ -14,10 +14,10 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		FunctionDecl( type::FunctionPtr type
+		SDAST_API FunctionDecl( type::FunctionPtr type
 			, std::string name );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline type::FunctionPtr getType()const
 		{

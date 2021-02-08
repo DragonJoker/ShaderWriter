@@ -16,9 +16,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		StructureDecl( type::StructPtr type );
+		SDAST_API StructureDecl( type::StructPtr type );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline type::StructPtr getType()const
 		{

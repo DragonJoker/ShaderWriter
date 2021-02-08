@@ -16,13 +16,13 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		ConstantBufferDecl( std::string name
+		SDAST_API ConstantBufferDecl( std::string name
 			, type::MemoryLayout layout
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
-		void add( VariableDeclPtr decl );
+		SDAST_API void add( VariableDeclPtr decl );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{

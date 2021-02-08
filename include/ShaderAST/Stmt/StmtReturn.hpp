@@ -15,9 +15,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		Return( expr::ExprPtr expr );
+		SDAST_API Return( expr::ExprPtr expr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::Expr * getExpr()const
 		{

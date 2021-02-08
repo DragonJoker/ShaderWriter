@@ -16,12 +16,12 @@ namespace ast::stmt
 		: public Container
 	{
 	public:
-		PreprocIfDef( expr::IdentifierPtr identExpr );
+		SDAST_API PreprocIfDef( expr::IdentifierPtr identExpr );
 
-		PreprocElse * createElse();
-		PreprocElif * createElif( expr::ExprPtr ctrlExpr );
+		SDAST_API PreprocElse * createElse();
+		SDAST_API PreprocElif * createElif( expr::ExprPtr ctrlExpr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::Identifier * getIdentExpr()const
 		{

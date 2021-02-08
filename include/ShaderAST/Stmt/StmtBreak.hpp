@@ -13,9 +13,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		Break( bool switchCaseBreak );
+		SDAST_API Break( bool switchCaseBreak );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		bool isSwitchCaseBreak()const
 		{

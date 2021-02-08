@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Add( type::TypePtr type
+		SDAST_API Add( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using AddPtr = std::unique_ptr< Add >;
 

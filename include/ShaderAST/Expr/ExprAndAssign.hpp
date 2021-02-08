@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		AndAssign( type::TypePtr type
+		SDAST_API AndAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using AndAssignPtr = std::unique_ptr< AndAssign >;
 

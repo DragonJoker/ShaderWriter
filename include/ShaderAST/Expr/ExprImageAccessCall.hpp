@@ -15,11 +15,11 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		ImageAccessCall( type::TypePtr type
+		SDAST_API ImageAccessCall( type::TypePtr type
 			, ImageAccess imageAccess
 			, ExprList && argList );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline ExprList const & getArgList()const
 		{

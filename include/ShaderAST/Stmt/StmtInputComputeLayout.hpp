@@ -15,11 +15,11 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		InputComputeLayout( uint32_t workGroupsX
+		SDAST_API InputComputeLayout( uint32_t workGroupsX
 			, uint32_t workGroupsY 
 			, uint32_t workGroupsZ );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline uint32_t getWorkGroupsX()const
 		{

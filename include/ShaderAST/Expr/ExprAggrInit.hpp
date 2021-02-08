@@ -14,13 +14,13 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		AggrInit( IdentifierPtr identifier
+		SDAST_API AggrInit( IdentifierPtr identifier
 			, ExprList && initialisers );
 		
-		AggrInit( type::TypePtr type
+		SDAST_API AggrInit( type::TypePtr type
 			, ExprList && initialisers );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Identifier * getIdentifier()const
 		{

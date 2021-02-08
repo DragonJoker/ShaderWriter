@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		Cast( type::TypePtr dstType
+		SDAST_API Cast( type::TypePtr dstType
 			, ExprPtr operand );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using CastPtr = std::unique_ptr< Cast >;
 

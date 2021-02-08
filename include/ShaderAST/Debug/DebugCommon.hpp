@@ -17,26 +17,26 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
-	std::string getName( type::Type const & type );
-	std::string getName( type::TypePtr type );
-	std::string getName( type::Kind type );
-	std::string getName( type::Kind type
+	SDAST_API std::string getName( type::Type const & type );
+	SDAST_API std::string getName( type::TypePtr type );
+	SDAST_API std::string getName( type::Kind type );
+	SDAST_API std::string getName( type::Kind type
 		, uint32_t arraySize );
-	std::string getName( type::ImageFormat value );
-	std::string getName( type::ImageFormat format
+	SDAST_API std::string getName( type::ImageFormat value );
+	SDAST_API std::string getName( type::ImageFormat format
 		, type::ImageDim dim
 		, bool arrayed
 		, bool depth
 		, bool ms );
-	std::string getName( type::ImageFormat format
+	SDAST_API std::string getName( type::ImageFormat format
 		, type::AccessKind access
 		, type::ImageDim dim
 		, bool arrayed
 		, bool depth
 		, bool ms );
-	std::string getName( FragmentOrigin value );
-	std::string getName( FragmentCenter value );
-	std::string displayVar( var::VariablePtr var );
+	SDAST_API std::string getName( FragmentOrigin value );
+	SDAST_API std::string getName( FragmentCenter value );
+	SDAST_API std::string displayVar( var::VariablePtr var );
 }
 
 #endif

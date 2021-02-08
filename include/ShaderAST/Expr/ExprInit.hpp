@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Init( IdentifierPtr identifier
+		SDAST_API Init( IdentifierPtr identifier
 			, ExprPtr initialiser );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Identifier * getIdentifier()const
 		{

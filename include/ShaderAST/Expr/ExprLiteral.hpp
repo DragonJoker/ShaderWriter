@@ -67,20 +67,20 @@ namespace ast::expr
 		: public Expr
 	{
 	private:
-		Literal( type::TypesCache & cache, type::TypePtr type, bool value );
-		Literal( type::TypesCache & cache, type::TypePtr type, int32_t value );
-		Literal( type::TypesCache & cache, type::TypePtr type, uint32_t value );
-		Literal( type::TypesCache & cache, type::TypePtr type, float value );
-		Literal( type::TypesCache & cache, type::TypePtr type, double value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, bool value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, int32_t value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, uint32_t value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, float value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, double value );
 
 	public:
-		Literal( type::TypesCache & cache, bool value );
-		Literal( type::TypesCache & cache, int32_t value );
-		Literal( type::TypesCache & cache, uint32_t value );
-		Literal( type::TypesCache & cache, float value );
-		Literal( type::TypesCache & cache, double value );
+		SDAST_API Literal( type::TypesCache & cache, bool value );
+		SDAST_API Literal( type::TypesCache & cache, int32_t value );
+		SDAST_API Literal( type::TypesCache & cache, uint32_t value );
+		SDAST_API Literal( type::TypesCache & cache, float value );
+		SDAST_API Literal( type::TypesCache & cache, double value );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline LiteralType getLiteralType()const
 		{
@@ -103,27 +103,27 @@ namespace ast::expr
 		return std::make_unique< Literal >( cache, value );
 	}
 
-	LiteralPtr operator~( Literal const & operand );
-	LiteralPtr operator|( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator&( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator^( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator!( Literal const & operand );
-	LiteralPtr operator||( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator&&( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator-( Literal const & operand );
-	LiteralPtr operator+( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator-( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator*( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator/( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator%( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator<<( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator>>( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator==( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator!=( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator<( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator<=( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator>( Literal const & lhs, Literal const & rhs );
-	LiteralPtr operator>=( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator~( Literal const & operand );
+	SDAST_API LiteralPtr operator|( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator&( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator^( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator!( Literal const & operand );
+	SDAST_API LiteralPtr operator||( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator&&( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator-( Literal const & operand );
+	SDAST_API LiteralPtr operator+( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator-( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator*( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator/( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator%( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator<<( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator>>( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator==( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator!=( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator<( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator<=( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator>( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr operator>=( Literal const & lhs, Literal const & rhs );
 }
 
 #include "ExprLiteral.inl"

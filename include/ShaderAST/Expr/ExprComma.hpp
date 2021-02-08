@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Comma(type::TypePtr type
+		SDAST_API Comma(type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using CommaPtr = std::unique_ptr< Comma >;
 

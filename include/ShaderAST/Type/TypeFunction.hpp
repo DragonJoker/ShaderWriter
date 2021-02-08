@@ -15,7 +15,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Function( TypePtr returnType
+		SDAST_API Function( TypePtr returnType
 			, var::VariableList parameters );
 
 		inline TypePtr getReturnType()const
@@ -58,10 +58,10 @@ namespace ast::type
 		var::VariableList m_parameters;
 	};
 
-	size_t getHash( TypePtr returnType
+	SDAST_API size_t getHash( TypePtr returnType
 		, var::VariableList const & parameters );
 
-	bool operator==( Function const & lhs, Function const & rhs );
+	SDAST_API bool operator==( Function const & lhs, Function const & rhs );
 }
 
 #endif

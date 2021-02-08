@@ -14,12 +14,12 @@ namespace ast::stmt
 		: public Container
 	{
 	public:
-		PreprocIf( expr::ExprPtr ctrlExpr );
+		SDAST_API PreprocIf( expr::ExprPtr ctrlExpr );
 
-		PreprocElse * createElse();
-		PreprocElif * createElif( expr::ExprPtr ctrlExpr );
+		SDAST_API PreprocElse * createElse();
+		SDAST_API PreprocElif * createElif( expr::ExprPtr ctrlExpr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::Expr * getCtrlExpr()const
 		{

@@ -66,70 +66,70 @@ namespace ast::expr
 	class Visitor
 	{
 	protected:
-		Visitor()
+		SDAST_API Visitor()
 		{
 		};
 
 	public:
-		virtual ~Visitor()
+		SDAST_API virtual ~Visitor()
 		{
 		};
 
-		virtual void visitAddExpr( Add * ) = 0;
-		virtual void visitAddAssignExpr( AddAssign * ) = 0;
-		virtual void visitAggrInitExpr( AggrInit * ) = 0;
-		virtual void visitAliasExpr( Alias * ) = 0;
-		virtual void visitAndAssignExpr( AndAssign * ) = 0;
-		virtual void visitArrayAccessExpr( ArrayAccess * ) = 0;
-		virtual void visitAssignExpr( Assign * ) = 0;
-		virtual void visitBitAndExpr( BitAnd * ) = 0;
-		virtual void visitBitNotExpr( BitNot * ) = 0;
-		virtual void visitBitOrExpr( BitOr * ) = 0;
-		virtual void visitBitXorExpr( BitXor * ) = 0;
-		virtual void visitCastExpr( Cast * ) = 0;
-		virtual void visitCommaExpr( Comma * ) = 0;
-		virtual void visitCompositeConstructExpr( CompositeConstruct * ) = 0;
-		virtual void visitDivideExpr( Divide * ) = 0;
-		virtual void visitDivideAssignExpr( DivideAssign * ) = 0;
-		virtual void visitEqualExpr( Equal * ) = 0;
-		virtual void visitFnCallExpr( FnCall * ) = 0;
-		virtual void visitGreaterExpr( Greater * ) = 0;
-		virtual void visitGreaterEqualExpr( GreaterEqual * ) = 0;
-		virtual void visitIdentifierExpr( Identifier * ) = 0;
-		virtual void visitImageAccessCallExpr( ImageAccessCall * ) = 0;
-		virtual void visitInitExpr( Init * ) = 0;
-		virtual void visitIntrinsicCallExpr( IntrinsicCall * ) = 0;
-		virtual void visitLessExpr( Less * ) = 0;
-		virtual void visitLessEqualExpr( LessEqual * ) = 0;
-		virtual void visitLiteralExpr( Literal * ) = 0;
-		virtual void visitLogAndExpr( LogAnd * ) = 0;
-		virtual void visitLogNotExpr( LogNot * ) = 0;
-		virtual void visitLogOrExpr( LogOr * ) = 0;
-		virtual void visitLShiftExpr( LShift * ) = 0;
-		virtual void visitLShiftAssignExpr( LShiftAssign * ) = 0;
-		virtual void visitMbrSelectExpr( MbrSelect * ) = 0;
-		virtual void visitMinusExpr( Minus * ) = 0;
-		virtual void visitMinusAssignExpr( MinusAssign * ) = 0;
-		virtual void visitModuloExpr( Modulo * ) = 0;
-		virtual void visitModuloAssignExpr( ModuloAssign * ) = 0;
-		virtual void visitNotEqualExpr( NotEqual * ) = 0;
-		virtual void visitOrAssignExpr( OrAssign * ) = 0;
-		virtual void visitPostDecrementExpr( PostDecrement * ) = 0;
-		virtual void visitPostIncrementExpr( PostIncrement * ) = 0;
-		virtual void visitPreDecrementExpr( PreDecrement * ) = 0;
-		virtual void visitPreIncrementExpr( PreIncrement * ) = 0;
-		virtual void visitQuestionExpr( Question * ) = 0;
-		virtual void visitRShiftExpr( RShift * ) = 0;
-		virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
-		virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
-		virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
-		virtual void visitSwizzleExpr( Swizzle * ) = 0;
-		virtual void visitTextureAccessCallExpr( TextureAccessCall * ) = 0;
-		virtual void visitTimesExpr( Times * ) = 0;
-		virtual void visitTimesAssignExpr( TimesAssign * ) = 0;
-		virtual void visitUnaryMinusExpr( UnaryMinus * ) = 0;
-		virtual void visitUnaryPlusExpr( UnaryPlus * ) = 0;
-		virtual void visitXorAssignExpr( XorAssign * ) = 0;
+		SDAST_API virtual void visitAddExpr( Add * ) = 0;
+		SDAST_API virtual void visitAddAssignExpr( AddAssign * ) = 0;
+		SDAST_API virtual void visitAggrInitExpr( AggrInit * ) = 0;
+		SDAST_API virtual void visitAliasExpr( Alias * ) = 0;
+		SDAST_API virtual void visitAndAssignExpr( AndAssign * ) = 0;
+		SDAST_API virtual void visitArrayAccessExpr( ArrayAccess * ) = 0;
+		SDAST_API virtual void visitAssignExpr( Assign * ) = 0;
+		SDAST_API virtual void visitBitAndExpr( BitAnd * ) = 0;
+		SDAST_API virtual void visitBitNotExpr( BitNot * ) = 0;
+		SDAST_API virtual void visitBitOrExpr( BitOr * ) = 0;
+		SDAST_API virtual void visitBitXorExpr( BitXor * ) = 0;
+		SDAST_API virtual void visitCastExpr( Cast * ) = 0;
+		SDAST_API virtual void visitCommaExpr( Comma * ) = 0;
+		SDAST_API virtual void visitCompositeConstructExpr( CompositeConstruct * ) = 0;
+		SDAST_API virtual void visitDivideExpr( Divide * ) = 0;
+		SDAST_API virtual void visitDivideAssignExpr( DivideAssign * ) = 0;
+		SDAST_API virtual void visitEqualExpr( Equal * ) = 0;
+		SDAST_API virtual void visitFnCallExpr( FnCall * ) = 0;
+		SDAST_API virtual void visitGreaterExpr( Greater * ) = 0;
+		SDAST_API virtual void visitGreaterEqualExpr( GreaterEqual * ) = 0;
+		SDAST_API virtual void visitIdentifierExpr( Identifier * ) = 0;
+		SDAST_API virtual void visitImageAccessCallExpr( ImageAccessCall * ) = 0;
+		SDAST_API virtual void visitInitExpr( Init * ) = 0;
+		SDAST_API virtual void visitIntrinsicCallExpr( IntrinsicCall * ) = 0;
+		SDAST_API virtual void visitLessExpr( Less * ) = 0;
+		SDAST_API virtual void visitLessEqualExpr( LessEqual * ) = 0;
+		SDAST_API virtual void visitLiteralExpr( Literal * ) = 0;
+		SDAST_API virtual void visitLogAndExpr( LogAnd * ) = 0;
+		SDAST_API virtual void visitLogNotExpr( LogNot * ) = 0;
+		SDAST_API virtual void visitLogOrExpr( LogOr * ) = 0;
+		SDAST_API virtual void visitLShiftExpr( LShift * ) = 0;
+		SDAST_API virtual void visitLShiftAssignExpr( LShiftAssign * ) = 0;
+		SDAST_API virtual void visitMbrSelectExpr( MbrSelect * ) = 0;
+		SDAST_API virtual void visitMinusExpr( Minus * ) = 0;
+		SDAST_API virtual void visitMinusAssignExpr( MinusAssign * ) = 0;
+		SDAST_API virtual void visitModuloExpr( Modulo * ) = 0;
+		SDAST_API virtual void visitModuloAssignExpr( ModuloAssign * ) = 0;
+		SDAST_API virtual void visitNotEqualExpr( NotEqual * ) = 0;
+		SDAST_API virtual void visitOrAssignExpr( OrAssign * ) = 0;
+		SDAST_API virtual void visitPostDecrementExpr( PostDecrement * ) = 0;
+		SDAST_API virtual void visitPostIncrementExpr( PostIncrement * ) = 0;
+		SDAST_API virtual void visitPreDecrementExpr( PreDecrement * ) = 0;
+		SDAST_API virtual void visitPreIncrementExpr( PreIncrement * ) = 0;
+		SDAST_API virtual void visitQuestionExpr( Question * ) = 0;
+		SDAST_API virtual void visitRShiftExpr( RShift * ) = 0;
+		SDAST_API virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
+		SDAST_API virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
+		SDAST_API virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
+		SDAST_API virtual void visitSwizzleExpr( Swizzle * ) = 0;
+		SDAST_API virtual void visitTextureAccessCallExpr( TextureAccessCall * ) = 0;
+		SDAST_API virtual void visitTimesExpr( Times * ) = 0;
+		SDAST_API virtual void visitTimesAssignExpr( TimesAssign * ) = 0;
+		SDAST_API virtual void visitUnaryMinusExpr( UnaryMinus * ) = 0;
+		SDAST_API virtual void visitUnaryPlusExpr( UnaryPlus * ) = 0;
+		SDAST_API virtual void visitXorAssignExpr( XorAssign * ) = 0;
 	};
 
 	class SimpleVisitor

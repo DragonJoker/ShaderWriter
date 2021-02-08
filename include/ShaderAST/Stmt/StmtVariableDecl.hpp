@@ -13,11 +13,11 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		VariableDecl( var::VariablePtr variable );
+		SDAST_API VariableDecl( var::VariablePtr variable );
 
-		bool isMember()const;
+		SDAST_API bool isMember()const;
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const
 		{

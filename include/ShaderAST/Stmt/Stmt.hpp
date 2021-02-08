@@ -60,10 +60,10 @@ namespace ast::stmt
 	class Stmt
 	{
 	public:
-		Stmt( Kind kind );
-		virtual ~Stmt();
+		SDAST_API Stmt( Kind kind );
+		SDAST_API virtual ~Stmt();
 
-		virtual void accept( VisitorPtr ) = 0;
+		SDAST_API virtual void accept( VisitorPtr ) = 0;
 
 		inline Kind getKind()const
 		{

@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "SpirvHelpers.hpp"
 
+#include <ShaderAST/Expr/SwizzleKind.hpp>
+
 #include <vector>
 
 namespace spirv

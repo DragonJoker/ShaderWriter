@@ -22,10 +22,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		OutputGeometryLayout( OutputLayout layout
+		SDAST_API OutputGeometryLayout( OutputLayout layout
 			, uint32_t primCount );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline OutputLayout getLayout()const
 		{

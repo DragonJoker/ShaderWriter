@@ -15,10 +15,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		FragmentLayout( FragmentOrigin origin
+		SDAST_API FragmentLayout( FragmentOrigin origin
 			, FragmentCenter center );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline FragmentOrigin getFragmentOrigin()const
 		{
