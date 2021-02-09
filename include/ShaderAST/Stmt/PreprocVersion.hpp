@@ -13,9 +13,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		PreprocVersion( std::string name );
+		SDAST_API PreprocVersion( std::string name );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{

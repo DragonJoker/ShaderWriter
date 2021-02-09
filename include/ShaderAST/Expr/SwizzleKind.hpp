@@ -1388,29 +1388,29 @@ namespace ast::expr
 			eShiftSecondComponentToFirst = 4u,
 		};
 
-		SwizzleKind( Value value = eUndefined );
+		SDAST_API SwizzleKind( Value value = eUndefined );
 
-		static SwizzleKind fromOffset( uint32_t offset );
+		SDAST_API static SwizzleKind fromOffset( uint32_t offset );
 
-		uint32_t getComponentsCount()const;
-		bool isOneComponent()const;
-		bool isTwoComponents()const;
-		bool isThreeComponents()const;
-		bool isFourComponents()const;
+		SDAST_API uint32_t getComponentsCount()const;
+		SDAST_API bool isOneComponent()const;
+		SDAST_API bool isTwoComponents()const;
+		SDAST_API bool isThreeComponents()const;
+		SDAST_API bool isFourComponents()const;
 
-		Value getFirstValue()const;
-		Value getSecondValue()const;
-		Value getThirdValue()const;
-		Value getFourthValue()const;
+		SDAST_API Value getFirstValue()const;
+		SDAST_API Value getSecondValue()const;
+		SDAST_API Value getThirdValue()const;
+		SDAST_API Value getFourthValue()const;
 
-		uint32_t toIndex()const;
+		SDAST_API uint32_t toIndex()const;
 
-		SwizzleKind operator[]( uint32_t index )const;
+		SDAST_API SwizzleKind operator[]( uint32_t index )const;
 
-		SwizzleKind & operator|=( SwizzleKind const & rhs );
-		SwizzleKind & operator&=( SwizzleKind const & rhs );
-		SwizzleKind & operator<<=( uint32_t rhs );
-		SwizzleKind & operator>>=( uint32_t rhs );
+		SDAST_API SwizzleKind & operator|=( SwizzleKind const & rhs );
+		SDAST_API SwizzleKind & operator&=( SwizzleKind const & rhs );
+		SDAST_API SwizzleKind & operator<<=( uint32_t rhs );
+		SDAST_API SwizzleKind & operator>>=( uint32_t rhs );
 
 		inline operator Value()const
 		{
@@ -1462,7 +1462,7 @@ namespace ast::expr
 		Value m_value;
 	};
 
-	std::string getName( SwizzleKind kind );
+	SDAST_API std::string getName( SwizzleKind kind );
 
 	inline SwizzleKind operator|( SwizzleKind lhs, SwizzleKind rhs )
 	{

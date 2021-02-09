@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Identifier( type::TypesCache & cache
+		SDAST_API Identifier( type::TypesCache & cache
 			, var::VariablePtr var );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const
 		{

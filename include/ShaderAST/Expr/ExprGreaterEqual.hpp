@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		GreaterEqual( type::TypePtr type
+		SDAST_API GreaterEqual( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using GreaterEqualPtr = std::unique_ptr< GreaterEqual >;
 

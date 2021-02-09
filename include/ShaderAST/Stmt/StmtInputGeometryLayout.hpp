@@ -29,9 +29,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		InputGeometryLayout( InputLayout layout );
+		SDAST_API InputGeometryLayout( InputLayout layout );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline InputLayout getLayout()const
 		{

@@ -13,9 +13,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		Discard();
+		SDAST_API Discard();
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using DiscardPtr = std::unique_ptr< Discard >;
 

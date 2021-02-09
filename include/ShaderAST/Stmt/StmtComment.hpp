@@ -13,9 +13,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		Comment( std::string text );
+		SDAST_API Comment( std::string text );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getText()
 		{

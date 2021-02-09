@@ -13,11 +13,11 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		ModuloAssign( type::TypePtr type
+		SDAST_API ModuloAssign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using ModuloAssignPtr = std::unique_ptr< ModuloAssign >;
 

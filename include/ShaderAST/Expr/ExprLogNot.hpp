@@ -13,10 +13,10 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		LogNot( type::TypePtr type
+		SDAST_API LogNot( type::TypePtr type
 			, ExprPtr operand );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using LogNotPtr = std::unique_ptr< LogNot >;
 

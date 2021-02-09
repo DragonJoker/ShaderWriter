@@ -16,19 +16,19 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Array( TypePtr type
+		SDAST_API Array( TypePtr type
 			, uint32_t arraySize = UnknownArraySize );
-		Array( Struct * parent
+		SDAST_API Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
 			, Array const & nonMbr
 			, uint32_t arraySize = UnknownArraySize );
-		Array( Struct & parent
+		SDAST_API Array( Struct & parent
 			, uint32_t index
 			, TypePtr type
 			, Array const & nonMbr
 			, uint32_t arraySize = UnknownArraySize );
-		TypePtr getMemberType( Struct & parent, uint32_t index )const override;
+		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		inline TypePtr getType()const
 		{
@@ -46,10 +46,10 @@ namespace ast::type
 	};
 	using ArrayPtr = std::shared_ptr< Array >;
 
-	size_t getHash( TypePtr type
+	SDAST_API size_t getHash( TypePtr type
 		, uint32_t arraySize );
 
-	bool operator==( Array const & lhs, Array const & rhs );
+	SDAST_API bool operator==( Array const & lhs, Array const & rhs );
 }
 
 #endif

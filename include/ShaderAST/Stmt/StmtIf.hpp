@@ -16,12 +16,12 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		If( expr::ExprPtr ctrlExpr );
+		SDAST_API If( expr::ExprPtr ctrlExpr );
 
-		Else * createElse();
-		ElseIf * createElseIf( expr::ExprPtr ctrlExpr );
+		SDAST_API Else * createElse();
+		SDAST_API ElseIf * createElseIf( expr::ExprPtr ctrlExpr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::Expr * getCtrlExpr()const
 		{

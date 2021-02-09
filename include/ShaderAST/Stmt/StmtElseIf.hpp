@@ -18,10 +18,10 @@ namespace ast::stmt
 		friend class If;
 
 	private:
-		ElseIf( expr::ExprPtr ctrlExpr );
+		SDAST_API ElseIf( expr::ExprPtr ctrlExpr );
 
 	public:
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::Expr * getCtrlExpr()const
 		{

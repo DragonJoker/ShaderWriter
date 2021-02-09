@@ -13,9 +13,9 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SwitchCase( LiteralPtr label );
+		SDAST_API SwitchCase( LiteralPtr label );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Literal * getLabel()const
 		{

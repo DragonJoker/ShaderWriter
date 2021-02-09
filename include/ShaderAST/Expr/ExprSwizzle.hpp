@@ -14,10 +14,10 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Swizzle( ExprPtr outer
+		SDAST_API Swizzle( ExprPtr outer
 			, SwizzleKind swizzle );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Expr * getOuterExpr()const
 		{

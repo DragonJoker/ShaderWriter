@@ -78,20 +78,20 @@ namespace ast::type
 		friend class Struct;
 
 	public:
-		Type( TypesCache & cache
+		SDAST_API Type( TypesCache & cache
 			, Kind kind );
-		Type( TypesCache & cache
+		SDAST_API Type( TypesCache & cache
 			, Struct * parent
 			, uint32_t index
 			, Type const & nonMbr );
-		Type( TypesCache & cache
+		SDAST_API Type( TypesCache & cache
 			, Struct & parent
 			, uint32_t index
 			, Type const & nonMbr );
-		virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
-		Type const * getNonMemberType()const;
+		SDAST_API virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
+		SDAST_API Type const * getNonMemberType()const;
 
-		virtual ~Type();
+		SDAST_API virtual ~Type();
 
 		inline Kind getKind()const
 		{
@@ -126,48 +126,48 @@ namespace ast::type
 		Type const * m_nonMbr;
 	};
 
-	bool operator==( Type const & lhs, Type const & rhs );
+	SDAST_API bool operator==( Type const & lhs, Type const & rhs );
 
-	bool isBoolType( Kind kind );
-	bool isUnsignedIntType( Kind kind );
-	bool isSignedIntType( Kind kind );
-	bool isHalfType( Kind kind );
-	bool isFloatType( Kind kind );
-	bool isDoubleType( Kind kind );
-	bool isScalarType( Kind kind );
-	bool isVectorType( Kind kind );
-	bool isMatrixType( Kind kind );
-	bool isArrayType( Kind kind );
-	bool isStructType( Kind kind );
-	bool isSamplerType( Kind kind );
-	bool isImageType( Kind kind );
-	bool isSampledImageType( Kind kind );
+	SDAST_API bool isBoolType( Kind kind );
+	SDAST_API bool isUnsignedIntType( Kind kind );
+	SDAST_API bool isSignedIntType( Kind kind );
+	SDAST_API bool isHalfType( Kind kind );
+	SDAST_API bool isFloatType( Kind kind );
+	SDAST_API bool isDoubleType( Kind kind );
+	SDAST_API bool isScalarType( Kind kind );
+	SDAST_API bool isVectorType( Kind kind );
+	SDAST_API bool isMatrixType( Kind kind );
+	SDAST_API bool isArrayType( Kind kind );
+	SDAST_API bool isStructType( Kind kind );
+	SDAST_API bool isSamplerType( Kind kind );
+	SDAST_API bool isImageType( Kind kind );
+	SDAST_API bool isSampledImageType( Kind kind );
 	/**
 	*\remarks
 	*	Returns count * arraySize in case of arrays.
 	*/
-	uint32_t getComponentCount( Kind kind );
-	uint32_t getComponentCount( Type const & type );
-	uint32_t getComponentCount( TypePtr const & type );
+	SDAST_API uint32_t getComponentCount( Kind kind );
+	SDAST_API uint32_t getComponentCount( Type const & type );
+	SDAST_API uint32_t getComponentCount( TypePtr const & type );
 	/**
 	*\remarks
 	*	Returns \p kind if it is not a matrix or vector type.
 	*/
-	Kind getComponentType( Kind kind );
-	Kind getComponentType( Type const & type );
-	Kind getComponentType( TypePtr const & type );
-	Kind getScalarType( Kind kind );
-	expr::CompositeType getCompositeType( Kind kind );
-	Type const & getNonArrayType( Type const & type );
-	TypePtr getNonArrayType( TypePtr type );
-	Kind getNonArrayKind( Type const & type );
-	Kind getNonArrayKind( TypePtr type );
-	Type const & getNonArrayTypeRec( Type const & type );
-	TypePtr getNonArrayTypeRec( TypePtr type );
-	Kind getNonArrayKindRec( Type const & type );
-	Kind getNonArrayKindRec( TypePtr type );
-	uint32_t getArraySize( Type const & type );
-	uint32_t getArraySize( TypePtr type );
+	SDAST_API Kind getComponentType( Kind kind );
+	SDAST_API Kind getComponentType( Type const & type );
+	SDAST_API Kind getComponentType( TypePtr const & type );
+	SDAST_API Kind getScalarType( Kind kind );
+	SDAST_API expr::CompositeType getCompositeType( Kind kind );
+	SDAST_API Type const & getNonArrayType( Type const & type );
+	SDAST_API TypePtr getNonArrayType( TypePtr type );
+	SDAST_API Kind getNonArrayKind( Type const & type );
+	SDAST_API Kind getNonArrayKind( TypePtr type );
+	SDAST_API Type const & getNonArrayTypeRec( Type const & type );
+	SDAST_API TypePtr getNonArrayTypeRec( TypePtr type );
+	SDAST_API Kind getNonArrayKindRec( Type const & type );
+	SDAST_API Kind getNonArrayKindRec( TypePtr type );
+	SDAST_API uint32_t getArraySize( Type const & type );
+	SDAST_API uint32_t getArraySize( TypePtr type );
 }
 
 #endif

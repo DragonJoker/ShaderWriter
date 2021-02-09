@@ -26,10 +26,10 @@ namespace ast::stmt
 		};
 
 	public:
-		PerVertexDecl( Source source
+		SDAST_API PerVertexDecl( Source source
 			, type::TypePtr type );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Source getSource()const
 		{

@@ -17,17 +17,17 @@ namespace ast::expr
 
 	namespace details
 	{
-		void getCache( type::TypesCache *& result
+		SDAST_API void getCache( type::TypesCache *& result
 			, Expr const & expr );
-		void getCache( type::TypesCache *& result
+		SDAST_API void getCache( type::TypesCache *& result
 			, ExprPtr const & expr );
-		void getCache( type::TypesCache *& result
+		SDAST_API void getCache( type::TypesCache *& result
 			, ExprList const & list );
-		bool isConstant( Expr const & expr );
-		bool isConstant( ExprPtr const & expr );
-		bool isConstant( Identifier const & expr );
-		bool isConstant( IdentifierPtr const & expr );
-		bool isConstant( ExprList const & list );
+		SDAST_API bool isConstant( Expr const & expr );
+		SDAST_API bool isConstant( ExprPtr const & expr );
+		SDAST_API bool isConstant( Identifier const & expr );
+		SDAST_API bool isConstant( IdentifierPtr const & expr );
+		SDAST_API bool isConstant( ExprList const & list );
 
 		template< typename ParamT >
 		inline void getExprCacheRec( type::TypesCache *& result

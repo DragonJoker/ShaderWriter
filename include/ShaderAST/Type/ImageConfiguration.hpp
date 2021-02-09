@@ -123,7 +123,7 @@ namespace ast::type
 
 	struct ImageConfiguration
 	{
-		ImageConfiguration( type::Kind sampledType = type::Kind::eFloat
+		SDAST_API ImageConfiguration( type::Kind sampledType = type::Kind::eFloat
 			, ImageDim dimension = ImageDim::e1D
 			, ImageFormat format = ImageFormat::eUnknown
 			, Trinary isDepth = Trinary::eFalse
@@ -142,7 +142,7 @@ namespace ast::type
 		AccessKind accessKind;
 	};
 
-	size_t getHash( type::ImageConfiguration const & config );
+	SDAST_API size_t getHash( type::ImageConfiguration const & config );
 
 	template< ImageFormat FormatT
 		, AccessKind AccessT

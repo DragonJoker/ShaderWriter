@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprIdentifier.hpp>
 #include <ShaderAST/Expr/ExprList.hpp>
 #include <ShaderAST/Expr/ExprLiteral.hpp>
+#include <ShaderAST/Expr/SwizzleKind.hpp>
 #include <ShaderAST/Type/Type.hpp>
 #include <ShaderAST/Stmt/Stmt.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>

@@ -18,10 +18,10 @@ namespace ast::stmt
 		friend class PreprocIfDef;
 
 	private:
-		PreprocElse();
+		SDAST_API PreprocElse();
 
 	public:
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using PreprocElsePtr = std::unique_ptr< PreprocElse >;
 }

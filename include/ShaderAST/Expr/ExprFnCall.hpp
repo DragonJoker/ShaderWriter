@@ -14,16 +14,16 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		FnCall( type::TypePtr type
+		SDAST_API FnCall( type::TypePtr type
 			, IdentifierPtr fn
 			, ExprList && argList );
 		
-		FnCall( type::TypePtr type
+		SDAST_API FnCall( type::TypePtr type
 			, IdentifierPtr fn
 			, ExprPtr instance
 			, ExprList && argList );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline ExprList const & getArgList()const
 		{

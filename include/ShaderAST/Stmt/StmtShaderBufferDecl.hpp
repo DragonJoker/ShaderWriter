@@ -17,15 +17,15 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		ShaderBufferDecl( var::VariablePtr variable
+		SDAST_API ShaderBufferDecl( var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
-		void add( VariableDeclPtr decl );
-		type::MemoryLayout getMemoryLayout()const;
-		std::string getSsboName()const;
-		type::StructPtr getType()const;
+		SDAST_API void add( VariableDeclPtr decl );
+		SDAST_API type::MemoryLayout getMemoryLayout()const;
+		SDAST_API std::string getSsboName()const;
+		SDAST_API type::StructPtr getType()const;
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const
 		{

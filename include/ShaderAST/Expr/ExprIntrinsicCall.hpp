@@ -16,11 +16,11 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		IntrinsicCall( type::TypePtr type
+		SDAST_API IntrinsicCall( type::TypePtr type
 			, Intrinsic intrinsic
 			, ExprList && argList );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline ExprList const & getArgList()const
 		{

@@ -21,10 +21,10 @@ namespace ast::stmt
 		};
 
 	public:
-		PreprocExtension( std::string name
+		SDAST_API PreprocExtension( std::string name
 			, ExtStatus status );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{

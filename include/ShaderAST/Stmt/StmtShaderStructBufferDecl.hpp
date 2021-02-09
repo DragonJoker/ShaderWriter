@@ -16,13 +16,13 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		ShaderStructBufferDecl( std::string const & ssboName
+		SDAST_API ShaderStructBufferDecl( std::string const & ssboName
 			, var::VariablePtr ssboInstance
 			, var::VariablePtr data
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getSsboName()const
 		{

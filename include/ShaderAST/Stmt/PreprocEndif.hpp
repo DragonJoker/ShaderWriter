@@ -13,9 +13,9 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		PreprocEndif();
+		SDAST_API PreprocEndif();
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using PreprocEndifPtr = std::unique_ptr< PreprocEndif >;
 

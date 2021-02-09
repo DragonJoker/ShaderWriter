@@ -83,13 +83,13 @@ namespace ast::expr
 	class Expr
 	{
 	public:
-		Expr( type::TypesCache & cache
+		SDAST_API Expr( type::TypesCache & cache
 			, type::TypePtr type
 			, Kind kind
 			, Flag flag = Flag::eNone );
-		virtual ~Expr();
+		SDAST_API virtual ~Expr();
 
-		virtual void accept( VisitorPtr )
+		SDAST_API virtual void accept( VisitorPtr )
 		{
 		}
 

@@ -15,11 +15,11 @@ namespace ast::stmt
 		: public Loop
 	{
 	public:
-		For( expr::ExprPtr initExpr
+		SDAST_API For( expr::ExprPtr initExpr
 			, expr::ExprPtr ctrlExpr
 			, expr::ExprPtr incrExpr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::Expr * getInitExpr()const
 		{

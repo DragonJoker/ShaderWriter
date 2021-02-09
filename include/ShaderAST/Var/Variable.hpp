@@ -201,30 +201,30 @@ namespace ast::var
 		: public FlagHolder
 	{
 	public:
-		Variable( VariablePtr outer
+		SDAST_API Variable( VariablePtr outer
 			, type::TypePtr type
 			, std::string name );
-		Variable( VariablePtr outer
+		SDAST_API Variable( VariablePtr outer
 			, type::TypePtr type
 			, std::string name
 			, Flag flag );
-		Variable( VariablePtr outer
+		SDAST_API Variable( VariablePtr outer
 			, type::TypePtr type
 			, std::string name
 			, uint32_t flags );
-		Variable( type::TypePtr type
+		SDAST_API Variable( type::TypePtr type
 			, std::string name );
-		Variable( type::TypePtr type
+		SDAST_API Variable( type::TypePtr type
 			, std::string name
 			, Flag flag );
-		Variable( type::TypePtr type
+		SDAST_API Variable( type::TypePtr type
 			, std::string name
 			, uint32_t flags );
-		Variable( type::FunctionPtr type
+		SDAST_API Variable( type::FunctionPtr type
 			, std::string name );
-		~Variable();
+		SDAST_API ~Variable();
 
-		std::string getFullName()const;
+		SDAST_API std::string getFullName()const;
 
 		inline type::TypePtr getType()const
 		{

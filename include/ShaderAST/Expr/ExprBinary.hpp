@@ -13,7 +13,7 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Binary( type::TypePtr type
+		SDAST_API Binary( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
 			, Kind kind );

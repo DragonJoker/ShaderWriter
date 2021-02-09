@@ -13,12 +13,12 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Assign( type::TypePtr type
+		SDAST_API Assign( type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
 			, Kind kind = Kind::eAssign );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using AssignPtr = std::unique_ptr< Assign >;
 

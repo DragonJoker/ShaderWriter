@@ -16,10 +16,10 @@ namespace ast::stmt
 		friend class If;
 
 	private:
-		Else();
+		SDAST_API Else();
 
 	public:
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using ElsePtr = std::unique_ptr< Else >;
 }

@@ -13,9 +13,9 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SwitchTest( ExprPtr value );
+		SDAST_API SwitchTest( ExprPtr value );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline Expr * getValue()const
 		{

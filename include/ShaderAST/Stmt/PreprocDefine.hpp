@@ -13,10 +13,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		PreprocDefine( std::string name
+		SDAST_API PreprocDefine( std::string name
 			, expr::ExprPtr expr );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline std::string const & getName()const
 		{

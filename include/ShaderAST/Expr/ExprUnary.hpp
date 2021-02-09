@@ -13,7 +13,7 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		Unary( type::TypePtr type
+		SDAST_API Unary( type::TypePtr type
 			, ExprPtr operand
 			, Kind kind );
 

@@ -13,12 +13,12 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		InOutVariableDecl( var::VariablePtr variable
+		SDAST_API InOutVariableDecl( var::VariablePtr variable
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t blendIndex );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const
 		{

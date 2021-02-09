@@ -13,10 +13,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		Container( Kind kind = Kind::eContainer );
-		void addStmt( StmtPtr stmt );
+		SDAST_API Container( Kind kind = Kind::eContainer );
+		SDAST_API void addStmt( StmtPtr stmt );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline StmtPtr const & back()const
 		{

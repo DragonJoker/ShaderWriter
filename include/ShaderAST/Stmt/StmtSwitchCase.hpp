@@ -18,11 +18,11 @@ namespace ast::stmt
 		friend class Switch;
 
 	private:
-		SwitchCase( expr::SwitchCasePtr caseExpr );
-		SwitchCase();
+		SDAST_API SwitchCase( expr::SwitchCasePtr caseExpr );
+		SDAST_API SwitchCase();
 
 	public:
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline expr::SwitchCase * getCaseExpr()const
 		{

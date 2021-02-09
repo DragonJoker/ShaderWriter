@@ -15,18 +15,18 @@ namespace ast
 		: public StmtCloner
 	{
 	public:
-		static stmt::ContainerPtr submit( type::TypesCache & cache
+		SDAST_API static stmt::ContainerPtr submit( type::TypesCache & cache
 			, stmt::Container * container
 			, SpecialisationInfo const & specialisation );
 
 	private:
-		StmtSpecialiser( type::TypesCache & cache
+		SDAST_API StmtSpecialiser( type::TypesCache & cache
 			, SpecialisationInfo const & specialisation
 			, stmt::ContainerPtr & result );
 
-		expr::ExprPtr doSubmit( expr::Expr * expr )override;
+		SDAST_API expr::ExprPtr doSubmit( expr::Expr * expr )override;
 
-		void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
+		SDAST_API void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
 
 	private:
 		type::TypesCache & m_cache;

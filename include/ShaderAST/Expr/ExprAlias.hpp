@@ -14,7 +14,7 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		Alias( type::TypePtr type
+		SDAST_API Alias( type::TypePtr type
 			, IdentifierPtr lhs
 			, ExprPtr rhs );
 
@@ -23,7 +23,7 @@ namespace ast::expr
 			return static_cast< Identifier * >( Binary::getLHS() );
 		}
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 	};
 	using AliasPtr = std::unique_ptr< Alias >;
 

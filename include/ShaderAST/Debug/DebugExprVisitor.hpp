@@ -13,31 +13,31 @@ namespace ast::debug
 		: public expr::SimpleVisitor
 	{
 	protected:
-		ExprVisitor( std::string & result );
+		SDAST_API ExprVisitor( std::string & result );
 
 	public:
-		static std::string submit( expr::Expr * expr );
+		SDAST_API static std::string submit( expr::Expr * expr );
 
 	private:
-		void wrap( expr::Expr * expr );
-		void visitUnaryExpr( expr::Unary * expr )override;
-		void visitBinaryExpr( expr::Binary * expr )override;
+		SDAST_API void wrap( expr::Expr * expr );
+		SDAST_API void visitUnaryExpr( expr::Unary * expr )override;
+		SDAST_API void visitBinaryExpr( expr::Binary * expr )override;
 
-		void visitAggrInitExpr( expr::AggrInit * expr )override;
-		void visitCastExpr( expr::Cast * expr )override;
-		void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override;
-		void visitMbrSelectExpr( expr::MbrSelect * expr )override;
-		void visitFnCallExpr( expr::FnCall * expr )override;
-		void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override;
-		void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
-		void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
-		void visitIdentifierExpr( expr::Identifier * expr )override;
-		void visitInitExpr( expr::Init * expr )override;
-		void visitLiteralExpr( expr::Literal * expr )override;
-		void visitQuestionExpr( expr::Question * expr )override;
-		void visitSwitchCaseExpr( expr::SwitchCase * expr )override;
-		void visitSwitchTestExpr( expr::SwitchTest * expr )override;
-		void visitSwizzleExpr( expr::Swizzle * expr )override;
+		SDAST_API void visitAggrInitExpr( expr::AggrInit * expr )override;
+		SDAST_API void visitCastExpr( expr::Cast * expr )override;
+		SDAST_API void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override;
+		SDAST_API void visitMbrSelectExpr( expr::MbrSelect * expr )override;
+		SDAST_API void visitFnCallExpr( expr::FnCall * expr )override;
+		SDAST_API void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override;
+		SDAST_API void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
+		SDAST_API void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
+		SDAST_API void visitIdentifierExpr( expr::Identifier * expr )override;
+		SDAST_API void visitInitExpr( expr::Init * expr )override;
+		SDAST_API void visitLiteralExpr( expr::Literal * expr )override;
+		SDAST_API void visitQuestionExpr( expr::Question * expr )override;
+		SDAST_API void visitSwitchCaseExpr( expr::SwitchCase * expr )override;
+		SDAST_API void visitSwitchTestExpr( expr::SwitchTest * expr )override;
+		SDAST_API void visitSwizzleExpr( expr::Swizzle * expr )override;
 
 	private:
 		std::string & m_result;

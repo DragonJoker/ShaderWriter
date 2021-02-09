@@ -13,20 +13,20 @@ namespace ast
 		: public StmtCloner
 	{
 	public:
-		static stmt::ContainerPtr submit( type::TypesCache & cache
+		SDAST_API static stmt::ContainerPtr submit( type::TypesCache & cache
 			, stmt::Container * stmt );
 
 	private:
-		static stmt::ContainerPtr submit( type::TypesCache & cache
+		SDAST_API static stmt::ContainerPtr submit( type::TypesCache & cache
 			, stmt::Container * stmt
 			, std::map< var::VariablePtr, expr::Literal * > & literalVars );
 		
 	private:
-		StmtSimplifier( type::TypesCache & cache
+		SDAST_API StmtSimplifier( type::TypesCache & cache
 			, std::map< var::VariablePtr, expr::Literal * > & literalVars
 			, stmt::ContainerPtr & result );
 
-		expr::ExprPtr doSubmit( expr::Expr * expr )override;
+		SDAST_API expr::ExprPtr doSubmit( expr::Expr * expr )override;
 
 	private:
 		type::TypesCache & m_cache;

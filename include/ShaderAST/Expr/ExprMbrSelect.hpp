@@ -15,11 +15,11 @@ namespace ast::expr
 		, public var::FlagHolder
 	{
 	public:
-		MbrSelect( ExprPtr outer
+		SDAST_API MbrSelect( ExprPtr outer
 			, uint32_t memberIndex
 			, uint32_t memberFlags );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline type::StructPtr getOuterType()const
 		{

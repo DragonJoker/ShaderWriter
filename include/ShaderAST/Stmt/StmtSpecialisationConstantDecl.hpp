@@ -14,11 +14,11 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SpecialisationConstantDecl( var::VariablePtr variable
+		SDAST_API SpecialisationConstantDecl( var::VariablePtr variable
 			, uint32_t location
 			, expr::LiteralPtr value );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline var::VariablePtr getVariable()const
 		{

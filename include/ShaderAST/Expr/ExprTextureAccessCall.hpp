@@ -15,11 +15,11 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		TextureAccessCall( type::TypePtr type
+		SDAST_API TextureAccessCall( type::TypePtr type
 			, TextureAccess texelAccess
 			, ExprList && argList );
 
-		void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )override;
 
 		inline ExprList const & getArgList()const
 		{

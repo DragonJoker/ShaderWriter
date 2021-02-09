@@ -9,23 +9,23 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	std::vector< expr::Identifier * > listCommaIdentifiers( expr::Expr * expr );
-	std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr
+	SDAST_API std::vector< expr::Identifier * > listCommaIdentifiers( expr::Expr * expr );
+	SDAST_API std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr
 		, type::Kind kind = type::Kind::eUndefined
 		, var::Flag flag = var::Flag::eNone );
-	std::vector< expr::Identifier * > listIdentifiers( expr::ExprPtr const & expr
+	SDAST_API std::vector< expr::Identifier * > listIdentifiers( expr::ExprPtr const & expr
 		, type::Kind kind = type::Kind::eUndefined
 		, var::Flag flag = var::Flag::eNone );
-	expr::Identifier * findIdentifier( expr::Expr * expr
+	SDAST_API expr::Identifier * findIdentifier( expr::Expr * expr
 		, type::Kind kind = type::Kind::eUndefined
 		, var::Flag flag = var::Flag::eNone );
-	expr::Identifier * findIdentifier( expr::ExprPtr const & expr
+	SDAST_API expr::Identifier * findIdentifier( expr::ExprPtr const & expr
 		, type::Kind kind = type::Kind::eUndefined
 		, var::Flag flag = var::Flag::eNone );
-	std::string findName( expr::Expr * expr
+	SDAST_API std::string findName( expr::Expr * expr
 		, type::Kind kind = type::Kind::eUndefined
 		, var::Flag flag = var::Flag::eNone );
-	std::string findName( expr::ExprPtr const & expr
+	SDAST_API std::string findName( expr::ExprPtr const & expr
 		, type::Kind kind = type::Kind::eUndefined
 		, var::Flag flag = var::Flag::eNone );
 }

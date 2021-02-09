@@ -15,7 +15,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		Sampler( TypesCache & cache
+		SDAST_API Sampler( TypesCache & cache
 			, bool comparison );
 
 		bool isComparison()const
