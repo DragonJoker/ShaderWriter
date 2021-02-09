@@ -415,4 +415,16 @@ namespace ast
 			, expr::Kind::eIdentifier
 			, expr::Flag::eDummy );
 	}
+
+	SdwShader Shader::getOpaqueHandle()const
+	{
+		return reinterpret_cast<SdwShader>(this);
+	}
+
+	Shader const & Shader::fromOpaqueHandle(SdwShader shader)
+	{
+		assert( shader != nullptr );
+
+		return *reinterpret_cast<Shader const*>( shader );
+	}
 }
