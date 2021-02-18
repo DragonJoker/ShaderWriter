@@ -96,19 +96,39 @@ if ( SDW_BUILD_EXPORTERS )
 endif ()
 
 install(
-	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
+	TARGETS ShaderAST ShaderWriter
+	COMPONENT ShaderWriter
 	EXPORT ShaderWriter
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
 )
 install( EXPORT ShaderWriter
+	COMPONENT ShaderWriter
 	FILE ShaderWriterConfig.cmake
 	NAMESPACE sdw::
 	DESTINATION lib/cmake/shaderwriter
 )
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file( ShaderWriterConfigVersion.cmake
+	VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
+	COMPATIBILITY AnyNewerVersion
+)
+install(
+	TARGETS ${SDW_INSTEXP_LIST}
+	COMPONENT SdwCompilers
+	EXPORT SdwCompilers
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+)
+install( EXPORT SdwCompilers
+	COMPONENT SdwCompilers
+	FILE SdwCompilersConfig.cmake
+	NAMESPACE sdw::
+	DESTINATION lib/cmake/shaderwriter
+)
+write_basic_package_version_file( SdwCompilersConfigVersion.cmake
 	VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_BUILD}
 	COMPATIBILITY AnyNewerVersion
 )
