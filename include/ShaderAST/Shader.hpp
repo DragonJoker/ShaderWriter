@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "BoInfo.hpp"
+#include "shader.h"
 
 #include "ShaderAST/Stmt/StmtContainer.hpp"
 
@@ -214,6 +215,9 @@ namespace ast
 		{
 			return m_data;
 		}
+
+		SDAST_API SdwShader getOpaqueHandle()const;
+		SDAST_API static Shader const & fromOpaqueHandle(SdwShader shader);
 
 	private:
 		struct Block
