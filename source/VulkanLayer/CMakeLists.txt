@@ -1,4 +1,6 @@
-option( SDW_BUILD_VULKAN_LAYER "Build VulkanLayer library" ON )
+if ( NOT DEFINED SDW_BUILD_VULKAN_LAYER )
+	option( SDW_BUILD_VULKAN_LAYER "Build VulkanLayer library" ON )
+endif ()
 
 set( _FOLDER_NAME VulkanLayer )
 project( ${_FOLDER_NAME} )
@@ -51,6 +53,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 	target_link_libraries( ${PROJECT_NAME}
 		PUBLIC
 			sdw::CompilerSpirV
+		PRIVATE
 			Vulkan::Vulkan
 	)
 	set_target_properties( ${PROJECT_NAME}
