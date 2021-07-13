@@ -970,6 +970,24 @@ namespace sdw
 	{
 		return declLocale( name, enabled, T{ std::move( defaultValue ) } );
 	}
+
+	template< typename BaseT, typename DerivedT >
+	inline std::unique_ptr< BaseT > ShaderWriter::declDerivedLocale( std::string const & name
+		, bool enabled )
+	{
+		auto type = DerivedT::makeType( getTypesCache() );
+		auto var = registerLocale( name
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( var ) );
+		}
+
+		return std::make_unique< DerivedT >( *this
+			, makeExpr( *this, var )
+			, enabled );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Already declared variable getters

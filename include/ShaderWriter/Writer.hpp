@@ -445,6 +445,9 @@ namespace sdw
 		inline T declLocale( std::string const & name
 			, bool enabled
 			, ReturnWrapperT< T > defaultValue );
+		template< typename BaseT, typename DerivedT >
+		inline std::unique_ptr< BaseT > declDerivedLocale( std::string const & name
+			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Already declared variable getters
