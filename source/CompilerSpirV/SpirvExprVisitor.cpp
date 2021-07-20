@@ -867,7 +867,7 @@ namespace spirv
 
 	void ExprVisitor::visitUnaryPlusExpr( ast::expr::UnaryPlus * expr )
 	{
-		m_result = doSubmit( expr );
+		m_result = doSubmit( expr->getOperand() );
 	}
 
 	void ExprVisitor::visitAddAssignExpr( ast::expr::AddAssign * expr )
