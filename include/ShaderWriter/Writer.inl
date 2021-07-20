@@ -97,15 +97,7 @@ namespace sdw
 	{
 		template< typename DstT, typename SrcT
 			, typename Enable = void >
-		struct Cast
-		{
-			static inline DstT cast( ShaderWriter & writer
-				, DstT const & from )
-			{
-				static_assert( false, "Can't cast from different count types." );
-				return from;
-			}
-		};
+		struct Cast;
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT

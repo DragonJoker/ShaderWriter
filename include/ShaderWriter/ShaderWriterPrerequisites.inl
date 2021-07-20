@@ -551,8 +551,8 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< ValueT >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = TypeTraits< ValueT >::HasArithmeticOperators;
 		using CppType = typename TypeTraits< ValueT >::CppType;
-		static size_t constexpr Size = TypeTraits< T >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+		static size_t constexpr Size = TypeTraits< ValueT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< ValueT >::ComponentCount;
 		using Type = ValueT;
 	};
 
