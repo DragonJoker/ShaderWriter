@@ -1254,7 +1254,7 @@ namespace ast
 
 			void visitUnaryPlusExpr( expr::UnaryPlus * expr )override
 			{
-				visitUnaryExpr( expr );
+				m_result = doSubmit( expr->getOperand() );
 			}
 
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override

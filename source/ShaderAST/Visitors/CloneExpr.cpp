@@ -459,7 +459,7 @@ namespace ast
 
 	void ExprCloner::visitUnaryPlusExpr( expr::UnaryPlus * expr )
 	{
-		m_result = expr::makeUnaryMinus( doSubmit( expr->getOperand() ) );
+		m_result = expr::makeUnaryPlus( doSubmit( expr->getOperand() ) );
 	}
 
 	void ExprCloner::visitXorAssignExpr( expr::XorAssign * expr )
