@@ -95,8 +95,6 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename DestT >
-		inline DestT cast( Value const & from );
-		template< typename DestT >
 		inline DestT cast( int32_t from );
 		template< typename DestT >
 		inline DestT cast( uint32_t from );
@@ -104,6 +102,8 @@ namespace sdw
 		inline DestT cast( float from );
 		template< typename DestT >
 		inline DestT cast( double from );
+		template< typename DestT, typename SourceT >
+		inline DestT cast( SourceT const & from );
 		/**@}*/
 #pragma endregion
 #pragma region Control statements

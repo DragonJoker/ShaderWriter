@@ -95,10 +95,17 @@ namespace sdw
 	/**@{*/
 	namespace details
 	{
-		template< typename DstT
-			, typename SrcT
+		template< typename DstT, typename SrcT
 			, typename Enable = void >
-			struct Cast;
+		struct Cast
+		{
+			static inline DstT cast( ShaderWriter & writer
+				, DstT const & from )
+			{
+				static_assert( false, "Can't cast from different count types." );
+				return from;
+			}
+		};
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT
@@ -113,7 +120,7 @@ namespace sdw
 
 		template< typename DstT, typename SrcT >
 		struct Cast< DstT, SrcT
-			, std::enable_if_t< !IsSameV< DstT, SrcT > > >
+			, std::enable_if_t< isSameComponentCountV< DstT, SrcT > && !IsSameV< DstT, SrcT > > >
 		{
 			static inline DstT cast( ShaderWriter & writer
 				, SrcT const & from )
@@ -138,12 +145,6 @@ namespace sdw
 	}
 
 	template< typename DestT >
-	inline DestT ShaderWriter::cast( Value const & from )
-	{
-		return details::Cast< DestT, Value >::cast( *this, from );
-	}
-
-	template< typename DestT >
 	inline DestT ShaderWriter::cast( int32_t from )
 	{
 		return details::Cast< DestT, int32_t >::cast( *this, from );
@@ -165,6 +166,12 @@ namespace sdw
 	inline DestT ShaderWriter::cast( double from )
 	{
 		return details::Cast< DestT, double >::cast( *this, from );
+	}
+
+	template< typename DestT, typename SourceT >
+	inline DestT ShaderWriter::cast( SourceT const & from )
+	{
+		return details::Cast< DestT, SourceT >::cast( *this, from );
 	}
 	/**@}*/
 #pragma endregion
