@@ -1018,6 +1018,12 @@ namespace sdw
 	template< typename T, typename U >
 	static bool constexpr IsSameV = std::is_same< T, U >::value;
 
+	template< typename T, typename U >
+	static bool constexpr IsSameSizeV = ( TypeTraits< T >::Size == TypeTraits< U >::Size );
+
+	template< typename T, typename U >
+	static bool constexpr isSameComponentCountV = ( TypeTraits< T >::ComponentCount == TypeTraits< U >::ComponentCount );
+
 	template< typename T >
 	static bool constexpr hasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
 

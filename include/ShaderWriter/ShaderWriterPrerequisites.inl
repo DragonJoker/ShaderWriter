@@ -10,6 +10,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVoid;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 0;
 		using CppType = void;
 	};
 	
@@ -18,6 +20,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBoolean;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 1;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = bool;
 	};
 
@@ -26,6 +30,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 4;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = int32_t;
 	};
 
@@ -34,6 +40,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 4;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = uint32_t;
 	};
 
@@ -42,6 +50,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 4;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = float;
 	};
 
@@ -50,63 +60,44 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eDouble;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 8;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = double;
 	};
 
 	template<>
-	struct TypeTraits< Void >
+	struct TypeTraits< Void > : TypeTraits< void >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVoid;
-		static bool constexpr HasArithmeticOperators = false;
-		using CppType = void;
 	};
 
 	template<>
-	struct TypeTraits< Boolean >
+	struct TypeTraits< Boolean > : TypeTraits< bool >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eBoolean;
-		static bool constexpr HasArithmeticOperators = false;
-		using CppType = bool;
 	};
 
 	template<>
-	struct TypeTraits< ArithmeticValue< ast::type::Kind::eInt > >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eInt > > : TypeTraits< int32_t >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = int32_t;
 	};
 
 	template<>
-	struct TypeTraits< ArithmeticValue< ast::type::Kind::eUInt > >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eUInt > > : TypeTraits< uint32_t >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = uint32_t;
 	};
 
 	template<>
-	struct TypeTraits< IntegerValue< ast::type::Kind::eInt > >
+	struct TypeTraits< IntegerValue< ast::type::Kind::eInt > > : TypeTraits< int32_t >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eInt;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = int32_t;
 	};
 
 	template<>
-	struct TypeTraits< IntegerValue< ast::type::Kind::eUInt > >
+	struct TypeTraits< IntegerValue< ast::type::Kind::eUInt > > : TypeTraits< uint32_t >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = uint32_t;
 	};
 
 	template<>
-	struct TypeTraits< ArithmeticValue< ast::type::Kind::eFloat > >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eFloat > > : TypeTraits< float >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = float;
 	};
 
 	template<>
@@ -114,15 +105,14 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eHalf;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 2;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = float;
 	};
 
 	template<>
-	struct TypeTraits< ArithmeticValue< ast::type::Kind::eDouble > >
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eDouble > > : TypeTraits< double >
 	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eDouble;
-		static bool constexpr HasArithmeticOperators = true;
-		using CppType = double;
 	};
 
 	template<>
@@ -130,6 +120,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2B;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 2;
+		static size_t constexpr ComponentCount = 2;
 		using CppType = bool;
 	};
 
@@ -138,6 +130,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3B;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 3;
+		static size_t constexpr ComponentCount = 3;
 		using CppType = bool;
 	};
 
@@ -146,6 +140,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4B;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 4;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = bool;
 	};
 
@@ -154,6 +150,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2I;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 8;
+		static size_t constexpr ComponentCount = 2;
 		using CppType = int32_t;
 	};
 
@@ -162,6 +160,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3I;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 12;
+		static size_t constexpr ComponentCount = 3;
 		using CppType = int32_t;
 	};
 
@@ -170,6 +170,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4I;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 16;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = int32_t;
 	};
 
@@ -178,6 +180,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2U;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 8;
+		static size_t constexpr ComponentCount = 2;
 		using CppType = uint32_t;
 	};
 
@@ -186,6 +190,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3U;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 12;
+		static size_t constexpr ComponentCount = 3;
 		using CppType = uint32_t;
 	};
 
@@ -194,6 +200,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4U;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 16;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = uint32_t;
 	};
 
@@ -202,6 +210,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2F;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 8;
+		static size_t constexpr ComponentCount = 2;
 		using CppType = float;
 	};
 
@@ -210,6 +220,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3F;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 12;
+		static size_t constexpr ComponentCount = 3;
 		using CppType = float;
 	};
 
@@ -218,6 +230,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4F;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 16;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = float;
 	};
 
@@ -226,6 +240,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2H;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 4;
+		static size_t constexpr ComponentCount = 2;
 		using CppType = float;
 	};
 
@@ -234,6 +250,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4H;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 8;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = float;
 	};
 
@@ -242,6 +260,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2D;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 16;
+		static size_t constexpr ComponentCount = 2;
 		using CppType = double;
 	};
 
@@ -250,6 +270,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3D;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 24;
+		static size_t constexpr ComponentCount = 3;
 		using CppType = double;
 	};
 
@@ -258,6 +280,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4D;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 32;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = double;
 	};
 
@@ -266,6 +290,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x2F;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 16;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = float;
 	};
 
@@ -274,6 +300,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x3F;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 24;
+		static size_t constexpr ComponentCount = 6;
 		using CppType = float;
 	};
 
@@ -282,6 +310,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x4F;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 32;
+		static size_t constexpr ComponentCount = 8;
 		using CppType = float;
 	};
 
@@ -290,6 +320,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x3F;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 36;
+		static size_t constexpr ComponentCount = 9;
 		using CppType = float;
 	};
 
@@ -298,6 +330,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x2F;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 24;
+		static size_t constexpr ComponentCount = 6;
 		using CppType = float;
 	};
 
@@ -306,6 +340,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x4F;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 48;
+		static size_t constexpr ComponentCount = 12;
 		using CppType = float;
 	};
 
@@ -314,6 +350,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x4F;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 64;
+		static size_t constexpr ComponentCount = 16;
 		using CppType = float;
 	};
 
@@ -322,6 +360,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x2F;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 32;
+		static size_t constexpr ComponentCount = 8;
 		using CppType = float;
 	};
 
@@ -330,6 +370,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x3F;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 48;
+		static size_t constexpr ComponentCount = 12;
 		using CppType = float;
 	};
 
@@ -338,6 +380,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x2D;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 32;
+		static size_t constexpr ComponentCount = 4;
 		using CppType = double;
 	};
 
@@ -346,6 +390,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x3D;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 48;
+		static size_t constexpr ComponentCount = 6;
 		using CppType = double;
 	};
 
@@ -354,6 +400,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat2x4D;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 64;
+		static size_t constexpr ComponentCount = 8;
 		using CppType = double;
 	};
 
@@ -362,6 +410,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x3D;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 72;
+		static size_t constexpr ComponentCount = 9;
 		using CppType = double;
 	};
 
@@ -370,6 +420,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x2D;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 48;
+		static size_t constexpr ComponentCount = 6;
 		using CppType = double;
 	};
 
@@ -378,6 +430,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat3x4D;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 96;
+		static size_t constexpr ComponentCount = 12;
 		using CppType = double;
 	};
 
@@ -386,6 +440,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x4D;
 		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 128;
+		static size_t constexpr ComponentCount = 16;
 		using CppType = double;
 	};
 
@@ -394,6 +450,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x2D;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 64;
+		static size_t constexpr ComponentCount = 8;
 		using CppType = double;
 	};
 
@@ -402,6 +460,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eMat4x3D;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 96;
+		static size_t constexpr ComponentCount = 12;
 		using CppType = double;
 	};
 
@@ -410,6 +470,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eStruct;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = void;
 	};
 
@@ -418,6 +480,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eSampledImage;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = void;
 	};
 
@@ -426,6 +490,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eSampler;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = void;
 	};
 
@@ -434,6 +500,8 @@ namespace sdw
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eImage;
 		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
 		using CppType = void;
 	};
 
@@ -443,6 +511,8 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = false;
 		using CppType = typename TypeTraits< T >::CppType;
+		static size_t constexpr Size = TypeTraits< T >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
 	};
 
 	template< typename T >
@@ -451,6 +521,8 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
 		using CppType = typename TypeTraits< T >::CppType;
+		static size_t constexpr Size = TypeTraits< T >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
 	};
 
 	template< typename T >
@@ -459,6 +531,8 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
 		using CppType = typename TypeTraits< T >::CppType;
+		static size_t constexpr Size = TypeTraits< T >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
 	};
 
 	template< typename T >
@@ -467,6 +541,8 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
 		using CppType = typename TypeTraits< T >::CppType;
+		static size_t constexpr Size = TypeTraits< T >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
 	};
 
 	template< typename ValueT >
@@ -475,6 +551,8 @@ namespace sdw
 		static ast::type::Kind constexpr TypeEnum = TypeTraits< ValueT >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = TypeTraits< ValueT >::HasArithmeticOperators;
 		using CppType = typename TypeTraits< ValueT >::CppType;
+		static size_t constexpr Size = TypeTraits< ValueT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< ValueT >::ComponentCount;
 		using Type = ValueT;
 	};
 
