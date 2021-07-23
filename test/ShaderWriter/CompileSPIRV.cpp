@@ -240,8 +240,8 @@ namespace test
 		initGlobalLayerProperties( info );
 #ifndef NDEBUG
 		info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
-		info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
 #endif
+		info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
 
 		vkEnumerateInstanceVersion( &info.apiVersion );
 
@@ -519,7 +519,8 @@ namespace test
 		{
 			auto it = info.errors.front().find( testCounts.expectedError );
 
-			if ( it == std::string::npos )
+			if ( it == std::string::npos
+				|| testCounts.expectedError.empty() )
 			{
 				errors += info.errors.front() + "\n";
 				std::stringstream stream;
