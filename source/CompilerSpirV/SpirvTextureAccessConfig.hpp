@@ -563,6 +563,8 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexelFetchOffset2DRectU:
 		case ast::expr::TextureAccess::eTexelFetchOffset1DArrayU:
 		case ast::expr::TextureAccess::eTexelFetchOffset2DArrayU:
+			result = spv::ImageOperandsConstOffsetMask;
+			break;
 		case ast::expr::TextureAccess::eTextureGatherOffset2DF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:

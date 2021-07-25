@@ -1805,7 +1805,43 @@ namespace
 			, testCounts );
 		testEnd();
 	}
-}
+
+	void textureOffset( test::sdw_test::TestCounts & testCounts )
+	{
+		auto name = "textureOffset";
+		testBegin( name );
+		using namespace sdw;
+		{
+			FragmentWriter writer;
+			auto tex = writer.declInput< Vec2 >( "tex", 0u );
+			auto r = writer.declInput< Float >( "r", 1u );
+			auto d = writer.declInput< Vec2 >( "d", 2u );
+			auto s = writer.declSampledImage< FImg2DRgba32 >( "s", 0u, 0u );
+
+			auto SMAADetectHorizontalCornerPattern = writer.implementFunction< Void >( "SMAADetectHorizontalCornerPattern"
+				, [&]( SampledImage2DRgba32 const & edgesTex
+					, Vec2 const & weights
+					, Vec2 const & texcoord
+					, Vec2 const & d )
+				{
+				}
+				, InSampledImage2DRgba32{ writer, "edgesTex" }
+				, InVec2{ writer, "weights" }
+				, InVec2{ writer, "texcoord" }
+				, InVec2{ writer, "d" } );
+
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto factor = writer.declLocale( "factor"
+						, r * s.lod( tex, 0.0_f, ivec2( 0_i, -2_i ) ).r() );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+		}
+		testEnd();
+	}}
 
 sdwTestSuiteMain( TestWriterShader )
 {
@@ -1839,6 +1875,7 @@ sdwTestSuiteMain( TestWriterShader )
 	voxelToTexture( testCounts );
 	clipDistance( testCounts );
 	imageArray( testCounts );
+	textureOffset( testCounts );
 	sdwTestSuiteEnd();
 }
 

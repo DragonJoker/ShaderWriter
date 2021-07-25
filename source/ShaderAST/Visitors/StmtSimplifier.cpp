@@ -779,7 +779,7 @@ namespace ast
 						, -operand.getValue< expr::LiteralType::eInt >() );
 				case expr::LiteralType::eUInt:
 					return expr::makeLiteral( cache
-					, ~operand.getValue< expr::LiteralType::eUInt >() );
+						, ~operand.getValue< expr::LiteralType::eUInt >() );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, -operand.getValue< expr::LiteralType::eFloat >() );
@@ -1084,7 +1084,67 @@ namespace ast
 				}
 				else
 				{
-					m_result = ExprCloner::submit( expr );
+					switch ( expr->getKind() )
+					{
+					case expr::Kind::eAdd:
+						m_result = expr::makeAdd( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eBitAnd:
+						m_result = expr::makeBitAnd( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eBitOr:
+						m_result = expr::makeBitOr( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eBitXor:
+						m_result = expr::makeBitXor( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eDivide:
+						m_result = expr::makeDivide( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eLShift:
+						m_result = expr::makeLShift( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eMinus:
+						m_result = expr::makeMinus( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eModulo:
+						m_result = expr::makeModulo( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eRShift:
+						m_result = expr::makeRShift( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eTimes:
+						m_result = expr::makeTimes( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eLogAnd:
+						m_result = expr::makeLogAnd( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eLogOr:
+						m_result = expr::makeLogOr( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eLess:
+						m_result = expr::makeLess( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eLessEqual:
+						m_result = expr::makeLessEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eGreater:
+						m_result = expr::makeGreater( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eGreaterEqual:
+						m_result = expr::makeGreaterEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eEqual:
+						m_result = expr::makeEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					case expr::Kind::eNotEqual:
+						m_result = expr::makeNotEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						break;
+					default:
+						assert( false && "Unexpected binary expression" );
+						m_result = ExprCloner::submit( expr );
+						break;
+					}
 				}
 			}
 
