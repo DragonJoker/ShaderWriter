@@ -24,7 +24,7 @@ namespace ast::type
 	//*************************************************************************
 
 	size_t getHash( TypePtr returnType
-		, var::VariableList const & parameters )
+		, var::VariableList const & parameters )noexcept
 	{
 		size_t result = std::hash< TypePtr >{}( returnType );
 
@@ -40,7 +40,7 @@ namespace ast::type
 		return result;
 	}
 
-	bool operator==( Function const & lhs, Function const & rhs )
+	bool operator==( Function const & lhs, Function const & rhs )noexcept
 	{
 		auto result = static_cast< Type const & >( lhs ) == static_cast< Type const & >( rhs )
 			&& lhs.size() == rhs.size();

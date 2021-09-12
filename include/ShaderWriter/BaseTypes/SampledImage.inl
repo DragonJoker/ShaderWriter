@@ -1586,7 +1586,7 @@ namespace sdw
 			static_assert( TextureAccessT != expr::TextureAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
-			return ReturnT{ *findWriter( image, params... )
+			return ReturnT{ findWriterMandat( image, params... )
 				, expr::makeTextureAccessCall( ReturnT::makeType( cache )
 					, TextureAccessT
 					, makeExpr( image )
@@ -3625,7 +3625,7 @@ namespace sdw
 	SampledImage & SampledImage::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = *findWriter( *this, rhs );
+		auto & shader = findWriterMandat( *this, rhs );
 
 		if ( areOptionalEnabled( *this, rhs ) )
 		{

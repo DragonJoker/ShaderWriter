@@ -76,7 +76,7 @@ namespace ast::type
 	template< ImageFormat FormatT >
 	static Kind texelType = ImageFormatTraits< FormatT >::TexelType;
 
-	inline constexpr bool isFloatFormat( ImageFormat format )
+	inline constexpr bool isFloatFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eUnknown
 			|| format == ImageFormat::eRgba32f
@@ -87,7 +87,7 @@ namespace ast::type
 			|| format == ImageFormat::eR16f;
 	}
 
-	inline constexpr bool isSIntFormat( ImageFormat format )
+	inline constexpr bool isSIntFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eUnknown
 			|| format == ImageFormat::eRgba32i
@@ -101,7 +101,7 @@ namespace ast::type
 			|| format == ImageFormat::eR8i;
 	}
 
-	inline constexpr bool isUIntFormat( ImageFormat format )
+	inline constexpr bool isUIntFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eUnknown
 			|| format == ImageFormat::eRgba32u
@@ -115,7 +115,12 @@ namespace ast::type
 			|| format == ImageFormat::eR8u;
 	}
 
-	inline constexpr bool isSingleInt32Format( ImageFormat format )
+	inline constexpr bool isAtomicFloatFormat( ImageFormat format )noexcept
+	{
+		return format == ImageFormat::eR32f;
+	}
+
+	inline constexpr bool isSingleInt32Format( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eR32i
 			|| format == ImageFormat::eR32u;
@@ -130,7 +135,7 @@ namespace ast::type
 			, Trinary isSampled = Trinary::eFalse
 			, bool isArrayed = false
 			, bool isMS = false
-			, AccessKind accessKind = AccessKind::eRead );
+			, AccessKind accessKind = AccessKind::eRead )noexcept;
 
 		type::Kind sampledType;
 		ImageDim dimension;
@@ -142,7 +147,7 @@ namespace ast::type
 		AccessKind accessKind;
 	};
 
-	SDAST_API size_t getHash( type::ImageConfiguration const & config );
+	SDAST_API size_t getHash( type::ImageConfiguration const & config )noexcept;
 
 	template< ImageFormat FormatT
 		, AccessKind AccessT
@@ -151,11 +156,11 @@ namespace ast::type
 		, bool DepthT
 		, bool MsT >
 	inline ImageConfiguration makeConfig( bool sampled
-		, bool readOnly );
+		, bool readOnly )noexcept;
 
 	template< typename T >
 	inline size_t hashCombine( size_t & hash
-		, T const & rhs );
+		, T const & rhs )noexcept;
 }
 
 #define Img1D ast::type::ImageDim::e1D, false, false, false

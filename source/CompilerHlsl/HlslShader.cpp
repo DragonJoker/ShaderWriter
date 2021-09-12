@@ -14,19 +14,26 @@ namespace hlsl
 
 	void HlslShader::registerVariable( ast::var::VariablePtr var )
 	{
-		auto it = m_registered.find( var->getName() );
-		assert( it == m_registered.end() );
+#if !defined( NDEBUG )
+		auto ires = m_registered.emplace( var->getName(), var );
+		assert( ires.second );
+#else
 		m_registered.emplace( var->getName(), var );
+#endif
 	}
 
 	ast::var::VariablePtr HlslShader::registerName( std::string const & name
 		, ast::type::TypePtr type
 		, uint32_t flags )
 	{
-		auto it = m_registered.find( name );
-		assert( it == m_registered.end() );
-		it = m_registered.emplace( name, ast::var::makeVariable( type, name, flags ) ).first;
-		return it->second;
+		auto ires = m_registered.emplace( name, nullptr );
+
+		if ( ires.second )
+		{
+			ires.first->second = ast::var::makeVariable( type, name, flags );
+		}
+
+		return ires.first->second;
 	}
 
 	ast::var::VariablePtr HlslShader::registerName( std::string const & name

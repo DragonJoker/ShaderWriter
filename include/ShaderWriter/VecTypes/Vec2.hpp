@@ -42,24 +42,24 @@ namespace sdw
 
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
-		Writer_FirstSwizzle( Vec2Type, ValueType, x );
-		Writer_Swizzle( Vec2Type, ValueType, y );
-		Writer_Swizzle( Vec2Type, ValueType, s );
-		Writer_Swizzle( Vec2Type, ValueType, t );
-		Writer_Swizzle( Vec2Type, ValueType, r );
-		Writer_LastSwizzle( Vec2Type, ValueType, g );
-		Writer_FirstSwizzle( Vec2Type, Vec2Type, xy );
-		Writer_Swizzle( Vec2Type, Vec2Type, yx );
-		Writer_Swizzle( Vec2Type, Vec2Type, xx );
-		Writer_Swizzle( Vec2Type, Vec2Type, yy );
-		Writer_Swizzle( Vec2Type, ValueType, st );
-		Writer_Swizzle( Vec2Type, ValueType, ts );
-		Writer_Swizzle( Vec2Type, ValueType, ss );
-		Writer_Swizzle( Vec2Type, ValueType, tt );
-		Writer_Swizzle( Vec2Type, Vec2Type, rg );
-		Writer_Swizzle( Vec2Type, Vec2Type, gr );
-		Writer_Swizzle( Vec2Type, Vec2Type, rr );
-		Writer_LastSwizzle( Vec2Type, Vec2Type, gg );
+		Writer_FirstSwizzle( Vec2Type, ValueType, x )
+		Writer_Swizzle( Vec2Type, ValueType, y )
+		Writer_Swizzle( Vec2Type, ValueType, s )
+		Writer_Swizzle( Vec2Type, ValueType, t )
+		Writer_Swizzle( Vec2Type, ValueType, r )
+		Writer_LastSwizzle( Vec2Type, ValueType, g )
+		Writer_FirstSwizzle( Vec2Type, Vec2Type, xy )
+		Writer_Swizzle( Vec2Type, Vec2Type, yx )
+		Writer_Swizzle( Vec2Type, Vec2Type, xx )
+		Writer_Swizzle( Vec2Type, Vec2Type, yy )
+		Writer_Swizzle( Vec2Type, ValueType, st )
+		Writer_Swizzle( Vec2Type, ValueType, ts )
+		Writer_Swizzle( Vec2Type, ValueType, ss )
+		Writer_Swizzle( Vec2Type, ValueType, tt )
+		Writer_Swizzle( Vec2Type, Vec2Type, rg )
+		Writer_Swizzle( Vec2Type, Vec2Type, gr )
+		Writer_Swizzle( Vec2Type, Vec2Type, rr )
+		Writer_LastSwizzle( Vec2Type, Vec2Type, gg )
 	};
 
 	template< typename ValueT >

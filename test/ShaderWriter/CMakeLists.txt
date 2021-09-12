@@ -10,9 +10,6 @@ else ()
 	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" ON )
 endif ()
 
-set( SPIRV_CROSS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross )
-set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
-
 if ( SDW_TESTS_ENABLE_VALIDATION )
 	find_package( OpenGL )
 	find_package( Vulkan )
@@ -73,6 +70,8 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 	endif ()
 endif ()
 
+set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
+
 if ( NOT TARGET glslang )
 	set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
 	set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
@@ -88,12 +87,10 @@ if ( NOT TARGET glslang )
 	set_property( TARGET SPVRemapper PROPERTY FOLDER "glslang" )
 endif ()
 
-set( TEST_WRITER_COMMON_HEADER_FILES
-	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.hpp
+set( SPIRV_CROSS_DIR
+	${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross
+)
+set( SPIRV_CROSS_HEADER_FILES
 	${SPIRV_CROSS_DIR}/GLSL.std.450.h
 	${SPIRV_CROSS_DIR}/spirv_common.hpp
 	${SPIRV_CROSS_DIR}/spirv.hpp
@@ -104,12 +101,7 @@ set( TEST_WRITER_COMMON_HEADER_FILES
 	${SPIRV_CROSS_DIR}/spirv_glsl.hpp
 	${SPIRV_CROSS_DIR}/spirv_hlsl.hpp
 )
-set( TEST_WRITER_COMMON_SOURCE_FILES
-	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.cpp
+set( SPIRV_CROSS_SOURCE_FILES
 	${SPIRV_CROSS_DIR}/spirv_cross.cpp
 	${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.cpp
 	${SPIRV_CROSS_DIR}/spirv_parser.cpp
@@ -117,7 +109,39 @@ set( TEST_WRITER_COMMON_SOURCE_FILES
 	${SPIRV_CROSS_DIR}/spirv_glsl.cpp
 	${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
 )
+add_library( SdwSpirvCross
+	STATIC
+	${SPIRV_CROSS_HEADER_FILES}
+	${SPIRV_CROSS_SOURCE_FILES}
+)
+add_library( sdw::test::SpirvCross
+	ALIAS
+	SdwSpirvCross
+)
+target_include_directories( SdwSpirvCross
+	PUBLIC
+		${SPIRV_CROSS_DIR}
+)
+set_target_properties( SdwSpirvCross
+	PROPERTIES
+		CXX_STANDARD 17
+		FOLDER "Tests/ShaderWriter"
+)
 
+set( TEST_WRITER_COMMON_HEADER_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.hpp
+)
+set( TEST_WRITER_COMMON_SOURCE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.cpp
+)
 add_library( TestWriterCommon
 	STATIC
 	${TEST_WRITER_COMMON_HEADER_FILES}
@@ -138,6 +162,7 @@ target_link_libraries( TestWriterCommon
 		SPVRemapper
 		SPIRV
 		sdw::test::Common
+		sdw::test::SpirvCross
 		${TargetLinkLibraries}
 )
 target_compile_definitions( TestWriterCommon
@@ -146,9 +171,9 @@ target_compile_definitions( TestWriterCommon
 )
 target_include_directories( TestWriterCommon
 	PUBLIC
-		${SPIRV_CROSS_DIR}
 		${GLSLANG_DIR}
 )
+target_add_compilation_flags( TestWriterCommon )
 set_target_properties( TestWriterCommon
 	PROPERTIES
 		CXX_STANDARD 17
@@ -191,6 +216,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		${TargetCompileDefinitions}
 		SDW_COMPILE_TESTS
 	)
+	target_add_compilation_flags( ${TEST_NAME} )
 	set_target_properties( ${TEST_NAME} PROPERTIES
 		CXX_STANDARD 17
 		FOLDER "Tests/ShaderWriter"

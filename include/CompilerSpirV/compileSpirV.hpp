@@ -22,9 +22,16 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct SpirVConfig
+	{
+		uint32_t specVersion{ 0x00010100 };
+	};
+
 	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
+		, SpirVConfig config
 		, bool writeHeader = true );
-	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader );
+	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+		, SpirVConfig config );
 }
 
 #endif

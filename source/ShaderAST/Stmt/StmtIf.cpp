@@ -29,7 +29,7 @@ namespace ast::stmt
 	ElseIf * If::createElseIf( expr::ExprPtr ctrlExpr )
 	{
 		m_elseIfs.emplace_back( std::unique_ptr< ElseIf >( new ElseIf{ std::move( ctrlExpr ) } ) );
-		return static_cast< ElseIf * >( m_elseIfs.back().get() );
+		return m_elseIfs.back().get();
 	}
 
 	void If::accept( VisitorPtr vis )

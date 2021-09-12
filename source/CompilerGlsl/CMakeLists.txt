@@ -102,6 +102,7 @@ target_include_directories( ${PROJECT_NAME}
 		${INCLUDE_DIR}
 		${SOURCE_DIR}
 )
+target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}
 	SdwCompilers
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}

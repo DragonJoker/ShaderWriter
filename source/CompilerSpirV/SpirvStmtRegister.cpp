@@ -19,48 +19,6 @@ namespace spirv
 {
 	namespace
 	{
-		ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
-			, ast::type::Kind kind )
-		{
-			using ast::type::Kind;
-			switch ( kind )
-			{
-			case Kind::eInt:
-				return ast::expr::makeLiteral( cache, 0 );
-			case Kind::eUInt:
-				return ast::expr::makeLiteral( cache, 0u );
-			case Kind::eHalf:
-			case Kind::eFloat:
-				return ast::expr::makeLiteral( cache, 0.0f );
-			case Kind::eDouble:
-				return ast::expr::makeLiteral( cache, 0.0 );
-			default:
-				assert( false && "Unsupported type kind for 0 literal" );
-				return nullptr;
-			}
-		}
-
-		ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
-			, ast::type::Kind kind )
-		{
-			using ast::type::Kind;
-			switch ( kind )
-			{
-			case Kind::eInt:
-				return ast::expr::makeLiteral( cache, 1 );
-			case Kind::eUInt:
-				return ast::expr::makeLiteral( cache, 1u );
-			case Kind::eHalf:
-			case Kind::eFloat:
-				return ast::expr::makeLiteral( cache, 1.0f );
-			case Kind::eDouble:
-				return ast::expr::makeLiteral( cache, 1.0 );
-			default:
-				assert( false && "Unsupported type kind for 0 literal" );
-				return nullptr;
-			}
-		}
-
 		IdList getDecorations( uint32_t binding
 			, uint32_t set
 			, bool isBufferBlock = false )
@@ -107,7 +65,7 @@ namespace spirv
 
 		IdList getDecorations( uint32_t location )
 		{
-			return { spv::Id( spv::DecorationSpecId ), spv::Id( location ) };
+			return { spv::Id( spv::DecorationSpecId ), location };
 		}
 
 		ast::var::VariablePtr makeVar( ast::type::TypesCache & cache
@@ -139,25 +97,6 @@ namespace spirv
 
 			return result;
 		}
-
-		bool needsAlias( ast::expr::Kind kind
-			, bool uniform
-			, bool param )
-		{
-			using ast::expr::Kind;
-			return ( uniform || kind != Kind::eIdentifier )
-				&& ( param || kind != Kind::eMbrSelect )
-				&& ( param || kind != Kind::eLiteral )
-				&& ( param || kind != Kind::eSwizzle );
-		}
-
-		bool isShaderVariable( ast::expr::Expr const & expr )
-		{
-			return expr.getKind() == ast::expr::Kind::eIdentifier
-				&& ( static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isUniform()
-					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderInput()
-					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
-		}
 	}
 
 	//*************************************************************************
@@ -170,7 +109,8 @@ namespace spirv
 		, m_cache{ cache }
 		, m_currentId{ &currentId }
 	{
-		doUpdateVars( &m_globalVars );
+		m_currentBlock = moduleStruct.globalScope.get();
+		doUpdateVars( m_currentBlock->allVars );
 	}
 
 	uint32_t StmtRegister::ModuleStructBuilder::getNextId()
@@ -183,14 +123,15 @@ namespace spirv
 	void StmtRegister::ModuleStructBuilder::beginBlock( BlockType type )
 	{
 		++scopeCurrentLevel;
-		m_currentBlock = { type };
-		m_allVars = m_currentBlock.allVars;
+		auto ires = m_moduleStruct.functionScopes.emplace( getNextId()
+			, std::make_unique< BlockStruct >( type ) );
+		m_currentBlock = ires.first->second.get();
+		doUpdateVars( m_currentBlock->allVars );
+		m_allVars = m_currentBlock->allVars;
 	}
 
 	void StmtRegister::ModuleStructBuilder::endBlock()
 	{
-		m_moduleStruct.functionScopes.emplace( getNextId()
-			, std::move( m_currentBlock ) );
 		--scopeCurrentLevel;
 	}
 
@@ -213,7 +154,7 @@ namespace spirv
 		if ( it == m_allVars->end() )
 		{
 			m_allVars->push_back( var );
-			it = m_allVars->begin() + ( m_allVars->size() - 1u );
+			it = m_allVars->begin() + ptrdiff_t( m_allVars->size() - 1u );
 
 			if ( var->var->isMember() )
 			{
@@ -243,7 +184,7 @@ namespace spirv
 			doRegisterUse( use );
 		}
 
-		m_currentBlock.usages.emplace_back( std::move( usage ) );
+		m_currentBlock->usages.emplace_back( std::move( usage ) );
 	}
 
 	void StmtRegister::ModuleStructBuilder::registerUsages( VarUsageArray usages )
@@ -270,91 +211,26 @@ namespace spirv
 		, ast::expr::ExprPtr & aliasExpr
 		, VariablePtr & alias )
 	{
-		if ( !needsAlias( expr->getKind()
-			, isShaderVariable( *expr )
-			, param ) )
+		ast::var::VariablePtr aliasVar;
+		auto result = spirv::makeAlias( container
+			, std::move( expr )
+			, param
+			, aliasExpr
+			, aliasVar
+			, *m_currentId );
+
+		if ( result )
 		{
-			aliasExpr = std::move( expr );
-			return false;
+			alias = std::make_shared< Variable >( aliasVar, IdList{} );
 		}
 
-		auto kind = getNonArrayKind( expr->getType() );
-		auto aliasVar = ast::var::makeVariable( expr->getType()
-			, "tmp_" + std::to_string( *m_currentId )
-			, ast::var::Flag::eImplicit );
-		alias = std::make_shared< Variable >( aliasVar, IdList{} );
-
-		if ( isSamplerType( kind )
-			|| isSampledImageType( kind )
-			|| isImageType( kind ) )
-		{
-			alias->var->updateFlag( ast::var::Flag::eConstant );
-		}
-		else
-		{
-			alias->var->updateFlag( ast::var::Flag::eLocale );
-		}
-
-		auto type = expr->getType();
-		container->addStmt( ast::stmt::makeSimple( ast::expr::makeAlias( type
-			, ast::expr::makeIdentifier( m_cache, alias->var )
-			, std::move( expr ) ) ) );
-		aliasExpr = ast::expr::makeIdentifier( m_cache, alias->var );
-		return true;
+		return result;
 	}
-
-	//VariablePtr StmtRegister::ModuleStructBuilder::makeAlias( ast::expr::Expr * expr )
-	//{
-	//	auto idents = ast::listIdentifiers( expr );
-	//	VarUsage used;
-
-	//	for ( auto & ident : idents )
-	//	{
-	//		VariablePtr var = std::make_shared< Variable >( ident->getVariable()
-	//			, IdList{} );
-	//		doRegisterVar( var );
-	//		used.use.push_back( var );
-	//	}
-
-	//	auto result = std::make_shared< Variable >( ast::var::makeVariable( expr->getType()
-	//			, "tmp_" + std::to_string( getNextId() )
-	//			, ast::var::Flag::eImplicit )
-	//		, IdList{} );
-	//	doRegisterVar( result );
-	//	used.set = result;
-	//	registerUsage( std::move( used ) );
-	//	return result;
-	//}
 
 	void StmtRegister::ModuleStructBuilder::endFunction( ast::stmt::Container * container
 		, ast::type::FunctionPtr funcType )
 	{
 		endBlock();
-
-		//if ( funcType->getKind() != ast::type::Kind::eVoid )
-		//{
-		//	ast::expr::ExprPtr aliasExpr;
-		//	VariablePtr aliasVar;
-		//	if ( makeAlias( container
-		//		, 
-		//		, false
-		//		, aliasExpr
-		//		, aliasVar ) )
-		//	{
-		//		VarUsage used;
-		//		used.use = { set };
-		//		used.set = {};
-		//		registerUsage( std::move( used ) );
-		//	}
-
-		//	auto alias = ast::expr::makeAlias( funcType->getReturnType()
-		//		, ast::expr::makeIdentifier( 
-		//			, ast::var::makeVariable( funcType->getReturnType()
-		//				, "tmp_" + std::to_string( *m_currentId )
-		//				, ast::var::Flag::eImplicit ) )
-		//		, ast::expr::makeIdentifier() );
-		//	makeAlias( funcType->g );
-		//}
 	}
 
 	void StmtRegister::ModuleStructBuilder::doRegisterVar( VariablePtr var )
@@ -370,7 +246,6 @@ namespace spirv
 	void StmtRegister::ModuleStructBuilder::doUpdateVars( VariableArray * vars )
 	{
 		m_allVars = vars;
-		m_moduleStruct.globalScope.allVars = vars;
 	}
 
 	//*************************************************************************
@@ -516,22 +391,27 @@ namespace spirv
 			m_builder.registerType( expr->getOperand()->getType() );
 			auto dstScalarType = getScalarType( expr->getType()->getKind() );
 			auto srcScalarType = getScalarType( expr->getOperand()->getType()->getKind() );
+#if !defined( NDEBUG )
 			auto dstComponents = getComponentCount( expr->getType()->getKind() );
 			auto srcComponents = getComponentCount( expr->getOperand()->getType()->getKind() );
+#endif
 
 			if ( dstScalarType == ast::type::Kind::eBoolean
 				&& srcScalarType != ast::type::Kind::eBoolean )
 			{
 				// Conversion to bool scalar or vector type.
 				assert( dstComponents == srcComponents );
-				m_result = doWriteToBoolCast( expr->getOperand() );
+				m_result = makeToBoolCast( m_cache
+					, doSubmit( expr->getOperand() ) );
 			}
 			else if ( srcScalarType == ast::type::Kind::eBoolean
 				&& dstScalarType != ast::type::Kind::eBoolean )
 			{
 				// Conversion from bool scalar or vector type.
 				assert( dstComponents == srcComponents );
-				m_result = doWriteFromBoolCast( expr->getOperand() );
+				m_result = makeFromBoolCast( m_cache
+					, doSubmit( expr->getOperand() )
+					, dstScalarType );
 			}
 			else
 			{
@@ -607,10 +487,10 @@ namespace spirv
 					if ( arg->getKind() == ast::expr::Kind::eArrayAccess )
 					{
 						VariablePtr alias;
-						auto expr = doSubmit( arg.get() );
+						auto tmp = doSubmit( arg.get() );
 						ast::expr::ExprPtr aliasExpr;
 
-						if ( m_builder.makeAlias( m_container, std::move( expr ), true, aliasExpr, alias ) )
+						if ( m_builder.makeAlias( m_container, std::move( tmp ), true, aliasExpr, alias ) )
 						{
 							m_builder.registerVar( std::make_shared< Variable >( ast::findIdentifier( aliasExpr )->getVariable(), IdList{} ) );
 							auto argIdent = ast::findIdentifier( arg, kind, ast::var::Flag::eUniform );
@@ -656,9 +536,9 @@ namespace spirv
 				else
 				{
 					VariablePtr alias;
-					ast::expr::ExprPtr expr;
-					m_builder.makeAlias( m_container, doSubmit( arg.get() ), true, expr, alias );
-					args.emplace_back( std::move( expr ) );
+					ast::expr::ExprPtr tmp;
+					m_builder.makeAlias( m_container, doSubmit( arg.get() ), true, tmp, alias );
+					args.emplace_back( std::move( tmp ) );
 
 					if ( param->isOutputParam()
 						&& alias )
@@ -1040,7 +920,7 @@ namespace spirv
 			case 3:
 				composite = ast::expr::CompositeType::eVec3;
 				break;
-			case 4:
+			default:
 				composite = ast::expr::CompositeType::eVec4;
 				break;
 			}
@@ -1216,7 +1096,7 @@ namespace spirv
 			for ( auto i = 0u; i < count; ++i )
 			{
 				args.emplace_back( ast::expr::makeSwizzle( doSubmit( newArg.get() )
-					, ast::expr::SwizzleKind( ast::expr::SwizzleKind::fromOffset( i ) ) ) );
+					, ast::expr::SwizzleKind::fromOffset( i ) ) );
 			}
 
 			if ( newArg->getType()->getKind() != expr->getType()->getKind() )
@@ -1342,71 +1222,6 @@ namespace spirv
 			}
 		}
 
-		ast::expr::ExprPtr doWriteToBoolCast( ast::expr::Expr * expr )
-		{
-			auto componentCount = getComponentCount( expr->getType()->getKind() );
-			ast::expr::ExprPtr result;
-
-			if ( componentCount == 1u )
-			{
-				result = ast::expr::makeNotEqual( m_cache
-					, doSubmit( expr )
-					, makeZero( m_cache, expr->getType()->getKind() ) );
-			}
-			else
-			{
-				ast::expr::ExprList args;
-				auto newExpr = doSubmit( expr );
-
-				for ( auto i = 0u; i < componentCount; ++i )
-				{
-					args.emplace_back( ast::expr::makeNotEqual( m_cache
-						, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-						, makeZero( m_cache, expr->getType()->getKind() ) ) );
-				}
-
-				result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
-					, ast::type::Kind::eBoolean
-					, std::move( args ) );
-			}
-
-			return result;
-		}
-
-		ast::expr::ExprPtr doWriteFromBoolCast( ast::expr::Expr * expr )
-		{
-			auto componentCount = getComponentCount( expr->getType()->getKind() );
-			ast::expr::ExprPtr result;
-
-			if ( componentCount == 1u )
-			{
-				result = ast::expr::makeQuestion( expr->getType()
-					, doSubmit( expr )
-					, makeOne( m_cache, expr->getType()->getKind() )
-					, makeZero( m_cache, expr->getType()->getKind() ) );
-			}
-			else
-			{
-				ast::expr::ExprList args;
-				auto newExpr = doSubmit( expr );
-				auto type = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
-
-				for ( auto i = 0u; i < componentCount; ++i )
-				{
-					args.emplace_back( ast::expr::makeQuestion( type
-						, ast::expr::makeSwizzle( doSubmit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-						, makeOne( m_cache, type->getKind() )
-						, makeZero( m_cache, type->getKind() ) ) );
-				}
-
-				result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
-					, type->getKind()
-					, std::move( args ) );
-			}
-
-			return result;
-		}
-
 	private:
 		ast::stmt::Container * m_container;
 		StmtRegister::ModuleStructBuilder & m_builder;
@@ -1421,7 +1236,7 @@ namespace spirv
 		, ast::type::TypesCache & cache
 		, ModuleStruct & moduleStruct )
 	{
-		ast::stmt::ContainerPtr result;
+		auto result = ast::stmt::makeContainer();
 		ModuleStructBuilder builder
 		{
 			result,

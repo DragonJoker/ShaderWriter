@@ -8,6 +8,8 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 
+#pragma warning( disable: 4706 )
+
 namespace spirv
 {
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
@@ -28,7 +30,7 @@ namespace spirv
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_current, m_context, m_config );
+		return ExprAdapter::submit( expr, m_current, m_context, m_config, m_currentId );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -44,7 +46,12 @@ namespace spirv
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )
 	{
 		auto save = m_current;
-		auto cont = ast::stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
+		auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
+		auto & cache = ctrlExpr->getCache();
+		auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
+		auto cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
+			? makeToBoolCast( cache, std::move( ctrlExpr ) )
+			: std::move( ctrlExpr ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -74,7 +81,11 @@ namespace spirv
 			{
 				auto elseStmt = currentIf->createElse();
 				auto & elseIf = *it;
-				cont = ast::stmt::makeIf( doSubmit( elseIf->getCtrlExpr() ) );
+				ctrlExpr = doSubmit( elseIf->getCtrlExpr() );
+				scalarType = getScalarType( ctrlExpr->getType()->getKind() );
+				cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
+					? makeToBoolCast( cache, std::move( ctrlExpr ) )
+					: std::move( ctrlExpr ) );
 				m_current = cont.get();
 				visitContainerStmt( elseIf.get() );
 				m_current = save;
@@ -121,7 +132,7 @@ namespace spirv
 		{
 			if ( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
 			{
-				auto init = reinterpret_cast< ast::expr::Init * >( stmt->getExpr() );
+				auto init = static_cast< ast::expr::Init * >( stmt->getExpr() );
 				auto ident = init->getIdentifier();
 
 				if ( ident )

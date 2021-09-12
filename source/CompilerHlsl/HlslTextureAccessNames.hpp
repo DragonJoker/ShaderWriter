@@ -7,7 +7,10 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Expr/EnumTextureAccess.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <string>
+#pragma warning( pop )
 
 namespace hlsl
 {

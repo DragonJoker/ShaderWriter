@@ -26,6 +26,7 @@ namespace spirv
 	{
 	public:
 		SDWSPIRV_API Module( ast::type::TypesCache & cache
+			, SpirVConfig const & spirvConfig
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
 		SDWSPIRV_API Module( Header const & header

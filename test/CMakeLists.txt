@@ -30,6 +30,11 @@ if ( NOT WIN32 )
 			pthread
 	)
 endif ()
+target_include_directories( TestCommon
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_add_compilation_flags( TestCommon )
 set_target_properties( TestCommon
 	PROPERTIES
 		CXX_STANDARD 17

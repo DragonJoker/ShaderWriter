@@ -139,7 +139,7 @@ namespace sdw
 	{
 		doPopScope();
 		addStmt( std::move( m_currentStmts.back() ) );
-		m_currentStmts.erase( m_currentStmts.begin() + m_currentStmts.size() - 1u );
+		m_currentStmts.erase( m_currentStmts.begin() + ptrdiff_t( m_currentStmts.size() - 1u ) );
 	}
 
 	void ShaderWriter::saveNextExpr()

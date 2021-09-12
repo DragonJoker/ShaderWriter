@@ -10,6 +10,104 @@ See LICENSE file in root folder
 
 namespace glsl
 {
+	namespace
+	{
+		std::string getName( ast::type::ImageDim value )
+		{
+			std::string result;
+
+			switch ( value )
+			{
+			case ast::type::ImageDim::e1D:
+				result = "1D";
+				break;
+			case ast::type::ImageDim::e2D:
+				result = "2D";
+				break;
+			case ast::type::ImageDim::e3D:
+				result = "3D";
+				break;
+			case ast::type::ImageDim::eCube:
+				result = "Cube";
+				break;
+			case ast::type::ImageDim::eRect:
+				result = "2DRect";
+				break;
+			case ast::type::ImageDim::eBuffer:
+				result = "Buffer";
+				break;
+			default:
+				assert( false && "Unsupported ast::type::ImageDim" );
+				result = "Undefined";
+				break;
+			}
+
+			return result;
+		}
+
+		std::string getTypeName( ast::type::ImagePtr type )
+		{
+			std::string result;
+			auto & config = type->getConfig();
+			result += "image";
+			result += getName( config.dimension );
+
+			if ( config.isArrayed )
+			{
+				result += "Array";
+			}
+
+			if ( config.isDepth == ast::type::Trinary::eTrue )
+			{
+				assert( config.isSampled == ast::type::Trinary::eTrue );
+				result += "Shadow";
+			}
+
+			return result;
+		}
+
+		std::string getTypeName( ast::type::SampledImagePtr type )
+		{
+			std::string result;
+			auto config = type->getConfig();
+			result += "sampler";
+			result += getName( config.dimension );
+
+			if ( config.isArrayed )
+			{
+				result += "Array";
+			}
+
+			if ( config.isDepth == ast::type::Trinary::eTrue )
+			{
+				assert( config.isSampled == ast::type::Trinary::eTrue );
+				result += "Shadow";
+			}
+
+			return result;
+		}
+
+		std::string getTypeArraySize( ast::type::ArrayPtr type )
+		{
+			std::string result;
+			auto arraySize = getArraySize( type );
+
+			if ( arraySize != ast::type::NotArray )
+			{
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					result += "[]";
+				}
+				else
+				{
+					result += "[" + std::to_string( arraySize ) + "]";
+				}
+			}
+
+			return glsl::getTypeArraySize( type->getType() ) + result;
+		}
+	}
+
 	std::string getTypeName( ast::type::Kind kind )
 	{
 		std::string result;
@@ -166,81 +264,6 @@ namespace glsl
 		return result;
 	}
 
-	std::string getName( ast::type::ImageDim value )
-	{
-		std::string result;
-
-		switch ( value )
-		{
-		case ast::type::ImageDim::e1D:
-			result = "1D";
-			break;
-		case ast::type::ImageDim::e2D:
-			result = "2D";
-			break;
-		case ast::type::ImageDim::e3D:
-			result = "3D";
-			break;
-		case ast::type::ImageDim::eCube:
-			result = "Cube";
-			break;
-		case ast::type::ImageDim::eRect:
-			result = "2DRect";
-			break;
-		case ast::type::ImageDim::eBuffer:
-			result = "Buffer";
-			break;
-		default:
-			assert( false && "Unsupported ast::type::ImageDim" );
-			result = "Undefined";
-			break;
-		}
-
-		return result;
-	}
-
-	std::string getTypeName( ast::type::ImagePtr type )
-	{
-		std::string result;
-		auto & config = type->getConfig();
-		result += "image";
-		result += getName( config.dimension );
-
-		if ( config.isArrayed )
-		{
-			result += "Array";
-		}
-
-		if ( config.isDepth == ast::type::Trinary::eTrue )
-		{
-			assert( config.isSampled == ast::type::Trinary::eTrue );
-			result += "Shadow";
-		}
-
-		return result;
-	}
-
-	std::string getTypeName( ast::type::SampledImagePtr type )
-	{
-		std::string result;
-		auto config = type->getConfig();
-		result += "sampler";
-		result += getName( config.dimension );
-
-		if ( config.isArrayed )
-		{
-			result += "Array";
-		}
-
-		if ( config.isDepth == ast::type::Trinary::eTrue )
-		{
-			assert( config.isSampled == ast::type::Trinary::eTrue );
-			result += "Shadow";
-		}
-
-		return result;
-	}
-
 	std::string getTypeName( ast::type::TypePtr type )
 	{
 		std::string result;
@@ -265,28 +288,6 @@ namespace glsl
 		}
 
 		return result;
-	}
-
-	std::string getTypeArraySize( ast::type::TypePtr type );
-
-	std::string getTypeArraySize( ast::type::ArrayPtr type )
-	{
-		std::string result;
-		auto arraySize = getArraySize( type );
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				result += "[]";
-			}
-			else
-			{
-				result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
-		return getTypeArraySize( type->getType() ) + result;
 	}
 
 	std::string getTypeArraySize( ast::type::TypePtr type )

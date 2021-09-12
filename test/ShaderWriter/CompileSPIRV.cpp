@@ -61,50 +61,6 @@ namespace test
 			return is;
 		}
 
-		uint32_t getSize( VkFormat format )
-		{
-			switch ( format )
-			{
-			case VK_FORMAT_R8_UNORM:
-				return 1u;
-			case VK_FORMAT_R16_SFLOAT:
-			case VK_FORMAT_R8G8_UNORM:
-				return 2u;
-			case VK_FORMAT_R8G8B8_UNORM:
-				return 3u;
-			case VK_FORMAT_R32_SINT:
-			case VK_FORMAT_R32_UINT:
-			case VK_FORMAT_R32_SFLOAT:
-			case VK_FORMAT_R8G8B8A8_UNORM:
-			case VK_FORMAT_R16G16_SFLOAT:
-				return 4u;
-			case VK_FORMAT_R16G16B16_SFLOAT:
-				return 6u;
-			case VK_FORMAT_R64_SFLOAT:
-			case VK_FORMAT_R32G32_SINT:
-			case VK_FORMAT_R32G32_UINT:
-			case VK_FORMAT_R16G16B16A16_SFLOAT:
-			case VK_FORMAT_R32G32_SFLOAT:
-				return 8u;
-			case VK_FORMAT_R32G32B32_SINT:
-			case VK_FORMAT_R32G32B32_UINT:
-			case VK_FORMAT_R32G32B32_SFLOAT:
-				return 12u;
-			case VK_FORMAT_R32G32B32A32_SINT:
-			case VK_FORMAT_R32G32B32A32_UINT:
-			case VK_FORMAT_R32G32B32A32_SFLOAT:
-			case VK_FORMAT_R64G64_SFLOAT:
-				return 16u;
-			case VK_FORMAT_R64G64B64_SFLOAT:
-				return 24u;
-			case VK_FORMAT_R64G64B64A64_SFLOAT:
-				return 32u;
-			default:
-				assert( false && "Unsupported VkFormat for a vertex attribute." );
-				return 4u;
-			}
-		}
-
 		VkBool32 VKAPI_CALL dbgFunc( VkDebugReportFlagsEXT msgFlags
 			, VkDebugReportObjectTypeEXT objType
 			, uint64_t srcObject
@@ -233,224 +189,246 @@ namespace test
 
 			return res;
 		}
-	}
 
-	bool createInstance( Info & info )
-	{
-		initGlobalLayerProperties( info );
-#ifndef NDEBUG
-		info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
-#endif
-		info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
-
-		vkEnumerateInstanceVersion( &info.apiVersion );
-
-		// initialize the VkApplicationInfo structure
-		VkApplicationInfo appInfo = {};
-		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pNext = nullptr;
-		appInfo.pApplicationName = "Test";
-		appInfo.applicationVersion = 1;
-		appInfo.pEngineName = "Test";
-		appInfo.engineVersion = 1;
-
-		if ( info.apiVersion >= VK_MAKE_VERSION( 1, 1, 0 ) )
+		bool createInstance( Info & info )
 		{
-			appInfo.apiVersion = VK_MAKE_VERSION( 1, 1, 0 );
-		}
-		else
-		{
-			appInfo.apiVersion = VK_MAKE_VERSION( 1, 0, 0 );
-		}
+			initGlobalLayerProperties( info );
+	#ifndef NDEBUG
+			info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
+	#endif
+			info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
+			info.instance_extension_names.push_back( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME );
 
-		// initialize the VkInstanceCreateInfo structure
-		VkInstanceCreateInfo instInfo = {};
-		instInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		instInfo.pNext = nullptr;
-		instInfo.flags = 0;
-		instInfo.pApplicationInfo = &appInfo;
-		instInfo.enabledExtensionCount = uint32_t( info.instance_extension_names.size() );
-		instInfo.ppEnabledExtensionNames = info.instance_extension_names.data();
-		instInfo.enabledLayerCount = uint32_t( info.instance_layer_names.size() );
-		instInfo.ppEnabledLayerNames = info.instance_layer_names.data();
-		VkResult res;
 
-		res = vkCreateInstance( &instInfo, nullptr, &info.inst );
+			vkEnumerateInstanceVersion( &info.apiVersion );
 
-		if ( res == VK_ERROR_INCOMPATIBLE_DRIVER )
-		{
-			std::cout << "cannot find a compatible Vulkan ICD\n";
-		}
-		else if ( res )
-		{
-			std::cout << "unknown error\n";
-		}
+			// initialize the VkApplicationInfo structure
+			VkApplicationInfo appInfo = {};
+			appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+			appInfo.pNext = nullptr;
+			appInfo.pApplicationName = "Test";
+			appInfo.applicationVersion = 1;
+			appInfo.pEngineName = "Test";
+			appInfo.engineVersion = 1;
+			appInfo.apiVersion = info.apiVersion;
 
-		if ( res == VK_SUCCESS )
-		{
-			info.dbgCreateDebugReportCallback =
-				( PFN_vkCreateDebugReportCallbackEXT )vkGetInstanceProcAddr( info.inst, "vkCreateDebugReportCallbackEXT" );
-			if ( !info.dbgCreateDebugReportCallback )
+			// initialize the VkInstanceCreateInfo structure
+			VkInstanceCreateInfo instInfo = {};
+			instInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+			instInfo.pNext = nullptr;
+			instInfo.flags = 0;
+			instInfo.pApplicationInfo = &appInfo;
+			instInfo.enabledExtensionCount = uint32_t( info.instance_extension_names.size() );
+			instInfo.ppEnabledExtensionNames = info.instance_extension_names.data();
+			instInfo.enabledLayerCount = uint32_t( info.instance_layer_names.size() );
+			instInfo.ppEnabledLayerNames = info.instance_layer_names.data();
+			VkResult res;
+
+			res = vkCreateInstance( &instInfo, nullptr, &info.inst );
+
+			if ( res == VK_ERROR_INCOMPATIBLE_DRIVER )
 			{
-				std::cout << "GetInstanceProcAddr: Unable to find "
-					"vkCreateDebugReportCallbackEXT function."
-					<< std::endl;
-				exit( 1 );
+				std::cout << "cannot find a compatible Vulkan ICD\n";
 			}
-
-			info.dbgDestroyDebugReportCallback =
-				( PFN_vkDestroyDebugReportCallbackEXT )vkGetInstanceProcAddr( info.inst, "vkDestroyDebugReportCallbackEXT" );
-			if ( !info.dbgDestroyDebugReportCallback )
+			else if ( res )
 			{
-				std::cout << "GetInstanceProcAddr: Unable to find "
-					"vkDestroyDebugReportCallbackEXT function."
-					<< std::endl;
-				exit( 1 );
+				std::cout << "unknown error\n";
 			}
-
-			VkDebugReportCallbackCreateInfoEXT create_info = {};
-			create_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
-			create_info.pNext = nullptr;
-			create_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
-			create_info.pfnCallback = dbgFunc;
-			create_info.pUserData = &info;
-
-			info.debug_report_callbacks.resize( 1u );
-			res = info.dbgCreateDebugReportCallback( info.inst, &create_info, nullptr, info.debug_report_callbacks.data() );
-			switch ( res )
-			{
-			case VK_SUCCESS:
-				break;
-			case VK_ERROR_OUT_OF_HOST_MEMORY:
-				std::cout << "dbgCreateDebugReportCallback: out of host memory\n" << std::endl;
-				exit( 1 );
-				break;
-			default:
-				std::cout << "dbgCreateDebugReportCallback: unknown failure\n" << std::endl;
-				exit( 1 );
-				break;
-			}
-		}
-
-		return res == VK_SUCCESS;
-	}
-
-	bool createDevice( Info & info )
-	{
-		uint32_t gpuCount = 1;
-		auto res = vkEnumeratePhysicalDevices( info.inst, &gpuCount, nullptr );
-
-		if ( res == VK_SUCCESS )
-		{
-			assert( gpuCount );
-			info.gpus.resize( gpuCount );
-			res = vkEnumeratePhysicalDevices( info.inst, &gpuCount, info.gpus.data() );
 
 			if ( res == VK_SUCCESS )
 			{
-				assert( gpuCount >= 1 );
-				uint32_t gpuIndex = 0u;
-
-				while ( gpuIndex < gpuCount )
+	#pragma warning( push )
+	#pragma warning( disable: 4191 )
+				info.dbgCreateDebugReportCallback =
+					( PFN_vkCreateDebugReportCallbackEXT )vkGetInstanceProcAddr( info.inst, "vkCreateDebugReportCallbackEXT" );
+				if ( !info.dbgCreateDebugReportCallback )
 				{
-					VkPhysicalDeviceProperties properties = {};
-					vkGetPhysicalDeviceProperties( info.gpus[gpuIndex], &properties );
-					++gpuIndex;
-
-					if ( properties.apiVersion >= info.apiVersion )
-					{
-						break;
-					}
+					std::cout << "GetInstanceProcAddr: Unable to find "
+						"vkCreateDebugReportCallbackEXT function."
+						<< std::endl;
+					exit( 1 );
 				}
 
-				--gpuIndex;
-				VkDeviceQueueCreateInfo queue_info = {};
-
-				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, nullptr );
-				assert( info.queue_family_count >= 1 );
-
-				info.queue_props.resize( info.queue_family_count );
-				vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, info.queue_props.data() );
-				assert( info.queue_family_count >= 1 );
-
-				bool found = false;
-				for ( unsigned int i = 0; i < info.queue_family_count; i++ )
+				info.dbgDestroyDebugReportCallback =
+					( PFN_vkDestroyDebugReportCallbackEXT )vkGetInstanceProcAddr( info.inst, "vkDestroyDebugReportCallbackEXT" );
+				if ( !info.dbgDestroyDebugReportCallback )
 				{
-					if ( info.queue_props[i].queueFlags & VK_QUEUE_GRAPHICS_BIT )
-					{
-						queue_info.queueFamilyIndex = i;
-						found = true;
-						break;
-					}
+					std::cout << "GetInstanceProcAddr: Unable to find "
+						"vkDestroyDebugReportCallbackEXT function."
+						<< std::endl;
+					exit( 1 );
 				}
-				assert( found );
-				assert( info.queue_family_count >= 1 );
+	#pragma warning( pop )
 
-				float queue_priorities[1] = { 0.0 };
-				queue_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-				queue_info.pNext = nullptr;
-				queue_info.queueCount = 1;
-				queue_info.pQueuePriorities = queue_priorities;
+				VkDebugReportCallbackCreateInfoEXT create_info = {};
+				create_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
+				create_info.pNext = nullptr;
+				create_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
+				create_info.pfnCallback = dbgFunc;
+				create_info.pUserData = &info;
 
-				VkDeviceCreateInfo device_info = {};
-				device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-				device_info.pNext = nullptr;
-				device_info.queueCreateInfoCount = 1;
-				device_info.pQueueCreateInfos = &queue_info;
-				device_info.enabledExtensionCount = uint32_t( info.device_extension_names.size() );
-				device_info.ppEnabledExtensionNames = info.device_extension_names.data();
-				device_info.enabledLayerCount = 0;
-				device_info.ppEnabledLayerNames = nullptr;
-				device_info.pEnabledFeatures = nullptr;
-
-				res = vkCreateDevice( info.gpus[gpuIndex], &device_info, nullptr, &info.device );
+				info.debug_report_callbacks.resize( 1u );
+				res = info.dbgCreateDebugReportCallback( info.inst, &create_info, nullptr, info.debug_report_callbacks.data() );
+				switch ( res )
+				{
+				case VK_SUCCESS:
+					break;
+				case VK_ERROR_OUT_OF_HOST_MEMORY:
+					std::cout << "dbgCreateDebugReportCallback: out of host memory\n" << std::endl;
+					exit( 1 );
+					break;
+				default:
+					std::cout << "dbgCreateDebugReportCallback: unknown failure\n" << std::endl;
+					exit( 1 );
+					break;
+				}
 			}
+
+			return res == VK_SUCCESS;
 		}
 
-		return res == VK_SUCCESS;
-	}
-
-	std::ostream & operator<<( std::ostream & stream
-		, std::vector< uint32_t > const & spirv )
-	{
-		for ( auto i = 0u; i < spirv.size(); i += 8 )
+		bool createDevice( Info & info )
 		{
-			for ( auto j = i; j < spirv.size() && j < i + 8; ++j )
+			uint32_t gpuCount = 1;
+			auto res = vkEnumeratePhysicalDevices( info.inst, &gpuCount, nullptr );
+
+			if ( res == VK_SUCCESS )
 			{
-				stream << std::hex << std::setfill( '0' ) << std::setw( 8 ) << spirv[j] << " ";
+				assert( gpuCount );
+				info.gpus.resize( gpuCount );
+				res = vkEnumeratePhysicalDevices( info.inst, &gpuCount, info.gpus.data() );
+
+				if ( res == VK_SUCCESS )
+				{
+					assert( gpuCount >= 1 );
+					uint32_t gpuIndex = 0u;
+
+					while ( gpuIndex < gpuCount )
+					{
+						VkPhysicalDeviceProperties properties = {};
+						vkGetPhysicalDeviceProperties( info.gpus[gpuIndex], &properties );
+						++gpuIndex;
+
+						if ( properties.apiVersion >= info.apiVersion )
+						{
+							break;
+						}
+					}
+
+					--gpuIndex;
+					VkDeviceQueueCreateInfo queue_info = {};
+					queue_info.queueFamilyIndex = ~( 0u );
+
+					vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, nullptr );
+					assert( info.queue_family_count >= 1 );
+
+					info.queue_props.resize( info.queue_family_count );
+					vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, info.queue_props.data() );
+					assert( info.queue_family_count >= 1 );
+
+					for ( unsigned int i = 0; i < info.queue_family_count; i++ )
+					{
+						if ( info.queue_props[i].queueFlags & VK_QUEUE_GRAPHICS_BIT )
+						{
+							queue_info.queueFamilyIndex = i;
+							break;
+						}
+					}
+					assert( queue_info.queueFamilyIndex != ~( 0u ) );
+					assert( info.queue_family_count >= 1 );
+
+					float queue_priorities[1] = { 0.0 };
+					queue_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+					queue_info.pNext = nullptr;
+					queue_info.queueCount = 1;
+					queue_info.pQueuePriorities = queue_priorities;
+
+					info.device_extension_names.push_back( "VK_EXT_shader_atomic_float" );
+
+					VkDeviceCreateInfo device_info = {};
+					device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+					device_info.pNext = nullptr;
+					device_info.queueCreateInfoCount = 1;
+					device_info.pQueueCreateInfos = &queue_info;
+					device_info.enabledExtensionCount = uint32_t( info.device_extension_names.size() );
+					device_info.ppEnabledExtensionNames = info.device_extension_names.data();
+					device_info.enabledLayerCount = 0;
+					device_info.ppEnabledLayerNames = nullptr;
+					device_info.pEnabledFeatures = nullptr;
+
+					res = vkCreateDevice( info.gpus[gpuIndex], &device_info, nullptr, &info.device );
+				}
 			}
 
-			stream << "\n";
+			return res == VK_SUCCESS;
 		}
 
-		return stream;
-	}
-
-	bool createShaderModule( Info & info
-		, std::vector< uint32_t > const & spirv )
-	{
-		VkShaderModuleCreateInfo createInfo{};
-		createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-		createInfo.pCode = spirv.data();
-		createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
-		VkShaderModule module;
-		bool result = false;
-
-		try
+		std::ostream & operator<<( std::ostream & stream
+			, std::vector< uint32_t > const & spirv )
 		{
-			result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
-
-			if ( result && module != VK_NULL_HANDLE )
+			for ( auto i = 0u; i < spirv.size(); i += 8 )
 			{
-				vkDestroyShaderModule( info.device, module, nullptr );
+				for ( auto j = i; j < spirv.size() && j < i + 8; ++j )
+				{
+					stream << std::hex << std::setfill( '0' ) << std::setw( 8 ) << spirv[j] << " ";
+				}
+
+				stream << "\n";
 			}
-		}
-		catch ( ... )
-		{
-			result = false;
+
+			return stream;
 		}
 
-		return result;
+		bool createShaderModule( Info & info
+			, std::vector< uint32_t > const & spirv )
+		{
+			VkShaderModuleCreateInfo createInfo{};
+			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			createInfo.pCode = spirv.data();
+			createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
+			VkShaderModule module;
+			bool result = false;
+
+			try
+			{
+				result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
+
+				if ( result && module != nullptr )
+				{
+					vkDestroyShaderModule( info.device, module, nullptr );
+				}
+			}
+			catch ( ... )
+			{
+				result = false;
+			}
+
+			return result;
+		}
+
+		uint32_t retrieveSpirVVersion( uint32_t vkVersion )
+		{
+			uint32_t constexpr version1_0 = VK_MAKE_VERSION( 1, 0, 0 );
+			uint32_t constexpr version1_1 = VK_MAKE_VERSION( 1, 1, 0 );
+			//uint32_t constexpr version1_2 = VK_MAKE_VERSION( 1, 2, 0 );
+
+			uint32_t result{ 0x00010300 };
+
+			/*if ( vkVersion >= version1_2 )
+			{
+				result = 0x00010500;
+			}
+			else */if ( vkVersion >= version1_1 )
+			{
+				result = 0x00010300;
+			}
+			else if ( vkVersion >= version1_0 )
+			{
+				result = 0x00010000;
+			}
+
+			return result;
+		}
 	}
 
 	namespace sdw_test
@@ -479,6 +457,18 @@ namespace test
 
 			Info info{};
 		};
+
+		uint32_t TestCounts::getSpirVVersion()const
+		{
+			uint32_t ret{ 0x00010300 };
+
+			if ( spirv )
+			{
+				ret = retrieveSpirVVersion( spirv->info.apiVersion );
+			}
+
+			return ret;
+		}
 	}
 
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
@@ -543,12 +533,324 @@ namespace test
 	}
 
 #if SDW_HasVulkanLayer
+	namespace
+	{
+		uint32_t getSize( VkFormat format )
+		{
+			switch ( format )
+			{
+			case VK_FORMAT_R8_UNORM:
+				return 1u;
+			case VK_FORMAT_R16_SFLOAT:
+			case VK_FORMAT_R8G8_UNORM:
+				return 2u;
+			case VK_FORMAT_R8G8B8_UNORM:
+				return 3u;
+			case VK_FORMAT_R32_SINT:
+			case VK_FORMAT_R32_UINT:
+			case VK_FORMAT_R32_SFLOAT:
+			case VK_FORMAT_R8G8B8A8_UNORM:
+			case VK_FORMAT_R16G16_SFLOAT:
+				return 4u;
+			case VK_FORMAT_R16G16B16_SFLOAT:
+				return 6u;
+			case VK_FORMAT_R64_SFLOAT:
+			case VK_FORMAT_R32G32_SINT:
+			case VK_FORMAT_R32G32_UINT:
+			case VK_FORMAT_R16G16B16A16_SFLOAT:
+			case VK_FORMAT_R32G32_SFLOAT:
+				return 8u;
+			case VK_FORMAT_R32G32B32_SINT:
+			case VK_FORMAT_R32G32B32_UINT:
+			case VK_FORMAT_R32G32B32_SFLOAT:
+				return 12u;
+			case VK_FORMAT_R32G32B32A32_SINT:
+			case VK_FORMAT_R32G32B32A32_UINT:
+			case VK_FORMAT_R32G32B32A32_SFLOAT:
+			case VK_FORMAT_R64G64_SFLOAT:
+				return 16u;
+			case VK_FORMAT_R64G64B64_SFLOAT:
+				return 24u;
+			case VK_FORMAT_R64G64B64A64_SFLOAT:
+				return 32u;
+			default:
+				assert( false && "Unsupported VkFormat for a vertex attribute." );
+				return 4u;
+			}
+		}
+
+		VkRenderPass createRenderPass( ast::vk::ProgramPipeline program
+			, ast::vk::BuilderContext const & context
+			, sdw_test::TestCounts & testCounts )
+		{
+			auto attachmentsMap = program.getAttachmentDescriptions();
+			std::vector< VkAttachmentDescription > attachments;
+			std::vector< VkAttachmentReference > references;
+
+			for ( auto & attachmentIt : attachmentsMap )
+			{
+				attachments.push_back( attachmentIt.second );
+				auto & attachment = attachments.back();
+				attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+				attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+				attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+				attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+				attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+				attachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+				references.push_back( VkAttachmentReference
+					{
+						uint32_t( attachments.size() - 1u ),
+						VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+					} );
+			}
+
+			std::vector< VkSubpassDescription > subpasses;
+			subpasses.push_back( VkSubpassDescription
+				{
+					0u,
+					VK_PIPELINE_BIND_POINT_GRAPHICS,
+					0u,
+					nullptr,
+					uint32_t( references.size() ),
+					references.data(),
+					nullptr,
+					nullptr,
+					0u,
+					nullptr,
+				} );
+
+			std::vector< VkSubpassDependency > dependencies;
+			dependencies.push_back( VkSubpassDependency
+				{
+					VK_SUBPASS_EXTERNAL,
+					0u,
+					VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+					VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+					VK_ACCESS_HOST_READ_BIT,
+					VK_ACCESS_HOST_READ_BIT,
+					VK_DEPENDENCY_BY_REGION_BIT,
+				} );
+			dependencies.push_back( VkSubpassDependency
+				{
+					0u,
+					VK_SUBPASS_EXTERNAL,
+					VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+					VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+					VK_ACCESS_HOST_READ_BIT,
+					VK_ACCESS_HOST_READ_BIT,
+					VK_DEPENDENCY_BY_REGION_BIT,
+				} );
+
+			VkRenderPassCreateInfo renderPassCreate
+			{
+				VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
+				nullptr,
+				0u,
+				uint32_t( attachments.size() ),
+				attachments.data(),
+				uint32_t( subpasses.size() ),
+				subpasses.data(),
+				uint32_t( dependencies.size() ),
+				dependencies.data(),
+			};
+			VkRenderPass renderPass{ nullptr };
+
+			if ( !ast::vk::checkError( vkCreateRenderPass( context.device
+				, &renderPassCreate
+				, context.allocator
+				, &renderPass ) ) )
+			{
+				failure( "VkRenderPass creation." );
+				renderPass = nullptr;
+			}
+
+			return renderPass;
+		}
+
+		VkPipeline createComputePipeline( ast::vk::ProgramPipeline program
+			, ast::vk::PipelineBuilder const & builder
+			, ast::vk::PipelineShaderStageCreateInfo const & shaderStage
+			, VkPipelineLayout pipelineLayout
+			, sdw_test::TestCounts & testCounts )
+		{
+			VkComputePipelineCreateInfo createInfos
+			{
+				VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
+				nullptr,
+				0u,
+				shaderStage.data,
+				pipelineLayout,
+				nullptr,
+				0u,
+			};
+			VkPipeline pipeline{ nullptr };
+
+			if ( !ast::vk::checkError( builder.createComputePipeline( createInfos, &pipeline ) ) )
+			{
+				failure( "Pipeline creation." );
+				pipeline = nullptr;
+			}
+
+			return pipeline;
+		}
+
+		VkPipeline createGraphicsPipeline( ast::vk::ProgramPipeline program
+			, ast::vk::PipelineBuilder const & builder
+			, ast::vk::PipelineShaderStageArray const & shaderStages
+			, VkPipelineLayout pipelineLayout
+			, VkRenderPass renderPass
+			, sdw_test::TestCounts & testCounts )
+		{
+			auto attachmentsMap = program.getAttachmentDescriptions();
+
+			// Pipeline shader stage states
+			ast::vk::VkPipelineShaderStageArray vkShaderStages;
+
+			for ( auto & stage : shaderStages )
+			{
+				vkShaderStages.push_back( stage.data );
+			}
+
+			// Pipeline vertex input state
+			auto vertexAttributes = program.getVertexAttributes();
+			uint32_t size = 0u;
+
+			for ( auto & attribute : vertexAttributes )
+			{
+				attribute.binding = 0u;
+				attribute.offset = size;
+				size += getSize( attribute.format );
+			}
+
+			VkVertexInputBindingDescription binding
+			{
+				0u,
+				size,
+				VK_VERTEX_INPUT_RATE_VERTEX,
+			};
+			VkPipelineVertexInputStateCreateInfo vertexInputState
+			{
+				VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
+				nullptr,
+				0u,
+				size ? 1u : 0u,
+				size ? &binding : nullptr,
+				size ? uint32_t( vertexAttributes.size() ) : 0u,
+				size ? vertexAttributes.data() : nullptr,
+			};
+
+			// Pipeline input assembly state
+			VkPipelineInputAssemblyStateCreateInfo inputAssemblyState
+			{
+				VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
+				nullptr,
+				0u,
+				VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+				VK_FALSE,
+			};
+
+			// Pipeline viewport state.
+			VkViewport viewport{ 0.0f, 0.0f, 800.0f, 600.0f, 0.0f, 1.0f };
+			VkRect2D scissor{ { 0, 0 }, { 800u, 600u } };
+			VkPipelineViewportStateCreateInfo viewportState
+			{
+				VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
+				nullptr,
+				0u,
+				1u,
+				&viewport,
+				1u,
+				&scissor,
+			};
+
+			// Pipeline rasterization state.
+			VkPipelineRasterizationStateCreateInfo rasterizationState
+			{
+				VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
+				nullptr,
+				0u,
+				VK_FALSE,
+				VK_FALSE,
+				VK_POLYGON_MODE_FILL,
+				VK_CULL_MODE_NONE,
+				VK_FRONT_FACE_COUNTER_CLOCKWISE,
+				VK_FALSE,
+				0.0f,
+				0.0f,
+				0.0f,
+				1.0f,
+			};
+
+			// Pipeline multisample state.
+			VkPipelineMultisampleStateCreateInfo multisampleState
+			{
+				VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
+				nullptr,
+				0u,
+				VK_SAMPLE_COUNT_1_BIT,
+				VK_FALSE,
+				0.0f,
+				nullptr,
+				VK_FALSE,
+				VK_FALSE,
+			};
+
+			// Pipeline color blend state
+			std::vector< VkPipelineColorBlendAttachmentState > colorBlendAttachments;
+			colorBlendAttachments.resize( attachmentsMap.size(), VkPipelineColorBlendAttachmentState{} );
+			VkPipelineColorBlendStateCreateInfo colorBlendState
+			{
+				VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
+				nullptr,
+				0u,
+				VK_FALSE,
+				VK_LOGIC_OP_COPY,
+				uint32_t( colorBlendAttachments.size() ),
+				colorBlendAttachments.data(),
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+		};
+
+		// Pipeline
+			VkGraphicsPipelineCreateInfo createInfos
+			{
+				VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+				nullptr,
+				0u,
+				uint32_t( vkShaderStages.size() ),
+				vkShaderStages.data(),
+				&vertexInputState,
+				&inputAssemblyState,
+				nullptr, //tessellationState,
+				&viewportState,
+				&rasterizationState,
+				&multisampleState,
+				nullptr, //depthStencilState,
+				&colorBlendState,
+				nullptr, //dynamicState,
+				pipelineLayout,
+				renderPass,
+				0u,
+				nullptr,
+				0u,
+			};
+			VkPipeline pipeline{ nullptr };
+
+			if ( !ast::vk::checkError( builder.createGraphicsPipeline( createInfos, &pipeline ) ) )
+			{
+				failure( "VkPipeline creation." );
+				pipeline = nullptr;
+			}
+
+			return pipeline;
+		}
+	}
+
 	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts )
 	{
 		ast::vk::BuilderContext result
 		{
 			testCounts.spirv->info.device,
-			VK_NULL_HANDLE,
+			nullptr,
 			nullptr,
 			vkCreateGraphicsPipelines,
 			vkCreateComputePipelines,
@@ -557,272 +859,6 @@ namespace test
 			vkCreateDescriptorSetLayout,
 		};
 		return result;
-	}
-
-	VkRenderPass createRenderPass( ast::vk::ProgramPipeline program
-		, ast::vk::BuilderContext const & context
-		, sdw_test::TestCounts & testCounts )
-	{
-		auto attachmentsMap = program.getAttachmentDescriptions();
-		std::vector< VkAttachmentDescription > attachments;
-		std::vector< VkAttachmentReference > references;
-
-		for ( auto & attachmentIt : attachmentsMap )
-		{
-			attachments.push_back( attachmentIt.second );
-			auto & attachment = attachments.back();
-			attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-			attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-			attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-			attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-			attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-			attachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-			references.push_back( VkAttachmentReference
-				{
-					uint32_t( attachments.size() - 1u ),
-					VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-				} );
-		}
-
-		std::vector< VkSubpassDescription > subpasses;
-		subpasses.push_back( VkSubpassDescription
-			{
-				0u,
-				VK_PIPELINE_BIND_POINT_GRAPHICS,
-				0u,
-				nullptr,
-				uint32_t( references.size() ),
-				references.data(),
-				nullptr,
-				nullptr,
-				0u,
-				nullptr,
-			} );
-
-		std::vector< VkSubpassDependency > dependencies;
-		dependencies.push_back( VkSubpassDependency
-			{
-				VK_SUBPASS_EXTERNAL,
-				0u,
-				VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-				VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-				VK_ACCESS_HOST_READ_BIT,
-				VK_ACCESS_HOST_READ_BIT,
-				VK_DEPENDENCY_BY_REGION_BIT,
-			} );
-		dependencies.push_back( VkSubpassDependency
-			{
-				0u,
-				VK_SUBPASS_EXTERNAL,
-				VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-				VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-				VK_ACCESS_HOST_READ_BIT,
-				VK_ACCESS_HOST_READ_BIT,
-				VK_DEPENDENCY_BY_REGION_BIT,
-			} );
-
-		VkRenderPassCreateInfo renderPassCreate
-		{
-			VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
-			nullptr,
-			0u,
-			uint32_t( attachments.size() ),
-			attachments.data(),
-			uint32_t( subpasses.size() ),
-			subpasses.data(),
-			uint32_t( dependencies.size() ),
-			dependencies.data(),
-		};
-		VkRenderPass renderPass{ VK_NULL_HANDLE };
-
-		if ( !ast::vk::checkError( vkCreateRenderPass( context.device
-			, &renderPassCreate
-			, context.allocator
-			, &renderPass ) ) )
-		{
-			failure( "VkRenderPass creation." );
-			renderPass = VK_NULL_HANDLE;
-		}
-
-		return renderPass;
-	}
-
-	VkPipeline createComputePipeline( ast::vk::ProgramPipeline program
-		, ast::vk::PipelineBuilder const & builder
-		, ast::vk::PipelineShaderStageCreateInfo const & shaderStage
-		, VkPipelineLayout pipelineLayout
-		, sdw_test::TestCounts & testCounts )
-	{
-		VkComputePipelineCreateInfo createInfos
-		{
-			VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
-			nullptr,
-			0u,
-			shaderStage.data,
-			pipelineLayout,
-			VK_NULL_HANDLE,
-			0u,
-		};
-		VkPipeline pipeline{ VK_NULL_HANDLE };
-
-		if ( !ast::vk::checkError( builder.createComputePipeline( createInfos
-			, &pipeline ) ) )
-		{
-			failure( "Pipeline creation." );
-			pipeline = VK_NULL_HANDLE;
-		}
-
-		return pipeline;
-	}
-
-	VkPipeline createGraphicsPipeline( ast::vk::ProgramPipeline program
-		, ast::vk::PipelineBuilder const & builder
-		, ast::vk::PipelineShaderStageArray const & shaderStages
-		, VkPipelineLayout pipelineLayout
-		, VkRenderPass renderPass
-		, sdw_test::TestCounts & testCounts )
-	{
-		auto attachmentsMap = program.getAttachmentDescriptions();
-
-		// Pipeline shader stage states
-		ast::vk::VkPipelineShaderStageArray vkShaderStages;
-
-		for ( auto & stage : shaderStages )
-		{
-			vkShaderStages.push_back( stage.data );
-		}
-
-		// Pipeline vertex input state
-		auto vertexAttributes = program.getVertexAttributes();
-		uint32_t size = 0u;
-
-		for ( auto & attribute : vertexAttributes )
-		{
-			attribute.binding = 0u;
-			attribute.offset = size;
-			size += getSize( attribute.format );
-		}
-
-		VkVertexInputBindingDescription binding
-		{
-			0u,
-			size,
-			VK_VERTEX_INPUT_RATE_VERTEX,
-		};
-		VkPipelineVertexInputStateCreateInfo vertexInputState
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
-			nullptr,
-			0u,
-			size ? 1u : 0u,
-			size ? &binding : nullptr,
-			size ? uint32_t( vertexAttributes.size() ) : 0u,
-			size ? vertexAttributes.data() : nullptr,
-		};
-
-		// Pipeline input assembly state
-		VkPipelineInputAssemblyStateCreateInfo inputAssemblyState
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
-			nullptr,
-			0u,
-			VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
-			VK_FALSE,
-		};
-
-		// Pipeline viewport state.
-		VkViewport viewport{ 0.0f, 0.0f, 800.0f, 600.0f, 0.0f, 1.0f };
-		VkRect2D scissor{ { 0, 0 }, { 800u, 600u } };
-		VkPipelineViewportStateCreateInfo viewportState
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
-			nullptr,
-			0u,
-			1u,
-			&viewport,
-			1u,
-			&scissor,
-		};
-
-		// Pipeline rasterization state.
-		VkPipelineRasterizationStateCreateInfo rasterizationState
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
-			nullptr,
-			0u,
-			VK_FALSE,
-			VK_FALSE,
-			VK_POLYGON_MODE_FILL,
-			VK_CULL_MODE_NONE,
-			VK_FRONT_FACE_COUNTER_CLOCKWISE,
-			VK_FALSE,
-			0.0f,
-			0.0f,
-			0.0f,
-			1.0f,
-		};
-
-		// Pipeline multisample state.
-		VkPipelineMultisampleStateCreateInfo multisampleState
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
-			nullptr,
-			0u,
-			VK_SAMPLE_COUNT_1_BIT,
-			VK_FALSE,
-			0.0f,
-			nullptr,
-			VK_FALSE,
-			VK_FALSE,
-		};
-
-		// Pipeline color blend state
-		std::vector< VkPipelineColorBlendAttachmentState > colorBlendAttachments;
-		colorBlendAttachments.resize( attachmentsMap.size(), VkPipelineColorBlendAttachmentState{} );
-		VkPipelineColorBlendStateCreateInfo colorBlendState
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
-			nullptr,
-			0u,
-			VK_FALSE,
-			VK_LOGIC_OP_COPY,
-			uint32_t( colorBlendAttachments.size() ),
-			colorBlendAttachments.data(),
-		};
-
-		// Pipeline
-		VkGraphicsPipelineCreateInfo createInfos
-		{
-			VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
-			nullptr,
-			0u,
-			uint32_t( vkShaderStages.size() ),
-			vkShaderStages.data(),
-			&vertexInputState,
-			&inputAssemblyState,
-			nullptr, //tessellationState,
-			&viewportState,
-			&rasterizationState,
-			&multisampleState,
-			nullptr, //depthStencilState,
-			&colorBlendState,
-			nullptr, //dynamicState,
-			pipelineLayout,
-			renderPass,
-			0u,
-			VK_NULL_HANDLE,
-			0u,
-		};
-		VkPipeline pipeline{ VK_NULL_HANDLE };
-
-		if ( !ast::vk::checkError( builder.createGraphicsPipeline( createInfos
-			, &pipeline ) ) )
-		{
-			failure( "VkPipeline creation." );
-			pipeline = VK_NULL_HANDLE;
-		}
-
-		return pipeline;
 	}
 
 	bool validateProgram( ast::vk::ProgramPipeline const & program
@@ -848,7 +884,7 @@ namespace test
 		bool result = false;
 		ast::vk::DescriptorSetLayoutArray descriptorLayouts;
 		checkNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() );
-		VkPipelineLayout pipelineLayout;
+		VkPipelineLayout pipelineLayout{};
 		checkNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) );
 
 		if ( !pipelineLayout )

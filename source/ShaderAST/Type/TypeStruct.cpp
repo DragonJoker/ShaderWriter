@@ -65,7 +65,7 @@ namespace ast::type
 				minimumAlignment = 16;
 			}
 
-			auto * tmp = static_cast< Array const & >( type ).getType().get();
+			auto * tmp = type.getType().get();
 
 			while ( getArraySize( *tmp ) != NotArray )
 			{
@@ -209,7 +209,7 @@ namespace ast::type
 			auto arraySize = type.getArraySize() == UnknownArraySize
 				? 1u
 				: type.getArraySize();
-			return arraySize * getPackedArrayStride( static_cast< Array const & >( type )
+			return arraySize * getPackedArrayStride( type
 				, layout );
 		}
 
@@ -290,6 +290,11 @@ namespace ast::type
 			}
 
 			return columns * rows * baseAlignment;
+		}
+
+		uint32_t getAligned( uint32_t value, uint32_t align )
+		{
+			return ( value + align - 1 ) & ~( align - 1 );
 		}
 	}
 
@@ -555,8 +560,8 @@ namespace ast::type
 		for ( auto & member : m_members )
 		{
 			uint32_t alignment = getPackedAlignment( *member.type, m_layout );
-			member.offset = ( offset + alignment - 1 ) & ~( alignment - 1 );
-			offset = member.offset + ( member.size + alignment - 1 ) & ~( alignment - 1 );
+			member.offset = getAligned( offset, alignment );
+			offset = member.offset + getAligned( member.size, alignment );
 		}
 	}
 

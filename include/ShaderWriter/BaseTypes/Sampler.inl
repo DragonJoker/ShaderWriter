@@ -7,7 +7,7 @@ namespace sdw
 	Sampler & Sampler::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = *findWriter( *this, rhs );
+		auto & shader = findWriterMandat( *this, rhs );
 
 		if ( areOptionalEnabled( *this, rhs ) )
 		{

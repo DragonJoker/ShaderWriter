@@ -15,7 +15,7 @@ namespace sdw
 
 	template< typename ValueT >
 	Mat4T< ValueT >::Mat4T( Mat4T const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ), rhs.isEnabled() }
+		: Value{ *rhs.getWriter(), makeExpr( findWriterMandat( rhs ), rhs ), rhs.isEnabled() }
 	{
 	}
 

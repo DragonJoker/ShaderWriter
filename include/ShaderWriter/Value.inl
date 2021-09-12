@@ -82,42 +82,42 @@ namespace sdw
 
 		inline ShaderWriter * getWriter( bool const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 		
 		inline ShaderWriter * getWriter( int32_t const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( int64_t const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( uint32_t const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( uint64_t const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( float const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( double const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( long double const & value )
 		{
-			return nullptr;
+			return &getCurrentWriter();
 		}
 
 		template< typename ValueT >
@@ -178,6 +178,19 @@ namespace sdw
 		ShaderWriter * result{ nullptr };
 		findWriterRec( result, values... );
 		return result;
+	}
+
+	template< typename ... ValuesT >
+	inline ShaderWriter & findWriterMandat( ValuesT && ... values )
+	{
+		auto result = findWriter( values... );
+
+		if ( !result )
+		{
+			result = &getCurrentWriter();
+		}
+
+		return *result;
 	}
 
 	//***********************************************************************************************
@@ -276,7 +289,7 @@ namespace sdw
 	{
 		if ( areOptionalEnabled( lhs, rhs ) )
 		{
-			ShaderWriter & writer = *findWriter( lhs, rhs );
+			ShaderWriter & writer = findWriterMandat( lhs, rhs );
 			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
 			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
 			ast::type::TypePtr lhsType = lhsExpr->getType();
@@ -301,7 +314,7 @@ namespace sdw
 	inline ReturnT writeUnOperator( OperandT const & operand
 		, CreatorT creator )
 	{
-		auto & writer = *findWriter( operand );
+		auto & writer = findWriterMandat( operand );
 		return ReturnT{ writer
 			, creator( makeExpr( writer, operand ) )
 			, operand.isEnabled() };
@@ -312,7 +325,7 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		auto & writer = *findWriter( lhs, rhs );
+		auto & writer = findWriterMandat( lhs, rhs );
 		return ReturnT{ writer
 			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
 				, makeExpr( writer, lhs )

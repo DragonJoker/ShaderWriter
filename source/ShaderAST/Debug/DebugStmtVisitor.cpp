@@ -235,9 +235,9 @@ namespace ast::debug
 
 	void StmtVisitor::visitContainerStmt( stmt::Container * stmt )
 	{
-		for ( auto & stmt : *stmt )
+		for ( auto & curStmt : *stmt )
 		{
-			stmt->accept( this );
+			curStmt->accept( this );
 		}
 	}
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Common.hpp"
+#include "Common.hpp"
 
 #include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Debug/DebugStmtVisitor.hpp>
@@ -27,6 +27,8 @@ namespace test
 
 			void initialise();
 			TestResults cleanup();
+
+			uint32_t getSpirVVersion()const;
 
 			std::shared_ptr< GLSLContext > glsl;
 			std::shared_ptr< HLSLContext > hlsl;
@@ -421,7 +423,7 @@ namespace test
 }
 
 #define sdwTestSuiteMain( testName )\
-	test::TestResults launch##testName( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
+	static test::TestResults launch##testName( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
 
 #define sdwTestSuiteBegin()\
 	testSuiteBeginEx( testCounts )

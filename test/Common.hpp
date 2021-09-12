@@ -5,14 +5,18 @@
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <atomic>
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
+#pragma warning( pop )
 
 namespace test
 {
+	uint32_t getCoreCount();
 	std::string getExecutableDirectory();
 
 	template< typename LogStreambufTraits >
@@ -212,9 +216,12 @@ namespace test
 		void registerTests( std::string name
 			, TestResults( *launch )( TestSuiteT &, TestCountsT & ) )
 		{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
 			return registerTests( std::move( name )
 				, reinterpret_cast< TestSuiteLaunch >( launch )
 				, std::make_unique< typename TestSuiteT::TestCountsType >( *this ) );
+#pragma GCC diagnostic pop
 		}
 
 		std::atomic_uint32_t totalCount{ 0u };
@@ -223,12 +230,12 @@ namespace test
 	private:
 		struct TestSuiteRun
 		{
-			TestSuiteRun( TestSuiteLaunch launch
-				, std::string name
-				, TestCountsPtr testCount )
-				: launch{ std::move( launch ) }
-				, name{ std::move( name ) }
-				, testCount{ std::move( testCount ) }
+			TestSuiteRun( TestSuiteLaunch plaunch
+				, std::string pname
+				, TestCountsPtr ptestCount )
+				: launch{ std::move( plaunch ) }
+				, name{ std::move( pname ) }
+				, testCount{ std::move( ptestCount ) }
 			{
 			}
 
@@ -252,6 +259,7 @@ namespace test
 		, char const * const function
 		, int line
 		, TestCounts & testCounts );
+
 	inline void reportFailure( std::string const & error
 		, char const * const function
 		, int line
@@ -261,7 +269,7 @@ namespace test
 	}
 
 #	define testSuiteMain( testName )\
-	test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
+	static test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
 
 #if defined( SDW_COMPILE_TESTS )
 #	define testSuiteLaunchEx( testName, suiteType )\

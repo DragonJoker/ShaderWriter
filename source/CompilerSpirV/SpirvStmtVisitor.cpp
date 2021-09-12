@@ -40,7 +40,7 @@ namespace spirv
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
 				break;
 			case ast::expr::LiteralType::eInt:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eInt >() );
+				result = lit.getValue< ast::expr::LiteralType::eInt >();
 				break;
 			case ast::expr::LiteralType::eUInt:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
@@ -51,39 +51,56 @@ namespace spirv
 
 			return result;
 		}
+
+		void checkCapabilitySupport( spv::Capability capability
+			, SpirVConfig const & spirvConfig )
+		{
+			if ( capability == spv::CapabilityAtomicFloat32AddEXT
+				|| capability == spv::CapabilityAtomicFloat64AddEXT )
+			{
+				if ( spirvConfig.specVersion < 0x00010500 )
+				{
+					throw std::runtime_error{ "Current SPIR-V specification version doesn't support " + getName( capability ) };
+				}
+			}
+		}
 	}
 
 	Module StmtVisitor::submit( ast::type::TypesCache & cache
 		, ast::stmt::Stmt * stmt
 		, ast::ShaderStage type
-		, ModuleConfig const & config )
+		, ModuleConfig const & moduleConfig
+		, SpirVConfig spirvConfig )
 	{
 		Module result{ cache
+			, spirvConfig
 			, getMemoryModel()
 			, getExecutionModel( type ) };
-		StmtVisitor vis{ result, type, config };
+		StmtVisitor vis{ result, type, moduleConfig, spirvConfig };
 		stmt->accept( &vis );
 		return result;
 	}
 
 	StmtVisitor::StmtVisitor( Module & result
 		, ast::ShaderStage type
-		, ModuleConfig const & config )
+		, ModuleConfig const & moduleConfig
+		, SpirVConfig const & spirvConfig )
 		: m_result{ result }
 	{
-		for ( auto & capability : config.requiredCapabilities )
+		for ( auto & capability : moduleConfig.requiredCapabilities )
 		{
+			checkCapabilitySupport( capability, spirvConfig );
 			m_result.capabilities.emplace_back( makeInstruction< CapabilityInstruction >( spv::Id( capability ) ) );
 		}
 
 		VariableInfo info;
 
-		for ( auto & input : config.inputs )
+		for ( auto & input : moduleConfig.inputs )
 		{
 			m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() ), spv::StorageClassInput, input->getType(), info ).id );
 		}
 
-		for ( auto & output : config.outputs )
+		for ( auto & output : moduleConfig.outputs )
 		{
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() ), spv::StorageClassOutput, output->getType(), info ).id );
 		}

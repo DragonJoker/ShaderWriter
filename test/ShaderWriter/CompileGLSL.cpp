@@ -245,7 +245,10 @@ namespace test
 	template< typename FuncT >
 	void getFunction( char const * const name, FuncT & function )
 	{
+#pragma warning( push )
+#pragma warning( disable: 4191 )
 		function = reinterpret_cast< FuncT >( wglGetProcAddress( name ) );
+#pragma warning( pop )
 
 		if ( function == nullptr )
 		{
@@ -724,7 +727,7 @@ namespace test
 
 			if ( infologLength > 0 )
 			{
-				std::vector< char > infoLog( infologLength + 1 );
+				std::vector< char > infoLog( size_t( infologLength + 1 ) );
 				window.glGetShaderInfoLog( shaderName
 					, infologLength
 					, &charsWritten

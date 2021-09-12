@@ -5,9 +5,12 @@ See LICENSE file in root folder
 
 #include <CompilerSpirV/compileSpirV.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
+#include <iostream>
+#pragma warning( pop )
 #include <algorithm>
 #include <iomanip>
-#include <iostream>
 #include <optional>
 #include <sstream>
 
@@ -350,7 +353,7 @@ namespace ast::vk
 			{
 				VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
 				nullptr,
-				VK_NULL_HANDLE,
+				nullptr,
 				binding,
 				0u,
 				descriptorCount,
@@ -592,7 +595,7 @@ namespace ast::vk
 		m_stageFlags |= getShaderStage( shader.getType() );
 		m_indices[shader.getType()] = size;
 		m_revIndices[size] = shader.getType();
-		return spirv::serialiseSpirv( shader );
+		return spirv::serialiseSpirv( shader, spirv::SpirVConfig{  } );
 	}
 
 	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )
@@ -646,7 +649,7 @@ namespace ast::vk
 		{
 			0u,
 			getShaderStage( shader.getType() ),
-			VK_NULL_HANDLE,
+			nullptr,
 			specInfo,
 		};
 	}

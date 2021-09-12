@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "PipelineShaderStageCreateInfo.hpp"
 #include "ShaderDataPtr.hpp"
 
+#include <algorithm>
 #include <array>
 
 namespace ast::vk
@@ -198,7 +199,7 @@ namespace ast::vk
 		{
 			// Make sure Vertex shader stage is the first one.
 			std::vector< ShaderRef > sorted;
-			sorted.reserve( std::distance( begin, end ) );
+			sorted.reserve( size_t( std::distance( begin, end ) ) );
 
 			while ( begin != end )
 			{

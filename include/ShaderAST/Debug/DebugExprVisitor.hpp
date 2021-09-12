@@ -42,6 +42,6 @@ namespace ast::debug
 	private:
 		std::string & m_result;
 	};
-};
+}
 
 #endif

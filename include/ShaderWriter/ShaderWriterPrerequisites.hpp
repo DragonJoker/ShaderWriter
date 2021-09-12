@@ -70,6 +70,7 @@ namespace sdw
 	struct OutTessellationEvaluation;
 	struct OutGeometry;
 	struct OutFragment;
+	struct WriterScope;
 
 	struct PerVertex;
 

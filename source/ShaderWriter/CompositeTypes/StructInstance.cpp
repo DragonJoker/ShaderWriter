@@ -19,7 +19,7 @@ namespace sdw
 		{
 			if ( isEnabled() )
 			{
-				auto & writer = *findWriter( *this, rhs );
+				auto & writer = findWriterMandat( *this, rhs );
 				addStmt( writer
 					, sdw::makeSimple( sdw::makeAssign( getType()
 						, makeExpr( writer, *this )

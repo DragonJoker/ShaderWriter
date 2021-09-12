@@ -28,6 +28,11 @@ namespace spirv
 
 	//*************************************************************************
 
+	Block::Block( spv::Id plabel )
+		: label{ plabel }
+	{
+	}
+
 	Block Block::deserialize( InstructionPtr firstInstruction
 		, InstructionListIt & buffer
 		, InstructionListIt const & end )
@@ -53,7 +58,7 @@ namespace spirv
 		while ( buffer != end
 			&& !isLastBlockInstruction( op ) )
 		{
-			op = spv::Op( ( *buffer )->op.opCode );
+			op = spv::Op( ( *buffer )->op.opData.opCode );
 
 			if ( !isLastBlockInstruction( op ) )
 			{

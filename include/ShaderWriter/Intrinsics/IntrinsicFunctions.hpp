@@ -1429,7 +1429,7 @@ namespace sdw
 	*	atomicCompSwap
 	*/
 	/**@{*/
-	SDW_API ReturnWrapperT< Int > atomicCompSwap( Int const & mem, UInt const & compare, UInt const & data );
+	SDW_API ReturnWrapperT< Int > atomicCompSwap( Int const & mem, Int const & compare, Int const & data );
 	SDW_API ReturnWrapperT< UInt > atomicCompSwap( UInt const & mem, UInt const & compare, UInt const & data );
 	/**@}*/
 #pragma endregion

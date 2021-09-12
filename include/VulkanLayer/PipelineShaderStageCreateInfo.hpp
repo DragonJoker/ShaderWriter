@@ -34,8 +34,8 @@ namespace ast::vk
 		inline PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateFlags flags
 			, VkShaderStageFlagBits stage
 			, VkShaderModule module
-			, SpecializationInfoOpt spec )
-			: spec{ std::move( spec ) }
+			, SpecializationInfoOpt pspec )
+			: spec{ std::move( pspec ) }
 			, data{ get( flags, stage, module ) }
 		{
 			updateData();
@@ -112,7 +112,7 @@ namespace ast::vk
 
 		static inline VkPipelineShaderStageCreateInfo get( VkPipelineShaderStageCreateFlags flags = 0u
 			, VkShaderStageFlagBits stage = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL
-			, VkShaderModule module = VK_NULL_HANDLE )
+			, VkShaderModule module = nullptr )
 		{
 			return VkPipelineShaderStageCreateInfo
 			{

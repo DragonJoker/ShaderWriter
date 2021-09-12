@@ -1,4 +1,4 @@
-#include "../Common.hpp"
+#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/ArraySsbo.hpp>

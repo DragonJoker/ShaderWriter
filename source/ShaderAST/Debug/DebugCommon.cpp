@@ -12,7 +12,10 @@ See LICENSE file in root folder
 #include "ShaderAST/Type/TypeStruct.hpp"
 #include "ShaderAST/Var/Variable.hpp"
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <sstream>
+#pragma warning( pop )
 
 namespace ast::debug
 {
@@ -109,14 +112,37 @@ namespace ast::debug
 			{
 			case type::MemoryLayout::eStd140:
 				return "STD140";
-				break;
 			case type::MemoryLayout::eStd430:
 				return "STD430";
-				break;
 			default:
 				assert( false && "Unsupported type::MemoryLayout" );
 				return "Undefined";
 			}
+		}
+
+		std::string getName( type::Struct const & type )
+		{
+			return type.getName()
+				+ "," + getName( type.getMemoryLayout() );
+		}
+
+		std::string computeArray( uint32_t arraySize )
+		{
+			std::string result;
+
+			if ( arraySize != type::NotArray )
+			{
+				result += "[";
+
+				if ( arraySize != type::UnknownArraySize )
+				{
+					result += std::to_string( arraySize );
+				}
+
+				result += "]";
+			}
+
+			return result;
 		}
 	}
 
@@ -287,25 +313,6 @@ namespace ast::debug
 		return getName( *type );
 	}
 
-	std::string computeArray( uint32_t arraySize )
-	{
-		std::string result;
-
-		if ( arraySize != type::NotArray )
-		{
-			result += "[";
-
-			if ( arraySize != type::UnknownArraySize )
-			{
-				result += std::to_string( arraySize );
-			}
-
-			result += "]";
-		}
-
-		return result;
-	}
-
 	std::string getName( type::Kind kind
 		, uint32_t arraySize )
 	{
@@ -398,12 +405,6 @@ namespace ast::debug
 			+ getName( depth, "Shadow", "" )
 			+ getName( ms, "MS", "" )
 			+ getName( access );
-	}
-
-	std::string getName( type::Struct const & type )
-	{
-		return type.getName()
-			+ "," + getName( type.getMemoryLayout() );
 	}
 
 	std::string getName( type::Type const & type )

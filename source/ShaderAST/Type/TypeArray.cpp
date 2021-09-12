@@ -53,14 +53,14 @@ namespace ast::type
 	//*************************************************************************
 
 	size_t getHash( TypePtr type
-		, uint32_t arraySize )
+		, uint32_t arraySize )noexcept
 	{
 		size_t result = std::hash< TypePtr >{}( type );
 		result = hashCombine( result, arraySize );
 		return result;
 	}
 
-	bool operator==( Array const & lhs, Array const & rhs )
+	bool operator==( Array const & lhs, Array const & rhs )noexcept
 	{
 		return *lhs.getType() == *rhs.getType()
 			&& lhs.getArraySize() == rhs.getArraySize();

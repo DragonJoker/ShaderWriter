@@ -7,10 +7,14 @@ See LICENSE file in root folder
 
 #include <cassert>
 #include <cstdint>
+
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <functional>
 #include <memory>
 #include <string>
 #include <vector>
+#pragma warning( pop )
 
 #if defined( ShaderAST_Static )
 #	define SDAST_API

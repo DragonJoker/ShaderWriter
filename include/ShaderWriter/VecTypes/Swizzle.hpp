@@ -206,7 +206,7 @@ namespace sdw
 #	define Writer_Swizzle( Input, Output, Name )\
 	inline Output Name()const\
 	{\
-		auto & shader = *findWriter( *this );\
+		auto & shader = findWriterMandat( *this );\
 		return Output{ shader\
 			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
 				, expr::SwizzleKind::e##Name )\

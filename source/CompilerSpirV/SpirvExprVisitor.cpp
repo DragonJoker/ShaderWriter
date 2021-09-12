@@ -202,7 +202,7 @@ namespace spirv
 					, type
 					, currentBlock );
 				loadedVariables.push_back( { varId, loadedRhsId } );
-				it = loadedVariables.begin() + loadedVariables.size() - 1u;
+				it = loadedVariables.begin() + ptrdiff_t( loadedVariables.size() - 1u );
 			}
 
 			return it->loadedId;

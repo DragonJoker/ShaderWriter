@@ -47,9 +47,9 @@ namespace ast::type
 	using ArrayPtr = std::shared_ptr< Array >;
 
 	SDAST_API size_t getHash( TypePtr type
-		, uint32_t arraySize );
+		, uint32_t arraySize )noexcept;
 
-	SDAST_API bool operator==( Array const & lhs, Array const & rhs );
+	SDAST_API bool operator==( Array const & lhs, Array const & rhs )noexcept;
 }
 
 #endif

@@ -115,7 +115,11 @@ namespace ast::type
 
 		inline TypesCache & getCache()const
 		{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+			assert( m_cache );
 			return *m_cache;
+#pragma GCC diagnostic pop
 		}
 
 	private:

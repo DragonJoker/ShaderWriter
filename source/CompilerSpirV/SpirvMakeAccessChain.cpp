@@ -567,6 +567,12 @@ namespace spirv
 
 #endif
 		}
+
+		bool isBuiltIn( ast::expr::Expr * expr )
+		{
+			return expr->getKind() == ast::expr::Kind::eIdentifier
+				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
+		}
 	}
 
 	spv::Id writeShuffle( Module & module
@@ -616,12 +622,6 @@ namespace spirv
 		}
 
 		return result;
-	}
-
-	bool isBuiltIn( ast::expr::Expr * expr )
-	{
-		return expr->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
 	}
 
 	bool isAccessChain( ast::expr::Expr * expr )

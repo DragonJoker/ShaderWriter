@@ -11,8 +11,11 @@ namespace spirv
 	{
 		bool isFloating( ast::type::Kind kind )
 		{
-			return kind == ast::type::Kind::eFloat
+			return kind == ast::type::Kind::eHalf
+				|| kind == ast::type::Kind::eFloat
 				|| kind == ast::type::Kind::eDouble
+				|| kind == ast::type::Kind::eVec2H
+				|| kind == ast::type::Kind::eVec4H
 				|| kind == ast::type::Kind::eVec2F
 				|| kind == ast::type::Kind::eVec3F
 				|| kind == ast::type::Kind::eVec4F
@@ -47,20 +50,33 @@ namespace spirv
 				|| kind == ast::type::Kind::eVec4I;
 		}
 
-		bool isUnsigned( ast::type::Kind kind )
-		{
-			return kind == ast::type::Kind::eUInt
-				|| kind == ast::type::Kind::eVec2U
-				|| kind == ast::type::Kind::eVec3U
-				|| kind == ast::type::Kind::eVec4U;
-		}
-
 		bool isBool( ast::type::Kind kind )
 		{
 			return kind == ast::type::Kind::eBoolean
 				|| kind == ast::type::Kind::eVec2B
 				|| kind == ast::type::Kind::eVec3B
 				|| kind == ast::type::Kind::eVec4B;
+		}
+
+		bool isAnyBool( ast::type::Kind lhsTypeKind
+			, ast::type::Kind rhsTypeKind )
+		{
+			return isBool( lhsTypeKind )
+				|| isBool( rhsTypeKind );
+		}
+
+		bool isAnySigned( ast::type::Kind lhsTypeKind
+			, ast::type::Kind rhsTypeKind )
+		{
+			return isSigned( lhsTypeKind )
+				|| isSigned( rhsTypeKind );
+		}
+
+		bool isAnyFloating( ast::type::Kind lhsTypeKind
+			, ast::type::Kind rhsTypeKind )
+		{
+			return isFloating( lhsTypeKind )
+				|| isFloating( rhsTypeKind );
 		}
 	}
 
@@ -1468,6 +1484,9 @@ namespace spirv
 		case spv::OpMemberDecorateStringGOOGLE:
 			result = "OpMemberDecorateStringGOOGLE";
 			break;
+		case spv::OpAtomicFAddEXT:
+			result = "OpAtomicFAddEXT";
+			break;
 		default:
 			break;
 		}
@@ -1574,54 +1593,6 @@ namespace spirv
 		}
 
 		return result;
-	}
-
-	bool isAnyBool( ast::type::Kind typeKind )
-	{
-		return isBool( typeKind );
-	}
-
-	bool isAnySigned( ast::type::Kind typeKind )
-	{
-		return isSigned( typeKind );
-	}
-
-	bool isAnyUnsigned( ast::type::Kind typeKind )
-	{
-		return isUnsigned( typeKind );
-	}
-
-	bool isAnyBool( ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind )
-	{
-		return isBool( lhsTypeKind )
-			|| isBool( rhsTypeKind );
-	}
-
-	bool isAnySigned( ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind )
-	{
-		return isSigned( lhsTypeKind )
-			|| isSigned( rhsTypeKind );
-	}
-
-	bool isAnyUnsigned( ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind )
-	{
-		return isUnsigned( lhsTypeKind )
-			|| isUnsigned( rhsTypeKind );
-	}
-
-	bool isAnyFloating( ast::type::Kind typeKind )
-	{
-		return isFloating( typeKind );
-	}
-
-	bool isAnyFloating( ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind )
-	{
-		return isFloating( lhsTypeKind )
-			|| isFloating( rhsTypeKind );
 	}
 
 	spv::Op getBinOpCode( ast::expr::Kind exprKind
@@ -1889,188 +1860,6 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eUnaryPlus:
 			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
-			break;
-		default:
-			break;
-		}
-
-		return result;
-	}
-
-	spv::Op getOpCode( ast::expr::Kind exprKind
-		, ast::type::Kind typeKind )
-	{
-		assert( exprKind != ast::expr::Kind::eImageAccessCall
-			&& exprKind != ast::expr::Kind::eIntrinsicCall
-			&& exprKind != ast::expr::Kind::eTextureAccessCall
-			&& "Unsupported ast::expr::Kind" );
-		spv::Op result{ spv::OpNop };
-
-		switch ( exprKind )
-		{
-		case ast::expr::Kind::eAdd:
-		case ast::expr::Kind::eAddAssign:
-			result = isFloating( typeKind )
-				? spv::OpFAdd
-				: spv::OpIAdd;
-			break;
-		case ast::expr::Kind::eMinus:
-		case ast::expr::Kind::eMinusAssign:
-			result = isFloating( typeKind )
-				? spv::OpFSub
-				: spv::OpISub;
-			break;
-		case ast::expr::Kind::eTimes:
-		case ast::expr::Kind::eTimesAssign:
-			result = isFloating( typeKind )
-				? spv::OpFMul
-				: spv::OpIMul;
-			break;
-		case ast::expr::Kind::eDivide:
-		case ast::expr::Kind::eDivideAssign:
-			result = isFloating( typeKind )
-				? spv::OpFDiv
-				: ( isSigned( typeKind )
-					? spv::OpSDiv
-					: spv::OpUDiv );
-			break;
-		case ast::expr::Kind::eModulo:
-		case ast::expr::Kind::eModuloAssign:
-			result = isFloating( typeKind )
-				? spv::OpFMod
-				: ( isSigned( typeKind )
-					? spv::OpSMod
-					: spv::OpUMod );
-			break;
-		case ast::expr::Kind::eLShift:
-		case ast::expr::Kind::eLShiftAssign:
-			result = spv::OpShiftLeftLogical;
-			break;
-		case ast::expr::Kind::eRShift:
-		case ast::expr::Kind::eRShiftAssign:
-			result = spv::OpShiftRightLogical;
-			break;
-		case ast::expr::Kind::eBitAnd:
-		case ast::expr::Kind::eAndAssign:
-			result = spv::OpBitwiseAnd;
-			break;
-		case ast::expr::Kind::eBitNot:
-		case ast::expr::Kind::eNotAssign:
-			result = spv::OpNot;
-			break;
-		case ast::expr::Kind::eBitOr:
-		case ast::expr::Kind::eOrAssign:
-			result = spv::OpBitwiseOr;
-			break;
-		case ast::expr::Kind::eBitXor:
-		case ast::expr::Kind::eXorAssign:
-			result = spv::OpBitwiseXor;
-			break;
-		case ast::expr::Kind::eLogAnd:
-			result = spv::OpLogicalAnd;
-			break;
-		case ast::expr::Kind::eLogNot:
-			result = spv::OpLogicalNot;
-			break;
-		case ast::expr::Kind::eLogOr:
-			result = spv::OpLogicalOr;
-			break;
-		case ast::expr::Kind::eCast:
-			assert( false && "Unexpected ast::expr::Kind::eCast" );
-			break;
-		case ast::expr::Kind::eInit:
-			result = spv::OpStore;
-			break;
-		case ast::expr::Kind::eAggrInit:
-			result = spv::OpStore;
-			break;
-		case ast::expr::Kind::eFnCall:
-			result = spv::OpFunctionCall;
-			break;
-		case ast::expr::Kind::eEqual:
-			result = isFloating( typeKind )
-				? spv::OpFOrdEqual
-				: spv::OpIEqual;
-			break;
-		case ast::expr::Kind::eGreater:
-			result = isFloating( typeKind )
-				? spv::OpFOrdGreaterThan
-				: ( isSigned( typeKind )
-					? spv::OpSGreaterThan
-					: spv::OpUGreaterThan );
-			break;
-		case ast::expr::Kind::eGreaterEqual:
-			result = isFloating( typeKind )
-				? spv::OpFOrdGreaterThanEqual
-				: ( isSigned( typeKind )
-					? spv::OpSGreaterThanEqual
-					: spv::OpUGreaterThanEqual );
-			break;
-		case ast::expr::Kind::eLess:
-			result = isFloating( typeKind )
-				? spv::OpFOrdLessThan
-				: ( isSigned( typeKind )
-					? spv::OpSLessThan
-					: spv::OpULessThan );
-			break;
-		case ast::expr::Kind::eLessEqual:
-			result = isFloating( typeKind )
-				? spv::OpFOrdLessThanEqual
-				: ( isSigned( typeKind )
-					? spv::OpSLessThanEqual
-					: spv::OpULessThanEqual );
-			break;
-		case ast::expr::Kind::eNotEqual:
-			result = isFloating( typeKind )
-				? spv::OpFOrdNotEqual
-				: spv::OpINotEqual;
-			break;
-		case ast::expr::Kind::eComma:
-			assert( false && "Unexpected ast::expr::Kind::eComma" );
-			break;
-		case ast::expr::Kind::eIdentifier:
-			assert( false && "Unexpected ast::expr::Kind::eIdentifier" );
-			break;
-		case ast::expr::Kind::eLiteral:
-			assert( false && "Unexpected ast::expr::Kind::eLiteral" );
-			break;
-		case ast::expr::Kind::eMbrSelect:
-			result = spv::OpAccessChain;
-			break;
-		case ast::expr::Kind::eSwitchTest:
-			result = spv::OpSwitch;
-			break;
-		case ast::expr::Kind::eSwitchCase:
-			result = spv::OpLabel;
-			break;
-		case ast::expr::Kind::eQuestion:
-			result = spv::OpSelect;
-			break;
-		case ast::expr::Kind::ePreIncrement:
-			assert( false && "Unexpected ast::expr::Kind::ePreIncrement" );
-			break;
-		case ast::expr::Kind::ePreDecrement:
-			assert( false && "Unexpected ast::expr::Kind::ePreDecrement" );
-			break;
-		case ast::expr::Kind::ePostIncrement:
-			assert( false && "Unexpected ast::expr::Kind::ePostIncrement" );
-			break;
-		case ast::expr::Kind::ePostDecrement:
-			assert( false && "Unexpected ast::expr::Kind::ePostDecrement" );
-			break;
-		case ast::expr::Kind::eUnaryMinus:
-			result = isFloating( typeKind )
-				? spv::OpFNegate
-				:  spv::OpSNegate;
-			break;
-		case ast::expr::Kind::eUnaryPlus:
-			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
-			break;
-		case ast::expr::Kind::eAssign:
-			result = spv::OpStore;
-			break;
-		case ast::expr::Kind::eArrayAccess:
-			result = spv::OpAccessChain;
 			break;
 		default:
 			break;

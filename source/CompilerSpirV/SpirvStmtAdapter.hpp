@@ -44,7 +44,7 @@ namespace spirv
 	private:
 		PreprocContext m_context;
 		ModuleConfig const & m_config;
-		std::vector< ast::stmt::Switch * > m_switchStmts;
+		uint32_t m_currentId{};
 	};
 }
 

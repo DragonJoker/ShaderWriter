@@ -1,4 +1,4 @@
-#include "../Common.hpp"
+#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -15,6 +15,7 @@ namespace
 		{
 		}
 
+		St( St const & ) = default;
 		St & operator=( St const & rhs )
 		{
 			sdw::StructInstance::operator=( rhs );
@@ -56,6 +57,7 @@ namespace
 		{
 		}
 
+		St2( St2 const & ) = default;
 		St2 & operator=( St2 const & rhs )
 		{
 			sdw::StructInstance::operator=( rhs );
@@ -1841,7 +1843,8 @@ namespace
 				, true, false, false );
 		}
 		testEnd();
-	}}
+	}
+}
 
 sdwTestSuiteMain( TestWriterShader )
 {

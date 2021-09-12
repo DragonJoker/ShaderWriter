@@ -22,7 +22,7 @@ namespace sdw
 			, bool enabled );
 		ReturnWrapperT( ValueT const & rhs );
 		ReturnWrapperT( ReturnWrapperT && rhs );
-		~ReturnWrapperT();
+		~ReturnWrapperT()override;
 
 		sdw::expr::ExprPtr release()const;
 		expr::ExprPtr makeCondition();

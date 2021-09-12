@@ -8,7 +8,11 @@ See LICENSE file in root folder
 #include "GlslIntrinsicNames.hpp"
 #include "GlslTextureAccessNames.hpp"
 
+#include <cmath>
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <sstream>
+#pragma warning( pop )
 #include <iomanip>
 
 namespace glsl
@@ -331,7 +335,7 @@ namespace glsl
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();
 				stream << std::setprecision( 12u ) << v;
 
-				if ( v == int64_t( v )
+				if ( v == std::floor( v )
 					&& stream.str().find( 'e' ) == std::string::npos )
 				{
 					stream << ".0";
@@ -345,7 +349,7 @@ namespace glsl
 				auto v = expr->getValue< ast::expr::LiteralType::eDouble >();
 				stream << std::setprecision( 16u ) << v;
 
-				if ( v == int64_t( v )
+				if ( v == std::floor( v )
 					&& stream.str().find( 'e' ) == std::string::npos )
 				{
 					stream << ".0";

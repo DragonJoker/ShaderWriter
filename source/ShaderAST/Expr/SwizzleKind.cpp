@@ -6,6 +6,7 @@ namespace ast::expr
 {
 	namespace
 	{
+#if !defined( NDEBUG )
 		bool isValid( SwizzleKind::Value value )
 		{
 			return value == SwizzleKind::e0
@@ -22,26 +23,27 @@ namespace ast::expr
 				&& ( count < 3u || isValid( value.getThirdValue() ) )
 				&& ( count < 4u || isValid( value.getFourthValue() ) );
 		}
-	}
+#endif
 
-	SwizzleKind::Value operator|( SwizzleKind::Value lhs, SwizzleKind::Value rhs )
-	{
-		return SwizzleKind::Value( uint16_t( lhs ) | uint16_t( rhs ) );
-	}
+		SwizzleKind::Value operator|( SwizzleKind::Value lhs, SwizzleKind::Value rhs )
+		{
+			return SwizzleKind::Value( uint16_t( lhs ) | uint16_t( rhs ) );
+		}
 
-	SwizzleKind::Value operator&( SwizzleKind::Value lhs, SwizzleKind::Value rhs )
-	{
-		return SwizzleKind::Value( uint16_t( lhs ) & uint16_t( rhs ) );
-	}
+		SwizzleKind::Value operator&( SwizzleKind::Value lhs, SwizzleKind::Value rhs )
+		{
+			return SwizzleKind::Value( uint16_t( lhs ) & uint16_t( rhs ) );
+		}
 
-	SwizzleKind::Value operator<<( SwizzleKind::Value lhs, uint32_t rhs )
-	{
-		return SwizzleKind::Value( uint16_t( lhs ) << rhs );
-	}
+		SwizzleKind::Value operator<<( SwizzleKind::Value lhs, uint32_t rhs )
+		{
+			return SwizzleKind::Value( uint16_t( lhs ) << rhs );
+		}
 
-	SwizzleKind::Value operator>>( SwizzleKind::Value lhs, uint32_t rhs )
-	{
-		return SwizzleKind::Value( uint16_t( lhs ) >> rhs );
+		SwizzleKind::Value operator>>( SwizzleKind::Value lhs, uint32_t rhs )
+		{
+			return SwizzleKind::Value( uint16_t( lhs ) >> rhs );
+		}
 	}
 
 	SwizzleKind::SwizzleKind( SwizzleKind::Value value )

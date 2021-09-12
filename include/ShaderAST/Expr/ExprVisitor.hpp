@@ -68,12 +68,12 @@ namespace ast::expr
 	protected:
 		SDAST_API Visitor()
 		{
-		};
+		}
 
 	public:
 		SDAST_API virtual ~Visitor()
 		{
-		};
+		}
 
 		SDAST_API virtual void visitAddExpr( Add * ) = 0;
 		SDAST_API virtual void visitAddAssignExpr( AddAssign * ) = 0;
@@ -141,7 +141,7 @@ namespace ast::expr
 		}
 
 	public:
-		virtual ~SimpleVisitor()
+		~SimpleVisitor()override
 		{
 		}
 
@@ -313,6 +313,6 @@ namespace ast::expr
 			visitBinaryExpr( expr );
 		}
 	};
-};
+}
 
 #endif

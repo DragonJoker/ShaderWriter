@@ -444,13 +444,13 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() + rhs.getValue< LiteralType::eInt >() );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() + rhs.getValue< LiteralType::eUInt >() );
+					, uint32_t( lhs.getValue< LiteralType::eInt >() ) + rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() + rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) + rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() + rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) + rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -460,16 +460,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() + rhs.getValue< LiteralType::eInt >() );
+					, int( lhs.getValue< LiteralType::eUInt >() ) + rhs.getValue< LiteralType::eInt >() );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() + rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() + rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) + rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() + rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) + rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -479,16 +479,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() + rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() + float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() + rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() + float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() + rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() + rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) + rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -498,13 +498,13 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() + rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eDouble >() + double( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() + rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eDouble >() + double( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() + rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() + double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() + rhs.getValue< LiteralType::eDouble >() );
@@ -533,10 +533,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() - rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() - rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) - rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() - rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) - rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -552,10 +552,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eUInt >() - rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() - rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) - rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() - rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) - rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -565,16 +565,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() - rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() - float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() - rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() - float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() - rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() - rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) - rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -584,13 +584,13 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() - rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eDouble >() - double( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() - rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eDouble >() - double( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() - rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() - double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() - rhs.getValue< LiteralType::eDouble >() );
@@ -619,10 +619,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() * rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() * rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) * rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() * rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) * rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -638,10 +638,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eUInt >() * rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() * rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) * rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() * rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) * rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -651,16 +651,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() * rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() * float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() * rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() * float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() * rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() * rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) * rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -670,13 +670,13 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() * rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eDouble >() * double( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() * rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eDouble >() * double( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() * rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() * double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() * rhs.getValue< LiteralType::eDouble >() );
@@ -705,10 +705,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() / rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() / rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) / rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() / rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) / rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -724,10 +724,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eUInt >() / rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() / rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) / rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() / rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) / rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -737,16 +737,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() / rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() / float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() / rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() / float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() / rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() / rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) / rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -756,13 +756,13 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() / rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eDouble >() / double( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() / rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eDouble >() / double( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() / rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() / double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() / rhs.getValue< LiteralType::eDouble >() );
@@ -921,13 +921,13 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() == rhs.getValue< LiteralType::eInt >() );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() == rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eInt >() == int( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() == rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) == rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() == rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) == rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -940,16 +940,16 @@ namespace ast::expr
 					, bool( lhs.getValue< LiteralType::eUInt >() ) == rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() == rhs.getValue< LiteralType::eInt >() );
+					, int( lhs.getValue< LiteralType::eUInt >() ) == rhs.getValue< LiteralType::eInt >() );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() == rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() == rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) == rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() == rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) == rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -962,16 +962,16 @@ namespace ast::expr
 					, bool( lhs.getValue< LiteralType::eFloat >() ) == rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() == rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() == float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() == rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() == float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() == rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() == rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) == rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -984,13 +984,13 @@ namespace ast::expr
 					, bool( lhs.getValue< LiteralType::eDouble >() ) == rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() == rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eDouble >() == double( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() == rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eDouble >() == double( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() == rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() == double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() == rhs.getValue< LiteralType::eDouble >() );
@@ -1041,13 +1041,13 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() != rhs.getValue< LiteralType::eInt >() );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() != rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eInt >() != int( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() != rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) != rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() != rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) != rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1060,16 +1060,16 @@ namespace ast::expr
 					, bool( lhs.getValue< LiteralType::eUInt >() ) != rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() != rhs.getValue< LiteralType::eInt >() );
+					, int( lhs.getValue< LiteralType::eUInt >() ) != rhs.getValue< LiteralType::eInt >() );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() != rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() != rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) != rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() != rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) != rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1082,16 +1082,16 @@ namespace ast::expr
 					, bool( lhs.getValue< LiteralType::eFloat >() ) != rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() != rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() != float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() != rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() != float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() != rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() != rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) != rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1110,7 +1110,7 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eDouble >() != rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() != rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() != double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() != rhs.getValue< LiteralType::eDouble >() );
@@ -1139,10 +1139,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() < int64_t( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() < rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) < rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() < rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eInt >() ) < rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1158,10 +1158,10 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eUInt >() < rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() < rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) < rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() < rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eUInt >() ) < rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1171,16 +1171,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() < rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() < float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() < rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() < float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() < rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() < rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) < rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1196,7 +1196,7 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eDouble >() < rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() < rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() < double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() < rhs.getValue< LiteralType::eDouble >() );
@@ -1230,7 +1230,7 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eInt >() > int64_t( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eInt >() > rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eInt >() ) > rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() > rhs.getValue< LiteralType::eDouble >() );
@@ -1249,7 +1249,7 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eUInt >() > rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eUInt >() > rhs.getValue< LiteralType::eFloat >() );
+					, float( lhs.getValue< LiteralType::eUInt >() ) > rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() > rhs.getValue< LiteralType::eDouble >() );
@@ -1262,16 +1262,16 @@ namespace ast::expr
 			{
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() > rhs.getValue< LiteralType::eInt >() );
+					, lhs.getValue< LiteralType::eFloat >() > float( rhs.getValue< LiteralType::eInt >() ) );
 			case LiteralType::eUInt:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() > rhs.getValue< LiteralType::eUInt >() );
+					, lhs.getValue< LiteralType::eFloat >() > float( rhs.getValue< LiteralType::eUInt >() ) );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eFloat >() > rhs.getValue< LiteralType::eFloat >() );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eFloat >() > rhs.getValue< LiteralType::eDouble >() );
+					, double( lhs.getValue< LiteralType::eFloat >() ) > rhs.getValue< LiteralType::eDouble >() );
 			default:
 				assert( false && "Unexpected operand for bit negate" );
 				return nullptr;
@@ -1287,7 +1287,7 @@ namespace ast::expr
 					, lhs.getValue< LiteralType::eDouble >() > rhs.getValue< LiteralType::eUInt >() );
 			case LiteralType::eFloat:
 				return std::make_unique< Literal >( lhs.getCache()
-					, lhs.getValue< LiteralType::eDouble >() > rhs.getValue< LiteralType::eFloat >() );
+					, lhs.getValue< LiteralType::eDouble >() > double( rhs.getValue< LiteralType::eFloat >() ) );
 			case LiteralType::eDouble:
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() > rhs.getValue< LiteralType::eDouble >() );

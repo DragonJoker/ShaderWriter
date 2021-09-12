@@ -1,4 +1,4 @@
-#include "../Common.hpp"
+#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -227,7 +227,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			if constexpr ( sdw::isReadWriteV< AccessT >
-				&& ( isFloatFormat( FormatT )
+				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
@@ -270,7 +270,7 @@ namespace
 							}
 						} );
 
-					if constexpr ( !isFloatFormat( FormatT ) )
+					if constexpr ( !isAtomicFloatFormat( FormatT ) )
 					{
 						test::writeShader( writer
 							, testCounts
@@ -689,7 +689,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			if constexpr ( sdw::isReadWriteV< AccessT >
-				&& ( isFloatFormat( FormatT )
+				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
@@ -966,8 +966,6 @@ namespace
 	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32f, TesterT >( testCounts );
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32i, TesterT >( testCounts );
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32u, TesterT >( testCounts );

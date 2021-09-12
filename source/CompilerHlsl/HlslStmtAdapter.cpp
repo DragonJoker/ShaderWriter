@@ -407,10 +407,10 @@ namespace hlsl
 			, stmt->getDescriptorSet() ) );
 		uint32_t mbrIndex = 0u;
 
-		for ( auto & stmt : *stmt )
+		for ( auto & curStmt : *stmt )
 		{
-			assert( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
-			auto var = static_cast< ast::stmt::VariableDecl const & >( *stmt ).getVariable();
+			assert( curStmt->getKind() == ast::stmt::Kind::eVariableDecl );
+			auto var = static_cast< ast::stmt::VariableDecl const & >( *curStmt ).getVariable();
 			m_adaptationData.replacedVars.emplace( var
 				, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( ssboVar->getType()
 						, ast::expr::makeIdentifier( m_cache

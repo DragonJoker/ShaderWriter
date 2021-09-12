@@ -31,7 +31,6 @@ namespace sdw
 			, uint32_t mbrIndex )
 		{
 			auto type = std::static_pointer_cast< type::Struct >( getNonArrayType( outer.getType() ) );
-			auto shader = outer.getShader();
 			var::VariablePtr var;
 
 			if ( outer.getExpr()->getKind() == expr::Kind::eArrayAccess )

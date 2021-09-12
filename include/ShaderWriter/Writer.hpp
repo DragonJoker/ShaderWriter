@@ -18,6 +18,8 @@ See LICENSE file in root folder
 
 #include <functional>
 
+#pragma GCC diagnostic ignored "-Wshadow"
+
 namespace sdw
 {
 	class ShaderWriter
@@ -84,7 +86,7 @@ namespace sdw
 		template< typename ReturnT, typename ... ParamsT >
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
-			, ParamsT && ... params );
+			, ParamsT ... params );
 		inline void implementMain( std::function< void() > const & function );
 		/**@}*/
 #pragma endregion
@@ -658,66 +660,123 @@ namespace sdw
 		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
 		SDW_API InCompute getIn();
 	};
+
+	template< typename WriterT >
+	struct WriterScopeT
+	{
+	public:
+		WriterScopeT( WriterScopeT const & rhs ) = delete;
+		WriterScopeT & operator=( WriterScopeT const& rhs ) = delete;
+
+		WriterScopeT( WriterScopeT && rhs )
+			: m_writer{ rhs.m_writer }
+		{
+			rhs.m_writer = nullptr;
+		}
+
+		WriterScopeT & operator=( WriterScopeT && rhs )
+		{
+			m_writer = rhs.m_writer;
+			rhs.m_writer = nullptr;
+			return *this;
+		}
+
+		WriterScopeT( WriterT & writer )
+			: m_writer{ &writer }
+		{
+			m_writer->pushScope();
+		}
+
+		~WriterScopeT()
+		{
+			if ( m_writer )
+			{
+				m_writer->popScope();
+			}
+		}
+
+		operator bool()const
+		{
+			return m_writer != nullptr;
+		}
+
+		WriterT * operator->()const
+		{
+			return m_writer;
+		}
+
+		WriterT & operator*()const
+		{
+			return *m_writer;
+		}
+
+	private:
+		WriterT * m_writer;
+	};
+
+	template< typename WriterT >
+	WriterScopeT< WriterT > makeScope( WriterT & writer )
+	{
+		return WriterScopeT< WriterT >{ writer };
+	}
 }
 
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
+	if ( auto writerScope = makeScope( Writer ) )\
 	{\
-		auto & writerInt = ( Writer );\
-		writerInt.pushScope();\
-		auto ctrlVar##Name = writerInt.registerLoopVar( #Name, Type::makeType( writerInt.getTypesCache() ) );\
-		Type Name{ writerInt, sdw::makeExpr( writerInt, ctrlVar##Name ), true };\
-		writerInt.saveNextExpr();\
-		Type incr##Name{ writerInt, writerInt.loadExpr( Type{ Incr } ), true };\
-		Name.updateExpr( sdw::makeExpr( writerInt, ctrlVar##Name ) );\
-		sdw::Boolean cond##Name{ writerInt, sdw::makeCondition( Cond ), true };\
-		writerInt.forStmt( sdw::makeInit( ctrlVar##Name\
-			, sdw::makeExpr( writerInt, Init ) )\
-			, sdw::makeExpr( writerInt, cond##Name )\
-			, sdw::makeExpr( writerInt, incr##Name )\
-			, [&]()
+		auto ctrlVar##Name = Writer.registerLoopVar( #Name, Type::makeType( Writer.getTypesCache() ) );\
+		Type Name{ Writer, sdw::makeExpr( Writer, ctrlVar##Name ), true };\
+		Writer.saveNextExpr();\
+		Type incr##Name{ Writer, Writer.loadExpr( Type{ Incr } ), true };\
+		Name.updateExpr( sdw::makeExpr( Writer, ctrlVar##Name ) );\
+		sdw::Boolean cond##Name{ Writer, sdw::makeCondition( Cond ), true };\
+		Writer.forStmt( sdw::makeInit( ctrlVar##Name\
+			, sdw::makeExpr( Writer, Init ) )\
+			, sdw::makeExpr( Writer, cond##Name )\
+			, sdw::makeExpr( Writer, incr##Name )\
+			, [&]()noexcept
 
 #define ROF\
  );\
-		writerInt.popScope();\
 	}
 
 #define WHILE( Writer, Condition )\
 	( Writer ).whileStmt( sdw::makeCondition( Condition )\
-		, [&]()
+		, [&]()noexcept
 
 #define ELIHW\
  );
 
 #define DOWHILE( Writer, Condition )\
 	( Writer ).doWhileStmt( sdw::makeCondition( Condition )\
-		, [&]()
+		, [&]()noexcept
 
 #define ELIHWOD\
  );
 
 #define IF( Writer, Condition )\
 	( Writer ).ifStmt( sdw::makeCondition( Condition )\
-		, [&]()
+		, [&]()noexcept
 
 #define ELSE\
- ).elseStmt( [&]()
+ ).elseStmt( [&]()noexcept
 
 #define ELSEIF( Condition )\
  ).elseIfStmt( sdw::makeCondition( Condition )\
-		, [&]()
+		, [&]()noexcept
 
 #define FI\
  ).endIf();
 
 #define SWITCH( Writer, Value )\
+	if ( auto writerScope = makeScope( Writer ) )\
 	{\
-		auto & writer_int = ( Writer );\
-		writer_int.switchStmt( sdw::makeExpr( writer_int, Value )\
-			, [&]()
+		writerScope->switchStmt( sdw::makeExpr( *writerScope, Value )\
+			, [&]()noexcept
 
 #define CASE( Literal )\
-			writer_int.caseStmt( sdw::makeLiteral( writer_int, Literal )\
-				, [&]()
+			writerScope->caseStmt( sdw::makeLiteral( *writerScope, Literal )\
+				, [&]()noexcept
 
 #define ESAC\
  )

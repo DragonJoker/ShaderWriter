@@ -20,6 +20,7 @@ namespace sdw
 		SDW_API Value( Value && rhs );
 		SDW_API Value( Value const & rhs );
 		SDW_API virtual ~Value();
+		SDW_API Value & operator=( Value && rhs ) = default;
 		SDW_API Value & operator=( Value const & rhs );
 		SDW_API void updateContainer( Value const & variable );
 		SDW_API stmt::Container * getContainer()const;
@@ -53,16 +54,18 @@ namespace sdw
 		template< typename OutputT, size_t CountT >
 		static inline expr::ExprPtr ctorCast( expr::ExprPtr op )
 		{
-			if ( op->getType()->getKind() == typeEnum< OutputT >
-				|| ( typeEnum< OutputT > == getComponentType( op->getType()->getKind() ) )
-				|| ( CountT <= getComponentCount( op->getType()->getKind() ) ) )
+			auto result = std::move( op );
+
+			if ( result->getType()->getKind() != typeEnum< OutputT >
+				&& ( typeEnum< OutputT > != getComponentType( result->getType()->getKind() ) )
+				&& ( CountT > getComponentCount( result->getType()->getKind() ) ) )
 			{
-				return std::move( op );
+				auto & cache = result->getCache();
+				result = sdw::makeCast( cache.getBasicType( typeEnum< OutputT > )
+					, std::move( result ) );
 			}
 
-			auto & cache = op->getCache();
-			return sdw::makeCast( cache.getBasicType( typeEnum< OutputT > )
-				, std::move( op ) );
+			return result;
 		}
 
 		template< typename OutputT, size_t CountT >
@@ -75,9 +78,9 @@ namespace sdw
 
 	protected:
 		expr::ExprPtr m_expr;
-		ShaderWriter * m_writer;
-		Shader * m_shader;
-		stmt::Container * m_container;
+		ShaderWriter * m_writer{};
+		Shader * m_shader{};
+		stmt::Container * m_container{};
 		bool m_enabled;
 	};
 
@@ -156,6 +159,8 @@ namespace sdw
 	inline stmt::Container * findContainer( ValuesT const & ... values );
 	template< typename ... ValuesT >
 	inline ShaderWriter * findWriter( ValuesT && ... values );
+	template< typename ... ValuesT >
+	inline ShaderWriter & findWriterMandat( ValuesT && ... values );
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
