@@ -405,30 +405,6 @@ namespace test
 
 			return result;
 		}
-
-		uint32_t retrieveSpirVVersion( uint32_t vkVersion )
-		{
-			uint32_t constexpr version1_0 = VK_MAKE_VERSION( 1, 0, 0 );
-			uint32_t constexpr version1_1 = VK_MAKE_VERSION( 1, 1, 0 );
-			//uint32_t constexpr version1_2 = VK_MAKE_VERSION( 1, 2, 0 );
-
-			uint32_t result{ 0x00010300 };
-
-			/*if ( vkVersion >= version1_2 )
-			{
-				result = 0x00010500;
-			}
-			else */if ( vkVersion >= version1_1 )
-			{
-				result = 0x00010300;
-			}
-			else if ( vkVersion >= version1_0 )
-			{
-				result = 0x00010000;
-			}
-
-			return result;
-		}
 	}
 
 	namespace sdw_test
@@ -457,18 +433,30 @@ namespace test
 
 			Info info{};
 		};
+	}
 
-		uint32_t TestCounts::getSpirVVersion()const
+	uint32_t retrieveSPIRVVersion( sdw_test::SPIRVContext const & context )
+	{
+		uint32_t constexpr version1_0 = VK_MAKE_VERSION( 1, 0, 0 );
+		uint32_t constexpr version1_1 = VK_MAKE_VERSION( 1, 1, 0 );
+		//uint32_t constexpr version1_2 = VK_MAKE_VERSION( 1, 2, 0 );
+
+		uint32_t result{ 0x00010300 };
+
+		/*if ( context.info.apiVersion >= version1_2 )
 		{
-			uint32_t ret{ 0x00010300 };
-
-			if ( spirv )
-			{
-				ret = retrieveSpirVVersion( spirv->info.apiVersion );
-			}
-
-			return ret;
+			result = 0x00010500;
 		}
+		else */if ( context.info.apiVersion >= version1_1 )
+		{
+			result = 0x00010300;
+		}
+		else if ( context.info.apiVersion >= version1_0 )
+		{
+			result = 0x00010000;
+		}
+
+		return result;
 	}
 
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
@@ -958,6 +946,11 @@ namespace test
 
 namespace test
 {
+	uint32_t retrieveSPIRVVersion( sdw_test::SPIRVContext const & context )
+	{
+		return 0u;
+	}
+
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
 	{
 		return true;

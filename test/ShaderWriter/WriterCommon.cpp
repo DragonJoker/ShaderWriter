@@ -503,6 +503,18 @@ namespace test
 			destroyGLSLContext( *this );
 			return test::TestCounts::cleanup();
 		}
+
+		uint32_t TestCounts::getSpirVVersion()const
+		{
+			uint32_t ret{ 0x00010300 };
+
+			if ( spirv )
+			{
+				ret = retrieveSPIRVVersion( *spirv );
+			}
+
+			return ret;
+		}
 	}
 
 	void writeShader( ::ast::Shader const & shader
