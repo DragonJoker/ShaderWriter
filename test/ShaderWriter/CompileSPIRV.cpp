@@ -127,7 +127,7 @@ namespace test
 			return false;
 		}
 
-		VkResult initGlobalExtensionProperties( LayerProperties & layer_props )
+		VkResult initInstanceExtensionProperties( LayerProperties & layer_props )
 		{
 			VkExtensionProperties *instance_extensions;
 			uint32_t instance_extension_count;
@@ -149,6 +149,42 @@ namespace test
 				layer_props.instance_extensions.resize( instance_extension_count );
 				instance_extensions = layer_props.instance_extensions.data();
 				res = vkEnumerateInstanceExtensionProperties( layer_name, &instance_extension_count, instance_extensions );
+			}
+			while ( res == VK_INCOMPLETE );
+
+			return res;
+		}
+
+		VkResult initDeviceExtensionProperties( VkPhysicalDevice physicalDevice
+			, LayerProperties & layer_props )
+		{
+			VkResult res;
+			char * layerName = layer_props.properties.layerName;
+
+			do
+			{
+				uint32_t count;
+				res = vkEnumerateDeviceExtensionProperties( physicalDevice
+					, layerName
+					, &count
+					, nullptr );
+
+				if ( res )
+				{
+					return res;
+				}
+
+				if ( count == 0 )
+				{
+					return VK_SUCCESS;
+				}
+
+				layer_props.instance_extensions.resize( count );
+				auto extensions = layer_props.instance_extensions.data();
+				res = vkEnumerateDeviceExtensionProperties( physicalDevice
+					, layerName
+					, &count
+					, extensions );
 			}
 			while ( res == VK_INCOMPLETE );
 
@@ -180,7 +216,7 @@ namespace test
 			{
 				LayerProperties layer_props;
 				layer_props.properties = vk_props[i];
-				res = initGlobalExtensionProperties( layer_props );
+				res = initInstanceExtensionProperties( layer_props );
 				if ( res ) return res;
 				info.instance_layer_properties.push_back( layer_props );
 			}
@@ -190,6 +226,28 @@ namespace test
 			return res;
 		}
 
+		bool isLayerSupported( std::string const & name
+			, std::vector< LayerProperties > const & cont )
+		{
+			return ( cont.end() != std::find_if( cont.begin()
+				, cont.end()
+				, [&name]( LayerProperties const & lookup )
+				{
+					return lookup.properties.layerName == name;
+				} ) );
+		}
+
+		bool isExtensionSupported( std::string const & name
+			, std::vector< VkExtensionProperties > const & cont )
+		{
+			return ( cont.end() != std::find_if( cont.begin()
+				, cont.end()
+				, [&name]( VkExtensionProperties const & lookup )
+				{
+					return lookup.extensionName == name;
+				} ) );
+		}
+
 		bool createInstance( Info & info )
 		{
 			initGlobalLayerProperties( info );
@@ -197,7 +255,12 @@ namespace test
 			info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
 	#endif
 			info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
-			info.instance_extension_names.push_back( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME );
+
+			if ( isLayerSupported( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME
+				, info.instance_layer_properties ) )
+			{
+				info.instance_extension_names.push_back( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME );
+			}
 
 
 			vkEnumerateInstanceVersion( &info.apiVersion );
@@ -343,7 +406,13 @@ namespace test
 					queue_info.queueCount = 1;
 					queue_info.pQueuePriorities = queue_priorities;
 
-					info.device_extension_names.push_back( "VK_EXT_shader_atomic_float" );
+					initDeviceExtensionProperties( info.gpus[0], info.instance_layer_properties[0] );
+
+					if ( isExtensionSupported( "VK_EXT_shader_atomic_float"
+						, info.instance_layer_properties[0].device_extensions ) )
+					{
+						info.device_extension_names.push_back( "VK_EXT_shader_atomic_float" );
+					}
 
 					VkDeviceCreateInfo device_info = {};
 					device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
