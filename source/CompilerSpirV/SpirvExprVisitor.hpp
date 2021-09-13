@@ -13,6 +13,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct PreprocContext;
 	spv::StorageClass getStorageClass( ast::var::VariablePtr var );
 
 	class ExprVisitor
@@ -20,15 +21,18 @@ namespace spirv
 	{
 	public:
 		static spv::Id submit( ast::expr::Expr * expr
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool loadVariable = true );
 		static spv::Id submit( ast::expr::Expr * expr
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
 		static spv::Id submit( ast::expr::Expr * expr
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, spv::Id initialiser
@@ -37,17 +41,20 @@ namespace spirv
 
 	private:
 		static spv::Id submit( ast::expr::Expr * expr
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool loadVariable );
 		static spv::Id submit( ast::expr::Expr * expr
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
 		static spv::Id submit( ast::expr::Expr * expr
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
@@ -56,12 +63,14 @@ namespace spirv
 			, LoadedVariableArray & loadedVariables );
 
 		ExprVisitor( spv::Id & result
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
 		ExprVisitor( spv::Id & result
+			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
@@ -153,7 +162,12 @@ namespace spirv
 			, bool isFuncInit
 			, ast::var::VariablePtr var
 			, ast::type::TypePtr type );
+		spv::Id visitInitialisers( ast::expr::ExprList const & initialisers
+			, ast::type::TypePtr type
+			, bool & allLiterals
+			, bool & hasFuncInit );
 	private:
+		spirv::PreprocContext const & m_context;
 		spv::Id & m_result;
 		Block & m_currentBlock;
 		Module & m_module;

@@ -214,6 +214,7 @@ namespace spirv
 		{
 		public:
 			static IdList submit( AccessChainExprArray const & exprs
+				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables )
@@ -222,6 +223,7 @@ namespace spirv
 				assert( exprs.size() >= 2u );
 				VariableInfo info;
 				result.push_back( submit( exprs[0].expr
+					, context
 					, module
 					, currentBlock
 					, loadedVariables ) );
@@ -231,6 +233,7 @@ namespace spirv
 					auto & expr = exprs[i];
 					result.push_back( submit( result.back()
 						, expr
+						, context
 						, module
 						, currentBlock
 						, loadedVariables
@@ -244,11 +247,13 @@ namespace spirv
 			AccessChainCreator( spv::Id & result
 				, ast::expr::Kind parentKind
 				, spv::Id parentId
+				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables
 				, VariableInfo & info )
 				: m_result{ result }
+				, m_context{ context }
 				, m_module{ module }
 				, m_currentBlock{ currentBlock }
 				, m_loadedVariables{ loadedVariables }
@@ -259,6 +264,7 @@ namespace spirv
 			}
 
 			static spv::Id submit( ast::expr::Expr * expr
+				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables )
@@ -270,6 +276,7 @@ namespace spirv
 					result,
 					expr->getKind(),
 					0u,
+					context,
 					module,
 					currentBlock,
 					loadedVariables,
@@ -281,6 +288,7 @@ namespace spirv
 
 			static spv::Id submit( spv::Id parentId
 				, ast::expr::Expr * expr
+				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables )
@@ -292,6 +300,7 @@ namespace spirv
 					result,
 					expr->getKind(),
 					parentId,
+					context,
 					module,
 					currentBlock,
 					loadedVariables,
@@ -303,6 +312,7 @@ namespace spirv
 
 			static spv::Id submit( spv::Id parentId
 				, AccessChainExpr expr
+				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables
@@ -314,6 +324,7 @@ namespace spirv
 					result,
 					expr.kind,
 					parentId,
+					context,
 					module,
 					currentBlock,
 					loadedVariables,
@@ -325,12 +336,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_currentBlock, m_module, true, m_loadedVariables );
+				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_currentBlock, m_module, true, m_loadedVariables );
+				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -345,12 +356,12 @@ namespace spirv
 
 				if ( isAccessChain( expr->getRHS() ) )
 				{
-					auto accessChain = makeAccessChain( expr->getRHS(), m_module, m_currentBlock, m_loadedVariables );
+					auto accessChain = makeAccessChain( expr->getRHS(), m_context, m_module, m_currentBlock, m_loadedVariables );
 					m_result = m_module.loadVariable( accessChain, expr->getRHS()->getType(), m_currentBlock );
 				}
 				else
 				{
-					m_result = submit( m_parentId, expr->getRHS(), m_module, m_currentBlock, m_loadedVariables );
+					m_result = submit( m_parentId, expr->getRHS(), m_context, m_module, m_currentBlock, m_loadedVariables );
 				}
 			}
 
@@ -424,6 +435,7 @@ namespace spirv
 					if ( isAccessChain( expr->getOuterExpr() ) )
 					{
 						parentId = makeAccessChain( expr->getOuterExpr()
+							, m_context
 							, m_module
 							, m_currentBlock
 							, m_loadedVariables );
@@ -438,6 +450,7 @@ namespace spirv
 					else
 					{
 						parentId = ExprVisitor::submit( expr->getOuterExpr()
+							, m_context
 							, m_currentBlock
 							, m_module );
 					}
@@ -503,6 +516,7 @@ namespace spirv
 
 		private:
 			spv::Id & m_result;
+			PreprocContext const & m_context;
 			Module & m_module;
 			Block & m_currentBlock;
 			LoadedVariableArray & m_loadedVariables;
@@ -647,6 +661,7 @@ namespace spirv
 	}
 
 	spv::Id makeAccessChain( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Module & module
 		, Block & currentBlock
 		, LoadedVariableArray & loadedVariables )
@@ -655,6 +670,7 @@ namespace spirv
 		ast::expr::ExprList idents;
 		auto accessChainExprs = AccessChainLineariser::submit( expr->getCache(), expr, idents );
 		auto accessChain = AccessChainCreator::submit( accessChainExprs
+			, context
 			, module
 			, currentBlock
 			, loadedVariables );

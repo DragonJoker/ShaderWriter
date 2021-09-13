@@ -446,9 +446,9 @@ namespace spirv
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		auto it = m_context.defines.find( expr->getVariable()->getName() );
+		auto it = m_context.constExprs.find( expr->getVariable()->getName() );
 
-		if ( it != m_context.defines.end() )
+		if ( it != m_context.constExprs.end() )
 		{
 			if ( it->second->getKind() == ast::expr::Kind::eLiteral )
 			{

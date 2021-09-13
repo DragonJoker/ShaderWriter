@@ -13,17 +13,20 @@ See LICENSE file in root folder
 namespace spirv
 {
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
-		, ModuleConfig const & config )
+		, ModuleConfig const & config
+		, PreprocContext & context )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ result, config };
+		StmtAdapter vis{ result, config, context };
 		container->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result
-		, ModuleConfig const & config )
+		, ModuleConfig const & config
+		, PreprocContext & context )
 		: StmtCloner{ result }
+		, m_context{ context }
 		, m_config{ config }
 	{
 	}
@@ -137,7 +140,27 @@ namespace spirv
 
 				if ( ident )
 				{
-					m_context.defines.insert( { ident->getVariable()->getName(), doSubmit( init->getInitialiser() ) } );
+					m_context.constExprs.insert( { ident->getVariable()->getName()
+						, doSubmit( init->getInitialiser() ) } );
+					processed = true;
+				}
+			}
+			else if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
+			{
+				auto aggrInit = static_cast< ast::expr::AggrInit * >( stmt->getExpr() );
+				auto ident = aggrInit->getIdentifier();
+
+				if ( ident )
+				{
+					ast::expr::ExprList initialisers;
+
+					for ( auto & init : aggrInit->getInitialisers() )
+					{
+						initialisers.emplace_back( doSubmit( init.get() ) );
+					}
+
+					m_context.constAggrExprs.emplace( ident->getVariable()->getName()
+						, std::move( initialisers ) );
 					processed = true;
 				}
 			}
@@ -161,7 +184,7 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		m_context.defines.emplace( preproc->getName(), doSubmit( preproc->getExpr() ) );
+		m_context.constExprs.emplace( preproc->getName(), doSubmit( preproc->getExpr() ) );
 	}
 
 	void StmtAdapter::visitPreprocElif( ast::stmt::PreprocElif * preproc )

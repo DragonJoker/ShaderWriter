@@ -120,8 +120,8 @@ namespace spirv
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
 			{
-				auto it = m_context.defines.find( expr->getVariable()->getName() );
-				assert( it != m_context.defines.end() );
+				auto it = m_context.constExprs.find( expr->getVariable()->getName() );
+				assert( it != m_context.constExprs.end() );
 				assert( it->second->getKind() == ast::expr::Kind::eLiteral );
 				m_result = std::unique_ptr< ast::expr::Literal >( new ast::expr::Literal{ static_cast< ast::expr::Literal const & >( *it->second ) } );
 			}

@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "SpirvOpHelpers.hpp"
 
+#include <ShaderAST/Expr/ExprList.hpp>
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 
@@ -40,7 +41,8 @@ namespace spirv
 
 	struct PreprocContext
 	{
-		std::map< std::string, ast::expr::ExprPtr > defines;
+		std::map< std::string, ast::expr::ExprPtr > constExprs;
+		std::map< std::string, ast::expr::ExprList > constAggrExprs;
 	};
 
 	spv::BuiltIn getBuiltin( std::string const & name );

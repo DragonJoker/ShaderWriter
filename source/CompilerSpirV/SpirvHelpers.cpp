@@ -1179,12 +1179,13 @@ namespace spirv
 	{
 		auto componentCount = getComponentCount( expr->getType()->getKind() );
 		ast::expr::ExprPtr result;
+		auto type = expr->getType()->getKind();
 
 		if ( componentCount == 1u )
 		{
 			result = ast::expr::makeNotEqual( cache
 				, std::move( expr )
-				, makeZero( cache, expr->getType()->getKind() ) );
+				, makeZero( cache, type ) );
 		}
 		else
 		{
@@ -1195,7 +1196,7 @@ namespace spirv
 			{
 				args.emplace_back( ast::expr::makeNotEqual( cache
 					, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-					, makeZero( cache, expr->getType()->getKind() ) ) );
+					, makeZero( cache, type ) ) );
 			}
 
 			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )

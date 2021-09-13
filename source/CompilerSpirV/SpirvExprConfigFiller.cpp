@@ -229,6 +229,16 @@ namespace spirv
 		{
 			arg->accept( this );
 		}
+
+		auto kind = expr->getIntrinsic();
+
+		if ( ( kind >= ast::expr::Intrinsic::eAtomicAddF
+			&& kind <= ast::expr::Intrinsic::eAtomicAdd4H )
+			|| ( kind >= ast::expr::Intrinsic::eAtomicExchangeF
+				&& kind <= ast::expr::Intrinsic::eAtomicExchange4H ) )
+		{
+			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
+		}
 	}
 
 	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )

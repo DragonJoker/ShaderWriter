@@ -3250,11 +3250,13 @@ namespace spirv
 			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 				, shader.getStatements() );
 			ModuleConfig moduleConfig = spirv::StmtConfigFiller::submit( simplified.get() );
-			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), moduleConfig );
+			spirv::PreprocContext context{};
+			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), moduleConfig, context );
 			return spirv::StmtVisitor::submit( shader.getTypesCache()
 				, spirvStatements.get()
 				, shader.getType()
 				, moduleConfig
+				, std::move( context )
 				, std::move( config ) );
 		}
 	}
