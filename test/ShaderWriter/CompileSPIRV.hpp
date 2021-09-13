@@ -8,6 +8,12 @@
 
 namespace test
 {
+	namespace sdw_test
+	{
+		struct SPIRVContext;
+	}
+
+	uint32_t retrieveSPIRVVersion( sdw_test::SPIRVContext const & context );
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts );
 	void destroySPIRVContext( sdw_test::TestCounts & testCounts );
 	bool compileSpirV( ::ast::Shader const & shader

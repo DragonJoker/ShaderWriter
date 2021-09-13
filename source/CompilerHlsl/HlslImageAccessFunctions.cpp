@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include "HlslIntrinsicFunctions.hpp"
+#include "HlslImageAccessFunctions.hpp"
 #include "HlslExprAdapter.hpp"
 
 #include <ShaderAST/Stmt/StmtContainer.hpp>
@@ -41,8 +42,8 @@ namespace hlsl
 		}
 	}
 
-	void compileHlslImageAccessFunctions( ast::stmt::Container * container
-		, IntrinsicsConfig const & config )
+	void compileHlslImageAccessFunctions( ast::stmt::Container * /*container*/
+		, IntrinsicsConfig const & /*config*/ )
 	{
 		//if ( config.requiresImageSamples2DMSF )
 		//{

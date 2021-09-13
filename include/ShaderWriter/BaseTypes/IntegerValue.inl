@@ -75,7 +75,7 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	expr::ExprPtr IntegerValue< KindT >::makeCondition()const
 	{
-		auto & shader = *findWriter( *this );
+		auto & shader = findWriterMandat( *this );
 		return sdw::makeNEqual( makeExpr( shader, *this )
 			, makeExpr( shader, CppTypeT< IntegerValue< KindT > >{} ) );
 	}

@@ -10746,9 +10746,9 @@ namespace ast::expr
 	*@param[in] mem
 	*	int
 	*@param[in] compare
-	*	uint
+	*	int
 	*@param[in] data
-	*	uint
+	*	int
 	*/
 	inline IntrinsicCallPtr makeAtomicCompSwapI( type::TypesCache & cache
 		, ExprPtr mem
@@ -10756,8 +10756,8 @@ namespace ast::expr
 		, ExprPtr data )
 	{
 		assert( mem->getType()->getKind() == type::Kind::eInt );
-		assert( compare->getType()->getKind() == type::Kind::eUInt );
-		assert( data->getType()->getKind() == type::Kind::eUInt );
+		assert( compare->getType()->getKind() == type::Kind::eInt );
+		assert( data->getType()->getKind() == type::Kind::eInt );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
 			, Intrinsic::eAtomicCompSwapI
 			, std::move( mem )

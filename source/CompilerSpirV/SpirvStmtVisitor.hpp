@@ -19,12 +19,16 @@ namespace spirv
 		static Module submit( ast::type::TypesCache & cache
 			, ast::stmt::Stmt * stmt
 			, ast::ShaderStage type
-			, ModuleConfig const & config );
+			, ModuleConfig const & moduleConfig
+			, spirv::PreprocContext context
+			, SpirVConfig spirvConfig );
 
 	private:
 		StmtVisitor( Module & result
 			, ast::ShaderStage type
-			, ModuleConfig const & config );
+			, ModuleConfig const & moduleConfig
+			, spirv::PreprocContext context
+			, SpirVConfig const & spirvConfig );
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitBreakStmt( ast::stmt::Break * stmt )override;
 		void visitContinueStmt( ast::stmt::Continue * stmt )override;
@@ -85,6 +89,7 @@ namespace spirv
 			spv::Id continueLabel;
 		};
 
+		spirv::PreprocContext m_context;
 		Module & m_result;
 		Block m_currentBlock;
 		Function * m_function{ nullptr };

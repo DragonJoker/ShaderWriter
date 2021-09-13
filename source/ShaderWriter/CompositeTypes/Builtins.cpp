@@ -67,7 +67,7 @@ namespace sdw
 				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 32u ), var::Flag::eShaderInput ) )
 			, true }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlInput
 				, vtx.getType() ) );
 	}
@@ -101,7 +101,7 @@ namespace sdw
 				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 32u ), var::Flag::eShaderInput ) )
 			, true }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
 				, vtx.getType() ) );
 	}
@@ -123,7 +123,7 @@ namespace sdw
 				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 3u ), var::Flag::eShaderInput ) )
 			, true }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryInput
 				, vtx.getType() ) );
 	}
@@ -219,7 +219,7 @@ namespace sdw
 			, makeIdent( writer.getTypesCache()
 				, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eVertexOutput
 				, vtx.getType() ) );
 	}
@@ -241,7 +241,7 @@ namespace sdw
 				, writer.getShader().registerBuiltin( "gl_out", PerVertex::getArrayType( writer.getTypesCache(), 32u ), var::Flag::eShaderOutput ) )
 			, true }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlOutput
 				, vtx.getType() ) );
 	}
@@ -254,7 +254,7 @@ namespace sdw
 			, makeIdent( writer.getTypesCache()
 				, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
 				, vtx.getType() ) );
 	}
@@ -279,7 +279,7 @@ namespace sdw
 			, makeIdent( writer.getTypesCache()
 				, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
-		addStmt( *findWriter( *this )
+		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
 				, vtx.getType() ) );
 	}

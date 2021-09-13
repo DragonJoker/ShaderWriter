@@ -579,7 +579,7 @@ namespace sdw
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba16f >
 	{
 		using SampleType = Vec4;
-		using FetchType = HVec4;
+		using FetchType = Vec4;
 		using GatherType = Vec4;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
@@ -590,8 +590,6 @@ namespace sdw
 		static constexpr img::ImageAccessIntrList const & imageSamples = img::imageSamplesF;
 		static constexpr img::ImageAccessIntrList const & imageLoad = img::imageLoadF;
 		static constexpr img::ImageAccessIntrList const & imageStore = img::imageStoreF;
-		static constexpr img::ImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddF;
-		static constexpr img::ImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeF;
 	};
 
 	template<>
@@ -615,7 +613,7 @@ namespace sdw
 	struct ImageFormatTraitsT< type::ImageFormat::eRg16f >
 	{
 		using SampleType = Vec2;
-		using FetchType = HVec2;
+		using FetchType = Vec2;
 		using GatherType = Vec4;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
@@ -653,7 +651,7 @@ namespace sdw
 	struct ImageFormatTraitsT< type::ImageFormat::eR16f >
 	{
 		using SampleType = Float;
-		using FetchType = Half;
+		using FetchType = Float;
 		using GatherType = Vec4;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
@@ -1066,7 +1064,7 @@ namespace sdw
 			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
-			return ReturnT{ *findWriter( image, params... )
+			return ReturnT{ findWriterMandat( image, params... )
 				, expr::makeImageAccessCall( ReturnT::makeType( cache )
 					, ImageAccessT
 					, makeExpr( image )
@@ -1090,7 +1088,7 @@ namespace sdw
 			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
 			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
 
-			auto & writer = *findWriter( image, params... );
+			auto & writer = findWriterMandat( image, params... );
 			auto & cache = findTypesCache( writer );
 
 			if ( areOptionalEnabled( image, params... ) )
@@ -1895,6 +1893,19 @@ namespace sdw
 			}
 		};
 
+		template< type::ImageFormat FormatT >
+		struct IsAtomicFloatFormat : std::false_type
+		{
+		};
+
+		template<>
+		struct IsAtomicFloatFormat< type::ImageFormat::eR32f > : std::true_type
+		{
+		};
+
+		template< type::ImageFormat FormatT >
+		static constexpr bool isAtomicFloatFormatV = IsAtomicFloatFormat< FormatT >::value;
+
 		//*************************************************************************
 
 		template< type::ImageFormat FormatT
@@ -1912,13 +1923,57 @@ namespace sdw
 			, std::enable_if_t< ( ( !MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
-				&& ( isFloatFormatV< FormatT > ) ) > >
+				&& ( isAtomicFloatFormatV< FormatT > ) ) > >
 			: public Image
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+		{
+			ImageFuncsT( ShaderWriter & writer
+				, expr::ExprPtr expr
+				, bool enabled )
+				: Image{ FormatT, writer, std::move( expr ), enabled }
+			{
+			}
+
+			ImageFuncsT( ImageFuncsT const & rhs )
+				: Image{ rhs }
+			{
+			}
+
+			template< typename T >
+			ImageFuncsT & operator=( T const & rhs )
+			{
+				Image::operator=( rhs );
+				return *this;
+			}
+		};
+
+		//*************************************************************************
+
+		template< type::ImageFormat FormatT
+			, type::AccessKind AccessT
+			, type::ImageDim DimT
+			, bool ArrayedT
+			, bool DepthT
+			, bool MsT >
+		struct ImageFuncsT< FormatT
+			, AccessT
+			, DimT
+			, ArrayedT
+			, DepthT
+			, MsT
+			, std::enable_if_t< ( ( !MsT )
+				&& ( isReadableV< AccessT > )
+				&& ( isWritableV< AccessT > )
+				&& ( isFloatFormatV< FormatT > )
+				&& ( !isAtomicFloatFormatV< FormatT > ) ) > >
+			: public Image
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
+			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2265,7 +2320,7 @@ namespace sdw
 	Image & Image::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = *findWriter( *this, rhs );
+		auto & shader = findWriterMandat( *this, rhs );
 
 		if ( areOptionalEnabled( *this, rhs ) )
 		{

@@ -108,7 +108,7 @@ namespace spirv
 			{
 				for ( uint32_t j = 0; j < 4; j++, w >>= 8 )
 				{
-					char c = w & 0xff;
+					char c = char( w & 0xff );
 
 					if ( c == '\0' )
 					{
@@ -562,55 +562,53 @@ namespace spirv
 				return dummy;
 			}
 		}
-	}
 
-	//*************************************************************************
-
-	Op makeOp( spv::Op op )
-	{
-		Op result{};
-		result.op = op;
-		return result;
-	}
-
-	//*************************************************************************
-
-	Instruction::Instruction( Config const & config
-		, spv::Op op
-		, Optional< spv::Id > returnTypeId
-		, Optional< spv::Id > resultId
-		, IdList operands
-		, Optional< std::string > name
-		, Optional< std::map< int32_t, spv::Id > > labels )
-		: returnTypeId{ returnTypeId }
-		, resultId{ resultId }
-		, operands{ operands }
-		, packedName{ nullopt }
-		, config{ config }
-		, name{ name }
-		, labels{ labels }
-	{
-		if ( bool( this->name ) )
+		Op makeOp( spv::Op op )
 		{
-			packedName = packString( this->name.value() );
+			Op result{};
+			result.op = op;
+			return result;
+		}
+	}
+
+	//*************************************************************************
+
+	Instruction::Instruction( Config const & pconfig
+		, spv::Op pop
+		, Optional< spv::Id > preturnTypeId
+		, Optional< spv::Id > presultId
+		, IdList poperands
+		, Optional< std::string > pname
+		, Optional< std::map< int32_t, spv::Id > > plabels )
+		: returnTypeId{ preturnTypeId }
+		, resultId{ presultId }
+		, operands{ poperands }
+		, packedName{ nullopt }
+		, config{ pconfig }
+		, name{ pname }
+		, labels{ plabels }
+	{
+		if ( bool( name ) )
+		{
+			packedName = packString( name.value() );
 		}
 
-		this->op.op = op;
-		this->op.opCount = uint16_t( 1u
-			+ ( bool( this->returnTypeId ) ? 1u : 0u )
-			+ ( bool( this->resultId ) ? 1u : 0u )
-			+ this->operands.size()
-			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u )
-			+ ( bool( this->labels ) ? this->labels.value().size() * 2u : 0u ) );
+		op.op = pop;
+		op.opData.opCount = uint16_t( 1u
+			+ ( bool( returnTypeId ) ? 1u : 0u )
+			+ ( bool( resultId ) ? 1u : 0u )
+			+ operands.size()
+			+ ( bool( packedName ) ? packedName.value().size() : 0u )
+			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
 
 		assertType( *this, config );
 	}
 
-	Instruction::Instruction( Config const & config
-		, Op op
+	Instruction::Instruction( Config const & pconfig
+		, Op pop
 		, UInt32ListCIt & buffer )
-		: op{ op }
-		, config{ config }
+		: op{ pop }
+		, config{ pconfig }
 	{
 		uint32_t index = 1u;
 		auto popValue = [&buffer, &index]()
@@ -639,7 +637,7 @@ namespace spirv
 
 		if ( config.operandsCount )
 		{
-			auto count = op.opCount - index;
+			auto count = op.opData.opCount - index;
 			operands.resize( count );
 
 			for ( auto & operand : operands )
@@ -649,22 +647,22 @@ namespace spirv
 		}
 		else if ( config.hasLabels )
 		{
-			auto count = ( op.opCount - index ) / 2u;
+			auto count = ( op.opData.opCount - index ) / 2u;
 			labels = std::map< int32_t, spv::Id >{};
 
 			for ( auto i = 0u; i < count; ++i )
 			{
 				auto label = popValue();
-				labels.value()[label] = popValue();
+				labels.value()[int32_t( label )] = popValue();
 			}
 		}
 	}
 
-	Instruction::Instruction( Config const & config
-		, Op op
+	Instruction::Instruction( Config const & pconfig
+		, Op pop
 		, UInt32ListIt & buffer )
-		: op{ op }
-		, config{ config }
+		: op{ pop }
+		, config{ pconfig }
 	{
 		uint32_t index = 1u;
 		auto popValue = [&buffer, &index]()
@@ -693,7 +691,7 @@ namespace spirv
 
 		if ( config.operandsCount )
 		{
-			auto count = op.opCount - index;
+			auto count = op.opData.opCount - index;
 			operands.resize( count );
 
 			for ( auto & operand : operands )
@@ -703,41 +701,41 @@ namespace spirv
 		}
 		else if ( config.hasLabels )
 		{
-			auto count = ( op.opCount - index ) / 2u;
+			auto count = ( op.opData.opCount - index ) / 2u;
 			labels = std::map< int32_t, spv::Id >{};
 
 			for ( auto i = 0u; i < count; ++i )
 			{
 				auto label = popValue();
-				labels.value()[label] = popValue();
+				labels.value()[int32_t( label )] = popValue();
 			}
 		}
 	}
 
-	Instruction::Instruction( Config const & config
-		, spv::Op op
+	Instruction::Instruction( Config const & pconfig
+		, spv::Op pop
 		, UInt32ListCIt & buffer )
-		: Instruction{ config, makeOp( op ), buffer }
+		: Instruction{ pconfig, makeOp( pop ), buffer }
 	{
-		this->op.opCount = uint16_t( 1u
-			+ ( bool( this->returnTypeId ) ? 1u : 0u )
-			+ ( bool( this->resultId ) ? 1u : 0u )
+		op.opData.opCount = uint16_t( 1u
+			+ ( bool( returnTypeId ) ? 1u : 0u )
+			+ ( bool( resultId ) ? 1u : 0u )
 			+ this->operands.size()
-			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u )
-			+ ( bool( this->labels ) ? this->labels.value().size() * 2u : 0u ) );
+			+ ( bool( packedName ) ? packedName.value().size() : 0u )
+			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
 	}
 
-	Instruction::Instruction( Config const & config
-		, spv::Op op
+	Instruction::Instruction( Config const & pconfig
+		, spv::Op pop
 		, UInt32ListIt & buffer )
-		: Instruction{ config, makeOp( op ), buffer }
+		: Instruction{ pconfig, makeOp( pop ), buffer }
 	{
-		this->op.opCount = uint16_t( 1u
-			+ ( bool( this->returnTypeId ) ? 1u : 0u )
-			+ ( bool( this->resultId ) ? 1u : 0u )
-			+ this->operands.size()
-			+ ( bool( this->packedName ) ? this->packedName.value().size() : 0u )
-			+ ( bool( this->labels ) ? this->labels.value().size() * 2u : 0u ) );
+		op.opData.opCount = uint16_t( 1u
+			+ ( bool( returnTypeId ) ? 1u : 0u )
+			+ ( bool( resultId ) ? 1u : 0u )
+			+ operands.size()
+			+ ( bool( packedName ) ? packedName.value().size() : 0u )
+			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
 	}
 
 	Instruction::~Instruction()
@@ -786,7 +784,7 @@ namespace spirv
 		{
 			for ( auto & label : instruction.labels.value() )
 			{
-				pushValue( label.first );
+				pushValue( uint32_t( label.first ) );
 				pushValue( label.second );
 			}
 		}
@@ -804,8 +802,8 @@ namespace spirv
 		};
 		spirv::Op op;
 		op.opValue = popValue();
-		assert( op.opCode != spv::OpNop );
-		auto & config = getConfig( spv::Op( op.opCode ) );
+		assert( op.opData.opCode != spv::OpNop );
+		auto & config = getConfig( spv::Op( op.opData.opCode ) );
 		return std::make_unique< Instruction >( config, op, buffer );
 	}
 
@@ -821,8 +819,8 @@ namespace spirv
 		};
 		spirv::Op op;
 		op.opValue = popValue();
-		assert( op.opCode != spv::OpNop );
-		auto & config = getConfig( spv::Op( op.opCode ) );
+		assert( op.opData.opCode != spv::OpNop );
+		auto & config = getConfig( spv::Op( op.opData.opCode ) );
 		return std::make_unique< Instruction >( config, op, buffer );
 	}
 

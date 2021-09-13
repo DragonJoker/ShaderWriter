@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Double.hpp"
 
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+
 namespace
 {
 	void compileDouble()

@@ -3,7 +3,10 @@ See LICENSE file in root folder
 */
 #include "VulkanLayer/VulkanLayer.hpp"
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <iostream>
+#pragma warning( pop )
 #include <sstream>
 
 namespace ast::vk
@@ -79,7 +82,7 @@ namespace ast::vk
 		case VK_OPERATION_DEFERRED_KHR: stream << "vk_operation_deferred"; break;
 		case VK_OPERATION_NOT_DEFERRED_KHR: stream << "vk_operation_not_deferred"; break;
 #endif
-#if VK_KHR_ray_tracing || (VK_HEADER_VERSION >= 140)
+#if VK_KHR_ray_tracing
 		case VK_ERROR_INCOMPATIBLE_VERSION_KHR: stream << "vk_error_incompatible_version"; break;
 #endif
 #if VK_EXT_debug_report

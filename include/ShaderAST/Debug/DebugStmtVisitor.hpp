@@ -69,6 +69,6 @@ namespace ast::debug
 		bool m_compoundName{ false };
 		std::string & m_result;
 	};
-};
+}
 
 #endif

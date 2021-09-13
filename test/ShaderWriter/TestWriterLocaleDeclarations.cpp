@@ -1,4 +1,4 @@
-#include "../Common.hpp"
+#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -240,8 +240,8 @@ sdwTestSuiteMain( TestWriterLocaleDeclarations )
 	testLocale< sdw::UInt >( testCounts );
 	testLocale< sdw::Float >( testCounts );
 	testLocale< sdw::Double >( testCounts );
-	testLocale< sdw::HVec2 >( testCounts );
-	testLocale< sdw::HVec4 >( testCounts );
+	//testLocale< sdw::HVec2 >( testCounts );
+	//testLocale< sdw::HVec4 >( testCounts );
 	testLocale< sdw::Vec2 >( testCounts );
 	testLocale< sdw::Vec3 >( testCounts );
 	testLocale< sdw::Vec4 >( testCounts );

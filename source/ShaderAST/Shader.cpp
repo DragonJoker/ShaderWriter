@@ -10,6 +10,21 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	namespace
+	{
+		auto findVariable( std::set< var::VariablePtr > const & vars
+			, std::string const & name )
+		{
+			return std::find_if( vars.begin()
+				, vars.end()
+				, [name]( var::VariablePtr const & var )
+				{
+					return var->getFullName() == name
+						|| var->getName() == name;
+				} );
+		}
+	}
+
 	Shader::Shader( ast::ShaderStage type )
 		: m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
@@ -25,7 +40,7 @@ namespace ast
 
 		if ( m_blocks.size() > 1u )
 		{
-			auto it = m_blocks.begin() + m_blocks.size() - 2u;
+			auto it = m_blocks.begin() + ptrdiff_t( m_blocks.size() - 2 );
 			// move variables contained in the given list to the new scope.
 			for ( auto & var : vars )
 			{
@@ -43,7 +58,7 @@ namespace ast
 
 	void Shader::pop()
 	{
-		m_blocks.erase( m_blocks.begin() + m_blocks.size() - 1u );
+		m_blocks.erase( m_blocks.begin() + ptrdiff_t( m_blocks.size() - 1 ) );
 	}
 
 	void Shader::saveNextExpr()
@@ -62,21 +77,9 @@ namespace ast
 		}
 
 		m_ignore = false;
-		return std::move( expr );
+		return expr;
 	}
 
-	auto findVariable( std::set< var::VariablePtr > const & vars
-		, std::string const & name )
-	{
-		return std::find_if( vars.begin()
-			, vars.end()
-			, [name]( var::VariablePtr const & var )
-			{
-				return var->getFullName() == name
-					|| var->getName() == name;
-			} );
-	}
-	
 	bool Shader::hasVariable( std::string const & name )const
 	{
 		auto & block = m_blocks.back();
@@ -87,9 +90,12 @@ namespace ast
 	void Shader::registerVariable( var::VariablePtr var )
 	{
 		auto & block = m_blocks.back();
-		auto it = block.registered.find( var );
-		assert( it == block.registered.end() );
+#if !defined( NDEBUG )
+		auto ires = block.registered.emplace( var );
+		assert( ires.second );
+#else
 		block.registered.emplace( var );
+#endif
 	}
 
 	var::VariablePtr Shader::registerName( std::string const & name

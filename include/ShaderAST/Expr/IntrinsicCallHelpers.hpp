@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace ast::expr::helpers
 {
-	inline void fillArgsListRec( ExprList & result )
+	inline void fillArgsListRec( ExprList & )
 	{
 	}
 

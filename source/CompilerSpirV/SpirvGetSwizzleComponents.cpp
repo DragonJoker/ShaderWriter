@@ -8,6 +8,459 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	namespace
+	{
+		std::vector< uint32_t > getSwizzle2Components( ast::expr::SwizzleKind swizzle )
+		{
+			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
+			{
+			case ast::expr::SwizzleKind::e01:
+				return { 0, 1 };
+			case ast::expr::SwizzleKind::e10:
+				return { 1, 0 };
+			default:
+				assert( false && "Impossible LHS swizzle kind for 2 components vector" );
+				return {};
+			}
+		}
+
+		std::vector< uint32_t > getSwizzle3Components( ast::expr::SwizzleKind swizzle )
+		{
+			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
+			{
+			case ast::expr::SwizzleKind::e012:
+				return { 0, 1, 2 };
+			case ast::expr::SwizzleKind::e021:
+				return { 0, 2, 1 };
+			case ast::expr::SwizzleKind::e102:
+				return { 1, 0, 2 };
+			case ast::expr::SwizzleKind::e120:
+				return { 1, 2, 0 };
+			case ast::expr::SwizzleKind::e201:
+				return { 2, 0, 1 };
+			case ast::expr::SwizzleKind::e210:
+				return { 2, 1, 0 };
+			default:
+				assert( false && "Impossible LHS swizzle kind for 3 components vector" );
+				return {};
+			}
+		}
+
+		std::vector< uint32_t > getSwizzle4Components( ast::expr::SwizzleKind swizzle )
+		{
+			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
+			{
+			case ast::expr::SwizzleKind::e0123:
+				return { 0, 1, 2, 3 };
+			case ast::expr::SwizzleKind::e0132:
+				return { 0, 1, 3, 2 };
+			case ast::expr::SwizzleKind::e0213:
+				return { 0, 2, 1, 3 };
+			case ast::expr::SwizzleKind::e0231:
+				return { 0, 2, 3, 1 };
+			case ast::expr::SwizzleKind::e0312:
+				return { 0, 3, 1, 2 };
+			case ast::expr::SwizzleKind::e0321:
+				return { 0, 3, 2, 1 };
+			case ast::expr::SwizzleKind::e1023:
+				return { 1, 0, 2, 3 };
+			case ast::expr::SwizzleKind::e1032:
+				return { 1, 0, 3, 2 };
+			case ast::expr::SwizzleKind::e1230:
+				return { 1, 2, 3, 0 };
+			case ast::expr::SwizzleKind::e1302:
+				return { 1, 3, 0, 2 };
+			case ast::expr::SwizzleKind::e1320:
+				return { 1, 3, 2, 0 };
+			case ast::expr::SwizzleKind::e2013:
+				return { 2, 0, 1, 3 };
+			case ast::expr::SwizzleKind::e2031:
+				return { 2, 0, 3, 1 };
+			case ast::expr::SwizzleKind::e2103:
+				return { 2, 1, 0, 3 };
+			case ast::expr::SwizzleKind::e2130:
+				return { 2, 1, 3, 0 };
+			case ast::expr::SwizzleKind::e2301:
+				return { 2, 3, 0, 1 };
+			case ast::expr::SwizzleKind::e2310:
+				return { 2, 3, 1, 0 };
+			case ast::expr::SwizzleKind::e3012:
+				return { 3, 0, 1, 2 };
+			case ast::expr::SwizzleKind::e3021:
+				return { 3, 0, 2, 1 };
+			case ast::expr::SwizzleKind::e3102:
+				return { 3, 1, 0, 2 };
+			case ast::expr::SwizzleKind::e3120:
+				return { 3, 1, 2, 0 };
+			case ast::expr::SwizzleKind::e3201:
+				return { 3, 2, 0, 1 };
+			case ast::expr::SwizzleKind::e3210:
+				return { 3, 2, 1, 0 };
+			default:
+				assert( false && "Impossible LHS swizzle kind for 3 components vector" );
+				return {};
+			}
+		}
+
+		IdList fillVec2Swizzle( ast::expr::SwizzleKind lhsSwizzle
+			, ast::expr::SwizzleKind rhsSwizzle )
+		{
+			std::vector< uint32_t > result;
+			auto rhs = getSwizzleComponents( rhsSwizzle );
+			std::transform( rhs.begin()
+				, rhs.end()
+				, rhs.begin()
+				, []( uint32_t v )
+				{
+					return v + 2u;
+				} );
+			assert( !rhs.empty() );
+
+			if ( rhs.size() == 1u )
+			{
+				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				{
+				case ast::expr::SwizzleKind::e0:
+					// lhs.x = rhs.c => lhs = vec2(rhs.c, lhs.y)
+					result = { rhs[0u], 1u };
+					break;
+				case ast::expr::SwizzleKind::e1:
+					// lhs.y = rhs.c => lhs = vec2(lhs.x, rhs.c)
+					result = { 0u, rhs[0u] };
+					break;
+				default:
+					assert( false && "Impossible LHS swizzle kind" );
+					break;
+				}
+			}
+			else if ( rhs.size() == 2u )
+			{
+				auto lhs = getSwizzle2Components( lhsSwizzle );
+				assert( lhs.size() == rhs.size() );
+				result = { rhs[lhs[0u]], rhs[lhs[1u]] };
+			}
+
+			assert( result.size() == 2u );
+			return result;
+		}
+
+		IdList fillVec3Swizzle( ast::expr::SwizzleKind lhsSwizzle
+			, ast::expr::SwizzleKind rhsSwizzle )
+		{
+			std::vector< uint32_t > result;
+			auto rhs = getSwizzleComponents( rhsSwizzle );
+			std::transform( rhs.begin()
+				, rhs.end()
+				, rhs.begin()
+				, []( uint32_t v )
+				{
+					return v + 3u;
+				} );
+			assert( !rhs.empty() );
+
+			if ( rhs.size() == 1u )
+			{
+				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				{
+				case ast::expr::SwizzleKind::e0:
+					// lhs.x = rhs.c => lhs = vec3(rhs.c, lhs.y, lhs.z)
+					result = { rhs[0u], 1u, 2u };
+					break;
+				case ast::expr::SwizzleKind::e1:
+					// lhs.y = rhs.c => lhs = vec3(lhs.x, rhs.c, lhs.z)
+					result = { 0u, rhs[0u], 2u };
+					break;
+				case ast::expr::SwizzleKind::e2:
+					// lhs.z = rhs.c => lhs = vec3(lhs.x, lhs.y, rhs.c)
+					result = { 0u, 1u, rhs[0u] };
+					break;
+				default:
+					assert( false && "Impossible LHS swizzle kind" );
+					break;
+				}
+			}
+			else if ( rhs.size() == 2u )
+			{
+				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				{
+				case ast::expr::SwizzleKind::e01:
+					// lhs.xy = rhs.cMcN => lhs = vec3(rhs.cM, rhs.cN, lhs.z)
+					result = { rhs[0u], rhs[1u], 2u };
+					break;
+				case ast::expr::SwizzleKind::e02:
+					// lhs.xz = rhs.cMcN => lhs = vec3(rhs.cM, lhs.y, rhs.cN)
+					result = { rhs[0u], 1u, rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e10:
+					// lhs.yx = rhs.cMcN => lhs = vec3(rhs.cN, rhs.cM, lhs.z)
+					result = { rhs[1u], rhs[0u], 2u };
+					break;
+				case ast::expr::SwizzleKind::e12:
+					// lhs.yz = rhs.cMcN => lhs = vec3(lhs.x, rhs.cM, rhs.cN)
+					result = { 0u, rhs[0u], rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e20:
+					// lhs.zx = rhs.cMcN => lhs = vec3(rhs.cN, lhs.y, rhs.cM)
+					result = { rhs[1u], 1u, rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e21:
+					// lhs.zy = rhs.cMcN => lhs = vec3(lhs.x, rhs.cN, rhs.cM)
+					result = { 0u, rhs[1u], rhs[0u] };
+					break;
+				default:
+					assert( false && "Impossible LHS swizzle kind" );
+					break;
+				}
+			}
+			else if ( rhs.size() == 3u )
+			{
+				auto lhs = getSwizzle3Components( lhsSwizzle );
+				assert( lhs.size() == rhs.size() );
+				result = { rhs[lhs[0u]], rhs[lhs[1u]], rhs[lhs[2u]] };
+			}
+
+			assert( result.size() == 3u );
+			return result;
+		}
+
+		IdList fillVec4Swizzle( ast::expr::SwizzleKind lhsSwizzle
+			, ast::expr::SwizzleKind rhsSwizzle )
+		{
+			std::vector< uint32_t > result;
+			auto rhs = getSwizzleComponents( rhsSwizzle );
+			std::transform( rhs.begin()
+				, rhs.end()
+				, rhs.begin()
+				, []( uint32_t v )
+				{
+					return v + 4u;
+				} );
+			assert( !rhs.empty() );
+
+			if ( rhs.size() == 1u )
+			{
+				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				{
+				case ast::expr::SwizzleKind::e0:
+					// lhs.x = rhs.c => lhs = vec4(rhs.c, lhs.y, lhs.z, lhs.w)
+					result = { rhs[0u], 1u, 2u, 3u };
+					break;
+				case ast::expr::SwizzleKind::e1:
+					// lhs.y = rhs.c => lhs = vec4(lhs.x, rhs.c, lhs.z, lhs.w)
+					result = { 0u, rhs[0u], 2u, 3u };
+					break;
+				case ast::expr::SwizzleKind::e2:
+					// lhs.z = rhs.c => lhs = vec4(lhs.x, lhs.y, rhs.c, lhs.w)
+					result = { 0u, 1u, rhs[0u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e3:
+					// lhs.w = rhs.c => lhs = vec4(lhs.x, lhs.y, lhs.z, rhs.c)
+					result = { 0u, 1u, 2u, rhs[0u] };
+					break;
+				default:
+					assert( false && "Impossible LHS swizzle kind" );
+					break;
+				}
+			}
+			else if ( rhs.size() == 2u )
+			{
+				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				{
+				case ast::expr::SwizzleKind::e01:
+					// lhs.xy = rhs.cMcN => lhs = vec4(rhs.cM, rhs.cN, lhs.z, lhs.w)
+					result = { rhs[0u], rhs[1u], 2u, 3u };
+					break;
+				case ast::expr::SwizzleKind::e02:
+					// lhs.xz = rhs.cMcN => lhs = vec4(rhs.cM, lhs.y, rhs.cN, lhs.w)
+					result = { rhs[0u], 1u, rhs[1u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e03:
+					// lhs.xw = rhs.cMcN => lhs = vec4(rhs.cM, lhs.y, lhs.z, rhs.cN)
+					result = { rhs[0u], 1u, 2u, rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e10:
+					// lhs.yx = rhs.cMcN => lhs = vec4(rhs.cN, rhs.cM, lhs.z, lhs.w)
+					result = { rhs[1u], rhs[0u], 2u, 3u };
+					break;
+				case ast::expr::SwizzleKind::e12:
+					// lhs.yz = rhs.cMcN => lhs = vec4(lhs.x, rhs.cM, rhs.cN, lhs.w)
+					result = { 0u, rhs[0u], rhs[1u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e13:
+					// lhs.yw = rhs.cMcN => lhs = vec4(lhs.x, rhs.cM, lhs.z, rhs.cN)
+					result = { 0u, rhs[0u], 2u, rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e20:
+					// lhs.zx = rhs.cMcN => lhs = vec4(rhs.cN, lhs.y, rhs.cM, lhs.w)
+					result = { rhs[1u], 1u, rhs[0u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e21:
+					// lhs.zy = rhs.cMcN => lhs = vec4(lhs.x, rhs.cN, rhs.cM, lhs.w)
+					result = { 0u, rhs[1u], rhs[0u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e23:
+					// lhs.zw = rhs.cMcN => lhs = vec4(lhs.x, lhs.y, rhs.cM, rhs.cN)
+					result = { 0u, 1u, rhs[0u], rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e30:
+					// lhs.wx = rhs.cMcN => lhs = vec4(rhs.cN, lhs.y, lhs.z, rhs.cM)
+					result = { rhs[1u], 1u, 2u, rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e31:
+					// lhs.wy = rhs.cMcN => lhs = vec4(lhs.x, rhs.cN, lhs.z, rhs.cM)
+					result = { 0u, rhs[1u], 2u, rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e32:
+					// lhs.wz = rhs.cMcN => lhs = vec4(lhs.x, lhs.y, rhs.cN, rhs.cM)
+					result = { 0u, 1u, rhs[1u], rhs[0u] };
+					break;
+				default:
+					assert( false && "Impossible LHS swizzle kind" );
+					break;
+				}
+			}
+			else if ( rhs.size() == 3u )
+			{
+				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				{
+				case ast::expr::SwizzleKind::e012:
+					// lhs.xyz = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, rhs.cO, lhs.w)
+					result = { rhs[0u], rhs[1u], rhs[2u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e013:
+					// lhs.xyw = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, lhs.z, rhs.cO)
+					result = { rhs[0u], rhs[1u], 2u, rhs[2u] };
+					break;
+				case ast::expr::SwizzleKind::e021:
+					// lhs.xzy = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cO, rhs.cN, lhs.w)
+					result = { rhs[0u], rhs[2u], rhs[1u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e023:
+					// lhs.xzw = rhs.cMcNcO => lhs = vec4(rhs.cM, lhs.y, rhs.cN, rhs.cO)
+					result = { rhs[0u], rhs[1u], 2u, rhs[2u] };
+					break;
+				case ast::expr::SwizzleKind::e031:
+					// lhs.xwy = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cO, lhs.z, rhs.cN)
+					result = { rhs[0u], rhs[2u], 2u, rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e032:
+					// lhs.xwz = rhs.cMcNcO => lhs = vec4(rhs.cM, lhs.y, rhs.cO, rhs.cN)
+					result = { rhs[0u], 1u, rhs[2u], rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e102:
+					// lhs.yxz = rhs.cMcNcO => lhs = vec4(rhs.cN, rhs.cM, rhs.cO, lhs.w)
+					result = { rhs[1u], rhs[0u], rhs[2u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e103:
+					// lhs.yxw = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, lhs.z, rhs.cO)
+					result = { rhs[1u], rhs[0u], 2u, rhs[2u] };
+					break;
+				case ast::expr::SwizzleKind::e120:
+					// lhs.yzx = rhs.cMcNcO => lhs = vec4(rhs.cO, rhs.cM, rhs.cN, lhs.w)
+					result = { rhs[2u], rhs[0u], rhs[1u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e123:
+					// lhs.yzw = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cM, rhs.cN, rhs.cO)
+					result = { 0u, rhs[0u], rhs[1u], rhs[2u] };
+					break;
+				case ast::expr::SwizzleKind::e130:
+					// lhs.ywx = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cO, lhs.z, rhs.cN)
+					result = { rhs[2u], rhs[0u], 2u, rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e132:
+					// lhs.ywz = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cM, rhs.cO, rhs.cN)
+					result = { 0u, rhs[0u], rhs[2u], rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e201:
+					// lhs.zxy = rhs.cMcNcO => lhs = vec4(rhs.cN, rhs.cO, rhs.cM, lhs.w)
+					result = { rhs[1u], rhs[2u], rhs[0u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e203:
+					// lhs.zxw = rhs.cMcNcO => lhs = vec4(rhs.cN, lhs.y, rhs.cM, rhs.cO)
+					result = { rhs[1u], 1u, rhs[0u], rhs[2u] };
+					break;
+				case ast::expr::SwizzleKind::e210:
+					// lhs.zyx = rhs.cMcNcO => lhs = vec4(rhs.cO, rhs.cN, rhs.cM, lhs.w)
+					result = { rhs[2u], rhs[1u], rhs[0u], 3u };
+					break;
+				case ast::expr::SwizzleKind::e213:
+					// lhs.zyw = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cN, rhs.cM, rhs.cO)
+					result = { 0u, rhs[1u], rhs[0u], rhs[2u] };
+					break;
+				case ast::expr::SwizzleKind::e230:
+					// lhs.zwx = rhs.cMcNcO => lhs = vec4(rhs.cO, lhs.y, rhs.cM, rhs.cN)
+					result = { rhs[2u], 1u, rhs[0u], rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e231:
+					// lhs.zwy = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cO, rhs.cM, rhs.cN)
+					result = { 0u, rhs[2u], rhs[0u], rhs[1u] };
+					break;
+				case ast::expr::SwizzleKind::e301:
+					// lhs.wxy = rhs.cMcNcO => lhs = vec4(rhs.cN, rhs.cO, lhs.z, rhs.cM)
+					result = { rhs[1u], rhs[2u], 2u, rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e302:
+					// lhs.wxz = rhs.cMcNcO => lhs = vec4(rhs.cN, lhs.y, rhs.cO, rhs.cM)
+					result = { rhs[1u], 1u, rhs[2u], rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e310:
+					// lhs.wyx = rhs.cMcNcO => lhs = vec4(rhs.cO, rhs.cN, lhs.z, rhs.cM)
+					result = { rhs[2u], rhs[1u], 2u, rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e312:
+					// lhs.wyz = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cN, rhs.cO, rhs.cM)
+					result = { 0u, rhs[1u], rhs[2u], rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e320:
+					// lhs.wzx = rhs.cMcNcO => lhs = vec4(rhs.cO, lhs.y, rhs.cN, rhs.cM)
+					result = { rhs[2u], 1u, rhs[1u], rhs[0u] };
+					break;
+				case ast::expr::SwizzleKind::e321:
+					// lhs.wzy = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cO, rhs.cN, rhs.cM)
+					result = { 0u, rhs[2u], rhs[1u], rhs[0u] };
+					break;
+				default:
+					assert( false && "Impossible LHS swizzle kind" );
+					break;
+				}
+			}
+			else if ( rhs.size() == 4u )
+			{
+				auto lhs = getSwizzle4Components( lhsSwizzle );
+				assert( lhs.size() == rhs.size() );
+				result = { rhs[lhs[0u]], rhs[lhs[1u]], rhs[lhs[2u]], rhs[lhs[3u]] };
+			}
+
+			assert( result.size() == 4u );
+			return result;
+		}
+
+		IdList fillSwizzle( ast::expr::SwizzleKind lhsSwizzle
+			, ast::expr::SwizzleKind rhsSwizzle
+			, uint32_t count )
+		{
+			IdList result;
+
+			switch ( count )
+			{
+			case 2:
+				result = fillVec2Swizzle( lhsSwizzle, rhsSwizzle );
+				break;
+			case 3:
+				result = fillVec3Swizzle( lhsSwizzle, rhsSwizzle );
+				break;
+			case 4:
+				result = fillVec4Swizzle( lhsSwizzle, rhsSwizzle );
+				break;
+			default:
+				assert( false && "Unsupported components count" );
+				break;
+			}
+
+			return result;
+		}
+	}
+
 	std::vector< uint32_t > getSwizzleComponents( ast::expr::SwizzleKind kind )
 	{
 		switch ( ast::expr::SwizzleKind::Value( kind ) )
@@ -696,456 +1149,6 @@ namespace spirv
 			assert( false && "Unsupported SwizzleKind." );
 			return {};
 		}
-	}
-
-	std::vector< uint32_t > getSwizzle2Components( ast::expr::SwizzleKind swizzle )
-	{
-		switch ( ast::expr::SwizzleKind::Value( swizzle ) )
-		{
-		case ast::expr::SwizzleKind::e01:
-			return { 0, 1 };
-		case ast::expr::SwizzleKind::e10:
-			return { 1, 0 };
-		default:
-			assert( false && "Impossible LHS swizzle kind for 2 components vector" );
-			return {};
-		}
-	}
-
-	std::vector< uint32_t > getSwizzle3Components( ast::expr::SwizzleKind swizzle )
-	{
-		switch ( ast::expr::SwizzleKind::Value( swizzle ) )
-		{
-		case ast::expr::SwizzleKind::e012:
-			return { 0, 1, 2 };
-		case ast::expr::SwizzleKind::e021:
-			return { 0, 2, 1 };
-		case ast::expr::SwizzleKind::e102:
-			return { 1, 0, 2 };
-		case ast::expr::SwizzleKind::e120:
-			return { 1, 2, 0 };
-		case ast::expr::SwizzleKind::e201:
-			return { 2, 0, 1 };
-		case ast::expr::SwizzleKind::e210:
-			return { 2, 1, 0 };
-		default:
-			assert( false && "Impossible LHS swizzle kind for 3 components vector" );
-			return {};
-		}
-	}
-
-	std::vector< uint32_t > getSwizzle4Components( ast::expr::SwizzleKind swizzle )
-	{
-		switch ( ast::expr::SwizzleKind::Value( swizzle ) )
-		{
-		case ast::expr::SwizzleKind::e0123:
-			return { 0, 1, 2, 3 };
-		case ast::expr::SwizzleKind::e0132:
-			return { 0, 1, 3, 2 };
-		case ast::expr::SwizzleKind::e0213:
-			return { 0, 2, 1, 3 };
-		case ast::expr::SwizzleKind::e0231:
-			return { 0, 2, 3, 1 };
-		case ast::expr::SwizzleKind::e0312:
-			return { 0, 3, 1, 2 };
-		case ast::expr::SwizzleKind::e0321:
-			return { 0, 3, 2, 1 };
-		case ast::expr::SwizzleKind::e1023:
-			return { 1, 0, 2, 3 };
-		case ast::expr::SwizzleKind::e1032:
-			return { 1, 0, 3, 2 };
-		case ast::expr::SwizzleKind::e1230:
-			return { 1, 2, 3, 0 };
-		case ast::expr::SwizzleKind::e1302:
-			return { 1, 3, 0, 2 };
-		case ast::expr::SwizzleKind::e1320:
-			return { 1, 3, 2, 0 };
-		case ast::expr::SwizzleKind::e2013:
-			return { 2, 0, 1, 3 };
-		case ast::expr::SwizzleKind::e2031:
-			return { 2, 0, 3, 1 };
-		case ast::expr::SwizzleKind::e2103:
-			return { 2, 1, 0, 3 };
-		case ast::expr::SwizzleKind::e2130:
-			return { 2, 1, 3, 0 };
-		case ast::expr::SwizzleKind::e2301:
-			return { 2, 3, 0, 1 };
-		case ast::expr::SwizzleKind::e2310:
-			return { 2, 3, 1, 0 };
-		case ast::expr::SwizzleKind::e3012:
-			return { 3, 0, 1, 2 };
-		case ast::expr::SwizzleKind::e3021:
-			return { 3, 0, 2, 1 };
-		case ast::expr::SwizzleKind::e3102:
-			return { 3, 1, 0, 2 };
-		case ast::expr::SwizzleKind::e3120:
-			return { 3, 1, 2, 0 };
-		case ast::expr::SwizzleKind::e3201:
-			return { 3, 2, 0, 1 };
-		case ast::expr::SwizzleKind::e3210:
-			return { 3, 2, 1, 0 };
-		default:
-			assert( false && "Impossible LHS swizzle kind for 3 components vector" );
-			return {};
-		}
-	}
-
-	IdList fillVec2Swizzle( ast::expr::SwizzleKind lhsSwizzle
-		, ast::expr::SwizzleKind rhsSwizzle )
-	{
-		std::vector< uint32_t > result;
-		auto rhs = getSwizzleComponents( rhsSwizzle );
-		std::transform( rhs.begin()
-			, rhs.end()
-			, rhs.begin()
-			, []( uint32_t v )
-			{
-				return v + 2u;
-			} );
-		assert( !rhs.empty() );
-
-		if ( rhs.size() == 1u )
-		{
-			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
-			{
-			case ast::expr::SwizzleKind::e0:
-				// lhs.x = rhs.c => lhs = vec2(rhs.c, lhs.y)
-				result = { rhs[0u], 1u };
-				break;
-			case ast::expr::SwizzleKind::e1:
-				// lhs.y = rhs.c => lhs = vec2(lhs.x, rhs.c)
-				result = { 0u, rhs[0u] };
-				break;
-			default:
-				assert( false && "Impossible LHS swizzle kind" );
-				break;
-			}
-		}
-		else if ( rhs.size() == 2u )
-		{
-			auto lhs = getSwizzle2Components( lhsSwizzle );
-			assert( lhs.size() == rhs.size() );
-			result = { rhs[lhs[0u]], rhs[lhs[1u]] };
-		}
-
-		assert( result.size() == 2u );
-		return result;
-	}
-
-	IdList fillVec3Swizzle( ast::expr::SwizzleKind lhsSwizzle
-		, ast::expr::SwizzleKind rhsSwizzle )
-	{
-		std::vector< uint32_t > result;
-		auto rhs = getSwizzleComponents( rhsSwizzle );
-		std::transform( rhs.begin()
-			, rhs.end()
-			, rhs.begin()
-			, []( uint32_t v )
-			{
-				return v + 3u;
-			} );
-		assert( !rhs.empty() );
-
-		if ( rhs.size() == 1u )
-		{
-			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
-			{
-			case ast::expr::SwizzleKind::e0:
-				// lhs.x = rhs.c => lhs = vec3(rhs.c, lhs.y, lhs.z)
-				result = { rhs[0u], 1u, 2u };
-				break;
-			case ast::expr::SwizzleKind::e1:
-				// lhs.y = rhs.c => lhs = vec3(lhs.x, rhs.c, lhs.z)
-				result = { 0u, rhs[0u], 2u };
-				break;
-			case ast::expr::SwizzleKind::e2:
-				// lhs.z = rhs.c => lhs = vec3(lhs.x, lhs.y, rhs.c)
-				result = { 0u, 1u, rhs[0u] };
-				break;
-			default:
-				assert( false && "Impossible LHS swizzle kind" );
-				break;
-			}
-		}
-		else if ( rhs.size() == 2u )
-		{
-			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
-			{
-			case ast::expr::SwizzleKind::e01:
-				// lhs.xy = rhs.cMcN => lhs = vec3(rhs.cM, rhs.cN, lhs.z)
-				result = { rhs[0u], rhs[1u], 2u };
-				break;
-			case ast::expr::SwizzleKind::e02:
-				// lhs.xz = rhs.cMcN => lhs = vec3(rhs.cM, lhs.y, rhs.cN)
-				result = { rhs[0u], 1u, rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e10:
-				// lhs.yx = rhs.cMcN => lhs = vec3(rhs.cN, rhs.cM, lhs.z)
-				result = { rhs[1u], rhs[0u], 2u };
-				break;
-			case ast::expr::SwizzleKind::e12:
-				// lhs.yz = rhs.cMcN => lhs = vec3(lhs.x, rhs.cM, rhs.cN)
-				result = { 0u, rhs[0u], rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e20:
-				// lhs.zx = rhs.cMcN => lhs = vec3(rhs.cN, lhs.y, rhs.cM)
-				result = { rhs[1u], 1u, rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e21:
-				// lhs.zy = rhs.cMcN => lhs = vec3(lhs.x, rhs.cN, rhs.cM)
-				result = { 0u, rhs[1u], rhs[0u] };
-				break;
-			default:
-				assert( false && "Impossible LHS swizzle kind" );
-				break;
-			}
-		}
-		else if ( rhs.size() == 3u )
-		{
-			auto lhs = getSwizzle3Components( lhsSwizzle );
-			assert( lhs.size() == rhs.size() );
-			result = { rhs[lhs[0u]], rhs[lhs[1u]], rhs[lhs[2u]] };
-		}
-
-		assert( result.size() == 3u );
-		return result;
-	}
-
-	IdList fillVec4Swizzle( ast::expr::SwizzleKind lhsSwizzle
-		, ast::expr::SwizzleKind rhsSwizzle )
-	{
-		std::vector< uint32_t > result;
-		auto rhs = getSwizzleComponents( rhsSwizzle );
-		std::transform( rhs.begin()
-			, rhs.end()
-			, rhs.begin()
-			, []( uint32_t v )
-			{
-				return v + 4u;
-			} );
-		assert( !rhs.empty() );
-
-		if ( rhs.size() == 1u )
-		{
-			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
-			{
-			case ast::expr::SwizzleKind::e0:
-				// lhs.x = rhs.c => lhs = vec4(rhs.c, lhs.y, lhs.z, lhs.w)
-				result = { rhs[0u], 1u, 2u, 3u };
-				break;
-			case ast::expr::SwizzleKind::e1:
-				// lhs.y = rhs.c => lhs = vec4(lhs.x, rhs.c, lhs.z, lhs.w)
-				result = { 0u, rhs[0u], 2u, 3u };
-				break;
-			case ast::expr::SwizzleKind::e2:
-				// lhs.z = rhs.c => lhs = vec4(lhs.x, lhs.y, rhs.c, lhs.w)
-				result = { 0u, 1u, rhs[0u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e3:
-				// lhs.w = rhs.c => lhs = vec4(lhs.x, lhs.y, lhs.z, rhs.c)
-				result = { 0u, 1u, 2u, rhs[0u] };
-				break;
-			default:
-				assert( false && "Impossible LHS swizzle kind" );
-				break;
-			}
-		}
-		else if ( rhs.size() == 2u )
-		{
-			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
-			{
-			case ast::expr::SwizzleKind::e01:
-				// lhs.xy = rhs.cMcN => lhs = vec4(rhs.cM, rhs.cN, lhs.z, lhs.w)
-				result = { rhs[0u], rhs[1u], 2u, 3u };
-				break;
-			case ast::expr::SwizzleKind::e02:
-				// lhs.xz = rhs.cMcN => lhs = vec4(rhs.cM, lhs.y, rhs.cN, lhs.w)
-				result = { rhs[0u], 1u, rhs[1u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e03:
-				// lhs.xw = rhs.cMcN => lhs = vec4(rhs.cM, lhs.y, lhs.z, rhs.cN)
-				result = { rhs[0u], 1u, 2u, rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e10:
-				// lhs.yx = rhs.cMcN => lhs = vec4(rhs.cN, rhs.cM, lhs.z, lhs.w)
-				result = { rhs[1u], rhs[0u], 2u, 3u };
-				break;
-			case ast::expr::SwizzleKind::e12:
-				// lhs.yz = rhs.cMcN => lhs = vec4(lhs.x, rhs.cM, rhs.cN, lhs.w)
-				result = { 0u, rhs[0u], rhs[1u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e13:
-				// lhs.yw = rhs.cMcN => lhs = vec4(lhs.x, rhs.cM, lhs.z, rhs.cN)
-				result = { 0u, rhs[0u], 2u, rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e20:
-				// lhs.zx = rhs.cMcN => lhs = vec4(rhs.cN, lhs.y, rhs.cM, lhs.w)
-				result = { rhs[1u], 1u, rhs[0u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e21:
-				// lhs.zy = rhs.cMcN => lhs = vec4(lhs.x, rhs.cN, rhs.cM, lhs.w)
-				result = { 0u, rhs[1u], rhs[0u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e23:
-				// lhs.zw = rhs.cMcN => lhs = vec4(lhs.x, lhs.y, rhs.cM, rhs.cN)
-				result = { 0u, 1u, rhs[0u], rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e30:
-				// lhs.wx = rhs.cMcN => lhs = vec4(rhs.cN, lhs.y, lhs.z, rhs.cM)
-				result = { rhs[1u], 1u, 2u, rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e31:
-				// lhs.wy = rhs.cMcN => lhs = vec4(lhs.x, rhs.cN, lhs.z, rhs.cM)
-				result = { 0u, rhs[1u], 2u, rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e32:
-				// lhs.wz = rhs.cMcN => lhs = vec4(lhs.x, lhs.y, rhs.cN, rhs.cM)
-				result = { 0u, 1u, rhs[1u], rhs[0u] };
-				break;
-			default:
-				assert( false && "Impossible LHS swizzle kind" );
-				break;
-			}
-		}
-		else if ( rhs.size() == 3u )
-		{
-			switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
-			{
-			case ast::expr::SwizzleKind::e012:
-				// lhs.xyz = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, rhs.cO, lhs.w)
-				result = { rhs[0u], rhs[1u], rhs[2u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e013:
-				// lhs.xyw = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, lhs.z, rhs.cO)
-				result = { rhs[0u], rhs[1u], 2u, rhs[2u] };
-				break;
-			case ast::expr::SwizzleKind::e021:
-				// lhs.xzy = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cO, rhs.cN, lhs.w)
-				result = { rhs[0u], rhs[2u], rhs[1u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e023:
-				// lhs.xzw = rhs.cMcNcO => lhs = vec4(rhs.cM, lhs.y, rhs.cN, rhs.cO)
-				result = { rhs[0u], rhs[1u], 2u, rhs[2u] };
-				break;
-			case ast::expr::SwizzleKind::e031:
-				// lhs.xwy = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cO, lhs.z, rhs.cN)
-				result = { rhs[0u], rhs[2u], 2u, rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e032:
-				// lhs.xwz = rhs.cMcNcO => lhs = vec4(rhs.cM, lhs.y, rhs.cO, rhs.cN)
-				result = { rhs[0u], 1u, rhs[2u], rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e102:
-				// lhs.yxz = rhs.cMcNcO => lhs = vec4(rhs.cN, rhs.cM, rhs.cO, lhs.w)
-				result = { rhs[1u], rhs[0u], rhs[2u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e103:
-				// lhs.yxw = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, lhs.z, rhs.cO)
-				result = { rhs[1u], rhs[0u], 2u, rhs[2u] };
-				break;
-			case ast::expr::SwizzleKind::e120:
-				// lhs.yzx = rhs.cMcNcO => lhs = vec4(rhs.cO, rhs.cM, rhs.cN, lhs.w)
-				result = { rhs[2u], rhs[0u], rhs[1u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e123:
-				// lhs.yzw = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cM, rhs.cN, rhs.cO)
-				result = { 0u, rhs[0u], rhs[1u], rhs[2u] };
-				break;
-			case ast::expr::SwizzleKind::e130:
-				// lhs.ywx = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cO, lhs.z, rhs.cN)
-				result = { rhs[2u], rhs[0u], 2u, rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e132:
-				// lhs.ywz = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cM, rhs.cO, rhs.cN)
-				result = { 0u, rhs[0u], rhs[2u], rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e201:
-				// lhs.zxy = rhs.cMcNcO => lhs = vec4(rhs.cN, rhs.cO, rhs.cM, lhs.w)
-				result = { rhs[1u], rhs[2u], rhs[0u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e203:
-				// lhs.zxw = rhs.cMcNcO => lhs = vec4(rhs.cN, lhs.y, rhs.cM, rhs.cO)
-				result = { rhs[1u], 1u, rhs[0u], rhs[2u] };
-				break;
-			case ast::expr::SwizzleKind::e210:
-				// lhs.zyx = rhs.cMcNcO => lhs = vec4(rhs.cO, rhs.cN, rhs.cM, lhs.w)
-				result = { rhs[2u], rhs[1u], rhs[0u], 3u };
-				break;
-			case ast::expr::SwizzleKind::e213:
-				// lhs.zyw = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cN, rhs.cM, rhs.cO)
-				result = { 0u, rhs[1u], rhs[0u], rhs[2u] };
-				break;
-			case ast::expr::SwizzleKind::e230:
-				// lhs.zwx = rhs.cMcNcO => lhs = vec4(rhs.cO, lhs.y, rhs.cM, rhs.cN)
-				result = { rhs[2u], 1u, rhs[0u], rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e231:
-				// lhs.zwy = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cO, rhs.cM, rhs.cN)
-				result = { 0u, rhs[2u], rhs[0u], rhs[1u] };
-				break;
-			case ast::expr::SwizzleKind::e301:
-				// lhs.wxy = rhs.cMcNcO => lhs = vec4(rhs.cN, rhs.cO, lhs.z, rhs.cM)
-				result = { rhs[1u], rhs[2u], 2u, rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e302:
-				// lhs.wxz = rhs.cMcNcO => lhs = vec4(rhs.cN, lhs.y, rhs.cO, rhs.cM)
-				result = { rhs[1u], 1u, rhs[2u], rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e310:
-				// lhs.wyx = rhs.cMcNcO => lhs = vec4(rhs.cO, rhs.cN, lhs.z, rhs.cM)
-				result = { rhs[2u], rhs[1u], 2u, rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e312:
-				// lhs.wyz = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cN, rhs.cO, rhs.cM)
-				result = { 0u, rhs[1u], rhs[2u], rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e320:
-				// lhs.wzx = rhs.cMcNcO => lhs = vec4(rhs.cO, lhs.y, rhs.cN, rhs.cM)
-				result = { rhs[2u], 1u, rhs[1u], rhs[0u] };
-				break;
-			case ast::expr::SwizzleKind::e321:
-				// lhs.wzy = rhs.cMcNcO => lhs = vec4(lhs.x, rhs.cO, rhs.cN, rhs.cM)
-				result = { 0u, rhs[2u], rhs[1u], rhs[0u] };
-				break;
-			default:
-				assert( false && "Impossible LHS swizzle kind" );
-				break;
-			}
-		}
-		else if ( rhs.size() == 4u )
-		{
-			auto lhs = getSwizzle4Components( lhsSwizzle );
-			assert( lhs.size() == rhs.size() );
-			result = { rhs[lhs[0u]], rhs[lhs[1u]], rhs[lhs[2u]], rhs[lhs[3u]] };
-		}
-
-		assert( result.size() == 4u );
-		return result;
-	}
-
-	IdList fillSwizzle( ast::expr::SwizzleKind lhsSwizzle
-		, ast::expr::SwizzleKind rhsSwizzle
-		, uint32_t count )
-	{
-		IdList result;
-
-		switch ( count )
-		{
-		case 2:
-			result = fillVec2Swizzle( lhsSwizzle, rhsSwizzle );
-			break;
-		case 3:
-			result = fillVec3Swizzle( lhsSwizzle, rhsSwizzle );
-			break;
-		case 4:
-			result = fillVec4Swizzle( lhsSwizzle, rhsSwizzle );
-			break;
-		default:
-			assert( false && "Unsupported components count" );
-			break;
-		}
-
-		return result;
 	}
 
 	IdList getSwizzleComponents( ast::expr::SwizzleKind lhsSwizzle

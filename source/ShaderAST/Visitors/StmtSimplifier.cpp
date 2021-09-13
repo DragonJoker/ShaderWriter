@@ -944,13 +944,6 @@ namespace ast
 				return result;
 			}
 
-			static expr::ExprPtr submit( type::TypesCache & cache
-				, std::map< var::VariablePtr, expr::Literal * > & literalVars
-				, expr::ExprPtr expr )
-			{
-				return submit( cache, literalVars, expr.get() );
-			}
-
 		private:
 			ExprSimplifier( type::TypesCache & cache
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars

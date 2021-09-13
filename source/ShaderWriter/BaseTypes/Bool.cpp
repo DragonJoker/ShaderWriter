@@ -40,7 +40,7 @@ namespace sdw
 		{
 			if ( getContainer() )
 			{
-				ShaderWriter & writer = *findWriter( *this, rhs );
+				ShaderWriter & writer = findWriterMandat( *this, rhs );
 				addStmt( writer
 					, sdw::makeSimple( sdw::makeAssign( getType()
 						, makeExpr( writer, *this )
@@ -57,12 +57,12 @@ namespace sdw
 
 	expr::ExprPtr Boolean::makeCondition()const
 	{
-		return makeExpr( *findWriter( *this ), *this );
+		return makeExpr( findWriterMandat( *this ), *this );
 	}
 
 	Boolean & Boolean::operator=( bool rhs )
 	{
-		ShaderWriter & writer = *findWriter( *this, rhs );
+		ShaderWriter & writer = findWriterMandat( *this, rhs );
 		addStmt( writer
 			, sdw::makeSimple( sdw::makeAssign( getType()
 				, makeExpr( writer, *this )
@@ -72,7 +72,7 @@ namespace sdw
 
 	Boolean Boolean::operator!()
 	{
-		ShaderWriter & writer = *findWriter( *this );
+		ShaderWriter & writer = findWriterMandat( *this );
 		return Boolean{ writer, sdw::makeLogNot( makeCondition() ), isEnabled() };
 	}
 

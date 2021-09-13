@@ -83,11 +83,16 @@ namespace ast::expr
 	class Expr
 	{
 	public:
+		SDAST_API Expr( Expr const & ) = default;
+		SDAST_API Expr & operator=( Expr const & ) = default;
+		SDAST_API Expr( Expr && ) = default;
+		SDAST_API Expr & operator=( Expr && ) = default;
+		SDAST_API virtual ~Expr() = default;
+
 		SDAST_API Expr( type::TypesCache & cache
 			, type::TypePtr type
 			, Kind kind
 			, Flag flag = Flag::eNone );
-		SDAST_API virtual ~Expr();
 
 		SDAST_API virtual void accept( VisitorPtr )
 		{
@@ -105,7 +110,7 @@ namespace ast::expr
 
 		inline type::TypesCache & getCache()const
 		{
-			return m_cache;
+			return *m_cache;
 		}
 
 		inline type::TypePtr getType()const
@@ -152,7 +157,7 @@ namespace ast::expr
 		}
 
 	private:
-		type::TypesCache & m_cache;
+		type::TypesCache * m_cache;
 		Kind m_kind;
 		type::TypePtr m_type;
 		uint32_t m_flags;

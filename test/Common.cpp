@@ -65,7 +65,12 @@ namespace test
 		char res[128];
 		FILE * fp = popen( "/bin/cat /proc/cpuinfo | grep -c '^processor'", "r" );
 		auto read = fread( res, 1, sizeof( res ) - 1, fp );
-		assert( read && read < sizeof( res ) );
+
+		if ( !read )
+		{
+			assert( false );
+		}
+
 		pclose( fp );
 		return uint32_t( res[0] );
 	}
@@ -76,7 +81,7 @@ namespace test
 		char path[FILENAME_MAX];
 		char buffer[32];
 		sprintf( buffer, "/proc/%d/exe", getpid() );
-		int bytes = std::min< std::size_t >( readlink( buffer
+		auto bytes = std::min< std::size_t >( readlink( buffer
 			, path
 			, sizeof( path ) )
 			, sizeof( path ) - 1 );
@@ -92,12 +97,12 @@ namespace test
 	}
 
 #elif defined( __APPLE__ )
-	
+
 	uint32_t getCoreCount()
 	{
 		int mib[4];
 		int numCPU;
-		size_t len = sizeof( numCPU ); 
+		size_t len = sizeof( numCPU );
 
 		/* set the mib for hw.ncpu */
 		mib[0] = CTL_HW;
@@ -236,9 +241,9 @@ namespace test
 	//*********************************************************************************************
 
 	TestCounts::TestCounts( TestSuite & parent )
-		: suite{ parent }
-		, sout{ "" }
+		: sout{ "" }
 		, streams{ sout }
+		, suite{ parent }
 	{
 	}
 

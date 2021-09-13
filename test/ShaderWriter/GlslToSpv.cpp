@@ -1,9 +1,13 @@
 #include "GlslToSpv.hpp"
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
+#pragma warning( disable: 4464 )
 #include <glslang/Public/ShaderLang.h>
 #include <SPIRV/GlslangToSpv.h>
 
 #include <locale>
+#pragma warning( pop )
 
 namespace test
 {

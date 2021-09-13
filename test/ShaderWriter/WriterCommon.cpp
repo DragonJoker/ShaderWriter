@@ -20,10 +20,14 @@
 #	endif
 #endif
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#pragma GCC diagnostic ignored "-Wtype-limits"
 #include "spirv_cpp.hpp"
 #include "spirv_cross_util.hpp"
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
+#pragma GCC diagnostic pop
 
 #define SDW_Test_DisplayShaders 0
 
@@ -224,10 +228,13 @@ namespace test
 						if ( size > 0 && ( size % sizeof( uint32_t ) ) == 0 )
 						{
 							spirv.resize( size / sizeof( uint32_t ) );
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
 							(void)fread( spirv.data()
 								, sizeof( uint32_t )
 								, spirv.size()
 								, fileIn );
+#pragma GCC diagnostic pop
 						}
 
 						fclose( fileIn );
@@ -376,13 +383,23 @@ namespace test
 			{
 				if ( validateSpirV )
 				{
-					auto textSpirv = spirv::writeSpirv( shader );
+					spirv::SpirVConfig config{};
+					config.specVersion = testCounts.getSpirVVersion();
+
+					auto textSpirv = spirv::writeSpirv( shader, config );
+
+					if ( textSpirv.empty() )
+					{
+						testCounts.streams.cout << "Empty shader" << std::endl;
+						return;
+					}
+
 					displayShader( "SPIR-V", textSpirv, testCounts );
 					std::vector< uint32_t > spirv;
 
 					try
 					{
-						spirv = spirv::serialiseSpirv( shader );
+						spirv = spirv::serialiseSpirv( shader, config );
 					}
 					catch ( ... )
 					{
@@ -466,8 +483,8 @@ namespace test
 			cleanupGlslang();
 		}
 
-		TestCounts::TestCounts( test::TestSuite & suite )
-			: test::TestCounts{ suite }
+		TestCounts::TestCounts( test::TestSuite & psuite )
+			: test::TestCounts{ psuite }
 		{
 		}
 
@@ -485,6 +502,18 @@ namespace test
 			destroyHLSLContext( *this );
 			destroyGLSLContext( *this );
 			return test::TestCounts::cleanup();
+		}
+
+		uint32_t TestCounts::getSpirVVersion()const
+		{
+			uint32_t ret{ 0x00010300 };
+
+			if ( spirv )
+			{
+				ret = retrieveSPIRVVersion( *spirv );
+			}
+
+			return ret;
 		}
 	}
 
@@ -532,11 +561,13 @@ namespace test
 			{
 				for ( auto & shader : shaders )
 				{
-					auto sdwSpirV = spirv::serialiseSpirv( shader );
+					spirv::SpirVConfig config{};
+					config.specVersion = testCounts.getSpirVVersion();
+					auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 					auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 						, shader.getType()
 						, testCounts );
-					auto textSpirv = spirv::writeSpirv( shader );
+					auto textSpirv = spirv::writeSpirv( shader, config );
 					displayShader( "SPIR-V", textSpirv, testCounts, true );
 					displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
 					auto glslangSpirv = compileGlslToSpv( shader.getType()
@@ -569,11 +600,13 @@ namespace test
 		{
 			try
 			{
-				auto sdwSpirV = spirv::serialiseSpirv( shader );
+				spirv::SpirVConfig config{};
+				config.specVersion = testCounts.getSpirVVersion();
+				auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 				auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 					, shader.getType()
 					, testCounts );
-				auto textSpirv = spirv::writeSpirv( shader );
+				auto textSpirv = spirv::writeSpirv( shader, config );
 				displayShader( "SPIR-V"
 					, textSpirv
 					, testCounts

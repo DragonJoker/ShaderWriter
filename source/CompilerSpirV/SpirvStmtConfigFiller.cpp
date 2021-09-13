@@ -139,6 +139,11 @@ namespace spirv
 			m_result.requiredCapabilities.insert( spv::CapabilitySampledBuffer );
 		}
 
+		if ( imgType->getConfig().isMS )
+		{
+			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageMultisample );
+		}
+
 		switch ( imgType->getConfig().format )
 		{
 		case ast::type::ImageFormat::eRg32f:

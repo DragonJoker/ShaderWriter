@@ -59,9 +59,9 @@ namespace ast::type
 	};
 
 	SDAST_API size_t getHash( TypePtr returnType
-		, var::VariableList const & parameters );
+		, var::VariableList const & parameters )noexcept;
 
-	SDAST_API bool operator==( Function const & lhs, Function const & rhs );
+	SDAST_API bool operator==( Function const & lhs, Function const & rhs )noexcept;
 }
 
 #endif

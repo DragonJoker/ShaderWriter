@@ -39,6 +39,7 @@ namespace glsl
 
 		void doProcessImageLoad( ast::expr::ImageAccessCall * expr );
 		void doProcessImageStore( ast::expr::ImageAccessCall * expr );
+		void doProcessImageAccessCall( ast::expr::ImageAccessCall * expr );
 		void doProcessTextureShadow( ast::expr::TextureAccessCall * expr );
 		void doProcessTextureSample( ast::expr::TextureAccessCall * expr );
 		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );

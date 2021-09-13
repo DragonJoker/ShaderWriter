@@ -38,9 +38,9 @@ namespace hlsl
 
 	void StmtVisitor::visitContainerStmt( ast::stmt::Container * stmt )
 	{
-		for ( auto & stmt : *stmt )
+		for ( auto & curStmt : *stmt )
 		{
-			stmt->accept( this );
+			curStmt->accept( this );
 		}
 	}
 
@@ -252,9 +252,9 @@ namespace hlsl
 		doAppendLineEnd();
 		m_result += "\n";
 
-		if ( stmt->getWorkGroupsZ() == -1 )
+		if ( stmt->getWorkGroupsZ() == ~( 0u ) )
 		{
-			if ( stmt->getWorkGroupsY() == -1 )
+			if ( stmt->getWorkGroupsY() == ~( 0u ) )
 			{
 				m_result += m_indent + "[numthreads( " + std::to_string( stmt->getWorkGroupsX() ) + " )]";
 			}

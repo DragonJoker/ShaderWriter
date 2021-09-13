@@ -9,7 +9,7 @@ namespace sdw
 	inline Boolean & Boolean::operator=( T const & rhs )
 	{
 		updateContainer( rhs );
-		auto & writer = *findWriter( *this, rhs );
+		auto & writer = findWriterMandat( *this, rhs );
 		addStmt( writer
 			, sdw::makeSimple( sdw::makeAssign( getTypesCache( writer ).getBool()
 				, sdw::makeExpr( writer, *this )
@@ -24,7 +24,7 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		ShaderWriter & writer = *findWriter( lhs, rhs );
+		ShaderWriter & writer = findWriterMandat( lhs, rhs );
 		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs );
 		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs );
 		ast::type::TypePtr lhsType = details::getType( writer, lhs );

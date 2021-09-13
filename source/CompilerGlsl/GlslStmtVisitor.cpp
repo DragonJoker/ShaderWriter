@@ -9,7 +9,10 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <sstream>
+#pragma warning( pop )
 
 namespace glsl
 {
@@ -51,6 +54,9 @@ namespace glsl
 
 			case ast::type::Kind::eFloat:
 				return std::string{};
+				
+			case ast::type::Kind::eHalf:
+				return "h";
 
 			default:
 				assert( false && "Unsupported ast::type::Kind" );
@@ -256,9 +262,9 @@ namespace glsl
 
 	void StmtVisitor::visitContainerStmt( ast::stmt::Container * stmt )
 	{
-		for ( auto & stmt : *stmt )
+		for ( auto & curStmt : *stmt )
 		{
-			stmt->accept( this );
+			curStmt->accept( this );
 		}
 	}
 

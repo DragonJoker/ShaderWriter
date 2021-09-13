@@ -9,14 +9,10 @@ namespace ast::expr
 		, type::TypePtr type
 		, Kind kind
 		, Flag flag )
-		: m_cache{ cache }
+		: m_cache{ &cache }
 		, m_kind{ kind }
 		, m_type{ std::move( type ) }
 		, m_flags{ uint32_t( flag ) }
-	{
-	}
-
-	Expr::~Expr()
 	{
 	}
 }

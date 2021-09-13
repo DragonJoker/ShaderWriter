@@ -8,27 +8,32 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 
+#pragma warning( disable: 4706 )
+
 namespace spirv
 {
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
-		, ModuleConfig const & config )
+		, ModuleConfig const & config
+		, PreprocContext & context )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ result, config };
+		StmtAdapter vis{ result, config, context };
 		container->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result
-		, ModuleConfig const & config )
+		, ModuleConfig const & config
+		, PreprocContext & context )
 		: StmtCloner{ result }
+		, m_context{ context }
 		, m_config{ config }
 	{
 	}
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_current, m_context, m_config );
+		return ExprAdapter::submit( expr, m_current, m_context, m_config, m_currentId );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -44,7 +49,12 @@ namespace spirv
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )
 	{
 		auto save = m_current;
-		auto cont = ast::stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
+		auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
+		auto & cache = ctrlExpr->getCache();
+		auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
+		auto cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
+			? makeToBoolCast( cache, std::move( ctrlExpr ) )
+			: std::move( ctrlExpr ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -74,7 +84,11 @@ namespace spirv
 			{
 				auto elseStmt = currentIf->createElse();
 				auto & elseIf = *it;
-				cont = ast::stmt::makeIf( doSubmit( elseIf->getCtrlExpr() ) );
+				ctrlExpr = doSubmit( elseIf->getCtrlExpr() );
+				scalarType = getScalarType( ctrlExpr->getType()->getKind() );
+				cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
+					? makeToBoolCast( cache, std::move( ctrlExpr ) )
+					: std::move( ctrlExpr ) );
 				m_current = cont.get();
 				visitContainerStmt( elseIf.get() );
 				m_current = save;
@@ -121,12 +135,32 @@ namespace spirv
 		{
 			if ( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
 			{
-				auto init = reinterpret_cast< ast::expr::Init * >( stmt->getExpr() );
+				auto init = static_cast< ast::expr::Init * >( stmt->getExpr() );
 				auto ident = init->getIdentifier();
 
 				if ( ident )
 				{
-					m_context.defines.insert( { ident->getVariable()->getName(), doSubmit( init->getInitialiser() ) } );
+					m_context.constExprs.insert( { ident->getVariable()->getName()
+						, doSubmit( init->getInitialiser() ) } );
+					processed = true;
+				}
+			}
+			else if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
+			{
+				auto aggrInit = static_cast< ast::expr::AggrInit * >( stmt->getExpr() );
+				auto ident = aggrInit->getIdentifier();
+
+				if ( ident )
+				{
+					ast::expr::ExprList initialisers;
+
+					for ( auto & init : aggrInit->getInitialisers() )
+					{
+						initialisers.emplace_back( doSubmit( init.get() ) );
+					}
+
+					m_context.constAggrExprs.emplace( ident->getVariable()->getName()
+						, std::move( initialisers ) );
 					processed = true;
 				}
 			}
@@ -150,7 +184,7 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		m_context.defines.emplace( preproc->getName(), doSubmit( preproc->getExpr() ) );
+		m_context.constExprs.emplace( preproc->getName(), doSubmit( preproc->getExpr() ) );
 	}
 
 	void StmtAdapter::visitPreprocElif( ast::stmt::PreprocElif * preproc )

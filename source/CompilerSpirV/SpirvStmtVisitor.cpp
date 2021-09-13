@@ -40,7 +40,7 @@ namespace spirv
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
 				break;
 			case ast::expr::LiteralType::eInt:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eInt >() );
+				result = lit.getValue< ast::expr::LiteralType::eInt >();
 				break;
 			case ast::expr::LiteralType::eUInt:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
@@ -51,39 +51,59 @@ namespace spirv
 
 			return result;
 		}
+
+		void checkCapabilitySupport( spv::Capability capability
+			, SpirVConfig const & spirvConfig )
+		{
+			if ( capability == spv::CapabilityAtomicFloat32AddEXT
+				|| capability == spv::CapabilityAtomicFloat64AddEXT )
+			{
+				if ( spirvConfig.specVersion < 0x00010500 )
+				{
+					throw std::runtime_error{ "Current SPIR-V specification version doesn't support " + getName( capability ) };
+				}
+			}
+		}
 	}
 
 	Module StmtVisitor::submit( ast::type::TypesCache & cache
 		, ast::stmt::Stmt * stmt
 		, ast::ShaderStage type
-		, ModuleConfig const & config )
+		, ModuleConfig const & moduleConfig
+		, spirv::PreprocContext context
+		, SpirVConfig spirvConfig )
 	{
 		Module result{ cache
+			, spirvConfig
 			, getMemoryModel()
 			, getExecutionModel( type ) };
-		StmtVisitor vis{ result, type, config };
+		StmtVisitor vis{ result, type, moduleConfig, std::move( context ), spirvConfig };
 		stmt->accept( &vis );
 		return result;
 	}
 
 	StmtVisitor::StmtVisitor( Module & result
 		, ast::ShaderStage type
-		, ModuleConfig const & config )
-		: m_result{ result }
+		, ModuleConfig const & moduleConfig
+		, spirv::PreprocContext context
+		, SpirVConfig const & spirvConfig )
+		: m_context{ std::move( context ) }
+		, m_result{ result }
 	{
-		for ( auto & capability : config.requiredCapabilities )
+		for ( auto & capability : moduleConfig.requiredCapabilities )
 		{
+			checkCapabilitySupport( capability, spirvConfig );
 			m_result.capabilities.emplace_back( makeInstruction< CapabilityInstruction >( spv::Id( capability ) ) );
 		}
 
 		VariableInfo info;
 
-		for ( auto & input : config.inputs )
+		for ( auto & input : moduleConfig.inputs )
 		{
 			m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() ), spv::StorageClassInput, input->getType(), info ).id );
 		}
 
-		for ( auto & output : config.outputs )
+		for ( auto & output : moduleConfig.outputs )
 		{
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() ), spv::StorageClassOutput, output->getType(), info ).id );
 		}
@@ -210,7 +230,7 @@ namespace spirv
 		endBlock( m_currentBlock, ifBlock.label );
 
 		// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_context, ifBlock, m_result );
 		endBlock( ifBlock, intermediateIfId, loopBlockLabel, mergeBlock.label );
 
 		// Current block becomes the merge block.
@@ -237,7 +257,7 @@ namespace spirv
 		m_controlBlocks.push_back( { mergeBlock.label, continueBlock.label } );
 
 		// End current block, to branch to the loop header block.
-		ExprVisitor::submit( stmt->getInitExpr(), m_currentBlock, m_result );
+		ExprVisitor::submit( stmt->getInitExpr(), m_context, m_currentBlock, m_result );
 		endBlock( m_currentBlock, loopBlock.label );
 
 		// The current block becomes the loop content block.
@@ -249,7 +269,7 @@ namespace spirv
 		endBlock( loopBlock, ifBlock.label );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_context, ifBlock, m_result );
 		endBlock( ifBlock, intermediateIfId, m_currentBlock.label, mergeBlock.label );
 
 		// Instructions go to loop content block.
@@ -259,7 +279,7 @@ namespace spirv
 		endBlock( m_currentBlock, continueBlock.label );
 
 		// The continue target block, branches back to loop header.
-		ExprVisitor::submit( stmt->getIncrExpr(), continueBlock, m_result, false );
+		ExprVisitor::submit( stmt->getIncrExpr(), m_context, continueBlock, m_result, false );
 		endBlock( continueBlock, loopBlockLabel );
 
 		// Current block becomes the merge block.
@@ -354,7 +374,7 @@ namespace spirv
 		}
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_currentBlock, m_result );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_context, m_currentBlock, m_result );
 		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( mergeBlock.label, 0u ) );
 		endBlock( m_currentBlock, intermediateIfId, contentBlock.label, falseBlockLabel );
 
@@ -530,6 +550,7 @@ namespace spirv
 		if ( stmt->getExpr() )
 		{
 			auto result = ExprVisitor::submit( stmt->getExpr()
+				, m_context
 				, m_currentBlock
 				, m_result );
 			interruptBlock( m_currentBlock
@@ -578,7 +599,7 @@ namespace spirv
 
 	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
-		ExprVisitor::submit( stmt->getExpr(), m_currentBlock, m_result );
+		ExprVisitor::submit( stmt->getExpr(), m_context, m_currentBlock, m_result );
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
@@ -618,7 +639,7 @@ namespace spirv
 			}
 		}
 
-		auto selector = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_currentBlock, m_result );
+		auto selector = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result );
 		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( mergeBlock.label, 0u ) );
 		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( IdList{ selector, defaultBlock.label }, caseBlocksIds );
 		m_currentBlock.isInterrupted = true;
@@ -703,7 +724,7 @@ namespace spirv
 		endBlock( loopBlock, ifBlock.label );
 
 		// The if block, branches to either loop content block (true) or loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), ifBlock, m_result );
+		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_context, ifBlock, m_result );
 		endBlock( ifBlock, intermediateIfId, m_currentBlock.label, mergeBlock.label );
 
 		// Instructions go to loop content block.

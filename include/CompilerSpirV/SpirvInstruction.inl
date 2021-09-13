@@ -51,12 +51,12 @@ namespace spirv
 		, uint32_t OperandsCount
 		, bool HasName
 		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( Optional< spv::Id > returnTypeId
-		, Optional< spv::Id > resultId
-		, IdList operands
-		, Optional< std::string > name
-		, Optional< std::map< int32_t, spv::Id > > labels )
-		: Instruction{ config, Operator, returnTypeId, resultId, operands, name, labels }
+	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( Optional< spv::Id > preturnTypeId
+		, Optional< spv::Id > presultId
+		, IdList poperands
+		, Optional< std::string > pname
+		, Optional< std::map< int32_t, spv::Id > > plabels )
+		: Instruction{ config, Operator, preturnTypeId, presultId, poperands, pname, plabels }
 	{
 		assertType< Operator
 			, hasReturnTypeId
@@ -93,10 +93,10 @@ namespace spirv
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( Optional< spv::Id > returnTypeId
-		, Optional< spv::Id > resultId
-		, IdList operands )
-		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ returnTypeId, resultId, operands, nullopt, nullopt }
+	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( Optional< spv::Id > preturnTypeId
+		, Optional< spv::Id > presultId
+		, IdList poperands )
+		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ preturnTypeId, presultId, poperands, nullopt, nullopt }
 	{
 	}
 
@@ -980,8 +980,8 @@ namespace spirv
 		, bool hasLabels )
 	{
 		assert( spv::OpNop != op );
-		assert( spv::Op( instruction.op.opCount ) != 0u );
-		assert( spv::Op( instruction.op.opCode ) == op );
+		assert( spv::Op( instruction.op.opData.opCount ) != 0u );
+		assert( spv::Op( instruction.op.opData.opCode ) == op );
 		assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
 		assert( bool( instruction.resultId ) == hasResultId );
 		assert( operandsCount == dynamicOperandCount || uint32_t( instruction.operands.size() ) == operandsCount );

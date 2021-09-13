@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Int.hpp"
 
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+
 namespace
 {
 	void compileInt()

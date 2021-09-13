@@ -5950,8 +5950,8 @@ namespace sdw
 	*/
 	/**@{*/
 	ReturnWrapperT< Int > atomicCompSwap( Int const & mem
-		, UInt const & compare
-		, UInt const & data )
+		, Int const & compare
+		, Int const & data )
 	{
 		return ReturnWrapperT< Int >{ *findWriter( mem, compare, data )
 			, expr::makeAtomicCompSwapI( findTypesCache( mem, compare, data )

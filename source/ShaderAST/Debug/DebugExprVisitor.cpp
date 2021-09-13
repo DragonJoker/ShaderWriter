@@ -10,7 +10,12 @@ See LICENSE file in root folder
 #include "ShaderAST/Expr/GetIntrinsicName.hpp"
 #include "ShaderAST/Expr/GetTextureAccessName.hpp"
 
+#include <cmath>
+
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <sstream>
+#pragma warning( pop )
 
 namespace ast::debug
 {
@@ -445,7 +450,7 @@ namespace ast::debug
 				auto v = expr->getValue< expr::LiteralType::eFloat >();
 				stream << v;
 
-				if ( v == int64_t( v ) )
+				if ( v == std::floor( v ) )
 				{
 					stream << ".0";
 				}
@@ -456,7 +461,7 @@ namespace ast::debug
 				auto v = expr->getValue< expr::LiteralType::eDouble >();
 				stream << v;
 
-				if ( v == int64_t( v ) )
+				if ( v == std::floor( v ) )
 				{
 					stream << ".0";
 				}

@@ -78,7 +78,7 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	expr::ExprPtr ArithmeticValue< KindT >::makeCondition()const
 	{
-		auto & writer = *findWriter( *this );
+		auto & writer = findWriterMandat( *this );
 		return sdw::makeNEqual( makeExpr( writer, *this )
 			, makeExpr( writer, CppTypeT< ArithmeticValue< KindT > >{} ) );
 	}

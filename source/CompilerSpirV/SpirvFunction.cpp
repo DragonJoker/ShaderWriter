@@ -27,7 +27,7 @@ namespace spirv
 		{
 			auto instruction = popValue();
 
-			if ( isDeclarationInstruction( spv::Op( instruction->op.opCode ) ) )
+			if ( isDeclarationInstruction( spv::Op( instruction->op.opData.opCode ) ) )
 			{
 				result.declaration.emplace_back( std::move( instruction ) );
 			}

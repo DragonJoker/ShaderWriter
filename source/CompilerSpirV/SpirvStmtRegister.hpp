@@ -69,7 +69,7 @@ namespace spirv
 			ast::type::TypesCache & m_cache;
 			IdSet m_intermediates;
 			IdSet m_freeIntermediates;
-			BlockStruct m_currentBlock;
+			BlockStruct * m_currentBlock;
 			VariableArray * m_allVars;
 			VariableArray m_globalVars;
 			UsedVars m_usedVars;

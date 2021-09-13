@@ -1311,10 +1311,10 @@ namespace hlsl
 
 				if ( it != m_adaptationData.ssboList.end() )
 				{
-					auto var = ast::var::makeVariable( expr->getType()
+					auto tmp = ast::var::makeVariable( expr->getType()
 						, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
 						, expr->getMemberFlags() );
-					m_result = ast::expr::makeIdentifier( m_cache, var );
+					m_result = ast::expr::makeIdentifier( m_cache, tmp );
 					processed = true;
 				}
 			}
@@ -2089,8 +2089,12 @@ namespace hlsl
 	{
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
+#if !defined( NDEBUG )
 		auto isImage = doProcessSampledImageArg( *expr->getArgList()[0], false, args );
 		assert( isImage );
+#else
+		( void )doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+#endif
 
 		if ( expr->getTextureAccess() == ast::expr::TextureAccess::eTexelFetchBufferF
 			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTexelFetchBufferI
@@ -2164,8 +2168,12 @@ namespace hlsl
 		// Sample grad doesn't support SampleComparisonState, replace it with a SampleCmp.
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
+#if !defined( NDEBUG )
 		auto isImage = doProcessSampledImageArg( *expr->getArgList()[0], false, args );
 		assert( isImage );
+#else
+		( void )doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+#endif
 		assert( expr->getArgList().size() >= 5u );
 		// Second param is texcoord
 		args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
@@ -2194,7 +2202,12 @@ namespace hlsl
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
 		// Image
+#if !defined( NDEBUG )
 		auto isImage = doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		assert( isImage );
+#else
+		( void )doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+#endif
 		assert( isImage );
 		// Coord
 		args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
@@ -2230,8 +2243,12 @@ namespace hlsl
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
 		// Image
+#if !defined( NDEBUG )
 		auto isImage = doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
 		assert( isImage );
+#else
+		( void )doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+#endif
 		// Coord
 		args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
 

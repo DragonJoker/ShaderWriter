@@ -3,13 +3,250 @@ See LICENSE file in root folder
 */
 #include "SpirvHelpers.hpp"
 
+#include <ShaderAST/Expr/ExprCompositeConstruct.hpp>
+#include <ShaderAST/Expr/ExprNotEqual.hpp>
+#include <ShaderAST/Expr/ExprQuestion.hpp>
+#include <ShaderAST/Expr/ExprSwizzle.hpp>
+#include <ShaderAST/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Visitors/CloneExpr.hpp>
+
 namespace spirv
 {
 	//*************************************************************************
 
+	namespace
+	{
+		spv::ImageFormat getImageFormat( ast::type::ImageFormat value )
+		{
+			switch ( value )
+			{
+			case ast::type::ImageFormat::eUnknown:
+				return spv::ImageFormatUnknown;
+			case ast::type::ImageFormat::eRgba32f:
+				return spv::ImageFormatRgba32f;
+			case ast::type::ImageFormat::eRgba16f:
+				return spv::ImageFormatRgba16f;
+			case ast::type::ImageFormat::eRg32f:
+				return spv::ImageFormatRg32f;
+			case ast::type::ImageFormat::eRg16f:
+				return spv::ImageFormatRg16f;
+			case ast::type::ImageFormat::eR32f:
+				return spv::ImageFormatR32f;
+			case ast::type::ImageFormat::eR16f:
+				return spv::ImageFormatR16f;
+			case ast::type::ImageFormat::eRgba32i:
+				return spv::ImageFormatRgba32i;
+			case ast::type::ImageFormat::eRgba16i:
+				return spv::ImageFormatRgba16i;
+			case ast::type::ImageFormat::eRgba8i:
+				return spv::ImageFormatRgba8i;
+			case ast::type::ImageFormat::eRg32i:
+				return spv::ImageFormatRg32i;
+			case ast::type::ImageFormat::eRg16i:
+				return spv::ImageFormatRg16i;
+			case ast::type::ImageFormat::eRg8i:
+				return spv::ImageFormatRg8i;
+			case ast::type::ImageFormat::eR32i:
+				return spv::ImageFormatR32i;
+			case ast::type::ImageFormat::eR16i:
+				return spv::ImageFormatR16i;
+			case ast::type::ImageFormat::eR8i:
+				return spv::ImageFormatR8i;
+			case ast::type::ImageFormat::eRgba32u:
+				return spv::ImageFormatRgba32ui;
+			case ast::type::ImageFormat::eRgba16u:
+				return spv::ImageFormatRgba16ui;
+			case ast::type::ImageFormat::eRgba8u:
+				return spv::ImageFormatRgba8ui;
+			case ast::type::ImageFormat::eRg32u:
+				return spv::ImageFormatRg32ui;
+			case ast::type::ImageFormat::eRg16u:
+				return spv::ImageFormatRg16ui;
+			case ast::type::ImageFormat::eRg8u:
+				return spv::ImageFormatRg8ui;
+			case ast::type::ImageFormat::eR32u:
+				return spv::ImageFormatR32ui;
+			case ast::type::ImageFormat::eR16u:
+				return spv::ImageFormatR16ui;
+			case ast::type::ImageFormat::eR8u:
+				return spv::ImageFormatR8ui;
+			default:
+				assert( false && "Unsupported ast::type::ImageFormat" );
+				return spv::ImageFormatRgba32f;
+			}
+		}
+
+		void getBinOpOperands( ast::expr::Kind exprKind
+			, ast::type::Kind lhsTypeKind
+			, ast::type::Kind rhsTypeKind
+			, spv::Id lhs
+			, spv::Id rhs
+			, IdList & operands
+			, spv::Op & opCode )
+		{
+			bool needsMatchingVector;
+			bool switchParams{ false };
+			opCode = getBinOpCode( exprKind
+				, lhsTypeKind
+				, rhsTypeKind
+				, switchParams
+				, needsMatchingVector );
+
+			if ( switchParams )
+			{
+				std::swap( lhs, rhs );
+			}
+
+			operands = makeOperands( lhs, rhs );
+		}
+
+		InstructionPtr makeUnInstruction( spv::Op op
+			, spv::Id returnTypeId
+			, spv::Id resultId
+			, spv::Id operandId )
+		{
+			switch ( op )
+			{
+			case spv::OpNot:
+				return makeInstruction< UnInstructionT< spv::OpNot > >( returnTypeId, resultId, operandId );
+			case spv::OpLogicalNot:
+				return makeInstruction< UnInstructionT< spv::OpLogicalNot > >( returnTypeId, resultId, operandId );
+			case spv::OpFNegate:
+				return makeInstruction< UnInstructionT< spv::OpFNegate > >( returnTypeId, resultId, operandId );
+			case spv::OpSNegate:
+				return makeInstruction< UnInstructionT< spv::OpSNegate > >( returnTypeId, resultId, operandId );
+			default:
+				assert( false && "Unexpected unary operation Op" );
+			}
+
+			return nullptr;
+		}
+
+		InstructionPtr makeBinInstruction( spv::Op op
+			, spv::Id returnTypeId
+			, spv::Id resultId
+			, IdList const & operands )
+		{
+			switch ( op )
+			{
+			case spv::OpFAdd:
+				return makeInstruction< BinInstructionT< spv::OpFAdd > >( returnTypeId, resultId, operands );
+			case spv::OpIAdd:
+				return makeInstruction< BinInstructionT< spv::OpIAdd > >( returnTypeId, resultId, operands );
+			case spv::OpFSub:
+				return makeInstruction< BinInstructionT< spv::OpFSub > >( returnTypeId, resultId, operands );
+			case spv::OpISub:
+				return makeInstruction< BinInstructionT< spv::OpISub > >( returnTypeId, resultId, operands );
+			case spv::OpFMul:
+				return makeInstruction< BinInstructionT< spv::OpFMul > >( returnTypeId, resultId, operands );
+			case spv::OpIMul:
+				return makeInstruction< BinInstructionT< spv::OpIMul > >( returnTypeId, resultId, operands );
+			case spv::OpFDiv:
+				return makeInstruction< BinInstructionT< spv::OpFDiv > >( returnTypeId, resultId, operands );
+			case spv::OpSDiv:
+				return makeInstruction< BinInstructionT< spv::OpSDiv > >( returnTypeId, resultId, operands );
+			case spv::OpUDiv:
+				return makeInstruction< BinInstructionT< spv::OpUDiv > >( returnTypeId, resultId, operands );
+			case spv::OpFMod:
+				return makeInstruction< BinInstructionT< spv::OpFMod > >( returnTypeId, resultId, operands );
+			case spv::OpSMod:
+				return makeInstruction< BinInstructionT< spv::OpSMod > >( returnTypeId, resultId, operands );
+			case spv::OpUMod:
+				return makeInstruction< BinInstructionT< spv::OpUMod > >( returnTypeId, resultId, operands );
+			case spv::OpMatrixTimesMatrix:
+				return makeInstruction< BinInstructionT< spv::OpMatrixTimesMatrix > >( returnTypeId, resultId, operands );
+			case spv::OpMatrixTimesVector:
+				return makeInstruction< BinInstructionT< spv::OpMatrixTimesVector > >( returnTypeId, resultId, operands );
+			case spv::OpMatrixTimesScalar:
+				return makeInstruction< BinInstructionT< spv::OpMatrixTimesScalar > >( returnTypeId, resultId, operands );
+			case spv::OpVectorTimesScalar:
+				return makeInstruction< BinInstructionT< spv::OpVectorTimesScalar > >( returnTypeId, resultId, operands );
+			case spv::OpShiftLeftLogical:
+				return makeInstruction< BinInstructionT< spv::OpShiftLeftLogical > >( returnTypeId, resultId, operands );
+			case spv::OpShiftRightLogical:
+				return makeInstruction< BinInstructionT< spv::OpShiftRightLogical > >( returnTypeId, resultId, operands );
+			case spv::OpBitwiseAnd:
+				return makeInstruction< BinInstructionT< spv::OpBitwiseAnd > >( returnTypeId, resultId, operands );
+			case spv::OpNot:
+				return makeInstruction< BinInstructionT< spv::OpNot > >( returnTypeId, resultId, operands );
+			case spv::OpBitwiseOr:
+				return makeInstruction< BinInstructionT< spv::OpBitwiseOr > >( returnTypeId, resultId, operands );
+			case spv::OpBitwiseXor:
+				return makeInstruction< BinInstructionT< spv::OpBitwiseXor > >( returnTypeId, resultId, operands );
+			case spv::OpLogicalAnd:
+				return makeInstruction< BinInstructionT< spv::OpLogicalAnd > >( returnTypeId, resultId, operands );
+			case spv::OpLogicalOr:
+				return makeInstruction< BinInstructionT< spv::OpLogicalOr > >( returnTypeId, resultId, operands );
+			case spv::OpStore:
+				return makeInstruction< BinInstructionT< spv::OpStore > >( returnTypeId, resultId, operands );
+			case spv::OpFOrdEqual:
+				return makeInstruction< BinInstructionT< spv::OpFOrdEqual > >( returnTypeId, resultId, operands );
+			case spv::OpLogicalEqual:
+				return makeInstruction< BinInstructionT< spv::OpLogicalEqual > >( returnTypeId, resultId, operands );
+			case spv::OpIEqual:
+				return makeInstruction< BinInstructionT< spv::OpIEqual > >( returnTypeId, resultId, operands );
+			case spv::OpFOrdNotEqual:
+				return makeInstruction< BinInstructionT< spv::OpFOrdNotEqual > >( returnTypeId, resultId, operands );
+			case spv::OpLogicalNotEqual:
+				return makeInstruction< BinInstructionT< spv::OpLogicalNotEqual > >( returnTypeId, resultId, operands );
+			case spv::OpINotEqual:
+				return makeInstruction< BinInstructionT< spv::OpINotEqual > >( returnTypeId, resultId, operands );
+			case spv::OpFOrdGreaterThan:
+				return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThan > >( returnTypeId, resultId, operands );
+			case spv::OpSGreaterThan:
+				return makeInstruction< BinInstructionT< spv::OpSGreaterThan > >( returnTypeId, resultId, operands );
+			case spv::OpUGreaterThan:
+				return makeInstruction< BinInstructionT< spv::OpUGreaterThan > >( returnTypeId, resultId, operands );
+			case spv::OpFOrdGreaterThanEqual:
+				return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThanEqual > >( returnTypeId, resultId, operands );
+			case spv::OpSGreaterThanEqual:
+				return makeInstruction< BinInstructionT< spv::OpSGreaterThanEqual > >( returnTypeId, resultId, operands );
+			case spv::OpUGreaterThanEqual:
+				return makeInstruction< BinInstructionT< spv::OpUGreaterThanEqual > >( returnTypeId, resultId, operands );
+			case spv::OpFOrdLessThan:
+				return makeInstruction< BinInstructionT< spv::OpFOrdLessThan > >( returnTypeId, resultId, operands );
+			case spv::OpSLessThan:
+				return makeInstruction< BinInstructionT< spv::OpSLessThan > >( returnTypeId, resultId, operands );
+			case spv::OpULessThan:
+				return makeInstruction< BinInstructionT< spv::OpULessThan > >( returnTypeId, resultId, operands );
+			case spv::OpFOrdLessThanEqual:
+				return makeInstruction< BinInstructionT< spv::OpFOrdLessThanEqual > >( returnTypeId, resultId, operands );
+			case spv::OpSLessThanEqual:
+				return makeInstruction< BinInstructionT< spv::OpSLessThanEqual > >( returnTypeId, resultId, operands );
+			case spv::OpULessThanEqual:
+				return makeInstruction< BinInstructionT< spv::OpULessThanEqual > >( returnTypeId, resultId, operands );
+			default:
+				assert( false && "Unexpected binary operation Op" );
+			}
+
+			return nullptr;
+		}
+
+		bool needsAlias( ast::expr::Kind kind
+			, bool uniform
+			, bool param )
+		{
+			using ast::expr::Kind;
+			return ( uniform || kind != Kind::eIdentifier )
+				&& ( param || kind != Kind::eMbrSelect )
+				&& ( param || kind != Kind::eLiteral )
+				&& ( param || kind != Kind::eSwizzle );
+		}
+
+		bool isShaderVariable( ast::expr::Expr const & expr )
+		{
+			return expr.getKind() == ast::expr::Kind::eIdentifier
+				&& ( static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isUniform()
+					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderInput()
+					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
+		}
+	}
+
+	//*************************************************************************
+
 	spv::BuiltIn getBuiltin( std::string const & name )
 	{
-		auto result = spv::BuiltIn( -1 );
+		auto result = spv::BuiltInMax;
 
 		if ( name == "gl_Position" )
 		{
@@ -278,7 +515,7 @@ namespace spirv
 
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind )
 	{
-		spv::ExecutionModel result;
+		spv::ExecutionModel result{};
 
 		switch ( kind )
 		{
@@ -318,103 +555,219 @@ namespace spirv
 		return getOpName( op );
 	}
 
-	//*************************************************************************
-
-	spv::ImageFormat getImageFormat( ast::type::ImageFormat value )
+	std::string getName( spv::Capability value )
 	{
 		switch ( value )
 		{
-		case ast::type::ImageFormat::eUnknown:
-			return spv::ImageFormatUnknown;
-		case ast::type::ImageFormat::eRgba32f:
-			return spv::ImageFormatRgba32f;
-		case ast::type::ImageFormat::eRgba16f:
-			return spv::ImageFormatRgba16f;
-		case ast::type::ImageFormat::eRg32f:
-			return spv::ImageFormatRg32f;
-		case ast::type::ImageFormat::eRg16f:
-			return spv::ImageFormatRg16f;
-		case ast::type::ImageFormat::eR32f:
-			return spv::ImageFormatR32f;
-		case ast::type::ImageFormat::eR16f:
-			return spv::ImageFormatR16f;
-		case ast::type::ImageFormat::eRgba32i:
-			return spv::ImageFormatRgba32i;
-		case ast::type::ImageFormat::eRgba16i:
-			return spv::ImageFormatRgba16i;
-		case ast::type::ImageFormat::eRgba8i:
-			return spv::ImageFormatRgba8i;
-		case ast::type::ImageFormat::eRg32i:
-			return spv::ImageFormatRg32i;
-		case ast::type::ImageFormat::eRg16i:
-			return spv::ImageFormatRg16i;
-		case ast::type::ImageFormat::eRg8i:
-			return spv::ImageFormatRg8i;
-		case ast::type::ImageFormat::eR32i:
-			return spv::ImageFormatR32i;
-		case ast::type::ImageFormat::eR16i:
-			return spv::ImageFormatR16i;
-		case ast::type::ImageFormat::eR8i:
-			return spv::ImageFormatR8i;
-		case ast::type::ImageFormat::eRgba32u:
-			return spv::ImageFormatRgba32ui;
-		case ast::type::ImageFormat::eRgba16u:
-			return spv::ImageFormatRgba16ui;
-		case ast::type::ImageFormat::eRgba8u:
-			return spv::ImageFormatRgba8ui;
-		case ast::type::ImageFormat::eRg32u:
-			return spv::ImageFormatRg32ui;
-		case ast::type::ImageFormat::eRg16u:
-			return spv::ImageFormatRg16ui;
-		case ast::type::ImageFormat::eRg8u:
-			return spv::ImageFormatRg8ui;
-		case ast::type::ImageFormat::eR32u:
-			return spv::ImageFormatR32ui;
-		case ast::type::ImageFormat::eR16u:
-			return spv::ImageFormatR16ui;
-		case ast::type::ImageFormat::eR8u:
-			return spv::ImageFormatR8ui;
+		case spv::CapabilityMatrix:
+			return "Matrix";
+		case spv::CapabilityShader:
+			return "Shader";
+		case spv::CapabilityGeometry:
+			return "Geometry";
+		case spv::CapabilityTessellation:
+			return "Tessellation";
+		case spv::CapabilityAddresses:
+			return "Addresses";
+		case spv::CapabilityLinkage:
+			return "Linkage";
+		case spv::CapabilityKernel:
+			return "Kernel";
+		case spv::CapabilityVector16:
+			return "Vector16";
+		case spv::CapabilityFloat16Buffer:
+			return "Float16Buffer";
+		case spv::CapabilityFloat16:
+			return "Float16";
+		case spv::CapabilityFloat64:
+			return "Float64";
+		case spv::CapabilityInt64:
+			return "Int64";
+		case spv::CapabilityInt64Atomics:
+			return "Int64Atomics";
+		case spv::CapabilityImageBasic:
+			return "ImageBasic";
+		case spv::CapabilityImageReadWrite:
+			return "ImageReadWrite";
+		case spv::CapabilityImageMipmap:
+			return "ImageMipmap";
+		case spv::CapabilityPipes:
+			return "Pipes";
+		case spv::CapabilityGroups:
+			return "Groups";
+		case spv::CapabilityDeviceEnqueue:
+			return "DeviceEnqueue";
+		case spv::CapabilityLiteralSampler:
+			return "LiteralSampler";
+		case spv::CapabilityAtomicStorage:
+			return "AtomicStorage";
+		case spv::CapabilityInt16:
+			return "Int16";
+		case spv::CapabilityTessellationPointSize:
+			return "TessellationPointSize";
+		case spv::CapabilityGeometryPointSize:
+			return "GeometryPointSize";
+		case spv::CapabilityImageGatherExtended:
+			return "ImageGatherExtended";
+		case spv::CapabilityStorageImageMultisample:
+			return "StorageImageMultisample";
+		case spv::CapabilityUniformBufferArrayDynamicIndexing:
+			return "UniformBufferArrayDynamicIndexing";
+		case spv::CapabilitySampledImageArrayDynamicIndexing:
+			return "SampledImageArrayDynamicIndexing";
+		case spv::CapabilityStorageBufferArrayDynamicIndexing:
+			return "StorageBufferArrayDynamicIndexing";
+		case spv::CapabilityStorageImageArrayDynamicIndexing:
+			return "StorageImageArrayDynamicIndexing";
+		case spv::CapabilityClipDistance:
+			return "ClipDistance";
+		case spv::CapabilityCullDistance:
+			return "CullDistance";
+		case spv::CapabilityImageCubeArray:
+			return "ImageCubeArray";
+		case spv::CapabilitySampleRateShading:
+			return "SampleRateShading";
+		case spv::CapabilityImageRect:
+			return "ImageRect";
+		case spv::CapabilitySampledRect:
+			return "SampledRect";
+		case spv::CapabilityGenericPointer:
+			return "GenericPointer";
+		case spv::CapabilityInt8:
+			return "Int8";
+		case spv::CapabilityInputAttachment:
+			return "InputAttachment";
+		case spv::CapabilitySparseResidency:
+			return "SparseResidency";
+		case spv::CapabilityMinLod:
+			return "MinLod";
+		case spv::CapabilitySampled1D:
+			return "Sampled1D";
+		case spv::CapabilityImage1D:
+			return "Image1D";
+		case spv::CapabilitySampledCubeArray:
+			return "SampledCubeArray";
+		case spv::CapabilitySampledBuffer:
+			return "SampledBuffer";
+		case spv::CapabilityImageBuffer:
+			return "ImageBuffer";
+		case spv::CapabilityImageMSArray:
+			return "ImageMSArray";
+		case spv::CapabilityStorageImageExtendedFormats:
+			return "StorageImageExtendedFormats";
+		case spv::CapabilityImageQuery:
+			return "ImageQuery";
+		case spv::CapabilityDerivativeControl:
+			return "DerivativeControl";
+		case spv::CapabilityInterpolationFunction:
+			return "InterpolationFunction";
+		case spv::CapabilityTransformFeedback:
+			return "TransformFeedback";
+		case spv::CapabilityGeometryStreams:
+			return "GeometryStreams";
+		case spv::CapabilityStorageImageReadWithoutFormat:
+			return "StorageImageReadWithoutFormat";
+		case spv::CapabilityStorageImageWriteWithoutFormat:
+			return "StorageImageWriteWithoutFormat";
+		case spv::CapabilityMultiViewport:
+			return "MultiViewport";
+		case spv::CapabilitySubgroupDispatch:
+			return "SubgroupDispatch";
+		case spv::CapabilityNamedBarrier:
+			return "NamedBarrier";
+		case spv::CapabilityPipeStorage:
+			return "PipeStorage";
+		case spv::CapabilitySubgroupBallotKHR:
+			return "SubgroupBallotKHR";
+		case spv::CapabilityDrawParameters:
+			return "DrawParameters";
+		case spv::CapabilitySubgroupVoteKHR:
+			return "SubgroupVoteKHR";
+		case spv::CapabilityStorageBuffer16BitAccess:
+			return "StorageBuffer16BitAccess";
+		case spv::CapabilityStorageUniform16:
+			return "StorageUniform16";
+		case spv::CapabilityStoragePushConstant16:
+			return "StoragePushConstant16";
+		case spv::CapabilityStorageInputOutput16:
+			return "StorageInputOutput16";
+		case spv::CapabilityDeviceGroup:
+			return "DeviceGroup";
+		case spv::CapabilityMultiView:
+			return "MultiView";
+		case spv::CapabilityVariablePointersStorageBuffer:
+			return "VariablePointersStorageBuffer";
+		case spv::CapabilityVariablePointers:
+			return "VariablePointers";
+		case spv::CapabilityAtomicStorageOps:
+			return "AtomicStorageOps";
+		case spv::CapabilitySampleMaskPostDepthCoverage:
+			return "SampleMaskPostDepthCoverage";
+		case spv::CapabilityImageGatherBiasLodAMD:
+			return "ImageGatherBiasLodAMD";
+		case spv::CapabilityFragmentMaskAMD:
+			return "FragmentMaskAMD";
+		case spv::CapabilityStencilExportEXT:
+			return "StencilExportEXT";
+		case spv::CapabilityImageReadWriteLodAMD:
+			return "ImageReadWriteLodAMD";
+		case spv::CapabilitySampleMaskOverrideCoverageNV:
+			return "SampleMaskOverrideCoverageNV";
+		case spv::CapabilityGeometryShaderPassthroughNV:
+			return "GeometryShaderPassthroughNV";
+		case spv::CapabilityShaderViewportIndexLayerEXT:
+			return "ShaderViewportIndexLayer";
+		case spv::CapabilityShaderViewportMaskNV:
+			return "ShaderViewportMaskNV";
+		case spv::CapabilityShaderStereoViewNV:
+			return "ShaderStereoViewNV";
+		case spv::CapabilityPerViewAttributesNV:
+			return "PerViewAttributesNV";
+		case spv::CapabilitySubgroupShuffleINTEL:
+			return "SubgroupShuffleINTEL";
+		case spv::CapabilitySubgroupBufferBlockIOINTEL:
+			return "SubgroupBufferBlockIOINTEL";
+		case spv::CapabilitySubgroupImageBlockIOINTEL:
+			return "SubgroupImageBlockIOINTEL";
+		case spv::CapabilitySubgroupImageMediaBlockIOINTEL:
+			return "SubgroupImageMediaBlockIOINTEL";
+		case spv::CapabilityIntegerFunctions2INTEL:
+			return "IntegerFunctions2INTEL";
+		case spv::CapabilityFunctionPointersINTEL:
+			return "FunctionPointersINTEL";
+		case spv::CapabilityIndirectReferencesINTEL:
+			return "IndirectReferencesINTEL";
+		case spv::CapabilitySubgroupAvcMotionEstimationINTEL:
+			return "SubgroupAvcMotionEstimationINTEL";
+		case spv::CapabilitySubgroupAvcMotionEstimationIntraINTEL:
+			return "SubgroupAvcMotionEstimationIntraINTEL";
+		case spv::CapabilitySubgroupAvcMotionEstimationChromaINTEL:
+			return "SubgroupAvcMotionEstimationChromaINTEL";
+		case spv::CapabilityFPGAMemoryAttributesINTEL:
+			return "FPGAMemoryAttributesINTEL";
+		case spv::CapabilityUnstructuredLoopControlsINTEL:
+			return "UnstructuredLoopControlsINTEL";
+		case spv::CapabilityFPGALoopControlsINTEL:
+			return "FPGALoopControlsINTEL";
+		case spv::CapabilityKernelAttributesINTEL:
+			return "KernelAttributesINTEL";
+		case spv::CapabilityFPGAKernelAttributesINTEL:
+			return "FPGAKernelAttributesINTEL";
+		case spv::CapabilityBlockingPipesINTEL:
+			return "BlockingPipesINTEL";
+		case spv::CapabilityFPGARegINTEL:
+			return "FPGARegINTEL";
+		case spv::CapabilityAtomicFloat32AddEXT:
+			return "AtomicFloat32AddEXT";
+		case spv::CapabilityAtomicFloat64AddEXT:
+			return "AtomicFloat64AddEXT";
 		default:
-			assert( false && "Unsupported ast::type::ImageFormat" );
-			return spv::ImageFormatRgba32f;
+			assert( false && "Unsupported Capability" );
+			return "Undefined";
 		}
 	}
 
-	InstructionPtr makeExtension( std::string const & name )
-	{
-		return makeInstruction< ExtensionInstruction >( name );
-	}
-
-	InstructionPtr makeFunctionType( spv::Id returnTypeId
-		, IdList const & functionTypesId )
-	{
-		return makeInstruction< FunctionTypeInstruction >( returnTypeId
-			, functionTypesId );
-	}
-
-	void getBinOpOperands( ast::expr::Kind exprKind
-		, ast::type::Kind lhsTypeKind
-		, ast::type::Kind rhsTypeKind
-		, spv::Id lhs
-		, spv::Id rhs
-		, IdList & operands
-		, spv::Op & opCode )
-	{
-		bool needsMatchingVector;
-		bool switchParams{ false };
-		opCode = getBinOpCode( exprKind
-			, lhsTypeKind
-			, rhsTypeKind
-			, switchParams
-			, needsMatchingVector );
-
-		if ( switchParams )
-		{
-			std::swap( lhs, rhs );
-		}
-
-		operands = makeOperands( lhs, rhs );
-	}
+	//*************************************************************************
 
 	IdList makeBinOpOperands( ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
@@ -580,6 +933,8 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpISubBorrow > >( returnTypeId, resultId, operands );
 		case spv::OpUMulExtended:
 			return makeInstruction< IntrinsicInstructionT< spv::OpUMulExtended > >( returnTypeId, resultId, operands );
+		case spv::OpSMulExtended:
+			return makeInstruction< IntrinsicInstructionT< spv::OpSMulExtended > >( returnTypeId, resultId, operands );
 		case spv::OpBitFieldSExtract:
 			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldSExtract > >( returnTypeId, resultId, operands );
 		case spv::OpBitFieldUExtract:
@@ -748,28 +1103,6 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeUnInstruction( spv::Op op
-		, spv::Id returnTypeId
-		, spv::Id resultId
-		, spv::Id operandId )
-	{
-		switch ( op )
-		{
-		case spv::OpNot:
-			return makeInstruction< UnInstructionT< spv::OpNot > >( returnTypeId, resultId, operandId );
-		case spv::OpLogicalNot:
-			return makeInstruction< UnInstructionT< spv::OpLogicalNot > >( returnTypeId, resultId, operandId );
-		case spv::OpFNegate:
-			return makeInstruction< UnInstructionT< spv::OpFNegate > >( returnTypeId, resultId, operandId );
-		case spv::OpSNegate:
-			return makeInstruction< UnInstructionT< spv::OpSNegate > >( returnTypeId, resultId, operandId );
-		default:
-			assert( false && "Unexpected unary operation Op" );
-		}
-
-		return nullptr;
-	}
-
 	InstructionPtr makeUnInstruction( spv::Id returnTypeId
 		, spv::Id resultId
 		, ast::expr::Kind exprKind
@@ -780,106 +1113,6 @@ namespace spirv
 			, returnTypeId
 			, resultId
 			, operand );
-	}
-
-	InstructionPtr makeBinInstruction( spv::Op op
-		, spv::Id returnTypeId
-		, spv::Id resultId
-		, IdList const & operands )
-	{
-		switch ( op )
-		{
-		case spv::OpFAdd:
-			return makeInstruction< BinInstructionT< spv::OpFAdd > >( returnTypeId, resultId, operands );
-		case spv::OpIAdd:
-			return makeInstruction< BinInstructionT< spv::OpIAdd > >( returnTypeId, resultId, operands );
-		case spv::OpFSub:
-			return makeInstruction< BinInstructionT< spv::OpFSub > >( returnTypeId, resultId, operands );
-		case spv::OpISub:
-			return makeInstruction< BinInstructionT< spv::OpISub > >( returnTypeId, resultId, operands );
-		case spv::OpFMul:
-			return makeInstruction< BinInstructionT< spv::OpFMul > >( returnTypeId, resultId, operands );
-		case spv::OpIMul:
-			return makeInstruction< BinInstructionT< spv::OpIMul > >( returnTypeId, resultId, operands );
-		case spv::OpFDiv:
-			return makeInstruction< BinInstructionT< spv::OpFDiv > >( returnTypeId, resultId, operands );
-		case spv::OpSDiv:
-			return makeInstruction< BinInstructionT< spv::OpSDiv > >( returnTypeId, resultId, operands );
-		case spv::OpUDiv:
-			return makeInstruction< BinInstructionT< spv::OpUDiv > >( returnTypeId, resultId, operands );
-		case spv::OpFMod:
-			return makeInstruction< BinInstructionT< spv::OpFMod > >( returnTypeId, resultId, operands );
-		case spv::OpSMod:
-			return makeInstruction< BinInstructionT< spv::OpSMod > >( returnTypeId, resultId, operands );
-		case spv::OpUMod:
-			return makeInstruction< BinInstructionT< spv::OpUMod > >( returnTypeId, resultId, operands );
-		case spv::OpMatrixTimesMatrix:
-			return makeInstruction< BinInstructionT< spv::OpMatrixTimesMatrix > >( returnTypeId, resultId, operands );
-		case spv::OpMatrixTimesVector:
-			return makeInstruction< BinInstructionT< spv::OpMatrixTimesVector > >( returnTypeId, resultId, operands );
-		case spv::OpMatrixTimesScalar:
-			return makeInstruction< BinInstructionT< spv::OpMatrixTimesScalar > >( returnTypeId, resultId, operands );
-		case spv::OpVectorTimesScalar:
-			return makeInstruction< BinInstructionT< spv::OpVectorTimesScalar > >( returnTypeId, resultId, operands );
-		case spv::OpShiftLeftLogical:
-			return makeInstruction< BinInstructionT< spv::OpShiftLeftLogical > >( returnTypeId, resultId, operands );
-		case spv::OpShiftRightLogical:
-			return makeInstruction< BinInstructionT< spv::OpShiftRightLogical > >( returnTypeId, resultId, operands );
-		case spv::OpBitwiseAnd:
-			return makeInstruction< BinInstructionT< spv::OpBitwiseAnd > >( returnTypeId, resultId, operands );
-		case spv::OpNot:
-			return makeInstruction< BinInstructionT< spv::OpNot > >( returnTypeId, resultId, operands );
-		case spv::OpBitwiseOr:
-			return makeInstruction< BinInstructionT< spv::OpBitwiseOr > >( returnTypeId, resultId, operands );
-		case spv::OpBitwiseXor:
-			return makeInstruction< BinInstructionT< spv::OpBitwiseXor > >( returnTypeId, resultId, operands );
-		case spv::OpLogicalAnd:
-			return makeInstruction< BinInstructionT< spv::OpLogicalAnd > >( returnTypeId, resultId, operands );
-		case spv::OpLogicalOr:
-			return makeInstruction< BinInstructionT< spv::OpLogicalOr > >( returnTypeId, resultId, operands );
-		case spv::OpStore:
-			return makeInstruction< BinInstructionT< spv::OpStore > >( returnTypeId, resultId, operands );
-		case spv::OpFOrdEqual:
-			return makeInstruction< BinInstructionT< spv::OpFOrdEqual > >( returnTypeId, resultId, operands );
-		case spv::OpLogicalEqual:
-			return makeInstruction< BinInstructionT< spv::OpLogicalEqual > >( returnTypeId, resultId, operands );
-		case spv::OpIEqual:
-			return makeInstruction< BinInstructionT< spv::OpIEqual > >( returnTypeId, resultId, operands );
-		case spv::OpFOrdNotEqual:
-			return makeInstruction< BinInstructionT< spv::OpFOrdNotEqual > >( returnTypeId, resultId, operands );
-		case spv::OpLogicalNotEqual:
-			return makeInstruction< BinInstructionT< spv::OpLogicalNotEqual > >( returnTypeId, resultId, operands );
-		case spv::OpINotEqual:
-			return makeInstruction< BinInstructionT< spv::OpINotEqual > >( returnTypeId, resultId, operands );
-		case spv::OpFOrdGreaterThan:
-			return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThan > >( returnTypeId, resultId, operands );
-		case spv::OpSGreaterThan:
-			return makeInstruction< BinInstructionT< spv::OpSGreaterThan > >( returnTypeId, resultId, operands );
-		case spv::OpUGreaterThan:
-			return makeInstruction< BinInstructionT< spv::OpUGreaterThan > >( returnTypeId, resultId, operands );
-		case spv::OpFOrdGreaterThanEqual:
-			return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThanEqual > >( returnTypeId, resultId, operands );
-		case spv::OpSGreaterThanEqual:
-			return makeInstruction< BinInstructionT< spv::OpSGreaterThanEqual > >( returnTypeId, resultId, operands );
-		case spv::OpUGreaterThanEqual:
-			return makeInstruction< BinInstructionT< spv::OpUGreaterThanEqual > >( returnTypeId, resultId, operands );
-		case spv::OpFOrdLessThan:
-			return makeInstruction< BinInstructionT< spv::OpFOrdLessThan > >( returnTypeId, resultId, operands );
-		case spv::OpSLessThan:
-			return makeInstruction< BinInstructionT< spv::OpSLessThan > >( returnTypeId, resultId, operands );
-		case spv::OpULessThan:
-			return makeInstruction< BinInstructionT< spv::OpULessThan > >( returnTypeId, resultId, operands );
-		case spv::OpFOrdLessThanEqual:
-			return makeInstruction< BinInstructionT< spv::OpFOrdLessThanEqual > >( returnTypeId, resultId, operands );
-		case spv::OpSLessThanEqual:
-			return makeInstruction< BinInstructionT< spv::OpSLessThanEqual > >( returnTypeId, resultId, operands );
-		case spv::OpULessThanEqual:
-			return makeInstruction< BinInstructionT< spv::OpULessThanEqual > >( returnTypeId, resultId, operands );
-		default:
-			assert( false && "Unexpected binary operation Op" );
-		}
-
-		return nullptr;
 	}
 
 	InstructionPtr makeBinInstruction( spv::Id typeId
@@ -897,6 +1130,157 @@ namespace spirv
 			, typeId
 			, resultId
 			, operands );
+	}
+
+	ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
+		, ast::type::Kind kind )
+	{
+		using ast::type::Kind;
+		switch ( kind )
+		{
+		case Kind::eInt:
+			return ast::expr::makeLiteral( cache, 0 );
+		case Kind::eUInt:
+			return ast::expr::makeLiteral( cache, 0u );
+		case Kind::eHalf:
+		case Kind::eFloat:
+			return ast::expr::makeLiteral( cache, 0.0f );
+		case Kind::eDouble:
+			return ast::expr::makeLiteral( cache, 0.0 );
+		default:
+			assert( false && "Unsupported type kind for 0 literal" );
+			return nullptr;
+		}
+	}
+
+	ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
+		, ast::type::Kind kind )
+	{
+		using ast::type::Kind;
+		switch ( kind )
+		{
+		case Kind::eInt:
+			return ast::expr::makeLiteral( cache, 1 );
+		case Kind::eUInt:
+			return ast::expr::makeLiteral( cache, 1u );
+		case Kind::eHalf:
+		case Kind::eFloat:
+			return ast::expr::makeLiteral( cache, 1.0f );
+		case Kind::eDouble:
+			return ast::expr::makeLiteral( cache, 1.0 );
+		default:
+			assert( false && "Unsupported type kind for 0 literal" );
+			return nullptr;
+		}
+	}
+
+	ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
+		, ast::expr::ExprPtr expr )
+	{
+		auto componentCount = getComponentCount( expr->getType()->getKind() );
+		ast::expr::ExprPtr result;
+		auto type = expr->getType()->getKind();
+
+		if ( componentCount == 1u )
+		{
+			result = ast::expr::makeNotEqual( cache
+				, std::move( expr )
+				, makeZero( cache, type ) );
+		}
+		else
+		{
+			ast::expr::ExprList args;
+			auto newExpr = std::move( expr );
+
+			for ( auto i = 0u; i < componentCount; ++i )
+			{
+				args.emplace_back( ast::expr::makeNotEqual( cache
+					, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
+					, makeZero( cache, type ) ) );
+			}
+
+			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+				, ast::type::Kind::eBoolean
+				, std::move( args ) );
+		}
+
+		return result;
+	}
+
+	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
+		, ast::expr::ExprPtr expr
+		, ast::type::Kind dstScalarType )
+	{
+		auto componentCount = getComponentCount( expr->getType()->getKind() );
+		ast::expr::ExprPtr result;
+
+		if ( componentCount == 1u )
+		{
+			result = ast::expr::makeQuestion( expr->getType()
+				, std::move( expr )
+				, makeOne( cache, dstScalarType )
+				, makeZero( cache, dstScalarType ) );
+		}
+		else
+		{
+			ast::expr::ExprList args;
+			auto newExpr = std::move( expr );
+			auto scalarType = cache.getBasicType( dstScalarType );
+
+			for ( auto i = 0u; i < componentCount; ++i )
+			{
+				args.emplace_back( ast::expr::makeQuestion( scalarType
+					, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
+					, makeOne( cache, dstScalarType )
+					, makeZero( cache, dstScalarType ) ) );
+			}
+
+			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+				, dstScalarType
+				, std::move( args ) );
+		}
+
+		return result;
+	}
+
+	bool makeAlias( ast::stmt::Container * container
+		, ast::expr::ExprPtr expr
+		, bool param
+		, ast::expr::ExprPtr & aliasExpr
+		, ast::var::VariablePtr & aliasVar
+		, uint32_t & currentId )
+	{
+		if ( !needsAlias( expr->getKind()
+			, isShaderVariable( *expr )
+			, param ) )
+		{
+			aliasExpr = std::move( expr );
+			return false;
+		}
+
+		auto kind = getNonArrayKind( expr->getType() );
+		aliasVar = ast::var::makeVariable( expr->getType()
+			, "tmp_" + std::to_string( currentId++ )
+			, ast::var::Flag::eImplicit );
+
+		if ( isSamplerType( kind )
+			|| isSampledImageType( kind )
+			|| isImageType( kind ) )
+		{
+			aliasVar->updateFlag( ast::var::Flag::eConstant );
+		}
+		else
+		{
+			aliasVar->updateFlag( ast::var::Flag::eLocale );
+		}
+
+		auto & cache = expr->getCache();
+		auto type = expr->getType();
+		container->addStmt( ast::stmt::makeSimple( ast::expr::makeAlias( type
+			, ast::expr::makeIdentifier( cache, aliasVar )
+			, std::move( expr ) ) ) );
+		aliasExpr = ast::expr::makeIdentifier( cache, aliasVar );
+		return true;
 	}
 
 	//*************************************************************************

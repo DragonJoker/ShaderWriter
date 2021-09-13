@@ -13,27 +13,30 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-	void doEnableCoreExtension( ast::stmt::ContainerPtr & cont
-		, std::string const & extensionName
-		, uint32_t coreInVersion
-		, uint32_t shaderVersion )
+	namespace
 	{
-		if ( coreInVersion > shaderVersion )
+		void doEnableCoreExtension( ast::stmt::ContainerPtr & cont
+			, std::string const & extensionName
+			, uint32_t coreInVersion
+			, uint32_t shaderVersion )
 		{
-			cont->addStmt( ast::stmt::makePreprocExtension( extensionName
-				, ast::stmt::PreprocExtension::ExtStatus::eRequired ) );
+			if ( coreInVersion > shaderVersion )
+			{
+				cont->addStmt( ast::stmt::makePreprocExtension( extensionName
+					, ast::stmt::PreprocExtension::ExtStatus::eRequired ) );
+			}
 		}
-	}
-	
-	void doEnableExtension( ast::stmt::ContainerPtr & cont
-		, std::string const & extensionName
-		, uint32_t requiredVersion
-		, uint32_t shaderVersion )
-	{
-		if ( requiredVersion <= shaderVersion )
+
+		void doEnableExtension( ast::stmt::ContainerPtr & cont
+			, std::string const & extensionName
+			, uint32_t requiredVersion
+			, uint32_t shaderVersion )
 		{
-			cont->addStmt( ast::stmt::makePreprocExtension( extensionName
-				, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			if ( requiredVersion <= shaderVersion )
+			{
+				cont->addStmt( ast::stmt::makePreprocExtension( extensionName
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
 		}
 	}
 

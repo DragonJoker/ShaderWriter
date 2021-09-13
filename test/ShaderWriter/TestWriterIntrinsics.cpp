@@ -1,4 +1,4 @@
-#include "../Common.hpp"
+#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -10134,7 +10134,6 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			auto & shader = writer.getShader();
 			std::string const name = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
@@ -10162,7 +10161,6 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			auto & shader = writer.getShader();
 			std::string const name = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::UInt >( name );
@@ -10190,7 +10188,6 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			auto & shader = writer.getShader();
 			std::string const name = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Float >( name );
@@ -10222,7 +10219,6 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			auto & shader = writer.getShader();
 			std::string const name = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::HVec2 >( name );
@@ -10254,7 +10250,6 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			auto & shader = writer.getShader();
 			std::string const name = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::HVec4 >( name );
@@ -10286,7 +10281,6 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			auto & shader = writer.getShader();
 			std::string const name = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< sdw::Int >( name );
@@ -10712,8 +10706,8 @@ namespace
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
 				{
-					auto c = writer.declLocale< UInt >( "c", 0_u );
-					auto v = writer.declLocale< UInt >( "v", 1_u );
+					auto c = writer.declLocale< Int >( "c", 0_i );
+					auto v = writer.declLocale< Int >( "v", 1_i );
 					writer.declLocale( "r"
 						, atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v ) );
 					atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v );

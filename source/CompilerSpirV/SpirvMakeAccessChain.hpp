@@ -11,6 +11,8 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct PreprocContext;
+
 	spv::Id writeShuffle( Module & module
 		, Block & currentBlock
 		, spv::Id typeId
@@ -19,6 +21,7 @@ namespace spirv
 	bool isAccessChain( ast::expr::Expr * expr );
 	bool isPtrAccessChain( ast::expr::Expr * expr );
 	spv::Id makeAccessChain( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Module & module
 		, Block & currentBlock
 		, LoadedVariableArray & loadedVariables );

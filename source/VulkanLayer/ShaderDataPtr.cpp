@@ -3,7 +3,10 @@ See LICENSE file in root folder
 */
 #include "VulkanLayer/ShaderDataPtr.hpp"
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <iostream>
+#pragma warning( pop )
 
 namespace ast::vk
 {

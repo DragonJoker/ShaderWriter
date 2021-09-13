@@ -17,6 +17,7 @@ namespace sdw
 		SDW_API StructInstance( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
+		SDW_API StructInstance( StructInstance const & ) = default;
 		SDW_API StructInstance & operator=( StructInstance const & rhs );
 
 		template< typename T >

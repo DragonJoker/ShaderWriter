@@ -632,7 +632,7 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eFloat, ASTIntrName( atomicExchange, AtomicExchange, F ), ASTIntrParams( ASTIntrParam( type::Kind::eFloat, mem ), ASTIntrParam( type::Kind::eFloat, data ) ) )
 	ASTIntrValue( type::Kind::eVec2H, ASTIntrName( atomicExchange, AtomicExchange, 2, H ), ASTIntrParams( ASTIntrParam( type::Kind::eVec2H, mem ), ASTIntrParam( type::Kind::eVec2H, data ) ) )
 	ASTIntrValue( type::Kind::eVec4H, ASTIntrName( atomicExchange, AtomicExchange, 4, H ), ASTIntrParams( ASTIntrParam( type::Kind::eVec4H, mem ), ASTIntrParam( type::Kind::eVec4H, data ) ) )
-	ASTIntrValue( type::Kind::eInt, ASTIntrName( atomicCompSwap, AtomicCompSwap, I ), ASTIntrParams( ASTIntrParam( type::Kind::eInt, mem ), ASTIntrParam( type::Kind::eUInt, compare ), ASTIntrParam( type::Kind::eUInt, data ) ) )
+	ASTIntrValue( type::Kind::eInt, ASTIntrName( atomicCompSwap, AtomicCompSwap, I ), ASTIntrParams( ASTIntrParam( type::Kind::eInt, mem ), ASTIntrParam( type::Kind::eInt, compare ), ASTIntrParam( type::Kind::eInt, data ) ) )
 	ASTIntrValue( type::Kind::eUInt, ASTIntrName( atomicCompSwap, AtomicCompSwap, U ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, mem ), ASTIntrParam( type::Kind::eUInt, compare ), ASTIntrParam( type::Kind::eUInt, data ) ) )
 
 	// Derivative Functions

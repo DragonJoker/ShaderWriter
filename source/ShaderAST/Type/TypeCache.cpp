@@ -12,35 +12,12 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	namespace
-	{
-		template< typename T >
-		inline size_t hashCombine( size_t & hash
-			, T const & rhs )
-		{
-			const uint64_t kMul = 0x9ddfea08eb382d69ULL;
-			auto seed = hash;
-
-			std::hash< T > hasher;
-			uint64_t a = ( hasher( rhs ) ^ seed ) * kMul;
-			a ^= ( a >> 47 );
-
-			uint64_t b = ( seed ^ a ) * kMul;
-			b ^= ( b >> 47 );
-
-			hash = static_cast< std::size_t >( b * kMul );
-			return hash;
-		}
-	}
-
-	//*************************************************************************
-
 	TypesCache::TypesCache()
 		: m_image{ [this]( ImageConfiguration config )
 			{
 				return std::make_shared< Image >( *this, std::move( config ) );
 			}
-			, []( ImageConfiguration const & config )
+			, []( ImageConfiguration const & config )noexcept
 			{
 				return getHash( config );
 			} }
@@ -48,7 +25,7 @@ namespace ast::type
 			{
 				return std::make_shared< SampledImage >( *this, std::move( config ) );
 			}
-			, []( ImageConfiguration const & config )
+			, []( ImageConfiguration const & config )noexcept
 			{
 				return getHash( config );
 			} }
@@ -56,7 +33,7 @@ namespace ast::type
 			{
 				return std::make_shared< Sampler >( *this, comparison );
 			}
-			, []( bool comparison )
+			, []( bool comparison )noexcept
 			{
 				return comparison ? 1u : 0u;
 			} }
@@ -67,7 +44,7 @@ namespace ast::type
 					, std::move( parameters ) );
 			}
 			, []( TypePtr returnType
-				, var::VariableList const & parameters )
+				, var::VariableList const & parameters )noexcept
 			{
 				return getHash( returnType, parameters );
 			} }
@@ -79,7 +56,7 @@ namespace ast::type
 					, std::move( name ) );
 			}
 			, []( MemoryLayout layout
-				, std::string const & name )
+				, std::string const & name )noexcept
 			{
 				return getHash( layout, name );
 			} }
@@ -90,7 +67,7 @@ namespace ast::type
 					, arraySize );
 			}
 			, []( TypePtr type
-				, uint32_t arraySize )
+				, uint32_t arraySize )noexcept
 			{
 				return getHash( type, arraySize );
 			} }

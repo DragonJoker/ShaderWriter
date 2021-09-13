@@ -25,6 +25,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	target_compile_definitions( ${TEST_NAME} PRIVATE
 		SDW_COMPILE_TESTS
 	)
+	target_add_compilation_flags( ${TEST_NAME} )
 
 	if ( MSVC )
 		target_compile_options( ${TEST_NAME} PRIVATE

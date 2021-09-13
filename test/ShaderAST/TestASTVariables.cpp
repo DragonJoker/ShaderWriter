@@ -1,4 +1,4 @@
-#include "../Common.hpp"
+#include "Common.hpp"
 
 #include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Var/Variable.hpp>

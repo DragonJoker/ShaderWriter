@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Float.hpp"
 
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+
 namespace
 {
 	void compileFloat()

@@ -202,7 +202,7 @@ namespace spirv
 					, type
 					, currentBlock );
 				loadedVariables.push_back( { varId, loadedRhsId } );
-				it = loadedVariables.begin() + loadedVariables.size() - 1u;
+				it = loadedVariables.begin() + ptrdiff_t( loadedVariables.size() - 1u );
 			}
 
 			return it->loadedId;
@@ -380,6 +380,7 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool loadVariable )
@@ -387,6 +388,7 @@ namespace spirv
 		bool allLiterals{ false };
 		LoadedVariableArray loadedVariables;
 		return submit( expr
+			, context
 			, currentBlock
 			, module
 			, allLiterals
@@ -395,6 +397,7 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool loadVariable
@@ -402,6 +405,7 @@ namespace spirv
 	{
 		bool allLiterals{ false };
 		return submit( expr
+			, context
 			, currentBlock
 			, module
 			, allLiterals
@@ -410,6 +414,7 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, spv::Id initialiser
@@ -418,6 +423,7 @@ namespace spirv
 	{
 		bool allLiterals{ false };
 		return submit( expr
+			, context
 			, currentBlock
 			, module
 			, allLiterals
@@ -427,6 +433,7 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
@@ -434,6 +441,7 @@ namespace spirv
 	{
 		LoadedVariableArray loadedVariables;
 		return submit( expr
+			, context
 			, currentBlock
 			, module
 			, allLiterals
@@ -442,6 +450,7 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
@@ -450,6 +459,7 @@ namespace spirv
 	{
 		spv::Id result{ 0u };
 		ExprVisitor vis{ result
+			, context
 			, currentBlock
 			, module
 			, allLiterals
@@ -460,6 +470,7 @@ namespace spirv
 	}
 
 	spv::Id ExprVisitor::submit( ast::expr::Expr * expr
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
@@ -469,6 +480,7 @@ namespace spirv
 	{
 		spv::Id result{ 0u };
 		ExprVisitor vis{ result
+			, context
 			, currentBlock
 			, module
 			, allLiterals
@@ -480,12 +492,14 @@ namespace spirv
 	}
 
 	ExprVisitor::ExprVisitor( spv::Id & result
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
 		, bool loadVariable
 		, LoadedVariableArray & loadedVariables )
-		: m_result{ result }
+		: m_context{ context }
+		, m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
 		, m_allLiterals{ allLiterals }
@@ -497,13 +511,15 @@ namespace spirv
 	}
 
 	ExprVisitor::ExprVisitor( spv::Id & result
+		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
 		, spv::Id initialiser
 		, bool hasFuncInit
 		, LoadedVariableArray & loadedVariables )
-		: m_result{ result }
+		: m_context{ context }
+		, m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
 		, m_allLiterals{ allLiterals }
@@ -516,40 +532,40 @@ namespace spirv
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr )
 	{
-		return submit( expr, m_currentBlock, m_module, m_loadVariable, m_loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, m_loadVariable, m_loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, LoadedVariableArray & loadedVariables )
 	{
-		return submit( expr, m_currentBlock, m_module, m_loadVariable, loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, m_loadVariable, loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, bool loadVariable )
 	{
-		return submit( expr, m_currentBlock, m_module, loadVariable, m_loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, loadVariable, m_loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, spv::Id initialiser
 		, bool hasFuncInit )
 	{
-		return submit( expr, m_currentBlock, m_module, initialiser, hasFuncInit, m_loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, m_loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, bool loadVariable
 		, LoadedVariableArray & loadedVariables )
 	{
-		return submit( expr, m_currentBlock, m_module, loadVariable, loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, loadVariable, loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, bool & allLiterals
 		, bool loadVariable )
 	{
-		return submit( expr, m_currentBlock, m_module, allLiterals, loadVariable, m_loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, allLiterals, loadVariable, m_loadedVariables );
 	}
 
 	spv::Id ExprVisitor::doSubmit( ast::expr::Expr * expr
@@ -557,7 +573,7 @@ namespace spirv
 		, bool loadVariable
 		, LoadedVariableArray & loadedVariables )
 	{
-		return submit( expr, m_currentBlock, m_module, allLiterals, loadVariable, loadedVariables );
+		return submit( expr, m_context, m_currentBlock, m_module, allLiterals, loadVariable, loadedVariables );
 	}
 
 	void ExprVisitor::visitAssignmentExpr( ast::expr::Assign * expr )
@@ -927,38 +943,26 @@ namespace spirv
 
 	void ExprVisitor::visitAggrInitExpr( ast::expr::AggrInit * expr )
 	{
-		auto typeId = m_module.registerType( expr->getType() );
-		IdList initialisers;
 		bool allLiterals = true;
 		bool hasFuncInit = false;
-
-		for ( auto & init : expr->getInitialisers() )
-		{
-			initialisers.push_back( doSubmit( init.get(), allLiterals, true ) );
-			hasFuncInit = hasFuncInit || HasFnCall::submit( init.get() );
-		}
-
-		spv::Id init;
-
-		if ( allLiterals )
-		{
-			init = m_module.registerLiteral( initialisers, expr->getType() );
-		}
-		else
-		{
-			init = m_module.getIntermediateResult();
-			m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( typeId
-				, init
-				, initialisers ) );
-		}
+		auto init = visitInitialisers( expr->getInitialisers()
+			, expr->getType()
+			, allLiterals
+			, hasFuncInit );
 
 		if ( expr->getIdentifier() )
 		{
-			initialiseVariable( init
-				, allLiterals
-				, hasFuncInit
-				, expr->getIdentifier()->getVariable()
-				, expr->getType() );
+			auto var = expr->getIdentifier()->getVariable();
+			auto it = m_context.constAggrExprs.find( var->getName() );
+
+			if ( it == m_context.constAggrExprs.end() )
+			{
+				initialiseVariable( init
+					, allLiterals
+					, hasFuncInit
+					, expr->getIdentifier()->getVariable()
+					, expr->getType() );
+			}
 		}
 		else
 		{
@@ -972,7 +976,11 @@ namespace spirv
 	void ExprVisitor::visitArrayAccessExpr( ast::expr::ArrayAccess * expr )
 	{
 		m_allLiterals = false;
-		m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+		m_result = makeAccessChain( expr
+			, m_context
+			, m_module
+			, m_currentBlock
+			, m_loadedVariables );
 		auto typeKind = expr->getType()->getKind();
 
 		if ( m_loadVariable
@@ -990,7 +998,11 @@ namespace spirv
 	void ExprVisitor::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		m_allLiterals = false;
-		m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+		m_result = makeAccessChain( expr
+			, m_context
+			, m_module
+			, m_currentBlock
+			, m_loadedVariables );
 
 		if ( m_loadVariable )
 		{
@@ -1112,10 +1124,21 @@ namespace spirv
 	{
 		m_allLiterals = false;
 		auto var = expr->getVariable();
+		auto it = m_context.constAggrExprs.find( var->getName() );
 
-		if ( var->isMember() )
+		if ( it != m_context.constAggrExprs.end() )
+		{
+			bool allLiterals = true;
+			bool hasFuncInit = false;
+			m_result = visitInitialisers( it->second
+				, expr->getType()
+				, allLiterals
+				, hasFuncInit );
+		}
+		else if ( var->isMember() )
 		{
 			m_result = makeAccessChain( expr
+				, m_context
 				, m_module
 				, m_currentBlock
 				, m_loadedVariables );
@@ -1385,7 +1408,11 @@ namespace spirv
 		if ( expr->getSwizzle().isOneComponent()
 			&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier )
 		{
-			m_result = makeAccessChain( expr, m_module, m_currentBlock, m_loadedVariables );
+			m_result = makeAccessChain( expr
+				, m_context
+				, m_module
+				, m_currentBlock
+				, m_loadedVariables );
 			m_result = m_module.loadVariable( m_result, expr->getType(), m_currentBlock );
 		}
 		else
@@ -1825,5 +1852,36 @@ namespace spirv
 				m_currentBlock.instructions.emplace_back( makeInstruction< StoreInstruction >( m_result, init ) );
 			}
 		}
+	}
+
+	spv::Id ExprVisitor::visitInitialisers( ast::expr::ExprList const & inits
+		, ast::type::TypePtr type
+		, bool & allLiterals
+		, bool & hasFuncInit )
+	{
+		IdList initialisers;
+
+		for ( auto & init : inits )
+		{
+			initialisers.push_back( doSubmit( init.get(), allLiterals, true ) );
+			hasFuncInit = hasFuncInit || HasFnCall::submit( init.get() );
+		}
+
+		spv::Id result;
+
+		if ( allLiterals )
+		{
+			result = m_module.registerLiteral( initialisers, type );
+		}
+		else
+		{
+			result = m_module.getIntermediateResult();
+			auto typeId = m_module.registerType( type );
+			m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( typeId
+				, result
+				, initialisers ) );
+		}
+
+		return result;
 	}
 }

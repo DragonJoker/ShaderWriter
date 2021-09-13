@@ -46,6 +46,19 @@ namespace spirv
 			{
 				config.requiredCapabilities.insert( spv::CapabilityDerivativeControl );
 			}
+			else if ( kind == ast::expr::Intrinsic::eAtomicAddF
+				|| kind == ast::expr::Intrinsic::eAtomicAdd2H
+				|| kind == ast::expr::Intrinsic::eAtomicAdd4H )
+			{
+				if ( isDoubleType( expr->getType()->getKind() ) )
+				{
+					config.requiredCapabilities.insert( spv::CapabilityAtomicFloat64AddEXT );
+				}
+				else
+				{
+					config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
+				}
+			}
 		}
 	}
 
@@ -215,6 +228,16 @@ namespace spirv
 		for ( auto & arg : expr->getArgList() )
 		{
 			arg->accept( this );
+		}
+
+		auto kind = expr->getIntrinsic();
+
+		if ( ( kind >= ast::expr::Intrinsic::eAtomicAddF
+			&& kind <= ast::expr::Intrinsic::eAtomicAdd4H )
+			|| ( kind >= ast::expr::Intrinsic::eAtomicExchangeF
+				&& kind <= ast::expr::Intrinsic::eAtomicExchange4H ) )
+		{
+			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
 		}
 	}
 

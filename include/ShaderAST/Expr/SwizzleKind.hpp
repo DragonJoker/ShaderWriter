@@ -1420,42 +1420,42 @@ namespace ast::expr
 	private:
 		inline operator int8_t()const
 		{
-			return m_value;
+			return int8_t( m_value );
 		}
 
 		inline operator uint8_t()const
 		{
-			return m_value;
+			return uint8_t( m_value );
 		}
 
 		inline operator int16_t()const
 		{
-			return m_value;
+			return int16_t( m_value );
 		}
 
 		inline operator uint16_t()const
 		{
-			return m_value;
+			return uint16_t( m_value );
 		}
 
 		inline operator int32_t()const
 		{
-			return m_value;
+			return int32_t( m_value );
 		}
 
 		inline operator uint32_t()const
 		{
-			return m_value;
+			return uint32_t( m_value );
 		}
 
 		inline operator int64_t()const
 		{
-			return m_value;
+			return int64_t( m_value );
 		}
 
 		inline operator uint64_t()const
 		{
-			return m_value;
+			return uint64_t( m_value );
 		}
 
 	private:

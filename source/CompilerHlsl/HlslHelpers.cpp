@@ -10,6 +10,75 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
+	namespace
+	{
+		std::string getTypeName( ast::type::ImagePtr type )
+		{
+			std::string result;
+			auto & config = type->getConfig();
+
+			if ( config.isSampled != ast::type::Trinary::eTrue )
+			{
+				result += "RW";
+
+				if ( config.dimension == ast::type::ImageDim::eBuffer )
+				{
+					result += "Buffer";
+				}
+				else if ( config.dimension == ast::type::ImageDim::eCube )
+				{
+					result += "Texture2DArray";
+				}
+				else
+				{
+					result += "Texture";
+					result += getName( config.dimension );
+
+					if ( config.isArrayed )
+					{
+						result += "Array";
+					}
+				}
+			}
+			else
+			{
+				if ( config.dimension == ast::type::ImageDim::eBuffer )
+				{
+					result += "Buffer";
+				}
+				else
+				{
+					result += "Texture";
+					result += getName( config.dimension );
+				}
+
+				if ( config.isArrayed )
+				{
+					result += "Array";
+				}
+			}
+
+			result += "<" + hlsl::getSampledName( config.format ) + ">";
+			return result;
+		}
+
+		std::string getTypeName( ast::type::SamplerPtr type )
+		{
+			std::string result;
+
+			if ( type->isComparison() )
+			{
+				result = "SamplerComparisonState";
+			}
+			else
+			{
+				result = "SamplerState";
+			}
+
+			return result;
+		}
+	}
+
 	std::string getTypeName( ast::type::Kind kind )
 	{
 		std::string result;
@@ -225,30 +294,6 @@ namespace hlsl
 		return result;
 	}
 
-	std::string getSampledName( ast::type::Kind value )
-	{
-		std::string result;
-
-		switch ( value )
-		{
-		case ast::type::Kind::eFloat:
-			result = "float4";
-			break;
-		case ast::type::Kind::eInt:
-			result = "int4";
-			break;
-		case ast::type::Kind::eUInt:
-			result = "uint4";
-			break;
-		default:
-			assert( false && "Unsupported ast::type::Kind" );
-			result = "Undefined";
-			break;
-		}
-
-		return result;
-	}
-
 	std::string getName( ast::type::ImageDim value )
 	{
 		std::string result;
@@ -275,73 +320,6 @@ namespace hlsl
 			assert( false && "Unsupported ast::type::ImageDim" );
 			result = "Undefined";
 			break;
-		}
-
-		return result;
-	}
-
-	std::string getTypeName( ast::type::ImagePtr type )
-	{
-		std::string result;
-		auto & config = type->getConfig();
-
-		if ( config.isSampled != ast::type::Trinary::eTrue )
-		{
-			result += "RW";
-
-			if ( config.dimension == ast::type::ImageDim::eBuffer )
-			{
-				result += "Buffer";
-			}
-			else if( config.dimension == ast::type::ImageDim::eCube )
-			{
-				result += "Texture2DArray";
-			}
-			else
-			{
-				result += "Texture";
-				result += getName( config.dimension );
-
-				if ( config.isArrayed )
-				{
-					result += "Array";
-				}
-			}
-		}
-		else
-		{
-			if ( config.dimension == ast::type::ImageDim::eBuffer )
-			{
-				result += "Buffer";
-			}
-			else
-			{
-				result += "Texture";
-				result += getName( config.dimension );
-			}
-
-			if ( config.isArrayed )
-			{
-				result += "Array";
-			}
-		}
-
-		//result += "<" + getSampledName( config.sampledType ) + ">";
-		result += "<" + getSampledName( config.format ) + ">";
-		return result;
-	}
-
-	std::string getTypeName( ast::type::SamplerPtr type )
-	{
-		std::string result;
-
-		if ( type->isComparison() )
-		{
-			result = "SamplerComparisonState";
-		}
-		else
-		{
-			result = "SamplerState";
 		}
 
 		return result;

@@ -54,12 +54,12 @@ namespace ast::stmt
 	protected:
 		SDAST_API Visitor()
 		{
-		};
+		}
 
 	public:
 		SDAST_API virtual ~Visitor()
 		{
-		};
+		}
 
 		SDAST_API virtual void visitBreakStmt( Break * ) = 0;
 		SDAST_API virtual void visitCommentStmt( Comment * ) = 0;
@@ -103,6 +103,6 @@ namespace ast::stmt
 		SDAST_API virtual void visitPreprocIfDef( PreprocIfDef * ) = 0;
 		SDAST_API virtual void visitPreprocVersion( PreprocVersion * ) = 0;
 	};
-};
+}
 
 #endif

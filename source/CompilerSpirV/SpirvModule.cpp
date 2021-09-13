@@ -158,19 +158,20 @@ namespace spirv
 
 	//*************************************************************************
 
-	Module::Module( ast::type::TypesCache & cache
-		, spv::MemoryModel memoryModel
-		, spv::ExecutionModel executionModel )
-		: memoryModel{ makeInstruction< MemoryModelInstruction >( spv::Id( spv::AddressingModelLogical ), spv::Id( memoryModel ) ) }
+	Module::Module( ast::type::TypesCache & pcache
+		, SpirVConfig const & spirvConfig
+		, spv::MemoryModel pmemoryModel
+		, spv::ExecutionModel pexecutionModel )
+		: memoryModel{ makeInstruction< MemoryModelInstruction >( spv::Id( spv::AddressingModelLogical ), spv::Id( pmemoryModel ) ) }
 		, variables{ &globalDeclarations }
-		, m_cache{ &cache }
+		, m_cache{ &pcache }
 		, m_currentScopeVariables{ &m_registeredVariables }
-		, m_model{ executionModel }
+		, m_model{ pexecutionModel }
 	{
 		initialiseHeader(
 			{
 				spv::MagicNumber,
-				0x00010300,
+				spirvConfig.specVersion,
 				0x00100001,
 				1u,	// Bound IDs.
 				0u	// Schema.
@@ -179,16 +180,16 @@ namespace spirv
 		initialiseCapacities();
 	}
 
-	Module::Module( Header const & header
+	Module::Module( Header const & pheader
 		, InstructionList && instructions )
 		: variables{ &globalDeclarations }
 	{
-		initialiseHeader( header );
+		initialiseHeader( pheader );
 		auto it = instructions.begin();
 
 		while ( it != instructions.end() )
 		{
-			auto opCode = spv::Op( ( *it )->op.opCode );
+			auto opCode = spv::Op( ( *it )->op.opData.opCode );
 
 			if ( !deserializeInfos( opCode, it, instructions.end() ) )
 			{
@@ -222,7 +223,7 @@ namespace spirv
 		popValue( header.builder );
 		popValue( header.boundIds );
 		popValue( header.schema );
-		assert( header.magic = spv::MagicNumber );
+		assert( header.magic == spv::MagicNumber );
 		spirv::InstructionList instructions;
 
 		while ( it != spirv.end() )
@@ -412,7 +413,7 @@ namespace spirv
 					, operands ) );
 			}
 
-			decorate( id, { spv::Id( spv::DecorationSpecId ), spv::Id( location ) } );
+			decorate( id, { spv::Id( spv::DecorationSpecId ), location } );
 			m_registeredVariablesTypes.emplace( id, rawTypeId );
 			m_registeredConstants.emplace( id, value.getType() );
 		}
@@ -572,9 +573,16 @@ namespace spirv
 		{
 			spv::Id result{ getNextId() };
 			auto type = registerType( m_cache->getFloat() );
+#pragma GCC diagnostic push
+#if defined( __clang__ )
+#	pragma GCC diagnostic ignored "-Wundefined-reinterpret-cast"
+#else
+#	pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, IdList{ *reinterpret_cast< uint32_t * >( &value ) } ) );
+#pragma GCC diagnostic pop
 			it = m_registeredFloatConstants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, m_cache->getFloat() );
 		}
@@ -622,7 +630,7 @@ namespace spirv
 				, result
 				, initialisers ) );
 			m_registeredCompositeConstants.emplace_back( initialisers, result );
-			it = m_registeredCompositeConstants.begin() + m_registeredCompositeConstants.size() - 1u;
+			it = m_registeredCompositeConstants.begin() + ptrdiff_t( m_registeredCompositeConstants.size() - 1u );
 			m_registeredConstants.emplace( result, type );
 		}
 
@@ -690,7 +698,7 @@ namespace spirv
 		if ( !entryPoint || entryPoint->operands.empty() )
 		{
 			IdList ops;
-			ops.push_back( spv::Id( 0u ) );
+			ops.push_back( 0u );
 			ops.push_back( spv::Id( mode ) );
 			ops.insert( ops.end(), operands.begin(), operands.end() );
 			m_pendingExecutionModes.push_back( makeInstruction< ExecutionModeInstruction >( ops ) );
@@ -822,7 +830,7 @@ namespace spirv
 		auto itType = funcTypes.begin() + 1u;
 		auto itParam = funcParams.begin();
 
-		for ( auto it = params.begin(); it != params.end(); ++it )
+		for ( auto i = params.begin(); i != params.end(); ++i )
 		{
 			m_currentFunction->declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( *itType
 				, *itParam ) );
@@ -839,10 +847,7 @@ namespace spirv
 
 	Block Module::newBlock()
 	{
-		Block result
-		{
-			getNextId()
-		};
+		Block result{ getNextId() };
 		result.instructions.push_back( makeInstruction< LabelInstruction >( result.label ) );
 		return result;
 	}
@@ -854,10 +859,10 @@ namespace spirv
 			&& !m_currentFunction->variables.empty() )
 		{
 			auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
-			auto variables = std::move( m_currentFunction->variables );
-			std::reverse( variables.begin(), variables.end() );
+			auto vars = std::move( m_currentFunction->variables );
+			std::reverse( vars.begin(), vars.end() );
 
-			for ( auto & variable : variables )
+			for ( auto & variable : vars )
 			{
 				instructions.emplace( instructions.begin() + 1u
 					, std::move( variable ) );
@@ -1039,7 +1044,6 @@ namespace spirv
 
 		globalDeclarations.push_back( makeInstruction< StructTypeInstruction >( result, subTypes ) );
 		debug.push_back( makeInstruction< NameInstruction >( result, type->getName() ) );
-		auto subtypeIt = subTypes.begin();
 		bool hasBuiltin = false;
 
 		for ( auto & member : *type )
@@ -1198,7 +1202,7 @@ namespace spirv
 	{
 		auto builtin = getBuiltin( name );
 
-		if ( builtin != spv::BuiltIn( -1 ) )
+		if ( builtin != spv::BuiltInMax )
 		{
 			decorate( id, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
 		}
@@ -1211,7 +1215,7 @@ namespace spirv
 		bool result = false;
 		auto builtin = getBuiltin( name );
 
-		if ( builtin != spv::BuiltIn( -1 ) )
+		if ( builtin != spv::BuiltInMax )
 		{
 			decorateMember( outer, mbrIndex, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
 			result = true;

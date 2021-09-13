@@ -16,11 +16,13 @@ namespace spirv
 	{
 	public:
 		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container
-			, ModuleConfig const & config );
+			, ModuleConfig const & config
+			, PreprocContext & context );
 
 	private:
 		StmtAdapter( ast::stmt::ContainerPtr & result
-			, ModuleConfig const & config );
+			, ModuleConfig const & config
+			, PreprocContext & context );
 		
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 
@@ -42,9 +44,9 @@ namespace spirv
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
 
 	private:
-		PreprocContext m_context;
+		PreprocContext & m_context;
 		ModuleConfig const & m_config;
-		std::vector< ast::stmt::Switch * > m_switchStmts;
+		uint32_t m_currentId{};
 	};
 }
 

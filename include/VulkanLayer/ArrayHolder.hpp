@@ -24,9 +24,9 @@ namespace ast::vk
 		{
 		}
 
-		inline FixedSizeArrayT( ValueT const * begin
-			, ValueT const * end )
-			: VecT{ begin, end }
+		inline FixedSizeArrayT( ValueT const * pbegin
+			, ValueT const * pend )
+			: VecT{ pbegin, pend }
 		{
 		}
 
@@ -92,17 +92,17 @@ namespace ast::vk
 			updateData( nullptr, 0u );
 		}
 
-		inline ArrayHolder( DataT data )
-			: values{ ( ( *getCount( data ) && *getPtr( data ) )
-				? VecT{ *getPtr( data ), *getPtr( data ) + ( *getCount( data ) / DivisorT ) }
-				: ( *getCount( data )
-					? [&data]()
+		inline ArrayHolder( DataT pdata )
+			: values{ ( ( *getCount( pdata ) && *getPtr( pdata ) )
+				? VecT{ *getPtr( pdata ), *getPtr( pdata ) + ( *getCount( pdata ) / DivisorT ) }
+				: ( *getCount( pdata )
+					? [&pdata]()
 						{
-							VecT res{ size_t( *getCount( data ) / DivisorT ), ValueT{} };
+							VecT res{ size_t( *getCount( pdata ) / DivisorT ), ValueT{} };
 							return res;
 						}()
 					: VecT{} ) ) }
-			, data{ std::move( data ) }
+			, data{ std::move( pdata ) }
 		{
 			updateData();
 		}
@@ -147,31 +147,31 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline ArrayHolder( ValueT const * values
+		inline ArrayHolder( ValueT const * pvalues
 			, size_t size )
-			: ArrayHolder{ values, values + size }
+			: ArrayHolder{ pvalues, pvalues + size }
 		{
 		}
 
-		inline ArrayHolder( FixedSizeArrayT< ValueT > const & values )
-			: ArrayHolder{ values.data(), values.size() }
+		inline ArrayHolder( FixedSizeArrayT< ValueT > const & rhs )
+			: ArrayHolder{ rhs.data(), rhs.size() }
 		{
 		}
 
-		inline ArrayHolder( std::vector< ValueT > const & values )
-			: ArrayHolder{ values.data(), values.size() }
-		{
-		}
-
-		template< size_t SizeT >
-		inline ArrayHolder( std::array< ValueT, SizeT > const & values )
-			: ArrayHolder{ values.data(), SizeT }
+		inline ArrayHolder( std::vector< ValueT > const & rhs )
+			: ArrayHolder{ rhs.data(), rhs.size() }
 		{
 		}
 
 		template< size_t SizeT >
-		inline ArrayHolder( ValueT const ( &values )[SizeT] )
-			: ArrayHolder{ values, SizeT }
+		inline ArrayHolder( std::array< ValueT, SizeT > const & rhs )
+			: ArrayHolder{ rhs.data(), SizeT }
+		{
+		}
+
+		template< size_t SizeT >
+		inline ArrayHolder( ValueT const ( &rhs )[SizeT] )
+			: ArrayHolder{ rhs, SizeT }
 		{
 		}
 

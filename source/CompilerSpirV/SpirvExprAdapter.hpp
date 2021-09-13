@@ -18,13 +18,15 @@ namespace spirv
 		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
 			, ast::stmt::Container * container
 			, PreprocContext const & context
-			, ModuleConfig const & config );
+			, ModuleConfig const & config
+			, uint32_t & currentId );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
 			, ast::stmt::Container * container
 			, PreprocContext const & context
 			, ModuleConfig const & config
+			, uint32_t & currentId
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
@@ -37,6 +39,10 @@ namespace spirv
 		void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 		void visitCastExpr( ast::expr::Cast * expr )override;
+		void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override;
+		void visitPostDecrementExpr( ast::expr::PostDecrement * expr )override;
+		void visitPreIncrementExpr( ast::expr::PreIncrement * expr )override;
+		void visitPostIncrementExpr( ast::expr::PostIncrement * expr )override;
 		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
@@ -75,15 +81,12 @@ namespace spirv
 		void doConstructOther( ast::expr::CompositeConstruct * expr
 			, ast::expr::ExprList & args );
 
-		ast::expr::ExprPtr doWriteToBoolCast( ast::expr::Expr * expr );
-		ast::expr::ExprPtr doWriteFromBoolCast( ast::expr::Expr * expr
-			, ast::type::Kind dstScalarType );
-
 	private:
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_container;
 		PreprocContext const & m_context;
 		ModuleConfig const & m_config;
+		uint32_t & m_currentId;
 	};
 }
 

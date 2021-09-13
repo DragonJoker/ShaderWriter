@@ -16,6 +16,10 @@ See LICENSE file in root folder
 #include <vector>
 #include <unordered_map>
 
+#pragma warning( push )
+#pragma warning( disable: 4201 )
+#pragma warning( disable: 4365 )
+#include <iomanip>
 #if defined( __clang__ )
 #	include <optional>
 namespace spirv
@@ -59,11 +63,11 @@ namespace spirv
 {
 	union Op
 	{
-		struct
+		struct OpData
 		{
 			uint16_t opCode;
 			uint16_t opCount;
-		};
+		} opData;
 		uint32_t opValue;
 		spv::Op op;
 	};
@@ -166,11 +170,11 @@ namespace spirv
 		static bool constexpr hasLabels = HasLabels;
 		static Config const config;
 
-		inline InstructionT( Optional< spv::Id > returnTypeId = nullopt
-			, Optional< spv::Id > resultId = nullopt
-			, IdList operands = IdList{}
-			, Optional< std::string > name = nullopt
-			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
+		inline InstructionT( Optional< spv::Id > preturnTypeId = nullopt
+			, Optional< spv::Id > presultId = nullopt
+			, IdList poperands = IdList{}
+			, Optional< std::string > pname = nullopt
+			, Optional< std::map< int32_t, spv::Id > > plabels = nullopt );
 		inline InstructionT( UInt32ListIt & buffer );
 		inline InstructionT( UInt32ListCIt & buffer );
 	};
@@ -196,9 +200,9 @@ namespace spirv
 		static bool constexpr hasName = false;
 		static bool constexpr hasLabels = false;
 
-		inline VariadicInstructionT( Optional< spv::Id > returnTypeId = nullopt
-			, Optional< spv::Id > resultId = nullopt
-			, IdList operands = IdList{} );
+		inline VariadicInstructionT( Optional< spv::Id > preturnTypeId = nullopt
+			, Optional< spv::Id > presultId = nullopt
+			, IdList poperands = IdList{} );
 		inline VariadicInstructionT( UInt32ListIt & buffer );
 		inline VariadicInstructionT( UInt32ListCIt & buffer );
 	};
@@ -323,5 +327,6 @@ namespace spirv
 }
 
 #include "SpirvInstruction.inl"
+#pragma warning( pop )
 
 #endif

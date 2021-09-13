@@ -9,7 +9,10 @@ See LICENSE file in root folder
 
 #include <CompilerSpirV/compileSpirV.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
 #include <iostream>
+#pragma warning( pop )
 #include <optional>
 #include <sstream>
 
@@ -50,7 +53,7 @@ namespace ast::vk
 
 	VkPipelineLayout PipelineBuilder::createPipelineLayout( DescriptorSetLayoutArray const & layouts )
 	{
-		VkPipelineLayout result{ VK_NULL_HANDLE };
+		VkPipelineLayout result{ nullptr };
 		auto createInfo = m_program.getPipelineLayout( layouts );
 		auto res = m_context.vkCreatePipelineLayout( m_context.device
 			, &createInfo
@@ -72,7 +75,7 @@ namespace ast::vk
 
 		for ( auto & createInfo : modules )
 		{
-			VkShaderModule mod{ VK_NULL_HANDLE };
+			VkShaderModule mod{ nullptr };
 			auto res = m_context.vkCreateModule( m_context.device
 				, &createInfo
 				, m_context.allocator

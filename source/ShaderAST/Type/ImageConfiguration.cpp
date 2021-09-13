@@ -5,30 +5,31 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	ImageConfiguration::ImageConfiguration( type::Kind sampledType
-		, ImageDim dimension
-		, ImageFormat format
-		, Trinary isDepth
-		, Trinary isSampled
-		, bool isArrayed
-		, bool isMS
-		, AccessKind accessKind )
-		: sampledType{ sampledType }
-		, dimension{ dimension }
-		, format{ format }
-		, isDepth{ isDepth }
-		, isSampled{ isSampled }
-		, isArrayed{ isArrayed }
-		, isMS{ isMS }
-		, accessKind{ accessKind }
+	ImageConfiguration::ImageConfiguration( type::Kind newSampledType
+		, ImageDim newDimension
+		, ImageFormat newFormat
+		, Trinary newIsDepth
+		, Trinary newIsSampled
+		, bool newIsArrayed
+		, bool newIsMS
+		, AccessKind newAccessKind )noexcept
+		: sampledType{ newSampledType }
+		, dimension{ newDimension }
+		, format{ newFormat }
+		, isDepth{ newIsDepth }
+		, isSampled{ newIsSampled }
+		, isArrayed{ newIsArrayed }
+		, isMS{ newIsMS }
+		, accessKind{ newAccessKind }
 	{
-		assert( ( this->sampledType == type::Kind::eFloat && isFloatFormat( format ) )
+		assert( ( this->sampledType == type::Kind::eHalf && isFloatFormat( format ) )
+			|| ( this->sampledType == type::Kind::eFloat && isFloatFormat( format ) )
 			|| ( this->sampledType == type::Kind::eInt && isSIntFormat( format ) )
 			|| ( this->sampledType == type::Kind::eUInt && isUIntFormat( format ) )
 			|| ( format == ImageFormat::eUnknown ) );
 	}
 
-	size_t getHash( type::ImageConfiguration const & config )
+	size_t getHash( type::ImageConfiguration const & config )noexcept
 	{
 		size_t result = std::hash< type::ImageDim >{}( config.dimension );
 		result = hashCombine( result, config.format );

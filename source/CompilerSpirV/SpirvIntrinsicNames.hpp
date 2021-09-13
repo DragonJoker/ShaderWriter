@@ -868,11 +868,13 @@ namespace spirv
 		case ast::expr::Intrinsic::eUmulExtended2:
 		case ast::expr::Intrinsic::eUmulExtended3:
 		case ast::expr::Intrinsic::eUmulExtended4:
+			result = spv::Id( spv::OpUMulExtended );
+			break;
 		case ast::expr::Intrinsic::eImulExtended1:
 		case ast::expr::Intrinsic::eImulExtended2:
 		case ast::expr::Intrinsic::eImulExtended3:
 		case ast::expr::Intrinsic::eImulExtended4:
-			result = spv::Id( spv::OpUMulExtended );
+			result = spv::Id( spv::OpSMulExtended );
 			break;
 
 		case ast::expr::Intrinsic::eBitfieldExtract1I:

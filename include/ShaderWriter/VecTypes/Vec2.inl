@@ -15,7 +15,7 @@ namespace sdw
 
 	template< typename ValueT >
 	Vec2T< ValueT >::Vec2T( Vec2T const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ), rhs.isEnabled() }
+		: Value{ *rhs.getWriter(), makeExpr( findWriterMandat( rhs ), rhs ), rhs.isEnabled() }
 	{
 	}
 

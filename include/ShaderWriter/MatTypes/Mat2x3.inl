@@ -13,7 +13,7 @@ namespace sdw
 
 	template< typename ValueT >
 	Mat2x3T< ValueT >::Mat2x3T( Mat2x3T const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( *findWriter( *this, rhs ), rhs ), rhs.isEnabled() }
+		: Value{ *rhs.getWriter(), makeExpr( findWriterMandat( rhs ), rhs ), rhs.isEnabled() }
 	{
 	}
 

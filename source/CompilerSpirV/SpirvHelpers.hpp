@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "SpirvOpHelpers.hpp"
 
+#include <ShaderAST/Expr/ExprList.hpp>
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 
@@ -40,7 +41,8 @@ namespace spirv
 
 	struct PreprocContext
 	{
-		std::map< std::string, ast::expr::ExprPtr > defines;
+		std::map< std::string, ast::expr::ExprPtr > constExprs;
+		std::map< std::string, ast::expr::ExprList > constAggrExprs;
 	};
 
 	spv::BuiltIn getBuiltin( std::string const & name );
@@ -48,6 +50,7 @@ namespace spirv
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
+	std::string getName( spv::Capability value );
 	IdList makeBinOpOperands( ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
@@ -88,6 +91,21 @@ namespace spirv
 		, ast::type::Kind rhsTypeKind
 		, spv::Id lhs
 		, spv::Id rhs );
+	ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
+		, ast::type::Kind kind );
+	ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
+		, ast::type::Kind kind );
+	ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
+		, ast::expr::ExprPtr expr );
+	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
+		, ast::expr::ExprPtr expr
+		, ast::type::Kind dstScalarType );
+	bool makeAlias( ast::stmt::Container * container
+		, ast::expr::ExprPtr expr
+		, bool param
+		, ast::expr::ExprPtr & aliasExpr
+		, ast::var::VariablePtr & aliasVar
+		, uint32_t & currentId );
 }
 
 #endif

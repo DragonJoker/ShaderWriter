@@ -209,7 +209,7 @@ namespace ast::type
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ImageConfiguration makeConfig( bool sampled )
+	inline ImageConfiguration makeConfig( bool sampled )noexcept
 	{
 		return ImageConfiguration
 		{
@@ -226,7 +226,7 @@ namespace ast::type
 
 	template< typename T >
 	inline size_t hashCombine( size_t & hash
-		, T const & rhs )
+		, T const & rhs )noexcept
 	{
 		const uint64_t kMul = 0x9ddfea08eb382d69ULL;
 		auto seed = hash;
@@ -238,6 +238,7 @@ namespace ast::type
 		uint64_t b = ( seed ^ a ) * kMul;
 		b ^= ( b >> 47 );
 
-		hash = static_cast< std::size_t >( b * kMul );
+		hash = std::size_t( b * kMul );
 		return hash;
-	}}
+	}
+}

@@ -165,19 +165,7 @@ namespace glsl
 		}
 		else
 		{
-			// imageSize.
-			// imageSamples.
-			// imageAtomics.
-			ast::expr::ExprList args;
-
-			for ( auto & arg : expr->getArgList() )
-			{
-				args.emplace_back( doSubmit( arg.get() ) );
-			}
-
-			m_result = ast::expr::makeImageAccessCall( expr->getType()
-				, expr->getImageAccess()
-				, std::move( args ) );
+			doProcessImageAccessCall( expr );
 		}
 	}
 
@@ -304,6 +292,23 @@ namespace glsl
 
 				args.emplace_back( std::move( result ) );
 			}
+		}
+
+		m_result = ast::expr::makeImageAccessCall( expr->getType()
+			, expr->getImageAccess()
+			, std::move( args ) );
+	}
+
+	void ExprAdapter::doProcessImageAccessCall( ast::expr::ImageAccessCall * expr )
+	{
+		// imageSize.
+		// imageSamples.
+		// imageAtomics except imageAtomicAdd.
+		ast::expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
 		m_result = ast::expr::makeImageAccessCall( expr->getType()
