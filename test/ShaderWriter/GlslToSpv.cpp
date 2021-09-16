@@ -19,7 +19,7 @@
 #pragma clang diagnostic ignored "-Wsuggest-destructor-override"
 #pragma clang diagnostic ignored "-Wsuggest-override"
 #include <glslang/Public/ShaderLang.h>
-#include <SPIRV/GlslangToSpv.h>
+#include <glslang/SPIRV/GlslangToSpv.h>
 #pragma clang diagnostic pop
 #pragma GCC diagnostic pop
 #pragma warning( pop )
