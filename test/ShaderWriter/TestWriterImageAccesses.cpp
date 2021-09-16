@@ -1,6 +1,8 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#include <ShaderAST/Type/ImageConfiguration.hpp>
+
 namespace
 {
 #pragma region imageSize
@@ -42,7 +44,7 @@ namespace
 					, testCounts );
 			}
 			testEnd();
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -88,7 +90,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -145,7 +147,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -203,7 +205,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -285,7 +287,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -361,7 +363,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -437,7 +439,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -513,7 +515,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -589,7 +591,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -665,7 +667,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -747,7 +749,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion
@@ -830,7 +832,7 @@ namespace
 				}
 				testEnd();
 			}
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion

@@ -15,7 +15,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [[ubuntu-latest,x64-linux], [windows-latest,x64-windows], [macos-latest,x64-osx]]
+        os: [[ubuntu-latest,x64-linux,gcc], [ubuntu-latest,x64-linux,clang], [windows-latest,x64-windows,msvc], [macos-latest,x64-osx,clang]]
         buildType: [Release]
 
     runs-on: ${{ matrix.os[0] }}
@@ -37,6 +37,30 @@ jobs:
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON
       if: runner.os == 'Windows'
+
+    - name: Configure GCC version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'gcc'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CC=gcc-10" >> $GITHUB_ENV
+
+    - name: Configure G++ version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'gcc'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CXX=g++-10" >> $GITHUB_ENV
+
+    - name: Configure Clang version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'clang'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CC=clang-12" >> $GITHUB_ENV
+
+    - name: Configure Clang++ version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'clang'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CXX=clang++-12" >> $GITHUB_ENV
 
     - name: Configure CMake (Non Windows)
       shell: bash

@@ -91,7 +91,7 @@ namespace ast::type
 		SDAST_API virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
 		SDAST_API Type const * getNonMemberType()const;
 
-		SDAST_API virtual ~Type();
+		SDAST_API virtual ~Type()noexcept = default;
 
 		inline Kind getKind()const
 		{

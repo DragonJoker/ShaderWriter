@@ -1066,9 +1066,8 @@ namespace spirv
 
 			if ( isMatrixType( kind ) )
 			{
-				auto colType = getComponentType( kind );
-				auto size = getSize( *m_cache->getBasicType( colType )
-					, ast::type::MemoryLayout::eStd430 );
+				auto size = getSize( *m_cache->getBasicType( kind )
+					, type->getMemoryLayout() );
 				decorateMember( result
 					, index
 					, spv::DecorationColMajor );

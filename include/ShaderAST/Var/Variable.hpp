@@ -41,6 +41,9 @@ namespace ast::var
 
 	class FlagHolder
 	{
+	protected:
+		~FlagHolder() = default;
+
 	public:
 		inline FlagHolder( Flag flag )
 			: m_flags{ uint32_t( flag ) }

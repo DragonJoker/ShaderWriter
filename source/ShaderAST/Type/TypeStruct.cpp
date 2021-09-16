@@ -85,7 +85,6 @@ namespace ast::type
 
 			for ( auto & member : type )
 			{
-				//auto member_flags = ir.meta[type.self].members.at( i ).decoration_flags;
 				alignment = std::max( alignment
 					, getPackedAlignment( *member.type, layout ) );
 			}

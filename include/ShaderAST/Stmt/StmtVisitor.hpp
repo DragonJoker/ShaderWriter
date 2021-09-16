@@ -57,9 +57,7 @@ namespace ast::stmt
 		}
 
 	public:
-		SDAST_API virtual ~Visitor()
-		{
-		}
+		SDAST_API virtual ~Visitor()noexcept = default;
 
 		SDAST_API virtual void visitBreakStmt( Break * ) = 0;
 		SDAST_API virtual void visitCommentStmt( Comment * ) = 0;

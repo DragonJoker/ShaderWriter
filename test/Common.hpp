@@ -7,6 +7,8 @@
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
+#pragma warning( disable: 4068 )
+#pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #include <atomic>
 #include <iostream>
 #include <stdexcept>
@@ -30,7 +32,7 @@ namespace test
 		using int_type = std::streambuf::int_type;
 		using traits_type = std::streambuf::traits_type;
 
-		explicit inline LogStreambuf( std::string const & name
+		LogStreambuf( std::string const & name
 			, std::ostream & stream )
 			: m_stream{ stream }
 			, m_fstream{ getExecutableDirectory() + name + ".log" }
@@ -38,12 +40,12 @@ namespace test
 			m_old = m_stream.rdbuf( this );
 		}
 
-		inline ~LogStreambuf()
+		~LogStreambuf()noexcept override
 		{
 			m_stream.rdbuf( m_old );
 		}
 
-		inline int_type overflow( int_type c = traits_type::eof() )override
+		int_type overflow( int_type c = traits_type::eof() )override
 		{
 			if ( traits_type::eq_int_type( c, traits_type::eof() ) )
 			{
@@ -66,14 +68,14 @@ namespace test
 			return c;
 		}
 
-		inline int do_sync()
+		int do_sync()
 		{
 			LogStreambufTraits::log( m_fstream, m_buffer );
 			m_buffer.clear();
 			return 0;
 		}
 
-		inline int do_sync_no_nl()
+		int do_sync_no_nl()
 		{
 			LogStreambufTraits::logNoNL( m_fstream, m_buffer );
 			m_buffer.clear();
@@ -89,14 +91,14 @@ namespace test
 
 	struct DebugLogStreambufTraits
 	{
-		static inline void log( std::ostream & stream
+		static void log( std::ostream & stream
 			, std::string const & text )
 		{
 			stream << "DEBUG: " << text << std::endl;
 			printf( "%s\n", text.c_str() );
 		}
 
-		static inline void logNoNL( std::ostream & stream
+		static void logNoNL( std::ostream & stream
 			, std::string const & text )
 		{
 			stream << "DEBUG: " << text;
@@ -106,14 +108,14 @@ namespace test
 
 	struct InfoLogStreambufTraits
 	{
-		static inline void log( std::ostream & stream
+		static void log( std::ostream & stream
 			, std::string const & text )
 		{
 			stream << text << std::endl;
 			printf( "%s\n", text.c_str() );
 		}
 
-		static inline void logNoNL( std::ostream & stream
+		static void logNoNL( std::ostream & stream
 			, std::string const & text )
 		{
 			stream << text;
@@ -123,14 +125,14 @@ namespace test
 
 	struct ErrorLogStreambufTraits
 	{
-		static inline void log( std::ostream & stream
+		static void log( std::ostream & stream
 			, std::string const & text )
 		{
 			stream << "ERROR: " << text << std::endl;
 			printf( "%s\n", text.c_str() );
 		}
 
-		static inline void logNoNL( std::ostream & stream
+		static void logNoNL( std::ostream & stream
 			, std::string const & text )
 		{
 			stream << "ERROR: " << text;
@@ -338,7 +340,7 @@ namespace test
 
 #define failure( x )\
 	testCounts.incTest();\
-	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts );\
+	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts )\
 
 #define require( x )\
 	try\

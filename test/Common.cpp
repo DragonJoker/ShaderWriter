@@ -109,12 +109,12 @@ namespace test
 		mib[1] = HW_AVAILCPU;
 
 		/* get the number of CPUs from the system */
-		sysctl( mib, 2, &numCPU, &len, NULL, 0 );
+		sysctl( mib, 2, &numCPU, &len, nullptr, 0 );
 
 		if ( numCPU < 1 )
 		{
 			mib[1] = HW_NCPU;
-			sysctl( mib, 2, &numCPU, &len, NULL, 0 );
+			sysctl( mib, 2, &numCPU, &len, nullptr, 0 );
 
 			if ( numCPU < 1 )
 			{
@@ -153,7 +153,7 @@ namespace test
 		tcerr = std::make_unique< test::LogStreambuf< test::ErrorLogStreambufTraits > >( suiteName, std::cerr );
 	}
 
-	TestSuite::~TestSuite()
+	TestSuite::~TestSuite()noexcept
 	{
 		if ( errorCount )
 		{
@@ -247,7 +247,7 @@ namespace test
 	{
 	}
 
-	TestCounts::~TestCounts()
+	TestCounts::~TestCounts()noexcept
 	{
 	}
 

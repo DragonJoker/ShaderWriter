@@ -106,7 +106,6 @@ namespace spirv
 		, ast::type::TypesCache & cache
 		, uint32_t & currentId )
 		: m_moduleStruct{ moduleStruct }
-		, m_cache{ cache }
 		, m_currentId{ &currentId }
 	{
 		m_currentBlock = moduleStruct.globalScope.get();

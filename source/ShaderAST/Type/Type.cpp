@@ -43,10 +43,6 @@ namespace ast::type
 	{
 	}
 
-	Type::~Type()
-	{
-	}
-
 	TypePtr Type::getMemberType( Struct & parent, uint32_t index )const
 	{
 		return std::make_shared< Type >( *m_cache, parent, index, *this );
