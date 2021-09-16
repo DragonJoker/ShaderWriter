@@ -73,6 +73,7 @@ endif ()
 if ( VCPKG_TOOLCHAIN )
 	find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
 	get_target_property( glslang_INCLUDE_DIR SPIRV INTERFACE_INCLUDE_DIRECTORIES )
+	message( STATUS "glslang_INCLUDE_DIR ${glslang_INCLUDE_DIR}" )
 	set( glslang_LIBRARIES
 		OSDependent
 		glslang
