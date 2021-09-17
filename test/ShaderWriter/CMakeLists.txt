@@ -105,6 +105,8 @@ elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../external/glslang/ )
 		SPIRV
 		SPVRemapper
 	)
+else ()
+	message( FATAL_ERROR "glslang_INCLUDE_DIR couldn't be defined." )
 endif ()
 
 set( SPIRV_CROSS_DIR
