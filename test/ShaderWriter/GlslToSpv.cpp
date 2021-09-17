@@ -3,11 +3,28 @@
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 4464 )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#pragma GCC diagnostic ignored "-Wdeprecated-copy-dtor"
+#pragma GCC diagnostic ignored "-Wdeprecated-copy"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wshadow-field-in-constructor"
+#pragma clang diagnostic ignored "-Wsigned-enum-bitfield"
+#pragma clang diagnostic ignored "-Wsuggest-destructor-override"
+#pragma clang diagnostic ignored "-Wsuggest-override"
 #include <glslang/Public/ShaderLang.h>
-#include <SPIRV/GlslangToSpv.h>
+#include <glslang/SPIRV/GlslangToSpv.h>
+#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
+#pragma warning( pop )
 
 #include <locale>
-#pragma warning( pop )
 
 namespace test
 {
@@ -181,7 +198,7 @@ namespace test
 		doInitResources( resources );
 
 		// Enable SPIR-V and Vulkan rules when parsing GLSL
-		auto messages = ( EShMessages )( EShMsgSpvRules | EShMsgVulkanRules );
+		auto messages = EShMessages( EShMsgSpvRules | EShMsgVulkanRules );
 		auto glstage = doGetLanguage( stage );
 
 		std::string source = shader;

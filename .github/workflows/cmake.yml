@@ -15,7 +15,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [[ubuntu-latest,x64-linux], [windows-latest,x64-windows], [macos-latest,x64-osx]]
+        os: [[ubuntu-latest,x64-linux,gcc], [ubuntu-latest,x64-linux,clang], [windows-latest,x64-windows,msvc], [macos-latest,x64-osx,clang]]
         buildType: [Release]
 
     runs-on: ${{ matrix.os[0] }}
@@ -23,11 +23,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v4
+      with:
+        vcpkgGitCommitId: '30a3d841d88dbf1e668d875bcfc050aacdedc63b'
+        setupOnly: true
+
+    - name: Install dependencies from vcpkg
+      run: $VCPKG_ROOT/vcpkg install glslang:${{ matrix.os[1] }}
+      shell: bash
+  
     - name: Checkout submodules
       run: |
         git submodule update --init -- "CMake"
         git submodule update --init -- "external/SPIRV-Cross"
-        git submodule update --init -- "external/glslang"
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
@@ -35,13 +44,37 @@ jobs:
     - name: Configure CMake (Windows)
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON
       if: runner.os == 'Windows'
+
+    - name: Configure GCC version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'gcc'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CC=gcc-10" >> $GITHUB_ENV
+
+    - name: Configure G++ version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'gcc'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CXX=g++-10" >> $GITHUB_ENV
+
+    - name: Configure Clang version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'clang'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CC=clang-12" >> $GITHUB_ENV
+
+    - name: Configure Clang++ version (Linux)
+      if: runner.os == 'Linux' && matrix.os[2] == 'clang'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "CXX=clang++-12" >> $GITHUB_ENV
 
     - name: Configure CMake (Non Windows)
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
       if: runner.os != 'Windows'
 
     - name: Build

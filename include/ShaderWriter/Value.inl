@@ -256,7 +256,10 @@ namespace sdw
 
 		auto type = details::findType( values... );
 		assert( type );
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "->null-dereference"
 		return type->getCache();
+#pragma GCC diagnostic pop
 	}
 
 	inline ast::type::TypesCache & findTypesCache( ShaderWriter const & value )

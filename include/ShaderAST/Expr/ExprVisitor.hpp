@@ -71,9 +71,7 @@ namespace ast::expr
 		}
 
 	public:
-		SDAST_API virtual ~Visitor()
-		{
-		}
+		SDAST_API virtual ~Visitor() = default;
 
 		SDAST_API virtual void visitAddExpr( Add * ) = 0;
 		SDAST_API virtual void visitAddAssignExpr( AddAssign * ) = 0;
@@ -141,10 +139,6 @@ namespace ast::expr
 		}
 
 	public:
-		~SimpleVisitor()override
-		{
-		}
-
 		virtual void visitUnaryExpr( Unary * expr ) = 0;
 		virtual void visitBinaryExpr( Binary * expr ) = 0;
 

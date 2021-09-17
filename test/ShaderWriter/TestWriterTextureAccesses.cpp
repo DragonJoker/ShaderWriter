@@ -72,7 +72,7 @@ namespace
 					, testCounts );
 			}
 			testEnd();
-		};
+		}
 	};
 	
 	template< ast::type::ImageFormat FormatT
@@ -101,7 +101,7 @@ namespace
 					, testCounts );
 			}
 			testEnd();
-		};
+		}
 	};
 	/**@}*/
 #pragma endregion

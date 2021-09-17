@@ -3,8 +3,6 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
-
 	template< typename T >
 	void testLocale( test::sdw_test::TestCounts & testCounts )
 	{

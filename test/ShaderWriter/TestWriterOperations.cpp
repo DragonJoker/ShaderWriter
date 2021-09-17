@@ -27,12 +27,6 @@ namespace
 		static bool constexpr Value = false;
 	};
 
-	template<>
-	struct IsSdwValue< double >
-	{
-		static bool constexpr Value = false;
-	};
-
 	template< typename T >
 	static constexpr bool isSdwValue = IsSdwValue< T >::Value;
 

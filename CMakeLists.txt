@@ -1,6 +1,10 @@
 cmake_minimum_required( VERSION 3.15 )
 cmake_policy( VERSION 3.15 )
 
+if ( VCPKG_TARGET_TRIPLET )
+	set( VCPKG_TOOLCHAIN ON )
+endif ()
+
 # Set project name, used in folders and in workspace creation
 set( MAIN_PROJECT_NAME "ShaderWriter" )
 

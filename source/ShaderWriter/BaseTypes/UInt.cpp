@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 
+#pragma warning( disable: 5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 

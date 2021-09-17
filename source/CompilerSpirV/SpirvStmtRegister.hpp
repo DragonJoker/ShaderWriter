@@ -66,7 +66,6 @@ namespace spirv
 
 		private:
 			ModuleStruct & m_moduleStruct;
-			ast::type::TypesCache & m_cache;
 			IdSet m_intermediates;
 			IdSet m_freeIntermediates;
 			BlockStruct * m_currentBlock;

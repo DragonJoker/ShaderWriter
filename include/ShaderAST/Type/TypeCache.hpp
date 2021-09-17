@@ -55,7 +55,7 @@ namespace ast::type
 		std::map< size_t, TypeTPtr > m_cache;
 	};
 
-	class TypesCache
+	class TypesCache final
 	{
 	public:
 		SDAST_API TypesCache();

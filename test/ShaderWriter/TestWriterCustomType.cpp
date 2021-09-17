@@ -45,20 +45,6 @@ namespace
 	};
 
 	Writer_Parameter( Light );
-
-	enum class TypeName
-	{
-		eLight = int( ast::type::Kind::eCount ),
-	};
-}
-
-namespace sdw
-{
-	template<>
-	struct TypeTraits< Light >
-	{
-		static ast::type::Kind constexpr TypeEnum = ast::type::Kind( TypeName::eLight );
-	};
 }
 
 namespace

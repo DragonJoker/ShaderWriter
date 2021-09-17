@@ -70,21 +70,43 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 	endif ()
 endif ()
 
-set( GLSLANG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang )
-
-if ( NOT TARGET glslang )
-	set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
-	set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
-	set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
-	set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
-	set( BUILD_TESTING OFF )
-	set( SKIP_GLSLANG_INSTALL ON )
-	add_subdirectory( ${GLSLANG_DIR} ${CMAKE_BINARY_DIR}/external/glslang )
-	set_property( TARGET glslang PROPERTY FOLDER "glslang" )
-	set_property( TARGET OGLCompiler PROPERTY FOLDER "glslang" )
-	set_property( TARGET OSDependent PROPERTY FOLDER "glslang" )
-	set_property( TARGET SPIRV PROPERTY FOLDER "glslang" )
-	set_property( TARGET SPVRemapper PROPERTY FOLDER "glslang" )
+if ( VCPKG_TOOLCHAIN )
+	find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
+	get_target_property( glslang_INCLUDE_DIR SPIRV INTERFACE_INCLUDE_DIRECTORIES )
+	message( STATUS "VCPKG_TOOLCHAIN glslang_INCLUDE_DIR ${glslang_INCLUDE_DIR}" )
+	set( glslang_LIBRARIES
+		OSDependent
+		glslang
+		OGLCompiler
+		SPIRV
+		SPVRemapper
+	)
+elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../external/glslang/ )
+	set( glslang_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../external )
+	message( STATUS "FILESYSTEM glslang_INCLUDE_DIR ${glslang_INCLUDE_DIR}" )
+	if ( NOT TARGET glslang )
+		set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
+		set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
+		set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
+		set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
+		set( BUILD_TESTING OFF )
+		set( SKIP_GLSLANG_INSTALL ON )
+		add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/../external/glslang ${CMAKE_BINARY_DIR}/external/glslang )
+		set_property( TARGET glslang PROPERTY FOLDER "External/glslang" )
+		set_property( TARGET OGLCompiler PROPERTY FOLDER "External/glslang" )
+		set_property( TARGET OSDependent PROPERTY FOLDER "External/glslang" )
+		set_property( TARGET SPIRV PROPERTY FOLDER "External/glslang" )
+		set_property( TARGET SPVRemapper PROPERTY FOLDER "External/glslang" )
+	endif ()
+	set( glslang_LIBRARIES
+		OSDependent
+		glslang
+		OGLCompiler
+		SPIRV
+		SPVRemapper
+	)
+else ()
+	message( FATAL_ERROR "glslang_INCLUDE_DIR couldn't be defined." )
 endif ()
 
 set( SPIRV_CROSS_DIR
@@ -156,11 +178,7 @@ target_link_libraries( TestWriterCommon
 		sdw::ShaderAST
 		sdw::ShaderWriter
 		${BinLibraries}
-		glslang
-		OGLCompiler
-		OSDependent
-		SPVRemapper
-		SPIRV
+		${glslang_LIBRARIES}
 		sdw::test::Common
 		sdw::test::SpirvCross
 		${TargetLinkLibraries}
@@ -172,6 +190,7 @@ target_compile_definitions( TestWriterCommon
 target_include_directories( TestWriterCommon
 	PUBLIC
 		${GLSLANG_DIR}
+		${glslang_INCLUDE_DIR}
 )
 target_add_compilation_flags( TestWriterCommon )
 set_target_properties( TestWriterCommon

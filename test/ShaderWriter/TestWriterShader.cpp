@@ -1655,17 +1655,9 @@ namespace
 			return result;
 		}
 
-		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
-		{
-			return std::make_unique< sdw::Struct >( writer
-				, makeType( writer.getTypesCache() ) );
-		}
-
 		// Raw values
 		sdw::UInt colorMask;
 		sdw::UInt normalMask;
-
-		static uint32_t constexpr DataSize = 8u;
 
 	private:
 		using sdw::StructInstance::getMember;
@@ -1824,13 +1816,13 @@ namespace
 				, [&]( SampledImage2DRgba32 const & edgesTex
 					, Vec2 const & weights
 					, Vec2 const & texcoord
-					, Vec2 const & d )
+					, Vec2 const & pd )
 				{
 				}
 				, InSampledImage2DRgba32{ writer, "edgesTex" }
 				, InVec2{ writer, "weights" }
 				, InVec2{ writer, "texcoord" }
-				, InVec2{ writer, "d" } );
+				, InVec2{ writer, "pd" } );
 
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
