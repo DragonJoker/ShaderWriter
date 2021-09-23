@@ -75,7 +75,6 @@ endif ()
 if ( VCPKG_TOOLCHAIN )
 	find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
 	get_target_property( glslang_INCLUDE_DIR SPIRV INTERFACE_INCLUDE_DIRECTORIES )
-	message( STATUS "VCPKG_TOOLCHAIN glslang_INCLUDE_DIR ${glslang_INCLUDE_DIR}" )
 	set( glslang_LIBRARIES
 		OSDependent
 		glslang
@@ -85,7 +84,6 @@ if ( VCPKG_TOOLCHAIN )
 	)
 elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../external/glslang/ )
 	set( glslang_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../external )
-	message( STATUS "FILESYSTEM glslang_INCLUDE_DIR ${glslang_INCLUDE_DIR}" )
 	if ( NOT TARGET glslang )
 		set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
 		set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
