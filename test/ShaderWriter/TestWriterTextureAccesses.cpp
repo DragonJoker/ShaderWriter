@@ -2379,9 +2379,9 @@ namespace
 
 sdwTestSuiteMain( TestWriterTextureAccesses )
 {
+	sdwTestSuiteBegin();
 #if !defined( __APPLE__ )
 
-	sdwTestSuiteBegin();
 	testsTextures< TextureSizeTester >( testCounts );
 	testsTextures< TextureQueryLodTester >( testCounts );
 	testsTextures< TextureQueryLevelsTester >( testCounts );
@@ -2409,9 +2409,9 @@ sdwTestSuiteMain( TestWriterTextureAccesses )
 	testsTextures< TextureGatherOffsetCompTester >( testCounts );
 	testsTextures< TextureGatherOffsetsTester >( testCounts );
 	testsTextures< TextureGatherOffsetsCompTester >( testCounts );
-	sdwTestSuiteEnd();
 
 #endif
+	sdwTestSuiteEnd();
 }
 
 sdwTestSuiteLaunch( TestWriterTextureAccesses )
