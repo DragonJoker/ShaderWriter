@@ -15,9 +15,11 @@ namespace sdw
 		SDW_API Void( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool writeStmt = true );
-		SDW_API Void( Void && rhs );
-		SDW_API Void( Void const & rhs );
 		SDW_API explicit Void( Value rhs );
+
+		SDW_API ~Void()override = default;
+		SDW_API Void( Void && rhs ) = default;
+		SDW_API Void( Void const & rhs ) = default;
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};

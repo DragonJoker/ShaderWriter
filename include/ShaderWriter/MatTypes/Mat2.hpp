@@ -13,6 +13,8 @@ namespace sdw
 	struct Mat2T
 		: public Value
 	{
+		SDW_DeclValue( , Mat2T );
+
 		using ValueType = ValueT;
 		using my_vec = Vec2T< ValueT >;
 		using my_mat = Mat2T< ValueT >;
@@ -20,9 +22,6 @@ namespace sdw
 		inline Mat2T( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		inline Mat2T( Mat2T const & rhs );
-
-		inline Mat2T & operator=( Mat2T const & rhs );
 
 		template< typename RhsT >
 		inline Mat2T< ValueT > & operator=( RhsT const & rhs );

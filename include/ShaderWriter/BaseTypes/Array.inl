@@ -14,12 +14,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	Array< ValueT >::Array( Array const & rhs )
-		: Value{ rhs }
-	{
-	}
-
-	template< typename ValueT >
 	template< ast::type::Kind KindT >
 	ValueT Array< ValueT >::operator[]( IntegerValue< KindT > const & offset )const
 	{

@@ -289,7 +289,7 @@
 	</Type>
 
 	<Type Name="ast::type::Type">
-		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<DisplayString>{m_kind}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="parent">m_parent</Item>
@@ -297,7 +297,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Array">
-		<DisplayString>{{kind={m_kind} size={m_arraySize} type={m_type}}}</DisplayString>
+		<DisplayString>{m_type}[{m_arraySize}]</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="parent">m_parent</Item>
@@ -307,7 +307,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Function">
-		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<DisplayString>{m_returnType}(*)({m_parameters})</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="return">m_returnType</Item>
@@ -315,14 +315,14 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Image">
-		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<DisplayString>image {m_config}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="config">m_config</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::type::SampledImage">
-		<DisplayString>{{kind={m_kind} img={m_imageType} smp={m_samplerType}}}</DisplayString>
+		<DisplayString>combined [{m_imageType}, {m_samplerType}]</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="image">m_imageType</Item>
@@ -330,14 +330,24 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Sampler">
-		<DisplayString>{{kind={m_kind} comp={m_comparison}}}</DisplayString>
+		<DisplayString>sampler {m_comparison}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="comparison">m_comparison</Item>
 		</Expand>
 	</Type>
+	<Type Name="ast::type::Struct::Member">
+		<DisplayString>[{offset}, {size}] {type} {name}</DisplayString>
+		<Expand>
+			<Item Name="type">type</Item>
+			<Item Name="name">name</Item>
+			<Item Name="offset">offset</Item>
+			<Item Name="size">size</Item>
+			<Item Name="arrayStride">arrayStride</Item>
+		</Expand>
+	</Type>
 	<Type Name="ast::type::Struct">
-		<DisplayString>{{kind={m_kind} name={m_name} layt={m_layout}}}</DisplayString>
+		<DisplayString>struct {m_name} {m_layout} {m_members}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="name">m_name</Item>

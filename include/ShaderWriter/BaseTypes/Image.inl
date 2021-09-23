@@ -1748,15 +1748,12 @@ namespace sdw
 			: public Image
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -1789,15 +1786,12 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -1830,15 +1824,12 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -1873,15 +1864,12 @@ namespace sdw
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -1931,15 +1919,12 @@ namespace sdw
 			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -1975,15 +1960,12 @@ namespace sdw
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2026,15 +2008,12 @@ namespace sdw
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2067,15 +2046,12 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2109,15 +2085,12 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2151,15 +2124,12 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2195,15 +2165,12 @@ namespace sdw
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2241,15 +2208,12 @@ namespace sdw
 			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2293,15 +2257,12 @@ namespace sdw
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 			, public ImgMsAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
 				: Image{ FormatT, writer, std::move( expr ), enabled }
-			{
-			}
-
-			ImageFuncsT( ImageFuncsT const & rhs )
-				: Image{ rhs }
 			{
 			}
 
@@ -2345,17 +2306,6 @@ namespace sdw
 		, expr::ExprPtr expr
 		, bool enabled )
 		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
-	{
-	}
-
-	template< type::ImageFormat FormatT
-		, type::AccessKind AccessT
-		, type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( ImageT const & rhs )
-		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ rhs }
 	{
 	}
 

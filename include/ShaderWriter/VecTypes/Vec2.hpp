@@ -14,15 +14,14 @@ namespace sdw
 	struct Vec2T
 		: public Value
 	{
+		SDW_DeclValue( , Vec2T );
+
 		using ValueType = ValueT;
 		using Vec2Type = Vec2T< ValueT >;
 
 		inline Vec2T( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		inline Vec2T( Vec2T const & rhs );
-
-		inline Vec2T & operator=( Vec2T const & rhs );
 
 		template< typename IndexT >
 		inline ValueT operator[]( IndexT const & rhs )const;

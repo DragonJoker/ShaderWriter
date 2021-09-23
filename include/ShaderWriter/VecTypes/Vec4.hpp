@@ -13,6 +13,8 @@ namespace sdw
 	struct Vec4T
 		: public Value
 	{
+		SDW_DeclValue( , Vec4T );
+
 		using ValueType = ValueT;
 		using Vec2Type = Vec2T< ValueT >;
 		using Vec3Type = Vec3T< ValueT >;
@@ -21,9 +23,6 @@ namespace sdw
 		inline Vec4T( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		inline Vec4T( Vec4T const & rhs );
-
-		inline Vec4T & operator=( Vec4T const & rhs );
 
 		template< typename IndexT >
 		inline ValueT operator[]( IndexT const & rhs )const;

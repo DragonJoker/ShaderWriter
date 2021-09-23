@@ -12,25 +12,4 @@ namespace sdw
 		, m_type{ std::static_pointer_cast< type::Struct >( getType() ) }
 	{
 	}
-
-	StructInstance & StructInstance::operator=( StructInstance const & rhs )
-	{
-		if ( getContainer() )
-		{
-			if ( isEnabled() )
-			{
-				auto & writer = findWriterMandat( *this, rhs );
-				addStmt( writer
-					, sdw::makeSimple( sdw::makeAssign( getType()
-						, makeExpr( writer, *this )
-						, makeExpr( writer, rhs ) ) ) );
-			}
-		}
-		else
-		{
-			Value::operator=( rhs );
-		}
-
-		return *this;
-	}
 }

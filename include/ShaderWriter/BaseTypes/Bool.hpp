@@ -12,15 +12,13 @@ namespace sdw
 	struct Boolean
 		: public Value
 	{
+		SDW_DeclValue( SDW_API, Boolean );
+
 		SDW_API Boolean( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		SDW_API Boolean( Boolean && rhs );
-		SDW_API Boolean( Boolean const & rhs );
 		SDW_API explicit Boolean( bool value );
 		SDW_API explicit Boolean( Value rhs );
-
-		SDW_API Boolean & operator=( Boolean const & rhs );
 
 		template< typename T >
 		inline Boolean & operator=( T const & rhs );

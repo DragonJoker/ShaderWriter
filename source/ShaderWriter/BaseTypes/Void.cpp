@@ -19,16 +19,6 @@ namespace sdw
 		}
 	}
 
-	Void::Void( Void && rhs )
-		: Value{ std::move( rhs ) }
-	{
-	}
-
-	Void::Void( Void const & rhs )
-		: Value{ rhs }
-	{
-	}
-
 	Void::Void( Value rhs )
 		: Value{ std::move( rhs ) }
 	{

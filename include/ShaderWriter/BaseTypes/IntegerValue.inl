@@ -14,18 +14,6 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT >::IntegerValue( IntegerValue< KindT > && rhs )
-		: Value{ std::move( rhs ) }
-	{
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT >::IntegerValue( IntegerValue< KindT > const & rhs )
-		: Value{ rhs }
-	{
-	}
-
-	template< ast::type::Kind KindT >
 	IntegerValue< KindT >::IntegerValue( CppTypeT< IntegerValue< KindT > > rhs )
 		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ), true }
 	{
@@ -35,24 +23,6 @@ namespace sdw
 	IntegerValue< KindT >::IntegerValue( Value rhs )
 		: Value{ ctorCast< IntegerValue< KindT >, 1u >( std::move( rhs ) ) }
 	{
-	}
-
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > & IntegerValue< KindT >::operator=( IntegerValue< KindT > const & rhs )
-	{
-		if ( rhs.isEnabled() )
-		{
-			if ( getContainer() )
-			{
-				writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
-		}
-
-		return *this;
 	}
 
 	template< ast::type::Kind KindT >

@@ -14,30 +14,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	Vec3T< ValueT >::Vec3T( Vec3T const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( findWriterMandat( rhs ), rhs ), rhs.isEnabled() }
-	{
-	}
-
-	template< typename ValueT >
-	inline Vec3T< ValueT > & Vec3T< ValueT >::operator=( Vec3T< ValueT > const & rhs )
-	{
-		if ( rhs.isEnabled() )
-		{
-			if ( this->getContainer() )
-			{
-				writeAssignOperator< Vec3T< ValueT > >( *this, rhs, sdw::makeAssign );
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
 	template< typename IndexT >
 	inline ValueT Vec3T< ValueT >::operator[]( IndexT const & offset )const
 	{

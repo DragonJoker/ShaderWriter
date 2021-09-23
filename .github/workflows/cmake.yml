@@ -41,11 +41,17 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
 
-    - name: Configure CMake (Windows)
+    - name: Configure Warnings as errors (OFF)
+      if: github.event_name == 'push'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=ON
-      if: runner.os == 'Windows'
+      run: echo "PROJ_WAE=OFF" >> $GITHUB_ENV
+
+    - name: Configure Warnings as errors (ON)
+      if: github.event_name == 'pull_request'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "PROJ_WAE=ON" >> $GITHUB_ENV
 
     - name: Configure GCC version (Linux)
       if: runner.os == 'Linux' && matrix.os[2] == 'gcc'
@@ -71,11 +77,10 @@ jobs:
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: echo "CXX=clang++-12" >> $GITHUB_ENV
 
-    - name: Configure CMake (Non Windows)
+    - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DPROJECTS_USE_PRECOMPILED_HEADERS=OFF
-      if: runner.os != 'Windows'
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
 
     - name: Build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
