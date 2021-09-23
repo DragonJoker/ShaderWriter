@@ -17,11 +17,13 @@ namespace sdw
 		SDW_API Value( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		SDW_API Value( Value && rhs );
+
+		SDW_API virtual ~Value() = default;
+		SDW_API Value( Value && rhs ) = default;
 		SDW_API Value( Value const & rhs );
-		SDW_API virtual ~Value();
 		SDW_API Value & operator=( Value && rhs ) = default;
 		SDW_API Value & operator=( Value const & rhs );
+
 		SDW_API void updateContainer( Value const & variable );
 		SDW_API stmt::Container * getContainer()const;
 		SDW_API void updateExpr( expr::ExprPtr expr );
@@ -75,6 +77,10 @@ namespace sdw
 				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) )
 				, op.isEnabled() };
 		}
+
+	protected:
+		SDW_API void doCopy( Value const & rhs );
+		SDW_API void doMove( Value && rhs );
 
 	protected:
 		expr::ExprPtr m_expr;
@@ -188,6 +194,21 @@ namespace sdw
 		, RhsT const & rhs
 		, CreatorT creator );
 }
+
+#define SDW_DeclValue( expdecl, name )\
+	expdecl name( name && rhs ) = default;\
+	expdecl name( name const & rhs ) = default;\
+	expdecl name & operator=( name && rhs )\
+	{\
+		sdw::Value::doMove( std::move( rhs ) );\
+		return *this;\
+	}\
+	expdecl name & operator=( name const & rhs )\
+	{\
+		sdw::Value::doCopy( rhs );\
+		return *this;\
+	}\
+	expdecl ~name()override = default
 
 #include "Value.inl"
 

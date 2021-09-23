@@ -67,17 +67,16 @@ namespace sdw
 	struct Image
 		: public Value
 	{
+		SDW_DeclValue( SDW_API, Image );
+
 		SDW_API Image( ast::type::ImageFormat format
 			, ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		SDW_API Image( Image const & rhs );
+
 		template< typename T >
 		inline Image & operator=( T const & rhs );
 		SDW_API operator uint32_t();
-
-	private:
-		ast::type::ImageFormat m_format;
 	};
 
 	namespace img
@@ -92,9 +91,12 @@ namespace sdw
 		struct ImageFuncsT
 			: public Image
 		{
+			SDW_DeclValue( , ImageFuncsT );
+
 			inline ImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
+
 			template< typename T >
 			inline ImageFuncsT & operator=( T const & rhs );
 		};
@@ -109,10 +111,12 @@ namespace sdw
 	struct ImageT
 		: public img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
 	{
+		SDW_DeclValue( , ImageT );
+
 		inline ImageT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		inline ImageT( ImageT const & rhs );
+
 		template< typename T >
 		inline ImageT & operator=( T const & rhs );
 

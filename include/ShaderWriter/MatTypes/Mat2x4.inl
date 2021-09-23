@@ -12,30 +12,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	Mat2x4T< ValueT >::Mat2x4T( Mat2x4T const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( findWriterMandat( rhs ), rhs ), rhs.isEnabled() }
-	{
-	}
-
-	template< typename ValueT >
-	Mat2x4T< ValueT > & Mat2x4T< ValueT >::operator=( Mat2x4T< ValueT > const & rhs )
-	{
-		if ( rhs.isEnabled() )
-		{
-			if ( this->getContainer() )
-			{
-				writeAssignOperator< Mat2x4T< ValueT > >( *this, rhs, sdw::makeAssign );
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
-		}
-
-		return *this;
-	}
-
-	template< typename ValueT >
 	template< typename RhsT >
 	Mat2x4T< ValueT > & Mat2x4T< ValueT >::operator=( RhsT const & rhs )
 	{

@@ -14,15 +14,13 @@ namespace sdw
 	struct IntegerValue
 		: public Value
 	{
+		SDW_DeclValue( , IntegerValue );
+
 		IntegerValue( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		IntegerValue( IntegerValue && rhs );
-		IntegerValue( IntegerValue const & rhs );
 		explicit IntegerValue( Value value );
 		explicit IntegerValue( CppTypeT< IntegerValue > rhs );
-
-		inline IntegerValue & operator=( IntegerValue const & rhs );
 
 		template< typename T >
 		IntegerValue & operator=( T const & rhs );

@@ -13,15 +13,13 @@ namespace sdw
 	struct ArithmeticValue
 		: public Value
 	{
+		SDW_DeclValue( , ArithmeticValue );
+
 		ArithmeticValue( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		ArithmeticValue( ArithmeticValue && rhs );
-		ArithmeticValue( ArithmeticValue const & rhs );
 		explicit ArithmeticValue( Value value );
 		explicit ArithmeticValue( CppTypeT< ArithmeticValue > rhs );
-
-		inline ArithmeticValue & operator=( ArithmeticValue const & rhs );
 
 		template< typename T >
 		ArithmeticValue & operator=( T const & rhs );

@@ -13,10 +13,12 @@ namespace sdw
 	struct Array
 		: public Value
 	{
+		SDW_DeclValue( , Array );
+
 		Array( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		Array( Array const & rhs );
+
 		template< ast::type::Kind KindT >
 		ValueT operator[]( IntegerValue< KindT > const & offset )const;
 		ValueT operator[]( int32_t offset )const;

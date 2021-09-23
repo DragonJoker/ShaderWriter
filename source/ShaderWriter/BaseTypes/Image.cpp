@@ -10,13 +10,6 @@ namespace sdw
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }
-		, m_format{ format }
-	{
-	}
-
-	Image::Image( Image const & rhs )
-		: Value{ *rhs.getWriter(), makeExpr( *rhs.getWriter(), rhs ), rhs.isEnabled() }
-		, m_format{ rhs.m_format }
 	{
 	}
 

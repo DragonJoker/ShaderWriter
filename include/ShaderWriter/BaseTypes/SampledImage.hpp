@@ -130,10 +130,13 @@ namespace sdw
 	struct SampledImage
 		: public Value
 	{
+		SDW_DeclValue( SDW_API, SampledImage );
+
 		SDW_API SampledImage( ast::type::ImageFormat format
 			, ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
+
 		template< typename T >
 		inline SampledImage & operator=( T const & rhs );
 		SDW_API operator uint32_t();
@@ -150,9 +153,12 @@ namespace sdw
 		struct SampledImageFuncsT
 			: public SampledImage
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			inline SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
+
 			template< typename T >
 			inline SampledImageFuncsT & operator=( T const & rhs );
 		};
@@ -166,9 +172,12 @@ namespace sdw
 	struct SampledImageT
 		: public sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
 	{
+		SDW_DeclValue( , SampledImageT );
+
 		inline SampledImageT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
+
 		template< typename T >
 		inline SampledImageT & operator=( T const & rhs );
 

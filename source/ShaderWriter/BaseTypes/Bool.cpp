@@ -14,16 +14,6 @@ namespace sdw
 	{
 	}
 
-	Boolean::Boolean( Boolean && rhs )
-		: Value{ std::move( rhs ) }
-	{
-	}
-
-	Boolean::Boolean( Boolean const & rhs )
-		: Value{ rhs }
-	{
-	}
-
 	Boolean::Boolean( bool rhs )
 		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ), true }
 	{
@@ -32,27 +22,6 @@ namespace sdw
 	Boolean::Boolean( Value rhs )
 		: Value{ ctorCast< Boolean, 1u >( std::move( rhs ) ) }
 	{
-	}
-
-	Boolean & Boolean::operator=( Boolean const & rhs )
-	{
-		if ( rhs.isEnabled() )
-		{
-			if ( getContainer() )
-			{
-				ShaderWriter & writer = findWriterMandat( *this, rhs );
-				addStmt( writer
-					, sdw::makeSimple( sdw::makeAssign( getType()
-						, makeExpr( writer, *this )
-						, makeExpr( writer, rhs ) ) ) );
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
-		}
-
-		return *this;
 	}
 
 	expr::ExprPtr Boolean::makeCondition()const

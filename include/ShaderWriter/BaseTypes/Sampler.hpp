@@ -11,9 +11,12 @@ namespace sdw
 	struct Sampler
 		: public Value
 	{
+		SDW_DeclValue( SDW_API, Sampler );
+
 		SDW_API Sampler( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
+
 		template< typename T >
 		inline Sampler & operator=( T const & rhs );
 		SDW_API operator uint32_t();

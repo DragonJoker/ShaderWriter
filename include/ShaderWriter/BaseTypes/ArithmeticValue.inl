@@ -15,18 +15,6 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT >::ArithmeticValue( ArithmeticValue< KindT > && rhs )
-		: Value{ std::move( rhs ) }
-	{
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT >::ArithmeticValue( ArithmeticValue< KindT > const & rhs )
-		: Value{ rhs }
-	{
-	}
-
-	template< ast::type::Kind KindT >
 	ArithmeticValue< KindT >::ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs )
 		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ), true }
 	{
@@ -38,24 +26,6 @@ namespace sdw
 		: Value{ ctorCast< ArithmeticValue< KindT >, 1u >( std::move( rhs ) ) }
 	{
 		assert( this->getType()->getKind() == KindT );
-	}
-
-	template< ast::type::Kind KindT >
-	inline ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( ArithmeticValue< KindT > const & rhs )
-	{
-		if ( rhs.isEnabled() )
-		{
-			if ( getContainer() )
-			{
-				writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
-		}
-
-		return *this;
 	}
 
 	template< ast::type::Kind KindT >

@@ -29,24 +29,9 @@ namespace sdw
 	}
 
 	Value::Value( Value const & rhs )
-		: m_expr{ makeExpr( *rhs.m_writer, rhs ) }
-		, m_writer{ rhs.m_writer }
-		, m_shader{ rhs.m_shader }
-		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
-		, m_enabled{ rhs.isEnabled() }
-	{
-	}
-
-	Value::Value( Value && rhs )
-		: m_expr( std::move( rhs.m_expr ) )
-		, m_writer{ rhs.m_writer }
-		, m_shader{ rhs.m_shader }
-		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
-		, m_enabled{ rhs.isEnabled() }
-	{
-	}
-
-	Value::~Value()
+		: Value{ findWriterMandat( rhs )
+			, makeExpr( findWriterMandat( rhs ), rhs )
+			, rhs.isEnabled() }
 	{
 	}
 
@@ -81,6 +66,51 @@ namespace sdw
 	{
 		m_expr = std::move( expr );
 	}
+
+	void Value::doCopy( Value const & rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				if ( isEnabled() )
+				{
+					ShaderWriter & writer = findWriterMandat( *this, rhs );
+					addStmt( writer
+						, sdw::makeSimple( sdw::makeAssign( getType()
+							, makeExpr( writer, *this )
+							, makeExpr( writer, rhs ) ) ) );
+				}
+			}
+			else
+			{
+				Value::operator=( rhs );
+			}
+		}
+	}
+
+	void Value::doMove( Value && rhs )
+	{
+		if ( rhs.isEnabled() )
+		{
+			if ( getContainer() )
+			{
+				if ( isEnabled() )
+				{
+					ShaderWriter & writer = findWriterMandat( *this, rhs );
+					addStmt( writer
+						, sdw::makeSimple( sdw::makeAssign( getType()
+							, makeExpr( writer, *this )
+							, std::move( rhs.m_expr ) ) ) );
+				}
+			}
+			else
+			{
+				Value::operator=( std::move( rhs ) );
+			}
+		}
+	}
+	//*****************************************************************************************
 
 	expr::ExprPtr getDummyExpr( ShaderWriter const & writer
 		, type::TypePtr type )

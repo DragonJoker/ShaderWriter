@@ -2976,6 +2976,8 @@ namespace sdw
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3053,6 +3055,8 @@ namespace sdw
 			, public GradProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3115,6 +3119,8 @@ namespace sdw
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3175,6 +3181,8 @@ namespace sdw
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3232,6 +3240,8 @@ namespace sdw
 			, public GatherFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using GatherFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
@@ -3286,6 +3296,8 @@ namespace sdw
 			, public GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3355,6 +3367,8 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3417,6 +3431,8 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefProjFuncT< FormatT, DimT, ArrayedT, MsT >::proj;
@@ -3469,6 +3485,8 @@ namespace sdw
 			, public GradRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3520,6 +3538,8 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3568,6 +3588,8 @@ namespace sdw
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 
@@ -3603,6 +3625,8 @@ namespace sdw
 			, public TexSizeFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public FetchFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
+			SDW_DeclValue( , SampledImageFuncsT );
+
 			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
