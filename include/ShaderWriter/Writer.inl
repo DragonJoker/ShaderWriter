@@ -68,7 +68,7 @@ namespace sdw
 	template< typename ReturnT, typename ... ParamsT >
 	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::var::VariableList args;
 		auto decl = getFunctionHeader< ReturnT >( *this, args, name, params... );

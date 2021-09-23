@@ -24,7 +24,14 @@ namespace spirv
 {
 	struct SpirVConfig
 	{
-		uint32_t specVersion{ 0x00010100 };
+		static uint32_t constexpr v1_0 = 0x00010000u;
+		static uint32_t constexpr v1_1 = 0x00010100u;
+		static uint32_t constexpr v1_2 = 0x00010200u;
+		static uint32_t constexpr v1_3 = 0x00010300u;
+		static uint32_t constexpr v1_4 = 0x00010400u;
+		static uint32_t constexpr v1_5 = 0x00010500u;
+
+		uint32_t specVersion{ v1_1 };
 	};
 
 	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
