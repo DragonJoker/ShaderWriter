@@ -86,7 +86,7 @@ namespace sdw
 		template< typename ReturnT, typename ... ParamsT >
 		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		inline void implementMain( std::function< void() > const & function );
 		/**@}*/
 #pragma endregion
