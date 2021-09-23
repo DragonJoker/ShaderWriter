@@ -11,6 +11,8 @@ else ()
 endif ()
 
 if ( SDW_TESTS_ENABLE_VALIDATION )
+	set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
+	set( CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "" Release )
 	find_package( OpenGL )
 	find_package( Vulkan )
 

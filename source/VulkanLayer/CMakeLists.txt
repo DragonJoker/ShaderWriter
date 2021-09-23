@@ -54,7 +54,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 		PUBLIC
 			sdw::CompilerSpirV
 		PRIVATE
-			Vulkan::Vulkan
+			${Vulkan_LIBRARIES}
 	)
 	set_target_properties( ${PROJECT_NAME}
 		PROPERTIES
@@ -70,7 +70,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 			${INCLUDE_DIR}
 			${SOURCE_DIR}
 		PUBLIC
-			$<BUILD_INTERFACE:${Vulkan_INCLUDE_DIR}>
+			$<BUILD_INTERFACE:${Vulkan_INCLUDE_DIRS}>
 	)
 	target_add_compilation_flags( ${PROJECT_NAME} )
 	target_install_headers( ${PROJECT_NAME}

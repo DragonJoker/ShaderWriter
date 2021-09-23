@@ -6,6 +6,8 @@ namespace
 	struct St
 		: public sdw::StructInstance
 	{
+		SDW_DeclStructInstance( , St );
+
 		St( sdw::ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled )
@@ -13,13 +15,6 @@ namespace
 			, a{ getMember< sdw::Vec4 >( "a" ) }
 			, b{ getMemberArray< sdw::Vec4 >( "b" ) }
 		{
-		}
-
-		St( St const & ) = default;
-		St & operator=( St const & rhs )
-		{
-			sdw::StructInstance::operator=( rhs );
-			return *this;
 		}
 
 		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
@@ -48,6 +43,8 @@ namespace
 	struct St2
 		: public sdw::StructInstance
 	{
+		SDW_DeclStructInstance( , St2 );
+
 		St2( sdw::ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled )
@@ -55,13 +52,6 @@ namespace
 			, a{ getMember< St >( "a" ) }
 			, b{ getMember< sdw::Vec4 >( "b" ) }
 		{
-		}
-
-		St2( St2 const & ) = default;
-		St2 & operator=( St2 const & rhs )
-		{
-			sdw::StructInstance::operator=( rhs );
-			return *this;
 		}
 
 		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
@@ -1626,6 +1616,8 @@ namespace
 	struct Voxel
 		: public sdw::StructInstance
 	{
+		SDW_DeclStructInstance( , Voxel );
+
 		Voxel( sdw::ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled )
@@ -1633,12 +1625,6 @@ namespace
 			, colorMask{ getMember< sdw::UInt >( "colorMask" ) }
 			, normalMask{ getMember< sdw::UInt >( "normalMask" ) }
 		{
-		}
-
-		Voxel & operator=( Voxel const & rhs )
-		{
-			StructInstance::operator=( rhs );
-			return *this;
 		}
 
 		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
