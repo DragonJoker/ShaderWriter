@@ -1066,8 +1066,16 @@ namespace spirv
 
 			if ( isMatrixType( kind ) )
 			{
-				auto colType = getComponentType( kind );
-				auto size = getSize( *m_cache->getBasicType( colType )
+				auto colKind = getComponentType( kind );
+				auto colType = m_cache->getBasicType( colKind );
+				auto rowCount = getComponentCount( colType );
+
+				if ( rowCount == 3 )
+				{
+					colType = m_cache->getVector( getComponentType( colKind ), 4u );
+				}
+
+				auto size = getSize( *colType
 					, type->getMemoryLayout() );
 				decorateMember( result
 					, index

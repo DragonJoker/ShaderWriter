@@ -8,18 +8,14 @@ namespace
 	struct Light
 		: public sdw::StructInstance
 	{
+		SDW_DeclStructInstance( , Light );
+
 		Light( sdw::ShaderWriter & writer, ast::expr::ExprPtr expr, bool enabled )
 			: StructInstance{ writer, std::move( expr ), enabled }
 			, colorIntensity{ getMember< sdw::Vec4 >( "colorIntensity" ) }
 			, color{ colorIntensity.xyz() }
 			, intensity{ colorIntensity.w() }
 		{
-		}
-
-		Light & operator=( Light const & rhs )
-		{
-			StructInstance::operator=( rhs );
-			return *this;
 		}
 
 		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
