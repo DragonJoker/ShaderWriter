@@ -379,10 +379,25 @@ namespace spirv
 				else
 				{
 					// Head identifier, or array access index.
-					m_result = m_module.registerVariable( var->getName()
-						, getStorageClass( var )
-						, expr->getType()
-						, m_info ).id;
+					auto it = m_context.constAggrExprs.find( var->getName() );
+
+					if ( it != m_context.constAggrExprs.end() )
+					{
+						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
+						m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
+						m_result = m_module.registerVariable( var->getName()
+							, getStorageClass( var )
+							, expr->getType()
+							, m_info
+							, m_result ).id;
+					}
+					else
+					{
+						m_result = m_module.registerVariable( var->getName()
+							, getStorageClass( var )
+							, expr->getType()
+							, m_info ).id;
+					}
 
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
 					{
