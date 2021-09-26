@@ -37,6 +37,7 @@ namespace ast::var
 		eGeometryStream = 1 << 21,
 		eBlendIndex = 1 << 22,
 		eLoopVar = 1 << 23,
+		eTemp = 1 << 24,
 	};
 
 	class FlagHolder
@@ -187,6 +188,11 @@ namespace ast::var
 		inline bool isBlendIndex()const
 		{
 			return hasFlag( Flag::eBlendIndex );
+		}
+
+		inline bool isTempVar()const
+		{
+			return hasFlag( Flag::eTemp );
 		}
 
 		inline bool hasFlag( Flag flag )const

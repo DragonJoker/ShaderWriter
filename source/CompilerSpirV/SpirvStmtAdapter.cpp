@@ -33,7 +33,7 @@ namespace spirv
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_current, m_context, m_config, m_currentId );
+		return ExprAdapter::submit( expr, m_current, m_context, m_config );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )

@@ -100,12 +100,15 @@ namespace spirv
 	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr expr
 		, ast::type::Kind dstScalarType );
+	ast::var::VariablePtr createTmpVar( ast::type::TypePtr type
+		, uint32_t & currentId );
 	bool makeAlias( ast::stmt::Container * container
 		, ast::expr::ExprPtr expr
 		, bool param
 		, ast::expr::ExprPtr & aliasExpr
 		, ast::var::VariablePtr & aliasVar
-		, uint32_t & currentId );
+		, uint32_t & currentId
+		, bool force = false );
 }
 
 #endif
