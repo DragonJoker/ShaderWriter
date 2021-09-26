@@ -18,15 +18,13 @@ namespace spirv
 		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
 			, ast::stmt::Container * container
 			, PreprocContext const & context
-			, ModuleConfig const & config
-			, uint32_t & currentId );
+			, ModuleConfig const & config );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
 			, ast::stmt::Container * container
 			, PreprocContext const & context
 			, ModuleConfig const & config
-			, uint32_t & currentId
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
@@ -86,7 +84,6 @@ namespace spirv
 		ast::stmt::Container * m_container;
 		PreprocContext const & m_context;
 		ModuleConfig const & m_config;
-		uint32_t & m_currentId;
 	};
 }
 

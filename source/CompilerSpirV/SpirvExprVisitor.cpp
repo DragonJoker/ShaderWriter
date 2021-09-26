@@ -783,6 +783,12 @@ namespace spirv
 		}
 	}
 
+	void ExprVisitor::visitCommaExpr( ast::expr::Comma * expr )
+	{
+		doSubmit( expr->getLHS() );
+		m_result = doSubmit( expr->getRHS() );
+	}
+
 	void ExprVisitor::visitPreDecrementExpr( ast::expr::PreDecrement * expr )
 	{
 		m_allLiterals = false;

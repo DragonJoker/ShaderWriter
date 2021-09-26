@@ -1243,37 +1243,44 @@ namespace spirv
 		return result;
 	}
 
-	bool makeAlias( ast::stmt::Container * container
-		, ast::expr::ExprPtr expr
-		, bool param
-		, ast::expr::ExprPtr & aliasExpr
-		, ast::var::VariablePtr & aliasVar
+	ast::var::VariablePtr createTmpVar( ast::type::TypePtr type
 		, uint32_t & currentId )
 	{
-		if ( !needsAlias( expr->getKind()
-			, isShaderVariable( *expr )
-			, param ) )
-		{
-			aliasExpr = std::move( expr );
-			return false;
-		}
-
-		auto kind = getNonArrayKind( expr->getType() );
-		aliasVar = ast::var::makeVariable( expr->getType()
+		auto kind = getNonArrayKind( type );
+		auto result = ast::var::makeVariable( type
 			, "tmp_" + std::to_string( currentId++ )
-			, ast::var::Flag::eImplicit );
+			, ( ast::var::Flag::eImplicit
+				| ast::var::Flag::eLocale
+				| ast::var::Flag::eTemp )  );
 
 		if ( isSamplerType( kind )
 			|| isSampledImageType( kind )
 			|| isImageType( kind ) )
 		{
-			aliasVar->updateFlag( ast::var::Flag::eConstant );
-		}
-		else
-		{
-			aliasVar->updateFlag( ast::var::Flag::eLocale );
+			result->updateFlag( ast::var::Flag::eConstant );
 		}
 
+		return result;
+	}
+
+	bool makeAlias( ast::stmt::Container * container
+		, ast::expr::ExprPtr expr
+		, bool param
+		, ast::expr::ExprPtr & aliasExpr
+		, ast::var::VariablePtr & aliasVar
+		, uint32_t & currentId
+		, bool force )
+	{
+		if ( !force
+			&& !needsAlias( expr->getKind()
+				, isShaderVariable( *expr )
+				, param ) )
+		{
+			aliasExpr = std::move( expr );
+			return false;
+		}
+
+		aliasVar = createTmpVar( expr->getType(), currentId );
 		auto & cache = expr->getCache();
 		auto type = expr->getType();
 		container->addStmt( ast::stmt::makeSimple( ast::expr::makeAlias( type

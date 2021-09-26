@@ -103,6 +103,7 @@ namespace spirv
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
 
 		void visitCastExpr( ast::expr::Cast * expr )override;
+		void visitCommaExpr( ast::expr::Comma * expr )override;
 		void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override;
 		void visitPreIncrementExpr( ast::expr::PreIncrement * expr )override;
 		void visitPostDecrementExpr( ast::expr::PostDecrement * expr )override;

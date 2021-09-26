@@ -564,10 +564,8 @@ namespace spirv
 			if ( expr->getType()->getKind() != ast::type::Kind::eVoid )
 			{
 				// Store function result into a return alias, that will be the final result.
-				auto var = ast::var::makeVariable( expr->getType()
-					, "tmp_" + std::to_string( *m_currentId )
-					, ast::var::Flag::eImplicit | ast::var::Flag::eLocale );
-				++m_currentId;
+				auto var = createTmpVar( expr->getType()
+					, *m_currentId );
 				m_builder.registerVar( std::make_shared< Variable >( var, IdList{} ) );
 				m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeAlias( expr->getType()
 					, ast::expr::makeIdentifier( m_cache, var )

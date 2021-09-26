@@ -46,7 +46,6 @@ namespace spirv
 	private:
 		PreprocContext & m_context;
 		ModuleConfig const & m_config;
-		uint32_t m_currentId{};
 	};
 }
 

@@ -86,8 +86,7 @@ namespace spirv
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
 		, ast::stmt::Container * container
 		, PreprocContext const & context
-		, ModuleConfig const & config
-		, uint32_t & currentId )
+		, ModuleConfig const & config )
 	{
 		ast::expr::ExprPtr result;
 		ExprAdapter vis
@@ -96,7 +95,6 @@ namespace spirv
 			container,
 			context,
 			config,
-			currentId,
 			result
 		};
 		expr->accept( &vis );
@@ -107,21 +105,19 @@ namespace spirv
 		, ast::stmt::Container * container
 		, PreprocContext const & context
 		, ModuleConfig const & config
-		, uint32_t & currentId
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_cache{ cache }
 		, m_container{ container }
 		, m_context{ context }
 		, m_config{ config }
-		, m_currentId{ currentId }
 	{
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_container, m_context, m_config, m_currentId, result };
+		ExprAdapter vis{ m_cache, m_container, m_context, m_config, result };
 		expr->accept( &vis );
 		return result;
 	}
@@ -237,67 +233,81 @@ namespace spirv
 	void ExprAdapter::visitPreDecrementExpr( ast::expr::PreDecrement * expr )
 	{
 		auto newOp = doSubmit( expr->getOperand() );
-		m_result = doWriteBinaryOperation( ast::expr::Kind::eMinus
+		auto subExpr = doWriteBinaryOperation( ast::expr::Kind::eMinus
 			, expr->getType()
 			, newOp.get()
 			, makeOne( m_cache, expr->getType()->getKind() ).get() );
-		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( expr->getType()
+		auto assignExpr = ast::expr::makeAssign( expr->getType()
 			, ExprCloner::submit( newOp )
-			, std::move( m_result ) ) ) );
-		m_result = std::move( newOp );
+			, std::move( subExpr ) );
+		m_result = ast::expr::makeComma( std::move( assignExpr )
+			, std::move( newOp ) );
+		m_result->updateFlag( ast::expr::Flag::eImplicit
+			, true );
 	}
 
 	void ExprAdapter::visitPreIncrementExpr( ast::expr::PreIncrement * expr )
 	{
 		auto newOp = doSubmit( expr->getOperand() );
-		m_result = doWriteBinaryOperation( ast::expr::Kind::eAdd
+		auto addExpr = doWriteBinaryOperation( ast::expr::Kind::eAdd
 			, expr->getType()
 			, newOp.get()
 			, makeOne( m_cache, expr->getType()->getKind() ).get() );
-		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( expr->getType()
+		auto assignExpr = ast::expr::makeAssign( expr->getType()
 			, ExprCloner::submit( newOp )
-			, std::move( m_result ) ) ) );
-		m_result = std::move( newOp );
+			, std::move( addExpr ) );
+		m_result = ast::expr::makeComma( std::move( assignExpr )
+			, std::move( newOp ) );
+		m_result->updateFlag( ast::expr::Flag::eImplicit
+			, true );
 	}
 
 	void ExprAdapter::visitPostDecrementExpr( ast::expr::PostDecrement * expr )
 	{
-		ast::expr::ExprPtr aliasExpr;
-		ast::var::VariablePtr aliasVar;
-		makeAlias( m_container
-			, doSubmit( expr->getOperand() )
-			, false
-			, aliasExpr
-			, aliasVar
-			, m_currentId );
-		auto addExpr = doWriteBinaryOperation( ast::expr::Kind::eMinus
+		auto aliasVar = createTmpVar( expr->getType()
+			, m_config.aliasId );
+		auto aliasExpr = ast::expr::makeAssign( expr->getType()
+			, ast::expr::makeIdentifier( m_cache, aliasVar )
+			, doSubmit( expr->getOperand() ) );
+		auto subExpr = doWriteBinaryOperation( ast::expr::Kind::eMinus
 			, expr->getType()
 			, expr->getOperand()
 			, makeOne( m_cache, expr->getType()->getKind() ).get() );
-		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( expr->getType()
+		auto assignExpr = ast::expr::makeAssign( expr->getType()
 			, doSubmit( expr->getOperand() )
-			, std::move( addExpr ) ) ) );
-		m_result = std::move( aliasExpr );
+			, std::move( subExpr ) );
+		auto lhs = ast::expr::makeComma( std::move( aliasExpr )
+			, std::move( assignExpr ) );
+		lhs->updateFlag( ast::expr::Flag::eImplicit
+			, true );
+		m_result = ast::expr::makeComma( std::move( lhs )
+			, ast::expr::makeIdentifier( m_cache, aliasVar ) );
+		m_result->updateFlag( ast::expr::Flag::eImplicit
+			, true );
 	}
 
 	void ExprAdapter::visitPostIncrementExpr( ast::expr::PostIncrement * expr )
 	{
-		ast::expr::ExprPtr aliasExpr;
-		ast::var::VariablePtr aliasVar;
-		makeAlias( m_container
-			, doSubmit( expr->getOperand() )
-			, false
-			, aliasExpr
-			, aliasVar
-			, m_currentId );
+		auto aliasVar = createTmpVar( expr->getType()
+			, m_config.aliasId );
+		auto aliasExpr = ast::expr::makeAssign( expr->getType()
+			, ast::expr::makeIdentifier( m_cache, aliasVar )
+			, doSubmit( expr->getOperand() ) );
 		auto addExpr = doWriteBinaryOperation( ast::expr::Kind::eAdd
 			, expr->getType()
 			, expr->getOperand()
 			, makeOne( m_cache, expr->getType()->getKind() ).get() );
-		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( expr->getType()
+		auto assignExpr = ast::expr::makeAssign( expr->getType()
 			, doSubmit( expr->getOperand() )
-			, std::move( addExpr ) ) ) );
-		m_result = std::move( aliasExpr );
+			, std::move( addExpr ) );
+		auto lhs = ast::expr::makeComma( std::move( aliasExpr )
+			, std::move( assignExpr ) );
+		lhs->updateFlag( ast::expr::Flag::eImplicit
+			, true );
+		m_result = ast::expr::makeComma( std::move( lhs )
+			, ast::expr::makeIdentifier( m_cache, aliasVar ) );
+		m_result->updateFlag( ast::expr::Flag::eImplicit
+			, true );
 	}
 
 	void ExprAdapter::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
@@ -428,9 +438,8 @@ namespace spirv
 		if ( expr->getType()->getKind() != ast::type::Kind::eVoid )
 		{
 			// Store function result into a return alias, that will be the final result.
-			auto var = ast::var::makeVariable( expr->getType()
-				, "tmp_" + std::to_string( m_config.aliasId++ )
-				, ast::var::Flag::eImplicit | ast::var::Flag::eLocale );
+			auto var = createTmpVar( expr->getType()
+				, m_config.aliasId );
 			m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, var ), std::move( m_result ) ) ) );
 			m_result = ast::expr::makeIdentifier( m_cache, var );
 		}
@@ -585,7 +594,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( submit( arg.get(), m_container, m_context, m_config, m_currentId ) );
+			args.emplace_back( submit( arg.get(), m_container, m_context, m_config ) );
 		}
 
 		if ( op == spv::OpImageGather )
@@ -668,22 +677,8 @@ namespace spirv
 			return false;
 		}
 
-		alias = ast::var::makeVariable( expr->getType()
-			, "tmp_" + std::to_string( m_config.aliasId++ )
-			, ast::var::Flag::eImplicit );
-
-		if ( isSamplerType( kind )
-			|| isSampledImageType( kind )
-			|| isImageType( kind ) )
-		{
-			alias->updateFlag( ast::var::Flag::eConstant );
-		}
-		else
-		{
-			alias->updateFlag( ast::var::Flag::eLocale );
-		}
-
-		alias->updateFlag( ast::var::Flag::eLocale );
+		alias = createTmpVar( expr->getType()
+			, m_config.aliasId );
 		m_container->addStmt( ast::stmt::makeSimple( ast::expr::makeInit( ast::expr::makeIdentifier( m_cache, alias ), std::move( expr ) ) ) );
 		aliasExpr = ast::expr::makeIdentifier( m_cache, alias );
 		return true;
