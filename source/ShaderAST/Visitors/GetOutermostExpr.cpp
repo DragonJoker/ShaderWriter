@@ -127,12 +127,12 @@ namespace ast
 
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
-				assert( "getOutermostExpr: Unexpected SwitchCase" );
+				assert( false && "getOutermostExpr: Unexpected SwitchCase" );
 			}
 
 			void visitSwitchTestExpr( expr::SwitchTest * expr )override
 			{
-				assert( "getOutermostExpr: Unexpected SwitchTest" );
+				assert( false && "getOutermostExpr: Unexpected SwitchTest" );
 			}
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override

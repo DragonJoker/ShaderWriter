@@ -733,7 +733,7 @@ namespace spirv
 			{
 				if ( !lhsScalar && !rhsScalar )
 				{
-					assert( "TODO" );
+					assert( false && "TODO" );
 				}
 				else if ( lhsScalar )
 				{
