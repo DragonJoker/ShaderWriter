@@ -1,6 +1,8 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#if !defined( __APPLE__ )
+
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 
 namespace
@@ -974,11 +976,13 @@ namespace
 	}
 }
 
+#endif
+
 sdwTestSuiteMain( TestWriterImageAccesses )
 {
+	sdwTestSuiteBegin();
 #if !defined( __APPLE__ )
 
-	sdwTestSuiteBegin();
 	testsImage< ImageSizeTester >( testCounts );
 	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
@@ -991,9 +995,9 @@ sdwTestSuiteMain( TestWriterImageAccesses )
 	testsImageAtomic< ImageAtomicXorTester >( testCounts );
 	testsImageAtomic< ImageAtomicExchangeTester >( testCounts );
 	testsImageAtomic< ImageAtomicCompSwapTester >( testCounts );
-	sdwTestSuiteEnd();
 
 #endif
+	sdwTestSuiteEnd();
 }
 
 sdwTestSuiteLaunch( TestWriterImageAccesses )

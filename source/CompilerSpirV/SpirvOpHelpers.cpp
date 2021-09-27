@@ -1677,7 +1677,7 @@ namespace spirv
 			result = spv::OpBitwiseAnd;
 			break;
 		case ast::expr::Kind::eBitNot:
-			assert( "Unexpected ast::expr::Kind::eBitNot" );
+			assert( false && "Unexpected ast::expr::Kind::eBitNot" );
 			break;
 		case ast::expr::Kind::eNotAssign:
 			result = spv::OpNot;
@@ -1695,14 +1695,14 @@ namespace spirv
 			needMatchingVectors = false;
 			break;
 		case ast::expr::Kind::eLogNot:
-			assert( "Unexpected ast::expr::Kind::eBitNot" );
+			assert( false && "Unexpected ast::expr::Kind::eBitNot" );
 			break;
 		case ast::expr::Kind::eLogOr:
 			result = spv::OpLogicalOr;
 			needMatchingVectors = false;
 			break;
 		case ast::expr::Kind::eCast:
-			assert( "Unexpected ast::expr::Kind::eCast" );
+			assert( false && "Unexpected ast::expr::Kind::eCast" );
 			break;
 		case ast::expr::Kind::eInit:
 			result = spv::OpStore;
@@ -1711,7 +1711,7 @@ namespace spirv
 			result = spv::OpStore;
 			break;
 		case ast::expr::Kind::eFnCall:
-			assert( "Unexpected ast::expr::Kind::eFnCall" );
+			assert( false && "Unexpected ast::expr::Kind::eFnCall" );
 			break;
 		case ast::expr::Kind::eEqual:
 			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
@@ -1756,52 +1756,52 @@ namespace spirv
 				: spv::OpINotEqual;
 			break;
 		case ast::expr::Kind::eComma:
-			assert( "Unexpected ast::expr::Kind::eComma" );
+			assert( false && "Unexpected ast::expr::Kind::eComma" );
 			break;
 		case ast::expr::Kind::eIdentifier:
-			assert( "Unexpected ast::expr::Kind::eIdentifier" );
+			assert( false && "Unexpected ast::expr::Kind::eIdentifier" );
 			break;
 		case ast::expr::Kind::eLiteral:
-			assert( "Unexpected ast::expr::Kind::eLiteral" );
+			assert( false && "Unexpected ast::expr::Kind::eLiteral" );
 			break;
 		case ast::expr::Kind::eMbrSelect:
-			assert( "Unexpected ast::expr::Kind::eMbrSelect" );
+			assert( false && "Unexpected ast::expr::Kind::eMbrSelect" );
 			break;
 		case ast::expr::Kind::eSwitchTest:
-			assert( "Unexpected ast::expr::Kind::eSwitchTest" );
+			assert( false && "Unexpected ast::expr::Kind::eSwitchTest" );
 			break;
 		case ast::expr::Kind::eSwitchCase:
-			assert( "Unexpected ast::expr::Kind::eSwitchCase" );
+			assert( false && "Unexpected ast::expr::Kind::eSwitchCase" );
 			break;
 		case ast::expr::Kind::eQuestion:
-			assert( "Unexpected ast::expr::Kind::eQuestion" );
+			assert( false && "Unexpected ast::expr::Kind::eQuestion" );
 			break;
 		case ast::expr::Kind::ePreIncrement:
-			assert( "Unexpected ast::expr::Kind::ePreIncrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePreIncrement" );
 			break;
 		case ast::expr::Kind::ePreDecrement:
-			assert( "Unexpected ast::expr::Kind::ePreDecrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePreDecrement" );
 			break;
 		case ast::expr::Kind::ePostIncrement:
-			assert( "Unexpected ast::expr::Kind::ePostIncrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePostIncrement" );
 			break;
 		case ast::expr::Kind::ePostDecrement:
-			assert( "Unexpected ast::expr::Kind::ePostDecrement" );
+			assert( false && "Unexpected ast::expr::Kind::ePostDecrement" );
 			break;
 		case ast::expr::Kind::eUnaryMinus:
-			assert( "Unexpected ast::expr::Kind::eUnaryMinus" );
+			assert( false && "Unexpected ast::expr::Kind::eUnaryMinus" );
 			break;
 		case ast::expr::Kind::eUnaryPlus:
-			assert( "Unexpected ast::expr::Kind::eUnaryPlus" );
+			assert( false && "Unexpected ast::expr::Kind::eUnaryPlus" );
 			break;
 		case ast::expr::Kind::eAssign:
-			assert( "Unexpected ast::expr::Kind::eAssign" );
+			assert( false && "Unexpected ast::expr::Kind::eAssign" );
 			break;
 		case ast::expr::Kind::eArrayAccess:
-			assert( "Unexpected ast::expr::Kind::eArrayAccess" );
+			assert( false && "Unexpected ast::expr::Kind::eArrayAccess" );
 			break;
 		default:
-			assert( "Unexpected ast::expr::Kind" );
+			assert( false && "Unexpected ast::expr::Kind" );
 			break;
 		}
 

@@ -1,6 +1,8 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#if !defined( __APPLE__ )
+
 namespace
 {
 #pragma region Helpers
@@ -2376,6 +2378,8 @@ namespace
 	/**@}*/
 #pragma endregion
 }
+
+#endif
 
 sdwTestSuiteMain( TestWriterTextureAccesses )
 {
