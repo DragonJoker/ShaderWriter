@@ -1475,7 +1475,15 @@ namespace spirv
 		if ( config.imageOperandsIndex )
 		{
 			assert( args.size() >= config.imageOperandsIndex );
-			auto mask = getMask( kind );
+			bool constOffset = false;
+
+			if ( config.offsetIndex )
+			{
+				assert( expr->getArgList().size() >= config.offsetIndex );
+				constOffset = expr->getArgList()[config.offsetIndex - 1u]->isConstant();
+			}
+
+			auto mask = getMask( kind, constOffset );
 			args.insert( args.begin() + config.imageOperandsIndex, spv::Id( mask ) );
 		}
 

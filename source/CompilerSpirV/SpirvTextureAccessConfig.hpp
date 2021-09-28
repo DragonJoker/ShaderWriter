@@ -375,7 +375,8 @@ namespace spirv
 		return result;
 	}
 
-	inline spv::ImageOperandsMask getOffset( ast::expr::TextureAccess value )
+	inline spv::ImageOperandsMask getOffset( ast::expr::TextureAccess value
+		, bool constOffset )
 	{
 		spv::ImageOperandsMask result{};
 
@@ -586,7 +587,14 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
-			result = spv::ImageOperandsOffsetMask;
+			if ( constOffset )
+			{
+				result = spv::ImageOperandsConstOffsetMask;
+			}
+			else
+			{
+				result = spv::ImageOperandsOffsetMask;
+			}
 			break;
 		default:
 			break;
@@ -723,11 +731,19 @@ namespace spirv
 		return result;
 	}
 
+	inline spv::ImageOperandsMask getMask( ast::expr::TextureAccess value
+		, bool constOffset )
+	{
+		return getBias( value )
+			| getOffset( value, constOffset )
+			| getConstOffsets( value )
+			| getGrad( value )
+			| getLod( value );
+	}
+
 	inline spv::ImageOperandsMask getMask( ast::expr::TextureAccess value )
 	{
 		return getBias( value )
-			| getOffset( value )
-			| getConstOffsets( value )
 			| getGrad( value )
 			| getLod( value );
 	}
@@ -736,6 +752,7 @@ namespace spirv
 		, IntrinsicConfig & config )
 	{
 		config.imageOperandsIndex = 0u;
+		config.offsetIndex = 0u;
 		config.needsImage = false;
 		config.mask = getMask( value );
 		config.returnComponentsCount = ~( 0u );
@@ -889,39 +906,53 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureCubeArrayU:
 		case ast::expr::TextureAccess::eTextureCubeArrayUBias:
 		case ast::expr::TextureAccess::eTexture2DRectU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureOffset1DF:
-		case ast::expr::TextureAccess::eTextureOffset1DFBias:
 		case ast::expr::TextureAccess::eTextureOffset2DF:
-		case ast::expr::TextureAccess::eTextureOffset2DFBias:
 		case ast::expr::TextureAccess::eTextureOffset3DF:
-		case ast::expr::TextureAccess::eTextureOffset3DFBias:
 		case ast::expr::TextureAccess::eTextureOffset2DRectF:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayF:
-		case ast::expr::TextureAccess::eTextureOffset1DArrayFBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayF:
-		case ast::expr::TextureAccess::eTextureOffset2DArrayFBias:
 		case ast::expr::TextureAccess::eTextureOffset1DI:
-		case ast::expr::TextureAccess::eTextureOffset1DIBias:
 		case ast::expr::TextureAccess::eTextureOffset2DI:
-		case ast::expr::TextureAccess::eTextureOffset2DIBias:
 		case ast::expr::TextureAccess::eTextureOffset3DI:
-		case ast::expr::TextureAccess::eTextureOffset3DIBias:
 		case ast::expr::TextureAccess::eTextureOffset2DRectI:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayI:
-		case ast::expr::TextureAccess::eTextureOffset1DArrayIBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayI:
-		case ast::expr::TextureAccess::eTextureOffset2DArrayIBias:
 		case ast::expr::TextureAccess::eTextureOffset1DU:
-		case ast::expr::TextureAccess::eTextureOffset1DUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DU:
-		case ast::expr::TextureAccess::eTextureOffset2DUBias:
 		case ast::expr::TextureAccess::eTextureOffset3DU:
-		case ast::expr::TextureAccess::eTextureOffset3DUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DRectU:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayU:
-		case ast::expr::TextureAccess::eTextureOffset1DArrayUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
+		case ast::expr::TextureAccess::eTextureOffset1DFBias:
+		case ast::expr::TextureAccess::eTextureOffset2DFBias:
+		case ast::expr::TextureAccess::eTextureOffset3DFBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayFBias:
+		case ast::expr::TextureAccess::eTextureOffset2DArrayFBias:
+		case ast::expr::TextureAccess::eTextureOffset1DIBias:
+		case ast::expr::TextureAccess::eTextureOffset2DIBias:
+		case ast::expr::TextureAccess::eTextureOffset3DIBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayIBias:
+		case ast::expr::TextureAccess::eTextureOffset2DArrayIBias:
+		case ast::expr::TextureAccess::eTextureOffset1DUBias:
+		case ast::expr::TextureAccess::eTextureOffset2DUBias:
+		case ast::expr::TextureAccess::eTextureOffset3DUBias:
+		case ast::expr::TextureAccess::eTextureOffset1DArrayUBias:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayUBias:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGrad1DF:
 		case ast::expr::TextureAccess::eTextureGrad2DF:
 		case ast::expr::TextureAccess::eTextureGrad3DF:
@@ -946,6 +977,10 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGrad1DArrayU:
 		case ast::expr::TextureAccess::eTextureGrad2DArrayU:
 		case ast::expr::TextureAccess::eTextureGradCubeArrayU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGradOffset1DF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DF:
 		case ast::expr::TextureAccess::eTextureGradOffset3DF:
@@ -966,6 +1001,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayU:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTexture1DShadowF:
@@ -978,25 +1014,44 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexture1DArrayShadowFBias:
 		case ast::expr::TextureAccess::eTexture2DArrayShadowF:
 		case ast::expr::TextureAccess::eTexture2DRectShadowF:
+		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
 		case ast::expr::TextureAccess::eTextureOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureOffset2DArrayShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
+		case ast::expr::TextureAccess::eTextureOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureOffset2DShadowFBias:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGrad2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGradOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset1DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGradOffset2DArrayShadowF:
-		case ast::expr::TextureAccess::eTextureCubeArrayShadowF:
 			config.returnComponentsCount = 1u;
 			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DF2:
@@ -1035,42 +1090,56 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProj3DUBias:
 		case ast::expr::TextureAccess::eTextureProj2DRectU3:
 		case ast::expr::TextureAccess::eTextureProj2DRectU4:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjOffset1DF2:
-		case ast::expr::TextureAccess::eTextureProjOffset1DF2Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DF4:
-		case ast::expr::TextureAccess::eTextureProjOffset1DF4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DF3:
-		case ast::expr::TextureAccess::eTextureProjOffset2DF3Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DF4:
-		case ast::expr::TextureAccess::eTextureProjOffset2DF4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset3DF:
-		case ast::expr::TextureAccess::eTextureProjOffset3DFBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectF3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectF4:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI2:
-		case ast::expr::TextureAccess::eTextureProjOffset1DI2Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DI4:
-		case ast::expr::TextureAccess::eTextureProjOffset1DI4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DI3:
-		case ast::expr::TextureAccess::eTextureProjOffset2DI3Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DI4:
-		case ast::expr::TextureAccess::eTextureProjOffset2DI4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset3DI:
-		case ast::expr::TextureAccess::eTextureProjOffset3DIBias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectI3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectI4:
 		case ast::expr::TextureAccess::eTextureProjOffset1DU2:
-		case ast::expr::TextureAccess::eTextureProjOffset1DU2Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset1DU4:
-		case ast::expr::TextureAccess::eTextureProjOffset1DU4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DU3:
-		case ast::expr::TextureAccess::eTextureProjOffset2DU3Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset2DU4:
-		case ast::expr::TextureAccess::eTextureProjOffset2DU4Bias:
 		case ast::expr::TextureAccess::eTextureProjOffset3DU:
-		case ast::expr::TextureAccess::eTextureProjOffset3DUBias:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjOffset2DRectU4:
+		case ast::expr::TextureAccess::eTextureProjOffset1DF2Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset1DF4Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DF3Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DF4Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset3DFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset1DI2Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset1DI4Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DI3Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DI4Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset3DIBias:
+		case ast::expr::TextureAccess::eTextureProjOffset1DU2Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset1DU4Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DU3Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DU4Bias:
+		case ast::expr::TextureAccess::eTextureProjOffset3DUBias:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjGrad1DF2:
 		case ast::expr::TextureAccess::eTextureProjGrad1DF4:
 		case ast::expr::TextureAccess::eTextureProjGrad2DF3:
@@ -1092,6 +1161,10 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjGrad3DU:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectU3:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectU4:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DF2:
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DF4:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DF3:
@@ -1115,6 +1188,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProj1DShadowF:
@@ -1122,19 +1196,34 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProj2DShadowF:
 		case ast::expr::TextureAccess::eTextureProj2DShadowFBias:
 		case ast::expr::TextureAccess::eTextureProj2DRectShadowF:
-		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
-		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
-		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
-		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
-		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad2DRectShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowF:
+		case ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
+		case ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias:
+		case ast::expr::TextureAccess::eTextureProjOffset2DShadowFBias:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 			config.returnComponentsCount = 1u;
 			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DF:
@@ -1158,6 +1247,10 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureLod1DArrayU:
 		case ast::expr::TextureAccess::eTextureLod2DArrayU:
 		case ast::expr::TextureAccess::eTextureLodCubeArrayU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureLodOffset1DF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DF:
 		case ast::expr::TextureAccess::eTextureLodOffset3DF:
@@ -1175,16 +1268,22 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureLodOffset2DArrayU:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureLod2DShadowF:
 		case ast::expr::TextureAccess::eTextureLod1DArrayShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureLodOffset1DArrayShadowF:
 			config.returnComponentsCount = 1u;
 			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DF2:
@@ -1202,6 +1301,10 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjLod2DU3:
 		case ast::expr::TextureAccess::eTextureProjLod2DU4:
 		case ast::expr::TextureAccess::eTextureProjLod3DU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DF2:
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DF4:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DF3:
@@ -1219,14 +1322,20 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureProjLodOffset3DU:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureProjLod1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLod2DShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjLodOffset2DShadowF:
 			config.returnComponentsCount = 1u;
 			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTexelFetch1DF:
@@ -1250,6 +1359,11 @@ namespace spirv
 		case ast::expr::TextureAccess::eTexelFetch1DArrayU:
 		case ast::expr::TextureAccess::eTexelFetch2DArrayU:
 		case ast::expr::TextureAccess::eTexelFetchBufferU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			config.needsImage = true;
+			break;
+
 		case ast::expr::TextureAccess::eTexelFetchOffset1DF:
 		case ast::expr::TextureAccess::eTexelFetchOffset2DF:
 		case ast::expr::TextureAccess::eTexelFetchOffset3DF:
@@ -1271,6 +1385,7 @@ namespace spirv
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
 			config.needsImage = true;
+			config.offsetIndex = config.imageOperandsIndex;
 			break;
 
 	// Texture Gather Functions
@@ -1304,6 +1419,10 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherCubeArrayUComp:
 		case ast::expr::TextureAccess::eTextureGather2DRectU:
 		case ast::expr::TextureAccess::eTextureGather2DRectUComp:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 3u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGatherOffset2DF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:
@@ -1322,6 +1441,11 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectU:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectUComp:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayF:
@@ -1342,6 +1466,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGather2DShadowF:
@@ -1349,14 +1474,24 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherCubeShadowF:
 		case ast::expr::TextureAccess::eTextureGatherCubeArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGather2DRectShadowF:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 3u;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
 			break;
 
 		default:
