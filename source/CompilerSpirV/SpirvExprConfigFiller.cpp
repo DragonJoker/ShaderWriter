@@ -261,11 +261,30 @@ namespace spirv
 		{
 			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
 		}
-
-		if ( getOffset( kind ) == spv::ImageOperandsOffsetMask
-			|| getConstOffsets( kind ) == spv::ImageOperandsConstOffsetsMask )
+		
+		if ( ( kind >= ast::expr::TextureAccess::eTextureGather2DShadowF
+			&& kind <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF ) )
 		{
 			m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
+		}
+
+		if ( getConstOffsets( kind ) == spv::ImageOperandsConstOffsetsMask )
+		{
+			m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
+		}
+
+		IntrinsicConfig config;
+		getSpirVConfig( kind, config );
+
+		if ( config.offsetIndex )
+		{
+			assert( expr->getArgList().size() >= config.offsetIndex );
+			bool constOffset = expr->getArgList()[config.offsetIndex - 1u]->isConstant();
+
+			if ( getOffset( kind, constOffset ) == spv::ImageOperandsOffsetMask )
+			{
+				m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
+			}
 		}
 	}
 

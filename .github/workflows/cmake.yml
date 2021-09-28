@@ -30,8 +30,8 @@ jobs:
         setupOnly: true
 
     - name: Install dependencies from vcpkg
-      run: $VCPKG_ROOT/vcpkg install glslang:${{ matrix.os[1] }}
       shell: bash
+      run: $VCPKG_ROOT/vcpkg install glslang:${{ matrix.os[1] }}
   
     - name: Checkout submodules
       run: |
@@ -42,9 +42,16 @@ jobs:
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
 
     - name: Configure Warnings as errors (OFF)
+      if: github.event_name == 'push'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: echo "PROJ_WAE=OFF" >> $GITHUB_ENV
+
+    - name: Configure Warnings as errors (ON)
+      if: github.event_name != 'push'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: echo "PROJ_WAE=ON" >> $GITHUB_ENV
 
     - name: Configure GCC version (Linux)
       if: runner.os == 'Linux' && matrix.os[2] == 'gcc'
@@ -70,7 +77,14 @@ jobs:
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: echo "CXX=clang++-12" >> $GITHUB_ENV
 
-    - name: Configure CMake
+    - name: Configure CMake (Without tests)
+      if: matrix.os[1] == 'x64-osx'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
+
+    - name: Configure CMake (With tests)
+      if: matrix.os[1] != 'x64-osx'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
@@ -89,13 +103,10 @@ jobs:
       if: github.event_name == 'push'
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: cmake --install . --config ${{ matrix.buildType }}
-
-    - name: Zip package
-      if: github.event_name == 'push'
-      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      shell: bash
-      run: 7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
+      run: |
+        cmake --install . --config ${{ matrix.buildType }}
+        cmake --build . --config ${{ matrix.buildType }} --target clean
+        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
 
     - name: Upload package
       if: github.event_name == 'push'

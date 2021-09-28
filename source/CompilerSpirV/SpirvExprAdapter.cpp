@@ -704,7 +704,8 @@ namespace spirv
 		{
 			if ( !lhsScalar && !rhsScalar )
 			{
-				assert( false && "TODO" );
+				assert( lhs->getType()->getKind() == rhs->getType()->getKind()
+					&& "TODO" );
 			}
 			else if ( lhsScalar )
 			{

@@ -37,6 +37,7 @@ namespace spirv
 		bool needsImage{ false };
 		spv::ImageOperandsMask mask{ spv::ImageOperandsMaskNone };
 		uint32_t returnComponentsCount{ 0u };
+		uint32_t offsetIndex{ 0u };
 	};
 
 	struct PreprocContext

@@ -29,6 +29,7 @@ namespace
 		|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
 		|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > );
 	/**@}*/
+#pragma endregion
 #pragma region textureSize
 	/**
 	*name
@@ -683,7 +684,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureOffsetTester
+	struct TextureConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -695,7 +696,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -707,7 +708,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -732,7 +733,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
@@ -744,7 +745,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureConstOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -778,7 +779,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureOffsetBiasTester
+	struct TextureConstOffsetBiasTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -790,7 +791,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetBiasTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureConstOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -802,7 +803,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureConstOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -828,7 +829,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureOffsetBiasTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureConstOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -837,7 +838,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureConstOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -959,7 +960,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TexelFetchOffsetTester
+	struct TexelFetchConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -971,7 +972,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TexelFetchOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TexelFetchConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -983,7 +984,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchOffsetLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTexelFetchConstOffsetLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1017,7 +1018,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureProjOffsetTester
+	struct TextureProjConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1029,7 +1030,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1039,7 +1040,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1064,7 +1065,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
@@ -1074,7 +1075,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjConstOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1108,7 +1109,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureProjOffsetBiasTester
+	struct TextureProjConstOffsetBiasTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1120,7 +1121,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjConstOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1130,7 +1131,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjConstOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1156,7 +1157,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjConstOffsetBiasTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1165,7 +1166,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjConstOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1200,7 +1201,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureLodOffsetTester
+	struct TextureLodConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1212,7 +1213,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureLodOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureLodConstOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1224,7 +1225,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureLodConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1250,7 +1251,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureLodOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureLodConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
@@ -1260,7 +1261,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadowOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureLodShadowConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1383,7 +1384,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureProjLodOffsetTester
+	struct TextureProjLodConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1395,7 +1396,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjLodOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjLodConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1405,7 +1406,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjLodConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1431,7 +1432,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjLodOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjLodConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1440,7 +1441,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLodOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowLodConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1573,7 +1574,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureGradOffsetTester
+	struct TextureGradConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1585,7 +1586,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGradOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGradConstOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1598,7 +1599,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1625,7 +1626,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureGradOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureGradConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
@@ -1638,7 +1639,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureShadowGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1767,7 +1768,7 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
-	struct TextureProjGradOffsetTester
+	struct TextureProjGradConstOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1779,7 +1780,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjGradOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjGradConstOffsetTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1790,7 +1791,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1817,7 +1818,7 @@ namespace
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct TextureProjGradOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+	struct TextureProjGradConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
@@ -1828,7 +1829,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGradOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			auto name = "testTextureProjShadowGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2009,6 +2010,89 @@ namespace
 		, bool DepthT
 		, bool MsT
 		, typename Enable = void >
+	struct TextureGatherConstOffsetTester
+	{
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+		}
+	};
+	
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
+			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				FragmentWriter writer;
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< sdw::Void >( "main"
+					, [&]()
+					{
+						auto d = writer.declLocale( "d"
+							, s.gather( test::getDefault< GatherT >( writer )
+								, test::getDefault< OffsetT >( writer ) ) );
+					} );
+				test::writeShader( writer
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherConstOffsetTester< FormatT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
+			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherShadowConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				FragmentWriter writer;
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< sdw::Void >( "main"
+					, [&]()
+					{
+						auto d = writer.declLocale( "d"
+							, s.gather( test::getDefault< GatherT >( writer )
+								, 0.5_f
+								, test::getDefault< OffsetT >( writer ) ) );
+					} );
+				test::writeShader( writer
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
 	struct TextureGatherOffsetTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -2039,9 +2123,10 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
+						auto o = writer.declLocale< OffsetT >( "o" );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
+								, o ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2074,10 +2159,11 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
+						auto o = writer.declLocale< OffsetT >( "o" );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f
-								, test::getDefault< OffsetT >( writer ) ) );
+								, o ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2093,6 +2179,54 @@ namespace
 	*	textureGatherOffsetComp
 	*/
 	/**@{*/
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT
+		, typename Enable = void >
+	struct TextureGatherConstOffsetCompTester
+	{
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct TextureGatherConstOffsetCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
+		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
+			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+	{
+		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+
+		static void test( test::sdw_test::TestCounts & testCounts )
+		{
+			auto name = "testTextureGatherConstOffsetComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			testBegin( name );
+			using namespace sdw;
+			{
+				FragmentWriter writer;
+				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				writer.implementFunction< sdw::Void >( "main"
+					, [&]()
+					{
+						auto d = writer.declLocale( "d"
+							, s.gather( test::getDefault< GatherT >( writer )
+								, test::getDefault< OffsetT >( writer )
+								, 1_i ) );
+					} );
+				test::writeShader( writer
+					, testCounts );
+			}
+			testEnd();
+		}
+	};
+
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
@@ -2129,9 +2263,10 @@ namespace
 				writer.implementFunction< sdw::Void >( "main"
 					, [&]()
 					{
+						auto o = writer.declLocale< OffsetT >( "o" );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
-								, test::getDefault< OffsetT >( writer )
+								, o
 								, 1_i ) );
 					} );
 				test::writeShader( writer
@@ -2394,22 +2529,24 @@ sdwTestSuiteMain( TestWriterTextureAccesses )
 	testsTextures< TextureProjTester >( testCounts );
 	testsTextures< TextureProjBiasTester >( testCounts );
 	testsTextures< TextureLodTester >( testCounts );
-	testsTextures< TextureOffsetTester >( testCounts );
-	testsTextures< TextureOffsetBiasTester >( testCounts );
+	testsTextures< TextureConstOffsetTester >( testCounts );
+	testsTextures< TextureConstOffsetBiasTester >( testCounts );
 	testsTextures< TexelFetchTester >( testCounts );
-	testsTextures< TexelFetchOffsetTester >( testCounts );
-	testsTextures< TextureProjOffsetTester >( testCounts );
-	testsTextures< TextureProjOffsetBiasTester >( testCounts );
-	testsTextures< TextureLodOffsetTester >( testCounts );
+	testsTextures< TexelFetchConstOffsetTester >( testCounts );
+	testsTextures< TextureProjConstOffsetTester >( testCounts );
+	testsTextures< TextureProjConstOffsetBiasTester >( testCounts );
+	testsTextures< TextureLodConstOffsetTester >( testCounts );
 	testsTextures< TextureProjLodTester >( testCounts );
-	testsTextures< TextureProjLodOffsetTester >( testCounts );
+	testsTextures< TextureProjLodConstOffsetTester >( testCounts );
 	testsTextures< TextureGradTester >( testCounts );
-	testsTextures< TextureGradOffsetTester >( testCounts );
+	testsTextures< TextureGradConstOffsetTester >( testCounts );
 	testsTextures< TextureProjGradTester >( testCounts );
-	testsTextures< TextureProjGradOffsetTester >( testCounts );
+	testsTextures< TextureProjGradConstOffsetTester >( testCounts );
 	testsTextures< TextureGatherTester >( testCounts );
 	testsTextures< TextureGatherCompTester >( testCounts );
+	testsTextures< TextureGatherConstOffsetTester >( testCounts );
 	testsTextures< TextureGatherOffsetTester >( testCounts );
+	testsTextures< TextureGatherConstOffsetCompTester >( testCounts );
 	testsTextures< TextureGatherOffsetCompTester >( testCounts );
 	testsTextures< TextureGatherOffsetsTester >( testCounts );
 	testsTextures< TextureGatherOffsetsCompTester >( testCounts );
