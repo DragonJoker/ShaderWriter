@@ -1216,7 +1216,8 @@ namespace spirv
 
 		if ( componentCount == 1u )
 		{
-			result = ast::expr::makeQuestion( expr->getType()
+			auto scalarType = cache.getBasicType( dstScalarType );
+			result = ast::expr::makeQuestion( scalarType
 				, std::move( expr )
 				, makeOne( cache, dstScalarType )
 				, makeZero( cache, dstScalarType ) );
