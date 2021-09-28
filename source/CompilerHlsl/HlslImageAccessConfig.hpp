@@ -1037,7 +1037,7 @@ namespace hlsl
 			break;
 
 		default:
-			assert( false && "Unsupported ImageAccess" );
+			AST_Failure( "Unsupported ImageAccess" );
 			break;
 		}
 	}

@@ -1184,7 +1184,7 @@ namespace spirv
 			capabilities.push_back( makeInstruction< CapabilityInstruction >( spv::Id( spv::CapabilityKernel ) ) );
 			break;
 		default:
-			assert( false && "Unsupported ExecutionModel" );
+			AST_Failure( "Unsupported ExecutionModel" );
 			break;
 		}
 	}

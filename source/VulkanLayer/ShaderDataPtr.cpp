@@ -40,7 +40,7 @@ namespace ast::vk
 				break;
 
 			default:
-				assert( false && "Unexpected DescriptorType" );
+				AST_Failure( "Unexpected DescriptorType" );
 				break;
 			}
 

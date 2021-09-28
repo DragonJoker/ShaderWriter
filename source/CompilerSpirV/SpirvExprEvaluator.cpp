@@ -133,157 +133,157 @@ namespace spirv
 
 			void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override
 			{
-				assert( false && "Unexpected PreDecrement expression" );
+				AST_Failure( "Unexpected PreDecrement expression" );
 			}
 
 			void visitPreIncrementExpr( ast::expr::PreIncrement * expr )override
 			{
-				assert( false && "Unexpected PreIncrement expression" );
+				AST_Failure( "Unexpected PreIncrement expression" );
 			}
 
 			void visitPostDecrementExpr( ast::expr::PostDecrement * expr )override
 			{
-				assert( false && "Unexpected PostDecrement expression" );
+				AST_Failure( "Unexpected PostDecrement expression" );
 			}
 
 			void visitPostIncrementExpr( ast::expr::PostIncrement * expr )override
 			{
-				assert( false && "Unexpected PostIncrement expression" );
+				AST_Failure( "Unexpected PostIncrement expression" );
 			}
 
 			void visitUnaryPlusExpr( ast::expr::UnaryPlus * expr )override
 			{
-				assert( false && "Unexpected UnaryPlus expression" );
+				AST_Failure( "Unexpected UnaryPlus expression" );
 			}
 
 			void visitAddAssignExpr( ast::expr::AddAssign * expr )override
 			{
-				assert( false && "Unexpected AddAssign expression" );
+				AST_Failure( "Unexpected AddAssign expression" );
 			}
 
 			void visitAndAssignExpr( ast::expr::AndAssign * expr )override
 			{
-				assert( false && "Unexpected AndAssign expression" );
+				AST_Failure( "Unexpected AndAssign expression" );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
 			{
-				assert( false && "Unexpected ArrayAccess expression" );
+				AST_Failure( "Unexpected ArrayAccess expression" );
 			}
 
 			void visitAssignExpr( ast::expr::Assign * expr )override
 			{
-				assert( false && "Unexpected Assign expression" );
+				AST_Failure( "Unexpected Assign expression" );
 			}
 
 			void visitCastExpr( ast::expr::Cast * expr )override
 			{
-				assert( false && "Unexpected Cast expression" );
+				AST_Failure( "Unexpected Cast expression" );
 			}
 
 			void visitCommaExpr( ast::expr::Comma * expr )override
 			{
-				assert( false && "Unexpected Comma expression" );
+				AST_Failure( "Unexpected Comma expression" );
 			}
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
 			{
-				assert( false && "Unexpected CompositeConstruct expression" );
+				AST_Failure( "Unexpected CompositeConstruct expression" );
 			}
 
 			void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override
 			{
-				assert( false && "Unexpected DivideAssign expression" );
+				AST_Failure( "Unexpected DivideAssign expression" );
 			}
 
 			void visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )override
 			{
-				assert( false && "Unexpected LShiftAssign expression" );
+				AST_Failure( "Unexpected LShiftAssign expression" );
 			}
 
 			void visitMinusAssignExpr( ast::expr::MinusAssign * expr )override
 			{
-				assert( false && "Unexpected MinusAssign expression" );
+				AST_Failure( "Unexpected MinusAssign expression" );
 			}
 
 			void visitModuloAssignExpr( ast::expr::ModuloAssign * expr )override
 			{
-				assert( false && "Unexpected ModuloAssign expression" );
+				AST_Failure( "Unexpected ModuloAssign expression" );
 			}
 
 			void visitOrAssignExpr( ast::expr::OrAssign * expr )override
 			{
-				assert( false && "Unexpected OrAssign expression" );
+				AST_Failure( "Unexpected OrAssign expression" );
 			}
 
 			void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override
 			{
-				assert( false && "Unexpected RShiftAssign expression" );
+				AST_Failure( "Unexpected RShiftAssign expression" );
 			}
 
 			void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override
 			{
-				assert( false && "Unexpected TimesAssign expression" );
+				AST_Failure( "Unexpected TimesAssign expression" );
 			}
 
 			void visitXorAssignExpr( ast::expr::XorAssign * expr )override
 			{
-				assert( false && "Unexpected XorAssign expression" );
+				AST_Failure( "Unexpected XorAssign expression" );
 			}
 
 			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
 			{
-				assert( false && "Unexpected AggrInit expression" );
+				AST_Failure( "Unexpected AggrInit expression" );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				assert( false && "Unexpected MbrSelect expression" );
+				AST_Failure( "Unexpected MbrSelect expression" );
 			}
 
 			void visitFnCallExpr( ast::expr::FnCall * expr )override
 			{
-				assert( false && "Unexpected FnCall expression" );
+				AST_Failure( "Unexpected FnCall expression" );
 			}
 
 			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override
 			{
-				assert( false && "Unexpected ImageAccessCall expression" );
+				AST_Failure( "Unexpected ImageAccessCall expression" );
 			}
 
 			void visitInitExpr( ast::expr::Init * expr )override
 			{
-				assert( false && "Unexpected Init expression" );
+				AST_Failure( "Unexpected Init expression" );
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
 			{
-				assert( false && "Unexpected IntrinsicCall expression" );
+				AST_Failure( "Unexpected IntrinsicCall expression" );
 			}
 
 			void visitQuestionExpr( ast::expr::Question * expr )override
 			{
-				assert( false && "Unexpected Question expression" );
+				AST_Failure( "Unexpected Question expression" );
 			}
 
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
 			{
-				assert( false && "Unexpected SwitchCase expression" );
+				AST_Failure( "Unexpected SwitchCase expression" );
 			}
 
 			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
 			{
-				assert( false && "Unexpected SwitchTest expression" );
+				AST_Failure( "Unexpected SwitchTest expression" );
 			}
 
 			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
 			{
-				assert( false && "Unexpected Swizzle expression" );
+				AST_Failure( "Unexpected Swizzle expression" );
 			}
 
 			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override
 			{
-				assert( false && "Unexpected TextureAccessCall expression" );
+				AST_Failure( "Unexpected TextureAccessCall expression" );
 			}
 
 		private:

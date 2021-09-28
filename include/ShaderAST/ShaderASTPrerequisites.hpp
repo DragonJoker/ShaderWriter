@@ -28,6 +28,9 @@ See LICENSE file in root folder
 #	define SDAST_API
 #endif
 
+#define AST_Failure( msg )\
+	assert( false && msg )
+
 namespace ast
 {
 	enum class ShaderStage

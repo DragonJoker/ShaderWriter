@@ -240,7 +240,7 @@ namespace spirv
 
 	void StmtVisitor::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
-		assert( false && "Unexpected ElseIf statement." );
+		AST_Failure( "Unexpected ElseIf statement." );
 	}
 
 	void StmtVisitor::visitElseStmt( ast::stmt::Else * stmt )
@@ -500,7 +500,7 @@ namespace spirv
 			m_result.registerExecutionMode( spv::ExecutionModeInputLinesAdjacency );
 			break;
 		default:
-			assert( false && "Unsupported InputLayout" );
+			AST_Failure( "Unsupported InputLayout" );
 			break;
 		}
 	}
@@ -521,7 +521,7 @@ namespace spirv
 			m_result.registerExecutionMode( spv::ExecutionModeOutputTriangleStrip );
 			break;
 		default:
-			assert( false && "Unsupported OutputLayout" );
+			AST_Failure( "Unsupported OutputLayout" );
 			break;
 		}
 
@@ -743,22 +743,22 @@ namespace spirv
 
 	void StmtVisitor::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		assert( false && "Unexpected PreprocDefine statement." );
+		AST_Failure( "Unexpected PreprocDefine statement." );
 	}
 
 	void StmtVisitor::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
-		assert( false && "Unexpected PreprocElif statement." );
+		AST_Failure( "Unexpected PreprocElif statement." );
 	}
 
 	void StmtVisitor::visitPreprocElse( ast::stmt::PreprocElse * preproc )
 	{
-		assert( false && "Unexpected PreprocElse statement." );
+		AST_Failure( "Unexpected PreprocElse statement." );
 	}
 
 	void StmtVisitor::visitPreprocEndif( ast::stmt::PreprocEndif * preproc )
 	{
-		assert( false && "Unexpected PreprocEndif statement." );
+		AST_Failure( "Unexpected PreprocEndif statement." );
 	}
 
 	void StmtVisitor::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
@@ -768,12 +768,12 @@ namespace spirv
 
 	void StmtVisitor::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
-		assert( false && "Unexpected PreprocIf statement." );
+		AST_Failure( "Unexpected PreprocIf statement." );
 	}
 
 	void StmtVisitor::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
-		assert( false && "Unexpected PreprocIfDef statement." );
+		AST_Failure( "Unexpected PreprocIfDef statement." );
 	}
 
 	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )

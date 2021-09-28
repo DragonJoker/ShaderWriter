@@ -239,12 +239,12 @@ namespace hlsl
 
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
-		assert( false && "ast::stmt::InOutVariableDecl unexpected at that point" );
+		AST_Failure( "ast::stmt::InOutVariableDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
-		assert( false && "ast::stmt::SpecialisationConstantDecl unexpected at that point" );
+		AST_Failure( "ast::stmt::SpecialisationConstantDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
@@ -274,17 +274,17 @@ namespace hlsl
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
-		assert( false && "ast::stmt::InputGeometryLayout unexpected at that point" );
+		AST_Failure( "ast::stmt::InputGeometryLayout unexpected at that point" );
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
-		assert( false && "ast::stmt::OutputGeometryLayout unexpected at that point" );
+		AST_Failure( "ast::stmt::OutputGeometryLayout unexpected at that point" );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
-		assert( false && "ast::stmt::PerVertexDecl unexpected at that point" );
+		AST_Failure( "ast::stmt::PerVertexDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitReturnStmt( ast::stmt::Return * stmt )
@@ -303,7 +303,7 @@ namespace hlsl
 
 	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		assert( false && "ast::stmt::SampledImageDecl unexpected at that point" );
+		AST_Failure( "ast::stmt::SampledImageDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
@@ -467,7 +467,7 @@ namespace hlsl
 
 	void StmtVisitor::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
 	{
-		assert( false && "ast::stmt::PreprocExtension unexpected at that point" );
+		AST_Failure( "ast::stmt::PreprocExtension unexpected at that point" );
 	}
 
 	void StmtVisitor::visitPreprocIf( ast::stmt::PreprocIf * preproc )
@@ -484,6 +484,6 @@ namespace hlsl
 
 	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
-		assert( false && "ast::stmt::PreprocVersion unexpected at that point" );
+		AST_Failure( "ast::stmt::PreprocVersion unexpected at that point" );
 	}
 }

@@ -71,7 +71,7 @@ namespace spirv
 			case ast::type::ImageFormat::eR8u:
 				return spv::ImageFormatR8ui;
 			default:
-				assert( false && "Unsupported ast::type::ImageFormat" );
+				AST_Failure( "Unsupported ast::type::ImageFormat" );
 				return spv::ImageFormatRgba32f;
 			}
 		}
@@ -116,7 +116,7 @@ namespace spirv
 			case spv::OpSNegate:
 				return makeInstruction< UnInstructionT< spv::OpSNegate > >( returnTypeId, resultId, operandId );
 			default:
-				assert( false && "Unexpected unary operation Op" );
+				AST_Failure( "Unexpected unary operation Op" );
 			}
 
 			return nullptr;
@@ -216,7 +216,7 @@ namespace spirv
 			case spv::OpULessThanEqual:
 				return makeInstruction< BinInstructionT< spv::OpULessThanEqual > >( returnTypeId, resultId, operands );
 			default:
-				assert( false && "Unexpected binary operation Op" );
+				AST_Failure( "Unexpected binary operation Op" );
 			}
 
 			return nullptr;
@@ -538,7 +538,7 @@ namespace spirv
 			result = spv::ExecutionModelFragment;
 			break;
 		default:
-			assert( false && "Unsupported sdw::ShaderStage." );
+			AST_Failure( "Unsupported sdw::ShaderStage." );
 			break;
 		}
 
@@ -762,7 +762,7 @@ namespace spirv
 		case spv::CapabilityAtomicFloat64AddEXT:
 			return "AtomicFloat64AddEXT";
 		default:
-			assert( false && "Unsupported Capability" );
+			AST_Failure( "Unsupported Capability" );
 			return "Undefined";
 		}
 	}
@@ -834,7 +834,7 @@ namespace spirv
 		case ast::type::Kind::eHalf:
 			return makeInstruction< FloatTypeInstruction >( id, 16u );
 		default:
-			assert( false && "Unexpected type kind" );
+			AST_Failure( "Unexpected type kind" );
 		}
 
 		return nullptr;
@@ -860,7 +860,7 @@ namespace spirv
 		case spv::OpMemoryBarrier:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpMemoryBarrier > >( operands );
 		default:
-			assert( false && "Unexpected intrinsic call Op" );
+			AST_Failure( "Unexpected intrinsic call Op" );
 		}
 
 		return nullptr;
@@ -982,7 +982,7 @@ namespace spirv
 		case spv::OpFwidth:
 			return makeInstruction< IntrinsicInstructionT< spv::OpFwidth > >( returnTypeId, resultId, operands );
 		default:
-			assert( false && "Unexpected intrinsic call Op" );
+			AST_Failure( "Unexpected intrinsic call Op" );
 		}
 
 		return nullptr;
@@ -1026,7 +1026,7 @@ namespace spirv
 		case spv::OpImageDrefGather:
 			return makeInstruction< TextureAccessInstructionT< spv::OpImageDrefGather > >( returnTypeId, resultId, operands );
 		default:
-			assert( false && "Unexpected texture access Op" );
+			AST_Failure( "Unexpected texture access Op" );
 		}
 
 		return nullptr;
@@ -1046,7 +1046,7 @@ namespace spirv
 		case spv::OpImageRead:
 			return makeInstruction< ImageAccessInstructionT< spv::OpImageRead > >( returnTypeId, resultId, operands );
 		case spv::OpImageWrite:
-			assert( false && "OpImageWrite has its own instruction type: ImageStoreInstruction, use makeInstruction" );
+			AST_Failure( "OpImageWrite has its own instruction type: ImageStoreInstruction, use makeInstruction" );
 			return makeInstruction< VariadicInstructionT< spv::OpImageWrite, false, false > >( operands );
 		case spv::OpAtomicIAdd:
 			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicIAdd > >( returnTypeId, resultId, operands );
@@ -1071,7 +1071,7 @@ namespace spirv
 		case spv::OpAtomicFAddEXT:
 			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicFAddEXT > >( returnTypeId, resultId, operands );
 		default:
-			assert( false && "Unexpected image access Op" );
+			AST_Failure( "Unexpected image access Op" );
 		}
 
 		return nullptr;
@@ -1097,7 +1097,7 @@ namespace spirv
 		case spv::OpBitcast:
 			return makeInstruction< UnInstructionT< spv::OpBitcast > >( returnTypeId, resultId, operandId );
 		default:
-			assert( false && "Unexpected cast Op" );
+			AST_Failure( "Unexpected cast Op" );
 		}
 
 		return nullptr;
@@ -1148,7 +1148,7 @@ namespace spirv
 		case Kind::eDouble:
 			return ast::expr::makeLiteral( cache, 0.0 );
 		default:
-			assert( false && "Unsupported type kind for 0 literal" );
+			AST_Failure( "Unsupported type kind for 0 literal" );
 			return nullptr;
 		}
 	}
@@ -1169,7 +1169,7 @@ namespace spirv
 		case Kind::eDouble:
 			return ast::expr::makeLiteral( cache, 1.0 );
 		default:
-			assert( false && "Unsupported type kind for 0 literal" );
+			AST_Failure( "Unsupported type kind for 0 literal" );
 			return nullptr;
 		}
 	}

@@ -228,7 +228,7 @@ namespace spirv
 				}
 				else
 				{
-					assert( false && "Unsupported cast expression" );
+					AST_Failure( "Unsupported cast expression" );
 				}
 			}
 			else if ( isFloatType( src ) )
@@ -247,7 +247,7 @@ namespace spirv
 				}
 				else
 				{
-					assert( false && "Unsupported cast expression" );
+					AST_Failure( "Unsupported cast expression" );
 				}
 			}
 			else if ( isHalfType( src ) )
@@ -266,7 +266,7 @@ namespace spirv
 				}
 				else
 				{
-					assert( false && "Unsupported cast expression" );
+					AST_Failure( "Unsupported cast expression" );
 				}
 			}
 			else if ( isSignedIntType( src ) )
@@ -285,7 +285,7 @@ namespace spirv
 				}
 				else
 				{
-					assert( false && "Unsupported cast expression" );
+					AST_Failure( "Unsupported cast expression" );
 				}
 			}
 			else if ( isUnsignedIntType( src ) )
@@ -304,12 +304,12 @@ namespace spirv
 				}
 				else
 				{
-					assert( false && "Unsupported cast expression" );
+					AST_Failure( "Unsupported cast expression" );
 				}
 			}
 			else
 			{
-				assert( false && "Unsupported cast expression" );
+				AST_Failure( "Unsupported cast expression" );
 			}
 
 			return result;
@@ -348,7 +348,7 @@ namespace spirv
 			}
 			else
 			{
-				assert( false && "Unsupported built-in variable storage." );
+				AST_Failure( "Unsupported built-in variable storage." );
 			}
 		}
 		else if ( var->isShaderInput() )
@@ -1368,7 +1368,7 @@ namespace spirv
 			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eDouble >() );
 			break;
 		default:
-			assert( false && "Unsupported literal type" );
+			AST_Failure( "Unsupported literal type" );
 			break;
 		}
 	}

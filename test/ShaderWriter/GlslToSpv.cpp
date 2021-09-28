@@ -173,7 +173,7 @@ namespace test
 				return EShLangCompute;
 
 			default:
-				assert( false && "Unsupported shader stage." );
+				AST_Failure( "Unsupported shader stage." );
 				return EShLangVertex;
 			}
 		}

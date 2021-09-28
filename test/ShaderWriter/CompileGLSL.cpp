@@ -786,7 +786,7 @@ namespace test
 				return GL_FRAGMENT_SHADER;
 				break;
 			default:
-				assert( false && "Unsupported ShaderType." );
+				AST_Failure( "Unsupported ShaderType." );
 				return GL_VERTEX_SHADER;
 			}
 		}

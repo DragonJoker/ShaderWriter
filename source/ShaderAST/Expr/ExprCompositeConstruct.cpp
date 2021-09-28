@@ -149,7 +149,7 @@ namespace ast::expr
 				result = cache.getDouble();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -175,7 +175,7 @@ namespace ast::expr
 				result = cache.getVec2D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -198,7 +198,7 @@ namespace ast::expr
 				result = cache.getVec3D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -224,7 +224,7 @@ namespace ast::expr
 				result = cache.getVec4D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -240,7 +240,7 @@ namespace ast::expr
 				result = cache.getMat2x2D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -256,7 +256,7 @@ namespace ast::expr
 				result = cache.getMat2x3D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -272,7 +272,7 @@ namespace ast::expr
 				result = cache.getMat2x4D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -288,7 +288,7 @@ namespace ast::expr
 				result = cache.getMat3x2D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -304,7 +304,7 @@ namespace ast::expr
 				result = cache.getMat3x3D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -320,7 +320,7 @@ namespace ast::expr
 				result = cache.getMat3x4D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -336,7 +336,7 @@ namespace ast::expr
 				result = cache.getMat4x2D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -352,7 +352,7 @@ namespace ast::expr
 				result = cache.getMat4x3D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -368,12 +368,12 @@ namespace ast::expr
 				result = cache.getMat4x4D();
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
 		default:
-			assert( false && "Unsupported type::Kind" );
+			AST_Failure( "Unsupported type::Kind" );
 			break;
 		}
 

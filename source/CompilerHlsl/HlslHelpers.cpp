@@ -215,7 +215,7 @@ namespace hlsl
 			result = "Texture";
 			break;
 		case ast::type::Kind::eSampler:
-			assert( false && "Unsupported ast::type::Kind" );
+			AST_Failure( "Unsupported ast::type::Kind" );
 			break;
 		case ast::type::Kind::eSampledImage:
 			result = "SampledImage";
@@ -317,7 +317,7 @@ namespace hlsl
 			result = "Buffer";
 			break;
 		default:
-			assert( false && "Unsupported ast::type::ImageDim" );
+			AST_Failure( "Unsupported ast::type::ImageDim" );
 			result = "Undefined";
 			break;
 		}

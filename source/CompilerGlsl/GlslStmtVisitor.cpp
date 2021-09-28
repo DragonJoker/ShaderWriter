@@ -37,7 +37,7 @@ namespace glsl
 			case ast::type::ImageDim::eBuffer:
 				return "Buffer";
 			default:
-				assert( false && "Unsupported ast::type::ImageDim" );
+				AST_Failure( "Unsupported ast::type::ImageDim" );
 				return "Undefined";
 			}
 		}
@@ -59,7 +59,7 @@ namespace glsl
 				return "h";
 
 			default:
-				assert( false && "Unsupported ast::type::Kind" );
+				AST_Failure( "Unsupported ast::type::Kind" );
 				return std::string{};
 			}
 		}
@@ -159,7 +159,7 @@ namespace glsl
 			case ast::type::ImageFormat::eR8u:
 				return "r8ui";
 			default:
-				assert( false && "Unsupported ast::type::ImageFormat" );
+				AST_Failure( "Unsupported ast::type::ImageFormat" );
 				return "rgba32f";
 			}
 		}
@@ -173,7 +173,7 @@ namespace glsl
 			case ast::type::MemoryLayout::eStd430:
 				return "std430";
 			default:
-				assert( false && "Unsupported ast::type::MemoryLayout" );
+				AST_Failure( "Unsupported ast::type::MemoryLayout" );
 				return "std140";
 			}
 		}
@@ -209,7 +209,7 @@ namespace glsl
 			case ast::FragmentOrigin::eUpperLeft:
 				return "origin_upper_left";
 			default:
-				assert( false && "Unsupported FragmentOrigin" );
+				AST_Failure( "Unsupported FragmentOrigin" );
 				return std::string{};
 			}
 		}
@@ -223,7 +223,7 @@ namespace glsl
 			case ast::FragmentCenter::eCenterInteger:
 				return "pixel_center_integer";
 			default:
-				assert( false && "Unsupported FragmentCenter" );
+				AST_Failure( "Unsupported FragmentCenter" );
 				return std::string{};
 			}
 		}
@@ -558,7 +558,7 @@ namespace glsl
 
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
-		assert( false && "No specialisation constant should remain at this stage" );
+		AST_Failure( "No specialisation constant should remain at this stage" );
 	}
 
 	void StmtVisitor::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )

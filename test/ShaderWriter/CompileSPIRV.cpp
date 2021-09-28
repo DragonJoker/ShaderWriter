@@ -631,7 +631,7 @@ namespace test
 			case VK_FORMAT_R64G64B64A64_SFLOAT:
 				return 32u;
 			default:
-				assert( false && "Unsupported VkFormat for a vertex attribute." );
+				AST_Failure( "Unsupported VkFormat for a vertex attribute." );
 				return 4u;
 			}
 		}

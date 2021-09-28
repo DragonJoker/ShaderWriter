@@ -23,7 +23,7 @@ namespace ast::debug
 				result = "STD430";
 				break;
 			default:
-				assert( false && "Unsupported type::MemoryLayout" );
+				AST_Failure( "Unsupported type::MemoryLayout" );
 				result = "UNDEFINED";
 				break;
 			}
@@ -167,7 +167,7 @@ namespace ast::debug
 				result = "STFRAGLAYOUT";
 				break;
 			default:
-				assert( false && "Unknown statement kind ?" );
+				AST_Failure( "Unknown statement kind ?" );
 				break;
 			}
 

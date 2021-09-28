@@ -339,7 +339,7 @@ namespace ast::vk
 			case ast::DescriptorType::eStorageImage:
 				return VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
 			default:
-				assert( false && "Unsupported DescriptorType." );
+				AST_Failure( "Unsupported DescriptorType." );
 				return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 			}
 		}

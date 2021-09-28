@@ -304,7 +304,7 @@ namespace hlsl
 				return writeProjectTexCoords4( cache, std::move( texcoords ) );
 
 			default:
-				assert( false && "Expected a textureProj access function" );
+				AST_Failure( "Expected a textureProj access function" );
 				return nullptr;
 			}
 		}
@@ -1230,7 +1230,7 @@ namespace hlsl
 				break;
 
 			default:
-				assert( false && "Unexpected operator type." );
+				AST_Failure( "Unexpected operator type." );
 				break;
 			}
 		}

@@ -96,7 +96,7 @@ namespace ast::expr
 			return std::make_unique< Literal >( operand.getCache()
 				, ~operand.getValue< LiteralType::eUInt >() );
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -118,7 +118,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( rhs.getCache()
 					, uint32_t( lhs.getValue< LiteralType::eBool >() ) | rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -134,7 +134,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() | rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -150,11 +150,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() | rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -176,7 +176,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( rhs.getCache()
 					, uint32_t( lhs.getValue< LiteralType::eBool >() ) & rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -192,7 +192,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() & rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -208,11 +208,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() & rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -234,7 +234,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( rhs.getCache()
 					, uint32_t( lhs.getValue< LiteralType::eBool >() ) ^ rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -250,7 +250,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() ^ rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -266,11 +266,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() ^ rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -289,7 +289,7 @@ namespace ast::expr
 			return std::make_unique< Literal >( operand.getCache()
 				, !operand.getValue< LiteralType::eUInt >() );
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -311,7 +311,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eBool >() || rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -327,7 +327,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() || rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -343,11 +343,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() || rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -369,7 +369,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eBool >() && rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -385,7 +385,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() && rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -401,11 +401,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() && rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -427,7 +427,7 @@ namespace ast::expr
 			return std::make_unique< Literal >( operand.getCache()
 				, -operand.getValue< LiteralType::eDouble >() );
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -452,7 +452,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) + rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -471,7 +471,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) + rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -490,7 +490,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) + rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -509,11 +509,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() + rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -538,7 +538,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) - rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -557,7 +557,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) - rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -576,7 +576,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) - rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -595,11 +595,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() - rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -624,7 +624,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) * rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -643,7 +643,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) * rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -662,7 +662,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) * rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -681,11 +681,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() * rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -710,7 +710,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) / rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -729,7 +729,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) / rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -748,7 +748,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) / rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -767,11 +767,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() / rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -790,7 +790,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() % rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -803,11 +803,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() % rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -826,7 +826,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() << rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -839,11 +839,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() << rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -862,7 +862,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() >> rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -875,11 +875,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() >> rhs.getValue< LiteralType::eUInt >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -907,7 +907,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eBool >() == bool( rhs.getValue< LiteralType::eDouble >() ) );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -929,7 +929,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) == rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -951,7 +951,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) == rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -973,7 +973,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) == rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -995,11 +995,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() == rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -1027,7 +1027,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eBool >() != bool( rhs.getValue< LiteralType::eDouble >() ) );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eInt:
@@ -1049,7 +1049,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) != rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -1071,7 +1071,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) != rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -1093,7 +1093,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) != rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -1115,11 +1115,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() != rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -1144,7 +1144,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eInt >() ) < rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -1163,7 +1163,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eUInt >() ) < rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -1182,7 +1182,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) < rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -1201,11 +1201,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() < rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}
@@ -1235,7 +1235,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eInt >() > rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eUInt:
@@ -1254,7 +1254,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eUInt >() > rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eFloat:
@@ -1273,7 +1273,7 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, double( lhs.getValue< LiteralType::eFloat >() ) > rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		case LiteralType::eDouble:
@@ -1292,11 +1292,11 @@ namespace ast::expr
 				return std::make_unique< Literal >( lhs.getCache()
 					, lhs.getValue< LiteralType::eDouble >() > rhs.getValue< LiteralType::eDouble >() );
 			default:
-				assert( false && "Unexpected operand for bit negate" );
+				AST_Failure( "Unexpected operand for bit negate" );
 				return nullptr;
 			}
 		default:
-			assert( false && "Unexpected operand for bit negate" );
+			AST_Failure( "Unexpected operand for bit negate" );
 			return nullptr;
 		}
 	}

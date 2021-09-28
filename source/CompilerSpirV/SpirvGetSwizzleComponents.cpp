@@ -19,7 +19,7 @@ namespace spirv
 			case ast::expr::SwizzleKind::e10:
 				return { 1, 0 };
 			default:
-				assert( false && "Impossible LHS swizzle kind for 2 components vector" );
+				AST_Failure( "Impossible LHS swizzle kind for 2 components vector" );
 				return {};
 			}
 		}
@@ -41,7 +41,7 @@ namespace spirv
 			case ast::expr::SwizzleKind::e210:
 				return { 2, 1, 0 };
 			default:
-				assert( false && "Impossible LHS swizzle kind for 3 components vector" );
+				AST_Failure( "Impossible LHS swizzle kind for 3 components vector" );
 				return {};
 			}
 		}
@@ -97,7 +97,7 @@ namespace spirv
 			case ast::expr::SwizzleKind::e3210:
 				return { 3, 2, 1, 0 };
 			default:
-				assert( false && "Impossible LHS swizzle kind for 3 components vector" );
+				AST_Failure( "Impossible LHS swizzle kind for 3 components vector" );
 				return {};
 			}
 		}
@@ -129,7 +129,7 @@ namespace spirv
 					result = { 0u, rhs[0u] };
 					break;
 				default:
-					assert( false && "Impossible LHS swizzle kind" );
+					AST_Failure( "Impossible LHS swizzle kind" );
 					break;
 				}
 			}
@@ -175,7 +175,7 @@ namespace spirv
 					result = { 0u, 1u, rhs[0u] };
 					break;
 				default:
-					assert( false && "Impossible LHS swizzle kind" );
+					AST_Failure( "Impossible LHS swizzle kind" );
 					break;
 				}
 			}
@@ -208,7 +208,7 @@ namespace spirv
 					result = { 0u, rhs[1u], rhs[0u] };
 					break;
 				default:
-					assert( false && "Impossible LHS swizzle kind" );
+					AST_Failure( "Impossible LHS swizzle kind" );
 					break;
 				}
 			}
@@ -258,7 +258,7 @@ namespace spirv
 					result = { 0u, 1u, 2u, rhs[0u] };
 					break;
 				default:
-					assert( false && "Impossible LHS swizzle kind" );
+					AST_Failure( "Impossible LHS swizzle kind" );
 					break;
 				}
 			}
@@ -315,7 +315,7 @@ namespace spirv
 					result = { 0u, 1u, rhs[1u], rhs[0u] };
 					break;
 				default:
-					assert( false && "Impossible LHS swizzle kind" );
+					AST_Failure( "Impossible LHS swizzle kind" );
 					break;
 				}
 			}
@@ -420,7 +420,7 @@ namespace spirv
 					result = { 0u, rhs[2u], rhs[1u], rhs[0u] };
 					break;
 				default:
-					assert( false && "Impossible LHS swizzle kind" );
+					AST_Failure( "Impossible LHS swizzle kind" );
 					break;
 				}
 			}
@@ -453,7 +453,7 @@ namespace spirv
 				result = fillVec4Swizzle( lhsSwizzle, rhsSwizzle );
 				break;
 			default:
-				assert( false && "Unsupported components count" );
+				AST_Failure( "Unsupported components count" );
 				break;
 			}
 
@@ -1146,7 +1146,7 @@ namespace spirv
 		case ast::expr::SwizzleKind::e3333:
 			return { 3, 3, 3, 3 };
 		default:
-			assert( false && "Unsupported SwizzleKind." );
+			AST_Failure( "Unsupported SwizzleKind." );
 			return {};
 		}
 	}
