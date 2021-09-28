@@ -129,7 +129,24 @@ namespace ast::expr
 		SDAST_API virtual void visitUnaryPlusExpr( UnaryPlus * ) = 0;
 		SDAST_API virtual void visitXorAssignExpr( XorAssign * ) = 0;
 	};
-
+	/*
+	*	Provides a base implementation of an expression visitor.
+	*	Implements all visits except the following:
+	*	- void visitAggrInitExpr( ast::expr::AggrInit * expr )override;
+	*	- void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
+	*	- void visitFnCallExpr( ast::expr::FnCall * expr )override;
+	*	- void visitIdentifierExpr( ast::expr::Identifier * expr )override;
+	*	- void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+	*	- void visitInitExpr( ast::expr::Init * expr )override;
+	*	- void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
+	*	- void visitLiteralExpr( ast::expr::Literal * expr )override;
+	*	- void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
+	*	- void visitQuestionExpr( ast::expr::Question * expr )override;
+	*	- void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override;
+	*	- void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override;
+	*	- void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
+	*	- void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+	*/
 	class SimpleVisitor
 		: public Visitor
 	{
