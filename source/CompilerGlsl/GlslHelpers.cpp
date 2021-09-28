@@ -37,7 +37,7 @@ namespace glsl
 				result = "Buffer";
 				break;
 			default:
-				assert( false && "Unsupported ast::type::ImageDim" );
+				AST_Failure( "Unsupported ast::type::ImageDim" );
 				result = "Undefined";
 				break;
 			}
@@ -257,7 +257,7 @@ namespace glsl
 			result = "sampledImage";
 			break;
 		default:
-			assert( false && "Unsupported type::Kind" );
+			AST_Failure( "Unsupported type::Kind" );
 			break;
 		}
 
@@ -627,7 +627,7 @@ namespace glsl
 				result = "f16vec2";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -653,7 +653,7 @@ namespace glsl
 				result = "f16vec3";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -679,7 +679,7 @@ namespace glsl
 				result = "f16vec4";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -693,7 +693,7 @@ namespace glsl
 				result = "dmat2";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -707,7 +707,7 @@ namespace glsl
 				result = "dmat2x3";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -721,7 +721,7 @@ namespace glsl
 				result = "dmat2x4";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -735,7 +735,7 @@ namespace glsl
 				result = "dmat3x2";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -749,7 +749,7 @@ namespace glsl
 				result = "dmat3";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -763,7 +763,7 @@ namespace glsl
 				result = "dmat3x4";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -777,7 +777,7 @@ namespace glsl
 				result = "dmat4x2";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -791,7 +791,7 @@ namespace glsl
 				result = "dmat4x3";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
@@ -805,12 +805,12 @@ namespace glsl
 				result = "dmat4";
 				break;
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				break;
 			}
 			break;
 		default:
-			assert( false && "Unsupported expr::CompositeType" );
+			AST_Failure( "Unsupported expr::CompositeType" );
 			break;
 		}
 

@@ -38,7 +38,7 @@ namespace ast::debug
 			case type::ImageDim::eBuffer:
 				return "BUFFER";
 			default:
-				assert( false && "Unsupported type::ImageDim" );
+				AST_Failure( "Unsupported type::ImageDim" );
 				return "Undefined";
 			}
 		}
@@ -115,7 +115,7 @@ namespace ast::debug
 			case type::MemoryLayout::eStd430:
 				return "STD430";
 			default:
-				assert( false && "Unsupported type::MemoryLayout" );
+				AST_Failure( "Unsupported type::MemoryLayout" );
 				return "Undefined";
 			}
 		}
@@ -374,7 +374,7 @@ namespace ast::debug
 		case ast::type::ImageFormat::eR8u:
 			return "R8U";
 		default:
-			assert( false && "Unsupported type::ImageFormat" );
+			AST_Failure( "Unsupported type::ImageFormat" );
 			return "Undefined";
 		}
 	}
@@ -446,7 +446,7 @@ namespace ast::debug
 		case ast::FragmentOrigin::eUpperLeft:
 			return "UPPER_LEFT";
 		default:
-			assert( false && "Unsupported FragmentOrigin" );
+			AST_Failure( "Unsupported FragmentOrigin" );
 			return "Undefined";
 		}
 	}
@@ -460,7 +460,7 @@ namespace ast::debug
 		case ast::FragmentCenter::eCenterInteger:
 			return "CENTER_INTEGER";
 		default:
-			assert( false && "Unsupported FragmentCenter" );
+			AST_Failure( "Unsupported FragmentCenter" );
 			return "Undefined";
 		}
 	}

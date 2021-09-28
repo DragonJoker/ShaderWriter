@@ -13,6 +13,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Shader.hpp>
 
 #include <ShaderAST/Visitors/StmtSimplifier.hpp>
+#include <ShaderAST/Visitors/TransformSSA.hpp>
 
 #include <sstream>
 #include <iomanip>
@@ -47,7 +48,7 @@ namespace spirv
 			case spv::SourceLanguageHLSL:
 				return "HLSL";
 			default:
-				assert( false && "Unsupported SourceLanguage" );
+				AST_Failure( "Unsupported SourceLanguage" );
 				return "Undefined";
 			}
 		}
@@ -65,7 +66,7 @@ namespace spirv
 			case spv::AddressingModelPhysicalStorageBuffer64:
 				return "PhysicalStorageBuffer64";
 			default:
-				assert( false && "Unsupported AddressingModel" );
+				AST_Failure( "Unsupported AddressingModel" );
 				return "Undefined";
 			}
 		}
@@ -83,7 +84,7 @@ namespace spirv
 			case spv::MemoryModelVulkan:
 				return "Vulkan";
 			default:
-				assert( false && "Unsupported MemoryModel" );
+				AST_Failure( "Unsupported MemoryModel" );
 				return "Undefined";
 			}
 		}
@@ -123,7 +124,7 @@ namespace spirv
 			case spv::ExecutionModelCallableKHR:
 				return "Callable";
 			default:
-				assert( false && "Unsupported ExecutionModel" );
+				AST_Failure( "Unsupported ExecutionModel" );
 				return "Undefined";
 			}
 		}
@@ -243,7 +244,7 @@ namespace spirv
 			case spv::ExecutionModeNumSIMDWorkitemsINTEL:
 				return "NumSIMDWorkitemsINTEL";
 			default:
-				assert( false && "Unsupported ExecutionMode" );
+				AST_Failure( "Unsupported ExecutionMode" );
 				return "Undefined";
 			}
 		}
@@ -259,7 +260,7 @@ namespace spirv
 			case spv::AccessQualifierReadWrite:
 				return "ReadWrite";
 			default:
-				assert( false && "Unsupported AccessQualifier" );
+				AST_Failure( "Unsupported AccessQualifier" );
 				return "Undefined";
 			}
 		}
@@ -435,7 +436,7 @@ namespace spirv
 			case spv::GLSLstd450::Count:
 				return "Count";
 			default:
-				assert( false && "Unsupported GLSLstd450" );
+				AST_Failure( "Unsupported GLSLstd450" );
 				return "Undefined";
 			}
 		}
@@ -487,7 +488,7 @@ namespace spirv
 			case spv::StorageClassCodeSectionINTEL:
 				return "CodeSectionINTEL";
 			default:
-				assert( false && "Unsupported StorageClass" );
+				AST_Failure( "Unsupported StorageClass" );
 				return "Undefined";
 			}
 		}
@@ -577,7 +578,7 @@ namespace spirv
 			case spv::ImageFormatR8ui:
 				return "R8ui";
 			default:
-				assert( false && "Unsupported ImageFormat" );
+				AST_Failure( "Unsupported ImageFormat" );
 				return "Undefined";
 			}
 		}
@@ -601,7 +602,7 @@ namespace spirv
 			case spv::DimSubpassData:
 				return "SubpassData";
 			default:
-				assert( false && "Unsupported Dim" );
+				AST_Failure( "Unsupported Dim" );
 				return "Undefined";
 			}
 		}
@@ -803,7 +804,7 @@ namespace spirv
 			case spv::BuiltInSMIDNV:
 				return "SMIDNV";
 			default:
-				assert( false && "Unsupported BuiltIn" );
+				AST_Failure( "Unsupported BuiltIn" );
 				return "Undefined";
 			}
 		}
@@ -945,7 +946,7 @@ namespace spirv
 			case spv::DecorationForcePow2DepthINTEL:
 				return "ForcePow2DepthINTEL";
 			default:
-				assert( false && "Unsupported Decoration" );
+				AST_Failure( "Unsupported Decoration" );
 				return "Undefined";
 			}
 		}
@@ -971,7 +972,7 @@ namespace spirv
 			case spv::FunctionParameterAttributeNoReadWrite:
 				return "NoReadWrite";
 			default:
-				assert( false && "Unsupported FunctionParameterAttribute" );
+				AST_Failure( "Unsupported FunctionParameterAttribute" );
 				return "Undefined";
 			}
 		}
@@ -989,7 +990,7 @@ namespace spirv
 			case spv::FPRoundingModeRTN:
 				return "RTN";
 			default:
-				assert( false && "Unsupported FPRoundingMode" );
+				AST_Failure( "Unsupported FPRoundingMode" );
 				return "Undefined";
 			}
 		}
@@ -1003,7 +1004,7 @@ namespace spirv
 			case spv::LinkageTypeImport:
 				return "Import";
 			default:
-				assert( false && "Unsupported LinkageType" );
+				AST_Failure( "Unsupported LinkageType" );
 				return "Undefined";
 			}
 		}
@@ -1029,7 +1030,7 @@ namespace spirv
 			case spv::ScopeShaderCallKHR:
 				return "ShaderCall";
 			default:
-				//assert( false && "Unsupported Scope" );
+				//AST_Failure( "Unsupported Scope" );
 				return "Undefined";
 			}
 		}
@@ -3247,8 +3248,9 @@ namespace spirv
 		spirv::Module compileSpirV( ast::Shader const & shader
 			, SpirVConfig config )
 		{
+			auto ssa = ast::transformSSA( shader.getStatements() );
 			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
-				, shader.getStatements() );
+				, ssa.get() );
 			ModuleConfig moduleConfig = spirv::StmtConfigFiller::submit( simplified.get() );
 			spirv::PreprocContext context{};
 			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), moduleConfig, context );

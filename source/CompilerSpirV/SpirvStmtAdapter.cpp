@@ -38,12 +38,12 @@ namespace spirv
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
-		assert( false && "Unexpected ElseIf statement." );
+		AST_Failure( "Unexpected ElseIf statement." );
 	}
 
 	void StmtAdapter::visitElseStmt( ast::stmt::Else * stmt )
 	{
-		assert( false && "Unexpected Else statement." );
+		AST_Failure( "Unexpected Else statement." );
 	}
 
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )

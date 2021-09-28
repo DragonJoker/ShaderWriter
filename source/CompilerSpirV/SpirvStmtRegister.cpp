@@ -733,7 +733,7 @@ namespace spirv
 			{
 				if ( !lhsScalar && !rhsScalar )
 				{
-					assert( false && "TODO" );
+					AST_Failure( "TODO" );
 				}
 				else if ( lhsScalar )
 				{
@@ -841,7 +841,7 @@ namespace spirv
 						, std::move( rhsExpr ) );
 					break;
 				default:
-					assert( false && "Unsupported binary operation" );
+					AST_Failure( "Unsupported binary operation" );
 					break;
 				}
 			}
@@ -877,7 +877,7 @@ namespace spirv
 						, std::move( rhsExpr ) );
 					break;
 				default:
-					assert( false && "Unsupported binary operation" );
+					AST_Failure( "Unsupported binary operation" );
 					break;
 				}
 			}
@@ -992,7 +992,7 @@ namespace spirv
 						, std::move( rhsVec ) ) );
 					break;
 				default:
-					assert( false && "Unsupported binary operation" );
+					AST_Failure( "Unsupported binary operation" );
 					break;
 				}
 			}

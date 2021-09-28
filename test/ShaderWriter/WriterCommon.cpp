@@ -81,7 +81,7 @@ namespace test
 				result = spv::ExecutionModelGLCompute;
 				break;
 			default:
-				assert( false && "Unsupported shader stage flag" );
+				AST_Failure( "Unsupported shader stage flag" );
 				break;
 			}
 

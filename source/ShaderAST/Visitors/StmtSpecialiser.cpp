@@ -77,7 +77,7 @@ namespace ast
 					, *reinterpret_cast< double const * >( it->data.data() ) ) );
 			break;
 		default:
-			assert( false && "Specialisation can only be scalar type." );
+			AST_Failure( "Specialisation can only be scalar type." );
 			break;
 		}
 

@@ -87,12 +87,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				assert( false && "Unexpected ast::expr::Unary ?" );
+				AST_Failure( "Unexpected ast::expr::Unary ?" );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				assert( false && "Unexpected ast::expr::Binary ?" );
+				AST_Failure( "Unexpected ast::expr::Binary ?" );
 			}
 
 			AccessChainExprArray doSubmit( ast::expr::Kind kind
@@ -153,52 +153,52 @@ namespace spirv
 
 			void visitAggrInitExpr( ast::expr::AggrInit * )override
 			{
-				assert( false && "Unexpected ast::expr::AggrInit ?" );
+				AST_Failure( "Unexpected ast::expr::AggrInit ?" );
 			}
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
 			{
-				assert( false && "Unexpected ast::expr::CompositeConstruct ?" );
+				AST_Failure( "Unexpected ast::expr::CompositeConstruct ?" );
 			}
 
 			void visitFnCallExpr( ast::expr::FnCall * )override
 			{
-				assert( false && "Unexpected ast::expr::FnCall ?" );
+				AST_Failure( "Unexpected ast::expr::FnCall ?" );
 			}
 
 			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * )override
 			{
-				assert( false && "Unexpected ast::expr::ImageAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::ImageAccessCall ?" );
 			}
 
 			void visitInitExpr( ast::expr::Init * )override
 			{
-				assert( false && "Unexpected ast::expr::Init ?" );
+				AST_Failure( "Unexpected ast::expr::Init ?" );
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * )override
 			{
-				assert( false && "Unexpected ast::expr::IntrinsicCall ?" );
+				AST_Failure( "Unexpected ast::expr::IntrinsicCall ?" );
 			}
 
 			void visitQuestionExpr( ast::expr::Question * )override
 			{
-				assert( false && "Unexpected ast::expr::Question ?" );
+				AST_Failure( "Unexpected ast::expr::Question ?" );
 			}
 
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * )override
 			{
-				assert( false && "Unexpected ast::expr::SwitchCase ?" );
+				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
 			}
 
 			void visitSwitchTestExpr( ast::expr::SwitchTest * )override
 			{
-				assert( false && "Unexpected ast::expr::SwitchTest ?" );
+				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
 			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * )override
 			{
-				assert( false && "Unexpected ast::expr::TextureAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::TextureAccessCall ?" );
 			}
 
 		private:
@@ -430,7 +430,7 @@ namespace spirv
 					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eDouble >() );
 					break;
 				default:
-					assert( false && "Unsupported literal type" );
+					AST_Failure( "Unsupported literal type" );
 					break;
 				}
 			}
@@ -481,52 +481,52 @@ namespace spirv
 
 			void visitAggrInitExpr( ast::expr::AggrInit * )override
 			{
-				assert( false && "Unexpected ast::expr::AggrInit ?" );
+				AST_Failure( "Unexpected ast::expr::AggrInit ?" );
 			}
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
 			{
-				assert( false && "Unexpected ast::expr::CompositeConstruct ?" );
+				AST_Failure( "Unexpected ast::expr::CompositeConstruct ?" );
 			}
 
 			void visitFnCallExpr( ast::expr::FnCall * )override
 			{
-				assert( false && "Unexpected ast::expr::FnCall ?" );
+				AST_Failure( "Unexpected ast::expr::FnCall ?" );
 			}
 
 			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * )override
 			{
-				assert( false && "Unexpected ast::expr::ImageAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::ImageAccessCall ?" );
 			}
 
 			void visitInitExpr( ast::expr::Init * )override
 			{
-				assert( false && "Unexpected ast::expr::Init ?" );
+				AST_Failure( "Unexpected ast::expr::Init ?" );
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * )override
 			{
-				assert( false && "Unexpected ast::expr::IntrinsicCall ?" );
+				AST_Failure( "Unexpected ast::expr::IntrinsicCall ?" );
 			}
 
 			void visitQuestionExpr( ast::expr::Question * )override
 			{
-				assert( false && "Unexpected ast::expr::Question ?" );
+				AST_Failure( "Unexpected ast::expr::Question ?" );
 			}
 
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * )override
 			{
-				assert( false && "Unexpected ast::expr::SwitchCase ?" );
+				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
 			}
 
 			void visitSwitchTestExpr( ast::expr::SwitchTest * )override
 			{
-				assert( false && "Unexpected ast::expr::SwitchTest ?" );
+				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
 			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * )override
 			{
-				assert( false && "Unexpected ast::expr::TextureAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::TextureAccessCall ?" );
 			}
 
 		private:

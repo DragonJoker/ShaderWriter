@@ -506,7 +506,7 @@ namespace ast::type
 			return expr::CompositeType::eMat4x4;
 
 		default:
-			assert( false && "Unsupported type::Kind" );
+			AST_Failure( "Unsupported type::Kind" );
 			return expr::CompositeType::eVec4;
 		}
 	}

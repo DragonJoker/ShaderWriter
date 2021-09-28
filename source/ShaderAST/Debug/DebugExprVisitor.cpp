@@ -468,7 +468,7 @@ namespace ast::debug
 			}
 			break;
 		default:
-			assert( false && "Unsupported literal type" );
+			AST_Failure( "Unsupported literal type" );
 			break;
 		}
 

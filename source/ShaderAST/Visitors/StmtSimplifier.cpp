@@ -26,7 +26,7 @@ namespace ast
 			case ast::type::Kind::eDouble:
 				return expr::LiteralType::eDouble;
 			default:
-				assert( false && "Unsupported kind for a literal" );
+				AST_Failure( "Unsupported kind for a literal" );
 				return expr::LiteralType::eFloat;
 			}
 		}
@@ -184,7 +184,7 @@ namespace ast
 							+ rhs.getValue< expr::LiteralType::eDouble >() ) );
 				case expr::LiteralType::eBool:
 				default:
-					assert( false && "Unexpected operand type for + operator" );
+					AST_Failure( "Unexpected operand type for + operator" );
 					return nullptr;
 				}
 			}
@@ -217,7 +217,7 @@ namespace ast
 							/ rhs.getValue< expr::LiteralType::eDouble >() ) );
 				case expr::LiteralType::eBool:
 				default:
-					assert( false && "Unexpected operand type for / operator" );
+					AST_Failure( "Unexpected operand type for / operator" );
 					return nullptr;
 				}
 			}
@@ -250,7 +250,7 @@ namespace ast
 							- rhs.getValue< expr::LiteralType::eDouble >() ) );
 				case expr::LiteralType::eBool:
 				default:
-					assert( false && "Unexpected operand type for - operator" );
+					AST_Failure( "Unexpected operand type for - operator" );
 					return nullptr;
 				}
 			}
@@ -283,7 +283,7 @@ namespace ast
 							* rhs.getValue< expr::LiteralType::eDouble >() ) );
 				case expr::LiteralType::eBool:
 				default:
-					assert( false && "Unexpected operand type for * operator" );
+					AST_Failure( "Unexpected operand type for * operator" );
 					return nullptr;
 				}
 			}
@@ -312,7 +312,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for % operator" );
+					AST_Failure( "Unexpected operand type for % operator" );
 					return nullptr;
 				}
 			}
@@ -339,7 +339,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for << operator" );
+					AST_Failure( "Unexpected operand type for << operator" );
 					return nullptr;
 				}
 			}
@@ -366,7 +366,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for >> operator" );
+					AST_Failure( "Unexpected operand type for >> operator" );
 					return nullptr;
 				}
 			}
@@ -393,7 +393,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for & operator" );
+					AST_Failure( "Unexpected operand type for & operator" );
 					return nullptr;
 				}
 			}
@@ -420,7 +420,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for | operator" );
+					AST_Failure( "Unexpected operand type for | operator" );
 					return nullptr;
 				}
 			}
@@ -447,7 +447,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -483,7 +483,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eBool >( lhs )
 							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eDouble >() ) ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -519,7 +519,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eBool >( lhs )
 							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eDouble >() ) ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -555,7 +555,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eDouble >( lhs )
 							== rhs.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -591,7 +591,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eDouble >( lhs )
 							!= rhs.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -627,7 +627,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eDouble >( lhs )
 							< rhs.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -663,7 +663,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eDouble >( lhs )
 							<= rhs.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -699,7 +699,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eDouble >( lhs )
 							> rhs.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -735,7 +735,7 @@ namespace ast
 						, ( convert< expr::LiteralType::eDouble >( lhs )
 							>= rhs.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -759,7 +759,7 @@ namespace ast
 			case expr::LiteralType::eDouble:
 				return FuncT< double >::replace( cache, lhs.getValue< expr::LiteralType::eDouble >(), rhs );
 			default:
-				assert( false && "Unexpected operand type" );
+				AST_Failure( "Unexpected operand type" );
 				return nullptr;
 			}
 		}
@@ -787,7 +787,7 @@ namespace ast
 					return expr::makeLiteral( cache
 						, -operand.getValue< expr::LiteralType::eDouble >() );
 				default:
-					assert( false && "Unexpected operand type for ^ operator" );
+					AST_Failure( "Unexpected operand type for ^ operator" );
 					return nullptr;
 				}
 			}
@@ -812,7 +812,7 @@ namespace ast
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
-					assert( false && "Unexpected operand type for unary not" );
+					AST_Failure( "Unexpected operand type for unary not" );
 					return nullptr;
 				}
 			}
@@ -841,7 +841,7 @@ namespace ast
 					return expr::makeLiteral( cache
 						, operand.getValue< expr::LiteralType::eDouble >() == 0.0 );
 				default:
-					assert( false && "Unexpected operand type for unary not" );
+					AST_Failure( "Unexpected operand type for unary not" );
 					return nullptr;
 				}
 			}
@@ -884,7 +884,7 @@ namespace ast
 					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eDouble >() );
 				default:
-					assert( false && "Unexpected operand type for unary not" );
+					AST_Failure( "Unexpected operand type for unary not" );
 					return nullptr;
 				}
 			}
@@ -909,7 +909,7 @@ namespace ast
 				case expr::LiteralType::eDouble:
 					return CastLiteralTo< double >::cast( cache, operand );
 				default:
-					assert( false && "Unexpected operand type for unary not" );
+					AST_Failure( "Unexpected operand type for unary not" );
 					return nullptr;
 				}
 			}
@@ -991,7 +991,7 @@ namespace ast
 						m_result = replaceLiteral< LogNegateLiteral >( expr->getCache(), literal );
 						break;
 					default:
-						assert( false && "Unexpected unary expression" );
+						AST_Failure( "Unexpected unary expression" );
 						m_result = ExprCloner::submit( expr );
 						break;
 					}
@@ -1070,7 +1070,7 @@ namespace ast
 						m_result = replaceLiterals< CompNEqualLiterals >( expr->getCache(), lhsLiteral, rhsLiteral );
 						break;
 					default:
-						assert( false && "Unexpected binary expression" );
+						AST_Failure( "Unexpected binary expression" );
 						m_result = ExprCloner::submit( expr );
 						break;
 					}
@@ -1134,7 +1134,7 @@ namespace ast
 						m_result = expr::makeNotEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					default:
-						assert( false && "Unexpected binary expression" );
+						AST_Failure( "Unexpected binary expression" );
 						m_result = ExprCloner::submit( expr );
 						break;
 					}

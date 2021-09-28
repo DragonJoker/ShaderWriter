@@ -119,7 +119,7 @@ namespace spirv
 				}
 			}
 
-			assert( false && "Non terminated string" );
+			AST_Failure( "Non terminated string" );
 			return std::string{};
 		}
 
@@ -558,7 +558,7 @@ namespace spirv
 			case spv::OpUndef:
 				return UndefInstruction::config;
 			default:
-				assert( false && "Unsupported Instruction operator" );
+				AST_Failure( "Unsupported Instruction operator" );
 				return dummy;
 			}
 		}

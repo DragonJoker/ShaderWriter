@@ -393,7 +393,7 @@ namespace ast::type
 		case Kind::eMat4x4D:
 			return m_basicTypes[size_t( Kind::eMat4x4D )];
 		default:
-			assert( false && "Unexpected Kind" );
+			AST_Failure( "Unexpected Kind" );
 			return nullptr;
 		}
 	}
@@ -415,7 +415,7 @@ namespace ast::type
 		case Kind::eDouble:
 			return getVec2D();
 		default:
-			assert( false && "Unsupported component type." );
+			AST_Failure( "Unsupported component type." );
 			return nullptr;
 		}
 	}
@@ -435,7 +435,7 @@ namespace ast::type
 		case Kind::eDouble:
 			return getVec3D();
 		default:
-			assert( false && "Unsupported component type." );
+			AST_Failure( "Unsupported component type." );
 			return nullptr;
 		}
 	}
@@ -457,7 +457,7 @@ namespace ast::type
 		case Kind::eDouble:
 			return getVec4D();
 		default:
-			assert( false && "Unsupported component type." );
+			AST_Failure( "Unsupported component type." );
 			return nullptr;
 		}
 	}
@@ -551,7 +551,7 @@ namespace ast::type
 		case ImageFormat::eR8u:
 			return getBasicType( sampledType< ImageFormat::eR8u > );
 		default:
-			assert( false && "getSampledType: Unsupported ImageFormat" );
+			AST_Failure( "getSampledType: Unsupported ImageFormat" );
 			return nullptr;
 		}
 	}
@@ -611,7 +611,7 @@ namespace ast::type
 		case ImageFormat::eR8u:
 			return getBasicType( texelType< ImageFormat::eR8u > );
 		default:
-			assert( false && "getTexelType: Unsupported ImageFormat" );
+			AST_Failure( "getTexelType: Unsupported ImageFormat" );
 			return nullptr;
 		}
 	}

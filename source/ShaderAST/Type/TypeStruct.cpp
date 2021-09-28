@@ -47,7 +47,7 @@ namespace ast::type
 				return 1u;
 
 			default:
-				assert( false && "Unsupported type::Kind" );
+				AST_Failure( "Unsupported type::Kind" );
 				return 0u;
 			}
 		}

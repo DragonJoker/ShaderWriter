@@ -1808,6 +1808,7 @@ namespace sdw
 			ImageSampleT< FormatT > sample( SampleT const & coord
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -1836,6 +1837,7 @@ namespace sdw
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -1865,6 +1867,7 @@ namespace sdw
 				, OffsetT const & offset
 				, Float const & bias )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -1895,6 +1898,7 @@ namespace sdw
 				, OffsetT const & offset
 				, Float const & bias )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -1979,6 +1983,7 @@ namespace sdw
 				, Float const & lod
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2009,6 +2014,7 @@ namespace sdw
 				, Float const & lod
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -2142,6 +2148,7 @@ namespace sdw
 			ImageSampleT< FormatT > proj( SampleProjT const & coord
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2170,6 +2177,7 @@ namespace sdw
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -2199,6 +2207,7 @@ namespace sdw
 				, OffsetT const & offset
 				, Float const & bias )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2229,6 +2238,7 @@ namespace sdw
 				, OffsetT const & offset
 				, Float const & bias )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -2313,6 +2323,7 @@ namespace sdw
 				, Float const & lod
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2343,6 +2354,7 @@ namespace sdw
 				, Float const & lod
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -2423,6 +2435,7 @@ namespace sdw
 				, Int const & level
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texelFetchOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2514,6 +2527,7 @@ namespace sdw
 				, DerivativeT const & dPdy
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2547,6 +2561,7 @@ namespace sdw
 				, DerivativeT const & dPdy
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
@@ -2640,6 +2655,7 @@ namespace sdw
 				, DerivativeT const & dPdy
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
@@ -2672,6 +2688,7 @@ namespace sdw
 				, DerivativeT const & dPdy
 				, OffsetT const & offset )const
 			{
+				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
