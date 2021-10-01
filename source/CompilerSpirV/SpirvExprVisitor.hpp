@@ -20,84 +20,89 @@ namespace spirv
 		: public ast::expr::SimpleVisitor
 	{
 	public:
-		static spv::Id submit( ast::expr::Expr * expr
+		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
-			, bool loadVariable = true );
-		static spv::Id submit( ast::expr::Expr * expr
+			, bool loadVariable = true
+			, bool isAlias = false );
+		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool loadVariable
-			, LoadedVariableArray & loadedVariables );
-		static spv::Id submit( ast::expr::Expr * expr
+			, LoadedVariableArray & loadedVariables
+			, bool isAlias = false );
+		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
-			, spv::Id initialiser
+			, ValueId initialiser
 			, bool hasFuncInit
-			, LoadedVariableArray & loadedVariables );
+			, LoadedVariableArray & loadedVariables
+			, bool isAlias = false );
 
 	private:
-		static spv::Id submit( ast::expr::Expr * expr
-			, PreprocContext const & context
-			, Block & currentBlock
-			, Module & module
-			, bool & allLiterals
-			, bool loadVariable );
-		static spv::Id submit( ast::expr::Expr * expr
+		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool loadVariable
-			, LoadedVariableArray & loadedVariables );
-		static spv::Id submit( ast::expr::Expr * expr
+			, bool isAlias );
+		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
-			, spv::Id initialiser
+			, bool loadVariable
+			, LoadedVariableArray & loadedVariables
+			, bool isAlias );
+		static ValueId submit( ast::expr::Expr * expr
+			, PreprocContext const & context
+			, Block & currentBlock
+			, Module & module
+			, bool & allLiterals
+			, ValueId initialiser
 			, bool hasFuncInit
-			, LoadedVariableArray & loadedVariables );
+			, LoadedVariableArray & loadedVariables
+			, bool isAlias );
 
-		ExprVisitor( spv::Id & result
+		ExprVisitor( ValueId & result
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool loadVariable
-			, LoadedVariableArray & loadedVariables );
-		ExprVisitor( spv::Id & result
+			, LoadedVariableArray & loadedVariables
+			, bool isAlias );
+		ExprVisitor( ValueId & result
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
-			, spv::Id initialiser
+			, ValueId initialiser
 			, bool hasFuncInit
+			, LoadedVariableArray & loadedVariables
+			, bool isAlias );
+		ValueId doSubmit( ast::expr::Expr * expr );
+		ValueId doSubmit( ast::expr::Expr * expr
 			, LoadedVariableArray & loadedVariables );
-		spv::Id doSubmit( ast::expr::Expr * expr );
-		spv::Id doSubmit( ast::expr::Expr * expr
-			, LoadedVariableArray & loadedVariables );
-		spv::Id doSubmit( ast::expr::Expr * expr
+		ValueId doSubmit( ast::expr::Expr * expr
 			, bool loadVariable );
-		spv::Id doSubmit( ast::expr::Expr * expr
-			, spv::Id initialiser
+		ValueId doSubmit( ast::expr::Expr * expr
+			, ValueId initialiser
 			, bool hasFuncInit );
-		spv::Id doSubmit( ast::expr::Expr * expr
+		ValueId doSubmit( ast::expr::Expr * expr
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
-		spv::Id doSubmit( ast::expr::Expr * expr
+		ValueId doSubmit( ast::expr::Expr * expr
 			, bool & allLiterals
 			, bool loadVariable );
-		spv::Id doSubmit( ast::expr::Expr * expr
+		ValueId doSubmit( ast::expr::Expr * expr
 			, bool & allLiterals
 			, bool loadVariable
 			, LoadedVariableArray & loadedVariables );
-
-		void visitAssignmentExpr( ast::expr::Assign * expr );
-		void visitOpAssignmentExpr( ast::expr::Assign * expr );
 
 		void visitUnaryExpr( ast::expr::Unary * expr )override;
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
@@ -135,51 +140,53 @@ namespace spirv
 		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitAliasExpr( ast::expr::Alias * expr )override;
 
 		void handleTexelPointerImageAccessCall( spv::Op opCode, ast::expr::ImageAccessCall * expr );
 		void handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
-		void handleExtensionIntrinsicCallExpr( spv::Id opCode, ast::expr::IntrinsicCall * expr );
+		void handleExtensionIntrinsicCallExpr( spv::Id opCodeId, ast::expr::IntrinsicCall * expr );
 		void handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
-		spv::Id getUnsignedExtendedResultTypeId( uint32_t count );
-		spv::Id getSignedExtendedResultTypeId( uint32_t count );
-		spv::Id getVariableIdNoLoad( ast::expr::Expr * expr );
-		spv::Id loadVariable( spv::Id varId
-			, ast::type::TypePtr type );
-		spv::Id makeFunctionAlias( spv::Id source
+		ValueId getUnsignedExtendedResultTypeId( uint32_t count );
+		ValueId getSignedExtendedResultTypeId( uint32_t count );
+		ValueId getVariablePointerId( ast::expr::Expr * expr );
+		ValueId loadVariable( ValueId varId );
+		void storeVariable( ValueId varId, ValueId valId );
+		ValueId makeFunctionAlias( ValueId source );
+		ValueId makeFunctionAlias( ValueId source
 			, ast::type::TypePtr type );
 
-		spv::Id writeBinOpExpr( ast::expr::Kind exprKind
+		ValueId writeBinOpExpr( ast::expr::Kind exprKind
 			, ast::type::Kind lhsTypeKind
 			, ast::type::Kind rhsTypeKind
-			, spv::Id typeId
-			, spv::Id lhsId
-			, spv::Id rhsId
+			, ValueId typeId
+			, ValueId lhsId
+			, ValueId rhsId
 			, bool isLhsSpecConstant );
 
-		void initialiseVariable( spv::Id init
+		bool initialiseVariable( ValueId init
 			, bool allLiterals
 			, bool isFuncInit
 			, ast::var::VariablePtr var
 			, ast::type::TypePtr type );
-		spv::Id visitInitialisers( ast::expr::ExprList const & initialisers
+		ValueId visitInitialisers( ast::expr::ExprList const & initialisers
 			, ast::type::TypePtr type
 			, bool & allLiterals
 			, bool & hasFuncInit );
 	private:
 		spirv::PreprocContext const & m_context;
-		spv::Id & m_result;
+		ValueId & m_result;
 		Block & m_currentBlock;
 		Module & m_module;
 		bool & m_allLiterals;
 		bool m_loadVariable;
-		spv::Id m_initialiser;
+		ValueId m_initialiser;
 		bool m_hasFuncInit{ false };
+		bool m_isAlias;
 		LoadedVariableArray & m_loadedVariables;
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
-		VariableInfo m_info;
 		uint32_t m_aliasId{ 1u };
 	};
 }

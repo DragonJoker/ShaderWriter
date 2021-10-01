@@ -14,132 +14,6 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	inline ast::expr::TextureAccess getCompAccess( ast::expr::TextureAccess value )
-	{
-		switch ( value )
-		{
-		case ast::expr::TextureAccess::eTextureGather2DF:
-			return ast::expr::TextureAccess::eTextureGather2DFComp;
-		case ast::expr::TextureAccess::eTextureGather2DArrayF:
-			return ast::expr::TextureAccess::eTextureGather2DArrayFComp;
-		case ast::expr::TextureAccess::eTextureGatherCubeF:
-			return ast::expr::TextureAccess::eTextureGatherCubeFComp;
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayF:
-			return ast::expr::TextureAccess::eTextureGatherCubeArrayFComp;
-		case ast::expr::TextureAccess::eTextureGather2DRectF:
-			return ast::expr::TextureAccess::eTextureGather2DRectFComp;
-		case ast::expr::TextureAccess::eTextureGather2DI:
-			return ast::expr::TextureAccess::eTextureGather2DIComp;
-		case ast::expr::TextureAccess::eTextureGather2DArrayI:
-			return ast::expr::TextureAccess::eTextureGather2DArrayIComp;
-		case ast::expr::TextureAccess::eTextureGatherCubeI:
-			return ast::expr::TextureAccess::eTextureGatherCubeIComp;
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayI:
-			return ast::expr::TextureAccess::eTextureGatherCubeArrayIComp;
-		case ast::expr::TextureAccess::eTextureGather2DRectI:
-			return ast::expr::TextureAccess::eTextureGather2DRectIComp;
-		case ast::expr::TextureAccess::eTextureGather2DU:
-			return ast::expr::TextureAccess::eTextureGather2DUComp;
-		case ast::expr::TextureAccess::eTextureGather2DArrayU:
-			return ast::expr::TextureAccess::eTextureGather2DArrayUComp;
-		case ast::expr::TextureAccess::eTextureGatherCubeU:
-			return ast::expr::TextureAccess::eTextureGatherCubeUComp;
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayU:
-			return ast::expr::TextureAccess::eTextureGatherCubeArrayUComp;
-		case ast::expr::TextureAccess::eTextureGather2DRectU:
-			return ast::expr::TextureAccess::eTextureGather2DRectUComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DF:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DFComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DArrayFComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectF:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DRectFComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DI:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DIComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayI:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DArrayIComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectI:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DRectIComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DU:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DUComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayU:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DArrayUComp;
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectU:
-			return ast::expr::TextureAccess::eTextureGatherOffset2DRectUComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DF:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DFComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayF:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DArrayFComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectF:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DRectFComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DI:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DIComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayI:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DArrayIComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectI:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DRectIComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DU:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DUComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayU:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp;
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
-			return ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp;
-
-		default:
-			throw std::runtime_error{ "Unsupported TextureAccess type." };
-		}
-	}
-
-	inline bool hasComp( ast::expr::TextureAccess value )
-	{
-		bool result{};
-
-		switch ( value )
-		{
-		case ast::expr::TextureAccess::eTextureGather2DFComp:
-		case ast::expr::TextureAccess::eTextureGather2DArrayFComp:
-		case ast::expr::TextureAccess::eTextureGatherCubeFComp:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayFComp:
-		case ast::expr::TextureAccess::eTextureGather2DRectFComp:
-		case ast::expr::TextureAccess::eTextureGather2DIComp:
-		case ast::expr::TextureAccess::eTextureGather2DArrayIComp:
-		case ast::expr::TextureAccess::eTextureGatherCubeIComp:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayIComp:
-		case ast::expr::TextureAccess::eTextureGather2DRectIComp:
-		case ast::expr::TextureAccess::eTextureGather2DUComp:
-		case ast::expr::TextureAccess::eTextureGather2DArrayUComp:
-		case ast::expr::TextureAccess::eTextureGatherCubeUComp:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayUComp:
-		case ast::expr::TextureAccess::eTextureGather2DRectUComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DIComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayIComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectIComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DUComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayUComp:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectUComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectFComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DIComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayIComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectIComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DUComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
-			result = true;
-			break;
-
-		default:
-			result = false;
-			break;
-		}
-
-		return result;
-	}
-
 	inline spv::ImageOperandsMask getLod( ast::expr::TextureAccess value )
 	{
 		spv::ImageOperandsMask result{};
@@ -567,23 +441,14 @@ namespace spirv
 			result = spv::ImageOperandsConstOffsetMask;
 			break;
 		case ast::expr::TextureAccess::eTextureGatherOffset2DF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DI:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayI:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectI:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DU:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayU:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectU:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
@@ -610,23 +475,14 @@ namespace spirv
 		switch ( value )
 		{
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DI:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayI:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectI:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DU:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayU:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
@@ -1390,83 +1246,50 @@ namespace spirv
 
 	// Texture Gather Functions
 		case ast::expr::TextureAccess::eTextureGather2DF:
-		case ast::expr::TextureAccess::eTextureGather2DFComp:
 		case ast::expr::TextureAccess::eTextureGather2DArrayF:
-		case ast::expr::TextureAccess::eTextureGather2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherCubeF:
-		case ast::expr::TextureAccess::eTextureGatherCubeFComp:
 		case ast::expr::TextureAccess::eTextureGatherCubeArrayF:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayFComp:
 		case ast::expr::TextureAccess::eTextureGather2DRectF:
-		case ast::expr::TextureAccess::eTextureGather2DRectFComp:
 		case ast::expr::TextureAccess::eTextureGather2DI:
-		case ast::expr::TextureAccess::eTextureGather2DIComp:
 		case ast::expr::TextureAccess::eTextureGather2DArrayI:
-		case ast::expr::TextureAccess::eTextureGather2DArrayIComp:
 		case ast::expr::TextureAccess::eTextureGatherCubeI:
-		case ast::expr::TextureAccess::eTextureGatherCubeIComp:
 		case ast::expr::TextureAccess::eTextureGatherCubeArrayI:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayIComp:
 		case ast::expr::TextureAccess::eTextureGather2DRectI:
-		case ast::expr::TextureAccess::eTextureGather2DRectIComp:
 		case ast::expr::TextureAccess::eTextureGather2DU:
-		case ast::expr::TextureAccess::eTextureGather2DUComp:
 		case ast::expr::TextureAccess::eTextureGather2DArrayU:
-		case ast::expr::TextureAccess::eTextureGather2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherCubeU:
-		case ast::expr::TextureAccess::eTextureGatherCubeUComp:
 		case ast::expr::TextureAccess::eTextureGatherCubeArrayU:
-		case ast::expr::TextureAccess::eTextureGatherCubeArrayUComp:
 		case ast::expr::TextureAccess::eTextureGather2DRectU:
-		case ast::expr::TextureAccess::eTextureGather2DRectUComp:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGatherOffset2DF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectF:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DI:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayI:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectI:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DU:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayU:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectU:
-		case ast::expr::TextureAccess::eTextureGatherOffset2DRectUComp:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectF:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectFComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DI:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayI:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectI:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectIComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DU:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayU:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayUComp:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectU:
-		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGather2DShadowF:
@@ -1483,7 +1306,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffset2DRectShadowF:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
@@ -1491,7 +1314,7 @@ namespace spirv
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
 			break;
 
 		default:

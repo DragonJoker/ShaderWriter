@@ -15,10 +15,13 @@ namespace hlsl
 		: public ast::expr::SimpleVisitor
 	{
 	public:
-		static std::string submit( ast::expr::Expr * expr );
+		static std::string submit( ast::expr::Expr * expr
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases );
 
 	private:
-		ExprVisitor( std::string & result );
+		ExprVisitor( std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+			, std::string & result );
+		std::string doSubmit( ast::expr::Expr * expr );
 		void wrap( ast::expr::Expr * expr );
 		void visitAssignmentExpr( ast::expr::Binary * expr );
 
@@ -51,6 +54,7 @@ namespace hlsl
 		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitAliasExpr( ast::expr::Alias * expr )override;
 
 		void doProcessMemberTexture( ast::expr::TextureAccessCall * expr );
 		void doProcessNonMemberTexture( ast::expr::TextureAccessCall * expr );
@@ -58,6 +62,7 @@ namespace hlsl
 
 	private:
 		std::string & m_result;
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 	};
 }
 

@@ -33,10 +33,13 @@ namespace hlsl
 		uint32_t index;
 	};
 	std::string getSemantic( std::string const & name
+		, ast::type::TypePtr type
 		, Semantic & defaultSemantic );
 
 	using LinkedVars = std::map< ast::var::VariablePtr, std::pair< ast::var::VariablePtr, ast::var::VariablePtr > >;
-	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var, LinkedVars & linkedVars );
+	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var
+		, LinkedVars & linkedVars
+		, uint32_t & nextVarId );
 
 	using VariableExprMap = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
 	using VariableIdMap = std::map< uint32_t, ast::var::VariablePtr >;
@@ -76,6 +79,7 @@ namespace hlsl
 		FuncNames funcs;
 		VarReplacements replacedVars;
 		uint32_t aliasId{ 0u };
+		uint32_t nextVarId{ 0u };
 	};
 
 	struct IntrinsicsConfig

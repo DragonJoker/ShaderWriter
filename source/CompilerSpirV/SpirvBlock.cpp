@@ -11,22 +11,32 @@ namespace spirv
 {
 	//*************************************************************************
 
-	size_t IdListHasher::operator()( IdList const & list )const
+	Block::Block( Block && rhs )
+		: label{ std::move( rhs.label ) }
+		, instructions{ std::move( rhs.instructions ) }
+		, blockEnd{ std::move( rhs.blockEnd ) }
+		, accessChains{ std::move( rhs.accessChains ) }
+		, vectorShuffles{ std::move( rhs.vectorShuffles ) }
+		, isInterrupted{ std::move( rhs.isInterrupted ) }
 	{
-		assert( !list.empty() );
-		auto hash = std::hash< spv::Id >{}( list[0] );
-
-		std::for_each( list.begin() + 1u
-			, list.end()
-			, [&hash]( spv::Id id )
-			{
-				ast::type::hashCombine( hash, id );
-			} );
-
-		return hash;
+		rhs.label = {};
+		rhs.isInterrupted = {};
 	}
 
-	//*************************************************************************
+	Block & Block::operator=( Block && rhs )
+	{
+		label = std::move( rhs.label );
+		instructions = std::move( rhs.instructions );
+		blockEnd = std::move( rhs.blockEnd );
+		accessChains = std::move( rhs.accessChains );
+		vectorShuffles = std::move( rhs.vectorShuffles );
+		isInterrupted = std::move( rhs.isInterrupted );
+
+		rhs.label = {};
+		rhs.isInterrupted = {};
+
+		return *this;
+	}
 
 	Block::Block( spv::Id plabel )
 		: label{ plabel }

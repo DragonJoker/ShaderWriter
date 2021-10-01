@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "TypeArray.hpp"
 #include "TypeFunction.hpp"
 #include "TypeImage.hpp"
+#include "TypePointer.hpp"
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
 #include "TypeStruct.hpp"
@@ -121,6 +122,8 @@ namespace ast::type
 		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex );
 		SDAST_API Type const * getNonMemberType( TypePtr type );
 
+		SDAST_API TypePtr getPointerType( TypePtr pointerType, Storage storage );
+
 	private:
 		std::array< TypePtr, size_t( Kind::eMax ) > m_basicTypes;
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
@@ -129,6 +132,7 @@ namespace ast::type
 		TypeCache< Function, std::function< FunctionPtr( TypePtr, var::VariableList ) >, std::function< size_t( TypePtr, var::VariableList ) > > m_function;
 		TypeCache< Struct, std::function< StructPtr( MemoryLayout, std::string ) >, std::function< size_t( MemoryLayout, std::string const & ) > > m_struct;
 		TypeCache< Array, std::function< ArrayPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_array;
+		TypeCache< Pointer, std::function< PointerPtr( TypePtr, Storage ) >, std::function< size_t( TypePtr, Storage ) > > m_pointer;
 		struct MemberTypeInfo
 		{
 			TypePtr nonMemberType;

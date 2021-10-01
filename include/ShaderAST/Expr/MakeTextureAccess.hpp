@@ -80939,16 +80939,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DFRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -80957,16 +80962,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DFRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -80975,16 +80985,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DFRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -80993,16 +81008,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DFRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81011,16 +81031,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DFR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81029,152 +81054,19 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DFR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DF
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DFComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -81185,16 +81077,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81203,16 +81100,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81221,16 +81123,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayFRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81239,16 +81146,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81257,16 +81169,21 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayFR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81275,152 +81192,19 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayFR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DArrayF
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DArrayFComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -81431,16 +81215,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeFRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81449,16 +81238,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeFRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81467,16 +81261,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeFRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81485,16 +81284,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeFRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81503,16 +81307,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeFR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81521,152 +81330,19 @@ namespace ast::expr
 	*	SampledImage<Float, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeFR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeF
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeFComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -81677,16 +81353,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81695,16 +81376,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81713,16 +81399,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayFRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81731,16 +81422,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81749,16 +81445,21 @@ namespace ast::expr
 	*	SampledImage<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayFR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeArrayF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81767,152 +81468,19 @@ namespace ast::expr
 	*	SampledImage<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayFR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherCubeArrayF
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherCubeArrayFComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -81923,16 +81491,21 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectFRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DRectF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81941,16 +81514,21 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectFRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DRectF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81959,16 +81537,21 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectFRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DRectF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81977,16 +81560,21 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectFRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DRectF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -81995,16 +81583,21 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectFR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DRectF
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82013,152 +81606,19 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectFR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGather2DRectF
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGather2DRectFComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -82169,16 +81629,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82187,16 +81652,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82205,16 +81675,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIRgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82223,16 +81698,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82241,16 +81721,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82259,16 +81744,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIRg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82277,16 +81767,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82295,16 +81790,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82313,221 +81813,19 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DIR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DI
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DIComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -82538,16 +81836,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82556,16 +81859,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82574,16 +81882,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82592,16 +81905,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82610,16 +81928,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82628,16 +81951,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIRg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82646,16 +81974,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82664,16 +81997,21 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82682,221 +82020,19 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayIR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DArrayI
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DArrayIComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -82907,16 +82043,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82925,16 +82066,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82943,16 +82089,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIRgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82961,16 +82112,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82979,16 +82135,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -82997,16 +82158,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIRg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83015,16 +82181,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83033,16 +82204,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83051,221 +82227,19 @@ namespace ast::expr
 	*	SampledImage<Int, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeIR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeI
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeIComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -83276,16 +82250,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83294,16 +82273,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83312,16 +82296,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83330,16 +82319,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83348,16 +82342,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83366,16 +82365,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIRg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83384,16 +82388,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83402,16 +82411,21 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83420,221 +82434,19 @@ namespace ast::expr
 	*	SampledImage<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayIR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherCubeArrayI
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherCubeArrayIComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -83645,16 +82457,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIRgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83663,16 +82480,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIRgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83681,16 +82503,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIRgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83699,16 +82526,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIRg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83717,16 +82549,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIRg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83735,16 +82572,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIRg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83753,16 +82595,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83771,16 +82618,21 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -83789,221 +82641,19 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectIR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGather2DRectI
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGather2DRectIComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -84014,16 +82664,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DURgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84032,16 +82687,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DURgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84050,16 +82710,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DURgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84068,16 +82733,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DURg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84086,16 +82756,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DURg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84104,16 +82779,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DURg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84122,16 +82802,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DUR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84140,16 +82825,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DUR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84158,221 +82848,19 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DUR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DU
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DUComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -84383,16 +82871,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayURgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84401,16 +82894,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayURgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84419,16 +82917,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayURgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84437,16 +82940,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayURg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84455,16 +82963,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayURg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84473,16 +82986,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayURg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84491,16 +83009,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayUR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84509,16 +83032,21 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayUR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84527,221 +83055,19 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DArrayUR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DArrayU
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DArrayUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DArrayUComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -84752,16 +83078,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeURgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84770,16 +83101,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeURgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84788,16 +83124,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeURgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84806,16 +83147,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeURg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84824,16 +83170,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeURg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84842,16 +83193,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeURg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84860,16 +83216,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeUR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84878,16 +83239,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeUR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -84896,221 +83262,19 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeUR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeU
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube>
-	*@param[in] P
-	*	vec3f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeUComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -85121,16 +83285,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayURgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85139,16 +83308,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayURgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85157,16 +83331,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayURgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85175,16 +83354,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayURg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85193,16 +83377,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayURg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85211,16 +83400,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayURg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85229,16 +83423,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayUR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85247,16 +83446,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayUR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85265,221 +83469,19 @@ namespace ast::expr
 	*	SampledImage<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGatherCubeArrayUR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec4F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherCubeArrayU
 			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Cube, Array>
-	*@param[in] P
-	*	vec4f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherCubeArrayUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec4F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherCubeArrayUComp
-			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
 	}
@@ -85490,16 +83492,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectURgba32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85508,16 +83515,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectURgba16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85526,16 +83538,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectURgba8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85544,16 +83561,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectURg32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85562,16 +83584,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectURg16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85580,16 +83607,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectURg8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85598,16 +83630,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectUR32( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85616,16 +83653,21 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectUR16( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
 			, std::move( image )
-			, std::move( P ) );
+			, std::move( P )
+			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -85634,220 +83676,18 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*/
 	inline TextureAccessCallPtr makeTextureGather2DRectUR8( type::TypesCache & cache
 		, ExprPtr image
-		, ExprPtr P )
+		, ExprPtr P
+		, ExprPtr comp )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGather2DRectU
-			, std::move( image )
-			, std::move( P ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGather2DRectUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGather2DRectUComp
 			, std::move( image )
 			, std::move( P )
 			, std::move( comp ) );
@@ -85859,20 +83699,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DFRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -85882,20 +83727,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DFRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -85905,20 +83755,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DFRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -85928,20 +83783,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DFRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -85951,20 +83811,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -85974,189 +83839,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DFR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -86165,20 +83867,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86188,20 +83895,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86211,20 +83923,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86234,20 +83951,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86257,20 +83979,25 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86280,189 +84007,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -86471,20 +84035,25 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86494,20 +84063,25 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86517,20 +84091,25 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86540,20 +84119,25 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86563,20 +84147,25 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86586,189 +84175,26 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffset2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffset2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -86777,20 +84203,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86800,20 +84231,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86823,20 +84259,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIRgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86846,20 +84287,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86869,20 +84315,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86892,20 +84343,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIRg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86915,20 +84371,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86938,20 +84399,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -86961,273 +84427,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DIR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -87236,20 +84455,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87259,20 +84483,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87282,20 +84511,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87305,20 +84539,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87328,20 +84567,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87351,20 +84595,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIRg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87374,20 +84623,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87397,20 +84651,25 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87420,273 +84679,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayIR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -87695,20 +84707,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87718,20 +84735,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87741,20 +84763,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIRgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87764,20 +84791,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87787,20 +84819,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87810,20 +84847,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIRg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87833,20 +84875,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87856,20 +84903,25 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -87879,273 +84931,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectIR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffset2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffset2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -88154,20 +84959,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DURgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88177,20 +84987,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DURgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88200,20 +85015,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DURgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88223,20 +85043,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DURg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88246,20 +85071,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DURg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88269,20 +85099,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DURg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88292,20 +85127,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88315,20 +85155,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DUR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88338,273 +85183,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DUR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -88613,20 +85211,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayURgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88636,20 +85239,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayURgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88659,20 +85267,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayURgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88682,20 +85295,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayURg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88705,20 +85323,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayURg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88728,20 +85351,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayURg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88751,20 +85379,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88774,20 +85407,25 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -88797,273 +85435,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DArrayUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -89072,20 +85463,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectURgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89095,20 +85491,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectURgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89118,20 +85519,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectURgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89141,20 +85547,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectURg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89164,20 +85575,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectURg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89187,20 +85603,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectURg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89210,20 +85631,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89233,20 +85659,25 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
 	}
 	/**
@@ -89256,273 +85687,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offset
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offset )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offset->getType()->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffset2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offset ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offset
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffset2DRectUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offset
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offset->getType()->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffset2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offset )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -89531,21 +85715,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DFRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89555,21 +85744,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DFRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89579,21 +85773,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DFRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89603,21 +85802,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DFRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89627,21 +85831,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89651,196 +85860,27 @@ namespace ast::expr
 	*	SampledImage<Float, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DFR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -89849,21 +85889,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89873,21 +85918,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89897,21 +85947,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89921,21 +85976,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89945,21 +86005,26 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -89969,196 +86034,27 @@ namespace ast::expr
 	*	SampledImage<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DArrayF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DArrayFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -90167,21 +86063,26 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90191,21 +86092,26 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90215,21 +86121,26 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90239,21 +86150,26 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90263,21 +86179,26 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90287,196 +86208,27 @@ namespace ast::expr
 	*	SampledImage<Float, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
 			, TextureAccess::eTextureGatherOffsets2DRectF
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4f
-	*@param image
-	*	SampledImage<Float, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectFCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4F )
-			, TextureAccess::eTextureGatherOffsets2DRectFComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -90485,21 +86237,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90509,21 +86266,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90533,21 +86295,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIRgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90557,21 +86324,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90581,21 +86353,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90605,21 +86382,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIRg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90629,21 +86411,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90653,21 +86440,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90677,283 +86469,27 @@ namespace ast::expr
 	*	SampledImage<Int, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DIR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -90962,21 +86498,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -90986,21 +86527,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91010,21 +86556,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91034,21 +86585,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91058,21 +86614,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91082,21 +86643,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIRg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91106,21 +86672,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91130,21 +86701,26 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91154,283 +86730,27 @@ namespace ast::expr
 	*	SampledImage<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayIR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DArrayI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DArrayIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -91439,21 +86759,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIRgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91463,21 +86788,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIRgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91487,21 +86817,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIRgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91511,21 +86846,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIRg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91535,21 +86875,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIRg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91559,21 +86904,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIRg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91583,21 +86933,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91607,21 +86962,26 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91631,283 +86991,27 @@ namespace ast::expr
 	*	SampledImage<Int, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectIR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
 			, TextureAccess::eTextureGatherOffsets2DRectI
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4i
-	*@param image
-	*	SampledImage<Int, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectICompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4I )
-			, TextureAccess::eTextureGatherOffsets2DRectIComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -91916,21 +87020,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DURgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91940,21 +87049,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DURgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91964,21 +87078,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DURgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -91988,21 +87107,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DURg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92012,21 +87136,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DURg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92036,21 +87165,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DURg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92060,21 +87194,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92084,21 +87223,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DUR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92108,283 +87252,27 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DUR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -92393,21 +87281,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayURgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92417,21 +87310,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayURgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92441,21 +87339,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayURgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92465,21 +87368,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayURg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92489,21 +87397,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayURg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92513,21 +87426,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayURg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92537,21 +87455,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92561,21 +87484,26 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92585,283 +87513,27 @@ namespace ast::expr
 	*	SampledImage<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec3F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DArrayU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, 2D, Array>
-	*@param[in] P
-	*	vec3f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DArrayUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec3F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DArrayUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	/**
 	*@return
@@ -92870,21 +87542,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectURgba32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92894,21 +87571,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectURgba16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92918,21 +87600,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectURgba8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92942,21 +87629,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectURg32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92966,21 +87658,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectURg16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -92990,21 +87687,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectURg8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -93014,21 +87716,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUR32( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -93038,21 +87745,26 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUR16( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
 	}
 	/**
@@ -93062,283 +87774,27 @@ namespace ast::expr
 	*	SampledImage<UInt, Rect>
 	*@param[in] P
 	*	vec2f
+	*@param[in] comp
+	*	int
 	*@param[in] offsets
 	*	vec2i
 	*/
 	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUR8( type::TypesCache & cache
 		, ExprPtr image
 		, ExprPtr P
+		, ExprPtr comp
 		, ExprPtr offsets )
 	{
 		assert( P->getType()->getKind() == type::Kind::eVec2F );
+		assert( comp->getType()->getKind() == type::Kind::eInt );
 		assert( offsets->getType()->getKind() == type::Kind::eArray );
 		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
 		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
 			, TextureAccess::eTextureGatherOffsets2DRectU
 			, std::move( image )
 			, std::move( P )
+			, std::move( comp )
 			, std::move( offsets ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompRgba32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompRgba16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompRgba8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompRg32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompRg16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompRg8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompR32( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompR16( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
-	}
-	/**
-	*@return
-	*	vec4u
-	*@param image
-	*	SampledImage<UInt, Rect>
-	*@param[in] P
-	*	vec2f
-	*@param[in] offsets
-	*	vec2i
-	*@param[in] comp
-	*	int
-	*/
-	inline TextureAccessCallPtr makeTextureGatherOffsets2DRectUCompR8( type::TypesCache & cache
-		, ExprPtr image
-		, ExprPtr P
-		, ExprPtr offsets
-		, ExprPtr comp )
-	{
-		assert( P->getType()->getKind() == type::Kind::eVec2F );
-		assert( offsets->getType()->getKind() == type::Kind::eArray );
-		assert( type::getNonArrayType( offsets->getType() )->getKind() == type::Kind::eVec2I );
-		assert( comp->getType()->getKind() == type::Kind::eInt );
-		return makeTextureAccessCall( cache.getBasicType( type::Kind::eVec4U )
-			, TextureAccess::eTextureGatherOffsets2DRectUComp
-			, std::move( image )
-			, std::move( P )
-			, std::move( offsets )
-			, std::move( comp ) );
 	}
 	// Texture Gather Compare Functions
 

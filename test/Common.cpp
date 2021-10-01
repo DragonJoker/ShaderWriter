@@ -26,6 +26,180 @@ namespace test
 
 	namespace
 	{
+		template< typename LogStreambufTraits >
+		class LogStreambuf
+			: public std::streambuf
+		{
+		public:
+			using string_type = std::string;
+			using ostream_type = std::ostream;
+			using streambuf_type = std::streambuf;
+			using int_type = std::streambuf::int_type;
+			using traits_type = std::streambuf::traits_type;
+
+			LogStreambuf( std::string const & name
+				, std::ostream & stream )
+				: m_stream{ stream }
+				, m_fstream{ getExecutableDirectory() + name + ".log" }
+			{
+				m_old = m_stream.rdbuf( this );
+			}
+
+			~LogStreambuf()noexcept override
+			{
+				m_stream.flush();
+				m_stream.rdbuf( m_old );
+			}
+
+			int_type overflow( int_type c = traits_type::eof() )override
+			{
+				if ( traits_type::eq_int_type( c, traits_type::eof() ) )
+				{
+					do_sync();
+				}
+				else if ( c == '\n' )
+				{
+					do_sync();
+				}
+				else if ( c == '\r' )
+				{
+					m_buffer += '\r';
+					do_sync_no_nl();
+				}
+				else
+				{
+					m_buffer += traits_type::to_char_type( c );
+				}
+
+				return c;
+			}
+
+			int do_sync()
+			{
+				LogStreambufTraits::log( m_fstream, m_buffer );
+				m_buffer.clear();
+				return 0;
+			}
+
+			int do_sync_no_nl()
+			{
+				LogStreambufTraits::logNoNL( m_fstream, m_buffer );
+				m_buffer.clear();
+				return 0;
+			}
+
+		private:
+			string_type m_buffer;
+			ostream_type & m_stream;
+			streambuf_type * m_old;
+			std::ofstream m_fstream;
+		};
+
+		template< typename LogStringbufTraits >
+		class LogStringbuf
+			: public std::streambuf
+		{
+		public:
+			using string_type = std::string;
+			using ostream_type = std::ostream;
+			using streambuf_type = std::streambuf;
+			using int_type = std::streambuf::int_type;
+			using traits_type = std::streambuf::traits_type;
+
+			LogStringbuf( std::string & string
+				, std::ostream & stream )
+				: m_string{ string }
+				, m_stream{ stream }
+			{
+				m_old = m_stream.rdbuf( this );
+			}
+
+			~LogStringbuf()noexcept override
+			{
+				m_stream.flush();
+				m_stream.rdbuf( m_old );
+			}
+
+			int_type overflow( int_type c = traits_type::eof() )override
+			{
+				if ( traits_type::eq_int_type( c, traits_type::eof() ) )
+				{
+					do_sync();
+				}
+				else if ( c == '\n' )
+				{
+					do_sync();
+				}
+				else if ( c == '\r' )
+				{
+					m_buffer += '\r';
+					do_sync_no_nl();
+				}
+				else
+				{
+					m_buffer += traits_type::to_char_type( c );
+				}
+
+				return c;
+			}
+
+			int do_sync()
+			{
+				LogStringbufTraits::log( m_string, m_buffer );
+				m_buffer.clear();
+				return 0;
+			}
+
+			int do_sync_no_nl()
+			{
+				LogStringbufTraits::logNoNL( m_string, m_buffer );
+				m_buffer.clear();
+				return 0;
+			}
+
+		private:
+			string_type m_buffer;
+			std::string & m_string;
+			ostream_type & m_stream;
+			streambuf_type * m_old;
+		};
+
+		struct StreamLogStreambufTraits
+		{
+			static void log( std::ostream & stream
+				, std::string const & text )
+			{
+				printCDBConsole( text, true );
+				stream << text << std::endl;
+				printf( "%s\n", text.c_str() );
+			}
+
+			static void logNoNL( std::ostream & stream
+				, std::string const & text )
+			{
+				printCDBConsole( text, false );
+				stream << text;
+				printf( "%s", text.c_str() );
+			}
+		};
+
+		struct StringLogStreambufTraits
+		{
+			static void log( std::string & stream
+				, std::string const & text )
+			{
+				stream += text + "\n";
+				std::cout << text << std::endl;
+			}
+
+			static void logNoNL( std::string & stream
+				, std::string const & text )
+			{
+				stream += text;
+				std::cout << text;
+			}
+		};
+
 		std::string getPath( std::string const & path )
 		{
 			return path.substr( 0, path.find_last_of( PathSeparator ) );
@@ -33,6 +207,28 @@ namespace test
 	}
 
 #if defined( _WIN32 )
+
+	void printCDBConsole( std::string const & toLog
+		, bool newLine )
+	{
+		if ( ::IsDebuggerPresent() )
+		{
+			int length = MultiByteToWideChar( CP_UTF8, 0u, toLog.c_str(), -1, nullptr, 0u );
+
+			if ( length > 0 )
+			{
+				std::vector< wchar_t > buffer( size_t( length + 1 ), wchar_t{} );
+				MultiByteToWideChar( CP_UTF8, 0u, toLog.c_str(), -1, buffer.data(), length );
+				std::wstring converted{ buffer.begin(), buffer.end() };
+				::OutputDebugStringW( converted.c_str() );
+			}
+
+			if ( newLine )
+			{
+				::OutputDebugStringW( L"\n" );
+			}
+		}
+	}
 
 	uint32_t getCoreCount()
 	{
@@ -59,6 +255,11 @@ namespace test
 	}
 
 #elif defined( __linux__ )
+
+	void printCDBConsole( std::string const &
+		, bool )
+	{
+	}
 
 	uint32_t getCoreCount()
 	{
@@ -97,6 +298,11 @@ namespace test
 	}
 
 #elif defined( __APPLE__ )
+
+	void printCDBConsole( std::string const &
+		, bool )
+	{
+	}
 
 	uint32_t getCoreCount()
 	{
@@ -145,12 +351,18 @@ namespace test
 
 	//*********************************************************************************************
 
+	TestStringStreams::TestStringStreams( std::string & sout )
+		: cout{ sout }
+		, tcout{ std::make_unique< test::LogStringbuf< test::StringLogStreambufTraits > >( sout, cout ) }
+	{
+	}
+
+	//*********************************************************************************************
+
 	TestSuite::TestSuite( std::string const & name )
 		: suiteName{ name }
+		, tcout{ std::make_unique< test::LogStreambuf< test::StreamLogStreambufTraits > >( suiteName, std::cout ) }
 	{
-		tclog = std::make_unique< test::LogStreambuf< test::DebugLogStreambufTraits > >( suiteName, std::clog );
-		tcout = std::make_unique< test::LogStreambuf< test::InfoLogStreambufTraits > >( suiteName, std::cout );
-		tcerr = std::make_unique< test::LogStreambuf< test::ErrorLogStreambufTraits > >( suiteName, std::cerr );
 	}
 
 	TestSuite::~TestSuite()noexcept
@@ -169,12 +381,7 @@ namespace test
 			std::cout << "Total checks count: " << totalCount << std::endl;
 		}
 
-		std::clog.flush();
-		std::cout.flush();
-		std::cerr.flush();
-		tcerr.reset();
 		tcout.reset();
-		tclog.reset();
 	}
 
 	void TestSuite::registerTests( std::string name
@@ -221,15 +428,15 @@ namespace test
 								run->testCount->streams.cout << run->name << " ended cleanly." << std::endl;
 								run->testCount->streams.cout << "Total Checks count: " << result.totalCount << std::endl;
 							}
-
 						}
+
+						std::cout << run->testCount->streams.cout.str();
 					} };
 			}
 
 			for ( auto & thread : threads )
 			{
 				thread.second.join();
-				std::cout << thread.first->testCount->streams.cout.str() << std::endl;
 			}
 		}
 

@@ -7,38 +7,294 @@ namespace spirv
 
 	namespace details
 	{
-		template< typename ... Params >
-		IdList makeOperandsRec( IdList & result, Params ... params );
+		enum class ValueType : uint32_t
+		{
+			eVoid = 0x00000001,
+			eLiteral = 0x00000002,
+			eBool = 0x00000004,
+			eInteger = 0x00000008,
+			eFloat = 0x00000010,
+			eVector = 0x00000020,
+			eMatrix = 0x00000040,
+			eImage = 0x00000080,
+			eSampler = 0x00000100,
+			eSampledImage = 0x00000200,
+			eArray = 0x00000400,
+			eRuntimeArray = 0x00000800,
+			eStruct = 0x00001000,
+			ePointer = 0x00002000,
+			eFunction = 0x00004000,
+			eComposite = 0x00008000,
 
-		inline void makeOperandsRec( IdList & result, spv::Id param )
+			eIntegerOrFloat = eInteger | eFloat,
+			eScalar = eBool | eIntegerOrFloat,
+			eScalarOrVoid = eVoid | eScalar,
+			eAny = 0xFFFFFFFF,
+			eNonPointer = ( eAny & ~( ePointer ) )
+		};
+
+		template< ValueType ... ParamsT >
+		struct ValueTypeListT
+		{
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT
+		{
+			using ArePointer = ValueTypeListT<>;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpMemberDecorate >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eStruct, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpMemberName >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eStruct, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeBool >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeInt >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eInteger, ValueType::eLiteral, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeFloat >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eFloat, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeVector >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eVector, ValueType::eScalar, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeMatrix >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eMatrix, ValueType::eVector, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeImage >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eImage, ValueType::eScalarOrVoid, ValueType::eAny, ValueType::eAny, ValueType::eAny, ValueType::eAny, ValueType::eAny, ValueType::eAny >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeSampler >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eSampler >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeSampledImage >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eSampledImage, ValueType::eImage >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeArray >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eArray, ValueType::eAny, ValueType::eInteger >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeRuntimeArray >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eRuntimeArray, ValueType::eAny >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeStruct >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eStruct >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypePointer >
+		{
+			using ArePointer = ValueTypeListT< ValueType::ePointer, ValueType::eInteger >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpTypeFunction >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eFunction >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpConstantTrue >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eBool, ValueType::eNonPointer >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpConstantFalse >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eBool, ValueType::eNonPointer >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpConstant >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eIntegerOrFloat, ValueType::eNonPointer, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpConstantComposite >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eComposite, ValueType::eNonPointer >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpSpecConstantTrue >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eBool, ValueType::eNonPointer >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpSpecConstantFalse >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eBool, ValueType::eNonPointer >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpSpecConstant >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eIntegerOrFloat, ValueType::eNonPointer, ValueType::eLiteral >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpSpecConstantComposite >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eComposite, ValueType::eNonPointer >;
+		};
+
+		template< spv::Op OpT >
+		struct OpParamsT;
+		template<> struct OpParamsT< spv::OpSpecConstantOp >
+		{
+			using ArePointer = ValueTypeListT< ValueType::eNonPointer, ValueType::eNonPointer, ValueType::eLiteral >;
+		};
+
+		//using SwitchInstruction = InstructionT< spv::OpSwitch, false, false, 2u, false, true >;
+		//using SelectInstruction = InstructionT< spv::OpSelect, true, true, 3u, false, false >;
+		//using LoadInstruction = InstructionT< spv::OpLoad, true, true, 1u, false, false >;
+		//using StoreInstruction = InstructionT< spv::OpStore, false, false, 2u, false, false >;
+		//using CopyMemoryInstruction = VariadicInstructionT< spv::OpCopyMemory, false, false >;
+		//using VariableInstruction = VariadicInstructionT< spv::OpVariable, true, true >;
+		//using CompositeExtractInstruction = VariadicInstructionT< spv::OpCompositeExtract, true, true >;
+		//using CompositeConstructInstruction = VariadicInstructionT< spv::OpCompositeConstruct, true, true >;
+		//using VectorShuffleInstruction = VariadicInstructionT< spv::OpVectorShuffle, true, true >;
+		//using AccessChainInstruction = VariadicInstructionT< spv::OpAccessChain, true, true >;
+		//using FunctionCallInstruction = VariadicInstructionT< spv::OpFunctionCall, true, true >;
+		//using ImageTexelPointerInstruction = VariadicInstructionT< spv::OpImageTexelPointer, true, true >;
+		//using ImageInstruction = InstructionT< spv::OpImage, true, true, 1u, false, false >;
+		//using ImageStoreInstruction = VariadicInstructionT< spv::OpImageWrite, false, false >;
+		//using ExtInstInstruction = VariadicInstructionT< spv::OpExtInst, true, true >;
+		//using FunctionParameterInstruction = InstructionT< spv::OpFunctionParameter, true, true, 0u, false, false >;
+		//using LabelInstruction = InstructionT< spv::OpLabel, false, true, 0u, false, false >;
+		//using FunctionInstruction = InstructionT< spv::OpFunction, true, true, 2u, false, false >;
+
+		//using KillInstruction = InstructionT< spv::OpKill, false, false, 0u, false, false >;
+		//using BranchInstruction = InstructionT< spv::OpBranch, false, false, 1u, false, false >;
+		//using BranchConditionalInstruction = VariadicInstructionT< spv::OpBranchConditional, false, false >;
+		//using SelectionMergeInstruction = InstructionT< spv::OpSelectionMerge, false, false, 2u, false, false >;
+		//using LoopMergeInstruction = InstructionT< spv::OpLoopMerge, false, false, 3u, false, false >;
+		//using ReturnInstruction = InstructionT< spv::OpReturn, false, false, 0u, false, false >;
+		//using ReturnValueInstruction = InstructionT< spv::OpReturnValue, false, false, 1u, false, false >;
+		//using UndefInstruction = InstructionT< spv::OpUndef, true, true, 0u, false, false >;
+		//using FunctionEndInstruction = InstructionT< spv::OpFunctionEnd, false, false, 0u, false, false >;
+
+		template< typename ... Params >
+		ValueIdList makeOperandsRec( ValueIdList & result, Params ... params );
+
+		inline void makeOperandsRec( ValueIdList & result, ValueId param )
 		{
 			result.push_back( param );
 		}
 
-		inline void makeOperandsRec( IdList & result, IdList const & param )
+		inline void makeOperandsRec( ValueIdList & result, spv::Id param )
+		{
+			makeOperandsRec( result, ValueId{ param } );
+		}
+
+		inline void makeOperandsRec( ValueIdList & result, ValueIdList const & param )
 		{
 			result.insert( result.end(), param.begin(), param.end() );
 		}
 
+		inline void makeOperandsRec( ValueIdList & result, IdList const & param )
+		{
+			makeOperandsRec( result, convert( param ) );
+		}
+
 		template< typename ... Params >
-		inline void makeOperandsRec( IdList & result, spv::Id current, Params ... params )
+		inline void makeOperandsRec( ValueIdList & result, ValueId current, Params ... params )
 		{
 			makeOperandsRec( result, current );
 			makeOperandsRec( result, params... );
 		}
 
 		template< typename ... Params >
-		inline void makeOperandsRec( IdList & result, IdList const & current, Params ... params )
+		inline void makeOperandsRec( ValueIdList & result, spv::Id current, Params ... params )
+		{
+			makeOperandsRec( result, ValueId{ current }, params... );
+		}
+
+		template< typename ... Params >
+		inline void makeOperandsRec( ValueIdList & result, ValueIdList const & current, Params ... params )
 		{
 			makeOperandsRec( result, current );
 			makeOperandsRec( result, params... );
+		}
+
+		template< typename ... Params >
+		inline void makeOperandsRec( ValueIdList & result, IdList const & current, Params ... params )
+		{
+			makeOperandsRec( result, convert( current ), params... );
 		}
 	}
 
 	template< typename ... Params >
-	inline IdList makeOperands( Params ... params )
+	inline ValueIdList makeOperands( Params ... params )
 	{
-		IdList result;
+		ValueIdList result;
 		details::makeOperandsRec( result, params... );
 		return result;
 	}
@@ -51,9 +307,9 @@ namespace spirv
 		, uint32_t OperandsCount
 		, bool HasName
 		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( Optional< spv::Id > preturnTypeId
-		, Optional< spv::Id > presultId
-		, IdList poperands
+	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( Optional< ValueId > preturnTypeId
+		, Optional< ValueId > presultId
+		, ValueIdList poperands
 		, Optional< std::string > pname
 		, Optional< std::map< int32_t, spv::Id > > plabels )
 		: Instruction{ config, Operator, preturnTypeId, presultId, poperands, pname, plabels }
@@ -93,9 +349,9 @@ namespace spirv
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( Optional< spv::Id > preturnTypeId
-		, Optional< spv::Id > presultId
-		, IdList poperands )
+	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( Optional< ValueId > preturnTypeId
+		, Optional< ValueId > presultId
+		, ValueIdList poperands )
 		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ preturnTypeId, presultId, poperands, nullopt, nullopt }
 	{
 	}
@@ -133,7 +389,7 @@ namespace spirv
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{}
+				, ValueIdList{}
 				, name
 				, nullopt );
 		}
@@ -150,9 +406,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand, std::string const & name )
+		static inline InstructionTypePtr make( ValueId operand, std::string const & name )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -173,16 +429,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand0, spv::Id operand1, std::string const & name )
+		static inline InstructionTypePtr make( ValueId operand0, ValueId operand1, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, name
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( IdList operands, std::string const & name )
+		static inline InstructionTypePtr make( ValueIdList operands, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -202,7 +458,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( IdList operands, std::string const & name )
+		static inline InstructionTypePtr make( ValueIdList operands, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -223,11 +479,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, std::string const & name )
+		static inline InstructionTypePtr make( ValueId resultId, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
-				, IdList{}
+				, ValueIdList{}
 				, name
 				, nullopt );
 		}
@@ -244,9 +500,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, spv::Id operand, std::string const & name )
+		static inline InstructionTypePtr make( ValueId resultId, ValueId operand, std::string const & name )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -267,16 +523,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, spv::Id operand0, spv::Id operand1, std::string const & name )
+		static inline InstructionTypePtr make( ValueId resultId, ValueId operand0, ValueId operand1, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, name
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( spv::Id resultId, IdList const & operands, std::string const & name )
+		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -296,7 +552,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, IdList const & operands, std::string const & name )
+		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -317,11 +573,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
-				, IdList{}
+				, ValueIdList{}
 				, nullopt
 				, nullopt );
 		}
@@ -338,9 +594,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
@@ -361,16 +617,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand0, spv::Id operand1 )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, nullopt
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
@@ -390,7 +646,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
@@ -410,7 +666,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
@@ -418,7 +674,7 @@ namespace spirv
 		}
 
 		template< typename ... Params >
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, Params ... params )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, Params ... params )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
@@ -437,11 +693,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId )
+		static inline InstructionTypePtr make( ValueId returnTypeId )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
-				, IdList{}
+				, ValueIdList{}
 				, nullopt
 				, nullopt );
 		}
@@ -458,9 +714,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id operand )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId operand )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
@@ -481,16 +737,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id operand0, spv::Id operand1 )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, nullopt
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
@@ -510,7 +766,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
@@ -530,7 +786,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, nullopt
@@ -549,11 +805,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId )
+		static inline InstructionTypePtr make( ValueId resultId )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
-				, IdList{}
+				, ValueIdList{}
 				, nullopt
 				, nullopt );
 		}
@@ -570,9 +826,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, spv::Id operand )
+		static inline InstructionTypePtr make( ValueId resultId, ValueId operand )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -593,16 +849,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, spv::Id operand0, spv::Id operand1 )
+		static inline InstructionTypePtr make( ValueId resultId, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, nullopt
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( spv::Id resultId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -622,7 +878,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -642,7 +898,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id resultId, IdList const & operands )
+		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, resultId
@@ -665,7 +921,7 @@ namespace spirv
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{}
+				, ValueIdList{}
 				, nullopt
 				, nullopt );
 		}
@@ -682,9 +938,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand )
+		static inline InstructionTypePtr make( ValueId operand )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -705,16 +961,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand0, spv::Id operand1 )
+		static inline InstructionTypePtr make( ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, nullopt
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( IdList const & operands )
+		static inline InstructionTypePtr make( ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -734,7 +990,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( IdList const & operands )
+		static inline InstructionTypePtr make( ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -754,7 +1010,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( IdList const & operands )
+		static inline InstructionTypePtr make( ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -777,7 +1033,7 @@ namespace spirv
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{}
+				, ValueIdList{}
 				, nullopt
 				, labels );
 		}
@@ -794,9 +1050,9 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand, std::map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( ValueId operand, std::map< int32_t, spv::Id > const & labels )
 		{
-			IdList list;
+			ValueIdList list;
 			list.push_back( operand );
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -817,16 +1073,16 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id operand0, spv::Id operand1, std::map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( ValueId operand0, ValueId operand1, std::map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
-				, IdList{ { operand0, operand1 } }
+				, ValueIdList{ { operand0, operand1 } }
 				, nullopt
 				, labels );
 		}
 
-		static inline InstructionTypePtr make( IdList const & operands
+		static inline InstructionTypePtr make( ValueIdList const & operands
 			, std::map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nullopt
@@ -847,7 +1103,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( IdList const & operands, std::map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( ValueIdList const & operands, std::map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nullopt
 				, nullopt
@@ -868,11 +1124,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, std::string const & name )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
-				, IdList{}
+				, ValueIdList{}
 				, name
 				, nullopt );
 		}
@@ -889,11 +1145,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand, std::string const & name )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
-				, IdList{ operand }
+				, ValueIdList{ operand }
 				, name
 				, nullopt );
 		}
@@ -910,11 +1166,11 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, spv::Id operand0, spv::Id operand1, std::string const & name )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand0, ValueId operand1, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId
-				, IdList{ operand0, operand1 }
+				, ValueIdList{ operand0, operand1 }
 				, name
 				, nullopt );
 		}
@@ -930,7 +1186,7 @@ namespace spirv
 		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( spv::Id returnTypeId, spv::Id resultId, IdList const & operands, std::string const & name )
+		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands, std::string const & name )
 		{
 			return std::make_unique< InstructionType >( returnTypeId
 				, resultId

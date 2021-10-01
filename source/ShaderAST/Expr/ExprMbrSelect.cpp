@@ -12,9 +12,27 @@ namespace ast::expr
 		type::TypePtr getMbrType( type::TypePtr outerType
 			, uint32_t memberIndex )
 		{
+			bool isPointer = false;
+			type::Storage storage{};
+
+			if ( outerType->getKind() == type::Kind::ePointer )
+			{
+				auto & pointer = static_cast< type::Pointer const & >( *outerType );
+				outerType = pointer.getPointerType();
+				isPointer = true;
+				storage = pointer.getStorage();
+			}
+
 			assert( outerType->getKind() == type::Kind::eStruct );
 			assert( static_cast< type::Struct const & >( *outerType ).size() > memberIndex );
-			return ( static_cast< type::Struct const & >( *outerType ).begin() + memberIndex )->type;
+			auto result = ( static_cast< type::Struct const & >( *outerType ).begin() + memberIndex )->type;
+
+			if ( isPointer && result->getKind() != type::Kind::ePointer )
+			{
+				result = result->getCache().getPointerType( result, storage );
+			}
+
+			return result;
 		}
 	}
 

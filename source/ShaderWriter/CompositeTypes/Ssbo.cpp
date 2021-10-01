@@ -20,7 +20,7 @@ namespace sdw
 		, m_name{ name }
 		, m_interface{ writer.getTypesCache(), layout, name + "Block" }
 		, m_info{ m_interface.getType(), bind, set }
-		, m_var{ var::makeVariable( m_interface.getType(), m_name, var::Flag::eUniform ) }
+		, m_var{ writer.getShader().registerName( m_name, m_interface.getType(), var::Flag::eUniform ) }
 		, m_stmt{ stmt::makeShaderBufferDecl( m_var, bind, set ) }
 		, m_enabled{ enabled }
 	{

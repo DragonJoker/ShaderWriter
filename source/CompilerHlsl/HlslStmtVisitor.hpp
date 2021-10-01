@@ -16,13 +16,16 @@ namespace hlsl
 	{
 	public:
 		static std::string submit( HlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, ast::stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
 		StmtVisitor( HlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string indent
 			, std::string & result );
+		std::string doSubmit( ast::expr::Expr * expr );
 		void doAppendLineEnd();
 
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
@@ -69,6 +72,7 @@ namespace hlsl
 
 	private:
 		HlslConfig const & m_writerConfig;
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 		std::string m_indent;
 		std::string & m_result;
 		bool m_appendSemiColon{ false };

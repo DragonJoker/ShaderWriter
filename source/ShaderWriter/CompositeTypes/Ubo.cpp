@@ -23,7 +23,7 @@ namespace sdw
 		, m_name{ name }
 		, m_interface{ m_writer.getTypesCache(), layout, name }
 		, m_info{ m_interface.getType(), bind, set }
-		, m_var{ var::makeVariable( m_info.type, m_name, var::Flag::eUniform ) }
+		, m_var{ writer.getShader().registerName( m_name, m_info.type, var::Flag::eUniform ) }
 		, m_enabled{ enabled }
 	{
 	}

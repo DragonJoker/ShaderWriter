@@ -56,19 +56,27 @@ namespace glsl
 	}
 
 	std::string ExprVisitor::submit( ast::expr::Expr * expr
-		, GlslConfig const & writerConfig )
+		, GlslConfig const & writerConfig
+		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases )
 	{
 		std::string result;
-		ExprVisitor vis{ writerConfig, result };
+		ExprVisitor vis{ writerConfig, aliases, result };
 		expr->accept( &vis );
 		return result;
 	}
 
 	ExprVisitor::ExprVisitor( GlslConfig const & writerConfig
+		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, std::string & result )
 		: m_writerConfig{ writerConfig }
+		, m_aliases{ aliases }
 		, m_result{ result }
 	{
+	}
+
+	std::string ExprVisitor::doSubmit( ast::expr::Expr * expr )
+	{
+		return submit( expr, m_writerConfig, m_aliases );
 	}
 
 	void ExprVisitor::wrap( ast::expr::Expr * expr )
@@ -88,12 +96,12 @@ namespace glsl
 
 		if ( noParen )
 		{
-			expr->accept( this );
+			m_result += doSubmit( expr );
 		}
 		else
 		{
 			m_result += "(";
-			expr->accept( this );
+			m_result += doSubmit( expr );
 			m_result += ")";
 		}
 	}
@@ -102,7 +110,7 @@ namespace glsl
 	{
 		wrap( expr->getLHS() );
 		m_result += " " + getOperatorName( expr->getKind() ) + " ";
-		expr->getRHS()->accept( this );
+		m_result += doSubmit( expr->getRHS() );
 	}
 
 	void ExprVisitor::visitUnaryExpr( ast::expr::Unary * expr )
@@ -181,7 +189,7 @@ namespace glsl
 			}
 
 			m_result += getTypeName( expr->getType() ) + " ";
-			expr->getIdentifier()->accept( this );
+			m_result += doSubmit( expr->getIdentifier() );
 			m_result += getTypeArraySize( expr->getType() );
 			m_result += " = ";
 		}
@@ -191,7 +199,7 @@ namespace glsl
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			m_result += sep + submit( init.get(), m_writerConfig );
+			m_result += sep + doSubmit( init.get() );
 			sep = ", ";
 		}
 
@@ -209,7 +217,7 @@ namespace glsl
 	void ExprVisitor::visitCastExpr( ast::expr::Cast * expr )
 	{
 		m_result += getTypeName( expr->getType() ) + "(";
-		expr->getOperand()->accept( this );
+		m_result += doSubmit( expr->getOperand() );
 		m_result += ")";
 	}
 
@@ -221,7 +229,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -248,14 +256,14 @@ namespace glsl
 			m_result += ".";
 		}
 
-		expr->getFn()->accept( this );
+		m_result += doSubmit( expr->getFn() );
 		m_result += "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -264,7 +272,16 @@ namespace glsl
 
 	void ExprVisitor::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		m_result += adaptName( expr->getVariable()->getName(), m_writerConfig );
+		auto it = m_aliases.find( expr->getVariable() );
+
+		if ( it != m_aliases.end() )
+		{
+			wrap( it->second );
+		}
+		else
+		{
+			m_result += adaptName( expr->getVariable()->getName(), m_writerConfig );
+		}
 	}
 
 	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
@@ -275,7 +292,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -290,10 +307,10 @@ namespace glsl
 		}
 
 		m_result += getTypeName( expr->getType() ) + " ";
-		expr->getIdentifier()->accept( this );
+		m_result += doSubmit( expr->getIdentifier() );
 		m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 		m_result += " = ";
-		expr->getInitialiser()->accept( this );
+		m_result += doSubmit( expr->getInitialiser() );
 	}
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
@@ -304,7 +321,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -377,12 +394,12 @@ namespace glsl
 
 	void ExprVisitor::visitSwitchCaseExpr( ast::expr::SwitchCase *expr )
 	{
-		expr->getLabel()->accept( this );
+		m_result += doSubmit( expr->getLabel() );
 	}
 
 	void ExprVisitor::visitSwitchTestExpr( ast::expr::SwitchTest *expr )
 	{
-		expr->getValue()->accept( this );
+		m_result += doSubmit( expr->getValue() );
 	}
 
 	void ExprVisitor::visitSwizzleExpr( ast::expr::Swizzle * expr )
@@ -399,10 +416,15 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
 		m_result += ")";
+	}
+
+	void ExprVisitor::visitAliasExpr( ast::expr::Alias * expr )
+	{
+		m_aliases.emplace( expr->getLHS()->getVariable(), expr->getRHS() );
 	}
 }

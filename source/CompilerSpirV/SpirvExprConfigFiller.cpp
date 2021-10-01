@@ -143,7 +143,8 @@ namespace spirv
 
 			if ( !processed )
 			{
-				m_config.inputs.insert( ast::var::makeVariable( expr->getType()
+				m_config.inputs.insert( ast::var::makeVariable( ++m_config.nextVarId
+					, expr->getType()
 					, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
 					, expr->getMemberFlags() ) );
 			}

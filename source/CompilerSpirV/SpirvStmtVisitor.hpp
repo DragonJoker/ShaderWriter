@@ -71,7 +71,7 @@ namespace spirv
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
-		spv::Id visitVariable( ast::var::VariablePtr var );
+		ValueId visitVariable( ast::var::VariablePtr var );
 		void interruptBlock( Block & block
 			, InstructionPtr interruptInstruction
 			, bool pushBlock );
@@ -95,8 +95,8 @@ namespace spirv
 		Function * m_function{ nullptr };
 		std::vector< Control > m_controlBlocks;
 		uint32_t m_ifStmts{ 0u };
-		IdList m_inputs;
-		IdList m_outputs;
+		ValueIdList m_inputs;
+		ValueIdList m_outputs;
 	};
 }
 

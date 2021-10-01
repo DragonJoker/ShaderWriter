@@ -16,13 +16,16 @@ namespace hlsl
 	{
 	public:
 		static ast::stmt::ContainerPtr submit( ast::Shader const & shader
+			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
-			, HlslConfig const & writerConfig );
+			, HlslConfig const & writerConfig
+			, AdaptationData & adaptationData );
 
 	private:
 		StmtAdapter( ast::Shader const & shader
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
+			, AdaptationData & adaptationData
 			, ast::stmt::ContainerPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
@@ -52,11 +55,11 @@ namespace hlsl
 	private:
 		IntrinsicsConfig const & m_intrinsicsConfig;
 		HlslConfig const & m_writerConfig;
+		AdaptationData & m_adaptationData;
 		HlslShader m_shader;
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_inOutDeclarations;
 		ast::stmt::Container * m_intrinsics;
-		AdaptationData m_adaptationData;
 		ast::stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
 		ast::stmt::InputGeometryLayout * m_inputGeometryLayout{ nullptr };
 		ast::stmt::OutputGeometryLayout * m_outputGeometryLayout{ nullptr };

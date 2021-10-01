@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "spirv/spirv.hpp"
 #include "compileSpirV.hpp"
 
+#include <ShaderAST/Type/TypePointer.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 
 #include <map>
@@ -77,6 +78,57 @@ namespace spirv
 	using UInt32ListIt = UInt32List::iterator;
 	using UInt32ListCIt = UInt32List::const_iterator;
 
+	struct ValueId
+	{
+		spv::Id id{};
+		ast::type::TypePtr type;
+
+		bool isPointer()const
+		{
+			return type
+				&& type->getKind() == ast::type::Kind::ePointer;
+		}
+
+		ast::type::Storage getStorage()const
+		{
+			return ( isPointer()
+				? static_cast< ast::type::Pointer const & >( *type ).getStorage()
+				: ast::type::Storage::eGeneric );
+		}
+
+		explicit operator bool()const
+		{
+			return id != 0u;
+		}
+	};
+
+	using ValueIdList = std::vector< ValueId >;
+
+	inline bool operator==( ValueId const & lhs, ValueId const & rhs )
+	{
+		return lhs.id == rhs.id;
+	}
+
+	struct ValueIdHasher
+	{
+		SDWSPIRV_API size_t operator()( ValueId const & value )const;
+	};
+	
+	struct ValueIdListHasher
+	{
+		SDWSPIRV_API size_t operator()( ValueIdList const & value )const;
+	};
+
+	struct IdListHasher
+	{
+		SDWSPIRV_API size_t operator()( IdList const & value )const;
+	};
+
+	SDWSPIRV_API IdList convert( ValueIdList const & in );
+	SDWSPIRV_API ValueIdList convert( IdList const & in );
+	SDWSPIRV_API ast::type::Storage convert( spv::StorageClass in );
+	SDWSPIRV_API spv::StorageClass convert( ast::type::Storage in );
+
 	static uint32_t constexpr dynamicOperandCount = ~( 0u );
 
 	struct Instruction;
@@ -95,9 +147,9 @@ namespace spirv
 		};
 		SDWSPIRV_API Instruction( Config const & config
 			, spv::Op op = spv::OpNop
-			, Optional< spv::Id > returnTypeId = nullopt
-			, Optional< spv::Id > resultId = nullopt
-			, IdList operands = IdList{}
+			, Optional< ValueId > returnTypeId = nullopt
+			, Optional< ValueId > resultId = nullopt
+			, ValueIdList operands = ValueIdList{}
 			, Optional< std::string > name = nullopt
 			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
 		SDWSPIRV_API Instruction( Config const & config
@@ -170,9 +222,9 @@ namespace spirv
 		static bool constexpr hasLabels = HasLabels;
 		static Config const config;
 
-		inline InstructionT( Optional< spv::Id > preturnTypeId = nullopt
-			, Optional< spv::Id > presultId = nullopt
-			, IdList poperands = IdList{}
+		inline InstructionT( Optional< ValueId > preturnTypeId = nullopt
+			, Optional< ValueId > presultId = nullopt
+			, ValueIdList poperands = ValueIdList{}
 			, Optional< std::string > pname = nullopt
 			, Optional< std::map< int32_t, spv::Id > > plabels = nullopt );
 		inline InstructionT( UInt32ListIt & buffer );
@@ -200,9 +252,9 @@ namespace spirv
 		static bool constexpr hasName = false;
 		static bool constexpr hasLabels = false;
 
-		inline VariadicInstructionT( Optional< spv::Id > preturnTypeId = nullopt
-			, Optional< spv::Id > presultId = nullopt
-			, IdList poperands = IdList{} );
+		inline VariadicInstructionT( Optional< ValueId > preturnTypeId = nullopt
+			, Optional< ValueId > presultId = nullopt
+			, ValueIdList poperands = ValueIdList{} );
 		inline VariadicInstructionT( UInt32ListIt & buffer );
 		inline VariadicInstructionT( UInt32ListCIt & buffer );
 	};
@@ -243,6 +295,7 @@ namespace spirv
 
 	template< typename InstructionType, typename ... Params >
 	inline std::unique_ptr< InstructionType > makeInstruction( Params && ... params );
+
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId

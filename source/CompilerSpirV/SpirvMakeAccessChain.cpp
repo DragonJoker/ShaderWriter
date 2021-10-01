@@ -213,13 +213,13 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static IdList submit( AccessChainExprArray const & exprs
+			static ValueIdList submit( AccessChainExprArray const & exprs
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables )
 			{
-				IdList result;
+				ValueIdList result;
 				assert( exprs.size() >= 2u );
 				VariableInfo info;
 				result.push_back( submit( exprs[0].expr
@@ -244,9 +244,9 @@ namespace spirv
 			}
 
 		private:
-			AccessChainCreator( spv::Id & result
+			AccessChainCreator( ValueId & result
 				, ast::expr::Kind parentKind
-				, spv::Id parentId
+				, ValueId parentId
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
@@ -263,54 +263,48 @@ namespace spirv
 			{
 			}
 
-			static spv::Id submit( ast::expr::Expr * expr
+			static ValueId submit( ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables )
 			{
-				spv::Id result;
+				ValueId result{ 0u, expr->getType() };
 				VariableInfo info;
-				AccessChainCreator vis
-				{
-					result,
-					expr->getKind(),
-					0u,
-					context,
-					module,
-					currentBlock,
-					loadedVariables,
-					info
-				};
+				AccessChainCreator vis{ result
+					, expr->getKind()
+					, {}
+					, context
+					, module
+					, currentBlock
+					, loadedVariables
+					, info };
 				expr->accept( &vis );
 				return result;
 			}
 
-			static spv::Id submit( spv::Id parentId
+			static ValueId submit( ValueId parentId
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
 				, LoadedVariableArray & loadedVariables )
 			{
-				spv::Id result;
+				ValueId result{ 0u, expr->getType() };
 				VariableInfo info;
-				AccessChainCreator vis
-				{
-					result,
-					expr->getKind(),
-					parentId,
-					context,
-					module,
-					currentBlock,
-					loadedVariables,
-					info
-				};
+				AccessChainCreator vis{ result
+					, expr->getKind()
+					, parentId
+					, context
+					, module
+					, currentBlock
+					, loadedVariables
+					, info };
 				expr->accept( &vis );
 				return result;
 			}
 
-			static spv::Id submit( spv::Id parentId
+			static ValueId submit( ValueId parentId
 				, AccessChainExpr expr
 				, PreprocContext const & context
 				, Module & module
@@ -318,18 +312,15 @@ namespace spirv
 				, LoadedVariableArray & loadedVariables
 				, VariableInfo & info )
 			{
-				spv::Id result;
-				AccessChainCreator vis
-				{
-					result,
-					expr.kind,
-					parentId,
-					context,
-					module,
-					currentBlock,
-					loadedVariables,
-					info
-				};
+				ValueId result{ 0u, parentId.type };
+				AccessChainCreator vis{ result
+					, expr.kind
+					, parentId
+					, context
+					, module
+					, currentBlock
+					, loadedVariables
+					, info };
 				expr.expr->accept( &vis );
 				return result;
 			}
@@ -346,18 +337,22 @@ namespace spirv
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				assert( m_parentId != 0u );
+				assert( m_parentId );
 				m_result = m_module.registerLiteral( expr->getMemberIndex() );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
 			{
-				assert( m_parentId != 0u );
+				assert( m_parentId );
 
 				if ( isAccessChain( expr->getRHS() ) )
 				{
-					auto accessChain = makeAccessChain( expr->getRHS(), m_context, m_module, m_currentBlock, m_loadedVariables );
-					m_result = m_module.loadVariable( accessChain, expr->getRHS()->getType(), m_currentBlock );
+					auto accessChain = makeAccessChain( expr->getRHS()
+						, m_context
+						, m_module
+						, m_currentBlock
+						, m_loadedVariables );
+					m_result = m_module.loadVariable( accessChain, m_currentBlock );
 				}
 				else
 				{
@@ -369,7 +364,15 @@ namespace spirv
 			{
 				auto var = expr->getVariable();
 
-				if ( m_parentId != 0u
+				if ( var->isAlias() )
+				{
+					assert( !m_parentId );
+					m_result = m_module.getVariablePointer( var->getName()
+						, spv::StorageClassFunction
+						, var->getType()
+						, m_currentBlock );
+				}
+				else if ( m_parentId
 					&& m_parentKind != ast::expr::Kind::eArrayAccess )
 				{
 					// Leaf or Intermediate identifier.
@@ -387,6 +390,7 @@ namespace spirv
 						m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
 						m_result = m_module.registerVariable( var->getName()
 							, getStorageClass( var )
+							, var->isAlias()
 							, expr->getType()
 							, m_info
 							, m_result ).id;
@@ -395,6 +399,7 @@ namespace spirv
 					{
 						m_result = m_module.registerVariable( var->getName()
 							, getStorageClass( var )
+							, var->isAlias()
 							, expr->getType()
 							, m_info ).id;
 					}
@@ -402,7 +407,6 @@ namespace spirv
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
 					{
 						m_result = m_module.loadVariable( m_result
-							, expr->getType()
 							, m_currentBlock );
 					}
 				}
@@ -410,7 +414,7 @@ namespace spirv
 
 			void visitLiteralExpr( ast::expr::Literal * expr )override
 			{
-				assert( m_parentId != 0u );
+				assert( m_parentId );
 
 				switch ( expr->getLiteralType() )
 				{
@@ -437,7 +441,7 @@ namespace spirv
 
 			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
 			{
-				assert( m_parentId != 0u );
+				assert( m_parentId );
 
 				if ( expr->getSwizzle().isOneComponent() )
 				{
@@ -445,7 +449,7 @@ namespace spirv
 				}
 				else
 				{
-					spv::Id parentId;
+					ValueId parentId{ 0u, expr->getOuterExpr()->getType() };
 
 					if ( isAccessChain( expr->getOuterExpr() ) )
 					{
@@ -458,7 +462,6 @@ namespace spirv
 						if ( isPtrAccessChain( expr->getOuterExpr() ) )
 						{
 							parentId = m_module.loadVariable( parentId
-								, expr->getOuterExpr()->getType()
 								, m_currentBlock );
 						}
 					}
@@ -474,6 +477,7 @@ namespace spirv
 					m_result = writeShuffle( m_module
 						, m_currentBlock
 						, typeId
+						, expr->getOuterExpr()->getType()
 						, parentId
 						, expr->getSwizzle() );
 				}
@@ -530,20 +534,20 @@ namespace spirv
 			}
 
 		private:
-			spv::Id & m_result;
+			ValueId & m_result;
 			PreprocContext const & m_context;
 			Module & m_module;
 			Block & m_currentBlock;
 			LoadedVariableArray & m_loadedVariables;
-			spv::Id m_parentId;
+			ValueId m_parentId;
 			ast::expr::Kind m_parentKind;
 			VariableInfo & m_info;
 		};
 
 #define SPIRV_CacheAccessChains 0
 
-		spv::Id writeAccessChain( Block & currentBlock
-			, IdList const & accessChain
+		ValueId writeAccessChain( Block & currentBlock
+			, ValueIdList const & accessChain
 			, ast::expr::Expr * expr
 			, Module & module )
 		{
@@ -559,7 +563,7 @@ namespace spirv
 				auto pointerTypeId = module.registerPointerType( rawTypeId
 					, getStorageClass( ast::findIdentifier( expr )->getVariable() ) );
 				// Reserve the ID for the result.
-				auto resultId = module.getIntermediateResult();
+				ValueId resultId{ module.getIntermediateResult(), pointerTypeId.type };
 				// Write access chain => resultId = pointerTypeId( outer.members + index ).
 				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
 					, resultId
@@ -571,28 +575,21 @@ namespace spirv
 
 #else
 
+			auto var = ast::findIdentifier( expr )->getVariable();
 			// Register the type pointed to.
 			auto rawTypeId = module.registerType( expr->getType() );
 			// Register the pointer to the type.
-			auto storageClass = getStorageClass( ast::findIdentifier( expr )->getVariable() );
-			//auto rawKind = ast::type::getNonArrayKind( expr->getType() );
-
-			//if ( ast::type::isSampledImageType( rawKind )
-			//	|| ast::type::isImageType( rawKind ) 
-			//	|| ast::type::isSamplerType( rawKind ) )
-			//{
-			//	storageClass = spv::StorageClassUniform;
-			//}
+			auto storageClass = getStorageClass( var );
 
 			auto pointerTypeId = module.registerPointerType( rawTypeId
 				, storageClass );
 			// Reserve the ID for the result.
-			auto resultId = module.getIntermediateResult();
+			ValueId result{ module.getIntermediateResult(), pointerTypeId.type };
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).
 			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
-				, resultId
+				, result
 				, accessChain ) );
-			return resultId;
+			return result;
 
 #endif
 		}
@@ -604,15 +601,17 @@ namespace spirv
 		}
 	}
 
-	spv::Id writeShuffle( Module & module
+	ValueId writeShuffle( Module & module
 		, Block & currentBlock
-		, spv::Id typeId
-		, spv::Id outerId
+		, ValueId typeId
+		, ast::type::TypePtr outerType
+		, ValueId outerId
 		, ast::expr::SwizzleKind swizzle )
 	{
-		spv::Id result;
-		auto swizzleComponents = getSwizzleComponents( swizzle );
-		spirv::IdList shuffle;
+		outerId = module.loadVariable( outerId, currentBlock );
+		ValueId result{ 0u, typeId.type };
+		auto swizzleComponents = convert( getSwizzleComponents( swizzle ) );
+		ValueIdList shuffle;
 
 		if ( swizzleComponents.size() == 1u )
 		{
@@ -622,7 +621,7 @@ namespace spirv
 
 			if ( it == currentBlock.vectorShuffles.end() )
 			{
-				auto intermediateId = module.getIntermediateResult();
+				auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
 				currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( typeId
 					, intermediateId
 					, shuffle ) );
@@ -640,7 +639,7 @@ namespace spirv
 
 			if ( it == currentBlock.vectorShuffles.end() )
 			{
-				auto intermediateId = module.getIntermediateResult();
+				auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
 				currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( typeId
 					, intermediateId
 					, shuffle ) );
@@ -675,7 +674,7 @@ namespace spirv
 					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() ) );
 	}
 
-	spv::Id makeAccessChain( ast::expr::Expr * expr
+	ValueId makeAccessChain( ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Module & module
 		, Block & currentBlock

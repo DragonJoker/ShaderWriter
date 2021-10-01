@@ -16,11 +16,14 @@ namespace glsl
 	{
 	public:
 		static std::string submit( ast::expr::Expr * expr
-			, GlslConfig const & writerConfig );
+			, GlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases );
 
 	private:
 		ExprVisitor( GlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string & result );
+		std::string doSubmit( ast::expr::Expr * expr );
 		void wrap( ast::expr::Expr * expr );
 		void visitAssignmentExpr( ast::expr::Binary * expr );
 
@@ -54,9 +57,11 @@ namespace glsl
 		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitAliasExpr( ast::expr::Alias * expr )override;
 
 	private:
 		GlslConfig const & m_writerConfig;
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 		std::string & m_result;
 	};
 }

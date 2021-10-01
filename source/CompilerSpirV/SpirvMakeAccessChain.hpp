@@ -13,14 +13,15 @@ namespace spirv
 {
 	struct PreprocContext;
 
-	spv::Id writeShuffle( Module & module
+	ValueId writeShuffle( Module & module
 		, Block & currentBlock
-		, spv::Id typeId
-		, spv::Id outerId
+		, ValueId typeId
+		, ast::type::TypePtr outerType
+		, ValueId outerId
 		, ast::expr::SwizzleKind swizzle );
 	bool isAccessChain( ast::expr::Expr * expr );
 	bool isPtrAccessChain( ast::expr::Expr * expr );
-	spv::Id makeAccessChain( ast::expr::Expr * expr
+	ValueId makeAccessChain( ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Module & module
 		, Block & currentBlock

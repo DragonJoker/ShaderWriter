@@ -14,7 +14,12 @@ namespace
 				, [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
+					auto vec = writer.declLocale< Vec2 >( "vec" );
+					auto arr = writer.declLocaleArray< Float >( "arr", 4u );
+					v = degrees( 1.0_f );
 					v = degrees( v );
+					v = degrees( vec.x() );
+					v = degrees( arr[0] );
 				} );
 			test::writeShader( writer
 				, testCounts );

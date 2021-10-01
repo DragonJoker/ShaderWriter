@@ -3,30 +3,37 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Var/Variable.hpp"
 
+#include "ShaderAST/Type/TypeCache.hpp"
 #include "ShaderAST/Type/TypeFunction.hpp"
 
 namespace ast::var
 {
-	Variable::Variable( VariablePtr outer
+	//*********************************************************************************************
+
+	Variable::Variable( uint32_t id
+		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name )
-		: Variable{ std::move( outer ), std::move( type ), std::move( name ), 0u }
+		: Variable{ id, std::move( outer ), std::move( type ), std::move( name ), 0u }
 	{
 	}
 
-	Variable::Variable( VariablePtr outer
+	Variable::Variable( uint32_t id
+		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name
 		, Flag flag )
-		: Variable{ std::move( outer ), std::move( type ), std::move( name ), uint32_t( flag ) }
+		: Variable{ id, std::move( outer ), std::move( type ), std::move( name ), uint32_t( flag ) }
 	{
 	}
 
-	Variable::Variable( VariablePtr outer
+	Variable::Variable( uint32_t id
+		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name
 		, uint32_t flags )
 		: FlagHolder{ flags }
+		, m_id{ id }
 		, m_outer{ std::move( outer ) }
 		, m_type{ std::move( type ) }
 		, m_name{ std::move( name ) }
@@ -39,33 +46,33 @@ namespace ast::var
 		assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
 	}
 
-	Variable::Variable( type::TypePtr type
+	Variable::Variable( uint32_t id
+		, type::TypePtr type
 		, std::string name )
-		: Variable{ nullptr, std::move( type ), std::move( name ), 0u }
+		: Variable{ id, nullptr, std::move( type ), std::move( name ), 0u }
 	{
 	}
 
-	Variable::Variable( type::TypePtr type
+	Variable::Variable( uint32_t id
+		, type::TypePtr type
 		, std::string name
 		, Flag flag )
-		: Variable{ nullptr, std::move( type ), std::move( name ), uint32_t( flag ) }
+		: Variable{ id, nullptr, std::move( type ), std::move( name ), uint32_t( flag ) }
 	{
 	}
 
-	Variable::Variable( type::TypePtr type
+	Variable::Variable( uint32_t id
+		, type::TypePtr type
 		, std::string name
 		, uint32_t flags )
-		: Variable{ nullptr, std::move( type ), std::move( name ), flags }
+		: Variable{ id, nullptr, std::move( type ), std::move( name ), flags }
 	{
 	}
 
-	Variable::Variable( type::FunctionPtr type
+	Variable::Variable( uint32_t id
+		, type::FunctionPtr type
 		, std::string name )
-		: Variable{ nullptr, std::move( type ), std::move( name ), Flag::eFunction }
-	{
-	}
-
-	Variable::~Variable()
+		: Variable{ id, nullptr, std::move( type ), std::move( name ), Flag::eFunction }
 	{
 	}
 
@@ -75,4 +82,6 @@ namespace ast::var
 			? m_outer->getName() + "." + getName()
 			: getName();
 	}
+
+	//*********************************************************************************************
 }

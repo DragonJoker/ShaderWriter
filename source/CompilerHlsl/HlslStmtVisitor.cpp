@@ -8,22 +8,30 @@ See LICENSE file in root folder
 namespace hlsl
 {
 	std::string StmtVisitor::submit( HlslConfig const & writerConfig
+		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
 		std::string result;
-		StmtVisitor vis{ writerConfig, std::move( indent ), result };
+		StmtVisitor vis{ writerConfig, aliases, std::move( indent ), result };
 		stmt->accept( &vis );
 		return result;
 	}
 
 	StmtVisitor::StmtVisitor( HlslConfig const & writerConfig
+		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, std::string indent
 		, std::string & result )
 		: m_writerConfig{ writerConfig }
+		, m_aliases{ aliases }
 		, m_indent{ std::move( indent ) }
 		, m_result{ result }
 	{
+	}
+
+	std::string StmtVisitor::doSubmit( ast::expr::Expr * expr )
+	{
+		return ExprVisitor::submit( expr, m_aliases );
 	}
 
 	void StmtVisitor::doAppendLineEnd()
@@ -120,13 +128,13 @@ namespace hlsl
 		m_result += m_indent + "do";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
-		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ");\n";
+		m_result += m_indent + "while (" + doSubmit( stmt->getCtrlExpr() ) + ");\n";
 		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
-		m_result += m_indent + "else if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		m_result += m_indent + "else if (" + doSubmit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		m_appendLineEnd = false;
 		visitCompoundStmt( stmt );
@@ -146,9 +154,9 @@ namespace hlsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "for (" + ExprVisitor::submit( stmt->getInitExpr() ) + "; ";
-		m_result += ExprVisitor::submit( stmt->getCtrlExpr() ) + "; ";
-		m_result += ExprVisitor::submit( stmt->getIncrExpr() ) + ")";
+		m_result += m_indent + "for (" + doSubmit( stmt->getInitExpr() ) + "; ";
+		m_result += doSubmit( stmt->getCtrlExpr() ) + "; ";
+		m_result += doSubmit( stmt->getIncrExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_appendLineEnd = true;
@@ -200,7 +208,7 @@ namespace hlsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "if (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		m_result += m_indent + "if (" + doSubmit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 
@@ -293,7 +301,7 @@ namespace hlsl
 
 		if ( stmt->getExpr() )
 		{
-			m_result += m_indent + "return " + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+			m_result += m_indent + "return " + doSubmit( stmt->getExpr() ) + ";\n";
 		}
 		else
 		{
@@ -334,8 +342,15 @@ namespace hlsl
 
 	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent + ExprVisitor::submit( stmt->getExpr() ) + ";\n";
+		if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAlias )
+		{
+			doSubmit( stmt->getExpr() );
+		}
+		else if ( stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
+		{
+			doAppendLineEnd();
+			m_result += m_indent + doSubmit( stmt->getExpr() ) + ";\n";
+		}
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
@@ -382,7 +397,7 @@ namespace hlsl
 
 		if ( stmt->getCaseExpr() )
 		{
-			m_result += m_indent + "case " + ExprVisitor::submit( stmt->getCaseExpr() ) + ":";
+			m_result += m_indent + "case " + doSubmit( stmt->getCaseExpr() ) + ":";
 		}
 		else
 		{
@@ -408,7 +423,7 @@ namespace hlsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "switch (" + ExprVisitor::submit( stmt->getTestExpr() ) + ")";
+		m_result += m_indent + "switch (" + doSubmit( stmt->getTestExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_appendLineEnd = true;
@@ -435,7 +450,7 @@ namespace hlsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "while (" + ExprVisitor::submit( stmt->getCtrlExpr() ) + ")";
+		m_result += m_indent + "while (" + doSubmit( stmt->getCtrlExpr() ) + ")";
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_appendLineEnd = true;
@@ -444,13 +459,13 @@ namespace hlsl
 	void StmtVisitor::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#define " + preproc->getName() + " " + ExprVisitor::submit( preproc->getExpr() ) + "\n";
+		m_result += "#define " + preproc->getName() + " " + doSubmit( preproc->getExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#elif " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+		m_result += "#elif " + doSubmit( preproc->getCtrlExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocElse( ast::stmt::PreprocElse * preproc )
@@ -473,13 +488,13 @@ namespace hlsl
 	void StmtVisitor::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#if " + ExprVisitor::submit( preproc->getCtrlExpr() ) + "\n";
+		m_result += "#if " + doSubmit( preproc->getCtrlExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
 		doAppendLineEnd();
-		m_result += "#ifdef " + ExprVisitor::submit( preproc->getIdentExpr() ) + "\n";
+		m_result += "#ifdef " + doSubmit( preproc->getIdentExpr() ) + "\n";
 	}
 
 	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
