@@ -1,141 +1,498 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
+	<Type Name="ast::type::Type">
+		<DisplayString>{m_kind}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Array">
+		<DisplayString>{*m_type}[{m_arraySize}]</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+			<Item Name="size">m_arraySize</Item>
+			<Item Name="type">*m_type</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Function">
+		<DisplayString>{*m_returnType}(*)({m_parameters})</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="return">m_returnType</Item>
+			<Item Name="params">m_parameters</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Image">
+		<DisplayString>image {m_config}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="config">m_config</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Pointer">
+		<DisplayString>{*m_pointerType}*</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+			<Item Name="pointerType">*m_pointerType</Item>
+			<Item Name="storage">m_storage</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::SampledImage">
+		<DisplayString>combined [{*m_imageType}, {*m_samplerType}]</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="image">*m_imageType</Item>
+			<Item Name="sampler">*m_samplerType</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Sampler">
+		<DisplayString>sampler {m_comparison}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="comparison">m_comparison</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Struct::Member">
+		<DisplayString>[{offset}, {size}] {*type} {name}</DisplayString>
+		<Expand>
+			<Item Name="type">*type</Item>
+			<Item Name="name">name</Item>
+			<Item Name="offset">offset</Item>
+			<Item Name="size">size</Item>
+			<Item Name="arrayStride">arrayStride</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::Struct">
+		<DisplayString>struct {m_name} {m_layout} {m_members}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="name">m_name</Item>
+			<Item Name="layout">m_layout</Item>
+			<Item Name="members">m_members</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="ast::var::Variable">
+		<DisplayString>{m_name}</DisplayString>
+		<Expand>
+			<Item Name="name">m_name</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="outer">m_outer</Item>
+		</Expand>
+	</Type>
+
 	<Type Name="ast::expr::Expr">
-		<DisplayString>{{kind={m_kind} type={m_type}}}</DisplayString>
+		<DisplayString>{m_kind} {*m_type}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Binary">
-		<DisplayString>{{kind={m_kind} type={m_type} lhs={m_lhs} rhs={m_rhs}}}</DisplayString>
+		<DisplayString>( {m_lhs} ) BinOp ( {m_rhs} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
-	<Type Name="ast::expr::CompositeConstruct">
-		<DisplayString>{{kind={m_kind} type={m_type} comps={m_composite} compn={m_component}}}</DisplayString>
+	<Type Name="ast::expr::Unary">
+		<DisplayString>UnOp ( {m_operand} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="operand">m_operand</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Alias">
+		<DisplayString>{m_lhs} -> ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="identifier">m_lhs</Item>
+			<Item Name="expr">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Add">
+		<DisplayString>( {m_lhs} ) + ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::BitAnd">
+		<DisplayString>( {m_lhs} ) &amp; ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::BitNot">
+		<DisplayString>~( {m_operand} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::BitOr">
+		<DisplayString>( {m_lhs} ) | ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::BitXor">
+		<DisplayString>( {m_lhs} ) ^ ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Divide">
+		<DisplayString>( {m_lhs} ) / ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::LogAnd">
+		<DisplayString>( {m_lhs} ) &amp;&amp; ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::LogNot">
+		<DisplayString>!( {m_operand} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::LogOr">
+		<DisplayString>( {m_lhs} ) || ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::LShift">
+		<DisplayString>( {m_lhs} ) &lt;&lt; ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Minus">
+		<DisplayString>( {m_lhs} ) - ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Modulo">
+		<DisplayString>( {m_lhs} ) % ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::RShift">
+		<DisplayString>( {m_lhs} ) &gt;&gt; ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::Times">
+		<DisplayString>( {m_lhs} ) * ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::AddAssign">
+		<DisplayString>( {m_lhs} ) += ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::AndAssign">
+		<DisplayString>( {m_lhs} ) &amp;= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::OrAssign">
+		<DisplayString>( {m_lhs} ) |= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::XorAssign">
+		<DisplayString>( {m_lhs} ) ^= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::DivideAssign">
+		<DisplayString>( {m_lhs} ) /= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::LShiftAssign">
+		<DisplayString>( {m_lhs} ) &lt;&lt;= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::MinusAssign">
+		<DisplayString>( {m_lhs} ) -= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::ModuloAssign">
+		<DisplayString>( {m_lhs} ) %= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::RShiftAssign">
+		<DisplayString>( {m_lhs} ) &gt;&gt;= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::TimesAssign">
+		<DisplayString>( {m_lhs} ) *= ( {m_rhs} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">m_lhs</Item>
+			<Item Name="rhs">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::ArrayAccess">
+		<DisplayString>( {m_lhs} )[{m_rhs}]</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="array">m_lhs</Item>
+			<Item Name="index">m_rhs</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::CompositeConstruct">
+		<DisplayString>{*m_type}( {m_composite} {m_component} )</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="composite">m_composite</Item>
 			<Item Name="component">m_component</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::FnCall">
-		<DisplayString>{{kind={m_kind} type={m_type} fn={m_fn}}}</DisplayString>
+		<DisplayString>{*m_type} {m_fn}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="fn">m_fn</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Identifier">
-		<DisplayString>{{kind={m_kind} type={m_type} var={m_var}}}</DisplayString>
+		<DisplayString>( {*m_var} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="var">m_var</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::ImageAccessCall">
-		<DisplayString>{{kind={m_kind} type={m_type} accs={m_imageAccess}}}</DisplayString>
+		<DisplayString>{*m_type} {m_imageAccess}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="access">m_imageAccess</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Init">
-		<DisplayString>{{kind={m_kind} type={m_type} ident={m_identifier}, init={m_initialiser}}}</DisplayString>
+		<DisplayString>{*m_type} {*m_identifier} = ( {*m_initialiser} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="ident">m_identifier</Item>
 			<Item Name="init">m_initialiser</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::IntrinsicCall">
-		<DisplayString>{{kind={m_kind} type={m_type} intr={m_intrinsic}}}</DisplayString>
+		<DisplayString>{*m_type} {m_intrinsic}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="intrinsic">m_intrinsic</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Literal">
-		<DisplayString>{{kind={m_kind} type={m_type} val={m_valueType}}}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eBool">{m_valueType} {m_value.boolv}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt">{m_valueType} {m_value.intv}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt">{m_valueType} {m_value.uintv}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eFloat">{m_valueType} {m_value.floatv}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eDouble">{m_valueType} {m_value.doublev}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="valueType">m_valueType</Item>
 			<Item Name="value">m_value</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eBool">m_value.boolv</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt">m_value.intv</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt">m_value.uintv</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eFloat">m_value.floatv</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eDouble">m_value.doublev</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::MbrSelect">
-		<DisplayString>{{kind={m_kind} type={m_type} idx={m_memberIndex}}}</DisplayString>
+		<DisplayString>{*m_type} ( {m_outer} ).{m_memberIndex}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="outer">m_outer</Item>
 			<Item Name="index">m_memberIndex</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Question">
-		<DisplayString>{{kind={m_kind} type={m_type}}}</DisplayString>
+		<DisplayString>( {m_ctrlExpr} ) ? ( {m_trueExpr} ) : ( {m_falseExpr} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="ctrl">m_ctrlExpr</Item>
 			<Item Name="true">m_trueExpr</Item>
 			<Item Name="false">m_falseExpr</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Swizzle">
-		<DisplayString>{{kind={m_kind} type={m_type} swiz={m_swizzle}}}</DisplayString>
+		<DisplayString>( {m_outer} ).{m_swizzle}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="swizzle">m_swizzle</Item>
 			<Item Name="outer">m_outer</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::TextureAccessCall">
-		<DisplayString>{{kind={m_kind} type={m_type} accs={m_textureAccess}}}</DisplayString>
+		<DisplayString>{*m_type} {m_textureAccess}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 			<Item Name="access">m_textureAccess</Item>
 			<Item Name="args">m_argList</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::expr::Unary">
-		<DisplayString>{{kind={m_kind} type={m_type} ope={m_operand}}}</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
-			<Item Name="operand">m_operand</Item>
 		</Expand>
 	</Type>
 
@@ -167,7 +524,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="name">m_name</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::ImageDecl">
@@ -274,10 +631,10 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::StructureDecl">
-		<DisplayString>{{kind={m_kind} type={m_type}}}</DisplayString>
+		<DisplayString>{{kind={m_kind} type={*m_type}}}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">m_type</Item>
+			<Item Name="type">*m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::VariableDecl">
@@ -285,84 +642,6 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="var">m_variable</Item>
-		</Expand>
-	</Type>
-
-	<Type Name="ast::type::Type">
-		<DisplayString>{m_kind}</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="parent">m_parent</Item>
-			<Item Name="index">m_index</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::Array">
-		<DisplayString>{m_type}[{m_arraySize}]</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="parent">m_parent</Item>
-			<Item Name="index">m_index</Item>
-			<Item Name="size">m_arraySize</Item>
-			<Item Name="type">m_type</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::Function">
-		<DisplayString>{m_returnType}(*)({m_parameters})</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="return">m_returnType</Item>
-			<Item Name="params">m_parameters</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::Image">
-		<DisplayString>image {m_config}</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="config">m_config</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::SampledImage">
-		<DisplayString>combined [{m_imageType}, {m_samplerType}]</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="image">m_imageType</Item>
-			<Item Name="sampler">m_samplerType</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::Sampler">
-		<DisplayString>sampler {m_comparison}</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="comparison">m_comparison</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::Struct::Member">
-		<DisplayString>[{offset}, {size}] {type} {name}</DisplayString>
-		<Expand>
-			<Item Name="type">type</Item>
-			<Item Name="name">name</Item>
-			<Item Name="offset">offset</Item>
-			<Item Name="size">size</Item>
-			<Item Name="arrayStride">arrayStride</Item>
-		</Expand>
-	</Type>
-	<Type Name="ast::type::Struct">
-		<DisplayString>struct {m_name} {m_layout} {m_members}</DisplayString>
-		<Expand>
-			<Item Name="kind">m_kind</Item>
-			<Item Name="name">m_name</Item>
-			<Item Name="layout">m_layout</Item>
-			<Item Name="members">m_members</Item>
-		</Expand>
-	</Type>
-
-	<Type Name="ast::var::Variable">
-		<DisplayString>{{name={m_name} flags={m_flags}}}</DisplayString>
-		<Expand>
-			<Item Name="name">m_name</Item>
-			<Item Name="flags">m_flags</Item>
-			<Item Name="type">m_type</Item>
-			<Item Name="outer">m_outer</Item>
 		</Expand>
 	</Type>
 

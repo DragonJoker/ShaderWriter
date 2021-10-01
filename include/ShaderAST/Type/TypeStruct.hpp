@@ -25,7 +25,7 @@ namespace ast::type
 
 		struct Member
 		{
-			type::TypePtr type;
+			TypePtr type;
 			std::string name;
 			uint32_t offset;
 			uint32_t size;
@@ -49,20 +49,20 @@ namespace ast::type
 			, MemoryLayout layout
 			, std::string name );
 		SDAST_API Member declMember( std::string name
-			, type::Kind kind
+			, Kind kind
 			, uint32_t arraySize = NotArray );
 		SDAST_API Member declMember( std::string name
-			, type::TypePtr type );
+			, TypePtr type );
 		SDAST_API Member declMember( std::string name
-			, type::StructPtr type );
+			, StructPtr type );
 		SDAST_API Member declMember( std::string name
-			, type::ArrayPtr type
+			, ArrayPtr type
 			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
-			, type::StructPtr type
+			, StructPtr type
 			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
-			, type::ArrayPtr type );
+			, ArrayPtr type );
 		SDAST_API Member getMember( uint32_t index );
 		SDAST_API Member getMember( std::string const & name );
 		SDAST_API uint32_t findMember( std::string const & name );
@@ -114,7 +114,7 @@ namespace ast::type
 		}
 
 	private:
-		SDAST_API Member doAddMember( type::TypePtr type
+		SDAST_API Member doAddMember( TypePtr type
 			, std::string const & name );
 		SDAST_API void doUpdateOffsets();
 
@@ -125,7 +125,7 @@ namespace ast::type
 	};
 	using StructPtr = std::shared_ptr< Struct >;
 
-	SDAST_API size_t getHash( type::MemoryLayout layout, std::string const & name );
+	SDAST_API size_t getHash( MemoryLayout layout, std::string const & name );
 
 	SDAST_API bool operator==( Struct const & lhs, Struct const & rhs );
 

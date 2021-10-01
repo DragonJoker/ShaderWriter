@@ -271,25 +271,34 @@ namespace
 		testEnd();
 	}
 
-	void params( test::sdw_test::TestCounts & testCounts )
+	void paramInArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "params" );
+		testBegin( "paramInArray" );
 		using namespace sdw;
 		FragmentWriter writer;
-
-		Ubo ubo{ writer, "Matrices", 0u, 0u };
-		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
-		ubo.end();
-
-		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
-
-		auto st = St::declare( writer );
-
+		
 		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
 			, [&]( Array< Vec4 > const & p )
 			{
 			}
 			, InVec4Array{ writer, "p", 4u } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
+				foo01( va );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void paramInOutVec4( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramInOutVec4" );
+		using namespace sdw;
+		FragmentWriter writer;
 
 		auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
 			, [&]( Vec4 p )
@@ -297,6 +306,27 @@ namespace
 				p = p + vec4( 1.0_f );
 			}
 			, InOutVec4{ writer, "p" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocale< Vec4 >( "v" );
+				foo02( v );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void paramInMat4InVec4( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramInMat4InVec4" );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ubo ubo{ writer, "Matrices", 0u, 0u };
+		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
+		ubo.end();
 
 		auto foo03 = writer.implementFunction< Vec4 >( "foo03"
 			, [&]( Mat4 const & m
@@ -306,6 +336,28 @@ namespace
 			}
 			, InMat4{ writer, "m" }
 			, InVec4{ writer, "p" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocale< Vec4 >( "v" );
+				auto m = writer.declLocale< Mat4 >( "m" );
+				foo03( m, v );
+				auto r = writer.declLocale< Vec4 >( "r"
+					, foo03( c3d_viewMatrix, v ) );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void paramInStInVec4( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramInStInVec4" );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto st = St::declare( writer );
 
 		auto foo04 = writer.implementFunction< Vec4 >( "foo04"
 			, [&]( St const & m
@@ -321,14 +373,51 @@ namespace
 			, InSt{ writer, "m" }
 			, InVec4{ writer, "p" } );
 
-		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( SampledImage2DRgba32 const & m
-				, Vec2 const & p )
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
 			{
-				writer.returnStmt( m.sample( p ) );
+				auto v = writer.declLocale< Vec4 >( "v" );
+				auto inst = st->getInstance< St >( "inst", true );
+				v = foo04( inst, v );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void paramInSpImgInVec2( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramInSpImgInVec2" );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+
+		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
+			, [&]( SampledImage2DRgba32 const & sim
+				, Vec2 const & pos )
+			{
+				writer.returnStmt( sim.sample( pos ) );
 			}
-			, InSampledImage2DRgba32{ writer, "m" }
-			, InVec2{ writer, "p" } );
+			, InSampledImage2DRgba32{ writer, "sim" }
+			, InVec2{ writer, "pos" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocale< Vec4 >( "v" );
+				v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void paramInVec4Ass( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramInVec4Ass" );
+		using namespace sdw;
+		FragmentWriter writer;
 
 		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
 			, [&]( Vec2 const & e )
@@ -337,6 +426,84 @@ namespace
 				writer.returnStmt( round( e ) );
 			}
 			, InVec2{ writer, "e" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				//auto e = writer.declLocale< Vec2 >( "e" );
+				//e = foo06( e );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void params( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "params" );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ubo ubo{ writer, "Matrices", 0u, 0u };
+		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
+		ubo.end();
+
+		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+
+		auto st = St::declare( writer );
+
+		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
+			, [&]( Array< Vec4 > const & arr )
+			{
+			}
+			, InVec4Array{ writer, "arr", 4u } );
+
+		auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
+			, [&]( Vec4 pos )
+			{
+				pos = pos + vec4( 1.0_f );
+			}
+			, InOutVec4{ writer, "pos" } );
+
+		auto foo03 = writer.implementFunction< Vec4 >( "foo03"
+			, [&]( Mat4 const & mtx
+				, Vec4 const & pos )
+			{
+				writer.returnStmt( mtx * pos );
+			}
+			, InMat4{ writer, "mtx" }
+			, InVec4{ writer, "pos" } );
+
+		auto foo04 = writer.implementFunction< Vec4 >( "foo04"
+			, [&]( St const & str
+				, Vec4 const & pos )
+			{
+				FOR( writer, UInt, i, 0_u, i < 4_u, ++i )
+				{
+					str.b[i] *= pos;
+				}
+				ROF;
+				writer.returnStmt( str.a * pos );
+			}
+			, InSt{ writer, "str" }
+			, InVec4{ writer, "pos" } );
+
+		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
+			, [&]( SampledImage2DRgba32 const & sim
+				, Vec2 const & pos )
+			{
+				writer.returnStmt( sim.sample( pos ) );
+			}
+			, InSampledImage2DRgba32{ writer, "sim" }
+			, InVec2{ writer, "pos" } );
+
+		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
+			, [&]( Vec2 const & pos )
+			{
+				pos.r() = pos.r() * abs( 5.0_f * pos.r() - 5.0 * 0.75 );
+				writer.returnStmt( round( pos ) );
+			}
+			, InVec2{ writer, "pos" } );
 
 		writer.implementFunction< sdw::Void >( "main"
 			, [&]()
@@ -614,7 +781,6 @@ namespace
 			}
 			, InFloat{ writer, "gamma" }
 			, InVec3{ writer, "srgb" } );
-		
 
 		// Shader outputs
 		auto pxl_FragColor = writer.declOutput< Vec4 >( "pxl_FragColor", 0u );
@@ -1850,42 +2016,102 @@ namespace
 			, testCounts );
 		testEnd();
 	}
+
+	void accessChainAlias( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "accessChainAlias" );
+		using namespace sdw;
+		ShaderArray shaders;
+		{
+			auto writer = ComputeWriter{};
+			writer.inputLayout( 16u, 16u );
+
+			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
+			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
+			ubo.end();
+
+			writer.implementMain( [&]()
+				{
+					auto tmp = writer.declLocale( "tmp"
+						, normalize( transpose( mat3( mtx ) ) * pos ) );
+				} );
+			test::writeShader( writer
+				, testCounts );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts );
+		testEnd();
+	}
+
+	void constVectorShuffle( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "constVectorShuffle" );
+		using namespace sdw;
+		{
+			using namespace sdw;
+			VertexWriter writer;
+
+			// Shader constants
+			auto constVec = writer.declConstant( "constVec"
+				, vec4( 300.0_f ) );
+
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					auto loc = writer.declLocale( "loc"
+						, length( constVec.xyxy() ) );
+				} );
+			test::writeShader( writer
+				, testCounts );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
 {
 	sdwTestSuiteBegin();
-	reference( testCounts );
-	vertex( testCounts );
-	fragment( testCounts );
-	compute( testCounts );
-	params( testCounts );
-	swizzles( testCounts );
-	arrayAccesses( testCounts );
-	removeGamma( testCounts );
-	conversions( testCounts );
-	returns( testCounts );
-	outputs( testCounts );
-	skybox( testCounts );
-	vtx_frag( testCounts );
-	charles( testCounts );
-	charles_approx( testCounts );
-	charles_latest( testCounts );
-	radiance_computer( testCounts );
-	arthapzMin( testCounts );
-	arthapz( testCounts, false, false );
-	arthapz( testCounts, false, true );
-	arthapz( testCounts, true, false );
-	arthapz( testCounts, true, true );
-	onlyGeometry( testCounts );
-	basicGeometry( testCounts );
-	voxelGeometry( testCounts );
-	simpleStore( testCounts );
-	voxelToTexture( testCounts );
-	clipDistance( testCounts );
-	imageArray( testCounts );
-	textureOffset( testCounts );
-	boolCast( testCounts );
+	//reference( testCounts );
+	//vertex( testCounts );
+	//fragment( testCounts );
+	//compute( testCounts );
+	//paramInArray( testCounts );
+	//paramInOutVec4( testCounts );
+	//paramInMat4InVec4( testCounts );
+	//paramInStInVec4( testCounts );
+	//paramInSpImgInVec2( testCounts );
+	//paramInVec4Ass( testCounts );
+	//params( testCounts );
+	//swizzles( testCounts );
+	//arrayAccesses( testCounts );
+	//removeGamma( testCounts );
+	//conversions( testCounts );
+	//returns( testCounts );
+	//outputs( testCounts );
+	//skybox( testCounts );
+	//vtx_frag( testCounts );
+	//charles( testCounts );
+	//charles_approx( testCounts );
+	//charles_latest( testCounts );
+	//radiance_computer( testCounts );
+	//arthapzMin( testCounts );
+	//arthapz( testCounts, false, false );
+	//arthapz( testCounts, false, true );
+	//arthapz( testCounts, true, false );
+	//arthapz( testCounts, true, true );
+	//onlyGeometry( testCounts );
+	//basicGeometry( testCounts );
+	//voxelGeometry( testCounts );
+	//simpleStore( testCounts );
+	//voxelToTexture( testCounts );
+	//clipDistance( testCounts );
+	//imageArray( testCounts );
+	//textureOffset( testCounts );
+	//boolCast( testCounts );
+	//accessChainAlias( testCounts );
+	constVectorShuffle( testCounts );
 	sdwTestSuiteEnd();
 }
 

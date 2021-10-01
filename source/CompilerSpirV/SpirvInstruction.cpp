@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "CompilerSpirV/SpirvInstruction.hpp"
 
+#include <ShaderAST/Type/ImageConfiguration.hpp>
+
+#include <algorithm>
 #include <map>
 
 namespace spirv
@@ -210,7 +213,7 @@ namespace spirv
 			case spv::OpLoad:
 				return LoadInstruction::config;
 			case spv::OpStore:
-				return LoadInstruction::config;
+				return StoreInstruction::config;
 			case spv::OpCopyMemory:
 				return CopyMemoryInstruction::config;
 			case spv::OpAccessChain:
@@ -573,16 +576,192 @@ namespace spirv
 
 	//*************************************************************************
 
+	size_t ValueIdHasher::operator()( ValueId const & value )const
+	{
+		auto hash = std::hash< spv::Id >{}( value.id );
+		ast::type::hashCombine( hash, value.isPointer() );
+		return hash;
+	}
+
+	//*************************************************************************
+
+	size_t ValueIdListHasher::operator()( ValueIdList const & value )const
+	{
+		assert( !value.empty() );
+		auto hash = ValueIdHasher{}( value[0] );
+
+		std::for_each( value.begin() + 1u
+			, value.end()
+			, [&hash]( ValueId const & id )
+			{
+				;
+				ast::type::hashCombine( hash, ValueIdHasher{}( id ) );
+			} );
+
+		return hash;
+	}
+
+	//*************************************************************************
+
+	size_t IdListHasher::operator()( IdList const & list )const
+	{
+		assert( !list.empty() );
+		auto hash = std::hash< spv::Id >{}( list[0] );
+
+		std::for_each( list.begin() + 1u
+			, list.end()
+			, [&hash]( spv::Id id )
+			{
+				ast::type::hashCombine( hash, id );
+			} );
+
+		return hash;
+	}
+
+	//*************************************************************************
+
+	IdList convert( ValueIdList const & in )
+	{
+		IdList result;
+		result.reserve( in.size() );
+
+		for ( auto & v : in )
+		{
+			result.push_back( v.id );
+		}
+
+		return result;
+	}
+
+	ValueIdList convert( IdList const & in )
+	{
+		ValueIdList result;
+		result.reserve( in.size() );
+
+		for ( auto & v : in )
+		{
+			result.push_back( { v } );
+		}
+
+		return result;
+	}
+
+	ast::type::Storage convert( spv::StorageClass in )
+	{
+		switch ( in )
+		{
+		case spv::StorageClassUniformConstant:
+			return ast::type::Storage::eUniformConstant;
+		case spv::StorageClassInput:
+			return ast::type::Storage::eInput;
+		case spv::StorageClassUniform:
+			return ast::type::Storage::eUniform;
+		case spv::StorageClassOutput:
+			return ast::type::Storage::eOutput;
+		case spv::StorageClassWorkgroup:
+			return ast::type::Storage::eWorkgroup;
+		case spv::StorageClassCrossWorkgroup:
+			return ast::type::Storage::eCrossWorkgroup;
+		case spv::StorageClassPrivate:
+			return ast::type::Storage::ePrivate;
+		case spv::StorageClassFunction:
+			return ast::type::Storage::eFunction;
+		case spv::StorageClassGeneric:
+			return ast::type::Storage::eGeneric;
+		case spv::StorageClassPushConstant:
+			return ast::type::Storage::ePushConstant;
+		case spv::StorageClassAtomicCounter:
+			return ast::type::Storage::eAtomicCounter;
+		case spv::StorageClassImage:
+			return ast::type::Storage::eImage;
+		case spv::StorageClassStorageBuffer:
+			return ast::type::Storage::eStorageBuffer;
+		case spv::StorageClassCallableDataKHR:
+			return ast::type::Storage::eCallableData;
+		case spv::StorageClassIncomingCallableDataKHR:
+			return ast::type::Storage::eIncomingCallableData;
+		case spv::StorageClassRayPayloadKHR:
+			return ast::type::Storage::eRayPayload;
+		case spv::StorageClassHitAttributeKHR:
+			return ast::type::Storage::eHitAttribute;
+		case spv::StorageClassIncomingRayPayloadKHR:
+			return ast::type::Storage::eIncomingRayPayload;
+		case spv::StorageClassShaderRecordBufferKHR:
+			return ast::type::Storage::eShaderRecordBuffer;
+		case spv::StorageClassPhysicalStorageBuffer:
+			return ast::type::Storage::ePhysicalStorageBuffer;
+		case spv::StorageClassCodeSectionINTEL:
+			return ast::type::Storage::eCodeSection;
+		default:
+			AST_Failure( "Unsupported spv::StorageClass" );
+			return ast::type::Storage::eFunction;
+		}
+	}
+
+	spv::StorageClass convert( ast::type::Storage in )
+	{
+		switch ( in )
+		{
+		case ast::type::Storage::eUniformConstant:
+			return spv::StorageClassUniformConstant;
+		case ast::type::Storage::eInput:
+			return spv::StorageClassInput;
+		case ast::type::Storage::eUniform:
+			return spv::StorageClassUniform;
+		case ast::type::Storage::eOutput:
+			return spv::StorageClassOutput;
+		case ast::type::Storage::eWorkgroup:
+			return spv::StorageClassWorkgroup;
+		case ast::type::Storage::eCrossWorkgroup:
+			return spv::StorageClassCrossWorkgroup;
+		case ast::type::Storage::ePrivate:
+			return spv::StorageClassPrivate;
+		case ast::type::Storage::eFunction:
+			return spv::StorageClassFunction;
+		case ast::type::Storage::eGeneric:
+			return spv::StorageClassGeneric;
+		case ast::type::Storage::ePushConstant:
+			return spv::StorageClassPushConstant;
+		case ast::type::Storage::eAtomicCounter:
+			return spv::StorageClassAtomicCounter;
+		case ast::type::Storage::eImage:
+			return spv::StorageClassImage;
+		case ast::type::Storage::eStorageBuffer:
+			return spv::StorageClassStorageBuffer;
+		case ast::type::Storage::eCallableData:
+			return spv::StorageClassCallableDataKHR;
+		case ast::type::Storage::eIncomingCallableData:
+			return spv::StorageClassIncomingCallableDataKHR;
+		case ast::type::Storage::eRayPayload:
+			return spv::StorageClassRayPayloadKHR;
+		case ast::type::Storage::eHitAttribute:
+			return spv::StorageClassHitAttributeKHR;
+		case ast::type::Storage::eIncomingRayPayload:
+			return spv::StorageClassIncomingRayPayloadKHR;
+		case ast::type::Storage::eShaderRecordBuffer:
+			return spv::StorageClassShaderRecordBufferKHR;
+		case ast::type::Storage::ePhysicalStorageBuffer:
+			return spv::StorageClassPhysicalStorageBuffer;
+		case ast::type::Storage::eCodeSection:
+			return spv::StorageClassCodeSectionINTEL;
+		default:
+			AST_Failure( "Unsupported ast::type::Storage" );
+			return spv::StorageClassFunction;
+		}
+	}
+
+	//*************************************************************************
+
 	Instruction::Instruction( Config const & pconfig
 		, spv::Op pop
-		, Optional< spv::Id > preturnTypeId
-		, Optional< spv::Id > presultId
-		, IdList poperands
+		, Optional< ValueId > preturnTypeId
+		, Optional< ValueId > presultId
+		, ValueIdList poperands
 		, Optional< std::string > pname
 		, Optional< std::map< int32_t, spv::Id > > plabels )
-		: returnTypeId{ preturnTypeId }
-		, resultId{ presultId }
-		, operands{ poperands }
+		: returnTypeId{ preturnTypeId ? Optional< spv::Id >{ preturnTypeId->id } : std::nullopt }
+		, resultId{ presultId ? Optional< spv::Id >{ presultId->id } : std::nullopt }
+		, operands{ convert( poperands ) }
 		, packedName{ nullopt }
 		, config{ pconfig }
 		, name{ pname }

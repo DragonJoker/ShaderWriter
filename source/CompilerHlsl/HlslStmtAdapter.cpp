@@ -140,22 +140,26 @@ namespace hlsl
 	}
 
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::Shader const & shader
+		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
-		, HlslConfig const & writerConfig )
+		, HlslConfig const & writerConfig
+		, AdaptationData & adaptationData )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ shader, intrinsicsConfig, writerConfig, result };
-		shader.getStatements()->accept( &vis );
+		StmtAdapter vis{ shader, intrinsicsConfig, writerConfig, adaptationData, result };
+		container->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( ast::Shader const & shader
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
+		, AdaptationData & adaptationData
 		, ast::stmt::ContainerPtr & result )
 		: StmtCloner{ result }
 		, m_intrinsicsConfig{ intrinsicsConfig }
 		, m_writerConfig{ writerConfig }
+		, m_adaptationData{ adaptationData }
 		, m_shader{ shader }
 		, m_cache{ shader.getTypesCache() }
 	{
@@ -400,7 +404,8 @@ namespace hlsl
 		m_adaptationData.ssboList.push_back( ssboVar );
 		m_current->addStmt( ast::stmt::makeStructureDecl( stmt->getType() ) );
 		m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
-			, ast::var::makeVariable( ssboVar->getType()
+			, ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, ssboVar->getType()
 				, ssboVar->getName() + "Inst" )
 			, ssboVar
 			, stmt->getBindingPoint()
@@ -414,7 +419,9 @@ namespace hlsl
 			m_adaptationData.replacedVars.emplace( var
 				, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( ssboVar->getType()
 						, ast::expr::makeIdentifier( m_cache
-							, ast::var::makeVariable( m_cache.getArray( ssboVar->getType(), 1u ), ssboVar->getName() ) )
+							, ast::var::makeVariable( ++m_adaptationData.nextVarId
+								, m_cache.getArray( ssboVar->getType(), 1u )
+								, ssboVar->getName() ) )
 						, ast::expr::makeLiteral( m_cache, 0 ) )
 					, mbrIndex++
 					, uint32_t( ast::var::Flag::eUniform ) ) );
@@ -445,7 +452,8 @@ namespace hlsl
 
 				if ( hlslKind != var->getType()->getKind() )
 				{
-					var = ast::var::makeVariable( m_cache.getBasicType( hlslKind )
+					var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+						, m_cache.getBasicType( hlslKind )
 						, var->getName() );
 				}
 
@@ -463,7 +471,8 @@ namespace hlsl
 
 				if ( hlslKind != var->getType()->getKind() )
 				{
-					var = ast::var::makeVariable( m_cache.getBasicType( hlslKind )
+					var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+						, m_cache.getBasicType( hlslKind )
 						, var->getName() );
 				}
 
@@ -502,14 +511,18 @@ namespace hlsl
 			{
 				m_adaptationData.mainInputStruct->declMember( input.second->getName()
 					+ ": "
-					+ getSemantic( input.second->getName(), *pintSem )
+					+ getSemantic( input.second->getName()
+						, input.second->getType()
+						, *pintSem )
 					, input.second->getType() );
 			}
 			else
 			{
 				m_adaptationData.mainInputStruct->declMember( input.second->getName()
 					+ ": "
-					+ getSemantic( input.second->getName(), *pfltSem )
+					+ getSemantic( input.second->getName()
+						, input.second->getType()
+						, *pfltSem )
 					, input.second->getType() );
 			}
 
@@ -558,14 +571,18 @@ namespace hlsl
 				{
 					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
 						+ ": "
-						+ getSemantic( output.second->getName(), *pintSem )
+						+ getSemantic( output.second->getName()
+							, output.second->getType()
+							, *pintSem )
 						, output.second->getType() );
 				}
 				else
 				{
 					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
 						+ ": "
-						+ getSemantic( output.second->getName(), *pfltSem )
+						+ getSemantic( output.second->getName()
+							, output.second->getType()
+							, *pfltSem )
 						, output.second->getType() );
 				}
 
@@ -626,7 +643,8 @@ namespace hlsl
 		// Call SDW_main function.
 		cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
 			, ast::expr::makeIdentifier( m_cache
-				, ast::var::makeFunction( m_cache.getFunction( m_cache.getVoid(), ast::var::VariableList{} )
+				, ast::var::makeFunction( ++m_adaptationData.nextVarId
+					, m_cache.getFunction( m_cache.getVoid(), ast::var::VariableList{} )
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
@@ -715,7 +733,9 @@ namespace hlsl
 		// Split sampled textures in sampler + texture in parameters list.
 		for ( auto & param : *stmt->getType() )
 		{
-			auto it = updateLinkedVars( param, m_adaptationData.linkedVars );
+			auto it = updateLinkedVars( param
+				, m_adaptationData.linkedVars
+				, m_adaptationData.nextVarId );
 
 			if ( it != m_adaptationData.linkedVars.end() )
 			{

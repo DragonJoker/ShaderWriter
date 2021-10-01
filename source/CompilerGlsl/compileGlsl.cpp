@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/StmtSpecialiser.hpp>
 #include <ShaderAST/Visitors/StmtSimplifier.hpp>
+#include <ShaderAST/Visitors/TransformSSA.hpp>
 
 namespace glsl
 {
@@ -17,14 +18,20 @@ namespace glsl
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & writerConfig )
 	{
+		ast::SSAData ssaData;
+		ssaData.nextVarId = shader.getData().nextVarId;
+		auto ssaStatements = ast::transformSSA( shader.getTypesCache()
+			, shader.getStatements()
+			, ssaData );
 		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
-			, shader.getStatements() );
+			, ssaStatements.get() );
 		auto intrinsicsConfig = glsl::StmtConfigFiller::submit( simplified.get() );
 		auto glStatements = glsl::StmtAdapter::submit( shader.getTypesCache()
 			, simplified.get()
 			, writerConfig
 			, intrinsicsConfig );
 		glStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), glStatements.get(), specialisation );
-		return glsl::StmtVisitor::submit( writerConfig, glStatements.get() );
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
+		return glsl::StmtVisitor::submit( writerConfig, aliases, glStatements.get() );
 	}
 }

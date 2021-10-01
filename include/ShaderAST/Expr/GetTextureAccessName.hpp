@@ -1960,264 +1960,132 @@ namespace ast::expr
 			result = "TEXTUREGATHER2DF";
 			break;
 
-		case TextureAccess::eTextureGather2DFComp:
-			result = "TEXTUREGATHER2DFCOMP";
-			break;
-
 		case TextureAccess::eTextureGather2DArrayF:
 			result = "TEXTUREGATHER2DARRAYF";
-			break;
-
-		case TextureAccess::eTextureGather2DArrayFComp:
-			result = "TEXTUREGATHER2DARRAYFCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherCubeF:
 			result = "TEXTUREGATHERCUBEF";
 			break;
 
-		case TextureAccess::eTextureGatherCubeFComp:
-			result = "TEXTUREGATHERCUBEFCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherCubeArrayF:
 			result = "TEXTUREGATHERCUBEARRAYF";
-			break;
-
-		case TextureAccess::eTextureGatherCubeArrayFComp:
-			result = "TEXTUREGATHERCUBEARRAYFCOMP";
 			break;
 
 		case TextureAccess::eTextureGather2DRectF:
 			result = "TEXTUREGATHER2DRECTF";
 			break;
 
-		case TextureAccess::eTextureGather2DRectFComp:
-			result = "TEXTUREGATHER2DRECTFCOMP";
-			break;
-
 		case TextureAccess::eTextureGather2DI:
 			result = "TEXTUREGATHER2DI";
-			break;
-
-		case TextureAccess::eTextureGather2DIComp:
-			result = "TEXTUREGATHER2DICOMP";
 			break;
 
 		case TextureAccess::eTextureGather2DArrayI:
 			result = "TEXTUREGATHER2DARRAYI";
 			break;
 
-		case TextureAccess::eTextureGather2DArrayIComp:
-			result = "TEXTUREGATHER2DARRAYICOMP";
-			break;
-
 		case TextureAccess::eTextureGatherCubeI:
 			result = "TEXTUREGATHERCUBEI";
-			break;
-
-		case TextureAccess::eTextureGatherCubeIComp:
-			result = "TEXTUREGATHERCUBEICOMP";
 			break;
 
 		case TextureAccess::eTextureGatherCubeArrayI:
 			result = "TEXTUREGATHERCUBEARRAYI";
 			break;
 
-		case TextureAccess::eTextureGatherCubeArrayIComp:
-			result = "TEXTUREGATHERCUBEARRAYICOMP";
-			break;
-
 		case TextureAccess::eTextureGather2DRectI:
 			result = "TEXTUREGATHER2DRECTI";
-			break;
-
-		case TextureAccess::eTextureGather2DRectIComp:
-			result = "TEXTUREGATHER2DRECTICOMP";
 			break;
 
 		case TextureAccess::eTextureGather2DU:
 			result = "TEXTUREGATHER2DU";
 			break;
 
-		case TextureAccess::eTextureGather2DUComp:
-			result = "TEXTUREGATHER2DUCOMP";
-			break;
-
 		case TextureAccess::eTextureGather2DArrayU:
 			result = "TEXTUREGATHER2DARRAYU";
-			break;
-
-		case TextureAccess::eTextureGather2DArrayUComp:
-			result = "TEXTUREGATHER2DARRAYUCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherCubeU:
 			result = "TEXTUREGATHERCUBEU";
 			break;
 
-		case TextureAccess::eTextureGatherCubeUComp:
-			result = "TEXTUREGATHERCUBEUCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherCubeArrayU:
 			result = "TEXTUREGATHERCUBEARRAYU";
-			break;
-
-		case TextureAccess::eTextureGatherCubeArrayUComp:
-			result = "TEXTUREGATHERCUBEARRAYUCOMP";
 			break;
 
 		case TextureAccess::eTextureGather2DRectU:
 			result = "TEXTUREGATHER2DRECTU";
 			break;
 
-		case TextureAccess::eTextureGather2DRectUComp:
-			result = "TEXTUREGATHER2DRECTUCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffset2DF:
 			result = "TEXTUREGATHEROFFSET2DF";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DFComp:
-			result = "TEXTUREGATHEROFFSET2DFCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffset2DArrayF:
 			result = "TEXTUREGATHEROFFSET2DARRAYF";
 			break;
 
-		case TextureAccess::eTextureGatherOffset2DArrayFComp:
-			result = "TEXTUREGATHEROFFSET2DARRAYFCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffset2DRectF:
 			result = "TEXTUREGATHEROFFSET2DRECTF";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DRectFComp:
-			result = "TEXTUREGATHEROFFSET2DRECTFCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffset2DI:
 			result = "TEXTUREGATHEROFFSET2DI";
 			break;
 
-		case TextureAccess::eTextureGatherOffset2DIComp:
-			result = "TEXTUREGATHEROFFSET2DICOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffset2DArrayI:
 			result = "TEXTUREGATHEROFFSET2DARRAYI";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DArrayIComp:
-			result = "TEXTUREGATHEROFFSET2DARRAYICOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffset2DRectI:
 			result = "TEXTUREGATHEROFFSET2DRECTI";
 			break;
 
-		case TextureAccess::eTextureGatherOffset2DRectIComp:
-			result = "TEXTUREGATHEROFFSET2DRECTICOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffset2DU:
 			result = "TEXTUREGATHEROFFSET2DU";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DUComp:
-			result = "TEXTUREGATHEROFFSET2DUCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffset2DArrayU:
 			result = "TEXTUREGATHEROFFSET2DARRAYU";
 			break;
 
-		case TextureAccess::eTextureGatherOffset2DArrayUComp:
-			result = "TEXTUREGATHEROFFSET2DARRAYUCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffset2DRectU:
 			result = "TEXTUREGATHEROFFSET2DRECTU";
-			break;
-
-		case TextureAccess::eTextureGatherOffset2DRectUComp:
-			result = "TEXTUREGATHEROFFSET2DRECTUCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffsets2DF:
 			result = "TEXTUREGATHEROFFSETS2DF";
 			break;
 
-		case TextureAccess::eTextureGatherOffsets2DFComp:
-			result = "TEXTUREGATHEROFFSETS2DFCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffsets2DArrayF:
 			result = "TEXTUREGATHEROFFSETS2DARRAYF";
-			break;
-
-		case TextureAccess::eTextureGatherOffsets2DArrayFComp:
-			result = "TEXTUREGATHEROFFSETS2DARRAYFCOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffsets2DRectF:
 			result = "TEXTUREGATHEROFFSETS2DRECTF";
 			break;
 
-		case TextureAccess::eTextureGatherOffsets2DRectFComp:
-			result = "TEXTUREGATHEROFFSETS2DRECTFCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffsets2DI:
 			result = "TEXTUREGATHEROFFSETS2DI";
-			break;
-
-		case TextureAccess::eTextureGatherOffsets2DIComp:
-			result = "TEXTUREGATHEROFFSETS2DICOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffsets2DArrayI:
 			result = "TEXTUREGATHEROFFSETS2DARRAYI";
 			break;
 
-		case TextureAccess::eTextureGatherOffsets2DArrayIComp:
-			result = "TEXTUREGATHEROFFSETS2DARRAYICOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffsets2DRectI:
 			result = "TEXTUREGATHEROFFSETS2DRECTI";
-			break;
-
-		case TextureAccess::eTextureGatherOffsets2DRectIComp:
-			result = "TEXTUREGATHEROFFSETS2DRECTICOMP";
 			break;
 
 		case TextureAccess::eTextureGatherOffsets2DU:
 			result = "TEXTUREGATHEROFFSETS2DU";
 			break;
 
-		case TextureAccess::eTextureGatherOffsets2DUComp:
-			result = "TEXTUREGATHEROFFSETS2DUCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffsets2DArrayU:
 			result = "TEXTUREGATHEROFFSETS2DARRAYU";
 			break;
 
-		case TextureAccess::eTextureGatherOffsets2DArrayUComp:
-			result = "TEXTUREGATHEROFFSETS2DARRAYUCOMP";
-			break;
-
 		case TextureAccess::eTextureGatherOffsets2DRectU:
 			result = "TEXTUREGATHEROFFSETS2DRECTU";
-			break;
-
-		case TextureAccess::eTextureGatherOffsets2DRectUComp:
-			result = "TEXTUREGATHEROFFSETS2DRECTUCOMP";
 			break;
 
 

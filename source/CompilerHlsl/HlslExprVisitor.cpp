@@ -31,17 +31,25 @@ namespace hlsl
 		}
 	}
 
-	std::string ExprVisitor::submit( ast::expr::Expr * expr )
+	std::string ExprVisitor::submit( ast::expr::Expr * expr
+		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases )
 	{
 		std::string result;
-		ExprVisitor vis{ result };
+		ExprVisitor vis{ aliases, result };
 		expr->accept( &vis );
 		return result;
 	}
 
-	ExprVisitor::ExprVisitor( std::string & result )
+	ExprVisitor::ExprVisitor( std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+		, std::string & result )
 		: m_result{ result }
+		, m_aliases{ aliases }
 	{
+	}
+
+	std::string ExprVisitor::doSubmit( ast::expr::Expr * expr )
+	{
+		return submit( expr, m_aliases );
 	}
 
 	void ExprVisitor::wrap( ast::expr::Expr * expr )
@@ -61,12 +69,12 @@ namespace hlsl
 
 		if ( noParen )
 		{
-			expr->accept( this );
+			m_result += doSubmit( expr );
 		}
 		else
 		{
 			m_result += "(";
-			expr->accept( this );
+			m_result += doSubmit( expr );
 			m_result += ")";
 		}
 	}
@@ -75,7 +83,7 @@ namespace hlsl
 	{
 		wrap( expr->getLHS() );
 		m_result += " " + getOperatorName( expr->getKind() ) + " ";
-		expr->getRHS()->accept( this );
+		m_result += doSubmit( expr->getRHS() );
 	}
 
 	void ExprVisitor::visitUnaryExpr( ast::expr::Unary * expr )
@@ -154,7 +162,7 @@ namespace hlsl
 			}
 
 			m_result += getTypeName( expr->getType() ) + " ";
-			expr->getIdentifier()->accept( this );
+			m_result += doSubmit( expr->getIdentifier() );
 			m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 			m_result += " = ";
 		}
@@ -169,7 +177,7 @@ namespace hlsl
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			m_result += sep + submit( init.get() );
+			m_result += sep + doSubmit( init.get() );
 			sep = ", ";
 		}
 
@@ -187,7 +195,7 @@ namespace hlsl
 	void ExprVisitor::visitCastExpr( ast::expr::Cast * expr )
 	{
 		m_result += "((" + getTypeName( expr->getType() ) + ")(";
-		expr->getOperand()->accept( this );
+		m_result += doSubmit( expr->getOperand() );
 		m_result += "))";
 	}
 
@@ -199,7 +207,7 @@ namespace hlsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -229,14 +237,14 @@ namespace hlsl
 			m_result += ".";
 		}
 
-		expr->getFn()->accept( this );
+		m_result += doSubmit( expr->getFn() );
 		m_result += "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -245,23 +253,32 @@ namespace hlsl
 
 	void ExprVisitor::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		//if ( expr->getVariable()->isMember() 
-		//	&& getOutermost( expr->getVariable() )->isUniform() )
-		//{
-		//	auto result = expr->getVariable()->getName();
-		//	auto outer = expr->getVariable()->getOuter();
+		auto it = m_aliases.find( expr->getVariable() );
 
-		//	while ( outer )
-		//	{
-		//		result = outer->getName() + "." + result;
-		//		outer = outer->getOuter();
-		//	}
-
-		//	m_result += result;
-		//}
-		//else
+		if ( it != m_aliases.end() )
 		{
-			m_result += expr->getVariable()->getName();
+			wrap( it->second );
+		}
+		else
+		{
+			//if ( expr->getVariable()->isMember() 
+			//	&& getOutermost( expr->getVariable() )->isUniform() )
+			//{
+			//	auto result = expr->getVariable()->getName();
+			//	auto outer = expr->getVariable()->getOuter();
+
+			//	while ( outer )
+			//	{
+			//		result = outer->getName() + "." + result;
+			//		outer = outer->getOuter();
+			//	}
+
+			//	m_result += result;
+			//}
+			//else
+			{
+				m_result += expr->getVariable()->getName();
+			}
 		}
 	}
 
@@ -276,7 +293,7 @@ namespace hlsl
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				arg->accept( this );
+				m_result += doSubmit( arg.get() );
 				sep = ", ";
 			}
 
@@ -284,15 +301,15 @@ namespace hlsl
 		}
 		else
 		{
-			expr->getArgList()[0]->accept( this );
+			m_result += doSubmit( expr->getArgList()[0].get() );
 			m_result += "." + getHlslName( expr->getImageAccess() ) + "(";
-			expr->getArgList()[1]->accept( this );
+			m_result += doSubmit( expr->getArgList()[1].get() );
 
 			for ( size_t i = 2; i < expr->getArgList().size(); ++i )
 			{
 				auto & arg = expr->getArgList()[i];
 				m_result += ", ";
-				arg->accept( this );
+				m_result += doSubmit( arg.get() );
 			}
 
 			m_result += ")";
@@ -307,10 +324,10 @@ namespace hlsl
 		}
 
 		m_result += getTypeName( expr->getType() ) + " ";
-		expr->getIdentifier()->accept( this );
+		m_result += doSubmit( expr->getIdentifier() );
 		m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 		m_result += " = ";
-		expr->getInitialiser()->accept( this );
+		m_result += doSubmit( expr->getInitialiser() );
 	}
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
@@ -321,7 +338,7 @@ namespace hlsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -394,12 +411,12 @@ namespace hlsl
 
 	void ExprVisitor::visitSwitchCaseExpr( ast::expr::SwitchCase *expr )
 	{
-		expr->getLabel()->accept( this );
+		m_result += doSubmit( expr->getLabel() );
 	}
 
 	void ExprVisitor::visitSwitchTestExpr( ast::expr::SwitchTest *expr )
 	{
-		expr->getValue()->accept( this );
+		m_result += doSubmit( expr->getValue() );
 	}
 
 	void ExprVisitor::visitSwizzleExpr( ast::expr::Swizzle * expr )
@@ -416,7 +433,7 @@ namespace hlsl
 			doProcessNonMemberTexture( expr );
 		}
 		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureGather2DF
-				&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp )
+				&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectU )
 		{
 			doProcessTextureGather( expr );
 		}
@@ -426,17 +443,22 @@ namespace hlsl
 		}
 	}
 
+	void ExprVisitor::visitAliasExpr( ast::expr::Alias * expr )
+	{
+		m_aliases.emplace( expr->getLHS()->getVariable(), expr->getRHS() );
+	}
+
 	void ExprVisitor::doProcessMemberTexture( ast::expr::TextureAccessCall * expr )
 	{
-		expr->getArgList()[0]->accept( this );
+		m_result += doSubmit( expr->getArgList()[0].get() );
 		m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
-		expr->getArgList()[1]->accept( this );
+		m_result += doSubmit( expr->getArgList()[1].get() );
 
 		for ( size_t i = 2; i < expr->getArgList().size(); ++i )
 		{
 			auto & arg = expr->getArgList()[i];
 			m_result += ", ";
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 		}
 
 		m_result += ")";
@@ -450,7 +472,7 @@ namespace hlsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
 			sep = ", ";
 		}
 
@@ -459,11 +481,12 @@ namespace hlsl
 
 	void ExprVisitor::doProcessTextureGather( ast::expr::TextureAccessCall * expr )
 	{
-		expr->getArgList()[0]->accept( this );
+		// Image
+		m_result += doSubmit( expr->getArgList()[0].get() );
 		uint32_t compValue = 0u;
 
 		// Component value will determine Gather function name.
-		auto component = expr->getArgList().back().get();
+		auto component = expr->getArgList()[2].get();
 
 		if ( component->getKind() == ast::expr::Kind::eLiteral )
 		{
@@ -500,16 +523,18 @@ namespace hlsl
 
 		m_result += "." + name + "(";
 		// Sampler
-		expr->getArgList()[1]->accept( this );
+		m_result += doSubmit( expr->getArgList()[1].get() );
 		// Coord
 		m_result += ", ";
-		expr->getArgList()[2]->accept( this );
+		m_result += doSubmit( expr->getArgList()[3].get() );
+		auto index = 4u;
 
-		for ( size_t i = 3u; i < expr->getArgList().size() - 1u; ++i )
+		while ( index < expr->getArgList().size() )
 		{
-			auto & arg = expr->getArgList()[i];
+			auto & arg = expr->getArgList()[index];
 			m_result += ", ";
-			arg->accept( this );
+			m_result += doSubmit( arg.get() );
+			++index;
 		}
 
 		m_result += ")";

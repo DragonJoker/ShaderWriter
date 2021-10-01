@@ -80,7 +80,7 @@ namespace ast
 	void StmtCloner::visitCompoundStmt( stmt::Compound * stmt )
 	{
 		auto save = m_current;
-		auto cont = stmt::makeContainer();
+		auto cont = stmt::makeCompound();
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -255,7 +255,12 @@ namespace ast
 
 	void StmtCloner::visitSimpleStmt( stmt::Simple * stmt )
 	{
-		m_current->addStmt( stmt::makeSimple( doSubmit( stmt->getExpr() ) ) );
+		auto expr = doSubmit( stmt->getExpr() );
+
+		if ( expr )
+		{
+			m_current->addStmt( stmt::makeSimple( std::move( expr ) ) );
+		}
 	}
 
 	void StmtCloner::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )

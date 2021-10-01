@@ -11,8 +11,8 @@ namespace spirv
 {
 	struct LoadedVariable
 	{
-		spv::Id varId;
-		spv::Id loadedId;
+		ValueId varId;
+		ValueId loadedId;
 	};
 
 	using LoadedVariableArray = std::vector< LoadedVariable >;
@@ -107,7 +107,7 @@ namespace spirv
 		ControlFlowGraph cfg;
 		// Used during construction.
 		InstructionList variables;
-		std::map< std::string, spv::Id > registeredVariables;
+		std::map< std::string, VariableInfo > registeredVariables;
 	};
 }
 

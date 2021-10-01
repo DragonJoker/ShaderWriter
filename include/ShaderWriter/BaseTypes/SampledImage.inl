@@ -1158,46 +1158,6 @@ namespace sdw
 			expr::TextureAccess::eTextureGatherCubeArrayU,
 		};
 
-		static constexpr IntrinsicsList textureGatherCompF
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGather2DFComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherCubeFComp,
-			expr::TextureAccess::eTextureGather2DRectFComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGather2DArrayFComp,
-			expr::TextureAccess::eTextureGatherCubeArrayFComp,
-		};
-		static constexpr IntrinsicsList textureGatherCompI
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGather2DIComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherCubeIComp,
-			expr::TextureAccess::eTextureGather2DRectIComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGather2DArrayIComp,
-			expr::TextureAccess::eTextureGatherCubeArrayIComp,
-		};
-		static constexpr IntrinsicsList textureGatherCompU
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGather2DUComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherCubeUComp,
-			expr::TextureAccess::eTextureGather2DRectUComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGather2DArrayUComp,
-			expr::TextureAccess::eTextureGatherCubeArrayUComp,
-		};
-
 		static constexpr IntrinsicsList textureGatherOffsetF
 		{
 			expr::TextureAccess::eInvalid,
@@ -1244,46 +1204,6 @@ namespace sdw
 
 			expr::TextureAccess::eInvalid,
 			expr::TextureAccess::eTextureGatherOffset2DArrayU,
-			expr::TextureAccess::eInvalid,
-		};
-
-		static constexpr IntrinsicsList textureGatherOffsetCompF
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DFComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DRectFComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DArrayFComp,
-			expr::TextureAccess::eInvalid,
-		};
-		static constexpr IntrinsicsList textureGatherOffsetCompI
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DIComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DRectIComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DArrayIComp,
-			expr::TextureAccess::eInvalid,
-		};
-		static constexpr IntrinsicsList textureGatherOffsetCompU
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DUComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DRectUComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffset2DArrayUComp,
 			expr::TextureAccess::eInvalid,
 		};
 
@@ -1335,46 +1255,6 @@ namespace sdw
 			expr::TextureAccess::eTextureGatherOffsets2DArrayU,
 			expr::TextureAccess::eInvalid,
 		};
-
-		static constexpr IntrinsicsList textureGatherOffsetsCompF
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DFComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DRectFComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DArrayFComp,
-			expr::TextureAccess::eInvalid,
-		};
-		static constexpr IntrinsicsList textureGatherOffsetsCompI
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DIComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DRectIComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DArrayIComp,
-			expr::TextureAccess::eInvalid,
-		};
-		static constexpr IntrinsicsList textureGatherOffsetsCompU
-		{
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DUComp,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DRectUComp,
-			expr::TextureAccess::eInvalid,
-
-			expr::TextureAccess::eInvalid,
-			expr::TextureAccess::eTextureGatherOffsets2DArrayUComp,
-			expr::TextureAccess::eInvalid,
-		};
 	}
 
 	//*************************************************************************
@@ -1404,11 +1284,8 @@ namespace sdw
 		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradF;
 		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetF;
 		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherF;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherComp = sampledImg::textureGatherCompF;
 		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetComp = sampledImg::textureGatherOffsetCompF;
 		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsF;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetsComp = sampledImg::textureGatherOffsetsCompF;
 	};
 
 	template< type::ImageFormat FormatT >
@@ -1436,11 +1313,8 @@ namespace sdw
 		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradI;
 		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetI;
 		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherI;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherComp = sampledImg::textureGatherCompI;
 		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetComp = sampledImg::textureGatherOffsetCompI;
 		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsI;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetsComp = sampledImg::textureGatherOffsetsCompI;
 	};
 
 	template< type::ImageFormat FormatT >
@@ -1468,11 +1342,8 @@ namespace sdw
 		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradU;
 		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetU;
 		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherU;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherComp = sampledImg::textureGatherCompU;
 		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetComp = sampledImg::textureGatherOffsetCompU;
 		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsU;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsetsComp = sampledImg::textureGatherOffsetsCompU;
 	};
 	
 	//*************************************************************************
@@ -2711,15 +2582,17 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		struct GatherFuncT
+			struct GatherFuncT
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord )const
+			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
-						, coord );
+						, coord
+						, comp );
 			}
 
 		private:
@@ -2761,43 +2634,19 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		struct GatherCompFuncT
-		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-
-			ImageGatherT< FormatT > gather( GatherT const & coord
-				, Int const & comp )const
-			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
-						, coord
-						, comp );
-			}
-
-		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
-			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
-			}
-		};
-
-		//*************************************************************************
-
-		template< ast::type::ImageFormat FormatT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
-			, bool MsT >
 		struct GatherOffsetFuncT
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
 			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Int const & comp
 				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
+						, comp
 						, offset );
 			}
 
@@ -2843,46 +2692,19 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		struct GatherOffsetsCompFuncT
-		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
-
-			ImageGatherT< FormatT > gather( GatherT const & coord
-				, OffsetT const & offset
-				, Int const & comp )const
-			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsetComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
-						, coord
-						, offset
-						, comp );
-			}
-
-		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
-			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
-			}
-		};
-
-		//*************************************************************************
-
-		template< ast::type::ImageFormat FormatT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
-			, bool MsT >
 		struct GatherOffsetsFuncT
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
 			ImageGatherT< FormatT > gather( GatherT const & coord
+				, Int const & comp
 				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
+						, comp
 						, offsets );
 			}
 
@@ -2927,35 +2749,6 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
-		struct GatherOffsetCompFuncT
-		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
-
-			ImageGatherT< FormatT > gather( GatherT const & coord
-				, Array< OffsetT > const & offsets
-				, Int const & comp )const
-			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsetsComp[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
-						, coord
-						, offsets
-						, comp );
-			}
-
-		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
-			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
-			}
-		};
-
-		//*************************************************************************
-
-		template< ast::type::ImageFormat FormatT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
 		struct SampledImageFuncsT< FormatT
@@ -2987,11 +2780,8 @@ namespace sdw
 			, public GradProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherOffsetCompFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
 			SDW_DeclValue( , SampledImageFuncsT );
 
@@ -3014,11 +2804,8 @@ namespace sdw
 			using GradProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 			using GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 			using GatherFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherOffsetCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -3192,11 +2979,8 @@ namespace sdw
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherOffsetCompFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
 			SDW_DeclValue( , SampledImageFuncsT );
 
@@ -3211,11 +2995,8 @@ namespace sdw
 			using GradFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GatherFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherOffsetCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherOffsetsCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -3255,14 +3036,12 @@ namespace sdw
 			, public SampleLodFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
 			SDW_DeclValue( , SampledImageFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using GatherFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherCompFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
 			SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr

@@ -16,6 +16,10 @@ See LICENSE file in root folder
 #include <optional>
 #include <sstream>
 
+#if defined( WIN32 )
+#	include <Windows.h>
+#endif
+
 namespace ast::vk
 {
 	//*********************************************************************************************
@@ -106,14 +110,25 @@ namespace ast::vk
 			return VK_ERROR_VALIDATION_FAILED_EXT;
 		}
 
-		auto err = m_context.vkCreateGraphicsPipeline( m_context.device
-			, m_context.cache
-			, 1u
-			, &createInfos
-			, m_context.allocator
-			, result );
-		checkError( err );
-		return err;
+#	if defined( WIN32 )
+		__try
+		{
+#	endif
+			auto err = m_context.vkCreateGraphicsPipeline( m_context.device
+				, m_context.cache
+				, 1u
+				, &createInfos
+				, m_context.allocator
+				, result );
+			checkError( err );
+			return err;
+#	if defined( WIN32 )
+		}
+		__except ( GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION )
+		{
+			return VK_ERROR_INITIALIZATION_FAILED;
+		}
+#	endif
 	}
 
 	VkResult PipelineBuilder::createComputePipeline( VkComputePipelineCreateInfo createInfos
@@ -124,14 +139,25 @@ namespace ast::vk
 			return VK_ERROR_VALIDATION_FAILED_EXT;
 		}
 
-		auto err = m_context.vkCreateComputePipeline( m_context.device
-			, m_context.cache
-			, 1u
-			, &createInfos
-			, m_context.allocator
-			, result );
-		checkError( err );
-		return err;
+#	if defined( WIN32 )
+		__try
+		{
+#	endif
+			auto err = m_context.vkCreateComputePipeline( m_context.device
+				, m_context.cache
+				, 1u
+				, &createInfos
+				, m_context.allocator
+				, result );
+			checkError( err );
+			return err;
+#	if defined( WIN32 )
+		}
+		__except ( GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION )
+		{
+			return VK_ERROR_INITIALIZATION_FAILED;
+		}
+#	endif
 	}
 
 	//*********************************************************************************************

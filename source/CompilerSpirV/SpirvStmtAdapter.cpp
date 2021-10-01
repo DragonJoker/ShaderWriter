@@ -48,62 +48,22 @@ namespace spirv
 
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )
 	{
+		assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 		auto save = m_current;
-		auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
-		auto & cache = ctrlExpr->getCache();
-		auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
-		auto cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
-			? makeToBoolCast( cache, std::move( ctrlExpr ) )
-			: std::move( ctrlExpr ) );
+		auto cont = ast::stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
+
 		auto currentIf = cont.get();
 		m_current->addStmt( std::move( cont ) );
 
-		// Replace all else ifs by the following :
-		// Origin:
-		// if (condA){}
-		// else if (condB){}
-		// else{}
-		//
-		// Result:
-		// if (condA){}
-		// else
-		// {
-		//   if (condB){}
-		//   else{}
-		// }
-		if ( stmt->getElse()
-			|| !stmt->getElseIfList().empty() )
+		if ( stmt->getElse() )
 		{
-			auto & elseIfs = stmt->getElseIfList();
-			auto it = elseIfs.begin();
-
-			while ( it != elseIfs.end() )
-			{
-				auto elseStmt = currentIf->createElse();
-				auto & elseIf = *it;
-				ctrlExpr = doSubmit( elseIf->getCtrlExpr() );
-				scalarType = getScalarType( ctrlExpr->getType()->getKind() );
-				cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
-					? makeToBoolCast( cache, std::move( ctrlExpr ) )
-					: std::move( ctrlExpr ) );
-				m_current = cont.get();
-				visitContainerStmt( elseIf.get() );
-				m_current = save;
-				currentIf = cont.get();
-				elseStmt->addStmt( std::move( cont ) );
-				++it;
-			}
-
-			if ( stmt->getElse() )
-			{
-				auto elseStmt = currentIf->createElse();
-				m_current = elseStmt;
-				visitContainerStmt( stmt->getElse() );
-				m_current = save;
-			}
+			auto elseStmt = currentIf->createElse();
+			m_current = elseStmt;
+			visitContainerStmt( stmt->getElse() );
+			m_current = save;
 		}
 	}
 

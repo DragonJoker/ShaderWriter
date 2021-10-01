@@ -254,21 +254,7 @@ namespace test
 			, bool validateGlsl
 			, sdw_test::TestCounts & testCounts )
 		{
-			if ( validateSpirV( shader, spirv, text, testCounts, true ) )
-			{
-				if ( validateGlsl )
-				{
-					auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
-					displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts );
-				}
-
-				if ( validateHlsl )
-				{
-					auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
-					displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts );
-				}
-			}
-			else
+			if ( !validateSpirV( shader, spirv, text, testCounts, true ) )
 			{
 				displayShader( "SPIR-V", text, testCounts, true );
 
@@ -291,10 +277,22 @@ namespace test
 				}
 				catch ( std::exception & exc )
 				{
-					testCounts.streams.cerr << exc.what() << std::endl;
+					testCounts.streams.cout << exc.what() << std::endl;
 				}
 
 #endif
+			}
+
+			if ( validateGlsl )
+			{
+				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
+				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts );
+			}
+
+			if ( validateHlsl )
+			{
+				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
+				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts );
 			}
 		}
 
@@ -580,11 +578,11 @@ namespace test
 			}
 			catch ( std::exception & exc )
 			{
-				testCounts.streams.cerr << "Unhandled exception: " << exc.what() << std::endl;
+				testCounts.streams.cout << "Unhandled exception: " << exc.what() << std::endl;
 			}
 			catch ( ... )
 			{
-				testCounts.streams.cerr << "Unhandled exception: Unknown" << std::endl;
+				testCounts.streams.cout << "Unhandled exception: Unknown" << std::endl;
 			}
 		}
 #endif
@@ -627,11 +625,11 @@ namespace test
 			}
 			catch ( std::exception & exc )
 			{
-				testCounts.streams.cerr << "Unhandled exception: " << exc.what() << std::endl;
+				testCounts.streams.cout << "Unhandled exception: " << exc.what() << std::endl;
 			}
 			catch ( ... )
 			{
-				testCounts.streams.cerr << "Unhandled exception: Unknown" << std::endl;
+				testCounts.streams.cout << "Unhandled exception: Unknown" << std::endl;
 			}
 		}
 #endif

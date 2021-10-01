@@ -70,7 +70,8 @@ namespace sdw
 	PerVertex::PerVertex( ShaderWriter & writer
 		, stmt::PerVertexDecl::Source source )
 		: PerVertex{ writer
-			, makeExpr( writer, var::makeVariable( getBaseType( writer.getTypesCache() ), "" ) ) }
+			, makeExpr( writer
+				, writer.getShader().registerName( "", getBaseType( writer.getTypesCache() ) ) ) }
 	{
 	}
 

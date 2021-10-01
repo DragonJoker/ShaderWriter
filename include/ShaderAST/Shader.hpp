@@ -47,6 +47,7 @@ namespace ast
 		ImageMap images;
 		InputMap inputs;
 		OutputMap outputs;
+		mutable uint32_t nextVarId{};
 	};
 
 	class Shader

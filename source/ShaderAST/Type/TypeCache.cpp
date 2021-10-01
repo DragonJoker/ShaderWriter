@@ -71,6 +71,17 @@ namespace ast::type
 			{
 				return getHash( type, arraySize );
 			} }
+		, m_pointer{ []( TypePtr pointerType
+				, Storage storage )
+			{
+				return std::make_shared< Pointer >( std::move( pointerType )
+					, storage );
+			}
+			, []( TypePtr pointerType
+				, Storage storage )noexcept
+			{
+				return getHash( pointerType, storage );
+			} }
 	{
 		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eMat4x4D ); ++i )
 		{
@@ -645,6 +656,11 @@ namespace ast::type
 	Type const * TypesCache::getNonMemberType( TypePtr type )
 	{
 		return type->getNonMemberType();
+	}
+
+	TypePtr TypesCache::getPointerType( TypePtr pointerType, Storage storage )
+	{
+		return m_pointer.getType( pointerType, storage );
 	}
 
 	//*************************************************************************

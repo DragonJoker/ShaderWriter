@@ -30,7 +30,10 @@ namespace hlsl
 
 		if ( ires.second )
 		{
-			ires.first->second = ast::var::makeVariable( type, name, flags );
+			ires.first->second = ast::var::makeVariable( ++m_shader.getData().nextVarId
+				, type
+				, name
+				, flags );
 		}
 
 		return ires.first->second;

@@ -9,14 +9,17 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	struct IdListHasher
-	{
-		SDWSPIRV_API size_t operator()( IdList const & list )const;
-	};
-
 	struct VariableInfo
 	{
-		spv::Id id{ 0u };
+		VariableInfo( ValueId pid = {}
+			, bool pisAlias = false )
+			: id{ pid }
+			, isAlias{ pisAlias }
+		{
+		}
+
+		ValueId id;
+		bool isAlias;
 		bool lvalue{ false };
 		bool rvalue{ false };
 	};
@@ -25,8 +28,8 @@ namespace spirv
 	{
 		Block( Block const & rhs ) = delete;
 		Block & operator=( Block const & rhs ) = delete;
-		SDWSPIRV_API Block( Block && rhs ) = default;
-		SDWSPIRV_API Block & operator=( Block && rhs ) = default;
+		SDWSPIRV_API Block( Block && rhs );
+		SDWSPIRV_API Block & operator=( Block && rhs );
 		SDWSPIRV_API explicit Block( spv::Id plabel = {} );
 
 		SDWSPIRV_API static Block deserialize( InstructionPtr firstInstruction
@@ -38,8 +41,8 @@ namespace spirv
 		InstructionList instructions{};
 		InstructionPtr blockEnd{};
 		// Used during construction.
-		std::unordered_map< IdList, spv::Id, IdListHasher > accessChains{};
-		std::unordered_map< IdList, spv::Id, IdListHasher > vectorShuffles{};
+		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > accessChains{};
+		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > vectorShuffles{};
 		bool isInterrupted{};
 	};
 }

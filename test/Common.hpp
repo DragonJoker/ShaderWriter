@@ -18,143 +18,21 @@
 
 namespace test
 {
+	void printCDBConsole( std::string const & toLog
+		, bool newLine );
+	uint32_t getCoreCount();
 	uint32_t getCoreCount();
 	std::string getExecutableDirectory();
-
-	template< typename LogStreambufTraits >
-	class LogStreambuf
-		: public std::streambuf
-	{
-	public:
-		using string_type = std::string;
-		using ostream_type = std::ostream;
-		using streambuf_type = std::streambuf;
-		using int_type = std::streambuf::int_type;
-		using traits_type = std::streambuf::traits_type;
-
-		LogStreambuf( std::string const & name
-			, std::ostream & stream )
-			: m_stream{ stream }
-			, m_fstream{ getExecutableDirectory() + name + ".log" }
-		{
-			m_old = m_stream.rdbuf( this );
-		}
-
-		~LogStreambuf()noexcept override
-		{
-			m_stream.rdbuf( m_old );
-		}
-
-		int_type overflow( int_type c = traits_type::eof() )override
-		{
-			if ( traits_type::eq_int_type( c, traits_type::eof() ) )
-			{
-				do_sync();
-			}
-			else if ( c == '\n' )
-			{
-				do_sync();
-			}
-			else if ( c == '\r' )
-			{
-				m_buffer += '\r';
-				do_sync_no_nl();
-			}
-			else
-			{
-				m_buffer += traits_type::to_char_type( c );
-			}
-
-			return c;
-		}
-
-		int do_sync()
-		{
-			LogStreambufTraits::log( m_fstream, m_buffer );
-			m_buffer.clear();
-			return 0;
-		}
-
-		int do_sync_no_nl()
-		{
-			LogStreambufTraits::logNoNL( m_fstream, m_buffer );
-			m_buffer.clear();
-			return 0;
-		}
-
-	private:
-		string_type m_buffer;
-		ostream_type & m_stream;
-		streambuf_type * m_old;
-		std::ofstream m_fstream;
-	};
-
-	struct DebugLogStreambufTraits
-	{
-		static void log( std::ostream & stream
-			, std::string const & text )
-		{
-			stream << "DEBUG: " << text << std::endl;
-			printf( "%s\n", text.c_str() );
-		}
-
-		static void logNoNL( std::ostream & stream
-			, std::string const & text )
-		{
-			stream << "DEBUG: " << text;
-			printf( "%s", text.c_str() );
-		}
-	};
-
-	struct InfoLogStreambufTraits
-	{
-		static void log( std::ostream & stream
-			, std::string const & text )
-		{
-			stream << text << std::endl;
-			printf( "%s\n", text.c_str() );
-		}
-
-		static void logNoNL( std::ostream & stream
-			, std::string const & text )
-		{
-			stream << text;
-			printf( "%s", text.c_str() );
-		}
-	};
-
-	struct ErrorLogStreambufTraits
-	{
-		static void log( std::ostream & stream
-			, std::string const & text )
-		{
-			stream << "ERROR: " << text << std::endl;
-			printf( "%s\n", text.c_str() );
-		}
-
-		static void logNoNL( std::ostream & stream
-			, std::string const & text )
-		{
-			stream << "ERROR: " << text;
-			printf( "%s", text.c_str() );
-		}
-	};
 
 	struct TestCounts;
 	struct TestSuite;
 
 	struct TestStringStreams
 	{
-		TestStringStreams( std::string & sout )
-			: cout{ sout }
-			, cerr{ cout }
-			, clog{ cout }
-		{
-		}
+		TestStringStreams( std::string & sout );
 
 		std::stringstream cout;
-		std::stringstream & cerr;
-		std::stringstream & clog;
+		std::unique_ptr< std::streambuf > tcout;
 	};
 
 	struct TestResults
@@ -183,6 +61,7 @@ namespace test
 		uint32_t curTestErrors{ 0u };
 		std::string sout;
 		TestStringStreams streams;
+		uint32_t nextVarId{};
 
 	private:
 		TestSuite & suite;
@@ -249,9 +128,7 @@ namespace test
 
 		std::string suiteName;
 		std::vector< TestSuiteRunPtr > tests;
-		std::unique_ptr< std::streambuf > tclog;
 		std::unique_ptr< std::streambuf > tcout;
-		std::unique_ptr< std::streambuf > tcerr;
 	};
 
 	void beginTest( TestCounts & testCounts

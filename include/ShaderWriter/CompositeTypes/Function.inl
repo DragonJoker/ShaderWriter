@@ -259,7 +259,7 @@ namespace sdw
 				auto & cache = getTypesCache( writer );
 				return ReturnT{ writer
 					, sdw::makeFnCall( ReturnT::makeType( cache )
-						, sdw::makeIdent( cache, var::makeFunction( type, name ) )
+						, sdw::makeIdent( cache, var::makeFunction( getNextVarId( writer ), type, name ) )
 						, std::move( args ) )
 					, isEnabled };
 			}

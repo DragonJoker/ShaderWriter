@@ -63,9 +63,36 @@ namespace ast::type
 		eSampler,
 		eImage,
 		eSampledImage,
+		ePointer,
 		eCount,
 		eMin = eUndefined,
 		eMax = eArray,
+	};
+
+	enum class Storage
+	{
+		eUniformConstant = 0,
+		eInput = 1,
+		eUniform = 2,
+		eOutput = 3,
+		eWorkgroup = 4,
+		eCrossWorkgroup = 5,
+		ePrivate = 6,
+		eFunction = 7,
+		eGeneric = 8,
+		ePushConstant = 9,
+		eAtomicCounter = 10,
+		eImage = 11,
+		eStorageBuffer = 12,
+		eCallableData = 5328,
+		eIncomingCallableData = 5329,
+		eRayPayload = 5338,
+		eHitAttribute = 5339,
+		eIncomingRayPayload = 5342,
+		eShaderRecordBuffer = 5343,
+		ePhysicalStorageBuffer = 5349,
+		eCodeSection = 5605,
+		eMax = 0x7fffffff,
 	};
 
 	class Type

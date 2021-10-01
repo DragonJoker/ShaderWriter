@@ -16,13 +16,16 @@ namespace glsl
 	{
 	public:
 		static std::string submit( GlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, ast::stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
 		StmtVisitor( GlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string & result
 			, std::string indent );
+		std::string doSubmit( ast::expr::Expr * expr );
 		void doAppendLineEnd();
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitBreakStmt( ast::stmt::Break * stmt )override;
@@ -72,6 +75,7 @@ namespace glsl
 
 	private:
 		GlslConfig const & m_writerConfig;
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 		std::string m_indent;
 		bool m_appendSemiColon{ false };
 		bool m_appendLineEnd{ false };

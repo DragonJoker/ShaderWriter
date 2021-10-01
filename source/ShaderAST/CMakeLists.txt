@@ -342,6 +342,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeCache.hpp
 	${INCLUDE_DIR}/Type/TypeFunction.hpp
 	${INCLUDE_DIR}/Type/TypeImage.hpp
+	${INCLUDE_DIR}/Type/TypePointer.hpp
 	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
@@ -353,6 +354,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeCache.cpp
 	${SOURCE_DIR}/Type/TypeFunction.cpp
 	${SOURCE_DIR}/Type/TypeImage.cpp
+	${SOURCE_DIR}/Type/TypePointer.cpp
 	${SOURCE_DIR}/Type/TypeSampledImage.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
@@ -406,6 +408,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Visitors/GetOutermostExpr.hpp
 	${INCLUDE_DIR}/Visitors/StmtSimplifier.hpp
 	${INCLUDE_DIR}/Visitors/StmtSpecialiser.hpp
+	${INCLUDE_DIR}/Visitors/TransformSSA.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Visitors/CloneExpr.cpp
@@ -415,6 +418,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Visitors/GetOutermostExpr.cpp
 	${SOURCE_DIR}/Visitors/StmtSimplifier.cpp
 	${SOURCE_DIR}/Visitors/StmtSpecialiser.cpp
+	${SOURCE_DIR}/Visitors/TransformSSA.cpp
 )
 source_group( "Header Files\\Visitors"
 	FILES

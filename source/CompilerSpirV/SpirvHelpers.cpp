@@ -79,9 +79,9 @@ namespace spirv
 		void getBinOpOperands( ast::expr::Kind exprKind
 			, ast::type::Kind lhsTypeKind
 			, ast::type::Kind rhsTypeKind
-			, spv::Id lhs
-			, spv::Id rhs
-			, IdList & operands
+			, ValueId lhs
+			, ValueId rhs
+			, ValueIdList & operands
 			, spv::Op & opCode )
 		{
 			bool needsMatchingVector;
@@ -101,9 +101,9 @@ namespace spirv
 		}
 
 		InstructionPtr makeUnInstruction( spv::Op op
-			, spv::Id returnTypeId
-			, spv::Id resultId
-			, spv::Id operandId )
+			, ValueId returnTypeId
+			, ValueId resultId
+			, ValueId operandId )
 		{
 			switch ( op )
 			{
@@ -123,9 +123,9 @@ namespace spirv
 		}
 
 		InstructionPtr makeBinInstruction( spv::Op op
-			, spv::Id returnTypeId
-			, spv::Id resultId
-			, IdList const & operands )
+			, ValueId returnTypeId
+			, ValueId resultId
+			, ValueIdList const & operands )
 		{
 			switch ( op )
 			{
@@ -769,38 +769,38 @@ namespace spirv
 
 	//*************************************************************************
 
-	IdList makeBinOpOperands( ast::expr::Kind exprKind
+	ValueIdList makeBinOpOperands( ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, spv::Id lhs
-		, spv::Id rhs )
+		, ValueId lhs
+		, ValueId rhs )
 	{
-		IdList result;
+		ValueIdList result;
 		spv::Op opCode;
 		getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, result, opCode );
-		return makeOperands( spv::Id( opCode ), result );
+		return makeOperands( ValueId{ spv::Id( opCode ) }, result );
 	}
 
 	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
-		, spv::Id resultId
-		, spv::Id sampledTypeId )
+		, ValueId resultId
+		, ValueId sampledTypeId )
 	{
-		IdList operands;
+		ValueIdList operands;
 		operands.push_back( sampledTypeId );
-		operands.push_back( spv::Id( config.dimension ) );
-		operands.push_back( config.isDepth == ast::type::Trinary::eTrue
+		operands.push_back( { spv::Id( config.dimension ) } );
+		operands.push_back( { config.isDepth == ast::type::Trinary::eTrue
 			? 1u
 			: ( config.isDepth == ast::type::Trinary::eFalse
 				? 0u
-				: 2u ) );
-		operands.push_back( config.isArrayed ? 1u : 0u );
-		operands.push_back( config.isMS ? 1u : 0u );
-		operands.push_back( config.isSampled == ast::type::Trinary::eTrue
+				: 2u ) } );
+		operands.push_back( { config.isArrayed ? 1u : 0u } );
+		operands.push_back( { config.isMS ? 1u : 0u } );
+		operands.push_back( { config.isSampled == ast::type::Trinary::eTrue
 			? 1u
 			: ( config.isDepth == ast::type::Trinary::eFalse
 				? 2u
-				: 0u ) );
-		operands.push_back( uint32_t( getImageFormat( config.format ) ) );
+				: 0u ) } );
+		operands.push_back( { uint32_t( getImageFormat( config.format ) ) } );
 		// Only available in kernel mode.
 		// operands.push_back( uint32_t( config.accessKind ) );
 
@@ -809,13 +809,13 @@ namespace spirv
 	}
 
 	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
-		, spv::Id id )
+		, ValueId id )
 	{
+		assert( !id.isPointer() );
 		assert( !isStructType( kind )
 			&& !isSamplerType( kind )
 			&& !isImageType( kind )
 			&& !isSampledImageType( kind ) );
-		IdList operands;
 
 		switch ( kind )
 		{
@@ -824,15 +824,15 @@ namespace spirv
 		case ast::type::Kind::eBoolean:
 			return makeInstruction< BooleanTypeInstruction >( id );
 		case ast::type::Kind::eInt:
-			return makeInstruction< IntTypeInstruction >( id, 32u, 1u );
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 1u } );
 		case ast::type::Kind::eUInt:
-			return makeInstruction< IntTypeInstruction >( id, 32u, 0u );
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 0u } );
 		case ast::type::Kind::eFloat:
-			return makeInstruction< FloatTypeInstruction >( id, 32u );
+			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 32u } );
 		case ast::type::Kind::eDouble:
-			return makeInstruction< FloatTypeInstruction >( id, 64u );
+			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 64u } );
 		case ast::type::Kind::eHalf:
-			return makeInstruction< FloatTypeInstruction >( id, 16u );
+			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 16u } );
 		default:
 			AST_Failure( "Unexpected type kind" );
 		}
@@ -841,7 +841,7 @@ namespace spirv
 	}
 
 	InstructionPtr makeIntrinsicInstruction( spv::Op op
-		, IdList const & operands )
+		, ValueIdList const & operands )
 	{
 		switch ( op )
 		{
@@ -866,10 +866,10 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeIntrinsicInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+	InstructionPtr makeIntrinsicInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, IdList const & operands )
+		, ValueIdList const & operands )
 	{
 		switch ( op )
 		{
@@ -988,10 +988,10 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeTextureAccessInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+	InstructionPtr makeTextureAccessInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, IdList const & operands )
+		, ValueIdList const & operands )
 	{
 		switch ( op )
 		{
@@ -1032,10 +1032,10 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeImageAccessInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+	InstructionPtr makeImageAccessInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, IdList const & operands )
+		, ValueIdList const & operands )
 	{
 		switch ( op )
 		{
@@ -1077,10 +1077,10 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeCastInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+	InstructionPtr makeCastInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, spv::Id operandId )
+		, ValueId operandId )
 	{
 		switch ( op )
 		{
@@ -1103,33 +1103,56 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeUnInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+	InstructionPtr makeUnInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind typeKind
-		, spv::Id operand )
+		, ValueId operandId )
 	{
 		return makeUnInstruction( getUnOpCode( exprKind, typeKind )
 			, returnTypeId
 			, resultId
-			, operand );
+			, operandId );
 	}
 
-	InstructionPtr makeBinInstruction( spv::Id typeId
-		, spv::Id resultId
+	InstructionPtr makeBinInstruction( ValueId typeId
+		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, spv::Id lhs
-		, spv::Id rhs )
+		, ValueId lhs
+		, ValueId rhs )
 	{
-		IdList operands;
+		ValueIdList operands;
 		spv::Op opCode;
-		getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, operands, opCode );
+		getBinOpOperands( exprKind
+			, lhsTypeKind
+			, rhsTypeKind
+			, lhs
+			, rhs
+			, operands
+			, opCode );
 		return makeBinInstruction( opCode
 			, typeId
 			, resultId
 			, operands );
+	}
+
+	InstructionPtr makeVariableInstruction( ValueId typeId
+		, ValueId varId
+		, ValueId initialiser )
+	{
+		if ( initialiser )
+		{
+			return makeInstruction< VariableInstruction >( typeId
+				, varId
+				, ValueId{ spv::Id( convert( varId.getStorage() ) ) }
+				, initialiser );
+		}
+
+		return makeInstruction< VariableInstruction >( typeId
+				, varId
+				, ValueId{ spv::Id( convert( varId.getStorage() ) ) } );
 	}
 
 	ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
@@ -1242,53 +1265,6 @@ namespace spirv
 		}
 
 		return result;
-	}
-
-	ast::var::VariablePtr createTmpVar( ast::type::TypePtr type
-		, uint32_t & currentId )
-	{
-		auto kind = getNonArrayKind( type );
-		auto result = ast::var::makeVariable( type
-			, "tmp_" + std::to_string( currentId++ )
-			, ( ast::var::Flag::eImplicit
-				| ast::var::Flag::eLocale
-				| ast::var::Flag::eTemp )  );
-
-		if ( isSamplerType( kind )
-			|| isSampledImageType( kind )
-			|| isImageType( kind ) )
-		{
-			result->updateFlag( ast::var::Flag::eConstant );
-		}
-
-		return result;
-	}
-
-	bool makeAlias( ast::stmt::Container * container
-		, ast::expr::ExprPtr expr
-		, bool param
-		, ast::expr::ExprPtr & aliasExpr
-		, ast::var::VariablePtr & aliasVar
-		, uint32_t & currentId
-		, bool force )
-	{
-		if ( !force
-			&& !needsAlias( expr->getKind()
-				, isShaderVariable( *expr )
-				, param ) )
-		{
-			aliasExpr = std::move( expr );
-			return false;
-		}
-
-		aliasVar = createTmpVar( expr->getType(), currentId );
-		auto & cache = expr->getCache();
-		auto type = expr->getType();
-		container->addStmt( ast::stmt::makeSimple( ast::expr::makeAlias( type
-			, ast::expr::makeIdentifier( cache, aliasVar )
-			, std::move( expr ) ) ) );
-		aliasExpr = ast::expr::makeIdentifier( cache, aliasVar );
-		return true;
 	}
 
 	//*************************************************************************

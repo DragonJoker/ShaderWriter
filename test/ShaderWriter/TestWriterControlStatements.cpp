@@ -125,9 +125,9 @@ namespace
 		testEnd();
 	}
 
-	void testFor( test::sdw_test::TestCounts & testCounts )
+	void testForPlusEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFor" );
+		testBegin( "testForPlusEqual" );
 		sdw::VertexWriter writer;
 		writer.implementFunction< sdw::Void >( "main"
 			, [&]()
@@ -137,22 +137,20 @@ namespace
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
 				ROF;
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void testForPreInc( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testForPreInc" );
+		sdw::VertexWriter writer;
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
 				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
-				{
-					auto i = writer.declLocale( "i", ctrlVar );
-				}
-				ROF;
-				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
-				{
-					auto i = writer.declLocale( "i", ctrlVar );
-				}
-				ROF;
-				FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
-				{
-					auto i = writer.declLocale( "i", ctrlVar );
-				}
-				ROF;
-				FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
@@ -160,6 +158,103 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts );
+		testEnd();
+	}
+
+	void testForPostInc( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testForPostInc" );
+		sdw::VertexWriter writer;
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
+				{
+					auto i = writer.declLocale( "i", ctrlVar );
+				}
+				ROF;
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void testForPreDec( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testForPreDec" );
+		{
+			sdw::VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
+					{
+						auto i = writer.declLocale( "i", ctrlVar );
+					}
+					ROF;
+				} );
+			test::writeShader( writer
+				, testCounts );
+		}
+		testEnd();
+	}
+
+	void testForPostDec( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testForPostDec" );
+		{
+			sdw::VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
+					{
+					}
+					ROF;
+				} );
+			test::writeShader( writer
+				, testCounts );
+		}
+		testEnd();
+	}
+
+	void testForSuccessive( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testForSuccessive" );
+		{
+			sdw::VertexWriter writer;
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
+					{
+						auto i = writer.declLocale( "i", ctrlVar );
+					}
+					ROF;
+					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
+					{
+						auto i = writer.declLocale( "i", ctrlVar );
+					}
+					ROF;
+					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
+					{
+						auto i = writer.declLocale( "i", ctrlVar );
+					}
+					ROF;
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
+					{
+						auto i = writer.declLocale( "i", ctrlVar );
+					}
+					ROF;
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
+					{
+						auto i = writer.declLocale( "i", ctrlVar );
+					}
+					ROF;
+				} );
+			test::writeShader( writer
+				, testCounts );
+		}
 		testEnd();
 	}
 
@@ -478,7 +573,12 @@ sdwTestSuiteMain( TestWriterControlStatements )
 	testIfElseIf( testCounts );
 	testIfElseIfElse( testCounts );
 	testSwitch(testCounts );
-	testFor( testCounts );
+	testForPlusEqual( testCounts );
+	testForPostDec( testCounts );
+	testForPostInc( testCounts );
+	testForPreDec( testCounts );
+	testForPreInc( testCounts );
+	testForSuccessive( testCounts );
 	testWhile( testCounts );
 	testDoWhile( testCounts );
 	testNestedIf( testCounts );

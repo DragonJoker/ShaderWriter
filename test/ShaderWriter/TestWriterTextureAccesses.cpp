@@ -1897,7 +1897,8 @@ namespace
 					, [&]()
 					{
 						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer ) ) );
+							, s.gather( test::getDefault< GatherT >( writer )
+								, 1_i ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -1934,61 +1935,6 @@ namespace
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-			}
-			testEnd();
-		}
-	};
-	/**@}*/
-#pragma endregion
-#pragma region textureGatherComp
-	/**
-	*name
-	*	textureGatherComp
-	*/
-	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct TextureGatherCompTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TextureGatherCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
-	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testTextureGatherComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 1_i ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2042,6 +1988,7 @@ namespace
 					{
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
+								, 1_i
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
@@ -2126,6 +2073,7 @@ namespace
 						auto o = writer.declLocale< OffsetT >( "o" );
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
+								, 1_i
 								, o ) );
 					} );
 				test::writeShader( writer
@@ -2164,110 +2112,6 @@ namespace
 							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f
 								, o ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-			}
-			testEnd();
-		}
-	};
-	/**@}*/
-#pragma endregion
-#pragma region textureGatherOffsetComp
-	/**
-	*name
-	*	textureGatherOffsetComp
-	*/
-	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct TextureGatherConstOffsetCompTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TextureGatherConstOffsetCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
-	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testTextureGatherConstOffsetComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, test::getDefault< OffsetT >( writer )
-								, 1_i ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-			}
-			testEnd();
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct TextureGatherOffsetCompTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TextureGatherOffsetCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
-	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testTextureGatherOffsetComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto o = writer.declLocale< OffsetT >( "o" );
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, o
-								, 1_i ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2323,6 +2167,7 @@ namespace
 					{
 						auto d = writer.declLocale( "d"
 							, s.gather( test::getDefault< GatherT >( writer )
+								, 1_i
 								, offsets ) );
 					} );
 				test::writeShader( writer
@@ -2362,63 +2207,6 @@ namespace
 							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f
 								, offsets ) );
-					} );
-				test::writeShader( writer
-					, testCounts );
-			}
-			testEnd();
-		}
-	};
-	/**@}*/
-#pragma endregion
-#pragma region textureGatherOffsetsComp
-	/**
-	*name
-	*	textureGatherOffsetsComp
-	*/
-	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT
-		, typename Enable = void >
-	struct TextureGatherOffsetsCompTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct TextureGatherOffsetsCompTester< FormatT, DimT, ArrayedT, DepthT, MsT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
-	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testTextureGatherOffsetsComp" + sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
-			testBegin( name );
-			using namespace sdw;
-			{
-				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
-				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
-					, test::getDefaultVector< OffsetT >( writer, 4u ) );
-				writer.implementFunction< sdw::Void >( "main"
-					, [&]()
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, offsets
-								, 1_i ) );
 					} );
 				test::writeShader( writer
 					, testCounts );
@@ -2543,13 +2331,9 @@ sdwTestSuiteMain( TestWriterTextureAccesses )
 	testsTextures< TextureProjGradTester >( testCounts );
 	testsTextures< TextureProjGradConstOffsetTester >( testCounts );
 	testsTextures< TextureGatherTester >( testCounts );
-	testsTextures< TextureGatherCompTester >( testCounts );
 	testsTextures< TextureGatherConstOffsetTester >( testCounts );
 	testsTextures< TextureGatherOffsetTester >( testCounts );
-	testsTextures< TextureGatherConstOffsetCompTester >( testCounts );
-	testsTextures< TextureGatherOffsetCompTester >( testCounts );
 	testsTextures< TextureGatherOffsetsTester >( testCounts );
-	testsTextures< TextureGatherOffsetsCompTester >( testCounts );
 
 #endif
 	sdwTestSuiteEnd();

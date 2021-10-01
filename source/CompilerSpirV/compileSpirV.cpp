@@ -5,7 +5,6 @@ See LICENSE file in root folder
 
 #include "SpirvStmtAdapter.hpp"
 #include "SpirvStmtConfigFiller.hpp"
-#include "SpirvStmtRegister.hpp"
 #include "SpirvStmtVisitor.hpp"
 
 #include "CompilerSpirV/spirv/GLSL.std.450.hpp"
@@ -2260,12 +2259,12 @@ namespace spirv
 			if ( opCode == spv::OpConstant
 				|| opCode == spv::OpConstantComposite )
 			{
-				writeConstant( instruction, module.getLiteralType( instruction->resultId.value() ), names, stream ) << "\n";
+				writeConstant( instruction, module.getLiteralType( { instruction->resultId.value() } ), names, stream ) << "\n";
 			}
 			else if ( opCode == spv::OpSpecConstant
 				|| opCode == spv::OpSpecConstantComposite )
 			{
-				writeSpecConstant( instruction, module.getLiteralType( instruction->resultId.value() ), names, stream ) << "\n";
+				writeSpecConstant( instruction, module.getLiteralType( { instruction->resultId.value() } ), names, stream ) << "\n";
 			}
 			else if ( opCode == spv::OpVariable )
 			{
@@ -3248,10 +3247,16 @@ namespace spirv
 		spirv::Module compileSpirV( ast::Shader const & shader
 			, SpirVConfig config )
 		{
-			auto ssa = ast::transformSSA( shader.getStatements() );
+			ast::SSAData ssaData;
+			ssaData.nextVarId = shader.getData().nextVarId;
+			auto ssaStatements = ast::transformSSA( shader.getTypesCache()
+				, shader.getStatements()
+				, ssaData );
 			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
-				, ssa.get() );
+				, ssaStatements.get() );
 			ModuleConfig moduleConfig = spirv::StmtConfigFiller::submit( simplified.get() );
+			moduleConfig.aliasId = ssaData.aliasId;
+			moduleConfig.nextVarId = ssaData.nextVarId;
 			spirv::PreprocContext context{};
 			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), moduleConfig, context );
 			return spirv::StmtVisitor::submit( shader.getTypesCache()

@@ -22,6 +22,7 @@ namespace spirv
 		std::set< spv::Capability > requiredCapabilities;
 		std::set< ast::var::VariablePtr > inputs;
 		std::set< ast::var::VariablePtr > outputs;
+		mutable uint32_t nextVarId{ 0u };
 		mutable uint32_t aliasId{ 0u };
 	};
 
@@ -52,46 +53,49 @@ namespace spirv
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
 	std::string getName( spv::Capability value );
-	IdList makeBinOpOperands( ast::expr::Kind exprKind
+	ValueIdList makeBinOpOperands( ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, spv::Id lhs
-		, spv::Id rhs );
+		, ValueId lhs
+		, ValueId rhs );
 	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
-		, spv::Id resultId
-		, spv::Id sampledTypeId );
+		, ValueId resultId
+		, ValueId sampledTypeId );
 	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
-		, spv::Id id );
+		, ValueId id );
 	InstructionPtr makeIntrinsicInstruction( spv::Op op
-		, IdList const & operands );
-	InstructionPtr makeIntrinsicInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+		, ValueIdList const & operands );
+	InstructionPtr makeIntrinsicInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, IdList const & operands );
-	InstructionPtr makeTextureAccessInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+		, ValueIdList const & operands );
+	InstructionPtr makeTextureAccessInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, IdList const & operands );
-	InstructionPtr makeImageAccessInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+		, ValueIdList const & operands );
+	InstructionPtr makeImageAccessInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, IdList const & operands );
-	InstructionPtr makeCastInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+		, ValueIdList const & operands );
+	InstructionPtr makeCastInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, spv::Op op
-		, spv::Id operandId );
-	InstructionPtr makeUnInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+		, ValueId operandId );
+	InstructionPtr makeUnInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind typeKind
-		, spv::Id operand );
-	InstructionPtr makeBinInstruction( spv::Id returnTypeId
-		, spv::Id resultId
+		, ValueId operand );
+	InstructionPtr makeBinInstruction( ValueId returnTypeId
+		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
-		, spv::Id lhs
-		, spv::Id rhs );
+		, ValueId lhs
+		, ValueId rhs );
+	InstructionPtr makeVariableInstruction( ValueId typeId
+		, ValueId varId
+		, ValueId initialiser = {} );
 	ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
 		, ast::type::Kind kind );
 	ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
@@ -101,15 +105,6 @@ namespace spirv
 	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr expr
 		, ast::type::Kind dstScalarType );
-	ast::var::VariablePtr createTmpVar( ast::type::TypePtr type
-		, uint32_t & currentId );
-	bool makeAlias( ast::stmt::Container * container
-		, ast::expr::ExprPtr expr
-		, bool param
-		, ast::expr::ExprPtr & aliasExpr
-		, ast::var::VariablePtr & aliasVar
-		, uint32_t & currentId
-		, bool force = false );
 }
 
 #endif

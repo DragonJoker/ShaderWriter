@@ -153,19 +153,14 @@ namespace glsl
 
 	void ExprAdapter::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
-		if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageLoad1DF
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageLoad2DMSArrayU )
-		{
-			doProcessImageLoad( expr );
-		}
-		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
+		if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
 			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU )
 		{
 			doProcessImageStore( expr );
 		}
 		else
 		{
-			doProcessImageAccessCall( expr );
+			ExprCloner::visitImageAccessCallExpr( expr );
 		}
 	}
 
@@ -210,7 +205,7 @@ namespace glsl
 			doProcessTextureSample( expr );
 		}
 		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureGather2DF
-			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectUComp )
+			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectU )
 		{
 			doProcessTextureGather( expr );
 		}
@@ -226,34 +221,6 @@ namespace glsl
 			m_result = ast::expr::makeTextureAccessCall( expr->getType()
 				, expr->getTextureAccess()
 				, std::move( args ) );
-		}
-	}
-
-	void ExprAdapter::doProcessImageLoad( ast::expr::ImageAccessCall * expr )
-	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
-		auto config = imgArgType->getConfig();
-		auto callRetType = m_cache.getSampledType( config.format );
-		ast::expr::ExprList args;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			args.emplace_back( doSubmit( arg.get() ) );
-		}
-
-		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
-		m_result = ast::expr::makeImageAccessCall( glslRetType
-			, expr->getImageAccess()
-			, std::move( args ) );
-
-		if ( callRetType != glslRetType )
-		{
-			m_result = swizzleConvert( callRetType, glslRetType, std::move( m_result ) );
-		}
-
-		if ( callRetType != expr->getType() )
-		{
-			m_result = ast::expr::makeCast( expr->getType(), std::move( m_result ) );
 		}
 	}
 
@@ -292,23 +259,6 @@ namespace glsl
 
 				args.emplace_back( std::move( result ) );
 			}
-		}
-
-		m_result = ast::expr::makeImageAccessCall( expr->getType()
-			, expr->getImageAccess()
-			, std::move( args ) );
-	}
-
-	void ExprAdapter::doProcessImageAccessCall( ast::expr::ImageAccessCall * expr )
-	{
-		// imageSize.
-		// imageSamples.
-		// imageAtomics except imageAtomicAdd.
-		ast::expr::ExprList args;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
 		m_result = ast::expr::makeImageAccessCall( expr->getType()
@@ -461,6 +411,14 @@ namespace glsl
 		{
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
+
+		// Component parameter is the last one in GLSL whilst it is the last before
+		// optional ones in SPIR-V, hence we move it to the right place.
+		// 0->img, 1->coord, 2->component
+		auto it = args.begin() + 2u;
+		auto compArg = std::move( *it );
+		args.erase( it );
+		args.emplace_back( std::move( compArg ) );
 
 		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()

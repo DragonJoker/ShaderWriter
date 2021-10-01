@@ -84,6 +84,16 @@ namespace sdw
 		return *doGetCurrentWriter();
 	}
 
+	uint32_t getNextVarId( ShaderWriter & writer )
+	{
+		return getNextVarId( writer.getShader() );
+	}
+
+	uint32_t getNextVarId( Shader & shader )
+	{
+		return ++shader.getData().nextVarId;
+	}
+
 	type::TypesCache & getTypesCache( ShaderWriter & writer )
 	{
 		return writer.getTypesCache();

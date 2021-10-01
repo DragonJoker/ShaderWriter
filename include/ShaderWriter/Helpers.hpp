@@ -35,6 +35,8 @@ namespace sdw
 	ast::type::ImageConfiguration makeConfig();
 	SDW_API ast::stmt::Container * getContainer( ShaderWriter & shader );
 	SDW_API ShaderWriter & getCurrentWriter();
+	SDW_API uint32_t getNextVarId( ShaderWriter & writer );
+	SDW_API uint32_t getNextVarId( Shader & shader );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter const & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );

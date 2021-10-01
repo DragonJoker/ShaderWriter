@@ -38,6 +38,7 @@ namespace ast::var
 		eBlendIndex = 1 << 22,
 		eLoopVar = 1 << 23,
 		eTemp = 1 << 24,
+		eAlias = 1 << 25,
 	};
 
 	class FlagHolder
@@ -46,22 +47,22 @@ namespace ast::var
 		~FlagHolder() = default;
 
 	public:
-		inline FlagHolder( Flag flag )
+		FlagHolder( Flag flag )
 			: m_flags{ uint32_t( flag ) }
 		{
 		}
 
-		inline FlagHolder( uint32_t flags )
+		FlagHolder( uint32_t flags )
 			: m_flags{ flags }
 		{
 		}
 
-		inline uint32_t getFlags()const
+		uint32_t getFlags()const
 		{
 			return m_flags;
 		}
 
-		inline void updateFlag( Flag flag, bool set = true )
+		void updateFlag( Flag flag, bool set = true )
 		{
 			if ( set )
 			{
@@ -73,129 +74,134 @@ namespace ast::var
 			}
 		}
 
-		inline bool isParam()const
+		bool isParam()const
 		{
 			return hasFlag( Flag::eParam )
 				|| hasFlag( Flag::eInputParam )
 				|| hasFlag( Flag::eOutputParam );
 		}
 
-		inline bool isStatic()const
+		bool isStatic()const
 		{
 			return hasFlag( Flag::eStatic );
 		}
 
-		inline bool isInputParam()const
+		bool isInputParam()const
 		{
 			return hasFlag( Flag::eInputParam );
 		}
 
-		inline bool isOutputParam()const
+		bool isOutputParam()const
 		{
 			return hasFlag( Flag::eOutputParam );
 		}
 
-		inline bool isShaderInput()const
+		bool isShaderInput()const
 		{
 			return hasFlag( Flag::eShaderInput );
 		}
 
-		inline bool isShaderOutput()const
+		bool isShaderOutput()const
 		{
 			return hasFlag( Flag::eShaderOutput );
 		}
 
-		inline bool isPushConstant()const
+		bool isPushConstant()const
 		{
 			return hasFlag( Flag::ePushConstant );
 		}
 
-		inline bool isShaderConstant()const
+		bool isShaderConstant()const
 		{
 			return hasFlag( Flag::eShaderConstant );
 		}
 
-		inline bool isSpecialisationConstant()const
+		bool isSpecialisationConstant()const
 		{
 			return hasFlag( Flag::eSpecialisationConstant );
 		}
 
-		inline bool isLocale()const
+		bool isLocale()const
 		{
 			return hasFlag( Flag::eLocale );
 		}
 
-		inline bool isBuiltin()const
+		bool isBuiltin()const
 		{
 			return hasFlag( Flag::eBuiltin );
 		}
 
-		inline bool isUniform()const
+		bool isUniform()const
 		{
 			return hasFlag( Flag::eUniform );
 		}
 
-		inline bool isConstant()const
+		bool isConstant()const
 		{
 			return hasFlag( Flag::eConstant );
 		}
 
-		inline bool isImplicit()const
+		bool isImplicit()const
 		{
 			return hasFlag( Flag::eImplicit );
 		}
 
-		inline bool isFlat()const
+		bool isFlat()const
 		{
 			return hasFlag( Flag::eFlat );
 		}
 
-		inline bool isLoopVar()const
+		bool isLoopVar()const
 		{
 			return hasFlag( Flag::eLoopVar );
 		}
 
-		inline bool isMember()const
+		bool isMember()const
 		{
 			return hasFlag( Flag::eMember );
 		}
 
-		inline bool isNoPerspective()const
+		bool isNoPerspective()const
 		{
 			return hasFlag( Flag::eNoPerspective );
 		}
 
-		inline bool isPatch()const
+		bool isPatch()const
 		{
 			return hasFlag( Flag::ePatch );
 		}
 
-		inline bool isCentroid()const
+		bool isCentroid()const
 		{
 			return hasFlag( Flag::eCentroid );
 		}
 
-		inline bool isPerSample()const
+		bool isPerSample()const
 		{
 			return hasFlag( Flag::ePerSample );
 		}
 
-		inline bool isGeometryStream()const
+		bool isGeometryStream()const
 		{
 			return hasFlag( Flag::eGeometryStream );
 		}
 
-		inline bool isBlendIndex()const
+		bool isBlendIndex()const
 		{
 			return hasFlag( Flag::eBlendIndex );
 		}
 
-		inline bool isTempVar()const
+		bool isTempVar()const
 		{
 			return hasFlag( Flag::eTemp );
 		}
 
-		inline bool hasFlag( Flag flag )const
+		bool isAlias()const
+		{
+			return hasFlag( Flag::eAlias );
+		}
+
+		bool hasFlag( Flag flag )const
 		{
 			return flag == Flag::eNone
 				? false
@@ -210,47 +216,53 @@ namespace ast::var
 		: public FlagHolder
 	{
 	public:
-		SDAST_API Variable( VariablePtr outer
+		SDAST_API Variable( uint32_t id
+			, VariablePtr outer
 			, type::TypePtr type
 			, std::string name );
-		SDAST_API Variable( VariablePtr outer
+		SDAST_API Variable( uint32_t id
+			, VariablePtr outer
 			, type::TypePtr type
 			, std::string name
 			, Flag flag );
-		SDAST_API Variable( VariablePtr outer
+		SDAST_API Variable( uint32_t id
+			, VariablePtr outer
 			, type::TypePtr type
 			, std::string name
 			, uint32_t flags );
-		SDAST_API Variable( type::TypePtr type
+		SDAST_API Variable( uint32_t id
+			, type::TypePtr type
 			, std::string name );
-		SDAST_API Variable( type::TypePtr type
+		SDAST_API Variable( uint32_t id
+			, type::TypePtr type
 			, std::string name
 			, Flag flag );
-		SDAST_API Variable( type::TypePtr type
+		SDAST_API Variable( uint32_t id
+			, type::TypePtr type
 			, std::string name
 			, uint32_t flags );
-		SDAST_API Variable( type::FunctionPtr type
+		SDAST_API Variable( uint32_t id
+			, type::FunctionPtr type
 			, std::string name );
-		SDAST_API ~Variable();
 
 		SDAST_API std::string getFullName()const;
 
-		inline type::TypePtr getType()const
+		type::TypePtr getType()const
 		{
 			return m_type;
 		}
 
-		inline std::string const & getName()const
+		std::string const & getName()const
 		{
 			return m_name;
 		}
 
-		inline VariablePtr getOuter()const
+		VariablePtr getOuter()const
 		{
 			return m_outer;
 		}
 
-		inline VariablePtr getOutermost()const
+		VariablePtr getOutermost()const
 		{
 			if ( m_outer->isMember() )
 			{
@@ -260,80 +272,103 @@ namespace ast::var
 			return m_outer;
 		}
 
-		inline bool isMember()const
+		bool isMember()const
 		{
 			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
 			return hasFlag( Flag::eMember )
 				&& m_outer;
 		}
 
+		uint32_t getId()const
+		{
+			return m_id;
+		}
+
 	private:
+		uint32_t m_id;
 		VariablePtr m_outer;
 		type::TypePtr m_type;
 		std::string m_name;
 	};
 
-	inline VariablePtr makeVariable( VariablePtr outer
+	inline VariablePtr makeVariable( uint32_t id
+		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( outer
+		return std::make_shared< Variable >( id
+			, outer
 			, type
-			, name );
+			, name
+			, Flag::eTemp );
 	}
 
-	inline VariablePtr makeVariable( VariablePtr outer
+	inline VariablePtr makeVariable( uint32_t id
+		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name
 		, Flag flag )
 	{
-		return std::make_shared< Variable >( outer
+		return std::make_shared< Variable >( id
+			, outer
 			, type
 			, name
-			, flag );
+			, uint32_t( flag ) | uint32_t( Flag::eTemp ) );
 	}
 
-	inline VariablePtr makeVariable( VariablePtr outer
+	inline VariablePtr makeVariable( uint32_t id
+		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name
 		, uint32_t flags )
 	{
-		return std::make_shared< Variable >( outer
+		return std::make_shared< Variable >( id
+			, outer
 			, type
 			, name
-			, flags );
+			, flags | uint32_t( Flag::eTemp ) );
 	}
 
-	inline VariablePtr makeVariable( type::TypePtr type
+	inline VariablePtr makeVariable( uint32_t id
+		, type::TypePtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( type
-			, name );
+		return std::make_shared< Variable >( id
+			, type
+			, name
+			, Flag::eTemp );
 	}
 
-	inline VariablePtr makeFunction( type::FunctionPtr type
-		, std::string name )
-	{
-		return std::make_shared< Variable >( type
-			, name );
-	}
-
-	inline VariablePtr makeVariable( type::TypePtr type
+	inline VariablePtr makeVariable( uint32_t id
+		, type::TypePtr type
 		, std::string name
 		, uint32_t flags )
 	{
-		return std::make_shared< Variable >( type
+		return std::make_shared< Variable >( id
+			, type
 			, name
-			, flags );
+			, flags | uint32_t( Flag::eTemp ) );
 	}
 
-	inline VariablePtr makeVariable( type::TypePtr type
+	inline VariablePtr makeVariable( uint32_t id
+		, type::TypePtr type
 		, std::string name
 		, Flag flag )
 	{
-		return std::make_shared< Variable >( type
+		return std::make_shared< Variable >( id
+			, type
 			, name
-			, flag );
+			, uint32_t( flag ) | uint32_t( Flag::eTemp ) );
+	}
+
+	inline VariablePtr makeFunction( uint32_t id
+		, type::FunctionPtr type
+		, std::string name )
+	{
+		return std::make_shared< Variable >( id
+			, type
+			, name
+			, Flag::eFunction );
 	}
 
 	inline VariablePtr getOutermost( VariablePtr var )
@@ -359,6 +394,15 @@ namespace ast::var
 	inline uint32_t operator|( uint32_t const lhs, Flag const rhs )
 	{
 		return uint32_t( lhs ) | uint32_t( rhs );
+	}
+
+	inline uint32_t operator==( VariablePtr const & lhs
+		, VariablePtr const & rhs )
+	{
+		return ( lhs.get() == rhs.get() )
+			|| ( lhs != nullptr
+				&& rhs != nullptr
+				&& lhs->getId() == rhs->getId() );
 	}
 }
 

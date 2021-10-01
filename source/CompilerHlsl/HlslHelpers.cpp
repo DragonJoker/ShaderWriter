@@ -817,6 +817,7 @@ namespace hlsl
 	}
 
 	std::string getSemantic( std::string const & name
+		, ast::type::TypePtr type
 		, Semantic & defaultSemantic )
 	{
 		static std::map< std::string, std::string > const NamesMap
@@ -889,7 +890,9 @@ namespace hlsl
 		return result;
 	}
 
-	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var, LinkedVars & linkedVars )
+	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var
+		, LinkedVars & linkedVars
+		, uint32_t & nextVarId )
 	{
 		auto it = linkedVars.find( var );
 		auto type = getNonArrayType( var->getType() );
@@ -901,9 +904,11 @@ namespace hlsl
 
 			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
 			{
-				auto texture = ast::var::makeVariable( sampledType->getImageType()
+				auto texture = ast::var::makeVariable( ++nextVarId
+					, sampledType->getImageType()
 					, var->getName() + "_texture" );
-				auto sampler = ast::var::makeVariable( sampledType->getSamplerType()
+				auto sampler = ast::var::makeVariable( ++nextVarId
+					, sampledType->getSamplerType()
 					, var->getName() + "_sampler" );
 				it = linkedVars.emplace( var, std::make_pair( texture, sampler ) ).first;
 			}
