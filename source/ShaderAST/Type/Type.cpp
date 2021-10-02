@@ -282,6 +282,13 @@ namespace ast::type
 		return kind == Kind::eSampledImage;
 	}
 
+	bool isOpaqueType( ast::type::Kind kind )
+	{
+		return isImageType( kind )
+			|| isSampledImageType( kind )
+			|| isSamplerType( kind );
+	}
+
 	uint32_t getComponentCount( Kind kind )
 	{
 		switch ( kind )

@@ -289,13 +289,6 @@ namespace spirv
 
 			return result;
 		}
-
-		bool needsFunctionStorage( ast::type::Kind kind )
-		{
-			return !isImageType( kind )
-				&& !isSampledImageType( kind )
-				&& !isSamplerType( kind );
-		}
 	}
 
 	spv::StorageClass getStorageClass( ast::var::VariablePtr var )
@@ -800,7 +793,7 @@ namespace spirv
 
 			if ( ident
 				&& getStorageClass( ident->getVariable() ) != spv::StorageClassFunction
-				&& needsFunctionStorage( argTypeKind ) )
+				&& !isOpaqueType( argTypeKind ) )
 			{
 				// We must have a variable with function storage class.
 				// Hence we create a temporary variable with this storage class,
