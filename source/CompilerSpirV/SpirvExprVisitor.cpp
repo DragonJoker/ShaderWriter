@@ -365,27 +365,6 @@ namespace spirv
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
-		, bool loadVariable
-		, bool isAlias )
-	{
-		bool allLiterals{ false };
-		LoadedVariableArray loadedVariables;
-		return submit( expr
-			, context
-			, currentBlock
-			, module
-			, allLiterals
-			, loadVariable
-			, loadedVariables
-			, isAlias );
-	}
-
-	ValueId ExprVisitor::submit( ast::expr::Expr * expr
-		, PreprocContext const & context
-		, Block & currentBlock
-		, Module & module
-		, bool loadVariable
-		, LoadedVariableArray & loadedVariables
 		, bool isAlias )
 	{
 		bool allLiterals{ false };
@@ -394,8 +373,6 @@ namespace spirv
 			, currentBlock
 			, module
 			, allLiterals
-			, loadVariable
-			, loadedVariables
 			, isAlias );
 	}
 
@@ -405,7 +382,6 @@ namespace spirv
 		, Module & module
 		, ValueId initialiser
 		, bool hasFuncInit
-		, LoadedVariableArray & loadedVariables
 		, bool isAlias )
 	{
 		bool allLiterals{ false };
@@ -416,7 +392,6 @@ namespace spirv
 			, allLiterals
 			, initialiser
 			, hasFuncInit
-			, loadedVariables
 			, isAlias );
 	}
 
@@ -425,27 +400,6 @@ namespace spirv
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
-		, bool loadVariable
-		, bool isAlias )
-	{
-		LoadedVariableArray loadedVariables;
-		return submit( expr
-			, context
-			, currentBlock
-			, module
-			, allLiterals
-			, loadVariable
-			, loadedVariables
-			, isAlias );
-	}
-
-	ValueId ExprVisitor::submit( ast::expr::Expr * expr
-		, PreprocContext const & context
-		, Block & currentBlock
-		, Module & module
-		, bool & allLiterals
-		, bool loadVariable
-		, LoadedVariableArray & loadedVariables
 		, bool isAlias )
 	{
 		ValueId result{ 0u, expr->getType() };
@@ -454,8 +408,6 @@ namespace spirv
 			, currentBlock
 			, module
 			, allLiterals
-			, loadVariable
-			, loadedVariables
 			, isAlias };
 		expr->accept( &vis );
 		return result;
@@ -468,7 +420,6 @@ namespace spirv
 		, bool & allLiterals
 		, ValueId initialiser
 		, bool hasFuncInit
-		, LoadedVariableArray & loadedVariables
 		, bool isAlias )
 	{
 		ValueId result{ 0u, expr->getType() };
@@ -479,7 +430,6 @@ namespace spirv
 			, allLiterals
 			, initialiser
 			, hasFuncInit
-			, loadedVariables
 			, isAlias };
 		expr->accept( &vis );
 		return result;
@@ -490,19 +440,15 @@ namespace spirv
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
-		, bool loadVariable
-		, LoadedVariableArray & loadedVariables
 		, bool isAlias )
 		: m_context{ context }
 		, m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
 		, m_allLiterals{ allLiterals }
-		, m_loadVariable{ loadVariable }
 		, m_initialiser{ 0u }
 		, m_hasFuncInit{ false }
 		, m_isAlias{ isAlias }
-		, m_loadedVariables{ loadedVariables }
 	{
 	}
 
@@ -513,65 +459,34 @@ namespace spirv
 		, bool & allLiterals
 		, ValueId initialiser
 		, bool hasFuncInit
-		, LoadedVariableArray & loadedVariables
 		, bool isAlias )
 		: m_context{ context }
 		, m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
 		, m_allLiterals{ allLiterals }
-		, m_loadVariable{ false }
 		, m_initialiser{ initialiser }
 		, m_hasFuncInit{ hasFuncInit }
 		, m_isAlias{ isAlias }
-		, m_loadedVariables{ loadedVariables }
 	{
 	}
 
 	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr )
 	{
-		return submit( expr, m_context, m_currentBlock, m_module, m_loadVariable, m_loadedVariables, false );
-	}
-
-	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
-		, LoadedVariableArray & loadedVariables )
-	{
-		return submit( expr, m_context, m_currentBlock, m_module, m_loadVariable, loadedVariables, false );
-	}
-
-	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
-		, bool loadVariable )
-	{
-		return submit( expr, m_context, m_currentBlock, m_module, loadVariable, m_loadedVariables, false );
+		return submit( expr, m_context, m_currentBlock, m_module, false );
 	}
 
 	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, ValueId initialiser
 		, bool hasFuncInit )
 	{
-		return submit( expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, m_loadedVariables, false );
+		return submit( expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, false );
 	}
 
 	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
-		, bool loadVariable
-		, LoadedVariableArray & loadedVariables )
+		, bool & allLiterals )
 	{
-		return submit( expr, m_context, m_currentBlock, m_module, loadVariable, loadedVariables, false );
-	}
-
-	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
-		, bool & allLiterals
-		, bool loadVariable )
-	{
-		return submit( expr, m_context, m_currentBlock, m_module, allLiterals, loadVariable, m_loadedVariables, false );
-	}
-
-	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
-		, bool & allLiterals
-		, bool loadVariable
-		, LoadedVariableArray & loadedVariables )
-	{
-		return submit( expr, m_context, m_currentBlock, m_module, allLiterals, loadVariable, loadedVariables, false );
+		return submit( expr, m_context, m_currentBlock, m_module, allLiterals, false );
 	}
 
 	void ExprVisitor::visitUnaryExpr( ast::expr::Unary * expr )
@@ -664,7 +579,7 @@ namespace spirv
 			auto lhsSwizzleKind = lhsSwizzle.getSwizzle();
 
 			// Process the RHS first, asking for the needed variables to be loaded.
-			auto rhsId = doSubmit( expr->getRHS(), true, m_loadedVariables );
+			auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
 
 			auto lhsOuter = lhsSwizzle.getOuterExpr();
 			assert( lhsOuter->getKind() == ast::expr::Kind::eIdentifier
@@ -757,87 +672,12 @@ namespace spirv
 			// No load to retrieve the variable ID.
 			auto lhsId = getVariablePointerId( expr->getLHS() );
 			// Ask for the needed variables to be loaded.
-			auto rhsId = loadVariable( doSubmit( expr->getRHS(), true, m_loadedVariables ) );
+			auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
 			m_module.storeVariable( lhsId
 				, rhsId
 				, m_currentBlock );
 			m_result = lhsId;
 		}
-	}
-
-	void ExprVisitor::visitPreDecrementExpr( ast::expr::PreDecrement * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitPreIncrementExpr( ast::expr::PreIncrement * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitPostDecrementExpr( ast::expr::PostDecrement * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitPostIncrementExpr( ast::expr::PostIncrement * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitUnaryPlusExpr( ast::expr::UnaryPlus * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitAddAssignExpr( ast::expr::AddAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitAndAssignExpr( ast::expr::AndAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitDivideAssignExpr( ast::expr::DivideAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitMinusAssignExpr( ast::expr::MinusAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitModuloAssignExpr( ast::expr::ModuloAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitOrAssignExpr( ast::expr::OrAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitTimesAssignExpr( ast::expr::TimesAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
-	}
-
-	void ExprVisitor::visitXorAssignExpr( ast::expr::XorAssign * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
 	}
 
 	void ExprVisitor::visitAggrInitExpr( ast::expr::AggrInit * expr )
@@ -878,19 +718,7 @@ namespace spirv
 		m_result = makeAccessChain( expr
 			, m_context
 			, m_module
-			, m_currentBlock
-			, m_loadedVariables );
-		auto typeKind = expr->getType()->getKind();
-
-		if ( m_loadVariable
-			&& !isImageType( typeKind )
-			&& !isSampledImageType( typeKind )
-			&& !isSamplerType( typeKind ) )
-		{
-			auto result = loadVariable( m_result );
-			m_module.putIntermediateResult( m_result );
-			m_result = result;
-		}
+			, m_currentBlock );
 	}
 
 	void ExprVisitor::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
@@ -899,15 +727,7 @@ namespace spirv
 		m_result = makeAccessChain( expr
 			, m_context
 			, m_module
-			, m_currentBlock
-			, m_loadedVariables );
-
-		if ( m_loadVariable )
-		{
-			auto result = loadVariable( m_result );
-			m_module.putIntermediateResult( m_result );
-			m_result = result;
-		}
+			, m_currentBlock );
 	}
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
@@ -919,7 +739,7 @@ namespace spirv
 		for ( auto & arg : expr->getArgList() )
 		{
 			bool allLitsInit = true;
-			auto id = loadVariable( doSubmit( arg.get(), allLitsInit, m_loadVariable ) );
+			auto id = loadVariable( doSubmit( arg.get(), allLitsInit ) );
 			params.push_back( id );
 			allLiterals = allLiterals && allLitsInit;
 			paramsCount += ast::type::getComponentCount( arg->getType()->getKind() );
@@ -1037,37 +857,15 @@ namespace spirv
 			m_result = makeAccessChain( expr
 				, m_context
 				, m_module
-				, m_currentBlock
-				, m_loadedVariables );
-
-			if ( m_loadVariable )
-			{
-				auto result = loadVariable( m_result );
-				m_module.putIntermediateResult( m_result );
-				m_result = result;
-			}
+				, m_currentBlock );
 		}
 		else
 		{
-			bool isAlias = initialiseVariable( m_initialiser
+			initialiseVariable( m_initialiser
 				, true
 				, m_hasFuncInit
 				, var
 				, expr->getType() );
-			auto kind = var->getType()->getKind();
-
-			if ( m_loadVariable
-				&& !isAlias
-				&& ( var->isLocale()
-					|| var->isShaderInput()
-					|| var->isShaderOutput()
-					|| var->isParam()
-					|| isSampledImageType( kind )
-					|| isImageType( kind )
-					|| isSamplerType( kind ) ) )
-			{
-				m_result = loadVariable( m_result );
-			}
 		}
 	}
 
@@ -1078,7 +876,7 @@ namespace spirv
 			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU;
 		auto paramType = expr->getArgList()[0]->getType();
 		assert( paramType->getKind() == ast::type::Kind::eImage );
-		auto imageVarId = doSubmit( expr->getArgList()[0].get(), false );
+		auto imageVarId = doSubmit( expr->getArgList()[0].get() );
 		auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
 		auto intermediateId = loadVariable( imageVarId );
 		ValueIdList params;
@@ -1194,7 +992,7 @@ namespace spirv
 		m_allLiterals = false;
 		m_module.registerType( expr->getType() );
 		bool allLiterals = true;
-		auto init = loadVariable( doSubmit( expr->getInitialiser(), allLiterals, m_loadVariable ) );
+		auto init = loadVariable( doSubmit( expr->getInitialiser(), allLiterals ) );
 		bool hasFuncInit = HasFnCall::submit( expr );
 		initialiseVariable( init
 			, allLiterals
@@ -1288,16 +1086,6 @@ namespace spirv
 		}
 	}
 
-	void ExprVisitor::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
-	{
-		m_result = doSubmit( expr->getLabel() );
-	}
-
-	void ExprVisitor::visitSwitchTestExpr( ast::expr::SwitchTest * expr )
-	{
-		m_result = doSubmit( expr->getValue() );
-	}
-
 	void ExprVisitor::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
 		m_allLiterals = false;
@@ -1306,27 +1094,17 @@ namespace spirv
 			&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier
 			&& !static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->isTempVar() )
 		{
-			m_result = makeAccessChain( expr
+			m_result = loadVariable( makeAccessChain( expr
 				, m_context
 				, m_module
-				, m_currentBlock
-				, m_loadedVariables );
-			m_result = loadVariable( m_result );
+				, m_currentBlock ) );
 		}
 		else
 		{
-			auto save = m_loadVariable;
-			m_loadVariable = true;
-			auto outerId = doSubmit( expr->getOuterExpr() );
-			m_loadVariable = save;
-			auto typeId = m_module.registerType( expr->getType() );
-			m_result = writeShuffle( m_module
-				, m_currentBlock
-				, typeId
-				, expr->getOuterExpr()->getType()
-				, outerId
-				, expr->getSwizzle() );
-			assert( !m_result.isPointer() );
+			m_result = loadVariable( makeVectorShuffle( expr
+				, m_context
+				, m_module
+				, m_currentBlock ) );
 		}
 	}
 
@@ -1401,8 +1179,6 @@ namespace spirv
 			, m_context
 			, m_currentBlock
 			, m_module
-			, false
-			, m_loadedVariables
 			, true );
 		auto var = expr->getLHS()->getVariable();
 		// Aliases don't store pointers, hence make sure the result isn't.
@@ -1513,10 +1289,7 @@ namespace spirv
 	void ExprVisitor::handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
 		ValueIdList params;
-		auto save = m_loadVariable;
-		m_loadVariable = false;
 		params.push_back( doSubmit( expr->getArgList()[0].get() ) );
-		m_loadVariable = save;
 
 		auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
 		auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
@@ -1557,10 +1330,7 @@ namespace spirv
 			// hence we need to pass it as a pointer to the call.
 			assert( expr->getArgList().size() == 2u );
 			params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
-			auto save = m_loadVariable;
-			m_loadVariable = false;
 			params.push_back( doSubmit( expr->getArgList()[1].get() ) );
-			m_loadVariable = save;
 		}
 		else
 		{
@@ -1663,10 +1433,7 @@ namespace spirv
 
 		if ( isAccessChain( expr ) )
 		{
-			auto save = m_loadVariable;
-			m_loadVariable = false;
 			result = doSubmit( expr );
-			m_loadVariable = save;
 		}
 		else
 		{
@@ -1838,7 +1605,7 @@ namespace spirv
 
 		for ( auto & init : inits )
 		{
-			initialisers.push_back( loadVariable( doSubmit( init.get(), allLiterals, true ) ) );
+			initialisers.push_back( loadVariable( doSubmit( init.get(), allLiterals ) ) );
 			hasFuncInit = hasFuncInit || HasFnCall::submit( init.get() );
 		}
 

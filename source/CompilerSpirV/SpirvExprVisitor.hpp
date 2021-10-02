@@ -24,14 +24,6 @@ namespace spirv
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
-			, bool loadVariable = true
-			, bool isAlias = false );
-		static ValueId submit( ast::expr::Expr * expr
-			, PreprocContext const & context
-			, Block & currentBlock
-			, Module & module
-			, bool loadVariable
-			, LoadedVariableArray & loadedVariables
 			, bool isAlias = false );
 		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
@@ -39,7 +31,6 @@ namespace spirv
 			, Module & module
 			, ValueId initialiser
 			, bool hasFuncInit
-			, LoadedVariableArray & loadedVariables
 			, bool isAlias = false );
 
 	private:
@@ -48,15 +39,6 @@ namespace spirv
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
-			, bool loadVariable
-			, bool isAlias );
-		static ValueId submit( ast::expr::Expr * expr
-			, PreprocContext const & context
-			, Block & currentBlock
-			, Module & module
-			, bool & allLiterals
-			, bool loadVariable
-			, LoadedVariableArray & loadedVariables
 			, bool isAlias );
 		static ValueId submit( ast::expr::Expr * expr
 			, PreprocContext const & context
@@ -65,7 +47,6 @@ namespace spirv
 			, bool & allLiterals
 			, ValueId initialiser
 			, bool hasFuncInit
-			, LoadedVariableArray & loadedVariables
 			, bool isAlias );
 
 		ExprVisitor( ValueId & result
@@ -73,8 +54,6 @@ namespace spirv
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
-			, bool loadVariable
-			, LoadedVariableArray & loadedVariables
 			, bool isAlias );
 		ExprVisitor( ValueId & result
 			, PreprocContext const & context
@@ -83,48 +62,20 @@ namespace spirv
 			, bool & allLiterals
 			, ValueId initialiser
 			, bool hasFuncInit
-			, LoadedVariableArray & loadedVariables
 			, bool isAlias );
 		ValueId doSubmit( ast::expr::Expr * expr );
-		ValueId doSubmit( ast::expr::Expr * expr
-			, LoadedVariableArray & loadedVariables );
-		ValueId doSubmit( ast::expr::Expr * expr
-			, bool loadVariable );
 		ValueId doSubmit( ast::expr::Expr * expr
 			, ValueId initialiser
 			, bool hasFuncInit );
 		ValueId doSubmit( ast::expr::Expr * expr
-			, bool loadVariable
-			, LoadedVariableArray & loadedVariables );
-		ValueId doSubmit( ast::expr::Expr * expr
-			, bool & allLiterals
-			, bool loadVariable );
-		ValueId doSubmit( ast::expr::Expr * expr
-			, bool & allLiterals
-			, bool loadVariable
-			, LoadedVariableArray & loadedVariables );
+			, bool & allLiterals );
 
 		void visitUnaryExpr( ast::expr::Unary * expr )override;
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
 
 		void visitCastExpr( ast::expr::Cast * expr )override;
 		void visitCommaExpr( ast::expr::Comma * expr )override;
-		void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override;
-		void visitPreIncrementExpr( ast::expr::PreIncrement * expr )override;
-		void visitPostDecrementExpr( ast::expr::PostDecrement * expr )override;
-		void visitPostIncrementExpr( ast::expr::PostIncrement * expr )override;
-		void visitUnaryPlusExpr( ast::expr::UnaryPlus * expr )override;
-		void visitAddAssignExpr( ast::expr::AddAssign * expr )override;
-		void visitAndAssignExpr( ast::expr::AndAssign * expr )override;
 		void visitAssignExpr( ast::expr::Assign * expr )override;
-		void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override;
-		void visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )override;
-		void visitMinusAssignExpr( ast::expr::MinusAssign * expr )override;
-		void visitModuloAssignExpr( ast::expr::ModuloAssign * expr )override;
-		void visitOrAssignExpr( ast::expr::OrAssign * expr )override;
-		void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override;
-		void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override;
-		void visitXorAssignExpr( ast::expr::XorAssign * expr )override;
 		void visitAggrInitExpr( ast::expr::AggrInit * expr )override;
 		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;
 		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
@@ -136,11 +87,94 @@ namespace spirv
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;
 		void visitQuestionExpr( ast::expr::Question *expr )override;
-		void visitSwitchCaseExpr( ast::expr::SwitchCase *expr )override;
-		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 		void visitAliasExpr( ast::expr::Alias * expr )override;
+
+		void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitPreIncrementExpr( ast::expr::PreIncrement * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitPostDecrementExpr( ast::expr::PostDecrement * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitPostIncrementExpr( ast::expr::PostIncrement * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitUnaryPlusExpr( ast::expr::UnaryPlus * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitAddAssignExpr( ast::expr::AddAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitAndAssignExpr( ast::expr::AndAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitMinusAssignExpr( ast::expr::MinusAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitModuloAssignExpr( ast::expr::ModuloAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitOrAssignExpr( ast::expr::OrAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitXorAssignExpr( ast::expr::XorAssign * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+		}
+
+		void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::SwitchCase expression." );
+		}
+
+		void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::SwitchTest expression." );
+		}
 
 		void handleTexelPointerImageAccessCall( spv::Op opCode, ast::expr::ImageAccessCall * expr );
 		void handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
@@ -180,11 +214,9 @@ namespace spirv
 		Block & m_currentBlock;
 		Module & m_module;
 		bool & m_allLiterals;
-		bool m_loadVariable;
 		ValueId m_initialiser;
 		bool m_hasFuncInit{ false };
 		bool m_isAlias;
-		LoadedVariableArray & m_loadedVariables;
 		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
 		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
 		uint32_t m_aliasId{ 1u };
