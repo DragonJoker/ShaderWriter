@@ -173,6 +173,7 @@ namespace ast::type
 	SDAST_API bool isSamplerType( Kind kind );
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isSampledImageType( Kind kind );
+	SDAST_API bool isOpaqueType( Kind kind );
 	/**
 	*\remarks
 	*	Returns count * arraySize in case of arrays.

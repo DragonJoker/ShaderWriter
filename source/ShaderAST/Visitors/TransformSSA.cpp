@@ -1028,9 +1028,7 @@ namespace ast
 					auto kind = getNonArrayKind( arg->getType() );
 					auto param = *( it++ );
 
-					if ( isSamplerType( kind )
-						|| isSampledImageType( kind )
-						|| isImageType( kind ) )
+					if ( isOpaqueType( kind ) )
 					{
 						if ( arg->getKind() == ast::expr::Kind::eArrayAccess )
 						{
@@ -1335,9 +1333,7 @@ namespace ast
 						| var::Flag::eTemp
 						| var::Flag::eAlias ) );
 
-				if ( isSamplerType( kind )
-					|| isSampledImageType( kind )
-					|| isImageType( kind ) )
+				if ( isOpaqueType( kind ) )
 				{
 					result->updateFlag( var::Flag::eConstant );
 				}
@@ -1357,9 +1353,7 @@ namespace ast
 				auto kind = getNonArrayKind( expr->getType() );
 
 				if ( !force
-					&& ( isSamplerType( kind )
-						|| isSampledImageType( kind )
-						|| isImageType( kind )
+					&& ( isOpaqueType( kind )
 						|| !needsAlias( expr->getKind()
 							, isShaderVariable( *expr )
 							, param ) ) )

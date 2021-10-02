@@ -813,9 +813,7 @@ namespace spirv
 	{
 		assert( !id.isPointer() );
 		assert( !isStructType( kind )
-			&& !isSamplerType( kind )
-			&& !isImageType( kind )
-			&& !isSampledImageType( kind ) );
+			&& !isOpaqueType( kind ) );
 
 		switch ( kind )
 		{

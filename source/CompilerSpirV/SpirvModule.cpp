@@ -945,16 +945,12 @@ namespace spirv
 		{
 			auto type = param->getType();
 			auto kind = type->getKind();
-			auto storage = ( ( isSampledImageType( kind )
-				|| isImageType( kind )
-				|| isSamplerType( kind ) )
+			auto storage = ( isOpaqueType( kind )
 				? spv::StorageClassUniformConstant
 				: spv::StorageClassFunction );
 			funcTypes.push_back( registerType( type ) );
 
-			if ( isSampledImageType( kind )
-				|| isImageType( kind )
-				|| isSamplerType( kind ) )
+			if ( isOpaqueType( kind ) )
 			{
 				funcTypes.back() = registerPointerType( funcTypes.back(), storage );
 			}
