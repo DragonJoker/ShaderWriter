@@ -15,8 +15,6 @@ namespace spirv
 		ValueId loadedId;
 	};
 
-	using LoadedVariableArray = std::vector< LoadedVariable >;
-
 	enum class BlockType
 	{
 		eGlobal,

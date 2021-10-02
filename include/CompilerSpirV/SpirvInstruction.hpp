@@ -21,6 +21,7 @@ See LICENSE file in root folder
 #pragma warning( disable: 4201 )
 #pragma warning( disable: 4365 )
 #include <iomanip>
+
 #if defined( __clang__ )
 #	include <optional>
 namespace spirv

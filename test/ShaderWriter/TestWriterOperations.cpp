@@ -871,6 +871,32 @@ namespace
 			testEnd();
 		}
 	}
+
+	void boolCast( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "boolCast" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			ComputeWriter writer;
+			writer.inputLayout( 16u, 16u );
+			writer.implementMain( [&]()
+				{
+					auto b = writer.declLocale(
+						"b", 1_u );
+					auto x = writer.declLocale( "x", 0x287a_u & b );
+					auto xa = writer.declLocale( "xa", x != 0_u );
+					auto xb = writer.declLocale( "xb", writer.cast<Float>( xa ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, false, false );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterOperations )
@@ -895,6 +921,7 @@ sdwTestSuiteMain( TestWriterOperations )
 	testVec< sdw::Vec4T, sdw::Double >( testCounts );
 	testVec< sdw::Vec4T, sdw::Int >( testCounts );
 	testVec< sdw::Vec4T, sdw::UInt >( testCounts );
+	boolCast( testCounts );
 	sdwTestSuiteEnd();
 }
 

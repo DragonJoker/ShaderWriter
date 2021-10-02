@@ -240,7 +240,7 @@ namespace spirv
 		endBlock( m_currentBlock, ifBlock.label );
 
 		// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_context, ifBlock, m_result );
+		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( stmt->getCtrlExpr(), m_context, ifBlock, m_result ), m_currentBlock );
 		endBlock( ifBlock, intermediateIfId.id, loopBlockLabel, mergeBlock.label );
 
 		// Current block becomes the merge block.
@@ -350,7 +350,7 @@ namespace spirv
 		}
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
-		auto intermediateIfId = ExprVisitor::submit( stmt->getCtrlExpr(), m_context, m_currentBlock, m_result );
+		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( stmt->getCtrlExpr(), m_context, m_currentBlock, m_result ), m_currentBlock );
 		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 		endBlock( m_currentBlock, intermediateIfId.id, contentBlock.label, falseBlockLabel );
 
@@ -525,10 +525,11 @@ namespace spirv
 	{
 		if ( stmt->getExpr() )
 		{
-			auto result = ExprVisitor::submit( stmt->getExpr()
-				, m_context
-				, m_currentBlock
-				, m_result );
+			auto result = m_result.loadVariable( ExprVisitor::submit( stmt->getExpr()
+					, m_context
+					, m_currentBlock
+					, m_result )
+				, m_currentBlock );
 			interruptBlock( m_currentBlock
 				, makeInstruction< ReturnValueInstruction >( result )
 				, false );
@@ -615,7 +616,7 @@ namespace spirv
 			}
 		}
 
-		auto selector = ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result );
+		auto selector = m_result.loadVariable( ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result ), m_currentBlock );
 		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( ValueIdList{ selector, ValueId{ defaultBlock.label } }, caseBlocksIds );
 		m_currentBlock.isInterrupted = true;

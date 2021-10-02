@@ -216,8 +216,7 @@ namespace spirv
 			static ValueIdList submit( AccessChainExprArray const & exprs
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables )
+				, Block & currentBlock )
 			{
 				ValueIdList result;
 				assert( exprs.size() >= 2u );
@@ -225,19 +224,18 @@ namespace spirv
 				result.push_back( submit( exprs[0].expr
 					, context
 					, module
-					, currentBlock
-					, loadedVariables ) );
+					, currentBlock ) );
 
 				for ( size_t i = 1u; i < exprs.size(); ++i )
 				{
 					auto & expr = exprs[i];
-					result.push_back( submit( result.back()
-						, expr
-						, context
-						, module
-						, currentBlock
-						, loadedVariables
-						, info ) );
+					result.push_back( module.loadVariable( submit( result.back()
+							, expr
+							, context
+							, module
+							, currentBlock
+							, info )
+						, currentBlock ) );
 				}
 
 				return result;
@@ -250,13 +248,11 @@ namespace spirv
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables
 				, VariableInfo & info )
 				: m_result{ result }
 				, m_context{ context }
 				, m_module{ module }
 				, m_currentBlock{ currentBlock }
-				, m_loadedVariables{ loadedVariables }
 				, m_parentId{ parentId }
 				, m_parentKind{ parentKind }
 				, m_info{ info }
@@ -266,8 +262,7 @@ namespace spirv
 			static ValueId submit( ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables )
+				, Block & currentBlock )
 			{
 				ValueId result{ 0u, expr->getType() };
 				VariableInfo info;
@@ -277,7 +272,6 @@ namespace spirv
 					, context
 					, module
 					, currentBlock
-					, loadedVariables
 					, info };
 				expr->accept( &vis );
 				return result;
@@ -287,8 +281,7 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables )
+				, Block & currentBlock )
 			{
 				ValueId result{ 0u, expr->getType() };
 				VariableInfo info;
@@ -298,7 +291,6 @@ namespace spirv
 					, context
 					, module
 					, currentBlock
-					, loadedVariables
 					, info };
 				expr->accept( &vis );
 				return result;
@@ -309,7 +301,6 @@ namespace spirv
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock
-				, LoadedVariableArray & loadedVariables
 				, VariableInfo & info )
 			{
 				ValueId result{ 0u, parentId.type };
@@ -319,7 +310,6 @@ namespace spirv
 					, context
 					, module
 					, currentBlock
-					, loadedVariables
 					, info };
 				expr.expr->accept( &vis );
 				return result;
@@ -327,12 +317,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
+				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock;
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
+				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock;
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -347,16 +337,18 @@ namespace spirv
 
 				if ( isAccessChain( expr->getRHS() ) )
 				{
-					auto accessChain = makeAccessChain( expr->getRHS()
+					m_result = makeAccessChain( expr->getRHS()
 						, m_context
 						, m_module
-						, m_currentBlock
-						, m_loadedVariables );
-					m_result = m_module.loadVariable( accessChain, m_currentBlock );
+						, m_currentBlock );
 				}
 				else
 				{
-					m_result = submit( m_parentId, expr->getRHS(), m_context, m_module, m_currentBlock, m_loadedVariables );
+					m_result = submit( m_parentId
+						, expr->getRHS()
+						, m_context
+						, m_module
+						, m_currentBlock );
 				}
 			}
 
@@ -387,7 +379,7 @@ namespace spirv
 					if ( it != m_context.constAggrExprs.end() )
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
-						m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module, true, m_loadedVariables );
+						m_result = m_module.loadVariable( ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock );
 						m_result = m_module.registerVariable( var->getName()
 							, getStorageClass( var )
 							, var->isAlias()
@@ -449,37 +441,10 @@ namespace spirv
 				}
 				else
 				{
-					ValueId parentId{ 0u, expr->getOuterExpr()->getType() };
-
-					if ( isAccessChain( expr->getOuterExpr() ) )
-					{
-						parentId = makeAccessChain( expr->getOuterExpr()
-							, m_context
-							, m_module
-							, m_currentBlock
-							, m_loadedVariables );
-
-						if ( isPtrAccessChain( expr->getOuterExpr() ) )
-						{
-							parentId = m_module.loadVariable( parentId
-								, m_currentBlock );
-						}
-					}
-					else
-					{
-						parentId = ExprVisitor::submit( expr->getOuterExpr()
-							, m_context
-							, m_currentBlock
-							, m_module );
-					}
-
-					auto typeId = m_module.registerType( expr->getType() );
-					m_result = writeShuffle( m_module
-						, m_currentBlock
-						, typeId
-						, expr->getOuterExpr()->getType()
-						, parentId
-						, expr->getSwizzle() );
+					m_result = makeVectorShuffle( expr
+						, m_context
+						, m_module
+						, m_currentBlock );
 				}
 			}
 
@@ -538,7 +503,6 @@ namespace spirv
 			PreprocContext const & m_context;
 			Module & m_module;
 			Block & m_currentBlock;
-			LoadedVariableArray & m_loadedVariables;
 			ValueId m_parentId;
 			ast::expr::Kind m_parentKind;
 			VariableInfo & m_info;
@@ -601,57 +565,6 @@ namespace spirv
 		}
 	}
 
-	ValueId writeShuffle( Module & module
-		, Block & currentBlock
-		, ValueId typeId
-		, ast::type::TypePtr outerType
-		, ValueId outerId
-		, ast::expr::SwizzleKind swizzle )
-	{
-		outerId = module.loadVariable( outerId, currentBlock );
-		ValueId result{ 0u, typeId.type };
-		auto swizzleComponents = convert( getSwizzleComponents( swizzle ) );
-		ValueIdList shuffle;
-
-		if ( swizzleComponents.size() == 1u )
-		{
-			shuffle.push_back( outerId );
-			shuffle.push_back( swizzleComponents.front() );
-			auto it = currentBlock.vectorShuffles.find( shuffle );
-
-			if ( it == currentBlock.vectorShuffles.end() )
-			{
-				auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
-				currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( typeId
-					, intermediateId
-					, shuffle ) );
-				it = currentBlock.vectorShuffles.emplace( shuffle, intermediateId ).first;
-			}
-
-			result = it->second;
-		}
-		else
-		{
-			shuffle.push_back( outerId );
-			shuffle.push_back( outerId );
-			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
-			auto it = currentBlock.vectorShuffles.find( shuffle );
-
-			if ( it == currentBlock.vectorShuffles.end() )
-			{
-				auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
-				currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( typeId
-					, intermediateId
-					, shuffle ) );
-				it = currentBlock.vectorShuffles.emplace( shuffle, intermediateId ).first;
-			}
-
-			result = it->second;
-		}
-
-		return result;
-	}
-
 	bool isAccessChain( ast::expr::Expr * expr )
 	{
 		return expr->getKind() == ast::expr::Kind::eArrayAccess
@@ -663,22 +576,10 @@ namespace spirv
 				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() );
 	}
 
-	bool isPtrAccessChain( ast::expr::Expr * expr )
-	{
-		return isAccessChain( expr )
-			&& ( expr->getKind() == ast::expr::Kind::eArrayAccess
-				|| expr->getKind() == ast::expr::Kind::eMbrSelect
-				|| ( expr->getKind() == ast::expr::Kind::eSwizzle
-					&& !isScalarType( expr->getType()->getKind() ) )
-				|| ( expr->getKind() == ast::expr::Kind::eIdentifier
-					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() ) );
-	}
-
 	ValueId makeAccessChain( ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Module & module
-		, Block & currentBlock
-		, LoadedVariableArray & loadedVariables )
+		, Block & currentBlock )
 	{
 		// Create Access Chain.
 		ast::expr::ExprList idents;
@@ -686,11 +587,52 @@ namespace spirv
 		auto accessChain = AccessChainCreator::submit( accessChainExprs
 			, context
 			, module
-			, currentBlock
-			, loadedVariables );
+			, currentBlock );
 		return writeAccessChain( currentBlock
 			, accessChain
 			, expr
 			, module );
+	}
+
+	ValueId makeVectorShuffle( ast::expr::Swizzle * expr
+		, PreprocContext const & context
+		, Module & module
+		, Block & currentBlock )
+	{
+		auto typeId = module.registerType( expr->getType() );
+		auto outerId = module.loadVariable( ExprVisitor::submit( expr->getOuterExpr()
+				, context
+				, currentBlock
+				, module )
+			, currentBlock );
+		ValueId result{ 0u, typeId.type };
+		auto swizzleComponents = convert( getSwizzleComponents( expr->getSwizzle() ) );
+
+		if ( swizzleComponents.size() == 1u )
+		{
+			ValueIdList extract;
+			extract.push_back( outerId );
+			extract.push_back( swizzleComponents.front() );
+			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
+			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( typeId
+				, intermediateId
+				, extract ) );
+			result = intermediateId;
+		}
+		else
+		{
+			ValueIdList shuffle;
+			shuffle.push_back( outerId );
+			shuffle.push_back( outerId );
+			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
+			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
+			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( typeId
+				, intermediateId
+				, shuffle ) );
+			result = intermediateId;
+		}
+
+		assert( !result.isPointer() );
+		return result;
 	}
 }
