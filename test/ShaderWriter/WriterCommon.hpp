@@ -399,9 +399,10 @@ namespace test
 			initialisers.emplace_back( sdw::makeExpr( getDefault< T >( writer ) ) );
 		}
 
-		return sdw::Array< T >{ &writer
-			, ast::expr::makeAggrInit( ast::type::TypePtr{}
-				, std::move( initialisers ) ) };
+		return sdw::Array< T >{ writer
+			, ast::expr::makeAggrInit( writer.getTypesCache().getArray( initialisers.front()->getType(), dimension )
+				, std::move( initialisers ) )
+			, true };
 	}
 
 	void writeShader( ast::Shader const & shader

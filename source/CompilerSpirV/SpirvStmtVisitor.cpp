@@ -103,6 +103,8 @@ namespace spirv
 			m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() )
 				, spv::StorageClassInput
 				, input->isAlias()
+				, input->isParam()
+				, input->isOutputParam()
 				, input->getType()
 				, info ).id );
 		}
@@ -112,6 +114,8 @@ namespace spirv
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() )
 				, spv::StorageClassOutput
 				, output->isAlias()
+				, output->isParam()
+				, output->isOutputParam()
 				, output->getType()
 				, info ).id );
 		}
@@ -735,6 +739,8 @@ namespace spirv
 			auto outer = m_result.registerVariable( var->getOuter()->getName()
 				, getStorageClass( var )
 				, var->isAlias()
+				, var->isParam()
+				, var->isOutputParam()
 				, var->getOuter()->getType()
 				, info ).id;
 			return m_result.registerMemberVariable( outer
@@ -745,6 +751,8 @@ namespace spirv
 		return m_result.registerVariable( var->getName()
 			, getStorageClass( var )
 			, var->isAlias()
+			, var->isParam()
+			, var->isOutputParam()
 			, var->getType()
 			, info ).id;
 	}

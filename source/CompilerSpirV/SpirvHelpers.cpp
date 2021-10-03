@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprQuestion.hpp>
 #include <ShaderAST/Expr/ExprSwizzle.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Type/ImageConfiguration.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 
 namespace spirv
@@ -240,6 +241,16 @@ namespace spirv
 					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderInput()
 					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
 		}
+	}
+
+	//*************************************************************************
+
+	size_t ConstExprIdentifierHasher::operator()( ConstExprIdentifier const & obj )const
+	{
+		auto result = std::hash< ast::type::TypePtr >{}( obj.type );
+		result = ast::type::hashCombine( result, obj.scopeId );
+		result = ast::type::hashCombine( result, obj.name );
+		return result;
 	}
 
 	//*************************************************************************
@@ -1263,6 +1274,19 @@ namespace spirv
 		}
 
 		return result;
+	}
+
+	bool isPointerParam( ast::type::TypePtr type
+		, bool isOutputParam )
+	{
+		return isOpaqueType( type->getKind() )
+			|| isOutputParam;
+	}
+
+	bool isPointerParam( ast::var::Variable const & param )
+	{
+		return isPointerParam( param.getType()
+			, param.isOutputParam() );
 	}
 
 	//*************************************************************************

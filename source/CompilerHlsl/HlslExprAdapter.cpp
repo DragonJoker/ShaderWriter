@@ -965,6 +965,12 @@ namespace hlsl
 			if ( ident )
 			{
 				auto var = ident->getVariable();
+
+				if ( var->isAlias() )
+				{
+					var->updateFlag( ast::var::Flag::eAlias, false );
+				}
+
 				auto it = updateLinkedVars( var
 					, m_adaptationData.linkedVars
 					, m_adaptationData.nextVarId );

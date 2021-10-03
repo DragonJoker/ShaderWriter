@@ -41,10 +41,22 @@ namespace spirv
 		uint32_t offsetIndex{ 0u };
 	};
 
+	struct ConstExprIdentifier
+	{
+		uint32_t scopeId;
+		std::string name;
+		ast::type::TypePtr type;
+	};
+
+	struct ConstExprIdentifierHasher
+	{
+		size_t operator()( ConstExprIdentifier const & obj )const;
+	};
+
 	struct PreprocContext
 	{
-		std::map< std::string, ast::expr::ExprPtr > constExprs;
-		std::map< std::string, ast::expr::ExprList > constAggrExprs;
+		std::map< uint32_t, ast::expr::ExprPtr > constExprs;
+		std::map< uint32_t, ast::expr::ExprList > constAggrExprs;
 	};
 
 	spv::BuiltIn getBuiltin( std::string const & name );
@@ -105,6 +117,9 @@ namespace spirv
 	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr expr
 		, ast::type::Kind dstScalarType );
+	bool isPointerParam( ast::type::TypePtr type
+		, bool isOutputParam );
+	bool isPointerParam( ast::var::Variable const & param );
 }
 
 #endif

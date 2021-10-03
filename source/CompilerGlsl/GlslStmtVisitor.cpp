@@ -453,7 +453,8 @@ namespace glsl
 
 		for ( auto & param : *type )
 		{
-			m_result += sep + getDirectionName( *param )
+			m_result = m_result
+				+ sep + getDirectionName( *param )
 				+ " " + getTypeName( param->getType() )
 				+ " " + param->getName() + getTypeArraySize( param->getType() );
 			sep = ", ";

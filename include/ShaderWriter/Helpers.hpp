@@ -248,7 +248,8 @@ namespace sdw
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	SDW_API stmt::StmtPtr makeReturn( expr::ExprPtr expr );
-	SDW_API stmt::StmtPtr makePreprocDefine( std::string name
+	SDW_API stmt::StmtPtr makePreprocDefine( Shader & shader
+		, std::string name
 		, expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var

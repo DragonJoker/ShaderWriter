@@ -1245,9 +1245,19 @@ namespace spirv
 		assert( bool( instruction.labels ) == hasLabels );
 	}
 
+	template< spv::Op OpT >
+	struct OpInstructionCheckerT
+	{
+		template< typename ... Params >
+		static void checkParams( Params const & ... params )
+		{
+		}
+	};
+
 	template< typename InstructionType, typename ... Params >
 	inline std::unique_ptr< InstructionType > makeInstruction( Params && ... params )
 	{
+		OpInstructionCheckerT< InstructionType::op >::checkParams( std::forward< Params const & >( params )... );
 		return InstructionTMaker< InstructionType::op
 			, InstructionType::hasReturnTypeId
 			, InstructionType::hasResultId

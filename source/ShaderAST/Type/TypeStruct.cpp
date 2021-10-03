@@ -409,7 +409,7 @@ namespace ast::type
 		else
 		{
 			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( type
+			mbrType = getCache().getMemberType( mbrType
 				, *this
 				, uint32_t( m_members.size() ) );
 		}

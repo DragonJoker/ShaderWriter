@@ -14,6 +14,7 @@ See LICENSE file in root folder
 namespace spirv
 {
 	struct PreprocContext;
+
 	spv::StorageClass getStorageClass( ast::var::VariablePtr var );
 
 	class ExprVisitor
@@ -184,7 +185,7 @@ namespace spirv
 		void handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		ValueId getUnsignedExtendedResultTypeId( uint32_t count );
 		ValueId getSignedExtendedResultTypeId( uint32_t count );
-		ValueId getVariablePointerId( ast::expr::Expr * expr );
+		ValueId getVariablePointer( ast::expr::Expr * expr );
 		ValueId loadVariable( ValueId varId );
 		void storeVariable( ValueId varId, ValueId valId );
 		ValueId makeFunctionAlias( ValueId source );

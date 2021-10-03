@@ -857,7 +857,22 @@ namespace hlsl
 		}
 		else
 		{
-			result = defaultSemantic.name + std::to_string( defaultSemantic.index++ );
+			result = defaultSemantic.name + std::to_string( defaultSemantic.index );
+			uint32_t inc = 1u;
+
+			if ( isMatrixType( type->getKind() ) )
+			{
+				inc = getComponentCount( type );
+			}
+
+			auto arraySize = getArraySize( type );
+
+			if ( arraySize != ast::type::NotArray )
+			{
+				inc *= arraySize;
+			}
+
+			defaultSemantic.index += inc;
 		}
 
 		return result;

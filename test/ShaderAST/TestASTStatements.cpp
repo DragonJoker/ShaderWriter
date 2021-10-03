@@ -73,7 +73,7 @@ namespace
 	{
 		testBegin( "testPreprocDefine" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makePreprocDefine( "DefineIt", ast::expr::makeLiteral( cache, 1 ) );
+		auto stmt = ast::stmt::makePreprocDefine( 1u, "DefineIt", ast::expr::makeLiteral( cache, 1 ) );
 		testCounts.streams.cout << "PreprocDefine:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocDefine );

@@ -344,7 +344,12 @@ namespace hlsl
 	{
 		if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAlias )
 		{
-			doSubmit( stmt->getExpr() );
+			auto result = doSubmit( stmt->getExpr() );
+
+			if ( !result.empty() )
+			{
+				m_result += m_indent + doSubmit( stmt->getExpr() ) + ";\n";
+			}
 		}
 		else if ( stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
 		{

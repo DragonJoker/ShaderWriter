@@ -1567,6 +1567,61 @@ namespace
 		}
 		testEnd();
 	}
+
+	void smaaEdgeDetectionVS( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "smaaEdgeDetectionVS" );
+		using namespace sdw;
+		{
+			using namespace sdw;
+			VertexWriter writer;
+
+			float w = 300;
+			float h = 200;
+			std::array< float, 4u > renderTargetMetrics{ 1.0f / w, 1.0f / h, w, h };
+
+			// Shader constants
+			auto c3d_rtMetrics = writer.declConstant( "SMAA_RT_METRICS"
+				, vec4( Float( renderTargetMetrics[0] ), renderTargetMetrics[1], renderTargetMetrics[2], renderTargetMetrics[3] ) );
+
+			// Shader inputs
+			auto position = writer.declInput< Vec2 >( "position", 0u );
+			auto uv = writer.declInput< Vec2 >( "uv", 1u );
+
+			// Shader outputs
+			auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
+			auto vtx_offset = writer.declOutputArray< Vec4 >( "vtx_offset", 1u, 3u );
+			auto out = writer.getOut();
+
+			/**
+			 * Edge Detection Vertex Shader
+			 */
+			auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
+				, [&]( Vec2 const & texCoord
+					, Array< Vec4 > offset )
+				{
+					offset[0] = fma( c3d_rtMetrics.xyxy(), vec4( Float{ -1.0f }, 0.0_f, 0.0_f, Float{ -1.0f } ), vec4( texCoord.xy(), texCoord.xy() ) );
+					offset[1] = fma( c3d_rtMetrics.xyxy(), vec4( 1.0_f, 0.0_f, 0.0_f, 1.0_f ), vec4( texCoord.xy(), texCoord.xy() ) );
+					offset[2] = fma( c3d_rtMetrics.xyxy(), vec4( Float{ -2.0f }, 0.0_f, 0.0_f, Float{ -2.0f } ), vec4( texCoord.xy(), texCoord.xy() ) );
+				}
+				, InVec2{ writer, "texCoord" }
+				, OutVec4Array{ writer, "offset", 3u } );
+
+			writer.implementFunction< sdw::Void >( "main"
+				, [&]()
+				{
+					out.vtx.position = vec4( position, 0.0_f, 1.0_f );
+					vtx_texture = uv;
+					vtx_offset[0] = vec4( 0.0_f );
+					vtx_offset[1] = vec4( 0.0_f );
+					vtx_offset[2] = vec4( 0.0_f );
+					SMAAEdgeDetectionVS( vtx_texture, vtx_offset );
+				} );
+			test::writeShader( writer
+				, testCounts );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
@@ -1600,6 +1655,7 @@ sdwTestSuiteMain( TestWriterShader )
 	textureOffset( testCounts );
 	accessChainAlias( testCounts );
 	constVectorShuffle( testCounts );
+	smaaEdgeDetectionVS( testCounts );
 	sdwTestSuiteEnd();
 }
 

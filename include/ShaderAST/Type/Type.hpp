@@ -170,10 +170,12 @@ namespace ast::type
 	SDAST_API bool isMatrixType( Kind kind );
 	SDAST_API bool isArrayType( Kind kind );
 	SDAST_API bool isStructType( Kind kind );
+	SDAST_API bool isPointerType( Kind kind );
 	SDAST_API bool isSamplerType( Kind kind );
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isSampledImageType( Kind kind );
 	SDAST_API bool isOpaqueType( Kind kind );
+	SDAST_API bool isOpaqueType( TypePtr type );
 	/**
 	*\remarks
 	*	Returns count * arraySize in case of arrays.

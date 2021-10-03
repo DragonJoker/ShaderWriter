@@ -347,9 +347,40 @@ namespace glsl
 		return result;
 	}
 
+	std::string getAccessQualifierName( ast::type::ImageConfiguration const & config )
+	{
+		std::string result;
+
+		if ( config.accessKind == ast::type::AccessKind::eRead )
+		{
+			result = "readonly";
+		}
+		else if ( config.accessKind == ast::type::AccessKind::eWrite )
+		{
+			result = "writeonly";
+		}
+		else
+		{
+			result = "readonly writeonly";
+		}
+
+		return result;
+	}
+
 	std::string getDirectionName( ast::var::Variable const & var )
 	{
 		std::string result;
+
+		if ( isOpaqueType( var.getType() ) )
+		{
+			if ( isImageType( var.getType()->getKind() ) )
+			{
+				auto & imageType = static_cast< ast::type::Image const & >( *var.getType() );
+				return getAccessQualifierName( imageType.getConfig() );
+			}
+
+			return result;
+		}
 
 		if ( var.isInputParam()
 			&& var.isOutputParam() )

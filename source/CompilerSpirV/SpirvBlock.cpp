@@ -4,11 +4,23 @@ See LICENSE file in root folder
 #include "CompilerSpirV/SpirvBlock.hpp"
 
 #include <ShaderAST/Type/ImageConfiguration.hpp>
+#include <ShaderAST/Type/TypePointer.hpp>
 
 #include <algorithm>
 
 namespace spirv
 {
+	//*************************************************************************
+
+	bool VariableInfo::needsStoreOnPromote()const
+	{
+		return isAlias
+			|| ( isParam
+				&& !isOutParam
+				&& !isOpaqueType( id.type )
+				&& ( !id.isPointer() || ( id.getStorage() != ast::type::Storage::eFunction ) ) );
+	}
+
 	//*************************************************************************
 
 	Block::Block( Block && rhs )

@@ -43,7 +43,7 @@ namespace
 			type = cache.getArray( type, arraySize );
 		}
 
-		ast::var::Variable dummyVar{ ++testCounts.nextVarId, type, "dummyVar" };
+		ast::var::Variable dummyVar{ ast::EntityName{ ++testCounts.nextVarId, "dummyVar" }, type };
 		testCounts.streams.cout << printVariable( dummyVar ) << std::endl;
 		check( getNonArrayKind( dummyVar.getType() ) == kind );
 		check( getArraySize( dummyVar.getType() ) == arraySize );

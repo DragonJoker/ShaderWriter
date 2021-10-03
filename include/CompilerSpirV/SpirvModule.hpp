@@ -52,12 +52,17 @@ namespace spirv
 		SDWSPIRV_API void decorateMember( ValueId id
 			, uint32_t index
 			, IdList const & decoration );
+		SDWSPIRV_API void registerParam( std::string const & name
+			, bool isOutput
+			, ast::type::TypePtr type );
 		SDWSPIRV_API void registerAlias( std::string const & name
 			, ast::type::TypePtr type
 			, ValueId exprResultId );
 		SDWSPIRV_API VariableInfo registerVariable( std::string const & name
 			, spv::StorageClass storage
 			, bool isAlias
+			, bool isParam
+			, bool isOutParam
 			, ast::type::TypePtr type
 			, VariableInfo & sourceInfo
 			, ValueId initialiser = {} );
