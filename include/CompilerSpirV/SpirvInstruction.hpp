@@ -94,7 +94,7 @@ namespace spirv
 		{
 			return ( isPointer()
 				? static_cast< ast::type::Pointer const & >( *type ).getStorage()
-				: ast::type::Storage::eGeneric );
+				: ast::type::Storage::eMax );
 		}
 
 		explicit operator bool()const

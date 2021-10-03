@@ -55,6 +55,7 @@ namespace hlsl
 	void ExprVisitor::wrap( ast::expr::Expr * expr )
 	{
 		bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
+			|| expr->getKind() == ast::expr::Kind::eAggrInit
 			|| expr->getKind() == ast::expr::Kind::eIdentifier
 			|| expr->getKind() == ast::expr::Kind::eLiteral
 			|| expr->getKind() == ast::expr::Kind::eMbrSelect
@@ -165,11 +166,6 @@ namespace hlsl
 			m_result += doSubmit( expr->getIdentifier() );
 			m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 			m_result += " = ";
-		}
-		else
-		{
-			m_result += getTypeName( expr->getType() );
-			m_result += getTypeArraySize( expr->getType() );
 		}
 
 		m_result += "{";
@@ -445,7 +441,24 @@ namespace hlsl
 
 	void ExprVisitor::visitAliasExpr( ast::expr::Alias * expr )
 	{
-		m_aliases.emplace( expr->getLHS()->getVariable(), expr->getRHS() );
+		// The alias var may have been turned to regular var, in adaptation.
+		if ( expr->getLHS()->getVariable()->isAlias() )
+		{
+			m_aliases.emplace( expr->getLHS()->getVariable(), expr->getRHS() );
+		}
+		else
+		{
+			if ( expr->isConstant() )
+			{
+				m_result += "static const ";
+			}
+
+			m_result += getTypeName( expr->getType() ) + " ";
+			m_result += doSubmit( expr->getLHS() );
+			m_result += getTypeArraySize( expr->getLHS()->getType() );
+			m_result += " = ";
+			m_result += doSubmit( expr->getRHS() );
+		}
 	}
 
 	void ExprVisitor::doProcessMemberTexture( ast::expr::TextureAccessCall * expr )

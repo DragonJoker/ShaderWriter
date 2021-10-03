@@ -324,7 +324,9 @@ namespace ast
 
 	void StmtCloner::visitPreprocDefine( stmt::PreprocDefine * preproc )
 	{
-		m_current->addStmt( stmt::makePreprocDefine( preproc->getName(), doSubmit( preproc->getExpr() ) ) );
+		m_current->addStmt( stmt::makePreprocDefine( preproc->getId()
+			, preproc->getName()
+			, doSubmit( preproc->getExpr() ) ) );
 	}
 
 	void StmtCloner::visitPreprocElif( stmt::PreprocElif * preproc )

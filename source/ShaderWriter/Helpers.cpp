@@ -762,10 +762,12 @@ namespace sdw
 		return stmt::makeReturn( std::move( expr ) );
 	}
 
-	stmt::StmtPtr makePreprocDefine( std::string name
+	stmt::StmtPtr makePreprocDefine( Shader & shader
+		, std::string name
 		, expr::ExprPtr expr )
 	{
-		return stmt::makePreprocDefine( std::move( name )
+		return stmt::makePreprocDefine( getNextVarId( shader )
+			, std::move( name )
 			, std::move( expr ) );
 	}
 

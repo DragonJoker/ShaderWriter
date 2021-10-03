@@ -55,6 +55,12 @@ namespace ast
 		eCenterInteger,
 	};
 
+	struct EntityName
+	{
+		uint32_t id;
+		std::string name;
+	};
+
 	namespace expr
 	{
 		class Expr;

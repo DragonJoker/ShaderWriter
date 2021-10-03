@@ -964,8 +964,16 @@ namespace ast
 					initialisers.push_back( doSubmit( init.get() ) );
 				}
 
-				m_result = expr::makeAggrInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
-					, std::move( initialisers ) );
+				if ( expr->getIdentifier() )
+				{
+					m_result = expr::makeAggrInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
+						, std::move( initialisers ) );
+				}
+				else
+				{
+					m_result = expr::makeAggrInit( expr->getType()
+						, std::move( initialisers ) );
+				}
 			}
 
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
@@ -1098,8 +1106,7 @@ namespace ast
 				{
 					// Store function result into a return alias, that will be the final result.
 					auto var = doCreateAliasVar( expr->getType()
-						, std::move( m_result )
-						, m_data.aliasId );
+						, std::move( m_result ) );
 					m_result = ast::expr::makeIdentifier( m_cache, var );
 				}
 				else
@@ -1161,14 +1168,22 @@ namespace ast
 
 			void visitInitExpr( expr::Init * expr )override
 			{
-				expr::ExprPtr aliasExpr;
-				var::VariablePtr alias;
-				doMakeAlias( doSubmit( expr->getInitialiser() )
-					, m_isParam
-					, aliasExpr
-					, alias );
-				m_result = expr::makeInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
-					, std::move( aliasExpr ) );
+				if ( expr->getInitialiser()->isConstant() )
+				{
+					m_result = expr::makeInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
+						, doSubmit( expr->getInitialiser() ) );
+				}
+				else
+				{
+					expr::ExprPtr aliasExpr;
+					var::VariablePtr alias;
+					doMakeAlias( doSubmit( expr->getInitialiser() )
+						, m_isParam
+						, aliasExpr
+						, alias );
+					m_result = expr::makeInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
+						, std::move( aliasExpr ) );
+				}
 			}
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
@@ -1320,28 +1335,45 @@ namespace ast
 			}
 
 		private:
-			var::VariablePtr doCreateAliasVar( type::TypePtr type
+			var::VariablePtr doCreateVar( type::TypePtr type
 				, expr::ExprPtr aliasedExpr
-				, uint32_t & currentId )
+				, uint32_t flags )
 			{
 				auto kind = getNonArrayKind( type );
 				auto result = var::makeVariable( ++m_data.nextVarId
 					, type
-					, "tmp_" + std::to_string( currentId++ )
+					, "tmp_" + std::to_string( ++m_data.aliasId )
 					, ( var::Flag::eImplicit
 						| var::Flag::eLocale
-						| var::Flag::eTemp
-						| var::Flag::eAlias ) );
+						| flags ) );
 
 				if ( isOpaqueType( kind ) )
 				{
 					result->updateFlag( var::Flag::eConstant );
+					result->updateFlag( var::Flag::eUniform );
 				}
 
-				doAddStmt( stmt::makeSimple( expr::makeAlias( result->getType()
-					, expr::makeIdentifier( m_cache, result )
-					, std::move( aliasedExpr ) ) ) );
+				if ( flags & uint32_t( var::Flag::eAlias ) )
+				{
+					doAddStmt( stmt::makeSimple( expr::makeAlias( result->getType()
+						, expr::makeIdentifier( m_cache, result )
+						, std::move( aliasedExpr ) ) ) );
+				}
+				else
+				{
+					doAddStmt( stmt::makeSimple( expr::makeInit( expr::makeIdentifier( m_cache, result )
+						, std::move( aliasedExpr ) ) ) );
+				}
+
 				return result;
+			}
+
+			var::VariablePtr doCreateAliasVar( type::TypePtr type
+				, expr::ExprPtr aliasedExpr )
+			{
+				return doCreateVar( type
+					, std::move( aliasedExpr )
+					, ( var::Flag::eTemp | var::Flag::eAlias ) );
 			}
 
 			bool doMakeAlias( expr::ExprPtr expr
@@ -1350,6 +1382,13 @@ namespace ast
 				, var::VariablePtr & alias
 				, bool force = false )
 			{
+				if ( expr->getKind() == ast::expr::Kind::eIdentifier
+					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isAlias() )
+				{
+					aliasExpr = std::move( expr );
+					return false;
+				}
+
 				auto kind = getNonArrayKind( expr->getType() );
 
 				if ( !force
@@ -1364,8 +1403,7 @@ namespace ast
 
 				auto type = expr->getType();
 				alias = doCreateAliasVar( type
-					, std::move( expr )
-					, m_data.aliasId );
+					, std::move( expr ) );
 				aliasExpr = expr::makeIdentifier( m_cache, alias );
 				return true;
 			}
@@ -1441,9 +1479,9 @@ namespace ast
 
 				if ( !isPre )
 				{
-					opAlias = doCreateAliasVar( expr->getType()
+					opAlias = doCreateVar( expr->getType()
 						, doSubmit( lhs )
-						, m_data.aliasId );
+						, uint32_t( var::Flag::eTemp ) );
 				}
 
 				expr::ExprPtr aliasExpr;

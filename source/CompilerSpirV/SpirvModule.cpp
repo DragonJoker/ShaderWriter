@@ -163,6 +163,7 @@ namespace spirv
 		{
 			auto result = variables.emplace( name, VariableInfo{} ).first;
 			result->second.id = varId;
+			result->second.isParam = false;
 			result->second.isAlias = false;
 			instructions.push_back( makeVariableInstruction( varTypeId
 				, varId
@@ -440,6 +441,32 @@ namespace spirv
 		}
 	}
 
+	void Module::registerParam( std::string const & name
+		, bool isOutput
+		, ast::type::TypePtr type )
+	{
+		auto typeId = registerType( type );
+		auto it = m_currentScopeVariables->find( name );
+
+		if ( it == m_currentScopeVariables->end() )
+		{
+			auto rawTypeId = registerType( type );
+
+			if ( m_currentFunction )
+			{
+				it = m_currentScopeVariables->emplace( name
+					, VariableInfo{ typeId, false, true, isOutput } ).first;
+			}
+			else
+			{
+				it = m_registeredVariables.emplace( name
+					, VariableInfo{ typeId, false, true, isOutput } ).first;
+			}
+
+			m_registeredVariablesTypes.emplace( typeId, rawTypeId );
+		}
+	}
+
 	void Module::registerAlias( std::string const & name
 		, ast::type::TypePtr type
 		, ValueId exprResultId )
@@ -453,12 +480,12 @@ namespace spirv
 			if ( m_currentFunction )
 			{
 				it = m_currentScopeVariables->emplace( name
-					, VariableInfo{ exprResultId, true } ).first;
+					, VariableInfo{ exprResultId, true, false, false } ).first;
 			}
 			else
 			{
 				it = m_registeredVariables.emplace( name
-					, VariableInfo{ exprResultId, true } ).first;
+					, VariableInfo{ exprResultId, true, false, false } ).first;
 			}
 
 			m_registeredVariablesTypes.emplace( exprResultId, rawTypeId );
@@ -468,6 +495,8 @@ namespace spirv
 	VariableInfo Module::registerVariable( std::string const & name
 		, spv::StorageClass storage
 		, bool isAlias
+		, bool isParam
+		, bool isOutParam
 		, ast::type::TypePtr type
 		, VariableInfo & sourceInfo
 		, ValueId initialiser )
@@ -487,8 +516,8 @@ namespace spirv
 		{
 			sourceInfo = it->second;
 
-			if ( it->second.isAlias
-				&& !isAlias )
+			if ( ( it->second.isParam && !isParam && ( !isPointerParam( type, isOutParam ) ) )
+				|| ( it->second.isAlias && !isAlias ) )
 			{
 				ValueId id{ getNextId()
 					, type->getCache().getPointerType( ( it->second.id.isPointer()
@@ -496,12 +525,16 @@ namespace spirv
 							: it->second.id.type )
 						, convert( storage ) ) };
 				it->second.isAlias = false;
-				addDebug( name, id );
+				it->second.isParam = false;
+				it->second.isOutParam = false;
+				addDebug( "ptr_" + name, id );
 				addVariable( name, id, it, {} );
 			}
 		}
 
 		VariableInfo result;
+		result.isParam = isParam;
+		result.isOutParam = isOutParam;
 		result.isAlias = isAlias;
 		result.id = it->second.id;
 		return result;
@@ -606,7 +639,7 @@ namespace spirv
 			ValueId id{ getNextId()
 				, type->getCache().getPointerType( type, outer.getStorage() ) };
 			m_registeredMemberVariables.emplace( fullName, std::make_pair( outer, id ) );
-			it = m_currentScopeVariables->emplace( fullName, VariableInfo{ id, false } ).first;
+			it = m_currentScopeVariables->emplace( fullName, VariableInfo{ id, false, false, false } ).first;
 			registerLiteral( type->getIndex() );
 		}
 
@@ -930,7 +963,7 @@ namespace spirv
 		, ast::var::VariableList const & params )
 	{
 		ValueId result{ getNextId() };
-		m_registeredVariables.emplace( name, VariableInfo{ result, false } );
+		m_registeredVariables.emplace( name, VariableInfo{ result, false, false, false } );
 
 		ValueIdList funcTypes;
 		ValueIdList funcParams;
@@ -945,17 +978,13 @@ namespace spirv
 		{
 			auto type = param->getType();
 			auto kind = type->getKind();
-			auto storage = ( isOpaqueType( kind )
-				? spv::StorageClassUniformConstant
-				: spv::StorageClassFunction );
 			funcTypes.push_back( registerType( type ) );
 
-			if ( isOpaqueType( kind ) )
+			if ( isPointerParam( *param ) )
 			{
-				funcTypes.back() = registerPointerType( funcTypes.back(), storage );
-			}
-			else
-			{
+				auto storage = ( isOpaqueType( kind )
+					? spv::StorageClassUniformConstant
+					: spv::StorageClassFunction );
 				funcTypes.back() = registerPointerType( funcTypes.back(), storage );
 			}
 
@@ -963,7 +992,7 @@ namespace spirv
 			funcParams.push_back( paramId );
 			debug.push_back( makeInstruction< NameInstruction >( paramId, param->getName() ) );
 
-			m_currentScopeVariables->emplace( param->getName(), funcParams.back() );
+			m_currentScopeVariables->emplace( param->getName(), VariableInfo{ funcParams.back(), false, true, param->isOutputParam() } );
 			m_registeredVariablesTypes.emplace( funcParams.back(), funcTypes.back() );
 		}
 

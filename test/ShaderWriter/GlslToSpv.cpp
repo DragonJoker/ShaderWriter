@@ -20,11 +20,11 @@
 #pragma clang diagnostic ignored "-Wsuggest-override"
 #include <glslang/Public/ShaderLang.h>
 #include <glslang/SPIRV/GlslangToSpv.h>
+
+#include <locale>
 #pragma clang diagnostic pop
 #pragma GCC diagnostic pop
 #pragma warning( pop )
-
-#include <locale>
 
 namespace test
 {

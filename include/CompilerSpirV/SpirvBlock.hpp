@@ -12,14 +12,22 @@ namespace spirv
 	struct VariableInfo
 	{
 		VariableInfo( ValueId pid = {}
-			, bool pisAlias = false )
+			, bool pisAlias = false
+			, bool pisParam = false
+			, bool pisOutParam = false )
 			: id{ pid }
 			, isAlias{ pisAlias }
+			, isParam{ pisParam }
+			, isOutParam{ pisOutParam }
 		{
 		}
 
+		bool needsStoreOnPromote()const;
+
 		ValueId id;
 		bool isAlias;
+		bool isParam;
+		bool isOutParam;
 		bool lvalue{ false };
 		bool rvalue{ false };
 	};

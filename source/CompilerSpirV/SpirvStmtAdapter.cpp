@@ -100,8 +100,8 @@ namespace spirv
 
 				if ( ident )
 				{
-					m_context.constExprs.insert( { ident->getVariable()->getName()
-						, doSubmit( init->getInitialiser() ) } );
+					m_context.constExprs.emplace( ident->getVariable()->getId()
+						, doSubmit( init->getInitialiser() ) );
 					processed = true;
 				}
 			}
@@ -119,7 +119,7 @@ namespace spirv
 						initialisers.emplace_back( doSubmit( init.get() ) );
 					}
 
-					m_context.constAggrExprs.emplace( ident->getVariable()->getName()
+					m_context.constAggrExprs.emplace( ident->getVariable()->getId()
 						, std::move( initialisers ) );
 					processed = true;
 				}
@@ -144,7 +144,8 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		m_context.constExprs.emplace( preproc->getName(), doSubmit( preproc->getExpr() ) );
+		m_context.constExprs.emplace( preproc->getId()
+			, doSubmit( preproc->getExpr() ) );
 	}
 
 	void StmtAdapter::visitPreprocElif( ast::stmt::PreprocElif * preproc )

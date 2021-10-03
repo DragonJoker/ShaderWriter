@@ -583,7 +583,7 @@ namespace spirv
 				// One component swizzles must be processed separately:
 				// - Create an access chain to the selected component.
 				//   No load to retrieve the variable ID.
-				auto lhsId = getVariablePointerId( lhsOuter );
+				auto lhsId = getVariablePointer( lhsOuter );
 				//   Register component selection as a literal.
 				auto componentId = m_module.registerLiteral( lhsSwizzleKind.toIndex() );
 				//   Register pointer type.
@@ -607,7 +607,7 @@ namespace spirv
 			else
 			{
 				// - No load to retrieve the variable ID.
-				auto lhsId = getVariablePointerId( lhsOuter );
+				auto lhsId = getVariablePointer( lhsOuter );
 				// - Load the variable manually.
 				auto loadedLhsId = loadVariable( lhsId );
 				// - The resulting shuffle indices will contain the RHS values for wanted LHS components,
@@ -663,7 +663,7 @@ namespace spirv
 		else
 		{
 			// No load to retrieve the variable ID.
-			auto lhsId = getVariablePointerId( expr->getLHS() );
+			auto lhsId = getVariablePointer( expr->getLHS() );
 			// Ask for the needed variables to be loaded.
 			auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
 			m_module.storeVariable( lhsId
@@ -685,7 +685,7 @@ namespace spirv
 		if ( expr->getIdentifier() )
 		{
 			auto var = expr->getIdentifier()->getVariable();
-			auto it = m_context.constAggrExprs.find( var->getName() );
+			auto it = m_context.constAggrExprs.find( var->getId() );
 
 			if ( it == m_context.constAggrExprs.end() )
 			{
@@ -784,29 +784,36 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			// Function parameters are pointers, hence the variables must not be loaded.
-			auto id = getVariablePointerId( arg.get() );
-			allLiterals = allLiterals
-				&& ( arg->getKind() == ast::expr::Kind::eLiteral );
-			auto argTypeKind = arg->getType()->getKind();
-			auto ident = ast::findIdentifier( arg );
+			auto & param = *it;
+			ValueId id;
 
-			if ( ident
-				&& getStorageClass( ident->getVariable() ) != spv::StorageClassFunction
-				&& !isOpaqueType( argTypeKind ) )
+			if ( isPointerParam( *param ) )
 			{
-				// We must have a variable with function storage class.
-				// Hence we create a temporary variable with this storage class,
-				// and load the original variable into it.
-				auto srcId = id;
-				id = makeFunctionAlias( srcId, arg->getType() );
+				// Opaque and Output function parameters are pointers, hence their variables must not be loaded.
+				id = getVariablePointer( arg.get() );
+				assert( !isOpaqueType( param->getType()->getKind() )
+					|| id.getStorage() == ast::type::Storage::eUniformConstant );
 
-				if ( ( *it )->isOutputParam() )
+				if ( param->isOutputParam() )
 				{
-					outputParams.emplace_back( OutputParam{ srcId, id, arg->getType() } );
+					if ( id.getStorage() != ast::type::Storage::eFunction )
+					{
+						// We must have a variable with function storage class.
+						// Hence we create a temporary variable with this storage class,
+						// and load the original variable into it.
+						auto srcId = id;
+						id = makeFunctionAlias( srcId, arg->getType() );
+						outputParams.emplace_back( OutputParam{ srcId, id, arg->getType() } );
+					}
 				}
 			}
+			else
+			{
+				id = loadVariable( doSubmit( arg.get() ) );
+			}
 
+			allLiterals = allLiterals
+				&& ( arg->getKind() == ast::expr::Kind::eLiteral );
 			params.push_back( id );
 			++it;
 		}
@@ -834,7 +841,7 @@ namespace spirv
 	{
 		m_allLiterals = false;
 		auto var = expr->getVariable();
-		auto it = m_context.constAggrExprs.find( var->getName() );
+		auto it = m_context.constAggrExprs.find( var->getId() );
 
 		if ( it != m_context.constAggrExprs.end() )
 		{
@@ -1059,8 +1066,8 @@ namespace spirv
 	{
 		m_allLiterals = false;
 		auto ctrlId = loadVariable( doSubmit( expr->getCtrlExpr() ) );
-		auto trueId = doSubmit( expr->getTrueExpr() );
-		auto falseId = doSubmit( expr->getFalseExpr() );
+		auto trueId = loadVariable( doSubmit( expr->getTrueExpr() ) );
+		auto falseId = loadVariable( doSubmit( expr->getFalseExpr() ) );
 		auto type = m_module.registerType( expr->getType() );
 		m_result = ValueId{ m_module.getIntermediateResult(), type.type };
 		auto branches = makeOperands( ctrlId, trueId, falseId );
@@ -1206,7 +1213,7 @@ namespace spirv
 		m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( carryBorrowTypeId
 			, intermediateId
 			, ValueIdList{ resultCarryBorrowId, { 1u } } ) );
-		auto carryBorrowId = getVariablePointerId( &carryBorrowArg );
+		auto carryBorrowId = getVariablePointer( &carryBorrowArg );
 		m_module.storeVariable( carryBorrowId
 			, intermediateId
 			, m_currentBlock );
@@ -1258,7 +1265,7 @@ namespace spirv
 		m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( msbTypeId
 			, intermediateMsb
 			, ValueIdList{ resultMulExtendedId, { 1u } } ) );
-		auto msbId = getVariablePointerId( &msbArg );
+		auto msbId = getVariablePointer( &msbArg );
 		m_module.storeVariable( msbId
 			, intermediateMsb
 			, m_currentBlock );
@@ -1269,7 +1276,7 @@ namespace spirv
 		m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( lsbTypeId
 			, intermediateLsb
 			, ValueIdList{ resultMulExtendedId, { 0u } } ) );
-		auto lsbId = getVariablePointerId( &lsbArg );
+		auto lsbId = getVariablePointer( &lsbArg );
 		m_module.storeVariable( lsbId
 			, intermediateLsb
 			, m_currentBlock );
@@ -1420,7 +1427,7 @@ namespace spirv
 		return m_module.registerType( m_signedExtendedTypes[count] );
 	}
 
-	ValueId ExprVisitor::getVariablePointerId( ast::expr::Expr * expr )
+	ValueId ExprVisitor::getVariablePointer( ast::expr::Expr * expr )
 	{
 		ValueId result{ 0u, expr->getType() };
 
@@ -1440,12 +1447,14 @@ namespace spirv
 				auto varInfo = m_module.registerVariable( name
 					, getStorageClass( var )
 					, false
+					, false
+					, var->isOutputParam()
 					, expr->getType()
 					, sourceInfo );
 				result = varInfo.id;
+				assert( result.isPointer() );
 
-				if ( sourceInfo.isAlias
-					|| result.getStorage() != sourceInfo.id.getStorage() )
+				if ( result.getStorage() != sourceInfo.id.getStorage() )
 				{
 					auto id = loadVariable( sourceInfo.id );
 					storeVariable( result, id );
@@ -1523,6 +1532,8 @@ namespace spirv
 		auto result = m_module.registerVariable( "functmp_" + std::to_string( m_aliasId++ )
 			, spv::StorageClassFunction
 			, false
+			, false
+			, false
 			, type
 			, info ).id;
 		m_module.storeVariable( result
@@ -1548,6 +1559,8 @@ namespace spirv
 			m_result = m_module.registerVariable( adaptName( var->getName() )
 				, storageClass
 				, var->isAlias()
+				, var->isParam()
+				, var->isOutputParam()
 				, type
 				, sourceInfo
 				, init ).id;
@@ -1567,6 +1580,8 @@ namespace spirv
 			auto varInfo = m_module.registerVariable( adaptName( var->getName() )
 				, storageClass
 				, false
+				, false
+				, false
 				, type
 				, sourceInfo );
 			m_result = varInfo.id;
@@ -1578,7 +1593,7 @@ namespace spirv
 					, init
 					, m_currentBlock );
 			}
-			else if ( sourceInfo.isAlias )
+			else if ( sourceInfo.needsStoreOnPromote() )
 			{
 				m_module.storeVariable( m_result
 					, sourceInfo.id

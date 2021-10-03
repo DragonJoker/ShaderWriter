@@ -19,7 +19,7 @@ namespace ast::type
 			}
 			, []( ImageConfiguration const & config )noexcept
 			{
-				return getHash( config );
+				return ast::type::getHash( config );
 			} }
 		, m_sampledImage{ [this]( ImageConfiguration config )
 			{
@@ -27,7 +27,7 @@ namespace ast::type
 			}
 			, []( ImageConfiguration const & config )noexcept
 			{
-				return getHash( config );
+				return ast::type::getHash( config );
 			} }
 		, m_sampler{ [this]( bool comparison )
 			{
@@ -46,7 +46,7 @@ namespace ast::type
 			, []( TypePtr returnType
 				, var::VariableList const & parameters )noexcept
 			{
-				return getHash( returnType, parameters );
+				return ast::type::getHash( returnType, parameters );
 			} }
 		, m_struct{ [this]( MemoryLayout layout
 				, std::string name )
@@ -58,7 +58,7 @@ namespace ast::type
 			, []( MemoryLayout layout
 				, std::string const & name )noexcept
 			{
-				return getHash( layout, name );
+				return ast::type::getHash( layout, name );
 			} }
 		, m_array{ []( TypePtr type
 				, uint32_t arraySize )
@@ -69,7 +69,7 @@ namespace ast::type
 			, []( TypePtr type
 				, uint32_t arraySize )noexcept
 			{
-				return getHash( type, arraySize );
+				return ast::type::getHash( type, arraySize );
 			} }
 		, m_pointer{ []( TypePtr pointerType
 				, Storage storage )
@@ -80,7 +80,7 @@ namespace ast::type
 			, []( TypePtr pointerType
 				, Storage storage )noexcept
 			{
-				return getHash( pointerType, storage );
+				return ast::type::getHash( pointerType, storage );
 			} }
 	{
 		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eMat4x4D ); ++i )

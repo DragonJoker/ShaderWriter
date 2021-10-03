@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
+	<Type Name="ast::EntityName">
+		<DisplayString>{id}_{name,s8b}</DisplayString>
+		<Expand>
+			<Item Name="name">name</Item>
+			<Item Name="id">id</Item>
+		</Expand>
+	</Type>
+	
 	<Type Name="ast::type::Type">
 		<DisplayString>{m_kind}</DisplayString>
 		<Expand>
@@ -80,10 +88,10 @@
 	</Type>
 
 	<Type Name="ast::var::Variable">
-		<DisplayString Condition="m_outer==nullptr">{m_name,s8b}</DisplayString>
-		<DisplayString Condition="m_outer!=nullptr">{*m_outer}::{m_name,s8b}</DisplayString>
+		<DisplayString Condition="m_outer==nullptr">{m_nameId}</DisplayString>
+		<DisplayString Condition="m_outer!=nullptr">{*m_outer}::{m_nameId}</DisplayString>
 		<Expand>
-			<Item Name="name">m_name</Item>
+			<Item Name="nameId">m_nameId</Item>
 			<Item Name="flags">m_flags</Item>
 			<Item Name="type">*m_type</Item>
 			<Item Name="outer">m_outer</Item>
@@ -267,8 +275,18 @@
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
+	<Type Name="ast::expr::Assign">
+		<DisplayString>{*m_lhs} = {*m_rhs}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="flags">m_flags</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="lhs">*m_lhs</Item>
+			<Item Name="rhs">*m_rhs</Item>
+		</Expand>
+	</Type>
 	<Type Name="ast::expr::AddAssign">
-		<DisplayString>( {m_lhs} ) += ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} += {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -278,7 +296,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::AndAssign">
-		<DisplayString>( {m_lhs} ) &amp;= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &amp;= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -288,7 +306,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::OrAssign">
-		<DisplayString>( {m_lhs} ) |= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} |= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -298,7 +316,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::XorAssign">
-		<DisplayString>( {m_lhs} ) ^= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} ^= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -308,7 +326,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::DivideAssign">
-		<DisplayString>( {m_lhs} ) /= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} /= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -318,7 +336,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::LShiftAssign">
-		<DisplayString>( {m_lhs} ) &lt;&lt;= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &lt;&lt;= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -328,7 +346,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::MinusAssign">
-		<DisplayString>( {m_lhs} ) -= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} -= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -338,7 +356,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::ModuloAssign">
-		<DisplayString>( {m_lhs} ) %= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} %= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -348,7 +366,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::RShiftAssign">
-		<DisplayString>( {m_lhs} ) &gt;&gt;= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &gt;&gt;= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -358,7 +376,7 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::TimesAssign">
-		<DisplayString>( {m_lhs} ) *= ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} *= {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -368,13 +386,13 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::ArrayAccess">
-		<DisplayString>( {m_lhs} )[{m_rhs}]</DisplayString>
+		<DisplayString>{*m_lhs}[{*m_rhs}]</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
 			<Item Name="type">*m_type</Item>
-			<Item Name="array">m_lhs</Item>
-			<Item Name="index">m_rhs</Item>
+			<Item Name="array">*m_lhs</Item>
+			<Item Name="index">*m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::CompositeConstruct">
@@ -438,11 +456,11 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Literal">
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eBool">{m_valueType} {m_value.boolv}</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt">{m_valueType} {m_value.intv}</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt">{m_valueType} {m_value.uintv}</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eFloat">{m_valueType} {m_value.floatv}</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eDouble">{m_valueType} {m_value.doublev}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eBool">{m_value.boolv}</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt">{m_value.intv}s</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt">{m_value.uintv}u</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eFloat">{m_value.floatv}f</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eDouble">{m_value.doublev}d</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
@@ -463,6 +481,38 @@
 			<Item Name="type">*m_type</Item>
 			<Item Name="outer">m_outer</Item>
 			<Item Name="index">m_memberIndex</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::PostDecrement">
+		<DisplayString>{*m_operand}--</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="operand">*m_operand</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::PostIncrement">
+		<DisplayString>{*m_operand}++</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="operand">*m_operand</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::PreDecrement">
+		<DisplayString>--{*m_operand}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="operand">*m_operand</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::expr::PreIncrement">
+		<DisplayString>++{*m_operand}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="type">*m_type</Item>
+			<Item Name="operand">*m_operand</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Question">

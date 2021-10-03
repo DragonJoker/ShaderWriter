@@ -7,10 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PreprocDefine::PreprocDefine( std::string name
+	PreprocDefine::PreprocDefine( EntityName nameId
 		, expr::ExprPtr expr )
 		: Stmt{ Kind::ePreprocDefine }
-		, m_name{ std::move( name ) }
+		, m_nameId{ std::move( nameId ) }
 		, m_expr{ std::move( expr ) }
 	{
 	}

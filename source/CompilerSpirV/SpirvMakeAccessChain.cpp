@@ -220,7 +220,6 @@ namespace spirv
 			{
 				ValueIdList result;
 				assert( exprs.size() >= 2u );
-				VariableInfo info;
 				result.push_back( submit( exprs[0].expr
 					, context
 					, module
@@ -233,8 +232,7 @@ namespace spirv
 							, expr
 							, context
 							, module
-							, currentBlock
-							, info )
+							, currentBlock )
 						, currentBlock ) );
 				}
 
@@ -247,15 +245,13 @@ namespace spirv
 				, ValueId parentId
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock
-				, VariableInfo & info )
+				, Block & currentBlock )
 				: m_result{ result }
 				, m_context{ context }
 				, m_module{ module }
 				, m_currentBlock{ currentBlock }
 				, m_parentId{ parentId }
 				, m_parentKind{ parentKind }
-				, m_info{ info }
 			{
 			}
 
@@ -265,14 +261,12 @@ namespace spirv
 				, Block & currentBlock )
 			{
 				ValueId result{ 0u, expr->getType() };
-				VariableInfo info;
 				AccessChainCreator vis{ result
 					, expr->getKind()
 					, {}
 					, context
 					, module
-					, currentBlock
-					, info };
+					, currentBlock };
 				expr->accept( &vis );
 				return result;
 			}
@@ -284,14 +278,12 @@ namespace spirv
 				, Block & currentBlock )
 			{
 				ValueId result{ 0u, expr->getType() };
-				VariableInfo info;
 				AccessChainCreator vis{ result
 					, expr->getKind()
 					, parentId
 					, context
 					, module
-					, currentBlock
-					, info };
+					, currentBlock };
 				expr->accept( &vis );
 				return result;
 			}
@@ -300,8 +292,7 @@ namespace spirv
 				, AccessChainExpr expr
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock
-				, VariableInfo & info )
+				, Block & currentBlock )
 			{
 				ValueId result{ 0u, parentId.type };
 				AccessChainCreator vis{ result
@@ -309,8 +300,7 @@ namespace spirv
 					, parentId
 					, context
 					, module
-					, currentBlock
-					, info };
+					, currentBlock };
 				expr.expr->accept( &vis );
 				return result;
 			}
@@ -374,7 +364,8 @@ namespace spirv
 				else
 				{
 					// Head identifier, or array access index.
-					auto it = m_context.constAggrExprs.find( var->getName() );
+					auto it = m_context.constAggrExprs.find( var->getId() );
+					VariableInfo sourceInfo;
 
 					if ( it != m_context.constAggrExprs.end() )
 					{
@@ -382,18 +373,27 @@ namespace spirv
 						m_result = m_module.loadVariable( ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock );
 						m_result = m_module.registerVariable( var->getName()
 							, getStorageClass( var )
-							, var->isAlias()
+							, false
+							, false
+							, false
 							, expr->getType()
-							, m_info
+							, sourceInfo
 							, m_result ).id;
 					}
 					else
 					{
 						m_result = m_module.registerVariable( var->getName()
 							, getStorageClass( var )
-							, var->isAlias()
+							, false
+							, false
+							, var->isOutputParam()
 							, expr->getType()
-							, m_info ).id;
+							, sourceInfo ).id;
+					}
+
+					if ( sourceInfo.needsStoreOnPromote() )
+					{
+						m_module.storeVariable( m_result, sourceInfo.id, m_currentBlock );
 					}
 
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
@@ -505,7 +505,6 @@ namespace spirv
 			Block & m_currentBlock;
 			ValueId m_parentId;
 			ast::expr::Kind m_parentKind;
-			VariableInfo & m_info;
 		};
 
 #define SPIRV_CacheAccessChains 0

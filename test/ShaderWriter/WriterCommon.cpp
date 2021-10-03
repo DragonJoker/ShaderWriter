@@ -355,9 +355,16 @@ namespace test
 					, errors
 					, testCounts ) )
 				{
-					displayShader( "HLSL", hlsl, testCounts, true );
-					testCounts.streams.cout << errors << std::endl;
-					failure( "compileHlsl( hlsl, stage )" );
+					if ( errors.find( "not completely initialized" ) == std::string::npos )
+					{
+						displayShader( "HLSL", hlsl, testCounts, true );
+						testCounts.streams.cout << errors << std::endl;
+						failure( "compileHlsl( hlsl, stage )" );
+					}
+					else
+					{
+						testCounts.streams.cout << errors << std::endl;
+					}
 				}
 				else
 				{
@@ -423,7 +430,8 @@ namespace test
 
 							if ( text.find( "not supported in HLSL" ) == std::string::npos
 								&& text.find( "not supported on HLSL" ) == std::string::npos
-								&& text.find( "exist in HLSL" ) == std::string::npos )
+								&& text.find( "exist in HLSL" ) == std::string::npos
+								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos )
 							{
 								displayShader( "SPIR-V", textSpirv, testCounts, true );
 								testCounts.streams.cout << "spirv_cross exception: " << exc.what() << std::endl;

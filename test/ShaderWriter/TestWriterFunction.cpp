@@ -5,6 +5,1012 @@
 
 namespace
 {
+	template< typename ValueT >
+	void testSingleInParamLiteral( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamLiteral" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				test( test::getDefault< ValueT >( writer ) );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamConstant( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamConstant" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto v = writer.declConstant< ValueT >( "v", test::getDefault< ValueT >( writer ) );
+				test( test::getDefault< ValueT >( writer ) );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto v = writer.declLocale< ValueT >( "v" );
+				test( v );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamArrayVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamArrayVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
+				test( a[0] );
+				test( a[test::getDefault< UInt >( writer )] );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamInputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamInputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto inpa = writer.declInput< ValueT >( "inpa", 0 );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				test( inpa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamOutputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamOutputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto outa = writer.declOutput< ValueT >( "outa", 0 );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				test( outa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamUniformVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamUniformVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ubo buffer{ writer, "MyUbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v" );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMember< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamStorageVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamStorageVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v" );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMember< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInParamStructMember( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamStructMember" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Struct st{ writer, "St" };
+		st.declMember< ValueT >( "v" );
+		st.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p );
+				p = a;
+			}
+			, sdw::InParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto s = st.getInstance< StructInstance >( "s", true );
+				auto sv = s.getMember< ValueT >( "v" );
+				test( sv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleOutParamVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleOutParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p = a;
+			}
+			, sdw::OutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto v = writer.declLocale< ValueT >( "v" );
+				test( v );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleOutParamArrayVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleOutParamArrayVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p = a;
+			}
+			, sdw::OutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
+				test( a[0] );
+				test( a[test::getDefault< UInt >( writer )] );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleOutParamOutputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto outa = writer.declOutput< ValueT >( "outa", 0 );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p = a;
+			}
+			, sdw::OutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				test( outa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleOutParamUniformVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v" );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p = a;
+			}
+			, sdw::OutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMember< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleOutParamStructMember( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleOutParamStructMember" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Struct st{ writer, "St" };
+		st.declMember< ValueT >( "v" );
+		st.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p = a;
+			}
+			, sdw::OutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto s = st.getInstance< StructInstance >( "s", true );
+				auto sv = s.getMember< ValueT >( "v" );
+				test( sv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInOutParamVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInOutParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p * p );
+				p = a;
+			}
+			, sdw::InOutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto v = writer.declLocale< ValueT >( "v" );
+				test( v );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInOutParamArrayVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInOutParamArrayVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p * p );
+				p = a;
+			}
+			, sdw::InOutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
+				test( a[0] );
+				test( a[test::getDefault< UInt >( writer )] );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInOutParamOutputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto outa = writer.declOutput< ValueT >( "outa", 0 );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p * p );
+				p = a;
+			}
+			, sdw::InOutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				test( outa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInOutParamUniformVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v" );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p * p );
+				p = a;
+			}
+			, sdw::InOutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMember< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSingleInOutParamStructMember( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInOutParamStructMember" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Struct st{ writer, "St" };
+		st.declMember< ValueT >( "v" );
+		st.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT p )
+			{
+				auto a = writer.declLocale< ValueT >( "a", p * p );
+				p = a;
+			}
+			, sdw::InOutParam< ValueT >{ writer, "p" } );
+
+		writer.implementMain( [&]()
+			{
+				auto s = st.getInstance< StructInstance >( "s", true );
+				auto sv = s.getMember< ValueT >( "v" );
+				test( sv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamLiteral( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamLiteral" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				test( test::getDefaultArray< ValueT >( writer, 4u ) );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamConstant( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamConstant" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declConstantArray< ValueT >( "a", test::getDefaultVector< ValueT >( writer, 4u ) );
+				test( a );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
+				test( a );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamInputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamInputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto inpa = writer.declInputArray< ValueT >( "inpa", 0, 4u );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				test( inpa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamOutputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamInputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto outa = writer.declOutputArray< ValueT >( "inpa", 0, 4u );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				test( outa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamUniformVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamUniformVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ubo buffer{ writer, "MyUbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v", 4u );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMemberArray< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamStorageVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamStorageVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v", 4u );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMemberArray< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInParamStructMember( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInParamStructMember" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Struct st{ writer, "St" };
+		st.declMember< ValueT >( "v", 4u );
+		st.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto s = st.getInstance< StructInstance >( "s", true );
+				auto sv = s.getMemberArray< ValueT >( "v" );
+				test( sv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayOutParamVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayOutParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
+				test( a );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayOutParamOutputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto outa = writer.declOutputArray< ValueT >( "inpa", 0, 4u );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+		, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				test( outa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayOutParamStorageVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		auto uv = buffer.declMember< ValueT >( "v", 4u );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefaultArray< ValueT >( writer, 4u ) );
+				p = a;
+			}
+		, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayOutParamStructMember( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayOutParamStructMember" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Struct st{ writer, "St" };
+		st.declMember< ValueT >( "v", 4u );
+		st.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto s = st.getInstance< StructInstance >( "s", true );
+				auto sv = s.getMemberArray< ValueT >( "v" );
+				test( sv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInOutParamVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInOutParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
+				test( a );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInOutParamOutputVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		auto outa = writer.declOutputArray< ValueT >( "inpa", 0, 4u );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+		, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				test( outa );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInOutParamStorageVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		buffer.declMember< ValueT >( "v", 4u );
+		buffer.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto uv = buffer.getMemberArray< ValueT >( "v" );
+				test( uv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testArrayInOutParamStructMember( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testArrayInOutParamStructMember" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+
+		Struct st{ writer, "St" };
+		st.declMember< ValueT >( "v", 4u );
+		st.end();
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( Array< ValueT > p )
+			{
+				auto i = writer.declLocale< UInt >( "i", 1_u );
+				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
+				p[0] = a;
+				p[i] = a;
+				p[i + 1] = a;
+				p[i * 3] = a;
+			}
+			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
+
+		writer.implementMain( [&]()
+			{
+				auto s = st.getInstance< StructInstance >( "s", true );
+				auto sv = s.getMemberArray< ValueT >( "v" );
+				test( sv );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
 	struct St
 		: public sdw::StructInstance
 	{
@@ -132,9 +1138,9 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ubo ubo{ writer, "Matrices", 0u, 0u };
-		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
-		ubo.end();
+		Ubo buffer{ writer, "Matrices", 0u, 0u };
+		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
+		buffer.end();
 
 		auto foo03 = writer.implementFunction< Vec4 >( "foo03"
 			, [&]( Mat4 const & m
@@ -252,9 +1258,9 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ubo ubo{ writer, "Matrices", 0u, 0u };
-		auto c3d_viewMatrix = ubo.declMember< Mat4 >( "c3d_viewMatrix" );
-		ubo.end();
+		Ubo buffer{ writer, "Matrices", 0u, 0u };
+		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
+		buffer.end();
 
 		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
@@ -338,23 +1344,23 @@ namespace
 		testEnd();
 	}
 
-	void arrayAccesses( test::sdw_test::TestCounts & testCounts )
+	void arrayParamAccessInOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "arrayAccesses" );
+		testBegin( "arrayAccessInOut" );
 		using namespace sdw;
 		ComputeWriter writer;
 
 		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
-			, [&]( Array< Vec4 > const & p
-				, Vec4 v
-				, Int const & i )
+			, [&]( Array< Vec4 > const & pp
+				, Vec4 pv
+				, Int const & pi )
 			{
 				auto j = writer.declLocale< Int >( "j" );
-				v = p[j];
+				pv = pp[j];
 			}
-			, InVec4Array{ writer, "p", 4u }
-			, OutVec4{ writer, "v" }
-			, InInt{ writer, "i" } );
+			, InVec4Array{ writer, "pp", 4u }
+			, OutVec4{ writer, "pv" }
+			, InInt{ writer, "pi" } );
 
 		writer.inputLayout( 16 );
 		writer.implementFunction< sdw::Void >( "main"
@@ -366,6 +1372,214 @@ namespace
 				foo01( p, v, i );
 			} );
 
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void vecParamAccessInIndex( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "vecAccessInIndex" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		auto foo01 = writer.implementFunction< Float >( "foo01"
+			, [&]( Float const & d 
+				, Vec3 const & pp )
+			{
+				writer.returnStmt( pp[0] / ( ( pp[1] * d ) + pp[2] ) );
+			}
+			, InFloat{ writer, "pv" }
+			, InVec3{ writer, "pp" } );
+
+		writer.inputLayout( 16 );
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto p = writer.declLocale< Vec3 >( "p" );
+				auto v = writer.declLocale< Float >( "v", 0.0_f );
+				v = foo01( v, p );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void rImageParamForward( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "rImageParamForward" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		auto s = writer.declImage< RFImg3DRgba32 >( "s", 0u, 0u );
+
+		auto foo01 = writer.implementFunction< Void >( "foo01"
+			, [&]( RImage3DRgba32 const & ps
+				, Vec3 pp )
+			{
+			}
+			, InRImage3DRgba32{ writer, "ps" }
+			, InVec3{ writer, "pp" } );
+
+		auto foo02 = writer.implementFunction< Void >( "foo02"
+			, [&]( RImage3DRgba32 const & ps
+				, Vec3 pp )
+			{
+				foo01( ps, pp );
+			}
+			, InRImage3DRgba32{ writer, "ps" }
+			, InVec3{ writer, "pp" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto p = writer.declLocale< Vec3 >( "p" );
+				foo02( s, p );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void wImageParamForward( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "wImageParamForward" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		auto s = writer.declImage< WFImg3DRgba32 >( "s", 0u, 0u );
+
+		auto foo01 = writer.implementFunction< Void >( "foo01"
+			, [&]( WImage3DRgba32 const & ps
+				, Vec3 pp )
+			{
+			}
+			, InWImage3DRgba32{ writer, "ps" }
+			, InVec3{ writer, "pp" } );
+
+		auto foo02 = writer.implementFunction< Void >( "foo02"
+			, [&]( WImage3DRgba32 const & ps
+				, Vec3 pp )
+			{
+				foo01( ps, pp );
+			}
+			, InWImage3DRgba32{ writer, "ps" }
+			, InVec3{ writer, "pp" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto p = writer.declLocale< Vec3 >( "p" );
+				foo02( s, p );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void rwImageParamForward( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "rwImageParamForward" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		auto s = writer.declImage< RWFImg3DRgba32 >( "s", 0u, 0u );
+
+		auto foo01 = writer.implementFunction< Void >( "foo01"
+			, [&]( RWImage3DRgba32 const & ps
+				, Vec3 pp )
+			{
+			}
+			, InRWImage3DRgba32{ writer, "ps" }
+			, InVec3{ writer, "pp" } );
+
+		auto foo02 = writer.implementFunction< Void >( "foo02"
+			, [&]( RWImage3DRgba32 const & ps
+				, Vec3 pp )
+			{
+				foo01( ps, pp );
+			}
+			, InRWImage3DRgba32{ writer, "ps" }
+			, InVec3{ writer, "pp" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto p = writer.declLocale< Vec3 >( "p" );
+				foo02( s, p );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void structInParam( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "structInParam" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		St::declare( writer );
+
+		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
+			, [&]( St const & pst )
+			{
+				auto lr = writer.declLocale< Vec4 >( "lr" );
+				lr = pst.a;
+				writer.returnStmt( lr );
+			}
+			, InSt{ writer, "pst" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto r = writer.declLocale< Vec4 >( "r" );
+				auto st = writer.declLocale< St >( "st" );
+				r = foo01( st );
+			} );
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void structInParamForward( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "structInParamForward" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		St::declare( writer );
+		St2::declare( writer );
+
+		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
+			, [&]( St const & pst )
+			{
+				auto lr = writer.declLocale< Vec4 >( "lr" );
+				lr = pst.a;
+				writer.returnStmt( lr );
+			}
+			, InSt{ writer, "pst" } );
+
+		auto foo02 = writer.implementFunction< Vec4 >( "foo02"
+			, [&]( St2 const & pst2 )
+			{
+				writer.returnStmt( foo01( pst2.a ) );
+			}
+			, InSt2{ writer, "pst2" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto r = writer.declLocale< Vec4 >( "r" );
+				auto st2 = writer.declLocale< St2 >( "st2" );
+				r = foo02( st2 );
+			} );
 		test::writeShader( writer
 			, testCounts );
 		testEnd();
@@ -460,18 +1674,93 @@ namespace
 				auto r = writer.declLocale( "r"
 					, foo01( v ) );
 				v += foo02( r );
-				foo03( v );
+				v.x() = foo03( v );
 			} );
 
 		test::writeShader( writer
 			, testCounts );
 		testEnd();
 	}
+
+	template< typename ValueT >
+	void testParams( test::sdw_test::TestCounts & testCounts )
+	{
+		testSingleInParamLiteral< ValueT >( testCounts );
+		testSingleInParamConstant< ValueT >( testCounts );
+		testSingleInParamVariable< ValueT >( testCounts );
+		testSingleInParamArrayVariable< ValueT >( testCounts );
+		testSingleInParamInputVariable< ValueT >( testCounts );
+		testSingleInParamOutputVariable< ValueT >( testCounts );
+		testSingleInParamUniformVariable< ValueT >( testCounts );
+		testSingleInParamStorageVariable< ValueT >( testCounts );
+		testSingleInParamStructMember< ValueT >( testCounts );
+
+		testSingleOutParamVariable< ValueT >( testCounts );
+		testSingleOutParamArrayVariable< ValueT >( testCounts );
+		testSingleOutParamOutputVariable< ValueT >( testCounts );
+		testSingleOutParamStorageVariable< ValueT >( testCounts );
+		testSingleOutParamStructMember< ValueT >( testCounts );
+
+		testSingleInOutParamVariable< ValueT >( testCounts );
+		testSingleInOutParamArrayVariable< ValueT >( testCounts );
+		testSingleInOutParamOutputVariable< ValueT >( testCounts );
+		testSingleInOutParamStorageVariable< ValueT >( testCounts );
+		testSingleInOutParamStructMember< ValueT >( testCounts );
+
+		testArrayInParamLiteral< ValueT >( testCounts );
+		testArrayInParamConstant< ValueT >( testCounts );
+		testArrayInParamVariable< ValueT >( testCounts );
+
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat3 > && !std::is_same_v< ValueT, sdw::Mat4 > )
+		{
+			testArrayInParamInputVariable< ValueT >( testCounts );
+			testArrayInParamOutputVariable< ValueT >( testCounts );
+		}
+
+		testArrayInParamUniformVariable< ValueT >( testCounts );
+		testArrayInParamStorageVariable< ValueT >( testCounts );
+		testArrayInParamStructMember< ValueT >( testCounts );
+
+		testArrayOutParamVariable< ValueT >( testCounts );
+
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat3 > && !std::is_same_v< ValueT, sdw::Mat4 > )
+		{
+			testArrayOutParamOutputVariable< ValueT >( testCounts );
+		}
+
+		testArrayOutParamStorageVariable< ValueT >( testCounts );
+		testArrayOutParamStructMember< ValueT >( testCounts );
+
+		testArrayInOutParamVariable< ValueT >( testCounts );
+
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat3 > && !std::is_same_v< ValueT, sdw::Mat4 > )
+		{
+			testArrayInOutParamOutputVariable< ValueT >( testCounts );
+		}
+
+		testArrayInOutParamStorageVariable< ValueT >( testCounts );
+		testArrayInOutParamStructMember< ValueT >( testCounts );
+	}
 }
 
 sdwTestSuiteMain( TestWriterFunction )
 {
 	sdwTestSuiteBegin();
+	testParams< sdw::Int >( testCounts );
+	testParams< sdw::UInt >( testCounts );
+	testParams< sdw::Float >( testCounts );
+	testParams< sdw::IVec2 >( testCounts );
+	testParams< sdw::UVec2 >( testCounts );
+	testParams< sdw::Vec2 >( testCounts );
+	testParams< sdw::IVec3 >( testCounts );
+	testParams< sdw::UVec3 >( testCounts );
+	testParams< sdw::Vec3 >( testCounts );
+	testParams< sdw::IVec4 >( testCounts );
+	testParams< sdw::UVec4 >( testCounts );
+	testParams< sdw::Vec4 >( testCounts );
+	testParams< sdw::Mat2 >( testCounts );
+	testParams< sdw::Mat3 >( testCounts );
+	testParams< sdw::Mat4 >( testCounts );
 	paramInArray( testCounts );
 	paramInOutVec4( testCounts );
 	paramInMat4InVec4( testCounts );
@@ -479,7 +1768,13 @@ sdwTestSuiteMain( TestWriterFunction )
 	paramInSpImgInVec2( testCounts );
 	paramInVec4Ass( testCounts );
 	params( testCounts );
-	arrayAccesses( testCounts );
+	arrayParamAccessInOut( testCounts );
+	vecParamAccessInIndex( testCounts );
+	rImageParamForward( testCounts );
+	wImageParamForward( testCounts );
+	rwImageParamForward( testCounts );
+	structInParam( testCounts );
+	structInParamForward( testCounts );
 	removeGamma( testCounts );
 	returns( testCounts );
 	sdwTestSuiteEnd();

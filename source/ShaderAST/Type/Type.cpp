@@ -262,6 +262,11 @@ namespace ast::type
 		return kind == Kind::eArray;
 	}
 
+	bool isPointerType( Kind kind )
+	{
+		return kind == Kind::ePointer;
+	}
+
 	bool isStructType( Kind kind )
 	{
 		return kind == Kind::eStruct;
@@ -282,7 +287,22 @@ namespace ast::type
 		return kind == Kind::eSampledImage;
 	}
 
-	bool isOpaqueType( ast::type::Kind kind )
+	bool isOpaqueType( TypePtr type )
+	{
+		if ( isArrayType( type->getKind() ) )
+		{
+			return isOpaqueType( static_cast< Array const & >( *type ).getType() );
+		}
+
+		if ( isPointerType( type->getKind() ) )
+		{
+			return isOpaqueType( static_cast< Pointer const & >( *type ).getPointerType() );
+		}
+
+		return isOpaqueType( type->getKind() );
+	}
+
+	bool isOpaqueType( Kind kind )
 	{
 		return isImageType( kind )
 			|| isSampledImageType( kind )
