@@ -21,7 +21,6 @@ namespace test
 	void printCDBConsole( std::string const & toLog
 		, bool newLine );
 	uint32_t getCoreCount();
-	uint32_t getCoreCount();
 	std::string getExecutableDirectory();
 
 	struct TestCounts;

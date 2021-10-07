@@ -380,41 +380,41 @@ namespace spirv
 			{
 			}
 
-			void visitWhileStmt( ast::stmt::While * stmt )
+			void visitWhileStmt( ast::stmt::While * stmt )override
 			{
 				AST_Failure( "Unexpected While statement." );
 			}
 
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
+			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
 			{
 				AST_Failure( "Unexpected PreprocDefine statement." );
 			}
 
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )
+			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
 			{
 				AST_Failure( "Unexpected PreprocElif statement." );
 			}
 
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )
+			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
 			{
 				AST_Failure( "Unexpected PreprocElse statement." );
 			}
 
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )
+			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
 			{
 				AST_Failure( "Unexpected PreprocEndif statement." );
 			}
 
-			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
+			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
 			}
 
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )
+			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
 			{
 				AST_Failure( "Unexpected PreprocIf statement." );
 			}
 
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
+			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
 			{
 				AST_Failure( "Unexpected PreprocIfDef statement." );
 			}

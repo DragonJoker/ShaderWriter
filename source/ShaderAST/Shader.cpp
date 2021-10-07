@@ -23,68 +23,6 @@ namespace ast
 						|| var->getName() == name;
 				} );
 		}
-
-		type::Storage getStorage( var::FlagHolder const & flags )
-		{
-			type::Storage result{ type::Storage::eFunction };
-
-			if ( flags.isLocale() )
-			{
-				result = type::Storage::eFunction;
-			}
-			if ( flags.isUniform() )
-			{
-				if ( flags.isConstant() )
-				{
-					result = type::Storage::eUniformConstant;
-				}
-				else
-				{
-					result = type::Storage::eUniform;
-				}
-			}
-			else if ( flags.isBuiltin() )
-			{
-				if ( flags.isShaderInput() )
-				{
-					result = type::Storage::eInput;
-				}
-				else if ( flags.isShaderOutput() )
-				{
-					result = type::Storage::eOutput;
-				}
-				else
-				{
-					AST_Failure( "Unsupported built-in variable storage." );
-				}
-			}
-			else if ( flags.isShaderInput() )
-			{
-				result = type::Storage::eInput;
-			}
-			else if ( flags.isShaderOutput() )
-			{
-				result = type::Storage::eOutput;
-			}
-			else if ( flags.isShaderConstant() )
-			{
-				result = type::Storage::eInput;
-			}
-			else if ( flags.isSpecialisationConstant() )
-			{
-				result = type::Storage::eInput;
-			}
-			else if ( flags.isPushConstant() )
-			{
-				result = type::Storage::ePushConstant;
-			}
-			else if ( flags.isStatic() && flags.isConstant() )
-			{
-				result = type::Storage::ePrivate;
-			}
-
-			return result;
-		}
 	}
 
 	Shader::Shader( ast::ShaderStage type )

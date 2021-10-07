@@ -534,28 +534,6 @@ namespace ast
 					|| static_cast< expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
 		}
 
-		bool isAssignExpr( expr::Expr const & expr )
-		{
-			switch ( expr.getKind() )
-			{
-			case expr::Kind::eAddAssign:
-			case expr::Kind::eMinusAssign:
-			case expr::Kind::eTimesAssign:
-			case expr::Kind::eDivideAssign:
-			case expr::Kind::eModuloAssign:
-			case expr::Kind::eLShiftAssign:
-			case expr::Kind::eRShiftAssign:
-			case expr::Kind::eAndAssign:
-			case expr::Kind::eNotAssign:
-			case expr::Kind::eOrAssign:
-			case expr::Kind::eXorAssign:
-				return true;
-
-			default:
-				return false;
-			}
-		}
-
 		bool isMatrixTimesVector( expr::Kind exprKind
 			, type::Kind lhsTypeKind
 			, type::Kind rhsTypeKind
@@ -581,7 +559,6 @@ namespace ast
 					|| ( isVectorType( lhsTypeKind ) && isMatrixType( rhsTypeKind ) );
 			default:
 				return false;
-				break;
 			}
 		}
 
@@ -865,7 +842,7 @@ namespace ast
 					, expr->getRHS() );
 			}
 
-			void visitCastExpr( ast::expr::Cast * expr )
+			void visitCastExpr( ast::expr::Cast * expr )override
 			{
 				auto dstScalarType = getScalarType( expr->getType()->getKind() );
 				auto srcScalarType = getScalarType( expr->getOperand()->getType()->getKind() );
@@ -2019,17 +1996,17 @@ namespace ast
 					, m_data );
 			}
 
-			void visitElseIfStmt( ast::stmt::ElseIf * stmt )
+			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
 			{
 				AST_Failure( "Unexpected ElseIf statement." );
 			}
 
-			void visitElseStmt( ast::stmt::Else * stmt )
+			void visitElseStmt( ast::stmt::Else * stmt )override
 			{
 				AST_Failure( "Unexpected Else statement." );
 			}
 
-			void visitIfStmt( ast::stmt::If * stmt )
+			void visitIfStmt( ast::stmt::If * stmt )override
 			{
 				auto save = m_current;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
