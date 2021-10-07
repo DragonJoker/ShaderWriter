@@ -11,7 +11,12 @@ namespace ast::expr
 		, ExprPtr ctrlExpr
 		, ExprPtr trueExpr
 		, ExprPtr falseExpr )
-		: Expr{ getExprTypesCache( ctrlExpr, trueExpr, falseExpr ), std::move( type ), Kind::eQuestion, ( isExprConstant( ctrlExpr, trueExpr, falseExpr ) ? Flag::eConstant : Flag::eNone ) }
+		: Expr{ getExprTypesCache( ctrlExpr, trueExpr, falseExpr )
+			, std::move( type )
+			, Kind::eQuestion
+			, ( isExprConstant( ctrlExpr, trueExpr, falseExpr )
+				? Flag::eConstant
+				: Flag::eNone ) }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 		, m_trueExpr{ std::move( trueExpr ) }
 		, m_falseExpr{ std::move( falseExpr ) }

@@ -273,6 +273,11 @@ namespace ast::var
 			return m_nameId.name;
 		}
 
+		EntityName const & getEntityName()const
+		{
+			return m_nameId;
+		}
+
 		VariablePtr getOuter()const
 		{
 			return m_outer;
