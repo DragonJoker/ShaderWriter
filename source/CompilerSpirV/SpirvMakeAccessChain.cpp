@@ -307,12 +307,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock;
+				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock;
+				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override

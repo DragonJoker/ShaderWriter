@@ -594,7 +594,6 @@ namespace spirv
 			, value.end()
 			, [&hash]( ValueId const & id )
 			{
-				;
 				ast::type::hashCombine( hash, ValueIdHasher{}( id ) );
 			} );
 

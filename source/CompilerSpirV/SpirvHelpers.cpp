@@ -222,25 +222,6 @@ namespace spirv
 
 			return nullptr;
 		}
-
-		bool needsAlias( ast::expr::Kind kind
-			, bool uniform
-			, bool param )
-		{
-			using ast::expr::Kind;
-			return ( uniform || kind != Kind::eIdentifier )
-				&& ( param || kind != Kind::eMbrSelect )
-				&& ( param || kind != Kind::eLiteral )
-				&& ( param || kind != Kind::eSwizzle );
-		}
-
-		bool isShaderVariable( ast::expr::Expr const & expr )
-		{
-			return expr.getKind() == ast::expr::Kind::eIdentifier
-				&& ( static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isUniform()
-					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderInput()
-					|| static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
-		}
 	}
 
 	//*************************************************************************

@@ -3,6 +3,8 @@
 
 #include <ShaderWriter/CompositeTypes/Ubo.hpp>
 
+#pragma clang diagnostic ignored "-Wunused-member-function"
+
 namespace
 {
 	struct St

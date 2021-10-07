@@ -79,10 +79,12 @@ namespace spirv
 	using UInt32ListIt = UInt32List::iterator;
 	using UInt32ListCIt = UInt32List::const_iterator;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnull-dereference"
 	struct ValueId
 	{
 		spv::Id id{};
-		ast::type::TypePtr type;
+		ast::type::TypePtr type{};
 
 		bool isPointer()const
 		{
@@ -102,6 +104,7 @@ namespace spirv
 			return id != 0u;
 		}
 	};
+#pragma GCC diagnostic pop
 
 	using ValueIdList = std::vector< ValueId >;
 

@@ -1004,17 +1004,17 @@ namespace spirv
 
 		if ( it == m_registeredFunctionTypes.end() )
 		{
-			ValueId funcType{ getNextId(), funcType.type };
-			globalDeclarations.push_back( makeInstruction< FunctionTypeInstruction >( funcType
+			ValueId funcTypeId{ getNextId() };
+			globalDeclarations.push_back( makeInstruction< FunctionTypeInstruction >( funcTypeId
 				, funcTypes ) );
-			it = m_registeredFunctionTypes.emplace( funcTypes, funcType ).first;
+			it = m_registeredFunctionTypes.emplace( funcTypes, funcTypeId ).first;
 		}
 
-		ValueId funcType{ it->second };
+		ValueId funcTypeId{ it->second };
 		m_currentFunction->declaration.emplace_back( makeInstruction< FunctionInstruction >( retType
 			, result
 			, ValueId{ spv::Id( spv::FunctionControlMaskNone ) }
-			, funcType ) );
+			, funcTypeId ) );
 		auto itType = funcTypes.begin() + 1u;
 		auto itParam = funcParams.begin();
 
@@ -1026,7 +1026,7 @@ namespace spirv
 			++itParam;
 		}
 
-		m_registeredVariablesTypes.emplace( result, funcType );
+		m_registeredVariablesTypes.emplace( result, funcTypeId );
 		debug.push_back( makeInstruction< NameInstruction >( result, name ) );
 		variables = &m_currentFunction->variables;
 
