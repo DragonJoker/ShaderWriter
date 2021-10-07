@@ -39,7 +39,12 @@ namespace ast::expr
 	MbrSelect::MbrSelect( ExprPtr outer
 		, uint32_t memberIndex
 		, uint32_t memberFlags )
-		: Expr{ outer->getCache(), getMbrType( outer->getType(), memberIndex ), Kind::eMbrSelect }
+		: Expr{ outer->getCache()
+			, getMbrType( outer->getType(), memberIndex )
+			, Kind::eMbrSelect
+			, ( isExprConstant( outer )
+				? Flag::eConstant
+				: Flag::eNone ) }
 		, var::FlagHolder{ memberFlags }
 		, m_outer{ std::move( outer ) }
 		, m_memberIndex{ memberIndex }

@@ -71,13 +71,14 @@ namespace spirv
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
-		, SpirVConfig spirvConfig )
+		, SpirVConfig const & spirvConfig
+		, ShaderActions actions )
 	{
 		Module result{ cache
 			, spirvConfig
 			, getMemoryModel()
 			, getExecutionModel( type ) };
-		StmtVisitor vis{ result, type, moduleConfig, std::move( context ), spirvConfig };
+		StmtVisitor vis{ result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
 		stmt->accept( &vis );
 		return result;
 	}
@@ -86,8 +87,10 @@ namespace spirv
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
-		, SpirVConfig const & spirvConfig )
+		, SpirVConfig const & spirvConfig
+		, ShaderActions actions )
 		: m_context{ std::move( context ) }
+		, m_actions{ std::move( actions ) }
 		, m_result{ result }
 	{
 		for ( auto & capability : moduleConfig.requiredCapabilities )
@@ -309,6 +312,43 @@ namespace spirv
 				, stmt->getName()
 				, m_inputs
 				, m_outputs );
+		}
+
+		auto itFunction = m_actions.find( stmt->getName() );
+
+		for ( auto & param : *stmt->getType() )
+		{
+			bool requiresPtrVar = param->isOutputParam();
+
+			if ( !requiresPtrVar
+				&& itFunction != m_actions.end() )
+			{
+				auto itVar = itFunction->second.find( param->getEntityName() );
+
+				if ( itVar != itFunction->second.end() )
+				{
+					requiresPtrVar = itVar->second.sets > 0
+						|| itVar->second.usesThroughMember > 0;
+				}
+			}
+
+			if ( requiresPtrVar )
+			{
+				VariableInfo sourceInfo;
+				auto varInfo = m_result.registerVariable( param->getName()
+					, spv::StorageClassFunction
+					, false
+					, false
+					, param->isOutputParam()
+					, param->getType()
+					, sourceInfo
+					, {} );
+
+				if ( !sourceInfo.id.isPointer() )
+				{
+					m_result.storeVariable( varInfo.id, sourceInfo.id, m_currentBlock );
+				}
+			}
 		}
 
 		visitContainerStmt( stmt );

@@ -441,7 +441,7 @@ namespace spirv
 		}
 	}
 
-	void Module::registerParam( std::string const & name
+	VariableInfo Module::registerParam( std::string const & name
 		, bool isOutput
 		, ast::type::TypePtr type )
 	{
@@ -465,9 +465,11 @@ namespace spirv
 
 			m_registeredVariablesTypes.emplace( typeId, rawTypeId );
 		}
+
+		return it->second;
 	}
 
-	void Module::registerAlias( std::string const & name
+	VariableInfo Module::registerAlias( std::string const & name
 		, ast::type::TypePtr type
 		, ValueId exprResultId )
 	{
@@ -490,6 +492,8 @@ namespace spirv
 
 			m_registeredVariablesTypes.emplace( exprResultId, rawTypeId );
 		}
+
+		return it->second;
 	}
 
 	VariableInfo Module::registerVariable( std::string const & name

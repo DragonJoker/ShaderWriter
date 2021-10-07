@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "CompilerSpirV/compileSpirV.hpp"
 
+#include "SpirvCountActions.hpp"
 #include "SpirvStmtAdapter.hpp"
 #include "SpirvStmtConfigFiller.hpp"
 #include "SpirvStmtVisitor.hpp"
@@ -3259,12 +3260,14 @@ namespace spirv
 			moduleConfig.nextVarId = ssaData.nextVarId;
 			spirv::PreprocContext context{};
 			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), moduleConfig, context );
+			auto actions = listActions( simplified.get() );
 			return spirv::StmtVisitor::submit( shader.getTypesCache()
 				, spirvStatements.get()
 				, shader.getType()
 				, moduleConfig
 				, std::move( context )
-				, std::move( config ) );
+				, config
+				, std::move( actions ) );
 		}
 	}
 

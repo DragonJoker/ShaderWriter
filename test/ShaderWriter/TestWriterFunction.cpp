@@ -5,6 +5,80 @@
 
 namespace
 {
+	struct St
+		: public sdw::StructInstance
+	{
+		SDW_DeclStructInstance( , St );
+
+		St( sdw::ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
+			, a{ getMember< sdw::Vec4 >( "a" ) }
+			, b{ getMemberArray< sdw::Vec4 >( "b" ) }
+		{
+		}
+
+		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
+		{
+			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
+		}
+
+		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "St" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "a", ast::type::Kind::eVec4F );
+				result->declMember( "b", ast::type::Kind::eVec4F, 4u );
+			}
+
+			return result;
+		}
+
+		sdw::Vec4 a;
+		sdw::Array< sdw::Vec4 > b;
+	};
+	using InSt = sdw::InParam< St >;
+
+	struct St2
+		: public sdw::StructInstance
+	{
+		SDW_DeclStructInstance( , St2 );
+
+		St2( sdw::ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
+			, a{ getMember< St >( "a" ) }
+			, b{ getMember< sdw::Vec4 >( "b" ) }
+		{
+		}
+
+		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
+		{
+			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
+		}
+
+		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "St2" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "a", St::makeType( cache ) );
+				result->declMember( "b", ast::type::Kind::eVec4F );
+			}
+
+			return result;
+		}
+
+		St a;
+		sdw::Vec4 b;
+	};
+	using InSt2 = sdw::InParam< St2 >;
+
 	template< typename ValueT >
 	void testSingleInParamLiteral( test::sdw_test::TestCounts & testCounts )
 	{
@@ -1011,80 +1085,6 @@ namespace
 		testEnd();
 	}
 
-	struct St
-		: public sdw::StructInstance
-	{
-		SDW_DeclStructInstance( , St );
-
-		St( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled )
-			: StructInstance{ writer, std::move( expr ), enabled }
-			, a{ getMember< sdw::Vec4 >( "a" ) }
-			, b{ getMemberArray< sdw::Vec4 >( "b" ) }
-		{
-		}
-
-		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
-		{
-			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
-		}
-
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "St" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "a", ast::type::Kind::eVec4F );
-				result->declMember( "b", ast::type::Kind::eVec4F, 4u );
-			}
-
-			return result;
-		}
-
-		sdw::Vec4 a;
-		sdw::Array< sdw::Vec4 > b;
-	};
-	using InSt = sdw::InParam< St >;
-
-	struct St2
-		: public sdw::StructInstance
-	{
-		SDW_DeclStructInstance( , St2 );
-
-		St2( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled )
-			: StructInstance{ writer, std::move( expr ), enabled }
-			, a{ getMember< St >( "a" ) }
-			, b{ getMember< sdw::Vec4 >( "b" ) }
-		{
-		}
-
-		static std::unique_ptr< sdw::Struct > declare( sdw::ShaderWriter & writer )
-		{
-			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
-		}
-
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "St2" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "a", St::makeType( cache ) );
-				result->declMember( "b", ast::type::Kind::eVec4F );
-			}
-
-			return result;
-		}
-
-		St a;
-		sdw::Vec4 b;
-	};
-	using InSt2 = sdw::InParam< St2 >;
-
 	void paramInArray( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "paramInArray" );
@@ -1585,6 +1585,90 @@ namespace
 		testEnd();
 	}
 
+	void paramInWhile( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramInWhile" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		auto foo01 = writer.implementFunction< Float >( "foo01"
+			, [&]( Float test
+				, Float const & end )
+			{
+				WHILE( writer, test > end )
+				{
+					test -= end;
+				}
+				ELIHW;
+
+				writer.returnStmt( test );
+			}
+			, InFloat{ writer, "test" }
+			, InFloat{ writer, "end" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocale< Float >( "v" );
+				auto e = writer.declLocale< Float >( "e" );
+				v = foo01( v, e );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void paramMbrAccessInWhile( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "paramMbrAccessInWhile" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		St::declare( writer );
+
+		auto foo01 = writer.implementFunction< Float >( "foo01"
+			, [&]( Float ptest1
+				, Float const & pend1 )
+			{
+				writer.returnStmt( writer.ternary( ptest1 > pend1, ptest1, pend1 ) );
+			}
+			, InFloat{ writer, "ptest1" }
+			, InFloat{ writer, "pend1" } );
+
+		auto foo02 = writer.implementFunction< Float >( "foo02"
+			, [&]( St const & pst
+				, Float ptest
+				, Float const & pend )
+			{
+				WHILE( writer, ptest > pend )
+				{
+					ptest = foo01( pst.a.x(), pend );
+				}
+				ELIHW;
+
+				writer.returnStmt( pst.a.x() );
+			}
+			, InSt{ writer, "pst" }
+			, InFloat{ writer, "ptest" }
+			, InFloat{ writer, "pend" } );
+
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocale< Float >( "v" );
+				auto e = writer.declLocale< Float >( "e" );
+				auto st = writer.declLocale< St >( "st" );
+				v = foo02( st, v, e );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
 	void removeGamma( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "removeGamma" );
@@ -1675,6 +1759,50 @@ namespace
 					, foo01( v ) );
 				v += foo02( r );
 				v.x() = foo03( v );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
+	void returnAfterWhile( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "returnAfterWhile" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		auto foo01 = writer.implementFunction< Vec2 >( "foo01"
+			, [&]( Vec2 const & texcoord
+				, Vec2 const & dir
+				, Vec2 e )
+			{
+				auto coord = writer.declLocale( "coord"
+					, vec4( texcoord, -1.0_f, 1.0_f ) );
+				auto t = writer.declLocale( "t"
+					, vec3( 0.5_f, 1.2_f, 1.0_f ) );
+
+				WHILE( writer, coord.z() < 15.0_f && coord.w() > 0.9_f )
+				{
+					coord.xyz() = fma( t, vec3( dir, 1.0_f ), coord.xyz() );
+					e = normalize( coord.xy() );
+					coord.w() = dot( e, vec2( 0.5_f, 0.5_f ) );
+				}
+				ELIHW;
+
+				writer.returnStmt( coord.zw() );
+			}
+			, InVec2{ writer, "texcoord" }
+			, InVec2{ writer, "dir" }
+			, OutVec2{ writer, "e" } );
+
+		writer.inputLayout( 16 );
+		writer.implementFunction< sdw::Void >( "main"
+			, [&]()
+			{
+				auto v = writer.declLocale< Vec2 >( "v" );
+				auto e = writer.declLocale< Vec2 >( "e" );
+				v = foo01( v, v, e );
 			} );
 
 		test::writeShader( writer
@@ -1777,6 +1905,9 @@ sdwTestSuiteMain( TestWriterFunction )
 	structInParamForward( testCounts );
 	removeGamma( testCounts );
 	returns( testCounts );
+	returnAfterWhile( testCounts );
+	paramInWhile( testCounts );
+	paramMbrAccessInWhile( testCounts );
 	sdwTestSuiteEnd();
 }
 

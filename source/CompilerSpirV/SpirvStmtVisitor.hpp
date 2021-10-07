@@ -5,7 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_SpirvStmtVisitor_H___
 #pragma once
 
-#include "SpirvHelpers.hpp"
+#include "CompilerSpirV/SpirvCountActions.hpp"
+#include "CompilerSpirV/SpirvHelpers.hpp"
 #include "CompilerSpirV/SpirvModule.hpp"
 
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
@@ -21,14 +22,16 @@ namespace spirv
 			, ast::ShaderStage type
 			, ModuleConfig const & moduleConfig
 			, spirv::PreprocContext context
-			, SpirVConfig spirvConfig );
+			, SpirVConfig const & spirvConfig
+			, ShaderActions actions );
 
 	private:
 		StmtVisitor( Module & result
 			, ast::ShaderStage type
 			, ModuleConfig const & moduleConfig
 			, spirv::PreprocContext context
-			, SpirVConfig const & spirvConfig );
+			, SpirVConfig const & spirvConfig
+			, ShaderActions actions );
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitBreakStmt( ast::stmt::Break * stmt )override;
 		void visitContinueStmt( ast::stmt::Continue * stmt )override;
@@ -90,6 +93,7 @@ namespace spirv
 		};
 
 		spirv::PreprocContext m_context;
+		ShaderActions m_actions;
 		Module & m_result;
 		Block m_currentBlock;
 		Function * m_function{ nullptr };
