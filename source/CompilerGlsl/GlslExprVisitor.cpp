@@ -392,6 +392,11 @@ namespace glsl
 		m_result += ")";
 	}
 
+	void ExprVisitor::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		AST_Failure( "Unexpected ast::expr::StreamAppend expression." );
+	}
+
 	void ExprVisitor::visitSwitchCaseExpr( ast::expr::SwitchCase *expr )
 	{
 		m_result += doSubmit( expr->getLabel() );

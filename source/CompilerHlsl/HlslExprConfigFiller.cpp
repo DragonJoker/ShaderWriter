@@ -129,6 +129,11 @@ namespace hlsl
 		expr->getFalseExpr()->accept( this );
 	}
 
+	void ExprConfigFiller::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		expr->getOperand()->accept( this );
+	}
+
 	void ExprConfigFiller::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
 	{
 		expr->getLabel()->accept( this );

@@ -189,6 +189,14 @@ namespace ast
 				}
 			}
 
+			void visitStreamAppendExpr( expr::StreamAppend * expr )override
+			{
+				if ( checkToVisit() )
+				{
+					expr->getOperand()->accept( this );
+				}
+			}
+
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
 				expr->getLabel()->accept( this );

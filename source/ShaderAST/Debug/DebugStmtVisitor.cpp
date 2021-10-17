@@ -394,67 +394,13 @@ namespace ast::debug
 	void StmtVisitor::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += "L(";
-
-		switch ( stmt->getLayout() )
-		{
-		case stmt::InputLayout::ePointList:
-			m_result += "POINTLIST";
-			break;
-		case stmt::InputLayout::eLineList:
-			m_result += "LINELIST";
-			break;
-		case stmt::InputLayout::eLineStrip:
-			m_result += "LINESTRIP";
-			break;
-		case stmt::InputLayout::eTriangleList:
-			m_result += "TRIANGLELIST";
-			break;
-		case stmt::InputLayout::eTriangleStrip:
-			m_result += "TRIANGLESTRIP";
-			break;
-		case stmt::InputLayout::eTriangleFan:
-			m_result += "TRIANGLEFAN";
-			break;
-		case stmt::InputLayout::eLineListWithAdjacency:
-			m_result += "LINELISTWA";
-			break;
-		case stmt::InputLayout::eLineStripWithAdjacency:
-			m_result += "LINESTRIPWA";
-			break;
-		case stmt::InputLayout::eTriangleListWithAdjacency:
-			m_result += "TRIANGLELISTWA";
-			break;
-		case stmt::InputLayout::eTriangleStripWithAdjacency:
-			m_result += "TRIANGLESTRIPWA";
-			break;
-		default:
-			throw std::runtime_error{ "Unsupported input layout." };
-		}
-
-		m_result += ")\n";
+		m_result += "L(" + getName( stmt->getLayout() ) + ")\n";
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += "L(";
-
-		switch ( stmt->getLayout() )
-		{
-		case ast::stmt::OutputLayout::ePointList:
-			m_result += "POINTLIST";
-			break;
-		case ast::stmt::OutputLayout::eLineStrip:
-			m_result += "LINESTRIP";
-			break;
-		case ast::stmt::OutputLayout::eTriangleStrip:
-			m_result += "TRIANGLESTRIP";
-			break;
-		default:
-			throw std::runtime_error{ "Unsupported output layout." };
-		}
-
+		m_result += "L(" + getName( stmt->getLayout() );
 		m_result += ") C(" + std::to_string( stmt->getPrimCount() ) + ")\n";
 	}
 

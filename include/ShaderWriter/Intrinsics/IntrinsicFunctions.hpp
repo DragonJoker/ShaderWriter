@@ -1,6 +1,8 @@
-
 /*
 See LICENSE file in root folder
+*/
+/*
+This file is generated, don't modify it!
 */
 #ifndef ___SDW_IntrinsicFunctions_H___
 #define ___SDW_IntrinsicFunctions_H___

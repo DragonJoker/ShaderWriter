@@ -186,6 +186,11 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::Question ?" );
 			}
 
+			void visitStreamAppendExpr( ast::expr::StreamAppend * )override
+			{
+				AST_Failure( "Unexpected ast::expr::StreamAppend" );
+			}
+
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
@@ -481,6 +486,11 @@ namespace spirv
 			void visitQuestionExpr( ast::expr::Question * )override
 			{
 				AST_Failure( "Unexpected ast::expr::Question ?" );
+			}
+
+			void visitStreamAppendExpr( ast::expr::StreamAppend * )override
+			{
+				AST_Failure( "Unexpected ast::expr::StreamAppend" );
 			}
 
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * )override

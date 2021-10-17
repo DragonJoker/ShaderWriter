@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InputGeometryLayout::InputGeometryLayout( InputLayout layout )
+	InputGeometryLayout::InputGeometryLayout( type::InputLayout layout )
 		: Stmt{ Kind::eInputGeometryLayout }
 		, m_layout{ layout }
 	{

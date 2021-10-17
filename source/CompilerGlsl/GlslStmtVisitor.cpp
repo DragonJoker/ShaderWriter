@@ -749,7 +749,17 @@ namespace glsl
 
 			for ( auto & member : *stmt->getType() )
 			{
-				m_result += m_indent + getTypeName( member.type ) + " " + member.name;
+				m_result += m_indent;
+
+				if ( member.location != ~( 0u ) )
+				{
+					m_result += "layout( location=" + std::to_string( member.location ) + " ) ";
+					m_result += ( member.flag == ast::var::Flag::eShaderInput
+						? std::string{ "in" }
+						: std::string{ "out" } ) + " ";
+				}
+
+				m_result += getTypeName( member.type ) + " " + member.name;
 				m_result += getTypeArraySize( member.type );
 				m_result += ";\n";
 			}

@@ -564,40 +564,40 @@ namespace glsl
 		return result;
 	}
 
-	std::string getLayoutName( ast::stmt::InputLayout layout )
+	std::string getLayoutName( ast::type::InputLayout layout )
 	{
 		std::string result;
 
 		switch ( layout )
 		{
-		case ast::stmt::InputLayout::ePointList:
+		case ast::type::InputLayout::ePointList:
 			result = "points";
 			break;
-		case ast::stmt::InputLayout::eLineList:
+		case ast::type::InputLayout::eLineList:
 			result = "lines";
 			break;
-		case ast::stmt::InputLayout::eLineStrip:
+		case ast::type::InputLayout::eLineStrip:
 			result = "lines";
 			break;
-		case ast::stmt::InputLayout::eTriangleList:
+		case ast::type::InputLayout::eTriangleList:
 			result = "triangles";
 			break;
-		case ast::stmt::InputLayout::eTriangleStrip:
+		case ast::type::InputLayout::eTriangleStrip:
 			result = "triangles";
 			break;
-		case ast::stmt::InputLayout::eTriangleFan:
+		case ast::type::InputLayout::eTriangleFan:
 			result = "triangles";
 			break;
-		case ast::stmt::InputLayout::eLineListWithAdjacency:
+		case ast::type::InputLayout::eLineListWithAdjacency:
 			result = "lines_adjacency";
 			break;
-		case ast::stmt::InputLayout::eLineStripWithAdjacency:
+		case ast::type::InputLayout::eLineStripWithAdjacency:
 			result = "lines_adjacency";
 			break;
-		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
+		case ast::type::InputLayout::eTriangleListWithAdjacency:
 			result = "triangles_adjacency";
 			break;
-		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
+		case ast::type::InputLayout::eTriangleStripWithAdjacency:
 			result = "triangles_adjacency";
 			break;
 		default:
@@ -607,19 +607,19 @@ namespace glsl
 		return result;
 	}
 
-	std::string getLayoutName( ast::stmt::OutputLayout layout )
+	std::string getLayoutName( ast::type::OutputLayout layout )
 	{
 		std::string result;
 
 		switch ( layout )
 		{
-		case ast::stmt::OutputLayout::ePointList:
+		case ast::type::OutputLayout::ePointList:
 			result = "points";
 			break;
-		case ast::stmt::OutputLayout::eLineStrip:
+		case ast::type::OutputLayout::eLineStrip:
 			result = "line_strip";
 			break;
-		case ast::stmt::OutputLayout::eTriangleStrip:
+		case ast::type::OutputLayout::eTriangleStrip:
 			result = "triangle_strip";
 			break;
 		default:

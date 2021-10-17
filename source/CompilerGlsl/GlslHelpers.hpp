@@ -24,8 +24,8 @@ namespace glsl
 	std::string getDirectionName( ast::var::Variable const & var );
 	std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status );
 	std::string getOperatorName( ast::expr::Kind kind );
-	std::string getLayoutName( ast::stmt::InputLayout layout );
-	std::string getLayoutName( ast::stmt::OutputLayout layout );
+	std::string getLayoutName( ast::type::InputLayout layout );
+	std::string getLayoutName( ast::type::OutputLayout layout );
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component );
 	bool isUnaryPre( ast::expr::Kind kind );

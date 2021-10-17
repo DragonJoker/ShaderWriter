@@ -90,6 +90,9 @@ namespace spirv
 		SDWSPIRV_API void registerExecutionMode( spv::ExecutionMode mode );
 		SDWSPIRV_API void registerExecutionMode( spv::ExecutionMode mode
 			, ValueIdList const & operands );
+		SDWSPIRV_API void registerExecutionMode( ast::type::InputLayout layout );
+		SDWSPIRV_API void registerExecutionMode( ast::type::OutputLayout layout
+			, uint32_t primCount );
 		SDWSPIRV_API spv::Id getIntermediateResult();
 		SDWSPIRV_API void lnkIntermediateResult( ValueId intermediate, ValueId var );
 		SDWSPIRV_API void putIntermediateResult( ValueId id );

@@ -1,6 +1,9 @@
 /*
 See LICENSE file in root folder
 */
+/*
+This file is generated, don't modify it!
+*/
 #ifndef ___AST_ExprGetIntrinsicName_H___
 #define ___AST_ExprGetIntrinsicName_H___
 #pragma once

@@ -102,6 +102,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.hpp
 	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.inl
 	${INCLUDE_DIR}/CompositeTypes/Builtins.hpp
+	${INCLUDE_DIR}/CompositeTypes/Builtins.inl
 	${INCLUDE_DIR}/CompositeTypes/Function.hpp
 	${INCLUDE_DIR}/CompositeTypes/Function.inl
 	${INCLUDE_DIR}/CompositeTypes/FunctionParam.hpp

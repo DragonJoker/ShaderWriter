@@ -2,6 +2,9 @@ import os, re, sys
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
+	outs.write( "/*\n" )
+	outs.write( "This file is generated, don't modify it!\n" )
+	outs.write( "*/\n" )
 	outs.write( "#ifndef ___AST_ExprEnum" + enumName + "_H___\n" )
 	outs.write( "#define ___AST_ExprEnum" + enumName + "_H___\n" )
 	outs.write( "#pragma once\n" )

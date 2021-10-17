@@ -3,7 +3,8 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
+#define DummyMain writer.implementMain( [](){} )
+#define DummyMainT writer.implementMainT< sdw::Void, sdw::type::OutputLayout::ePointList, 1u >( [&]( sdw::EmptyStream out ){ out.vtx.position = in.vtx[0].position;out.append();out.restartStrip(); } )
 
 	template< typename T >
 	void testShaderOutput( test::sdw_test::TestCounts & testCounts )
@@ -125,8 +126,9 @@ namespace
 		}
 		{
 			sdw::GeometryWriter writer;
-			writer.inputLayout( ast::stmt::InputLayout::eTriangleList );
-			writer.outputLayout( ast::stmt::OutputLayout::eTriangleStrip, 3u );
+			writer.inputLayout( ast::type::InputLayout::eTriangleList );
+			auto in = writer.getIn();
+			auto out = writer.getOut();
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "StreamOutputValue_0";
 			auto value = writer.declStreamOutput< T >( name, 0u, 1u );
@@ -140,8 +142,8 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
-			DummyMain;
-			test::writeShader( writer, testCounts, true, false, true );
+			DummyMainT;
+			test::writeShader( writer, testCounts );
 		}
 		testEnd();
 	}

@@ -729,11 +729,11 @@ namespace
 	{
 		testBegin( "testInputGeometryLayout" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makeInputGeometryLayout( ast::stmt::InputLayout::eLineStripWithAdjacency );
+		auto stmt = ast::stmt::makeInputGeometryLayout( ast::type::InputLayout::eLineStripWithAdjacency );
 		testCounts.streams.cout << "StmtInputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInputGeometryLayout );
-		check( stmt->getLayout() == ast::stmt::InputLayout::eLineStripWithAdjacency );
+		check( stmt->getLayout() == ast::type::InputLayout::eLineStripWithAdjacency );
 		testEnd();
 	}
 
@@ -741,11 +741,14 @@ namespace
 	{
 		testBegin( "testOutputGeometryLayout" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makeOutputGeometryLayout( ast::stmt::OutputLayout::eTriangleStrip, 15u );
+		auto stmt = ast::stmt::makeOutputGeometryLayout( cache.getVoid()
+			, ast::type::OutputLayout::eTriangleStrip
+			, 15u );
 		testCounts.streams.cout << "StmtOutputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eOutputGeometryLayout );
-		check( stmt->getLayout() == ast::stmt::OutputLayout::eTriangleStrip );
+		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
+		check( stmt->getLayout() == ast::type::OutputLayout::eTriangleStrip );
 		check( stmt->getPrimCount() == 15u );
 		testEnd();
 	}

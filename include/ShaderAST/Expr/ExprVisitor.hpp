@@ -51,6 +51,7 @@ See LICENSE file in root folder
 #include "ExprQuestion.hpp"
 #include "ExprRShift.hpp"
 #include "ExprRShiftAssign.hpp"
+#include "ExprStreamAppend.hpp"
 #include "ExprSwitchCase.hpp"
 #include "ExprSwitchTest.hpp"
 #include "ExprSwizzle.hpp"
@@ -119,6 +120,7 @@ namespace ast::expr
 		SDAST_API virtual void visitQuestionExpr( Question * ) = 0;
 		SDAST_API virtual void visitRShiftExpr( RShift * ) = 0;
 		SDAST_API virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
+		SDAST_API virtual void visitStreamAppendExpr( StreamAppend * ) = 0;
 		SDAST_API virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
 		SDAST_API virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
 		SDAST_API virtual void visitSwizzleExpr( Swizzle * ) = 0;
@@ -142,6 +144,7 @@ namespace ast::expr
 	*	- void visitLiteralExpr( ast::expr::Literal * expr )override;
 	*	- void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
 	*	- void visitQuestionExpr( ast::expr::Question * expr )override;
+	*	- void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 	*	- void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override;
 	*	- void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override;
 	*	- void visitSwizzleExpr( ast::expr::Swizzle * expr )override;

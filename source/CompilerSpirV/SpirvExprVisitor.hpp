@@ -167,6 +167,11 @@ namespace spirv
 			AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
 		}
 
+		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+		{
+			AST_Failure( "Unexpected ast::expr::StreamAppend expression." );
+		}
+
 		void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
 		{
 			AST_Failure( "Unexpected ast::expr::SwitchCase expression." );

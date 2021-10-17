@@ -1235,6 +1235,11 @@ namespace ast
 				}
 			}
 
+			void visitStreamAppendExpr( expr::StreamAppend * expr )override
+			{
+				m_result = expr::makeStreamAppend( doSubmit( expr->getOperand() ) );
+			}
+
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
 				m_result = expr::makeSwitchCase( std::make_unique< expr::Literal >( *expr->getLabel() ) );
@@ -2104,6 +2109,42 @@ namespace ast
 				m_current->addStmt( std::move( ifStmt ) );
 			}
 
+			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
+			{
+				m_outputGeometryLayoutStmt = stmt;
+			}
+
+			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
+			{
+				if ( stmt->getName() == "main"
+					&& stmt->getType()->empty()
+					&& m_outputGeometryLayoutStmt )
+				{
+					auto funcType = stmt->getType();
+					auto & cache = funcType->getCache();
+					auto type = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
+						, m_outputGeometryLayoutStmt->getLayout()
+						, m_outputGeometryLayoutStmt->getPrimCount() );
+					var::VariableList parameters;
+					parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomStream" }
+						, type
+						, var::Flag::eInputParam | var::Flag::eOutputParam | var::Flag::eShaderOutput ) );
+					funcType = cache.getFunction( funcType->getReturnType()
+						, std::move( parameters ) );
+					auto save = m_current;
+					auto cont = stmt::makeFunctionDecl( funcType
+						, stmt->getName() );
+					m_current = cont.get();
+					visitContainerStmt( stmt );
+					m_current = save;
+					m_current->addStmt( std::move( cont ) );
+				}
+				else
+				{
+					StmtCloner::visitFunctionDeclStmt( stmt );
+				}
+			}
+
 		private:
 			void doAddStmt( stmt::StmtPtr stmt )
 			{
@@ -2123,6 +2164,7 @@ namespace ast
 		private:
 			SSAData & m_data;
 			type::TypesCache & m_cache;
+			stmt::OutputGeometryLayout * m_outputGeometryLayoutStmt{};
 		};
 	}
 

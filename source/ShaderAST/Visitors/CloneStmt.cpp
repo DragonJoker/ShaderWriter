@@ -196,7 +196,8 @@ namespace ast
 
 	void StmtCloner::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
 	{
-		m_current->addStmt( stmt::makeOutputGeometryLayout( stmt->getLayout()
+		m_current->addStmt( stmt::makeOutputGeometryLayout( stmt->getType()
+			, stmt->getLayout()
 			, stmt->getPrimCount() ) );
 	}
 

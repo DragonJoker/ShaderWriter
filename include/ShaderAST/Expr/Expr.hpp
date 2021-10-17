@@ -68,6 +68,7 @@ namespace ast::expr
 		eXorAssign,
 		eArrayAccess,
 		eAlias,
+		eStreamAppend,
 	};
 
 	enum class Flag

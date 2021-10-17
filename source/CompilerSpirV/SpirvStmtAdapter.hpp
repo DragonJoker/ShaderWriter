@@ -11,24 +11,31 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct AdaptationData
+	{
+		PreprocContext & context;
+		ModuleConfig const & config;
+		ast::var::VariablePtr geomOutput{};
+		std::vector< ast::var::VariablePtr > geomOutputs;
+	};
+
 	class StmtAdapter
 		: public ast::StmtCloner
 	{
 	public:
 		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container
-			, ModuleConfig const & config
-			, PreprocContext & context );
+			, AdaptationData & adaptationData );
 
 	private:
 		StmtAdapter( ast::stmt::ContainerPtr & result
-			, ModuleConfig const & config
-			, PreprocContext & context );
+			, AdaptationData & adaptationData );
 		
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 
 		void visitElseIfStmt( ast::stmt::ElseIf * stmt )override;
 		void visitElseStmt( ast::stmt::Else * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
+		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
@@ -44,8 +51,7 @@ namespace spirv
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
 
 	private:
-		PreprocContext & m_context;
-		ModuleConfig const & m_config;
+		AdaptationData & m_adaptationData;
 	};
 }
 

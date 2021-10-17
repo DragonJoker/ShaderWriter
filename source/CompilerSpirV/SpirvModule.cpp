@@ -4,6 +4,8 @@ See LICENSE file in root folder
 #include "CompilerSpirV/SpirvModule.hpp"
 
 #include "SpirvHelpers.hpp"
+#include "SpirvSerialize.hpp"
+#include "SpirvWrite.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
@@ -248,6 +250,17 @@ namespace spirv
 		}
 
 		return Module{ header, std::move( instructions ) };
+	}
+
+	std::string spirv::Module::write( spirv::Module const & module
+		, bool writeHeader )
+	{
+		return spirv::write( module, writeHeader );
+	}
+
+	std::vector< uint32_t > spirv::Module::serialize( spirv::Module const & module )
+	{
+		return spirv::serialize( module );
 	}
 
 	ValueId Module::registerType( ast::type::TypePtr type )
@@ -902,6 +915,59 @@ namespace spirv
 		}
 	}
 
+	void Module::registerExecutionMode( ast::type::OutputLayout layout
+		, uint32_t primCount )
+	{
+		switch ( layout )
+		{
+		case ast::type::OutputLayout::ePointList:
+			registerExecutionMode( spv::ExecutionModeOutputPoints );
+			break;
+		case ast::type::OutputLayout::eLineStrip:
+			registerExecutionMode( spv::ExecutionModeOutputLineStrip );
+			break;
+		case ast::type::OutputLayout::eTriangleStrip:
+			registerExecutionMode( spv::ExecutionModeOutputTriangleStrip );
+			break;
+		default:
+			AST_Failure( "Unsupported OutputLayout" );
+			break;
+		}
+
+		registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ primCount } } );
+		registerExecutionMode( spv::ExecutionModeInvocations, { ValueId{ 1u } } );
+	}
+
+	void Module::registerExecutionMode( ast::type::InputLayout layout )
+	{
+		switch ( layout )
+		{
+		case ast::type::InputLayout::ePointList:
+			registerExecutionMode( spv::ExecutionModeInputPoints );
+			break;
+		case ast::type::InputLayout::eLineList:
+		case ast::type::InputLayout::eLineStrip:
+			registerExecutionMode( spv::ExecutionModeInputLines );
+			break;
+		case ast::type::InputLayout::eTriangleList:
+		case ast::type::InputLayout::eTriangleStrip:
+		case ast::type::InputLayout::eTriangleFan:
+			registerExecutionMode( spv::ExecutionModeTriangles );
+			break;
+		case ast::type::InputLayout::eTriangleListWithAdjacency:
+		case ast::type::InputLayout::eTriangleStripWithAdjacency:
+			registerExecutionMode( spv::ExecutionModeInputTrianglesAdjacency );
+			break;
+		case ast::type::InputLayout::eLineListWithAdjacency:
+		case ast::type::InputLayout::eLineStripWithAdjacency:
+			registerExecutionMode( spv::ExecutionModeInputLinesAdjacency );
+			break;
+		default:
+			AST_Failure( "Unsupported InputLayout" );
+			break;
+		}
+	}
+
 	spv::Id Module::getIntermediateResult()
 	{
 		spv::Id result{};
@@ -1144,6 +1210,24 @@ namespace spirv
 				, arrayStride );
 			result = registerPointerType( rawTypeId
 				, convert( pointerType.getStorage() ) );
+		}
+		else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+		{
+			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
+			result = registerType( outputType.type
+				, mbrIndex
+				, parentId
+				, arrayStride );
+			registerExecutionMode( outputType.layout, outputType.count );
+		}
+		else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+		{
+			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
+			result = registerType( inputType.type
+				, mbrIndex
+				, parentId
+				, arrayStride );
+			registerExecutionMode( inputType.layout );
 		}
 		else
 		{

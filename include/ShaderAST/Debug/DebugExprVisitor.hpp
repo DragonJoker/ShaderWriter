@@ -35,6 +35,7 @@ namespace ast::debug
 		SDAST_API void visitInitExpr( expr::Init * expr )override;
 		SDAST_API void visitLiteralExpr( expr::Literal * expr )override;
 		SDAST_API void visitQuestionExpr( expr::Question * expr )override;
+		SDAST_API void visitStreamAppendExpr( expr::StreamAppend * expr )override;
 		SDAST_API void visitSwitchCaseExpr( expr::SwitchCase * expr )override;
 		SDAST_API void visitSwitchTestExpr( expr::SwitchTest * expr )override;
 		SDAST_API void visitSwizzleExpr( expr::Swizzle * expr )override;

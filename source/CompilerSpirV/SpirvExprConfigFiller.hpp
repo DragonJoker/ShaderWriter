@@ -37,6 +37,7 @@ namespace spirv
 		void visitInitExpr( ast::expr::Init * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;
 		void visitQuestionExpr( ast::expr::Question * expr )override;
+		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override;
 		void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;

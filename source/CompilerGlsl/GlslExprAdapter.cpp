@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 #include "GlslTextureAccessConfig.hpp"
 
+#include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
@@ -100,53 +101,34 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::Expr * expr
-		, GlslConfig const & writerConfig
-		, IntrinsicsConfig const & intrinsicsConfig )
+		, AdaptationData & adaptationData )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis
-		{
-			cache,
-			writerConfig,
-			intrinsicsConfig,
-			result,
-		};
+		ExprAdapter vis{ cache, adaptationData, result };
 		expr->accept( &vis );
 		return result;
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr const & expr
-		, GlslConfig const & writerConfig
-		, IntrinsicsConfig const & intrinsicsConfig )
+		, AdaptationData & adaptationData )
 	{
-		return submit( cache
-			, expr.get()
-			, writerConfig
-			, intrinsicsConfig );
+		return submit( cache, expr.get(), adaptationData );
 	}
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
-		, GlslConfig const & writerConfig
-		, IntrinsicsConfig const & intrinsicsConfig
+		, AdaptationData & adaptationData
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_cache{ cache }
-		, m_writerConfig{ writerConfig }
-		, m_intrinsicsConfig{ intrinsicsConfig }
+		, m_adaptationData{ adaptationData }
 	{
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis
-		{
-			m_cache,
-			m_writerConfig,
-			m_intrinsicsConfig,
-			result,
-		};
+		ExprAdapter vis{ m_cache, m_adaptationData, result };
 		expr->accept( &vis );
 		return result;
 	}
@@ -168,7 +150,7 @@ namespace glsl
 	{
 		if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eFma1F
 			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eFma4D
-			&& m_writerConfig.shaderLanguageVersion < 430 )
+			&& m_adaptationData.writerConfig.shaderLanguageVersion < 430 )
 		{
 			assert( expr->getArgList().size() == 3u );
 			m_result = ast::expr::makeAdd( expr->getType()
@@ -190,6 +172,28 @@ namespace glsl
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
+	}
+
+	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
+	{
+		auto outer = expr->getOuterExpr();
+
+		if ( outer->getKind() == ast::expr::Kind::eIdentifier
+			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.geomOutput )
+		{
+			assert( m_adaptationData.geomOutputs.size() > expr->getMemberIndex() );
+			m_result = ast::expr::makeIdentifier( m_cache
+				, m_adaptationData.geomOutputs[expr->getMemberIndex()] );
+		}
+		else
+		{
+			ExprCloner::visitMbrSelectExpr( expr );
+		}
+	}
+
+	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		m_result = ast::expr::makeEmitVertex( m_cache );
 	}
 
 	void ExprAdapter::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )

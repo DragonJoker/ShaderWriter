@@ -165,16 +165,30 @@ namespace hlsl
 	{
 		auto cont = ast::stmt::makeContainer();
 		m_adaptationData.mainInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_MainInput" );
-		m_adaptationData.globalInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
-		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainInputStruct ) );
-		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalInputStruct ) );
-		m_adaptationData.inputVar = m_shader.registerName( "sdwInput", m_adaptationData.globalInputStruct, ast::var::Flag::eStatic );
-
 		m_adaptationData.mainOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_MainOutput" );
-		m_adaptationData.globalOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainInputStruct ) );
 		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainOutputStruct ) );
-		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalOutputStruct ) );
-		m_adaptationData.outputVar = m_shader.registerName( "sdwOutput", m_adaptationData.globalOutputStruct, ast::var::Flag::eStatic );
+
+		if ( shader.getType() != ast::ShaderStage::eGeometry )
+		{
+			m_adaptationData.globalInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
+			m_adaptationData.globalOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+			cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalInputStruct ) );
+			cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalOutputStruct ) );
+
+			m_adaptationData.inputVar = m_shader.registerName( "sdwInput"
+				, m_adaptationData.globalInputStruct
+				, ast::var::Flag::eStatic );
+			m_adaptationData.outputVar = m_shader.registerName( "sdwOutput"
+				, m_adaptationData.globalOutputStruct
+				, ast::var::Flag::eStatic );
+		}
+		else
+		{
+			m_adaptationData.outputVar = m_shader.registerName( "sdwOutput"
+				, m_adaptationData.mainOutputStruct
+				, ast::var::Flag::eShaderOutput );
+		}
 
 		m_inOutDeclarations = cont.get();
 		m_current->addStmt( std::move( cont ) );
@@ -209,25 +223,70 @@ namespace hlsl
 
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
+		auto funcType = stmt->getType();
+
 		if ( stmt->getName() == "main" )
 		{
-			// Write function content into a temporary container
-			auto save = m_current;
-			auto cont = ast::stmt::makeContainer();
-			m_current = cont.get();
-			visitContainerStmt( stmt );
-			m_current = save;
+			if ( m_shader.getType() == ast::ShaderStage::eGeometry )
+			{
+				assert( !funcType->empty() );
+				auto geomOutput = ( *funcType->begin() );
+				auto type = geomOutput->getType();
+				assert( type->getKind() == ast::type::Kind::eGeometryOutput );
+				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+				type = geomType.type;
 
-			// Write SDW_main function
-			rewriteShaderIOVars();
-			ast::var::VariableList parameters;
-			auto sdwMainCont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), ast::var::VariableList{} )
-				, "SDW_" + stmt->getName() );
-			sdwMainCont->addStmt( std::move( cont ) );
-			m_current->addStmt( std::move( sdwMainCont ) );
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					uint32_t index = 0u;
 
-			// Write main function
-			writeMain( stmt );
+					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+					{
+						auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
+							, mbr.type
+							, mbr.flag );
+						m_adaptationData.addPendingOutput( var, index++ );
+					}
+				}
+
+				assert( !m_adaptationData.mainOutputVar );
+				m_adaptationData.mainOutputVar = m_shader.registerName( "mainOutput"
+					, ast::type::makeGeometryOutputType( m_adaptationData.mainOutputStruct
+						, geomType.layout
+						, geomType.count )
+					, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput );
+				ast::var::VariableList parameters;
+				parameters.push_back( m_adaptationData.inputVar );
+				parameters.push_back( m_adaptationData.mainOutputVar );
+				auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), parameters )
+					, stmt->getName() );
+				auto save = m_current;
+				m_current = cont.get();
+				m_current->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
+				visitContainerStmt( stmt );
+				m_current = save;
+
+				m_current->addStmt( std::move( cont ) );
+			}
+			else
+			{
+				// Write function content into a temporary container
+				auto save = m_current;
+				auto cont = ast::stmt::makeContainer();
+				m_current = cont.get();
+				visitContainerStmt( stmt );
+				m_current = save;
+
+				// Write SDW_main function
+				rewriteShaderIOVars();
+				auto sdwMainCont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), ast::var::VariableList{} )
+					, "SDW_" + stmt->getName() );
+				sdwMainCont->addStmt( std::move( cont ) );
+				m_current->addStmt( std::move( sdwMainCont ) );
+
+				// Write main function
+				writeMain( stmt );
+			}
 		}
 		else
 		{
@@ -246,22 +305,24 @@ namespace hlsl
 
 		if ( var->isShaderInput() )
 		{
-			m_adaptationData.inputVars.emplace( stmt->getLocation(), var );
-			m_adaptationData.globalInputStruct->declMember( var->getName(), var->getType() );
-			m_adaptationData.inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
-					, uint32_t( m_adaptationData.inputMembers.size() )
-					, var->getFlags() ) );
+			auto index = uint32_t( m_adaptationData.inputMembers.size() );
+			m_adaptationData.addPendingInput( var, index );
+
+			if ( m_shader.getType() != ast::ShaderStage::eGeometry )
+			{
+				m_adaptationData.processPendingInput( var );
+			}
 		}
 
 		if ( var->isShaderOutput() )
 		{
-			m_adaptationData.outputVars.emplace( stmt->getLocation(), var );
-			m_adaptationData.globalOutputStruct->declMember( var->getName(), var->getType() );
-			m_adaptationData.outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-					, uint32_t( m_adaptationData.outputMembers.size() )
-					, var->getFlags() ) );
+			auto index = uint32_t( m_adaptationData.outputMembers.size() );
+			m_adaptationData.addPendingOutput( var, index );
+
+			if ( m_shader.getType() != ast::ShaderStage::eGeometry )
+			{
+				m_adaptationData.processPendingOutput( var );
+			}
 		}
 	}
 
@@ -272,47 +333,30 @@ namespace hlsl
 
 	void StmtAdapter::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
-		m_inputGeometryLayout = stmt;
-	}
-
-	void StmtAdapter::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
-	{
-		m_outputGeometryLayout = stmt;
+		m_adaptationData.inputVar = m_shader.registerName( "mainInput"
+			, makeGeometryInputType( m_adaptationData.mainInputStruct, stmt->getLayout() )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput );
 	}
 
 	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
-		auto index = 128u;
-		auto count = getArraySize( stmt->getType() );
+		auto index = 0u;
 		auto type = getNonArrayType( stmt->getType() );
 		assert( type->getKind() == ast::type::Kind::eStruct );
 
 		for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 		{
-			auto mbrType = ( count == ast::type::NotArray
-				? member.type
-				: m_cache.getArray( m_cache.getArray( getNonArrayType( member.type ), getArraySize( member.type ) * count ) ) );
 			auto var = ( m_shader.hasVar( member.name )
-				? m_shader.getVar( member.name, mbrType )
-				: m_shader.registerName( member.name, mbrType ) );
+				? m_shader.getVar( member.name, member.type )
+				: m_shader.registerName( member.name, member.type, ast::var::Flag::eBuiltin ) );
 
 			if ( isOutput( stmt->getSource() ) )
 			{
-				m_adaptationData.globalOutputStruct->declMember( member.name, mbrType );
-				m_adaptationData.outputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
-						, uint32_t( m_adaptationData.outputMembers.size() )
-						, var->getFlags() ) );
-				m_adaptationData.outputVars.emplace( index++, var );
+				m_adaptationData.addPendingOutput( var, index++ );
 			}
 			else
 			{
-				m_adaptationData.globalInputStruct->declMember( member.name, mbrType );
-				m_adaptationData.inputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
-						, uint32_t( m_adaptationData.inputMembers.size() )
-						, var->getFlags() ) );
-				m_adaptationData.inputVars.emplace( index++, var );
+				m_adaptationData.addPendingInput( var, index++ );
 			}
 		}
 	}
@@ -325,9 +369,9 @@ namespace hlsl
 		ast::type::TypePtr imageType;
 		ast::type::ImageConfiguration config;
 
-		if ( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eArray )
+		if ( originalVar->getType()->getKind() == ast::type::Kind::eArray )
 		{
-			auto arrayType = std::static_pointer_cast< ast::type::Array >( stmt->getVariable()->getType() );
+			auto arrayType = std::static_pointer_cast< ast::type::Array >( originalVar->getType() );
 			auto realSampledType = std::static_pointer_cast< ast::type::SampledImage >( arrayType->getType() );
 			imageType = m_cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
 			sampledType = m_cache.getArray( realSampledType, arrayType->getArraySize() );
@@ -344,7 +388,7 @@ namespace hlsl
 		}
 		else
 		{
-			auto realSampledType = std::static_pointer_cast< ast::type::SampledImage >( stmt->getVariable()->getType() );
+			auto realSampledType = std::static_pointer_cast< ast::type::SampledImage >( originalVar->getType() );
 			imageType = realSampledType->getImageType();
 			sampledType = realSampledType;
 			config = realSampledType->getConfig();
@@ -362,7 +406,7 @@ namespace hlsl
 		if ( config.dimension == ast::type::ImageDim::eBuffer )
 		{
 			// Create Image
-			auto textureVar = m_shader.registerImage( stmt->getVariable()->getName()
+			auto textureVar = m_shader.registerImage( originalVar->getName()
 				, imageType
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
@@ -374,7 +418,7 @@ namespace hlsl
 		else
 		{
 			// Create Image
-			auto textureVar = m_shader.registerImage( stmt->getVariable()->getName() + "_texture"
+			auto textureVar = m_shader.registerImage( originalVar->getName() + "_texture"
 				, imageType
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
@@ -384,7 +428,7 @@ namespace hlsl
 				, stmt->getDescriptorSet() ) );
 
 			// Create Sampler
-			auto samplerVar = m_shader.registerSampler( stmt->getVariable()->getName() + "_sampler"
+			auto samplerVar = m_shader.registerSampler( originalVar->getName() + "_sampler"
 				, samplerType
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
@@ -452,12 +496,13 @@ namespace hlsl
 
 				if ( hlslKind != var->getType()->getKind() )
 				{
-					var = ast::var::makeVariable( ++m_adaptationData.nextVarId
-						, m_cache.getBasicType( hlslKind )
-						, var->getName() );
+					var = m_shader.registerName( var->getName()
+						, m_cache.getBasicType( hlslKind ) );
 				}
 
-				m_adaptationData.inputVars.emplace( 128u, var );
+				auto index = uint32_t( 128u + m_adaptationData.inputVars.size() );
+				m_adaptationData.addPendingInput( var, index );
+				m_adaptationData.inputVars.emplace( index, var );
 				m_adaptationData.inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
 						, uint32_t( m_adaptationData.inputMembers.size() )
@@ -471,12 +516,13 @@ namespace hlsl
 
 				if ( hlslKind != var->getType()->getKind() )
 				{
-					var = ast::var::makeVariable( ++m_adaptationData.nextVarId
-						, m_cache.getBasicType( hlslKind )
-						, var->getName() );
+					var = m_shader.registerName( var->getName()
+						, m_cache.getBasicType( hlslKind ) );
 				}
 
-				m_adaptationData.outputVars.emplace( 128u, var );
+				auto index = uint32_t( 128u + m_adaptationData.outputVars.size() );
+				m_adaptationData.addPendingOutput( var, index );
+				m_adaptationData.outputVars.emplace( index, var );
 				m_adaptationData.outputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar )
 						, uint32_t( m_adaptationData.outputMembers.size() )
@@ -489,6 +535,10 @@ namespace hlsl
 		}
 	}
 
+	void StmtAdapter::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
+	{
+	}
+
 	void StmtAdapter::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
 	{
 	}
@@ -499,102 +549,53 @@ namespace hlsl
 
 	void StmtAdapter::rewriteShaderIOVars()
 	{
-		Semantic intSem{ "BLENDINDICES", 0u };
-		Semantic fltSem{ "TEXCOORD", 0u };
-		Semantic * pintSem{ &intSem };
-		Semantic * pfltSem{ &fltSem };
+		Semantic intSem = { "BLENDINDICES", 0u };
+		Semantic fltSem = { "TEXCOORD", 0u };
+		Semantic * pintSem = &intSem;
+		Semantic * pfltSem = &fltSem;
 
-		for ( auto & input : m_adaptationData.inputVars )
+		if ( m_adaptationData.globalInputStruct )
 		{
-			if ( isSignedIntType( input.second->getType()->getKind() )
-				|| isUnsignedIntType( input.second->getType()->getKind() ) )
+			for ( auto & input : m_adaptationData.inputVars )
 			{
-				m_adaptationData.mainInputStruct->declMember( input.second->getName()
-					+ ": "
-					+ getSemantic( input.second->getName()
-						, input.second->getType()
-						, *pintSem )
-					, input.second->getType() );
-			}
-			else
-			{
-				m_adaptationData.mainInputStruct->declMember( input.second->getName()
-					+ ": "
-					+ getSemantic( input.second->getName()
-						, input.second->getType()
-						, *pfltSem )
-					, input.second->getType() );
-			}
+				auto var = input.second;
+				addInputMember( m_adaptationData.mainInputStruct
+					, var->getName()
+					, var->getType()
+					, *pintSem
+					, *pfltSem );
 
-			if ( !m_adaptationData.globalInputStruct->hasMember( input.second->getName() ) )
-			{
-				m_adaptationData.globalInputStruct->declMember( input.second->getName()
-					, input.second->getType() );
-			}
-			else
-			{
-				assert( input.second->getType()->getKind() == m_adaptationData.globalInputStruct->getMember( input.second->getName() ).type->getKind() );
-			}
-		}
-
-		if ( m_shader.getType() == ast::ShaderStage::eFragment )
-		{
-			intSem.name = "SV_Target";
-			pfltSem = &intSem;
-		}
-
-		intSem.index = 0u;
-		fltSem.index = 0u;
-
-		for ( auto & output : m_adaptationData.outputVars )
-		{
-			if ( output.second->getName() == "gl_ClipDistance" )
-			{
-				auto type = m_cache.getVec4F();
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName() + "0"
-					+ ": "
-					+ "SV_ClipDistance0"
-					, type );
-				m_adaptationData.mainOutputStruct->declMember( output.second->getName() + "1"
-					+ ": "
-					+ "SV_ClipDistance1"
-					, type );
-			}
-			else if ( output.second->getName() == "gl_CullDistance" )
-			{
-				// Merged with SV_ClipDistance ?
-			}
-			else
-			{
-				if ( isSignedIntType( output.second->getType()->getKind() )
-					|| isUnsignedIntType( output.second->getType()->getKind() ) )
+				if ( !m_adaptationData.globalInputStruct->hasMember( var->getName() ) )
 				{
-					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-						+ ": "
-						+ getSemantic( output.second->getName()
-							, output.second->getType()
-							, *pintSem )
-						, output.second->getType() );
+					m_adaptationData.globalInputStruct->declMember( var->getName()
+						, var->getType() );
 				}
 				else
 				{
-					m_adaptationData.mainOutputStruct->declMember( output.second->getName()
-						+ ": "
-						+ getSemantic( output.second->getName()
-							, output.second->getType()
-							, *pfltSem )
-						, output.second->getType() );
+					assert( var->getType()->getKind() == m_adaptationData.globalInputStruct->getMember( var->getName() ).type->getKind() );
 				}
+			}
+		}
 
-				if ( !m_adaptationData.globalOutputStruct->hasMember( output.second->getName() ) )
-				{
-					m_adaptationData.globalOutputStruct->declMember( output.second->getName()
-						, output.second->getType() );
-				}
-				else
-				{
-					assert( output.second->getType()->getKind() == m_adaptationData.globalOutputStruct->getMember( output.second->getName() ).type->getKind() );
-				}
+		if ( m_adaptationData.globalOutputStruct )
+		{
+			if ( m_shader.getType() == ast::ShaderStage::eFragment )
+			{
+				intSem.name = "SV_Target";
+				pfltSem = &intSem;
+			}
+
+			intSem.index = 0u;
+			fltSem.index = 0u;
+
+			for ( auto & output : m_adaptationData.outputVars )
+			{
+				auto var = output.second;
+				addOutputMember( m_adaptationData.mainOutputStruct
+					, var->getName()
+					, var->getType()
+					, *pintSem
+					, *pfltSem );
 			}
 		}
 	}
@@ -607,7 +608,8 @@ namespace hlsl
 		auto mainInputVar = m_shader.registerName( "sdwMainInput", m_adaptationData.mainInputStruct );
 		auto mainOutputVar = m_shader.registerName( "sdwMainOutput", m_adaptationData.mainOutputStruct );
 
-		if ( !m_adaptationData.mainInputStruct->empty() )
+		if ( !m_adaptationData.mainInputStruct->empty()
+			&& m_adaptationData.inputVar )
 		{
 			m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.inputVar ) );
 			mainParameters.emplace_back( mainInputVar );
@@ -615,7 +617,8 @@ namespace hlsl
 
 		ast::type::TypePtr mainRetType = m_cache.getVoid();
 
-		if ( !m_adaptationData.mainOutputStruct->empty() )
+		if ( !m_adaptationData.mainOutputStruct->empty()
+			&& m_adaptationData.outputVar )
 		{
 			m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
 			mainRetType = m_adaptationData.mainOutputStruct;
@@ -633,7 +636,8 @@ namespace hlsl
 			, stmt->getName() );
 
 		// Assign main inputs to global inputs, if needed
-		if ( !m_adaptationData.mainInputStruct->empty() )
+		if ( !m_adaptationData.mainInputStruct->empty()
+			&& m_adaptationData.inputVar )
 		{
 			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( m_adaptationData.globalInputStruct
 				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputVar )
@@ -648,7 +652,8 @@ namespace hlsl
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
-		if ( !m_adaptationData.mainOutputStruct->empty() )
+		if ( !m_adaptationData.mainOutputStruct->empty()
+			&& m_adaptationData.outputVar )
 		{
 			// Declare output.
 			cont->addStmt( ast::stmt::makeVariableDecl( mainOutputVar ) );

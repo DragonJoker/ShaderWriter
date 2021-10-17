@@ -172,6 +172,26 @@ namespace hlsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		auto type = stmt->getType();
+
+		if ( stmt->getName() == "main"
+			&& !type->empty() )
+		{
+			auto it = type->begin();
+			auto argType = ( *it )->getType();
+
+			if ( argType->getKind() == ast::type::Kind::eGeometryInput )
+			{
+				++it;
+				argType = ( *it )->getType();
+
+				if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
+				{
+					auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
+					m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
+				}
+			}
+		}
+
 		m_result += m_indent + getTypeName( type->getReturnType() );
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;

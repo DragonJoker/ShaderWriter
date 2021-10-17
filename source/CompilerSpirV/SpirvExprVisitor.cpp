@@ -146,6 +146,11 @@ namespace spirv
 				expr->getFalseExpr()->accept( this );
 			}
 
+			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+			{
+				expr->getOperand()->accept( this );
+			}
+
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
 			{
 				expr->getLabel()->accept( this );

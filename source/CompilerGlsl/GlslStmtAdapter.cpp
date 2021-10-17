@@ -42,8 +42,7 @@ namespace glsl
 
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::type::TypesCache & cache
 		, ast::stmt::Container * container
-		, GlslConfig const & writerConfig
-		, IntrinsicsConfig const & intrinsicsConfig )
+		, AdaptationData & adaptationData )
 	{
 		auto result = ast::stmt::makeContainer();
 		auto it = std::find_if ( container->begin()
@@ -55,35 +54,35 @@ namespace glsl
 
 		if ( it == container->end() )
 		{
-			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( writerConfig.shaderLanguageVersion ) ) );
-			doEnableCoreExtension( result, "GL_ARB_explicit_attrib_location", 330u, writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_explicit_uniform_location", 430u, writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_separate_shader_objects", 410u, writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, writerConfig.shaderLanguageVersion );
-			doEnableExtension( result, "GL_KHR_vulkan_glsl", 460u, writerConfig.shaderLanguageVersion );
+			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( adaptationData.writerConfig.shaderLanguageVersion ) ) );
+			doEnableCoreExtension( result, "GL_ARB_explicit_attrib_location", 330u, adaptationData.writerConfig.shaderLanguageVersion );
+			doEnableCoreExtension( result, "GL_ARB_explicit_uniform_location", 430u, adaptationData.writerConfig.shaderLanguageVersion );
+			doEnableCoreExtension( result, "GL_ARB_separate_shader_objects", 410u, adaptationData.writerConfig.shaderLanguageVersion );
+			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, adaptationData.writerConfig.shaderLanguageVersion );
+			doEnableExtension( result, "GL_KHR_vulkan_glsl", 460u, adaptationData.writerConfig.shaderLanguageVersion );
 
-			if ( intrinsicsConfig.requiresCubeMapArray )
+			if ( adaptationData.intrinsicsConfig.requiresCubeMapArray )
 			{
-				doEnableCoreExtension( result, "GL_ARB_texture_cube_map_array", 400u, writerConfig.shaderLanguageVersion );
+				doEnableCoreExtension( result, "GL_ARB_texture_cube_map_array", 400u, adaptationData.writerConfig.shaderLanguageVersion );
 			}
 
-			if ( intrinsicsConfig.requiresTextureGather )
+			if ( adaptationData.intrinsicsConfig.requiresTextureGather )
 			{
-				doEnableCoreExtension( result, "GL_ARB_texture_gather", 400u, writerConfig.shaderLanguageVersion );
+				doEnableCoreExtension( result, "GL_ARB_texture_gather", 400u, adaptationData.writerConfig.shaderLanguageVersion );
 			}
 
-			if ( intrinsicsConfig.requiresFp16 )
+			if ( adaptationData.intrinsicsConfig.requiresFp16 )
 			{
 				result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_gpu_shader5"
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
 
-			if ( intrinsicsConfig.requiresAtomicFloat )
+			if ( adaptationData.intrinsicsConfig.requiresAtomicFloat )
 			{
 				result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_shader_atomic_float"
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 
-				if ( intrinsicsConfig.requiresAtomicFp16Vector )
+				if ( adaptationData.intrinsicsConfig.requiresAtomicFp16Vector )
 				{
 					result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_shader_atomic_fp16_vector"
 						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
@@ -91,19 +90,17 @@ namespace glsl
 			}
 		}
 
-		StmtAdapter vis{ cache, writerConfig, intrinsicsConfig, result };
+		StmtAdapter vis{ cache, adaptationData, result };
 		container->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( ast::type::TypesCache & cache
-		, GlslConfig const & writerConfig
-		, IntrinsicsConfig const & intrinsicsConfig
+		, AdaptationData & adaptationData
 		, ast::stmt::ContainerPtr & result )
 		: ast::StmtCloner{ result }
 		, m_cache{ cache }
-		, m_writerConfig{ writerConfig }
-		, m_intrinsicsConfig{ intrinsicsConfig }
+		, m_adaptationData{ adaptationData }
 	{
 	}
 	
@@ -111,19 +108,18 @@ namespace glsl
 	{
 		return ExprAdapter::submit( m_cache
 			, expr
-			, m_writerConfig
-			, m_intrinsicsConfig );
+			, m_adaptationData );
 	}
 
 	void StmtAdapter::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
 	{
 		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
-			&& !m_writerConfig.hasStd430Layout )
+			&& !m_adaptationData.writerConfig.hasStd430Layout )
 		{
 			throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
 		}
 
-		if ( m_writerConfig.hasDescriptorSets )
+		if ( m_adaptationData.writerConfig.hasDescriptorSets )
 		{
 			ast::StmtCloner::visitConstantBufferDeclStmt( stmt );
 		}
@@ -141,9 +137,56 @@ namespace glsl
 		}
 	}
 
+	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
+	{
+		auto funcType = stmt->getType();
+
+		if ( stmt->getName() == "main"
+			&& !funcType->empty() )
+		{
+			m_adaptationData.geomOutput = ( *funcType->begin() );
+			auto type = m_adaptationData.geomOutput->getType();
+
+			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+				type = geomType.type;
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+					{
+						auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
+							, mbr.type
+							, mbr.flag );
+						m_adaptationData.geomOutputs.emplace_back( var );
+						m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
+							, mbr.location ) );
+					}
+				}
+
+				m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+					, geomType.layout
+					, geomType.count ) );
+			}
+
+			funcType = m_cache.getFunction( m_cache.getVoid(), {} );
+			auto save = m_current;
+			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName() );
+			m_current = cont.get();
+			visitContainerStmt( stmt );
+			m_current = save;
+			m_current->addStmt( std::move( cont ) );
+		}
+		else
+		{
+			ast::StmtCloner::visitFunctionDeclStmt( stmt );
+		}
+	}
+
 	void StmtAdapter::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
-		if ( m_writerConfig.hasDescriptorSets )
+		if ( m_adaptationData.writerConfig.hasDescriptorSets )
 		{
 			ast::StmtCloner::visitImageDeclStmt( stmt );
 		}
@@ -158,12 +201,12 @@ namespace glsl
 	void StmtAdapter::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
 	{
 		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
-			&& !m_writerConfig.hasStd430Layout )
+			&& !m_adaptationData.writerConfig.hasStd430Layout )
 		{
 			throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
 		}
 
-		if ( m_writerConfig.vulkanGlsl )
+		if ( m_adaptationData.writerConfig.vulkanGlsl )
 		{
 			ast::StmtCloner::visitPushConstantsBufferDeclStmt( stmt );
 		}
@@ -184,7 +227,7 @@ namespace glsl
 
 	void StmtAdapter::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		if ( m_writerConfig.hasDescriptorSets )
+		if ( m_adaptationData.writerConfig.hasDescriptorSets )
 		{
 			ast::StmtCloner::visitSampledImageDeclStmt( stmt );
 		}
@@ -199,12 +242,12 @@ namespace glsl
 	void StmtAdapter::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
 		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
-			&& !m_writerConfig.hasStd430Layout )
+			&& !m_adaptationData.writerConfig.hasStd430Layout )
 		{
 			throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
 		}
 
-		if ( m_writerConfig.hasDescriptorSets )
+		if ( m_adaptationData.writerConfig.hasDescriptorSets )
 		{
 			ast::StmtCloner::visitShaderBufferDeclStmt( stmt );
 		}
@@ -224,12 +267,12 @@ namespace glsl
 	void StmtAdapter::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
 		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
-			&& !m_writerConfig.hasStd430Layout )
+			&& !m_adaptationData.writerConfig.hasStd430Layout )
 		{
 			throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
 		}
 
-		if ( m_writerConfig.hasDescriptorSets )
+		if ( m_adaptationData.writerConfig.hasDescriptorSets )
 		{
 			ast::StmtCloner::visitShaderStructBufferDeclStmt( stmt );
 		}
@@ -247,7 +290,7 @@ namespace glsl
 	{
 		m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
 		auto cont = ast::stmt::makeContainer();
-		compileGlslTextureAccessFunctions( cont.get(), m_intrinsicsConfig );
+		compileGlslTextureAccessFunctions( cont.get(), m_adaptationData.intrinsicsConfig );
 
 		if ( !cont->empty() )
 		{

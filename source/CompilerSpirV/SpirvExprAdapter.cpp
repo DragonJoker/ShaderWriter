@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "SpirvTextureAccessNames.hpp"
 #include "SpirvMakeAccessChain.hpp"
 
+#include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
@@ -19,52 +20,45 @@ namespace spirv
 {
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
 		, ast::stmt::Container * container
-		, PreprocContext const & context
-		, ModuleConfig const & config )
+		, AdaptationData & adaptationData )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis
-		{
-			expr->getCache(),
-			container,
-			context,
-			config,
-			result
-		};
+		ExprAdapter vis{ expr->getCache()
+			, container
+			, adaptationData
+			, result };
 		expr->accept( &vis );
 		return result;
 	}
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
 		, ast::stmt::Container * container
-		, PreprocContext const & context
-		, ModuleConfig const & config
+		, AdaptationData & adaptationData
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_cache{ cache }
 		, m_container{ container }
-		, m_context{ context }
-		, m_config{ config }
+		, m_adaptationData{ adaptationData }
 	{
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_container, m_context, m_config, result };
+		ExprAdapter vis{ m_cache, m_container, m_adaptationData, result };
 		expr->accept( &vis );
 		return result;
 	}
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		auto it = m_context.constExprs.find( expr->getVariable()->getId() );
+		auto it = m_adaptationData.context.constExprs.find( expr->getVariable()->getId() );
 
-		if ( it != m_context.constExprs.end() )
+		if ( it != m_adaptationData.context.constExprs.end() )
 		{
 			if ( it->second->getKind() == ast::expr::Kind::eLiteral )
 			{
-				m_result = getLiteral( expr, m_context );
+				m_result = getLiteral( expr, m_adaptationData.context );
 			}
 			else
 			{
@@ -75,6 +69,28 @@ namespace spirv
 		{
 			m_result = ExprCloner::submit( expr );
 		}
+	}
+
+	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
+	{
+		auto outer = expr->getOuterExpr();
+
+		if ( outer->getKind() == ast::expr::Kind::eIdentifier
+			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.geomOutput )
+		{
+			assert( m_adaptationData.geomOutputs.size() > expr->getMemberIndex() );
+			m_result = ast::expr::makeIdentifier( m_cache
+				, m_adaptationData.geomOutputs[expr->getMemberIndex()] );
+		}
+		else
+		{
+			ExprCloner::visitMbrSelectExpr( expr );
+		}
+	}
+
+	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		m_result = ast::expr::makeEmitVertex( m_cache );
 	}
 
 	void ExprAdapter::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
@@ -88,7 +104,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( submit( arg.get(), m_container, m_context, m_config ) );
+			args.emplace_back( submit( arg.get(), m_container, m_adaptationData ) );
 		}
 
 		if ( getBias( kind ) == spv::ImageOperandsBiasMask )
