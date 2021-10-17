@@ -15,6 +15,14 @@ namespace sdw
 				{
 					type = static_cast< type::Pointer const & >( *type ).getPointerType();
 				}
+				else if ( type->getKind() == type::Kind::eGeometryInput )
+				{
+					type = static_cast< type::GeometryInput const & >( *type ).type;
+				}
+				else if ( type->getKind() == type::Kind::eGeometryOutput )
+				{
+					type = static_cast< type::GeometryOutput const & >( *type ).type;
+				}
 				else
 				{
 					break;

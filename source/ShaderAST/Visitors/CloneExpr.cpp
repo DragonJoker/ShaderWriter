@@ -408,6 +408,11 @@ namespace ast
 			, doSubmit( expr->getRHS() ) );
 	}
 
+	void ExprCloner::visitStreamAppendExpr( expr::StreamAppend * expr )
+	{
+		m_result = expr::makeStreamAppend( doSubmit( expr->getOperand() ) );
+	}
+
 	void ExprCloner::visitSwitchCaseExpr( expr::SwitchCase * expr )
 	{
 		m_result = expr::makeSwitchCase( std::make_unique< expr::Literal >( *expr->getLabel() ) );

@@ -25,11 +25,12 @@ namespace glsl
 			, ssaData );
 		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 			, ssaStatements.get() );
-		auto intrinsicsConfig = glsl::StmtConfigFiller::submit( simplified.get() );
+		glsl::AdaptationData adaptationData{ writerConfig
+			, glsl::StmtConfigFiller::submit( simplified.get() )
+			, ssaData.nextVarId };
 		auto glStatements = glsl::StmtAdapter::submit( shader.getTypesCache()
 			, simplified.get()
-			, writerConfig
-			, intrinsicsConfig );
+			, adaptationData );
 		glStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), glStatements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
 		return glsl::StmtVisitor::submit( writerConfig, aliases, glStatements.get() );

@@ -675,33 +675,63 @@ namespace hlsl
 				}
 
 				adaptationData.inputVars.emplace( 128, var );
-				auto index = adaptationData.globalInputStruct->findMember( var->getName() );
 
-				if ( index == ast::type::Struct::NotFound )
+				if ( adaptationData.globalInputStruct )
 				{
-					if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+					auto index = adaptationData.globalInputStruct->findMember( var->getName() );
+
+					if ( index == ast::type::Struct::NotFound )
 					{
-						adaptationData.globalInputStruct->declMember( var->getName()
-							, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+						if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+						{
+							adaptationData.globalInputStruct->declMember( var->getName()
+								, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+						}
+						else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+						{
+							adaptationData.globalInputStruct->declMember( var->getName()
+								, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+						}
+						else
+						{
+							adaptationData.globalInputStruct->declMember( var->getName()
+								, var->getType() );
+						}
+
+						index = adaptationData.globalInputStruct->findMember( var->getName() );
 					}
-					else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+
+					if ( adaptationData.inputVar )
 					{
-						adaptationData.globalInputStruct->declMember( var->getName()
-							, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+						it = adaptationData.inputMembers.emplace( var
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
+								, index
+								, var->getFlags() ) ).first;
+					}
+				}
+				else if ( adaptationData.inputVar )
+				{
+					var = adaptationData.processPendingInput( var );
+					auto index = adaptationData.mainInputStruct->findMember( var->getName() );
+
+					if ( index == ast::type::Struct::NotFound )
+					{
+						it = adaptationData.inputMembers.emplace( var
+							, ast::expr::makeIdentifier( cache, adaptationData.inputVar ) ).first;
 					}
 					else
 					{
-						adaptationData.globalInputStruct->declMember( var->getName()
-							, var->getType() );
+						it = adaptationData.inputMembers.emplace( var
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
+								, uint32_t( adaptationData.inputMembers.size() )
+								, var->getFlags() ) ).first;
 					}
-
-					index = adaptationData.globalInputStruct->findMember( var->getName() );
 				}
-
-				it = adaptationData.inputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
-						, index
-						, var->getFlags() ) ).first;
+				else
+				{
+					it = adaptationData.inputMembers.emplace( var
+						, ast::expr::makeIdentifier( cache, var ) ).first;
+				}
 			}
 
 			return ast::ExprCloner::submit( it->second );
@@ -717,43 +747,51 @@ namespace hlsl
 
 			if ( it == adaptationData.outputMembers.end() )
 			{
-				adaptationData.outputVars.emplace( 128, var );
-				bool added = false;
+				adaptationData.outputVars.emplace( uint32_t( 128u + adaptationData.outputVars.size() ), var );
 
-				if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+				if ( adaptationData.outputVar )
 				{
-					if ( std::static_pointer_cast< ast::type::Struct >( var->getType() )->getName() != "gl_PerVertex" )
+					var = adaptationData.processPendingOutput( var );
+					bool added = false;
+
+					if ( adaptationData.globalOutputStruct )
 					{
-						adaptationData.globalOutputStruct->declMember( var->getName()
-							, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
-						added = true;
+						if ( var->getType()->getKind() == ast::type::Kind::eStruct )
+						{
+							if ( std::static_pointer_cast< ast::type::Struct >( var->getType() )->getName() != "gl_PerVertex" )
+							{
+								adaptationData.globalOutputStruct->declMember( var->getName()
+									, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
+								added = true;
+							}
+						}
+						else if ( var->getType()->getKind() == ast::type::Kind::eArray )
+						{
+							adaptationData.globalOutputStruct->declMember( var->getName()
+								, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
+							added = true;
+						}
+						else
+						{
+							adaptationData.globalOutputStruct->declMember( var->getName()
+								, var->getType() );
+							added = true;
+						}
 					}
-				}
-				else if ( var->getType()->getKind() == ast::type::Kind::eArray )
-				{
-					adaptationData.globalOutputStruct->declMember( var->getName()
-						, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
-					added = true;
-				}
-				else
-				{
-					adaptationData.globalOutputStruct->declMember( var->getName()
-						, var->getType() );
-					added = true;
-				}
 
-				if ( added )
-				{
-					it = adaptationData.outputMembers.emplace( var
-						, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
-							, uint32_t( adaptationData.outputMembers.size() )
-							, var->getFlags() ) ).first;
-					toClone = it->second.get();
-				}
-				else
-				{
-					save = ast::expr::makeIdentifier( cache, adaptationData.outputVar );
-					toClone = save.get();
+					if ( added )
+					{
+						it = adaptationData.outputMembers.emplace( var
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
+								, uint32_t( adaptationData.outputMembers.size() )
+								, var->getFlags() ) ).first;
+						toClone = it->second.get();
+					}
+					else
+					{
+						save = ast::expr::makeIdentifier( cache, adaptationData.outputVar );
+						toClone = save.get();
+					}
 				}
 			}
 
@@ -855,7 +893,7 @@ namespace hlsl
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		auto var = expr->getVariable();
+		auto var = m_adaptationData.processPending( expr->getVariable() );
 
 		if ( var->isBuiltin() )
 		{
@@ -870,10 +908,12 @@ namespace hlsl
 			if ( m_adaptationData.inputMembers.end() != itInputs )
 			{
 				m_result = ast::ExprCloner::submit( itInputs->second );
+				var = m_adaptationData.processPendingInput( var );
 			}
 			else if ( m_adaptationData.outputMembers.end() != itOutputs )
 			{
 				m_result = ast::ExprCloner::submit( itOutputs->second );
+				var = m_adaptationData.processPendingInput( var );
 			}
 			else if ( m_adaptationData.replacedVars.end() != itReplaced )
 			{
@@ -964,7 +1004,7 @@ namespace hlsl
 
 			if ( ident )
 			{
-				auto var = ident->getVariable();
+				auto var = m_adaptationData.processPending( ident->getVariable() );
 
 				if ( var->isAlias() )
 				{
@@ -1159,7 +1199,12 @@ namespace hlsl
 			// The resulting expression is now the alias.
 			m_result = ast::expr::makeIdentifier( m_cache, aliasVar );
 		}
-		else
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitVertex )
+		{
+			m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, m_adaptationData.mainOutputVar )
+				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) );
+		}
+		else 
 		{
 			ast::expr::ExprList args;
 
@@ -1168,30 +1213,122 @@ namespace hlsl
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
 
+			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex )
+			{
+				args.insert( args.begin()
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) );
+			}
+
+			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEndPrimitive
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eEndStreamPrimitive )
+			{
+				args.insert( args.begin()
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.mainOutputVar ) );
+			}
+
 			m_result = ast::expr::makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
 	}
 
+	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, m_adaptationData.mainOutputVar )
+			, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputVar ) ) );
+	}
+
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		auto processed = false;
+		bool isBuiltin = false;
+		std::string builtinName;
+		ast::var::FlagHolder * flags{};
+		ast::var::VariablePtr var;
+		ast::expr::ExprPtr arrayIndex;
 
 		if ( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier )
 		{
-			auto var = static_cast< ast::expr::Identifier const * >( expr->getOuterExpr() )->getVariable();
+			var = m_adaptationData.processPending( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable() );
+			isBuiltin = var->isBuiltin();
+			flags = var.get();
+			auto type = var->getType();
 
-			if ( var->isBuiltin()
-				&& var->getType()->getKind() == ast::type::Kind::eStruct )
+			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 			{
-				auto mbrName = ( static_cast< ast::type::Struct const & >( *var->getType() ).begin() + expr->getMemberIndex() )->name;
+				type = static_cast< ast::type::GeometryOutput const & >( *type ).type;
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					builtinName = ( static_cast< ast::type::Struct const & >( *type ).begin() + expr->getMemberIndex() )->name;
+					var = m_adaptationData.processPendingOutput( builtinName );
+
+					auto it = std::find_if( m_adaptationData.outputVars.begin()
+						, m_adaptationData.outputVars.end()
+						, [&builtinName]( VariableIdMap::value_type const & lookup )
+						{
+							return builtinName == lookup.second->getName();
+						} );
+
+					if ( it != m_adaptationData.outputVars.end() )
+					{
+						auto itMbr = m_adaptationData.outputMembers.find( it->second );
+
+						if ( itMbr != m_adaptationData.outputMembers.end() )
+						{
+							m_result = ast::ExprCloner::submit( itMbr->second );
+							processed = true;
+						}
+					}
+				}
+			}
+			else if ( type->getKind() == ast::type::Kind::eStruct )
+			{
+				builtinName = ( static_cast< ast::type::Struct const & >( *type ).begin() + expr->getMemberIndex() )->name;
+			}
+		}
+		else if ( expr->isBuiltin() )
+		{
+			auto outer = doSubmit( expr->getOuterExpr() );
+			isBuiltin = true;
+			flags = expr;
+			builtinName = ( expr->getOuterType()->begin() + expr->getMemberIndex() )->name;
+		}
+
+		if ( isBuiltin )
+		{
+			if ( flags->isShaderInput() )
+			{
+				var = m_adaptationData.processPendingInput( builtinName );
+
+				auto it = std::find_if( m_adaptationData.inputVars.begin()
+					, m_adaptationData.inputVars.end()
+					, [&builtinName]( VariableIdMap::value_type const & lookup )
+					{
+						return builtinName == lookup.second->getName();
+					} );
+
+				if ( it != m_adaptationData.inputVars.end() )
+				{
+					auto itMbr = m_adaptationData.inputMembers.find( it->second );
+
+					if ( itMbr != m_adaptationData.inputMembers.end() )
+					{
+						m_result = ast::ExprCloner::submit( itMbr->second );
+						processed = true;
+					}
+				}
+			}
+			else
+			{
+				var = m_adaptationData.processPendingOutput( builtinName );
 
 				auto it = std::find_if( m_adaptationData.outputVars.begin()
 					, m_adaptationData.outputVars.end()
-					, [&mbrName]( VariableIdMap::value_type const & lookup )
+					, [&builtinName]( VariableIdMap::value_type const & lookup )
 					{
-						return mbrName == lookup.second->getName();
+						return builtinName == lookup.second->getName();
 					} );
 
 				if ( it != m_adaptationData.outputVars.end() )
@@ -1205,21 +1342,23 @@ namespace hlsl
 					}
 				}
 			}
-			else
-			{
-				auto it = std::find( m_adaptationData.ssboList.begin()
-					, m_adaptationData.ssboList.end()
-					, var );
 
-				if ( it != m_adaptationData.ssboList.end() )
-				{
-					auto tmp = ast::var::makeVariable( ++m_adaptationData.nextVarId
-						, expr->getType()
-						, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
-						, expr->getMemberFlags() );
-					m_result = ast::expr::makeIdentifier( m_cache, tmp );
-					processed = true;
-				}
+			builtinName = var ? var->getName() : builtinName;
+		}
+		else
+		{
+			auto it = std::find( m_adaptationData.ssboList.begin()
+				, m_adaptationData.ssboList.end()
+				, var );
+
+			if ( it != m_adaptationData.ssboList.end() )
+			{
+				auto tmp = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					, expr->getType()
+					, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
+					, expr->getMemberFlags() );
+				m_result = ast::expr::makeIdentifier( m_cache, tmp );
+				processed = true;
 			}
 		}
 
@@ -1319,7 +1458,7 @@ namespace hlsl
 		if ( result )
 		{
 			auto ident = ast::findIdentifier( &arg );
-			auto it = m_adaptationData.linkedVars.find( ident->getVariable() );
+			auto it = m_adaptationData.linkedVars.find( m_adaptationData.processPending( ident->getVariable() ) );
 
 			if ( m_adaptationData.linkedVars.end() != it )
 			{

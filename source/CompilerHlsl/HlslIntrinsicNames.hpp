@@ -1037,11 +1037,11 @@ namespace hlsl
 			break;
 
 		case ast::expr::Intrinsic::eEmitVertex:
-			result = "EmitVertex";
+			result = "Append";
 			break;
 
 		case ast::expr::Intrinsic::eEndPrimitive:
-			result = "EndPrimitive";
+			result = "RestartStrip";
 			break;
 
 

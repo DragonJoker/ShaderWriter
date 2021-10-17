@@ -34,6 +34,8 @@ namespace ast::debug
 		, bool arrayed
 		, bool depth
 		, bool ms );
+	SDAST_API std::string getName( type::InputLayout value );
+	SDAST_API std::string getName( type::OutputLayout value );
 	SDAST_API std::string getName( FragmentOrigin value );
 	SDAST_API std::string getName( FragmentCenter value );
 	SDAST_API std::string displayVar( var::Variable const & var );

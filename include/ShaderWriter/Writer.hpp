@@ -587,13 +587,26 @@ namespace sdw
 	class GeometryWriter
 		: public ShaderWriter
 	{
+	private:
+		using ShaderWriter::implementMain;
+
 	public:
 		SDW_API GeometryWriter();
 
-		SDW_API void inputLayout( stmt::InputLayout layout );
-		SDW_API void outputLayout( stmt::OutputLayout layout, uint32_t count );
+#pragma region I/O layout declaration
+		/**
+		*name
+		*	I/O layout declaration.
+		*/
+		/**@{*/
+		SDW_API void inputLayout( type::InputLayout layout );
 		SDW_API InGeometry getIn();
 		SDW_API OutGeometry getOut();
+
+		template< typename StreamDataT, ast::type::OutputLayout LayoutT, uint32_t MaxPrimCountT >
+		inline void implementMainT( std::function< void( OutputStreamT< StreamDataT > ) > const & function );
+		/**@}*/
+#pragma endregion
 #pragma region Stream Output declaration
 		/**
 		*name

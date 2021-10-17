@@ -64,6 +64,8 @@ namespace ast::type
 		eImage,
 		eSampledImage,
 		ePointer,
+		eGeometryInput,
+		eGeometryOutput,
 		eCount,
 		eMin = eUndefined,
 		eMax = eArray,

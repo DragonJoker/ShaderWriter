@@ -495,58 +495,12 @@ namespace spirv
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
-		auto layout = stmt->getLayout();
-
-		switch ( layout )
-		{
-		case ast::stmt::InputLayout::ePointList:
-			m_result.registerExecutionMode( spv::ExecutionModeInputPoints );
-			break;
-		case ast::stmt::InputLayout::eLineList:
-		case ast::stmt::InputLayout::eLineStrip:
-			m_result.registerExecutionMode( spv::ExecutionModeInputLines );
-			break;
-		case ast::stmt::InputLayout::eTriangleList:
-		case ast::stmt::InputLayout::eTriangleStrip:
-		case ast::stmt::InputLayout::eTriangleFan:
-			m_result.registerExecutionMode( spv::ExecutionModeTriangles );
-			break;
-		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
-		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
-			m_result.registerExecutionMode( spv::ExecutionModeInputTrianglesAdjacency );
-			break;
-		case ast::stmt::InputLayout::eLineListWithAdjacency:
-		case ast::stmt::InputLayout::eLineStripWithAdjacency:
-			m_result.registerExecutionMode( spv::ExecutionModeInputLinesAdjacency );
-			break;
-		default:
-			AST_Failure( "Unsupported InputLayout" );
-			break;
-		}
+		m_result.registerExecutionMode( stmt->getLayout() );
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
-		auto layout = stmt->getLayout();
-
-		switch ( layout )
-		{
-		case ast::stmt::OutputLayout::ePointList:
-			m_result.registerExecutionMode( spv::ExecutionModeOutputPoints );
-			break;
-		case ast::stmt::OutputLayout::eLineStrip:
-			m_result.registerExecutionMode( spv::ExecutionModeOutputLineStrip );
-			break;
-		case ast::stmt::OutputLayout::eTriangleStrip:
-			m_result.registerExecutionMode( spv::ExecutionModeOutputTriangleStrip );
-			break;
-		default:
-			AST_Failure( "Unsupported OutputLayout" );
-			break;
-		}
-
-		m_result.registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ stmt->getPrimCount() } } );
-		m_result.registerExecutionMode( spv::ExecutionModeInvocations, { ValueId{ 1u } } );
+		m_result.registerExecutionMode( stmt->getLayout(), stmt->getPrimCount() );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )

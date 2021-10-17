@@ -118,6 +118,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprQuestion.hpp
 	${INCLUDE_DIR}/Expr/ExprRShift.hpp
 	${INCLUDE_DIR}/Expr/ExprRShiftAssign.hpp
+	${INCLUDE_DIR}/Expr/ExprStreamAppend.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchCase.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchTest.hpp
 	${INCLUDE_DIR}/Expr/ExprSwizzle.hpp
@@ -188,6 +189,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprQuestion.cpp
 	${SOURCE_DIR}/Expr/ExprRShift.cpp
 	${SOURCE_DIR}/Expr/ExprRShiftAssign.cpp
+	${SOURCE_DIR}/Expr/ExprStreamAppend.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchCase.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchTest.cpp
 	${SOURCE_DIR}/Expr/ExprSwizzle.cpp
@@ -341,6 +343,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeArray.hpp
 	${INCLUDE_DIR}/Type/TypeCache.hpp
 	${INCLUDE_DIR}/Type/TypeFunction.hpp
+	${INCLUDE_DIR}/Type/TypeGeometryIO.hpp
 	${INCLUDE_DIR}/Type/TypeImage.hpp
 	${INCLUDE_DIR}/Type/TypePointer.hpp
 	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
@@ -353,6 +356,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeArray.cpp
 	${SOURCE_DIR}/Type/TypeCache.cpp
 	${SOURCE_DIR}/Type/TypeFunction.cpp
+	${SOURCE_DIR}/Type/TypeGeometryIO.cpp
 	${SOURCE_DIR}/Type/TypeImage.cpp
 	${SOURCE_DIR}/Type/TypePointer.cpp
 	${SOURCE_DIR}/Type/TypeSampledImage.cpp
@@ -377,6 +381,7 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
+	${INCLUDE_DIR}/Var/FlagHolder.hpp
 	${INCLUDE_DIR}/Var/Variable.hpp
 	${INCLUDE_DIR}/Var/VariableList.hpp
 )

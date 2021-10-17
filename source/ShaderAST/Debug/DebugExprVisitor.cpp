@@ -195,6 +195,9 @@ namespace ast::debug
 			case expr::Kind::eAlias:
 				result = "ALIAS";
 				break;
+			case expr::Kind::eStreamAppend:
+				result = "SAPPEND";
+				break;
 			default:
 				throw std::runtime_error{ "Non operation expression" };
 			}
@@ -483,6 +486,12 @@ namespace ast::debug
 		wrap( expr->getTrueExpr() );
 		m_result += " ";
 		wrap( expr->getFalseExpr() );
+	}
+
+	void ExprVisitor::visitStreamAppendExpr( expr::StreamAppend * expr )
+	{
+		m_result += getName( expr->getKind() ) + " ";
+		wrap( expr->getOperand() );
 	}
 
 	void ExprVisitor::visitSwitchCaseExpr( expr::SwitchCase *expr )

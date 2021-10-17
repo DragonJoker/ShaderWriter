@@ -39,7 +39,7 @@ namespace ast::debug
 				return "BUFFER";
 			default:
 				AST_Failure( "Unsupported type::ImageDim" );
-				return "Undefined";
+				return "UNDEFINED";
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace ast::debug
 				return "STD430";
 			default:
 				AST_Failure( "Unsupported type::MemoryLayout" );
-				return "Undefined";
+				return "UNDEFINED";
 			}
 		}
 
@@ -299,6 +299,15 @@ namespace ast::debug
 		case type::Kind::eArray:
 			result = "ARRAY";
 			break;
+		case type::Kind::ePointer:
+			result = "POINTER";
+			break;
+		case type::Kind::eGeometryInput:
+			result = "GEOMIN";
+			break;
+		case type::Kind::eGeometryOutput:
+			result = "GEOMOUT";
+			break;
 		default:
 			assert( false );
 			result = "UNKNOWN";
@@ -375,7 +384,7 @@ namespace ast::debug
 			return "R8U";
 		default:
 			AST_Failure( "Unsupported type::ImageFormat" );
-			return "Undefined";
+			return "UNDEFINED";
 		}
 	}
 
@@ -419,15 +428,29 @@ namespace ast::debug
 			break;
 		case type::Kind::eStruct:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::Struct const & >( type ) ) + ")";
+			result += "(" + getName( static_cast< type::Struct const & >( type ) );
+			result += ")";
 			break;
 		case type::Kind::eImage:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::Image const & >( type ).getConfig() ) + ")";
+			result += "(" + getName( static_cast< type::Image const & >( type ).getConfig() );
+			result += ")";
 			break;
 		case type::Kind::eSampledImage:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() ) + ")";
+			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() );
+			result += ")";
+			break;
+		case type::Kind::eGeometryInput:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( static_cast< type::GeometryInput const & >( type ).layout );
+			result += ")";
+			break;
+		case type::Kind::eGeometryOutput:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( static_cast< type::GeometryOutput const & >( type ).layout );
+			result += ", " + std::to_string( static_cast< type::GeometryOutput const & >( type ).count );
+			result += ")";
 			break;
 		default:
 			result = getName( type.getKind() );
@@ -435,6 +458,52 @@ namespace ast::debug
 		}
 
 		return result;
+	}
+
+	std::string getName( type::InputLayout value )
+	{
+		switch ( value )
+		{
+		case type::InputLayout::ePointList:
+			return "POINTLIST";
+		case type::InputLayout::eLineList:
+			return "LINELIST";
+		case type::InputLayout::eLineStrip:
+			return "LINESTRIP";
+		case type::InputLayout::eTriangleList:
+			return "TRIANGLELIST";
+		case type::InputLayout::eTriangleStrip:
+			return "TRIANGLESTRIP";
+		case type::InputLayout::eTriangleFan:
+			return "TRIANGLEFAN";
+		case type::InputLayout::eLineListWithAdjacency:
+			return "LINELISTWA";
+		case type::InputLayout::eLineStripWithAdjacency:
+			return "LINESTRIPWA";
+		case type::InputLayout::eTriangleListWithAdjacency:
+			return "TRIANGLELISTWA";
+		case type::InputLayout::eTriangleStripWithAdjacency:
+			return "TRIANGLESTRIPWA";
+		default:
+			AST_Failure( "Unsupported input layout." );
+			return "UNDEFINED";
+		}
+	}
+
+	std::string getName( type::OutputLayout value )
+	{
+		switch ( value )
+		{
+		case type::OutputLayout::ePointList:
+			return "POINTLIST";
+		case type::OutputLayout::eLineStrip:
+			return "LINESTRIP";
+		case type::OutputLayout::eTriangleStrip:
+			return "TRIANGLESTRIP";
+		default:
+			AST_Failure( "Unsupported output layout." );
+			return "UNDEFINED";
+		}
 	}
 
 	std::string getName( FragmentOrigin value )
@@ -447,7 +516,7 @@ namespace ast::debug
 			return "UPPER_LEFT";
 		default:
 			AST_Failure( "Unsupported FragmentOrigin" );
-			return "Undefined";
+			return "UNDEFINED";
 		}
 	}
 
@@ -461,7 +530,7 @@ namespace ast::debug
 			return "CENTER_INTEGER";
 		default:
 			AST_Failure( "Unsupported FragmentCenter" );
-			return "Undefined";
+			return "UNDEFINED";
 		}
 	}
 

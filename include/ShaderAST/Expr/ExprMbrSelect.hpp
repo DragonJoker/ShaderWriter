@@ -21,10 +21,7 @@ namespace ast::expr
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
-		inline type::StructPtr getOuterType()const
-		{
-			return std::static_pointer_cast< type::Struct >( m_outer->getType() );
-		}
+		SDAST_API type::StructPtr getOuterType()const;
 		
 		inline Expr * getOuterExpr()const
 		{

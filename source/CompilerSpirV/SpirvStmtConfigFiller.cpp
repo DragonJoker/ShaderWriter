@@ -101,6 +101,32 @@ namespace spirv
 
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
+		auto funcType = stmt->getType();
+
+		if ( stmt->getName() == "main"
+			&& !funcType->empty() )
+		{
+			auto geomOutput = ( *funcType->begin() );
+			auto type = geomOutput->getType();
+
+			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+				type = geomType.type;
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+					{
+						auto var = ast::var::makeVariable( ast::EntityName{ ++m_result.nextVarId, mbr.name }
+							, mbr.type
+							, mbr.flag );
+						m_result.outputs.emplace( var );
+					}
+				}
+			}
+		}
+
 		visitContainerStmt( stmt );
 	}
 

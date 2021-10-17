@@ -195,6 +195,12 @@ namespace glsl
 		expr->getFalseExpr()->accept( this );
 	}
 
+	void ExprConfigFiller::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		checkType( *expr->getType(), m_config );
+		expr->getOperand()->accept( this );
+	}
+
 	void ExprConfigFiller::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
 	{
 		checkType( *expr->getType(), m_config );

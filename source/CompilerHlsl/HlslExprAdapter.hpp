@@ -47,6 +47,7 @@ namespace hlsl
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
+		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 

@@ -11,42 +11,44 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	enum class OutputLayout
-	{
-		ePointList,
-		eLineStrip,
-		eTriangleStrip,
-	};
-
 	class OutputGeometryLayout
 		: public Stmt
 	{
 	public:
-		SDAST_API OutputGeometryLayout( OutputLayout layout
+		SDAST_API OutputGeometryLayout( type::TypePtr type
+			, type::OutputLayout layout
 			, uint32_t primCount );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
-		inline OutputLayout getLayout()const
+		type::TypePtr getType()const
+		{
+			return m_type;
+		}
+
+		type::OutputLayout getLayout()const
 		{
 			return m_layout;
 		}
 
-		inline uint32_t getPrimCount()const
+		uint32_t getPrimCount()const
 		{
 			return m_primCount;
 		}
 
 	private:
-		OutputLayout m_layout;
+		type::TypePtr m_type;
+		type::OutputLayout m_layout;
 		uint32_t m_primCount;
 	};
 	using OutputGeometryLayoutPtr = std::unique_ptr< OutputGeometryLayout >;
 
-	inline OutputGeometryLayoutPtr makeOutputGeometryLayout( OutputLayout layout
+	inline OutputGeometryLayoutPtr makeOutputGeometryLayout( type::TypePtr type
+		, type::OutputLayout layout
 		, uint32_t primCount )
 	{
-		return std::make_unique< OutputGeometryLayout >( layout
+		return std::make_unique< OutputGeometryLayout >( std::move( type )
+			, layout
 			, primCount );
 	}
 }

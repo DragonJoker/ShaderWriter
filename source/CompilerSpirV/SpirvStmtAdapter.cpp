@@ -13,27 +13,24 @@ See LICENSE file in root folder
 namespace spirv
 {
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
-		, ModuleConfig const & config
-		, PreprocContext & context )
+		, AdaptationData & adaptationData )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ result, config, context };
+		StmtAdapter vis{ result, adaptationData };
 		container->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result
-		, ModuleConfig const & config
-		, PreprocContext & context )
+		, AdaptationData & adaptationData )
 		: StmtCloner{ result }
-		, m_context{ context }
-		, m_config{ config }
+		, m_adaptationData{ adaptationData }
 	{
 	}
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_current, m_context, m_config );
+		return ExprAdapter::submit( expr, m_current, m_adaptationData );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -64,6 +61,54 @@ namespace spirv
 			m_current = elseStmt;
 			visitContainerStmt( stmt->getElse() );
 			m_current = save;
+		}
+	}
+
+	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
+	{
+		auto funcType = stmt->getType();
+
+		if ( stmt->getName() == "main"
+			&& !funcType->empty() )
+		{
+			auto & cache = funcType->getCache();
+			m_adaptationData.geomOutput = ( *funcType->begin() );
+			auto type = m_adaptationData.geomOutput->getType();
+
+			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+				type = geomType.type;
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+					{
+						auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.config.nextVarId, mbr.name }
+							, mbr.type
+							, mbr.flag );
+						m_adaptationData.geomOutputs.emplace_back( var );
+						m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
+							, mbr.location ) );
+					}
+				}
+
+				m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+					, geomType.layout
+					, geomType.count ) );
+			}
+
+			funcType = cache.getFunction( cache.getVoid(), {} );
+			auto save = m_current;
+			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName() );
+			m_current = cont.get();
+			visitContainerStmt( stmt );
+			m_current = save;
+			m_current->addStmt( std::move( cont ) );
+		}
+		else
+		{
+			ast::StmtCloner::visitFunctionDeclStmt( stmt );
 		}
 	}
 
@@ -100,7 +145,7 @@ namespace spirv
 
 				if ( ident )
 				{
-					m_context.constExprs.emplace( ident->getVariable()->getId()
+					m_adaptationData.context.constExprs.emplace( ident->getVariable()->getId()
 						, doSubmit( init->getInitialiser() ) );
 					processed = true;
 				}
@@ -119,7 +164,7 @@ namespace spirv
 						initialisers.emplace_back( doSubmit( init.get() ) );
 					}
 
-					m_context.constAggrExprs.emplace( ident->getVariable()->getId()
+					m_adaptationData.context.constAggrExprs.emplace( ident->getVariable()->getId()
 						, std::move( initialisers ) );
 					processed = true;
 				}
@@ -144,7 +189,7 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		m_context.constExprs.emplace( preproc->getId()
+		m_adaptationData.context.constExprs.emplace( preproc->getId()
 			, doSubmit( preproc->getExpr() ) );
 	}
 
@@ -164,7 +209,7 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
-		bool isTrue = eval( preproc->getCtrlExpr(), m_context );
+		bool isTrue = eval( preproc->getCtrlExpr(), m_adaptationData.context );
 
 		if ( isTrue )
 		{
@@ -175,7 +220,7 @@ namespace spirv
 			uint32_t i = 0u;
 
 			while ( i < preproc->getElifList().size()
-				&& !( isTrue = eval( static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_context ) ) )
+				&& !( isTrue = eval( static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
 			{
 				++i;
 			}
@@ -193,7 +238,7 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
-		bool isTrue = eval( preproc->getIdentExpr(), m_context );
+		bool isTrue = eval( preproc->getIdentExpr(), m_adaptationData.context );
 
 		if ( isTrue )
 		{
@@ -204,7 +249,7 @@ namespace spirv
 			uint32_t i = 0u;
 
 			while ( i < preproc->getElifList().size()
-				&& !( isTrue = eval( static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_context ) ) )
+				&& !( isTrue = eval( static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
 			{
 				++i;
 			}

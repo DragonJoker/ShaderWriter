@@ -5,9 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_GlslExprAdapter_H___
 #pragma once
 
-#include "CompilerGlsl/compileGlsl.hpp"
-
-#include "GlslHelpers.hpp"
+#include "CompilerGlsl/GlslStmtAdapter.hpp"
 
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 
@@ -19,22 +17,21 @@ namespace glsl
 	public:
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::Expr * expr
-			, GlslConfig const & writerConfig
-			, IntrinsicsConfig const & intrinsicsConfig );
+			, AdaptationData & adaptationData );
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr const & expr
-			, GlslConfig const & writerConfig
-			, IntrinsicsConfig const & intrinsicsConfig );
+			, AdaptationData & adaptationData );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
-			, GlslConfig const & writerConfig
-			, IntrinsicsConfig const & intrinsicsConfig
+			, AdaptationData & adaptationData
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
+		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
+		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
 		void doProcessImageStore( ast::expr::ImageAccessCall * expr );
@@ -44,8 +41,7 @@ namespace glsl
 
 	private:
 		ast::type::TypesCache & m_cache;
-		GlslConfig const & m_writerConfig;
-		IntrinsicsConfig const & m_intrinsicsConfig;
+		AdaptationData & m_adaptationData;
 	};
 }
 

@@ -328,17 +328,49 @@ namespace hlsl
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
-		m_result += getHlslName( expr->getIntrinsic() ) + "(";
-		std::string sep;
-
-		for ( auto & arg : expr->getArgList() )
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEndPrimitive
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eEndStreamPrimitive )
 		{
-			m_result += sep;
-			m_result += doSubmit( arg.get() );
-			sep = ", ";
-		}
+			auto & argsList = expr->getArgList();
+			assert( argsList.size() >= 1u );
+			std::vector< std::string > args;
 
-		m_result += ")";
+			for ( auto & arg : argsList )
+			{
+				args.push_back( doSubmit( arg.get() ) );
+			}
+
+			auto mbrArg = std::move( args.front() );
+			args.erase( args.begin() );
+
+			m_result += mbrArg;
+			m_result += "." + getHlslName( expr->getIntrinsic() ) + "(";
+			std::string sep;
+
+			for ( auto & arg : args )
+			{
+				m_result += sep;
+				m_result += arg;
+				sep = ", ";
+			}
+
+			m_result += ")";
+		}
+		else
+		{
+			m_result += getHlslName( expr->getIntrinsic() ) + "(";
+			std::string sep;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				m_result += sep;
+				m_result += doSubmit( arg.get() );
+				sep = ", ";
+			}
+
+			m_result += ")";
+		}
 	}
 
 	void ExprVisitor::visitLiteralExpr( ast::expr::Literal * expr )
@@ -402,6 +434,17 @@ namespace hlsl
 		wrap( expr->getTrueExpr() );
 		m_result += " : ";
 		wrap( expr->getFalseExpr() );
+		m_result += ")";
+	}
+
+	void ExprVisitor::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	{
+		assert( expr->getOperand()->getKind() == ast::expr::Kind::eComma );
+		auto & commaExpr = static_cast< ast::expr::Comma const & >( *expr->getOperand() );
+
+		m_result += doSubmit( commaExpr.getLHS() );
+		m_result += "." + getHlslName( ast::expr::Intrinsic::eEmitVertex );
+		m_result += "(" + doSubmit( commaExpr.getRHS() );
 		m_result += ")";
 	}
 

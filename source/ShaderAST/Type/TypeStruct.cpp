@@ -26,6 +26,42 @@ namespace ast::type
 			}
 		}
 
+		uint32_t getNaiveSize( Kind kind )
+		{
+			uint32_t mult = 1u;
+
+			while ( !isScalarType( kind ) )
+			{
+				mult *= getComponentCount( kind );
+				kind = getComponentType( kind );
+			}
+
+			switch ( kind )
+			{
+			case Kind::eDouble:
+				return mult * 8u;
+			case Kind::eFloat:
+			case Kind::eInt:
+			case Kind::eUInt:
+				return mult * 4u;
+			case Kind::eHalf:
+				return mult * 2u;
+			case Kind::eBoolean:
+				return mult * 1u;
+			default:
+				AST_Failure( "Unsupported type::Kind" );
+				return 0u;
+			}
+		}
+
+		uint32_t getNaiveSize( Type const & type )
+		{
+			auto arraySize = getArraySize( type );
+			return ( arraySize == ast::type::NotArray
+				? getNaiveSize( type.getKind() )
+				: arraySize * getNaiveSize( getNonArrayType( type ) ) );
+		}
+
 		uint32_t getPackedBaseSize( Kind kind )
 		{
 			while ( !isScalarType( kind ) )
@@ -394,27 +430,36 @@ namespace ast::type
 	}
 
 	Struct::Member Struct::declMember( std::string name
-		, StructPtr type
-		, uint32_t arraySize )
+		, Kind kind
+		, uint32_t arraySize
+		, uint32_t location
+		, ast::var::Flag input )
 	{
 		type::TypePtr mbrType;
+		auto type = getCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( m_members.size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( mbrType
+			mbrType = getCache().getMemberType( type
 				, *this
 				, uint32_t( m_members.size() ) );
 		}
 
-		return doAddMember( mbrType, name );
+		return doAddIOMember( mbrType, name, location, input );
+	}
+
+	Struct::Member Struct::declMember( std::string name
+		, TypePtr type )
+	{
+		return declMember( name
+			, getNonArrayKind( type )
+			, getArraySize( type ) );
 	}
 
 	Struct::Member Struct::declMember( std::string name
@@ -428,19 +473,15 @@ namespace ast::type
 	}
 
 	Struct::Member Struct::declMember( std::string name
-		, TypePtr type )
+		, ArrayPtr type
+		, uint32_t arraySize
+		, uint32_t location
+		, ast::var::Flag input )
 	{
-		return declMember( name
-			, getNonArrayKind( type )
-			, getArraySize( type ) );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, StructPtr type )
-	{
-		return declMember( name
-			, type
-			, NotArray );
+		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			, *this
+			, uint32_t( m_members.size() ) );
+		return doAddIOMember( mbrType, name, location, input );
 	}
 
 	Struct::Member Struct::declMember( std::string name
@@ -469,6 +510,38 @@ namespace ast::type
 		}
 
 		return result;
+	}
+
+	Struct::Member Struct::declMember( std::string name
+		, StructPtr type
+		, uint32_t arraySize )
+	{
+		type::TypePtr mbrType;
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+				, *this
+				, uint32_t( m_members.size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getCache().getMemberType( mbrType
+				, *this
+				, uint32_t( m_members.size() ) );
+		}
+
+		return doAddMember( mbrType, name );
+	}
+
+	Struct::Member Struct::declMember( std::string name
+		, StructPtr type )
+	{
+		return declMember( name
+			, type
+			, NotArray );
 	}
 
 	Struct::Member Struct::getMember( uint32_t index )
@@ -539,16 +612,42 @@ namespace ast::type
 		auto stride = type->getKind() == Kind::eArray
 			? getArrayStride( type, m_layout )
 			: 0u;
-
-		m_members.push_back(
-			{
-				std::move( type ),
-				std::string( name ),
-				offset,
-				size,
-				stride,
-			} );
+		m_members.push_back( { std::move( type )
+			, std::string( name )
+			, offset
+			, size
+			, stride } );
 		doUpdateOffsets();
+		return m_members.back();
+	}
+
+	Struct::Member Struct::doAddIOMember( type::TypePtr type
+		, std::string const & name
+		, uint32_t location
+		, ast::var::Flag input )
+	{
+		auto it = std::find_if( m_members.begin()
+			, m_members.end()
+			, [&name]( Member const & lookup )
+			{
+				return lookup.name == name;
+			} );
+
+		if ( it != m_members.end() )
+		{
+			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
+		}
+
+		auto size = getNaiveSize( *type );
+		auto offset = m_members.empty()
+			? 0u
+			: m_members.back().offset + m_members.back().size;
+		m_members.push_back( { std::move( type )
+			, std::string( name )
+			, offset
+			, size
+			, location
+			, input } );
 		return m_members.back();
 	}
 

@@ -6,30 +6,39 @@ See LICENSE file in root folder
 #pragma once
 
 #include "CompilerGlsl/compileGlsl.hpp"
+
 #include "GlslHelpers.hpp"
 
 #include <ShaderAST/Visitors/CloneStmt.hpp>
 
 namespace glsl
 {
+	struct AdaptationData
+	{
+		GlslConfig const & writerConfig;
+		IntrinsicsConfig intrinsicsConfig;
+		uint32_t nextVarId;
+		ast::var::VariablePtr geomOutput{};
+		std::vector< ast::var::VariablePtr > geomOutputs;
+	};
+
 	class StmtAdapter
 		: public ast::StmtCloner
 	{
 	public:
 		static ast::stmt::ContainerPtr submit( ast::type::TypesCache & cache
 			, ast::stmt::Container * container
-			, GlslConfig const & writerConfig
-			, IntrinsicsConfig const & intrinsicsConfig );
+			, AdaptationData & adaptationData );
 
 	private:
 		StmtAdapter( ast::type::TypesCache & cache
-			, GlslConfig const & writerConfig
-			, IntrinsicsConfig const & intrinsicsConfig
+			, AdaptationData & adaptationData
 			, ast::stmt::ContainerPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
+		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
@@ -39,8 +48,7 @@ namespace glsl
 
 	private:
 		ast::type::TypesCache & m_cache;
-		GlslConfig const & m_writerConfig;
-		IntrinsicsConfig const & m_intrinsicsConfig;
+		AdaptationData & m_adaptationData;
 	};
 }
 

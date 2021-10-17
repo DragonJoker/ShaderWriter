@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "HlslHelpers.hpp"
 
+#include <ShaderAST/Expr/ExprIdentifier.hpp>
+#include <ShaderAST/Expr/ExprMbrSelect.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampler.hpp>
 
@@ -325,54 +327,6 @@ namespace hlsl
 		return result;
 	}
 
-	std::string getTypeName( ast::type::TypePtr type )
-	{
-		std::string result;
-
-		if ( type->getKind() == ast::type::Kind::eArray )
-		{
-			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
-		}
-
-		switch ( type->getKind() )
-		{
-		case ast::type::Kind::eStruct:
-			result = static_cast< ast::type::Struct const & >( *type ).getName();
-			break;
-		case ast::type::Kind::eImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
-			break;
-		case ast::type::Kind::eSampler:
-			result = getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
-			break;
-		default:
-			result = getTypeName( type->getKind() );
-			break;
-		}
-
-		return result;
-	}
-
-	std::string getTypeArraySize( ast::type::TypePtr type )
-	{
-		std::string result;
-		auto arraySize = getArraySize( type );
-
-		if ( arraySize != ast::type::NotArray )
-		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				result += "[]";
-			}
-			else
-			{
-				result += "[" + std::to_string( arraySize ) + "]";
-			}
-		}
-
-		return result;
-	}
-
 	std::string getLocationName( ast::var::Variable const & var )
 	{
 		std::string result;
@@ -558,30 +512,30 @@ namespace hlsl
 		return result;
 	}
 
-	std::string getLayoutName( ast::stmt::InputLayout layout )
+	std::string getLayoutName( ast::type::InputLayout layout )
 	{
 		std::string result;
 
 		switch ( layout )
 		{
-		case ast::stmt::InputLayout::ePointList:
+		case ast::type::InputLayout::ePointList:
 			result = "point";
 			break;
-		case ast::stmt::InputLayout::eLineList:
-		case ast::stmt::InputLayout::eLineStrip:
+		case ast::type::InputLayout::eLineList:
+		case ast::type::InputLayout::eLineStrip:
 			result = "line";
 			break;
-		case ast::stmt::InputLayout::eTriangleList:
-		case ast::stmt::InputLayout::eTriangleStrip:
-		case ast::stmt::InputLayout::eTriangleFan:
+		case ast::type::InputLayout::eTriangleList:
+		case ast::type::InputLayout::eTriangleStrip:
+		case ast::type::InputLayout::eTriangleFan:
 			result = "triangle";
 			break;
-		case ast::stmt::InputLayout::eLineListWithAdjacency:
-		case ast::stmt::InputLayout::eLineStripWithAdjacency:
+		case ast::type::InputLayout::eLineListWithAdjacency:
+		case ast::type::InputLayout::eLineStripWithAdjacency:
 			result = "lineadj";
 			break;
-		case ast::stmt::InputLayout::eTriangleListWithAdjacency:
-		case ast::stmt::InputLayout::eTriangleStripWithAdjacency:
+		case ast::type::InputLayout::eTriangleListWithAdjacency:
+		case ast::type::InputLayout::eTriangleStripWithAdjacency:
 			result = "triangleadj";
 			break;
 		default:
@@ -591,23 +545,108 @@ namespace hlsl
 		return result;
 	}
 
-	std::string getLayoutName( ast::stmt::OutputLayout layout )
+	std::string getLayoutName( ast::type::OutputLayout layout )
 	{
 		std::string result;
 
 		switch ( layout )
 		{
-		case ast::stmt::OutputLayout::ePointList:
+		case ast::type::OutputLayout::ePointList:
 			result = "PointStream";
 			break;
-		case ast::stmt::OutputLayout::eLineStrip:
+		case ast::type::OutputLayout::eLineStrip:
 			result = "LineStream";
 			break;
-		case ast::stmt::OutputLayout::eTriangleStrip:
+		case ast::type::OutputLayout::eTriangleStrip:
 			result = "TriangleStream";
 			break;
 		default:
 			throw std::runtime_error{ "Unsupported output layout." };
+		}
+
+		return result;
+	}
+
+	uint32_t getArraySize( ast::type::InputLayout layout )
+	{
+		switch ( layout )
+		{
+		case ast::type::InputLayout::ePointList:
+			return 1u;
+		case ast::type::InputLayout::eLineList:
+		case ast::type::InputLayout::eLineStrip:
+			return 2u;
+		case ast::type::InputLayout::eTriangleList:
+		case ast::type::InputLayout::eTriangleStrip:
+		case ast::type::InputLayout::eTriangleFan:
+			return 3u;
+		case ast::type::InputLayout::eLineListWithAdjacency:
+		case ast::type::InputLayout::eLineStripWithAdjacency:
+			return 4u;
+		case ast::type::InputLayout::eTriangleListWithAdjacency:
+		case ast::type::InputLayout::eTriangleStripWithAdjacency:
+			return 6u;
+		default:
+			return 1u;
+		}
+	}
+
+	std::string getTypeName( ast::type::TypePtr type )
+	{
+		std::string result;
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+		}
+
+		switch ( type->getKind() )
+		{
+		case ast::type::Kind::eStruct:
+			result = static_cast< ast::type::Struct const & >( *type ).getName();
+			break;
+		case ast::type::Kind::eImage:
+			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
+			break;
+		case ast::type::Kind::eSampler:
+			result = getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
+			break;
+		case ast::type::Kind::eGeometryInput:
+			result = getLayoutName( static_cast< ast::type::GeometryInput const & >( *type ).layout )
+				+ " " + getTypeName( static_cast< ast::type::GeometryInput const & >( *type ).type );
+			break;
+		case ast::type::Kind::eGeometryOutput:
+			result = getLayoutName( static_cast< ast::type::GeometryOutput const & >( *type ).layout )
+				+ "<" + getTypeName( static_cast< ast::type::GeometryOutput const & >( *type ).type ) + ">";
+			break;
+		default:
+			result = getTypeName( type->getKind() );
+			break;
+		}
+
+		return result;
+	}
+
+	std::string getTypeArraySize( ast::type::TypePtr type )
+	{
+		if ( type->getKind() == ast::type::Kind::eGeometryInput )
+		{
+			return "[" + std::to_string( getArraySize( static_cast< ast::type::GeometryInput const & >( *type ).layout ) ) + "]";
+		}
+
+		std::string result;
+		auto arraySize = getArraySize( type );
+
+		if ( arraySize != ast::type::NotArray )
+		{
+			if ( arraySize == ast::type::UnknownArraySize )
+			{
+				result += "[]";
+			}
+			else
+			{
+				result += "[" + std::to_string( arraySize ) + "]";
+			}
 		}
 
 		return result;
@@ -930,5 +969,219 @@ namespace hlsl
 		}
 
 		return it;
+	}
+
+	void addOutputMember( ast::type::StructPtr outputStruct
+		, std::string const & varName
+		, ast::type::TypePtr varType
+		, Semantic & outIntSem
+		, Semantic & outFltSem )
+	{
+		auto & cache = outputStruct->getCache();
+
+		if ( varName == "gl_ClipDistance" )
+		{
+			auto realType = cache.getVec4F();
+			outputStruct->declMember( varName + "0"
+				+ ": "
+				+ "SV_ClipDistance0"
+				, realType );
+			outputStruct->declMember( varName + "1"
+				+ ": "
+				+ "SV_ClipDistance1"
+				, realType );
+		}
+		else if ( varName == "gl_CullDistance" )
+		{
+			// Merged with SV_ClipDistance ?
+		}
+		else
+		{
+			if ( isSignedIntType( varType->getKind() )
+				|| isUnsignedIntType( varType->getKind() ) )
+			{
+				outputStruct->declMember( varName
+					+ ": "
+					+ getSemantic( varName, varType, outIntSem )
+					, varType );
+			}
+			else
+			{
+				outputStruct->declMember( varName
+					+ ": "
+					+ getSemantic( varName, varType, outFltSem )
+					, varType );
+			}
+		}
+	}
+
+	void addInputMember( ast::type::StructPtr inputStruct
+		, std::string const & varName
+		, ast::type::TypePtr varType
+		, Semantic & inIntSem
+		, Semantic & inFltSem )
+	{
+		if ( isSignedIntType( varType->getKind() )
+			|| isUnsignedIntType( varType->getKind() ) )
+		{
+			inputStruct->declMember( varName
+				+ ": "
+				+ getSemantic( varName, varType, inIntSem )
+				, varType );
+		}
+		else
+		{
+			inputStruct->declMember( varName
+				+ ": "
+				+ getSemantic( varName, varType, inFltSem )
+				, varType );
+		}
+	}
+
+	void AdaptationData::addPendingOutput( ast::var::VariablePtr var
+		, uint32_t index )
+	{
+		auto ires = pendingOutputs.emplace( var->getName(), PendingIO{} );
+		assert( ires.second );
+		auto it = ires.first;
+		it->second.index = index;
+		it->second.var = var;
+	}
+
+	void AdaptationData::addPendingInput( ast::var::VariablePtr var
+		, uint32_t index )
+	{
+		auto ires = pendingInputs.emplace( var->getName(), PendingIO{} );
+		assert( ires.second );
+		auto it = ires.first;
+		it->second.index = index;
+		it->second.var = var;
+	}
+
+	ast::var::VariablePtr AdaptationData::processPending( ast::var::VariablePtr var )
+	{
+		if ( var->isShaderInput() )
+		{
+			return processPendingInput( var );
+		}
+
+		return processPendingOutput( var );
+	}
+
+	ast::var::VariablePtr AdaptationData::processPendingInput( std::string const & name )
+	{
+		auto it = pendingInputs.find( name );
+
+		if ( pendingInputs.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto var = it->second.var;
+
+		if ( it->second.resultVar )
+		{
+			return it->second.resultVar;
+		}
+
+		auto type = var->getType();
+		auto & cache = type->getCache();
+		auto index = it->second.index;
+		uint32_t mbrIndex = 0u;
+
+		if ( globalInputStruct )
+		{
+			globalInputStruct->declMember( var->getName(), var->getType() );
+			mbrIndex = uint32_t( globalInputStruct->size() - 1u );
+		}
+		else
+		{
+			addInputMember( mainInputStruct
+				, var->getName()
+				, var->getType()
+				, inIntSem
+				, inFltSem );
+			mbrIndex = uint32_t( mainInputStruct->size() - 1u );
+		}
+
+		if ( inputVar )
+		{
+			inputMembers.emplace( var
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, inputVar )
+					, mbrIndex
+					, var->getFlags() ) );
+		}
+		else
+		{
+			inputMembers.emplace( var
+				, ast::expr::makeIdentifier( cache, var ) );
+		}
+
+		inputVars.emplace( ( var->isBuiltin() ? 128u : 0u ) + index, var );
+		it->second.resultVar = var;
+		return var;
+	}
+
+	ast::var::VariablePtr AdaptationData::processPendingInput( ast::var::VariablePtr srcVar )
+	{
+		auto result = processPendingInput( srcVar->getName() );
+		return result ? result : srcVar;
+	}
+
+	ast::var::VariablePtr AdaptationData::processPendingOutput( std::string const & name )
+	{
+		auto it = pendingOutputs.find( name );
+
+		if ( pendingOutputs.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto var = it->second.var;
+
+		if ( it->second.resultVar )
+		{
+			return it->second.resultVar;
+		}
+
+		auto type = var->getType();
+		auto & cache = type->getCache();
+		auto index = it->second.index;
+
+		if ( globalOutputStruct )
+		{
+			globalOutputStruct->declMember( name, type );
+		}
+		else
+		{
+			addOutputMember( mainOutputStruct
+				, name
+				, type
+				, outIntSem
+				, outFltSem );
+		}
+
+		if ( outputVar )
+		{
+			outputMembers.emplace( var
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outputVar )
+					, uint32_t( outputMembers.size() )
+					, var->getFlags() ) );
+		}
+		else
+		{
+			outputMembers.emplace( var
+				, ast::expr::makeIdentifier( cache, var ) );
+		}
+
+		outputVars.emplace( ( var->isBuiltin() ? 128u : 0u ) + index, var );
+		it->second.resultVar = var;
+		return var;
+	}
+
+	ast::var::VariablePtr AdaptationData::processPendingOutput( ast::var::VariablePtr srcVar )
+	{
+		auto result = processPendingOutput( srcVar->getName() );
+		return result ? result : srcVar;
 	}
 }

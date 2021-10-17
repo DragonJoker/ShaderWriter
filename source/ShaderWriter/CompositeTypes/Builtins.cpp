@@ -261,27 +261,67 @@ namespace sdw
 
 	//*************************************************************************
 
+	EmptyStream::OutputStreamT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
+		, vtx{ writer
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "", PerVertex::getBaseType( getTypesCache( writer ) ), var::Flag::eShaderOutput ) ) }
+	{
+	}
+
+	EmptyStream::OutputStreamT( ShaderWriter & writer
+		, type::OutputLayout layout
+		, uint32_t count )
+		: OutputStreamT{ writer
+			, makeExpr( writer
+				, sdw::getShader( writer ).registerName( "geomOut"
+					, type::makeGeometryOutputType( makeType( getTypesCache( writer ) )
+						, layout
+						, count ) ) ) }
+	{
+		addStmt( writer
+			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
+				, vtx.getType() ) );
+	}
+
+	ast::type::TypePtr EmptyStream::makeType( ast::type::TypesCache & cache )
+	{
+		return cache.getVoid();
+	}
+
+	void EmptyStream::append()
+	{
+		ShaderWriter & writer = findWriterMandat( *this );
+		addStmt( writer
+			, ast::stmt::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
+	}
+
+	void EmptyStream::restartStrip()
+	{
+		ShaderWriter & writer = findWriterMandat( *this );
+		addStmt( writer
+			, ast::stmt::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
+	}
+
+	//*************************************************************************
+
 	OutGeometry::OutGeometry( ShaderWriter & writer )
 		: Builtin{ writer }
 		, primitiveID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PrimitiveID", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) )
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "gl_PrimitiveID", getTypesCache( writer ).getInt(), var::Flag::eShaderOutput ) )
 			, true }
 		, layer{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_Layer", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) )
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "gl_Layer", getTypesCache( writer ).getInt(), var::Flag::eShaderOutput ) )
 			, true }
 		, viewportIndex{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_ViewportIndex", writer.getTypesCache().getInt(), var::Flag::eShaderOutput ) )
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "gl_ViewportIndex", getTypesCache( writer ).getInt(), var::Flag::eShaderOutput ) )
 			, true }
-		, vtx{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
 	{
-		addStmt( findWriterMandat( *this )
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
-				, vtx.getType() ) );
 	}
 
 	//*************************************************************************

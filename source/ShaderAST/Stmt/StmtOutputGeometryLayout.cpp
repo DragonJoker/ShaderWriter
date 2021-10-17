@@ -7,9 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	OutputGeometryLayout::OutputGeometryLayout( OutputLayout layout
+	OutputGeometryLayout::OutputGeometryLayout( type::TypePtr type
+		, type::OutputLayout layout
 		, uint32_t primCount )
 		: Stmt{ Kind::eOutputGeometryLayout }
+		, m_type{ std::move( type ) }
 		, m_layout{ layout }
 		, m_primCount{ primCount }
 	{

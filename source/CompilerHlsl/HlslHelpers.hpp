@@ -20,8 +20,8 @@ namespace hlsl
 	std::string getLocationName( ast::var::Variable const & var );
 	std::string getDirectionName( ast::var::Variable const & var );
 	std::string getOperatorName( ast::expr::Kind kind );
-	std::string getLayoutName( ast::stmt::InputLayout layout );
-	std::string getLayoutName( ast::stmt::OutputLayout layout );
+	std::string getLayoutName( ast::type::InputLayout layout );
+	std::string getLayoutName( ast::type::OutputLayout layout );
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component );
 	std::string getSampledName( ast::type::ImageFormat value );
@@ -35,6 +35,16 @@ namespace hlsl
 	std::string getSemantic( std::string const & name
 		, ast::type::TypePtr type
 		, Semantic & defaultSemantic );
+	void addOutputMember( ast::type::StructPtr outputStruct
+		, std::string const & varName
+		, ast::type::TypePtr varType
+		, Semantic & outIntSem
+		, Semantic & outFltSem );
+	void addInputMember( ast::type::StructPtr inputStruct
+		, std::string const & varName
+		, ast::type::TypePtr varType
+		, Semantic & inIntSem
+		, Semantic & inFltSem );
 
 	using LinkedVars = std::map< ast::var::VariablePtr, std::pair< ast::var::VariablePtr, ast::var::VariablePtr > >;
 	LinkedVars::iterator updateLinkedVars( ast::var::VariablePtr var
@@ -62,6 +72,13 @@ namespace hlsl
 
 	using VarReplacements = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
 
+	struct PendingIO
+	{
+		ast::var::VariablePtr var;
+		uint32_t index;
+		ast::var::VariablePtr resultVar;
+	};
+
 	struct AdaptationData
 	{
 		VariableIdMap inputVars;
@@ -74,12 +91,31 @@ namespace hlsl
 		ast::type::StructPtr mainOutputStruct;
 		ast::var::VariablePtr inputVar;
 		ast::var::VariablePtr outputVar;
+		ast::var::VariablePtr mainOutputVar;
 		ast::var::VariableList ssboList;
 		LinkedVars linkedVars;
 		FuncNames funcs;
 		VarReplacements replacedVars;
 		uint32_t aliasId{ 0u };
 		uint32_t nextVarId{ 0u };
+		Semantic inIntSem{ "BLENDINDICES", 0u };
+		Semantic inFltSem{ "TEXCOORD", 0u };
+		Semantic outIntSem{ "BLENDINDICES", 0u };
+		Semantic outFltSem{ "TEXCOORD", 0u };
+
+		void addPendingOutput( ast::var::VariablePtr var
+			, uint32_t index );
+		void addPendingInput( ast::var::VariablePtr var
+			, uint32_t index );
+		ast::var::VariablePtr processPending( ast::var::VariablePtr var );
+		ast::var::VariablePtr processPendingInput( std::string const & name );
+		ast::var::VariablePtr processPendingInput( ast::var::VariablePtr var );
+		ast::var::VariablePtr processPendingOutput( std::string const & name );
+		ast::var::VariablePtr processPendingOutput( ast::var::VariablePtr var );
+
+	private:
+		std::map< std::string, PendingIO > pendingOutputs;
+		std::map< std::string, PendingIO > pendingInputs;
 	};
 
 	struct IntrinsicsConfig

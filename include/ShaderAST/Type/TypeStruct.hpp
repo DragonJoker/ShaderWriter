@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "TypeArray.hpp"
 
+#include "ShaderAST/Var/FlagHolder.hpp"
+
 #include <vector>
 
 namespace ast::type
@@ -25,11 +27,42 @@ namespace ast::type
 
 		struct Member
 		{
-			TypePtr type;
-			std::string name;
-			uint32_t offset;
-			uint32_t size;
-			uint32_t arrayStride;
+			Member() = default;
+			Member( TypePtr ptype
+				, std::string pname
+				, uint32_t poffset
+				, uint32_t psize
+				, uint32_t parrayStride )
+				: type{ std::move( ptype ) }
+				, name{ std::move( pname ) }
+				, offset{ std::move( poffset ) }
+				, size{ std::move( psize ) }
+				, arrayStride{ std::move( parrayStride ) }
+			{
+			}
+
+			Member( TypePtr ptype
+				, std::string pname
+				, uint32_t poffset
+				, uint32_t psize
+				, uint32_t plocation
+				, ast::var::Flag pflag )
+				: type{ std::move( ptype ) }
+				, name{ std::move( pname ) }
+				, offset{ std::move( poffset ) }
+				, size{ std::move( psize ) }
+				, location{ std::move( plocation ) }
+				, flag{ std::move( pflag ) }
+			{
+			}
+
+			TypePtr type{};
+			std::string name{};
+			uint32_t offset{};
+			uint32_t size{};
+			uint32_t arrayStride{};
+			uint32_t location{ ~( 0u ) };
+			ast::var::Flag flag{};
 		};
 
 	private:
@@ -52,17 +85,35 @@ namespace ast::type
 			, Kind kind
 			, uint32_t arraySize = NotArray );
 		SDAST_API Member declMember( std::string name
+			, Kind kind
+			, uint32_t arraySize
+			, uint32_t location
+			, ast::var::Flag input );
+		SDAST_API Member declMember( std::string name
 			, TypePtr type );
 		SDAST_API Member declMember( std::string name
-			, StructPtr type );
+			, TypePtr type
+			, uint32_t location
+			, ast::var::Flag input );
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type
 			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
+			, ArrayPtr type
+			, uint32_t arraySize
+			, uint32_t location
+			, ast::var::Flag input );
+		SDAST_API Member declMember( std::string name
+			, ArrayPtr type );
+		SDAST_API Member declMember( std::string name
+			, ArrayPtr type
+			, uint32_t location
+			, ast::var::Flag input );
+		SDAST_API Member declMember( std::string name
 			, StructPtr type
 			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
-			, ArrayPtr type );
+			, StructPtr type );
 		SDAST_API Member getMember( uint32_t index );
 		SDAST_API Member getMember( std::string const & name );
 		SDAST_API uint32_t findMember( std::string const & name );
@@ -116,6 +167,10 @@ namespace ast::type
 	private:
 		SDAST_API Member doAddMember( TypePtr type
 			, std::string const & name );
+		SDAST_API Member doAddIOMember( TypePtr type
+			, std::string const & name
+			, uint32_t location
+			, ast::var::Flag input );
 		SDAST_API void doUpdateOffsets();
 
 	private:

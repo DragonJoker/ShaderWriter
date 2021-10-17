@@ -42,10 +42,12 @@ def typeKindToSdwType( kind ):
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
-	outs.write( "\n/*" )
+	outs.write( "/*" )
 	outs.write( "\nSee LICENSE file in root folder" )
 	outs.write( "\n*/" )
-	outs.write( "\n" )
+	outs.write( "\n/*" )
+	outs.write( "\nThis file is generated, don't modify it!" )
+	outs.write( "\n*/" )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Void.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Array.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Bool.hpp"' )

@@ -125,6 +125,14 @@ namespace ast
 				visitOtherExpr( expr );
 			}
 
+			void visitStreamAppendExpr( expr::StreamAppend * expr )override
+			{
+				if ( !m_result )
+				{
+					expr->getOperand()->accept( this );
+				}
+			}
+
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
 				AST_Failure( "getOutermostExpr: Unexpected SwitchCase" );

@@ -1,8 +1,9 @@
-
 /*
 See LICENSE file in root folder
 */
-
+/*
+This file is generated, don't modify it!
+*/
 #include "ShaderWriter/BaseTypes/Void.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
 #include "ShaderWriter/BaseTypes/Bool.hpp"

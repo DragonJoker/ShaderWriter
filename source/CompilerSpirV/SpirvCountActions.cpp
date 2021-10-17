@@ -172,6 +172,11 @@ namespace spirv
 				submit( expr->getFalseExpr() );
 			}
 
+			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+			{
+				submit( expr->getOperand() );
+			}
+
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
 			{
 			}

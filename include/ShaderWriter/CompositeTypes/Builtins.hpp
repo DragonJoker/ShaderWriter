@@ -219,6 +219,49 @@ namespace sdw
 	*	Geometry shader.
 	*/
 	/**@{*/
+	template< typename StreamDataT >
+	struct OutputStreamT
+		: public StreamDataT
+	{
+		OutputStreamT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+		OutputStreamT( ShaderWriter & writer
+			, type::OutputLayout layout
+			, uint32_t count );
+
+		void append();
+		void restartStrip();
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
+		{
+			return StreamDataT::makeType( cache );
+		}
+
+		PerVertex vtx;
+	};
+
+	template<>
+	struct OutputStreamT< Void >
+		: public Value
+	{
+		SDW_API OutputStreamT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+		SDW_API OutputStreamT( ShaderWriter & writer
+			, type::OutputLayout layout
+			, uint32_t count );
+
+		SDW_API void append();
+		SDW_API void restartStrip();
+
+		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		PerVertex vtx;
+	};
+
+	using EmptyStream = OutputStreamT< Void >;
+
 	struct OutGeometry : Builtin
 	{
 		SDW_API OutGeometry( ShaderWriter & writer );
@@ -228,8 +271,6 @@ namespace sdw
 		Int layer;
 		//out int gl_ViewportIndex;
 		Int viewportIndex;
-		//out gl_PerVertex;
-		PerVertex vtx;
 	};
 	/**@}*/
 	/**
@@ -249,5 +290,7 @@ namespace sdw
 	/**@}*/
 #pragma endregion
 }
+
+#include "Builtins.inl"
 
 #endif
