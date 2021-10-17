@@ -56,4 +56,31 @@ namespace sdw
 	}
 
 	//*************************************************************************
+
+	template< typename StreamDataT >
+	PointStreamT< StreamDataT >::PointStreamT( ShaderWriter & writer
+		, uint32_t count )
+		: OutputStreamT< StreamDataT >{ writer, type::OutputLayout::ePointList, count }
+	{
+	}
+
+	//*************************************************************************
+
+	template< typename StreamDataT >
+	LineStreamT< StreamDataT >::LineStreamT( ShaderWriter & writer
+		, uint32_t count )
+		: OutputStreamT< StreamDataT >{ writer, type::OutputLayout::eLineStrip, count }
+	{
+	}
+
+	//*************************************************************************
+
+	template< typename StreamDataT >
+	TriangleStreamT< StreamDataT >::TriangleStreamT( ShaderWriter & writer
+		, uint32_t count )
+		: OutputStreamT< StreamDataT >{ writer, type::OutputLayout::eTriangleStrip, count }
+	{
+	}
+
+	//*************************************************************************
 }

@@ -37,6 +37,28 @@ namespace
 		sdw::Vec3 position;
 	};
 
+	void basicGeometry( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "basicGeometry" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			writer.inputLayout( type::InputLayout::ePointList );
+			auto in = writer.getIn();
+
+			writer.implementMainT< Void, 1u >( [&]( PointStreamT< Void > out )
+				{
+					out.vtx.position = in.vtx[0].position;
+					out.append();
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, true, true, false );
+		}
+		testEnd();
+	}
+
 	void onlyGeometry( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "onlyGeometry" );
@@ -44,10 +66,9 @@ namespace
 		{
 			GeometryWriter writer;
 			writer.inputLayout( ast::type::InputLayout::eTriangleList );
-
 			auto in = writer.getIn();
 
-			writer.implementMainT< GeomOutputPos, ast::type::OutputLayout::eTriangleStrip, 3u >( [&]( sdw::OutputStreamT< GeomOutputPos > out )
+			writer.implementMainT< GeomOutputPos, 3u >( [&]( sdw::TriangleStreamT< GeomOutputPos > out )
 				{
 					out.position = in.vtx[0].position.xyz();
 					out.vtx.position = in.vtx[0].position;
@@ -64,14 +85,15 @@ namespace
 					out.restartStrip();
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts
+				, true, true, true );
 		}
 		testEnd();
 	}
 
-	void basicGeometry( test::sdw_test::TestCounts & testCounts )
+	void basicPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "basicGeometry" );
+		testBegin( "basicPipeline" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -108,7 +130,7 @@ namespace
 			auto in = writer.getIn();
 			auto out = writer.getOut();
 
-			writer.implementMainT< GeomOutputPos, ast::type::OutputLayout::eTriangleStrip, 3u >( [&]( sdw::OutputStreamT< GeomOutputPos > out )
+			writer.implementMainT< GeomOutputPos, 3u >( [&]( sdw::TriangleStreamT< GeomOutputPos > out )
 				{
 					auto pos = writer.declLocale< Vec4 >( "pos" );
 
@@ -155,9 +177,9 @@ namespace
 		testEnd();
 	}
 
-	void voxelGeometry( test::sdw_test::TestCounts & testCounts )
+	void voxelPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "voxelGeometry" );
+		testBegin( "voxelPipeline" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -267,7 +289,7 @@ namespace
 			};
 			auto out = writer.getOut();
 
-			writer.implementMainT< GeomOutput, ast::type::OutputLayout::eTriangleStrip, 3u >( [&]( sdw::OutputStreamT< GeomOutput > out )
+			writer.implementMainT< GeomOutput, 3u >( [&]( sdw::TriangleStreamT< GeomOutput > out )
 				{
 					auto faceNormal = writer.declLocale( "faceNormal"
 						, normalize( cross( vtx_position[1] - vtx_position[0], vtx_position[2] - vtx_position[0] ) ) );
@@ -459,9 +481,10 @@ namespace
 sdwTestSuiteMain( TestWriterGeometryShader )
 {
 	sdwTestSuiteBegin();
-	onlyGeometry( testCounts );
 	basicGeometry( testCounts );
-	voxelGeometry( testCounts );
+	//onlyGeometry( testCounts );
+	//basicPipeline( testCounts );
+	//voxelPipeline( testCounts );
 	sdwTestSuiteEnd();
 }
 

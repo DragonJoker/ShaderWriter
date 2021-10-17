@@ -261,7 +261,7 @@ namespace sdw
 
 	//*************************************************************************
 
-	EmptyStream::OutputStreamT( ShaderWriter & writer
+	OutputStreamT< Void >::OutputStreamT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }
@@ -271,7 +271,7 @@ namespace sdw
 	{
 	}
 
-	EmptyStream::OutputStreamT( ShaderWriter & writer
+	OutputStreamT< Void >::OutputStreamT( ShaderWriter & writer
 		, type::OutputLayout layout
 		, uint32_t count )
 		: OutputStreamT{ writer
@@ -286,19 +286,19 @@ namespace sdw
 				, vtx.getType() ) );
 	}
 
-	ast::type::TypePtr EmptyStream::makeType( ast::type::TypesCache & cache )
+	ast::type::TypePtr OutputStreamT< Void >::makeType( ast::type::TypesCache & cache )
 	{
 		return cache.getVoid();
 	}
 
-	void EmptyStream::append()
+	void OutputStreamT< Void >::append()
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
 			, ast::stmt::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
 	}
 
-	void EmptyStream::restartStrip()
+	void OutputStreamT< Void >::restartStrip()
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer

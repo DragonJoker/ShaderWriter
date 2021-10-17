@@ -1110,12 +1110,28 @@ namespace sdw
 	*	I/O layout declaration.
 	*/
 	/**@{*/
-	template< typename StreamDataT, ast::type::OutputLayout LayoutT, uint32_t MaxPrimCountT >
-	inline void GeometryWriter::implementMainT( std::function< void( OutputStreamT< StreamDataT > ) > const & function )
+	template< typename StreamDataT, uint32_t MaxPrimCountT >
+	inline void GeometryWriter::implementMainT( std::function< void( PointStreamT< StreamDataT > ) > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, function
-			, makeInOutParam( OutputStreamT< StreamDataT >{ *this, LayoutT, MaxPrimCountT } ) );
+			, makeInOutParam( PointStreamT< StreamDataT >{ *this, MaxPrimCountT } ) );
+	}
+
+	template< typename StreamDataT, uint32_t MaxPrimCountT >
+	inline void GeometryWriter::implementMainT( std::function< void( LineStreamT< StreamDataT > ) > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, function
+			, makeInOutParam( LineStreamT< StreamDataT >{ *this, MaxPrimCountT } ) );
+	}
+
+	template< typename StreamDataT, uint32_t MaxPrimCountT >
+	inline void GeometryWriter::implementMainT( std::function< void( TriangleStreamT< StreamDataT > ) > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, function
+			, makeInOutParam( TriangleStreamT< StreamDataT >{ *this, MaxPrimCountT } ) );
 	}
 	/**@}*/
 #pragma endregion

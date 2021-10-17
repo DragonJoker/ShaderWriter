@@ -219,16 +219,23 @@ namespace sdw
 	*	Geometry shader.
 	*/
 	/**@{*/
+
+	/**
+	*	Holds data and functions to append primitives to the stream or restart it.
+	*/
 	template< typename StreamDataT >
 	struct OutputStreamT
 		: public StreamDataT
 	{
-		OutputStreamT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
+	protected:
 		OutputStreamT( ShaderWriter & writer
 			, type::OutputLayout layout
 			, uint32_t count );
+
+	public:
+		OutputStreamT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
 
 		void append();
 		void restartStrip();
@@ -240,17 +247,24 @@ namespace sdw
 
 		PerVertex vtx;
 	};
-
+	/**
+	*	Holds data and functions to append primitives to the stream or restart it.
+	*\remarks
+	*	Only holds the PerVertex builtins.
+	*/
 	template<>
 	struct OutputStreamT< Void >
 		: public Value
 	{
-		SDW_API OutputStreamT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
+	protected:
 		SDW_API OutputStreamT( ShaderWriter & writer
 			, type::OutputLayout layout
 			, uint32_t count );
+
+	public:
+		SDW_API OutputStreamT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
 
 		SDW_API void append();
 		SDW_API void restartStrip();
@@ -260,7 +274,33 @@ namespace sdw
 		PerVertex vtx;
 	};
 
-	using EmptyStream = OutputStreamT< Void >;
+	template< typename StreamDataT >
+	struct PointStreamT
+		: public OutputStreamT< StreamDataT >
+	{
+		PointStreamT( ShaderWriter & writer
+			, uint32_t count );
+	};
+
+	template< typename StreamDataT >
+	struct LineStreamT
+		: public OutputStreamT< StreamDataT >
+	{
+		LineStreamT( ShaderWriter & writer
+			, uint32_t count );
+	};
+
+	template< typename StreamDataT >
+	struct TriangleStreamT
+		: public OutputStreamT< StreamDataT >
+	{
+		TriangleStreamT( ShaderWriter & writer
+			, uint32_t count );
+	};
+
+	using PointStream = PointStreamT< Void >;
+	using LineStream = LineStreamT< Void >;
+	using TriangleStream = TriangleStreamT< Void >;
 
 	struct OutGeometry : Builtin
 	{

@@ -603,8 +603,12 @@ namespace sdw
 		SDW_API InGeometry getIn();
 		SDW_API OutGeometry getOut();
 
-		template< typename StreamDataT, ast::type::OutputLayout LayoutT, uint32_t MaxPrimCountT >
-		inline void implementMainT( std::function< void( OutputStreamT< StreamDataT > ) > const & function );
+		template< typename StreamDataT, uint32_t MaxPrimCountT >
+		inline void implementMainT( std::function< void( PointStreamT< StreamDataT > ) > const & function );
+		template< typename StreamDataT, uint32_t MaxPrimCountT >
+		inline void implementMainT( std::function< void( LineStreamT< StreamDataT > ) > const & function );
+		template< typename StreamDataT, uint32_t MaxPrimCountT >
+		inline void implementMainT( std::function< void( TriangleStreamT< StreamDataT > ) > const & function );
 		/**@}*/
 #pragma endregion
 #pragma region Stream Output declaration
