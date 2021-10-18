@@ -7,6 +7,11 @@ namespace ast
 {
 	expr::ExprPtr ExprCloner::submit( expr::Expr * expr )
 	{
+		if ( !expr )
+		{
+			return nullptr;
+		}
+
 		if ( expr->isDummy() )
 		{
 			return std::make_unique< expr::Expr >( expr->getCache()

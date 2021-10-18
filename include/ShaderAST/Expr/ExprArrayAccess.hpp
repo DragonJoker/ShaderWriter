@@ -26,6 +26,7 @@ namespace ast::expr
 		, ExprPtr rhs )
 	{
 		assert( lhs->getType()->getKind() == type::Kind::eArray
+			|| lhs->getType()->getKind() == type::Kind::eGeometryInput
 			|| isVectorType( lhs->getType()->getKind() )
 			|| isMatrixType( lhs->getType()->getKind() ) );
 		return std::make_unique< ArrayAccess >( std::move( type )

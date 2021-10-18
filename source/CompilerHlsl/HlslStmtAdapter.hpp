@@ -51,6 +51,10 @@ namespace hlsl
 		void rewriteShaderIOVars();
 		void writeMain( ast::stmt::FunctionDecl * stmt );
 		ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt );
+		void registerGeometryInput( ast::var::VariablePtr var
+			, ast::type::GeometryInput const & geomType );
+		void registerGeometryOutput( ast::var::VariablePtr var
+			, ast::type::GeometryOutput const & geomType );
 
 	private:
 		IntrinsicsConfig const & m_intrinsicsConfig;

@@ -729,10 +729,12 @@ namespace
 	{
 		testBegin( "testInputGeometryLayout" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makeInputGeometryLayout( ast::type::InputLayout::eLineStripWithAdjacency );
+		auto stmt = ast::stmt::makeInputGeometryLayout( cache.getVoid()
+			, ast::type::InputLayout::eLineStripWithAdjacency );
 		testCounts.streams.cout << "StmtInputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInputGeometryLayout );
+		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
 		check( stmt->getLayout() == ast::type::InputLayout::eLineStripWithAdjacency );
 		testEnd();
 	}

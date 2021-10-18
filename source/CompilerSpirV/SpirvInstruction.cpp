@@ -14,46 +14,16 @@ namespace spirv
 
 	namespace
 	{
-		UInt32List deserializePackedName( UInt32ListCIt & buffer
-			, uint32_t & index )
+		template< typename IterT >
+		UInt32List deserializePackedName( BufferItT< IterT > & buffer )
 		{
-			auto popValue = [&buffer, &index]()
-			{
-				auto result = *buffer;
-				++buffer;
-				++index;
-				return result;
-			};
-			auto value = popValue();
+			auto value = buffer.popValue();
 			UInt32List result;
 
 			while ( ( value & 0xFF000000 ) != 0u )
 			{
 				result.push_back( value );
-				value = popValue();
-			}
-
-			result.push_back( value );
-			return result;
-		}
-
-		UInt32List deserializePackedName( UInt32ListIt & buffer
-			, uint32_t & index )
-		{
-			auto popValue = [&buffer, &index]()
-			{
-				auto result = *buffer;
-				++buffer;
-				++index;
-				return result;
-			};
-			auto value = popValue();
-			UInt32List result;
-
-			while ( ( value & 0xFF000000 ) != 0u )
-			{
-				result.push_back( value );
-				value = popValue();
+				value = buffer.popValue();
 			}
 
 			result.push_back( value );
@@ -309,43 +279,43 @@ namespace spirv
 			case spv::OpFNegate:
 				return UnInstructionT< spv::OpFNegate >::config;
 			case spv::OpIAdd:
-				return UnInstructionT < spv::OpIAdd >::config;
+				return BinInstructionT < spv::OpIAdd >::config;
 			case spv::OpFAdd:
-				return UnInstructionT < spv::OpFAdd >::config;
+				return BinInstructionT < spv::OpFAdd >::config;
 			case spv::OpISub:
-				return UnInstructionT < spv::OpISub >::config;
+				return BinInstructionT < spv::OpISub >::config;
 			case spv::OpFSub:
-				return UnInstructionT < spv::OpFSub >::config;
+				return BinInstructionT < spv::OpFSub >::config;
 			case spv::OpIMul:
-				return UnInstructionT < spv::OpIMul >::config;
+				return BinInstructionT < spv::OpIMul >::config;
 			case spv::OpFMul:
-				return UnInstructionT < spv::OpFMul >::config;
+				return BinInstructionT < spv::OpFMul >::config;
 			case spv::OpUDiv:
-				return UnInstructionT < spv::OpUDiv >::config;
+				return BinInstructionT < spv::OpUDiv >::config;
 			case spv::OpSDiv:
-				return UnInstructionT < spv::OpSDiv >::config;
+				return BinInstructionT < spv::OpSDiv >::config;
 			case spv::OpFDiv:
-				return UnInstructionT < spv::OpFDiv >::config;
+				return BinInstructionT < spv::OpFDiv >::config;
 			case spv::OpUMod:
-				return UnInstructionT < spv::OpUMod >::config;
+				return BinInstructionT < spv::OpUMod >::config;
 			case spv::OpSRem:
-				return UnInstructionT < spv::OpSRem >::config;
+				return BinInstructionT < spv::OpSRem >::config;
 			case spv::OpSMod:
-				return UnInstructionT < spv::OpSMod >::config;
+				return BinInstructionT < spv::OpSMod >::config;
 			case spv::OpFRem:
-				return UnInstructionT < spv::OpFRem >::config;
+				return BinInstructionT < spv::OpFRem >::config;
 			case spv::OpFMod:
-				return UnInstructionT < spv::OpFMod >::config;
+				return BinInstructionT < spv::OpFMod >::config;
 			case spv::OpVectorTimesScalar:
-				return UnInstructionT < spv::OpVectorTimesScalar >::config;
+				return BinInstructionT  < spv::OpVectorTimesScalar >::config;
 			case spv::OpMatrixTimesScalar:
-				return UnInstructionT < spv::OpMatrixTimesScalar >::config;
+				return BinInstructionT  < spv::OpMatrixTimesScalar >::config;
 			case spv::OpVectorTimesMatrix:
-				return UnInstructionT < spv::OpVectorTimesMatrix >::config;
+				return BinInstructionT  < spv::OpVectorTimesMatrix >::config;
 			case spv::OpMatrixTimesVector:
-				return UnInstructionT < spv::OpMatrixTimesVector >::config;
+				return BinInstructionT < spv::OpMatrixTimesVector >::config;
 			case spv::OpMatrixTimesMatrix:
-				return UnInstructionT < spv::OpMatrixTimesMatrix >::config;
+				return BinInstructionT  < spv::OpMatrixTimesMatrix >::config;
 			case spv::OpOuterProduct:
 				return IntrinsicInstructionT< spv::OpOuterProduct >::config;
 			case spv::OpDot:
@@ -471,17 +441,17 @@ namespace spirv
 			case spv::OpFwidthCoarse:
 				return IntrinsicInstructionT< spv::OpFwidthCoarse >::config;
 			case spv::OpEmitVertex:
-				return IntrinsicInstructionT< spv::OpEmitVertex >::config;
+				return VoidIntrinsicInstructionT< spv::OpEmitVertex >::config;
 			case spv::OpEndPrimitive:
-				return IntrinsicInstructionT< spv::OpEndPrimitive >::config;
+				return VoidIntrinsicInstructionT< spv::OpEndPrimitive >::config;
 			case spv::OpEmitStreamVertex:
-				return IntrinsicInstructionT< spv::OpEmitStreamVertex >::config;
+				return VoidIntrinsicInstructionT< spv::OpEmitStreamVertex >::config;
 			case spv::OpEndStreamPrimitive:
-				return IntrinsicInstructionT< spv::OpEndStreamPrimitive >::config;
+				return VoidIntrinsicInstructionT< spv::OpEndStreamPrimitive >::config;
 			case spv::OpControlBarrier:
-				return IntrinsicInstructionT< spv::OpControlBarrier >::config;
+				return VoidIntrinsicInstructionT< spv::OpControlBarrier >::config;
 			case spv::OpMemoryBarrier:
-				return IntrinsicInstructionT< spv::OpMemoryBarrier >::config;
+				return VoidIntrinsicInstructionT< spv::OpMemoryBarrier >::config;
 			case spv::OpAtomicLoad:
 				return IntrinsicInstructionT< spv::OpAtomicLoad >::config;
 			case spv::OpAtomicStore:
@@ -784,43 +754,40 @@ namespace spirv
 
 	Instruction::Instruction( Config const & pconfig
 		, Op pop
-		, UInt32ListCIt & buffer )
+		, BufferCIt & buffer )
 		: op{ pop }
 		, config{ pconfig }
 	{
-		uint32_t index = 1u;
-		auto popValue = [&buffer, &index]()
-		{
-			auto result = *buffer;
-			++buffer;
-			++index;
-			return result;
-		};
+		uint32_t save = buffer.index;
 
 		if ( config.hasReturnTypeId )
 		{
-			returnTypeId = popValue();
+			returnTypeId = buffer.popValue();
 		}
 
 		if ( config.hasResultId )
 		{
-			resultId = popValue();
+			resultId = buffer.popValue();
 		}
 
 		if ( config.hasName )
 		{
-			packedName = deserializePackedName( buffer, index );
+			packedName = deserializePackedName( buffer );
 			name = unpackString( packedName.value() );
 		}
+
+		auto index = 1u + buffer.index - save;
 
 		if ( config.operandsCount )
 		{
 			auto count = op.opData.opCount - index;
+			assert( config.operandsCount == dynamicOperandCount
+				|| config.operandsCount == count );
 			operands.resize( count );
 
 			for ( auto & operand : operands )
 			{
-				operand = popValue();
+				operand = buffer.popValue();
 			}
 		}
 		else if ( config.hasLabels )
@@ -830,42 +797,37 @@ namespace spirv
 
 			for ( auto i = 0u; i < count; ++i )
 			{
-				auto label = popValue();
-				labels.value()[int32_t( label )] = popValue();
+				auto label = buffer.popValue();
+				labels.value()[int32_t( label )] = buffer.popValue();
 			}
 		}
 	}
 
 	Instruction::Instruction( Config const & pconfig
 		, Op pop
-		, UInt32ListIt & buffer )
+		, BufferIt & buffer )
 		: op{ pop }
 		, config{ pconfig }
 	{
-		uint32_t index = 1u;
-		auto popValue = [&buffer, &index]()
-		{
-			auto result = *buffer;
-			++buffer;
-			++index;
-			return result;
-		};
+		uint32_t save = buffer.index;
 
 		if ( config.hasReturnTypeId )
 		{
-			returnTypeId = popValue();
+			returnTypeId = buffer.popValue();
 		}
 
 		if ( config.hasResultId )
 		{
-			resultId = popValue();
+			resultId = buffer.popValue();
 		}
 
 		if ( config.hasName )
 		{
-			packedName = deserializePackedName( buffer, index );
+			packedName = deserializePackedName( buffer );
 			name = unpackString( packedName.value() );
 		}
+
+		auto index = buffer.index - save;
 
 		if ( config.operandsCount )
 		{
@@ -874,7 +836,7 @@ namespace spirv
 
 			for ( auto & operand : operands )
 			{
-				operand = popValue();
+				operand = buffer.popValue();
 			}
 		}
 		else if ( config.hasLabels )
@@ -884,15 +846,15 @@ namespace spirv
 
 			for ( auto i = 0u; i < count; ++i )
 			{
-				auto label = popValue();
-				labels.value()[int32_t( label )] = popValue();
+				auto label = buffer.popValue();
+				labels.value()[int32_t( label )] = buffer.popValue();
 			}
 		}
 	}
 
 	Instruction::Instruction( Config const & pconfig
 		, spv::Op pop
-		, UInt32ListCIt & buffer )
+		, BufferCIt & buffer )
 		: Instruction{ pconfig, makeOp( pop ), buffer }
 	{
 		op.opData.opCount = uint16_t( 1u
@@ -905,7 +867,7 @@ namespace spirv
 
 	Instruction::Instruction( Config const & pconfig
 		, spv::Op pop
-		, UInt32ListIt & buffer )
+		, BufferIt & buffer )
 		: Instruction{ pconfig, makeOp( pop ), buffer }
 	{
 		op.opData.opCount = uint16_t( 1u
@@ -968,35 +930,19 @@ namespace spirv
 		}
 	}
 
-	InstructionPtr Instruction::deserialize( UInt32ListCIt & buffer )
+	InstructionPtr Instruction::deserialize( BufferCIt & buffer )
 	{
-		auto index = 0u;
-		auto popValue = [&buffer, &index]()
-		{
-			auto result = *buffer;
-			++buffer;
-			++index;
-			return result;
-		};
 		spirv::Op op;
-		op.opValue = popValue();
+		op.opValue = buffer.popValue();
 		assert( op.opData.opCode != spv::OpNop );
 		auto & config = getConfig( spv::Op( op.opData.opCode ) );
 		return std::make_unique< Instruction >( config, op, buffer );
 	}
 
-	InstructionPtr Instruction::deserialize( UInt32ListIt & buffer )
+	InstructionPtr Instruction::deserialize( BufferIt & buffer )
 	{
-		auto index = 0u;
-		auto popValue = [&buffer, &index]()
-		{
-			auto result = *buffer;
-			++buffer;
-			++index;
-			return result;
-		};
 		spirv::Op op;
-		op.opValue = popValue();
+		op.opValue = buffer.popValue();
 		assert( op.opData.opCode != spv::OpNop );
 		auto & config = getConfig( spv::Op( op.opData.opCode ) );
 		return std::make_unique< Instruction >( config, op, buffer );

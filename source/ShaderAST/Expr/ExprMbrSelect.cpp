@@ -12,15 +12,26 @@ namespace ast::expr
 		bool isStructType( type::TypePtr type )
 		{
 			return type->getKind() == type::Kind::eStruct
-				|| ( type->getKind() == type::Kind::eGeometryInput && static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eStruct )
-				|| ( type->getKind() == type::Kind::eGeometryOutput && static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct );
+				|| ( type->getKind() == type::Kind::eGeometryInput
+					&& ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eStruct
+						|| ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eArray
+							&& static_cast< type::Array const & >( *static_cast< type::GeometryInput const & >( *type ).type ).getType()->getKind() == type::Kind::eStruct ) ) )
+				|| ( type->getKind() == type::Kind::eGeometryOutput
+					&& static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct );
 		}
 
 		type::StructPtr getStructType( type::TypePtr type )
 		{
 			if ( type->getKind() == type::Kind::eGeometryInput )
 			{
-				return getStructType( static_cast< type::GeometryInput const & >( *type ).type );
+				type = static_cast< type::GeometryInput const & >( *type ).type;
+
+				if ( type->getKind() == type::Kind::eArray )
+				{
+					return getStructType( static_cast< type::Array const & >( *type ).getType() );
+				}
+
+				return nullptr;
 			}
 
 			if ( type->getKind() == type::Kind::eGeometryOutput )

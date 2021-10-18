@@ -67,6 +67,14 @@ namespace spirv
 
 	//*************************************************************************
 
+	template< typename IterT >
+	InstructionPtr BufferItT< IterT >::popInstruction()
+	{
+		return spirv::Instruction::deserialize( *this );
+	}
+
+	//*************************************************************************
+
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId

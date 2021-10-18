@@ -24,7 +24,7 @@
 			<Item Name="parent">m_parent</Item>
 			<Item Name="index">m_index</Item>
 			<Item Name="size">m_arraySize</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Function">
@@ -78,12 +78,41 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Struct">
-		<DisplayString>struct {m_name,s8b} {m_layout} {m_members}</DisplayString>
+		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eStd140">{m_name,s8b}[std140] {m_members}</DisplayString>
+		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eStd430">{m_name,s8b}[std430] {m_members}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="name">m_name</Item>
 			<Item Name="layout">m_layout</Item>
 			<Item Name="members">m_members</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::GeometryInput">
+		<DisplayString Condition="layout==ast::type::InputLayout::ePointList">points {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eLineList">lines {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eLineStrip">lineStrip {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eTriangleList">triangles {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eTriangleStrip">triangleStrip {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eTriangleFan">triangleFan {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eLineListWithAdjacency">linesWithAdj {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eLineStripWithAdjacency">lineStripWithAdj {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eTriangleListWithAdjacency">trianglesWithAdj {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::InputLayout::eTriangleStripWithAdjacency">triangleStripWithAdj {*type}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="layout">layout</Item>
+			<Item Name="type">type</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::GeometryOutput">
+		<DisplayString Condition="layout==ast::type::OutputLayout::ePointList">points[{count}] {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::OutputLayout::eLineStrip">lines[{count}] {*type}</DisplayString>
+		<DisplayString Condition="layout==ast::type::OutputLayout::eTriangleStrip">triangles[{count}] {*type}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="layout">layout</Item>
+			<Item Name="count">count</Item>
+			<Item Name="type">type</Item>
 		</Expand>
 	</Type>
 
@@ -93,7 +122,7 @@
 		<Expand>
 			<Item Name="nameId">m_nameId</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="outer">m_outer</Item>
 		</Expand>
 	</Type>
@@ -103,174 +132,174 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Binary">
-		<DisplayString>( {m_lhs} ) BinOp ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} BinOp {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Unary">
-		<DisplayString>UnOp ( {m_operand} )</DisplayString>
+		<DisplayString>UnOp {*m_operand}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="operand">m_operand</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Alias">
-		<DisplayString>{m_lhs} -> ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} -> {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="identifier">m_lhs</Item>
 			<Item Name="expr">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Add">
-		<DisplayString>( {m_lhs} ) + ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} + {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::BitAnd">
-		<DisplayString>( {m_lhs} ) &amp; ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &amp; {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::BitNot">
-		<DisplayString>~( {m_operand} )</DisplayString>
+		<DisplayString>~{*m_operand}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::BitOr">
-		<DisplayString>( {m_lhs} ) | ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} | {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::BitXor">
-		<DisplayString>( {m_lhs} ) ^ ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} ^ {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Divide">
-		<DisplayString>( {m_lhs} ) / ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} / {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::LogAnd">
-		<DisplayString>( {m_lhs} ) &amp;&amp; ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &amp;&amp; {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::LogNot">
-		<DisplayString>!( {m_operand} )</DisplayString>
+		<DisplayString>!{*m_operand}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::LogOr">
-		<DisplayString>( {m_lhs} ) || ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} || {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::LShift">
-		<DisplayString>( {m_lhs} ) &lt;&lt; ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &lt;&lt; {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Minus">
-		<DisplayString>( {m_lhs} ) - ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} - {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Modulo">
-		<DisplayString>( {m_lhs} ) % ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} % {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::RShift">
-		<DisplayString>( {m_lhs} ) &gt;&gt; ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} &gt;&gt; {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::Times">
-		<DisplayString>( {m_lhs} ) * ( {m_rhs} )</DisplayString>
+		<DisplayString>{*m_lhs} * {*m_rhs}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -280,7 +309,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">*m_lhs</Item>
 			<Item Name="rhs">*m_rhs</Item>
 		</Expand>
@@ -290,7 +319,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -300,7 +329,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -310,7 +339,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -320,7 +349,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -330,7 +359,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -340,7 +369,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -350,7 +379,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -360,7 +389,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -370,7 +399,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -380,7 +409,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="lhs">m_lhs</Item>
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
@@ -390,7 +419,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="array">*m_lhs</Item>
 			<Item Name="index">*m_rhs</Item>
 		</Expand>
@@ -400,18 +429,18 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="composite">m_composite</Item>
 			<Item Name="component">m_component</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::FnCall">
-		<DisplayString>{*m_type} {m_fn}( {m_argList} )</DisplayString>
+		<DisplayString>{*m_type} {*m_fn}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="fn">m_fn</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
@@ -421,7 +450,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="var">m_var</Item>
 		</Expand>
 	</Type>
@@ -430,7 +459,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="access">m_imageAccess</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
@@ -440,7 +469,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="ident">m_identifier</Item>
 			<Item Name="init">m_initialiser</Item>
 		</Expand>
@@ -450,7 +479,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="intrinsic">m_intrinsic</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
@@ -464,7 +493,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="valueType">m_valueType</Item>
 			<Item Name="value">m_value</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eBool">m_value.boolv</Item>
@@ -475,10 +504,10 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::expr::MbrSelect">
-		<DisplayString>{*m_type} ( {m_outer} ).{m_memberIndex}</DisplayString>
+		<DisplayString>{*m_type} {*m_outer}.{m_memberIndex}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="outer">m_outer</Item>
 			<Item Name="index">m_memberIndex</Item>
 		</Expand>
@@ -487,7 +516,7 @@
 		<DisplayString>{*m_operand}--</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="operand">*m_operand</Item>
 		</Expand>
 	</Type>
@@ -495,7 +524,7 @@
 		<DisplayString>{*m_operand}++</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="operand">*m_operand</Item>
 		</Expand>
 	</Type>
@@ -503,7 +532,7 @@
 		<DisplayString>--{*m_operand}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="operand">*m_operand</Item>
 		</Expand>
 	</Type>
@@ -511,7 +540,7 @@
 		<DisplayString>++{*m_operand}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="operand">*m_operand</Item>
 		</Expand>
 	</Type>
@@ -520,7 +549,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="ctrl">m_ctrlExpr</Item>
 			<Item Name="true">m_trueExpr</Item>
 			<Item Name="false">m_falseExpr</Item>
@@ -876,7 +905,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="swizzle">m_swizzle</Item>
 			<Item Name="outer">m_outer</Item>
 		</Expand>
@@ -886,7 +915,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="flags">m_flags</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 			<Item Name="access">m_textureAccess</Item>
 			<Item Name="args">m_argList</Item>
 		</Expand>
@@ -920,7 +949,7 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="name">m_name</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::ImageDecl">
@@ -1030,7 +1059,7 @@
 		<DisplayString>{{kind={m_kind} type={*m_type}}}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
-			<Item Name="type">*m_type</Item>
+			<Item Name="type">m_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::VariableDecl">

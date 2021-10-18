@@ -4,7 +4,7 @@
 namespace
 {
 #define DummyMain writer.implementMain( [](){} )
-#define DummyMainT writer.implementMainT< sdw::Void, sdw::type::OutputLayout::ePointList, 1u >( [&]( sdw::EmptyStream out ){ out.vtx.position = in.vtx[0].position;out.append();out.restartStrip(); } )
+#define DummyMainT writer.implementMainT< sdw::PointList, sdw::PointStream, 1u >( [&]( sdw::PointList in, sdw::PointStream out ){ out.vtx.position = in.vtx[0].position;out.append(); } )
 
 	template< typename T >
 	void testShaderOutput( test::sdw_test::TestCounts & testCounts )
@@ -126,7 +126,6 @@ namespace
 		}
 		{
 			sdw::GeometryWriter writer;
-			writer.inputLayout( ast::type::InputLayout::eTriangleList );
 			auto in = writer.getIn();
 			auto out = writer.getOut();
 			auto & shader = writer.getShader();

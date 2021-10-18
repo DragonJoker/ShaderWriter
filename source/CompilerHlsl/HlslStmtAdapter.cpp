@@ -230,31 +230,21 @@ namespace hlsl
 			if ( m_shader.getType() == ast::ShaderStage::eGeometry )
 			{
 				assert( !funcType->empty() );
-				auto geomOutput = ( *funcType->begin() );
-				auto type = geomOutput->getType();
-				assert( type->getKind() == ast::type::Kind::eGeometryOutput );
-				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-				type = geomType.type;
 
-				if ( type->getKind() == ast::type::Kind::eStruct )
+				for ( auto & param : *funcType )
 				{
-					uint32_t index = 0u;
+					auto type = param->getType();
 
-					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+					if ( type->getKind() == ast::type::Kind::eGeometryInput )
 					{
-						auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
-							, mbr.type
-							, mbr.flag );
-						m_adaptationData.addPendingOutput( var, index++ );
+						registerGeometryInput( param, static_cast< ast::type::GeometryInput const & >( *type ) );
+					}
+					else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+					{
+						registerGeometryOutput( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
 					}
 				}
 
-				assert( !m_adaptationData.mainOutputVar );
-				m_adaptationData.mainOutputVar = m_shader.registerName( "mainOutput"
-					, ast::type::makeGeometryOutputType( m_adaptationData.mainOutputStruct
-						, geomType.layout
-						, geomType.count )
-					, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput );
 				ast::var::VariableList parameters;
 				parameters.push_back( m_adaptationData.inputVar );
 				parameters.push_back( m_adaptationData.mainOutputVar );
@@ -333,9 +323,6 @@ namespace hlsl
 
 	void StmtAdapter::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
-		m_adaptationData.inputVar = m_shader.registerName( "mainInput"
-			, makeGeometryInputType( m_adaptationData.mainInputStruct, stmt->getLayout() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput );
 	}
 
 	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
@@ -755,5 +742,58 @@ namespace hlsl
 
 		return ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
 			, stmt->getName() );
+	}
+
+	void StmtAdapter::registerGeometryInput( ast::var::VariablePtr var
+		, ast::type::GeometryInput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			uint32_t index = 0u;
+
+			for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+			{
+				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
+					, mbr.type
+					, mbr.flag );
+				m_adaptationData.addPendingInput( mbrVar, index++ );
+			}
+		}
+
+		assert( !m_adaptationData.inputVar );
+		m_adaptationData.inputVar = m_shader.registerName( "mainInput"
+			, ast::type::makeGeometryInputType( m_adaptationData.mainInputStruct
+				, geomType.layout )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput );
+		m_adaptationData.paramToMain.emplace( var, m_adaptationData.inputVar );
+	}
+
+	void StmtAdapter::registerGeometryOutput( ast::var::VariablePtr var
+		, ast::type::GeometryOutput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			uint32_t index = 0u;
+
+			for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+			{
+				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
+					, mbr.type
+					, mbr.flag );
+				m_adaptationData.addPendingOutput( mbrVar, index++ );
+			}
+		}
+
+		assert( !m_adaptationData.mainOutputVar );
+		m_adaptationData.mainOutputVar = m_shader.registerName( "mainOutput"
+			, ast::type::makeGeometryOutputType( m_adaptationData.mainOutputStruct
+				, geomType.layout
+				, geomType.count )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput );
+		m_adaptationData.paramToMain.emplace( var, m_adaptationData.mainOutputVar );
 	}
 }

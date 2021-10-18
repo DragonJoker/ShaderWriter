@@ -99,6 +99,72 @@ namespace sdw
 	};
 	/**@}*/
 	/**
+	*	Holds input data for a geometry shader.
+	*/
+	template< typename InputDataT >
+	struct InputT
+		: public InputDataT
+	{
+		InputT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
+		{
+			return InputDataT::makeType( cache );
+		}
+	};
+	/**
+	*	Holds input data for a geometry shader.
+	*\remarks
+	*	Only holds the PerVertex builtins.
+	*/
+	template<>
+	struct InputT< Void >
+		: public Value
+	{
+		SDW_API InputT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
+		{
+			return Void::makeType( cache );
+		}
+	};
+
+	template< typename InputDataT, type::InputLayout LayoutT >
+	struct InputArrayT
+		: Array< InputT< InputDataT > >
+	{
+	public:
+		InputArrayT( ShaderWriter & writer );
+		InputArrayT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		Array< PerVertex > vtx;
+	};
+
+	template< typename InputDataT >
+	using PointListT = InputArrayT< InputDataT, type::InputLayout::ePointList >;
+	template< typename InputDataT >
+	using LineListT = InputArrayT< InputDataT, type::InputLayout::eLineList >;
+	template< typename InputDataT >
+	using TriangleListT = InputArrayT< InputDataT, type::InputLayout::eTriangleList >;
+	template< typename InputDataT >
+	using LineListWithAdjT = InputArrayT< InputDataT, type::InputLayout::eLineListWithAdjacency >;
+	template< typename InputDataT >
+	using TriangleListWithAdjT = InputArrayT< InputDataT, type::InputLayout::eTriangleListWithAdjacency >;
+
+	using PointList = PointListT< Void >;
+	using LineList = LineListT< Void >;
+	using TriangleList = TriangleListT< Void >;
+	using LineListWithAdj = LineListWithAdjT< Void >;
+	using TriangleListWithAdj = TriangleListWithAdjT< Void >;
+	/**
 	*name
 	*	Geometry shader.
 	*/
@@ -110,8 +176,6 @@ namespace sdw
 		Int const primitiveIDIn;
 		//in int gl_InvocationID;
 		Int const invocationID;
-		//in gl_PerVertex gl_in[];
-		Array< PerVertex > const vtx;
 	};
 	/**@}*/
 	/**

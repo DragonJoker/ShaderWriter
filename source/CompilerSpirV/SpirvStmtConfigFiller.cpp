@@ -106,22 +106,39 @@ namespace spirv
 		if ( stmt->getName() == "main"
 			&& !funcType->empty() )
 		{
-			auto geomOutput = ( *funcType->begin() );
-			auto type = geomOutput->getType();
-
-			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			for ( auto & param : *funcType )
 			{
-				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-				type = geomType.type;
+				auto type = param->getType();
 
-				if ( type->getKind() == ast::type::Kind::eStruct )
+				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+					auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+					type = geomType.type;
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						auto var = ast::var::makeVariable( ast::EntityName{ ++m_result.nextVarId, mbr.name }
-							, mbr.type
-							, mbr.flag );
-						m_result.outputs.emplace( var );
+						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						{
+							m_result.addShaderOutput( "geomOut_" + mbr.name
+								, mbr.type
+								, uint32_t( mbr.flag ) );
+						}
+					}
+				}
+				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+				{
+					auto & geomType = static_cast< ast::type::GeometryInput const & >( *type );
+					type = geomType.type;
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
+					{
+						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						{
+							m_result.addShaderInput( "geomIn_" + mbr.name
+								, mbr.type
+								, uint32_t( mbr.flag )
+								, geomType );
+						}
 					}
 				}
 			}

@@ -815,6 +815,28 @@ namespace hlsl
 
 			return result;
 		}
+
+		ast::type::StructPtr getStructType( ast::type::TypePtr type )
+		{
+			if ( type->getKind() == ast::type::Kind::eGeometryInput )
+			{
+				type = static_cast< ast::type::GeometryInput const & >( *type ).type;
+
+				if ( type->getKind() == ast::type::Kind::eArray )
+				{
+					return getStructType( static_cast< ast::type::Array const & >( *type ).getType() );
+				}
+
+				return nullptr;
+			}
+
+			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				return getStructType( static_cast< ast::type::GeometryOutput const & >( *type ).type );
+			}
+
+			return std::static_pointer_cast< ast::type::Struct >( type );
+		}
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
@@ -1246,11 +1268,13 @@ namespace hlsl
 		std::string builtinName;
 		ast::var::FlagHolder * flags{};
 		ast::var::VariablePtr var;
-		ast::expr::ExprPtr arrayIndex;
+		ast::expr::ExprPtr indexExpr;
+		auto outer = expr->getOuterExpr();
 
-		if ( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier )
+		if ( outer->getKind() == ast::expr::Kind::eIdentifier )
 		{
-			var = m_adaptationData.processPending( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable() );
+			var = m_adaptationData.processPending( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() );
+			builtinName = ( getStructType( outer->getType() )->begin() + expr->getMemberIndex() )->name;
 			isBuiltin = var->isBuiltin();
 			flags = var.get();
 			auto type = var->getType();
@@ -1261,7 +1285,6 @@ namespace hlsl
 
 				if ( type->getKind() == ast::type::Kind::eStruct )
 				{
-					builtinName = ( static_cast< ast::type::Struct const & >( *type ).begin() + expr->getMemberIndex() )->name;
 					var = m_adaptationData.processPendingOutput( builtinName );
 
 					auto it = std::find_if( m_adaptationData.outputVars.begin()
@@ -1288,62 +1311,63 @@ namespace hlsl
 				builtinName = ( static_cast< ast::type::Struct const & >( *type ).begin() + expr->getMemberIndex() )->name;
 			}
 		}
-		else if ( expr->isBuiltin() )
+		else
 		{
-			auto outer = doSubmit( expr->getOuterExpr() );
-			isBuiltin = true;
+			isBuiltin = expr->isBuiltin();
 			flags = expr;
-			builtinName = ( expr->getOuterType()->begin() + expr->getMemberIndex() )->name;
+			builtinName = ( static_cast< ast::type::Struct const & >( *outer->getType() ).begin() + expr->getMemberIndex() )->name;
+
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				indexExpr = doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() );
+			}
 		}
 
-		if ( isBuiltin )
+		if ( flags->isShaderInput() )
 		{
-			if ( flags->isShaderInput() )
-			{
-				var = m_adaptationData.processPendingInput( builtinName );
+			var = m_adaptationData.processPendingInput( builtinName );
 
-				auto it = std::find_if( m_adaptationData.inputVars.begin()
-					, m_adaptationData.inputVars.end()
-					, [&builtinName]( VariableIdMap::value_type const & lookup )
-					{
-						return builtinName == lookup.second->getName();
-					} );
-
-				if ( it != m_adaptationData.inputVars.end() )
+			auto it = std::find_if( m_adaptationData.inputVars.begin()
+				, m_adaptationData.inputVars.end()
+				, [&builtinName]( VariableIdMap::value_type const & lookup )
 				{
-					auto itMbr = m_adaptationData.inputMembers.find( it->second );
+					return builtinName == lookup.second->getName();
+				} );
 
-					if ( itMbr != m_adaptationData.inputMembers.end() )
-					{
-						m_result = ast::ExprCloner::submit( itMbr->second );
-						processed = true;
-					}
-				}
-			}
-			else
+			if ( it != m_adaptationData.inputVars.end() )
 			{
-				var = m_adaptationData.processPendingOutput( builtinName );
-
-				auto it = std::find_if( m_adaptationData.outputVars.begin()
-					, m_adaptationData.outputVars.end()
-					, [&builtinName]( VariableIdMap::value_type const & lookup )
-					{
-						return builtinName == lookup.second->getName();
-					} );
-
-				if ( it != m_adaptationData.outputVars.end() )
-				{
-					auto itMbr = m_adaptationData.outputMembers.find( it->second );
-
-					if ( itMbr != m_adaptationData.outputMembers.end() )
-					{
-						m_result = ast::ExprCloner::submit( itMbr->second );
-						processed = true;
-					}
-				}
+				var = it->second;
 			}
 
-			builtinName = var ? var->getName() : builtinName;
+			auto itMbr = m_adaptationData.inputMembers.find( var );
+
+			if ( itMbr != m_adaptationData.inputMembers.end() )
+			{
+				m_result = ast::ExprCloner::submit( itMbr->second );
+				processed = true;
+			}
+		}
+		else if ( flags->isShaderOutput() )
+		{
+			var = m_adaptationData.processPendingOutput( builtinName );
+
+			auto it = std::find_if( m_adaptationData.outputVars.begin()
+				, m_adaptationData.outputVars.end()
+				, [&builtinName]( VariableIdMap::value_type const & lookup )
+				{
+					return builtinName == lookup.second->getName();
+				} );
+
+			if ( it != m_adaptationData.outputVars.end() )
+			{
+				auto itMbr = m_adaptationData.outputMembers.find( it->second );
+
+				if ( itMbr != m_adaptationData.outputMembers.end() )
+				{
+					m_result = ast::ExprCloner::submit( itMbr->second );
+					processed = true;
+				}
+			}
 		}
 		else
 		{
@@ -1367,6 +1391,23 @@ namespace hlsl
 			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 				, expr->getMemberIndex()
 				, expr->getMemberFlags() );
+		}
+		else if ( indexExpr
+			&& ( flags->isShaderInput() || flags->isShaderOutput() )
+			&& m_result->getKind() == ast::expr::Kind::eMbrSelect )
+		{
+			auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *m_result );
+			outer = mbrSelect.getOuterExpr();
+
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+				m_result = ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( arrayAccess.getType()
+						, ast::ExprCloner::submit( arrayAccess.getLHS() )
+						, std::move( indexExpr ) )
+					, mbrSelect.getMemberIndex()
+					, mbrSelect.getMemberFlags() );
+			}
 		}
 	}
 

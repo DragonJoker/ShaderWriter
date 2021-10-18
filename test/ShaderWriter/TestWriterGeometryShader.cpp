@@ -3,12 +3,15 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#define CurrentCompilers Compilers_All
+
 namespace
 {
-	struct GeomOutputPos
+	template< ast::var::Flag FlagT >
+	struct PositionT
 		: sdw::StructInstance
 	{
-		GeomOutputPos( sdw::ShaderWriter & writer
+		PositionT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
@@ -16,11 +19,14 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , GeomOutputPos );
+		SDW_DeclStructInstance( , PositionT );
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
 		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd430, "GeomOutputPos" );
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd430
+				, ( FlagT == ast::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Position" );
 
 			if ( result->empty() )
 			{
@@ -28,7 +34,7 @@ namespace
 					, ast::type::Kind::eVec3F
 					, ast::type::NotArray
 					, 0u
-					, ast::var::Flag::eShaderOutput );
+					, FlagT );
 			}
 
 			return result;
@@ -36,17 +42,18 @@ namespace
 
 		sdw::Vec3 position;
 	};
+	using InputPosition = PositionT< ast::var::Flag::eShaderInput >;
+	using OutputPosition = PositionT< ast::var::Flag::eShaderOutput >;
 
-	void basicGeometry( test::sdw_test::TestCounts & testCounts )
+	void noIO( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "basicGeometry" );
+		testBegin( "noIO" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
-			writer.inputLayout( type::InputLayout::ePointList );
-			auto in = writer.getIn();
 
-			writer.implementMainT< Void, 1u >( [&]( PointStreamT< Void > out )
+			writer.implementMainT< PointList, PointStream, 1u >( [&]( PointList in
+				, PointStream out )
 				{
 					out.vtx.position = in.vtx[0].position;
 					out.append();
@@ -54,21 +61,21 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, true, false );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
 
-	void onlyGeometry( test::sdw_test::TestCounts & testCounts )
+	void outputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "onlyGeometry" );
+		testBegin( "outputOnly" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
-			writer.inputLayout( ast::type::InputLayout::eTriangleList );
-			auto in = writer.getIn();
+			using MyTriangleStream = sdw::TriangleStreamT< OutputPosition >;
 
-			writer.implementMainT< GeomOutputPos, 3u >( [&]( sdw::TriangleStreamT< GeomOutputPos > out )
+			writer.implementMainT< TriangleList, MyTriangleStream, 3u >( [&]( TriangleList in
+				, MyTriangleStream out )
 				{
 					out.position = in.vtx[0].position.xyz();
 					out.vtx.position = in.vtx[0].position;
@@ -86,7 +93,69 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, true, true );
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void inputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "inputOnly" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleList = sdw::TriangleListT< InputPosition >;
+
+			writer.implementMainT< MyTriangleList, TriangleStream, 3u >( [&]( MyTriangleList in
+				, TriangleStream out )
+				{
+					out.vtx.position = vec4( in[0].position, 0.0_f ) + in.vtx[0].position;
+					out.append();
+
+					out.vtx.position = vec4( in[1].position, 0.0_f ) + in.vtx[1].position;
+					out.append();
+
+					out.vtx.position = vec4( in[2].position, 0.0_f ) + in.vtx[2].position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void inout( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "inout" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleList = sdw::TriangleListT< InputPosition >;
+			using MyTriangleStream = sdw::TriangleStreamT< OutputPosition >;
+
+			writer.implementMainT< MyTriangleList, MyTriangleStream, 3u >( [&]( MyTriangleList in
+				, MyTriangleStream out )
+				{
+					out.position = in[0].position;
+					out.vtx.position = in.vtx[0].position;
+					out.append();
+
+					out.position = in[1].position;
+					out.vtx.position = in.vtx[1].position;
+					out.append();
+
+					out.position = in[2].position;
+					out.vtx.position = in.vtx[2].position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -114,23 +183,22 @@ namespace
 					out.vtx.position = position;
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
 			GeometryWriter writer;
-			writer.inputLayout( ast::type::InputLayout::eTriangleList );
 
 			sdw::Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto mvp = voxelizeUbo.declMember< sdw::Mat4 >( "mvp" );
 			voxelizeUbo.end();
 
-			uint32_t index = 0u;
-			auto vtx_position = writer.declInputArray< Vec3 >( "vtx_position", index++, 3u );
-			auto in = writer.getIn();
-			auto out = writer.getOut();
+			using MyTriangleList = sdw::TriangleListT< InputPosition >;
+			using MyTriangleStream = sdw::TriangleStreamT< OutputPosition >;
 
-			writer.implementMainT< GeomOutputPos, 3u >( [&]( sdw::TriangleStreamT< GeomOutputPos > out )
+			writer.implementMainT< MyTriangleList, MyTriangleStream, 3u >( [&]( MyTriangleList in
+				, MyTriangleStream out )
 				{
 					auto pos = writer.declLocale< Vec4 >( "pos" );
 
@@ -152,7 +220,8 @@ namespace
 					out.restartStrip();
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -169,7 +238,8 @@ namespace
 					pxl_fragColor = vec4( geo_position, 1.0f );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -207,12 +277,11 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, false, true );
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
 			GeometryWriter writer;
-			writer.inputLayout( ast::type::InputLayout::eTriangleList );
 
 			sdw::Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
@@ -221,11 +290,52 @@ namespace
 			auto c3d_size = voxelizeUbo.declMember< sdw::Vec2 >( "c3d_size" );
 			voxelizeUbo.end();
 
-			uint32_t index = 0u;
-			auto vtx_position = writer.declInputArray< Vec3 >( "vtx_position", index++, 3u );
-			auto vtx_normal = writer.declInputArray< Vec3 >( "vtx_normal", index++, 3u );
-			auto vtx_texture = writer.declInputArray< Vec3 >( "vtx_texture", index++, 3u );
-			auto in = writer.getIn();
+			struct GeomInput
+				: sdw::StructInstance
+			{
+				GeomInput( ShaderWriter & writer
+					, sdw::expr::ExprPtr expr
+					, bool enabled = true )
+					: sdw::StructInstance{ writer, std::move( expr ), enabled }
+					, position{ getMember< Vec3 >( "position" ) }
+					, normal{ getMember< Vec3 >( "normal" ) }
+					, texcoord{ getMember< Vec3 >( "texcoord" ) }
+				{
+				}
+
+				SDW_DeclStructInstance( , GeomInput );
+
+				static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+				{
+					auto result = cache.getStruct( ast::type::MemoryLayout::eStd430, "GeomInput" );
+
+					if ( result->empty() )
+					{
+						uint32_t index = 0u;
+						result->declMember( "position"
+							, ast::type::Kind::eVec3F
+							, ast::type::NotArray
+							, index++
+							, ast::var::Flag::eShaderInput );
+						result->declMember( "normal"
+							, ast::type::Kind::eVec3F
+							, ast::type::NotArray
+							, index++
+							, ast::var::Flag::eShaderInput );
+						result->declMember( "texcoord"
+							, ast::type::Kind::eVec3F
+							, ast::type::NotArray
+							, index++
+							, ast::var::Flag::eShaderInput );
+					}
+
+					return result;
+				}
+
+				sdw::Vec3 position;
+				sdw::Vec3 normal;
+				sdw::Vec3 texcoord;
+			};
 
 			struct GeomOutput
 				: sdw::StructInstance
@@ -287,12 +397,15 @@ namespace
 				sdw::UInt axis;
 				sdw::Vec4 aabb;
 			};
-			auto out = writer.getOut();
 
-			writer.implementMainT< GeomOutput, 3u >( [&]( sdw::TriangleStreamT< GeomOutput > out )
+			using MyTriangleList = sdw::TriangleListT< GeomInput >;
+			using MyTriangleStream = sdw::TriangleStreamT< GeomOutput >;
+
+			writer.implementMainT< MyTriangleList, MyTriangleStream, 3u >( [&]( MyTriangleList in
+				, MyTriangleStream out )
 				{
 					auto faceNormal = writer.declLocale( "faceNormal"
-						, normalize( cross( vtx_position[1] - vtx_position[0], vtx_position[2] - vtx_position[0] ) ) );
+						, normalize( cross( in[1].position - in[0].position, in[2].position - in[0].position ) ) );
 					auto NdotXAxis = writer.declLocale( "NdotXAxis"
 						, abs( faceNormal.x() ) );
 					auto NdotYAxis = writer.declLocale( "NdotYAxis"
@@ -331,9 +444,9 @@ namespace
 					auto pos = writer.declLocaleArray< Vec4 >( "pos", 3u );
 
 					//transform vertices to clip space
-					pos[0] = proj * pos[0];
-					pos[1] = proj * pos[1];
-					pos[2] = proj * pos[2];
+					pos[0] = proj * curPosition[0];
+					pos[1] = proj * curPosition[1];
+					pos[2] = proj * curPosition[2];
 
 					//Next we enlarge the triangle to enable conservative rasterization
 					auto aabb = writer.declLocale< Vec4 >( "aabb" );
@@ -377,24 +490,24 @@ namespace
 
 					out.vtx.position = pos[0];
 					out.position = pos[0].xyz();
-					out.normal = vtx_normal[0];
-					out.texcoord = vtx_texture[0];
+					out.normal = in[0].normal;
+					out.texcoord = in[0].texcoord;
 					out.axis = axis;
 					out.aabb = aabb;
 					out.append();
 
 					out.vtx.position = pos[1];
 					out.position = pos[1].xyz();
-					out.normal = vtx_normal[1];
-					out.texcoord = vtx_texture[1];
+					out.normal = in[1].normal;
+					out.texcoord = in[1].texcoord;
 					out.axis = axis;
 					out.aabb = aabb;
 					out.append();
 
 					out.vtx.position = pos[2];
 					out.position = pos[2].xyz();
-					out.normal = vtx_normal[2];
-					out.texcoord = vtx_texture[2];
+					out.normal = in[2].normal;
+					out.texcoord = in[2].texcoord;
 					out.axis = axis;
 					out.aabb = aabb;
 					out.append();
@@ -403,13 +516,13 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, false, true );
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
 			FragmentWriter writer;
 
-			auto pxl_voxelVisibility = writer.declImage< WUImg3DR8 >( "pxl_voxelVisibility", 0u, 1u );
+			auto pxl_voxelVisibility = writer.declImage< WUImg3DR8 >( "pxl_voxelVisibility", 1u, 1u );
 
 			sdw::Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
@@ -426,7 +539,7 @@ namespace
 			auto geo_aabb = writer.declInput< Vec4 >( "geo_aabb", index++, uint32_t( sdw::var::Flag::eFlat ) );
 			auto in = writer.getIn();
 
-			auto pxl_fragColor( writer.declOutput< Vec4 >( "pxl_fragColor", 0 ) );
+			auto pxl_fragColor( writer.declOutput< Vec4 >( "pxl_fragColor", 0u ) );
 
 			writer.implementFunction< sdw::Void >( "main"
 				, [&]()
@@ -471,7 +584,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, false, true );
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		testEnd();
@@ -481,10 +594,12 @@ namespace
 sdwTestSuiteMain( TestWriterGeometryShader )
 {
 	sdwTestSuiteBegin();
-	basicGeometry( testCounts );
-	//onlyGeometry( testCounts );
-	//basicPipeline( testCounts );
-	//voxelPipeline( testCounts );
+	noIO( testCounts );
+	inputOnly( testCounts );
+	outputOnly( testCounts );
+	inout( testCounts );
+	basicPipeline( testCounts );
+	voxelPipeline( testCounts );
 	sdwTestSuiteEnd();
 }
 

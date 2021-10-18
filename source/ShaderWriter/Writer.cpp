@@ -515,11 +515,6 @@ namespace sdw
 	{
 	}
 
-	void GeometryWriter::inputLayout( type::InputLayout layout )
-	{
-		addStmt( stmt::makeInputGeometryLayout( layout ) );
-	}
-
 	InGeometry GeometryWriter::getIn()
 	{
 		return InGeometry{ *this };

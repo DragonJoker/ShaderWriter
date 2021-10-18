@@ -12,6 +12,11 @@
 #include <ShaderWriter/WriterDebug.hpp>
 #include <ShaderWriter/Source.hpp>
 
+#define Compilers_HLSL false, true, false
+#define Compilers_GLSL false, false, true
+#define Compilers_SPIRV true, false, false
+#define Compilers_All true, true, true
+
 namespace test
 {
 	namespace sdw_test

@@ -199,7 +199,7 @@ namespace spirv
 	}
 
 	Module::Module( Header const & pheader
-		, InstructionList && instructions )
+		, InstructionList instructions )
 		: variables{ &globalDeclarations }
 	{
 		initialiseHeader( pheader );
@@ -225,28 +225,19 @@ namespace spirv
 
 	Module Module::deserialize( UInt32List const & spirv )
 	{
-		auto it = spirv.cbegin();
-		auto popValue = [&it]( uint32_t & value )
-		{
-			value = *it;
-			++it;
-		};
-		auto popInstruction = [&it]()
-		{
-			return spirv::Instruction::deserialize( it );
-		};
+		BufferCIt buffer{ spirv.cbegin(), 0u };
 		Header header{};
-		popValue( header.magic );
-		popValue( header.version );
-		popValue( header.builder );
-		popValue( header.boundIds );
-		popValue( header.schema );
+		header.magic = buffer.popValue();
 		assert( header.magic == spv::MagicNumber );
+		header.version = buffer.popValue();
+		header.builder = buffer.popValue();
+		header.boundIds = buffer.popValue();
+		header.schema = buffer.popValue();
 		spirv::InstructionList instructions;
 
-		while ( it != spirv.end() )
+		while ( buffer.it != spirv.end() )
 		{
-			instructions.emplace_back( popInstruction() );
+			instructions.emplace_back( buffer.popInstruction() );
 		}
 
 		return Module{ header, std::move( instructions ) };
@@ -1163,18 +1154,18 @@ namespace spirv
 
 		if ( type->getKind() == ast::type::Kind::eArray )
 		{
-			auto arrayedType = std::static_pointer_cast< ast::type::Array >( type )->getType();
-			auto arraySize = getArraySize( type );
+			auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
 			auto elementTypeId = registerType( arrayedType
 				, mbrIndex
 				, parentId
 				, arrayStride );
-
 			auto unqualifiedType = getUnqualifiedType( *m_cache, type );
 			auto it = m_registeredTypes.find( unqualifiedType );
 
 			if ( it == m_registeredTypes.end() )
 			{
+				auto arraySize = getArraySize( type );
+
 				if ( arraySize != ast::type::UnknownArraySize )
 				{
 					auto lengthId = registerLiteral( arraySize );
