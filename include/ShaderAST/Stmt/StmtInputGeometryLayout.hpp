@@ -15,23 +15,32 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API InputGeometryLayout( type::InputLayout layout );
+		SDAST_API InputGeometryLayout( type::TypePtr type
+			, type::InputLayout layout );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
-		inline type::InputLayout getLayout()const
+		type::TypePtr getType()const
+		{
+			return m_type;
+		}
+
+		type::InputLayout getLayout()const
 		{
 			return m_layout;
 		}
 
 	private:
+		type::TypePtr m_type;
 		type::InputLayout m_layout;
 	};
 	using InputGeometryLayoutPtr = std::unique_ptr< InputGeometryLayout >;
 
-	inline InputGeometryLayoutPtr makeInputGeometryLayout( type::InputLayout layout )
+	inline InputGeometryLayoutPtr makeInputGeometryLayout( type::TypePtr type
+		, type::InputLayout layout )
 	{
-		return std::make_unique< InputGeometryLayout >( layout );
+		return std::make_unique< InputGeometryLayout >( std::move( type )
+			, layout );
 	}
 }
 

@@ -599,16 +599,11 @@ namespace sdw
 		*	I/O layout declaration.
 		*/
 		/**@{*/
-		SDW_API void inputLayout( type::InputLayout layout );
 		SDW_API InGeometry getIn();
 		SDW_API OutGeometry getOut();
 
-		template< typename StreamDataT, uint32_t MaxPrimCountT >
-		inline void implementMainT( std::function< void( PointStreamT< StreamDataT > ) > const & function );
-		template< typename StreamDataT, uint32_t MaxPrimCountT >
-		inline void implementMainT( std::function< void( LineStreamT< StreamDataT > ) > const & function );
-		template< typename StreamDataT, uint32_t MaxPrimCountT >
-		inline void implementMainT( std::function< void( TriangleStreamT< StreamDataT > ) > const & function );
+		template< typename InputArrT, typename OutStreamT, uint32_t MaxPrimCountT >
+		inline void implementMainT( std::function< void( InputArrT, OutStreamT ) > const & function );
 		/**@}*/
 #pragma endregion
 #pragma region Stream Output declaration

@@ -23,6 +23,30 @@ namespace ast::type
 		eTriangleStripWithAdjacency,
 	};
 
+	constexpr uint32_t getArraySize( InputLayout layout )
+	{
+		switch ( layout )
+		{
+		case InputLayout::ePointList:
+			return 1u;
+		case InputLayout::eLineList:
+		case InputLayout::eLineStrip:
+			return 2u;
+		case InputLayout::eTriangleList:
+		case InputLayout::eTriangleStrip:
+		case InputLayout::eTriangleFan:
+			return 3u;
+		case InputLayout::eLineListWithAdjacency:
+		case InputLayout::eLineStripWithAdjacency:
+			return 4u;
+		case InputLayout::eTriangleListWithAdjacency:
+		case InputLayout::eTriangleStripWithAdjacency:
+			return 6u;
+		default:
+			return 1u;
+		}
+	}
+
 	struct GeometryInput
 		: public Type
 	{

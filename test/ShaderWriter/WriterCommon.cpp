@@ -13,7 +13,6 @@
 #endif
 #if SDW_HasCompilerSpirV
 #	include <CompilerSpirV/compileSpirV.hpp>
-#	include <CompilerSpirV/SpirvModule.hpp>
 #	if SDW_Test_HasVulkan && SDW_HasVulkanLayer
 #		include <VulkanLayer/PipelineBuilder.hpp>
 #		include <VulkanLayer/ProgramPipeline.hpp>
@@ -192,6 +191,7 @@ namespace test
 			, sdw_test::TestCounts & testCounts
 			, bool checkRef )
 		{
+			//auto parsedShader = spirv::parseSpirv( shader.getType(), spirv );
 			std::string errors;
 			auto result = test::compileSpirV( shader, spirv, errors, testCounts );
 
@@ -580,8 +580,10 @@ namespace test
 						, glsl::compileGlsl( shader
 							, ast::SpecialisationInfo{}
 							, getDefaultGlslConfig() ) );
-					auto module = spirv::Module::deserialize( glslangSpirv );
-					displayShader( "glslang SPIR-V", spirv::Module::write( module, true ), testCounts, true );
+					displayShader( "glslang SPIR-V"
+						, spirv::displaySpirv( glslangSpirv )
+						, testCounts
+						, true );
 				}
 			}
 			catch ( std::exception & exc )
@@ -625,9 +627,8 @@ namespace test
 					, glsl::compileGlsl( shader
 						, ast::SpecialisationInfo{}
 						, getDefaultGlslConfig() ) );
-				auto module = spirv::Module::deserialize( glslangSpirv );
 				displayShader( "glslang SPIR-V"
-					, spirv::Module::write( module, true )
+					, spirv::displaySpirv( glslangSpirv )
 					, testCounts
 					, true );
 			}

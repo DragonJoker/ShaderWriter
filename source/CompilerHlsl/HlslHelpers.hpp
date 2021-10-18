@@ -93,6 +93,7 @@ namespace hlsl
 		ast::var::VariablePtr outputVar;
 		ast::var::VariablePtr mainOutputVar;
 		ast::var::VariableList ssboList;
+		std::map< ast::var::VariablePtr, ast::var::VariablePtr > paramToMain;
 		LinkedVars linkedVars;
 		FuncNames funcs;
 		VarReplacements replacedVars;

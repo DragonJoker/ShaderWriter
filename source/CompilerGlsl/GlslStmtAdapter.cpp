@@ -144,30 +144,55 @@ namespace glsl
 		if ( stmt->getName() == "main"
 			&& !funcType->empty() )
 		{
-			m_adaptationData.geomOutput = ( *funcType->begin() );
-			auto type = m_adaptationData.geomOutput->getType();
-
-			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			for ( auto & param : *funcType )
 			{
-				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-				type = geomType.type;
+				auto type = param->getType();
 
-				if ( type->getKind() == ast::type::Kind::eStruct )
+				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
-					{
-						auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
-							, mbr.type
-							, mbr.flag );
-						m_adaptationData.geomOutputs.emplace_back( var );
-						m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
-							, mbr.location ) );
-					}
-				}
+					m_adaptationData.geomOutput = param;
+					auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+					type = geomType.type;
 
-				m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
-					, geomType.layout
-					, geomType.count ) );
+					if ( type->getKind() == ast::type::Kind::eStruct )
+					{
+						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						{
+							auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "geomOut_" + mbr.name }
+								, mbr.type
+								, mbr.flag );
+							m_adaptationData.geomOutputs.emplace_back( var );
+							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
+								, mbr.location ) );
+						}
+					}
+
+					m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+						, geomType.layout
+						, geomType.count ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+				{
+					m_adaptationData.geomInput = param;
+					auto & geomType = static_cast< ast::type::GeometryInput const & >( *type );
+					type = geomType.type;
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
+					{
+						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						{
+							auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "geomIn_" + mbr.name }
+								, m_cache.getArray( mbr.type, getArraySize( geomType.layout ) )
+								, mbr.flag );
+							m_adaptationData.geomInputs.emplace_back( var );
+							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
+								, mbr.location ) );
+						}
+					}
+
+					m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
+						, geomType.layout ) );
+				}
 			}
 
 			funcType = m_cache.getFunction( m_cache.getVoid(), {} );

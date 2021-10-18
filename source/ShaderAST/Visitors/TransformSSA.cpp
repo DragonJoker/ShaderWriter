@@ -2114,21 +2114,32 @@ namespace ast
 				m_outputGeometryLayoutStmt = stmt;
 			}
 
+			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
+			{
+				m_inputGeometryLayoutStmt = stmt;
+			}
+
 			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
 				if ( stmt->getName() == "main"
-					&& stmt->getType()->empty()
-					&& m_outputGeometryLayoutStmt )
+					&& stmt->getType()->size() < 2u
+					&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
 				{
 					auto funcType = stmt->getType();
 					auto & cache = funcType->getCache();
-					auto type = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
+					auto inType = type::makeGeometryInputType( m_inputGeometryLayoutStmt->getType()
+						, m_inputGeometryLayoutStmt->getLayout() );
+					auto outType = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
 						, m_outputGeometryLayoutStmt->getLayout()
 						, m_outputGeometryLayoutStmt->getPrimCount() );
 					var::VariableList parameters;
+					parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomData" }
+						, inType
+						, var::Flag::eInputParam | var::Flag::eShaderInput ) );
 					parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomStream" }
-						, type
+						, outType
 						, var::Flag::eInputParam | var::Flag::eOutputParam | var::Flag::eShaderOutput ) );
+
 					funcType = cache.getFunction( funcType->getReturnType()
 						, std::move( parameters ) );
 					auto save = m_current;
@@ -2165,6 +2176,7 @@ namespace ast
 			SSAData & m_data;
 			type::TypesCache & m_cache;
 			stmt::OutputGeometryLayout * m_outputGeometryLayoutStmt{};
+			stmt::InputGeometryLayout * m_inputGeometryLayoutStmt{};
 		};
 	}
 

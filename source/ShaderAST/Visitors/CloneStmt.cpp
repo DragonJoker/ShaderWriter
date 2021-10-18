@@ -191,7 +191,8 @@ namespace ast
 
 	void StmtCloner::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
 	{
-		m_current->addStmt( stmt::makeInputGeometryLayout( stmt->getLayout() ) );
+		m_current->addStmt( stmt::makeInputGeometryLayout( stmt->getType()
+			, stmt->getLayout() ) );
 	}
 
 	void StmtCloner::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )

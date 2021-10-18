@@ -24,6 +24,14 @@ namespace spirv
 		std::set< ast::var::VariablePtr > outputs;
 		mutable uint32_t nextVarId{ 0u };
 		mutable uint32_t aliasId{ 0u };
+
+		void addShaderInput( std::string const & name
+			, ast::type::TypePtr type
+			, uint32_t flags
+			, ast::type::GeometryInput const & geomType );
+		void addShaderOutput( std::string const & name
+			, ast::type::TypePtr type
+			, uint32_t flags );
 	};
 
 	struct IntrinsicConfig

@@ -226,6 +226,50 @@ namespace spirv
 
 	//*************************************************************************
 
+	void ModuleConfig::addShaderInput( std::string const & name
+		, ast::type::TypePtr type
+		, uint32_t flags
+		, ast::type::GeometryInput const & geomType )
+	{
+		auto it = std::find_if( inputs.begin()
+			, inputs.end()
+			, [&name]( ast::var::VariablePtr const & lookup )
+			{
+				return name == lookup->getName();
+			} );
+
+		if ( it == inputs.end() )
+		{
+			auto & cache = type->getCache();
+			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
+				, cache.getArray( type, getArraySize( geomType.layout ) )
+				, flags );
+			inputs.emplace( var );
+		}
+	}
+
+	void ModuleConfig::addShaderOutput( std::string const & name
+		, ast::type::TypePtr type
+		, uint32_t flags )
+	{
+		auto it = std::find_if( outputs.begin()
+			, outputs.end()
+			, [&name]( ast::var::VariablePtr const & lookup )
+			{
+				return name == lookup->getName();
+			} );
+
+		if ( it == outputs.end() )
+		{
+			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
+				, type
+				, flags );
+			outputs.emplace( var );
+		}
+	}
+
+	//*************************************************************************
+
 	size_t ConstExprIdentifierHasher::operator()( ConstExprIdentifier const & obj )const
 	{
 		auto result = std::hash< ast::type::TypePtr >{}( obj.type );

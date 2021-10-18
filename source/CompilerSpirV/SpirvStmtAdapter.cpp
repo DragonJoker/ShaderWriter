@@ -72,30 +72,66 @@ namespace spirv
 			&& !funcType->empty() )
 		{
 			auto & cache = funcType->getCache();
-			m_adaptationData.geomOutput = ( *funcType->begin() );
-			auto type = m_adaptationData.geomOutput->getType();
 
-			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			for ( auto & param : *funcType )
 			{
-				auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-				type = geomType.type;
+				auto type = param->getType();
 
-				if ( type->getKind() == ast::type::Kind::eStruct )
+				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
-					{
-						auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.config.nextVarId, mbr.name }
-							, mbr.type
-							, mbr.flag );
-						m_adaptationData.geomOutputs.emplace_back( var );
-						m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
-							, mbr.location ) );
-					}
-				}
+					m_adaptationData.geomOutput = param;
+					auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
+					type = geomType.type;
 
-				m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
-					, geomType.layout
-					, geomType.count ) );
+					if ( type->getKind() == ast::type::Kind::eStruct )
+					{
+						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						{
+							auto it = std::find_if( m_adaptationData.config.outputs.begin()
+								, m_adaptationData.config.outputs.end()
+								, [&mbr]( ast::var::VariablePtr const & lookup )
+								{
+									return lookup->getName() == "geomOut_" + mbr.name;
+								} );
+							assert( it != m_adaptationData.config.outputs.end() );
+							auto var = *it;
+							m_adaptationData.geomOutputs.emplace_back( var );
+							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
+								, mbr.location ) );
+						}
+					}
+
+					m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+						, geomType.layout
+						, geomType.count ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+				{
+					m_adaptationData.geomInput = param;
+					auto & geomType = static_cast< ast::type::GeometryInput const & >( *type );
+					type = geomType.type;
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
+					{
+						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						{
+							auto it = std::find_if( m_adaptationData.config.inputs.begin()
+								, m_adaptationData.config.inputs.end()
+								, [&mbr]( ast::var::VariablePtr const & lookup )
+								{
+									return lookup->getName() == "geomIn_" + mbr.name;
+								} );
+							assert( it != m_adaptationData.config.inputs.end() );
+							auto var = *it;
+							m_adaptationData.geomInputs.emplace_back( var );
+							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
+								, mbr.location ) );
+						}
+					}
+
+					m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
+						, geomType.layout ) );
+				}
 			}
 
 			funcType = cache.getFunction( cache.getVoid(), {} );

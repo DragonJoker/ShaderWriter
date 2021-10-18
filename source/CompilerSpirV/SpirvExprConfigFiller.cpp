@@ -141,12 +141,14 @@ namespace spirv
 				processed = m_config.inputs.end () != m_config.inputs.find( outerVar );
 			}
 
-			if ( !processed )
+			if ( !processed
+				&& outer->getType()->getKind() == ast::type::Kind::eGeometryInput )
 			{
-				m_config.inputs.insert( ast::var::makeVariable( ++m_config.nextVarId
-					, expr->getType()
-					, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
-					, expr->getMemberFlags() ) );
+				auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
+				m_config.addShaderInput( "geomIn_" + mbr.name
+					, mbr.type
+					, uint32_t( mbr.flag )
+					, static_cast< ast::type::GeometryInput const & >( *outer->getType() ) );
 			}
 		}
 	}
@@ -293,7 +295,8 @@ namespace spirv
 	{
 		checkType( expr, m_config );
 
-		if ( expr->getVariable()->isShaderInput() )
+		if ( expr->getVariable()->isShaderInput()
+			&& expr->getType()->getKind() != ast::type::Kind::eGeometryInput )
 		{
 			m_config.inputs.insert( expr->getVariable() );
 		}

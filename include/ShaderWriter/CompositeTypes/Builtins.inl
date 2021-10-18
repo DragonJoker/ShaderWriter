@@ -10,6 +10,52 @@ namespace sdw
 {
 	//*************************************************************************
 
+	template< typename InputDataT >
+	InputT< InputDataT >::InputT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: InputDataT{ writer, std::move( expr ), enabled }
+	{
+	}
+
+	//*************************************************************************
+
+	template< typename InputDataT, type::InputLayout LayoutT >
+	InputArrayT< InputDataT, LayoutT >::InputArrayT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: Array< InputT< InputDataT > >{ writer, std::move( expr ), enabled }
+		, vtx{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_in"
+					, PerVertex::getArrayType( getTypesCache( writer ), getArraySize( LayoutT ) )
+					, var::Flag::eShaderInput ) )
+			, true }
+	{
+	}
+
+	template< typename InputDataT, type::InputLayout LayoutT >
+	InputArrayT< InputDataT, LayoutT >::InputArrayT( ShaderWriter & writer )
+		: InputArrayT{ writer
+			, makeExpr( writer
+				, getShader( writer ).registerName( "geomIn"
+					, ast::type::makeGeometryInputType( makeType( getTypesCache( writer ) )
+						, LayoutT )
+					, var::Flag::eShaderInput ) ) }
+	{
+		addStmt( writer
+			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryInput
+				, vtx.getType() ) );
+	}
+
+	template< typename InputDataT, type::InputLayout LayoutT >
+	ast::type::TypePtr InputArrayT< InputDataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	{
+		return InputT< InputDataT >::makeType( cache );
+	}
+
+	//*************************************************************************
+
 	template< typename StreamDataT >
 	OutputStreamT< StreamDataT >::OutputStreamT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr

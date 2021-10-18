@@ -108,6 +108,15 @@ namespace sdw
 
 	//*************************************************************************
 
+	InputT< Void >::InputT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
+	{
+	}
+
+	//*************************************************************************
+
 	InGeometry::InGeometry( ShaderWriter & writer )
 		: Builtin{ writer }
 		, primitiveIDIn{ writer
@@ -118,14 +127,7 @@ namespace sdw
 			, makeIdent( writer.getTypesCache()
 				, writer.getShader().registerBuiltin( "gl_InvocationID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
 			, true }
-		, vtx{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_in", PerVertex::getArrayType( writer.getTypesCache(), 3u ), var::Flag::eShaderInput ) )
-			, true }
 	{
-		addStmt( findWriterMandat( *this )
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryInput
-				, vtx.getType() ) );
 	}
 
 	//*************************************************************************

@@ -18,6 +18,13 @@ namespace sdw
 				else if ( type->getKind() == type::Kind::eGeometryInput )
 				{
 					type = static_cast< type::GeometryInput const & >( *type ).type;
+
+					if ( type->getKind() == type::Kind::eArray )
+					{
+						return getStruct( static_cast< type::Array const & >( *type ).getType() );
+					}
+
+					return nullptr;
 				}
 				else if ( type->getKind() == type::Kind::eGeometryOutput )
 				{

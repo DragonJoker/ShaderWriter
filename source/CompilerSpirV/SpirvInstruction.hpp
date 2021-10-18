@@ -138,6 +138,31 @@ namespace spirv
 	struct Instruction;
 	using InstructionPtr = std::unique_ptr< Instruction >;
 
+	template< typename IterT >
+	struct BufferItT
+	{
+		IterT it;
+		uint32_t index;
+
+		BufferItT & operator++()
+		{
+			++it;
+			++index;
+		}
+
+		uint32_t popValue()
+		{
+			auto result = *it;
+			++it;
+			++index;
+			return result;
+		}
+		
+		InstructionPtr popInstruction();
+	};
+	using BufferCIt = BufferItT< UInt32ListCIt >;
+	using BufferIt = BufferItT< UInt32ListIt >;
+
 	struct Instruction
 	{
 		struct Config
@@ -158,20 +183,20 @@ namespace spirv
 			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
 		SDWSPIRV_API Instruction( Config const & config
 			, Op op
-			, UInt32ListIt & buffer );
+			, BufferIt & buffer );
 		SDWSPIRV_API Instruction( Config const & config
 			, Op op
-			, UInt32ListCIt & buffer );
+			, BufferCIt & buffer );
 		SDWSPIRV_API Instruction( Config const & config
 			, spv::Op op
-			, UInt32ListIt & buffer );
+			, BufferIt & buffer );
 		SDWSPIRV_API Instruction( Config const & config
 			, spv::Op op
-			, UInt32ListCIt & buffer );
+			, BufferCIt & buffer );
 		SDWSPIRV_API static void serialize( UInt32List & buffer
 			, Instruction const & instruction );
-		SDWSPIRV_API static InstructionPtr deserialize( UInt32ListCIt & buffer );
-		SDWSPIRV_API static InstructionPtr deserialize( UInt32ListIt & buffer );
+		SDWSPIRV_API static InstructionPtr deserialize( BufferCIt & buffer );
+		SDWSPIRV_API static InstructionPtr deserialize( BufferIt & buffer );
 		SDWSPIRV_API virtual ~Instruction();
 
 		// Serialisable.

@@ -32,7 +32,7 @@ namespace spirv
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
 		SDWSPIRV_API Module( Header const & header
-			, InstructionList && instructions );
+			, InstructionList instructions );
 
 		SDWSPIRV_API static Module deserialize( UInt32List const & spirv );
 		SDWSPIRV_API static std::vector< uint32_t > serialize( spirv::Module const & module );

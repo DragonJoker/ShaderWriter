@@ -39,6 +39,9 @@ namespace spirv
 		, bool writeHeader = true );
 	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
 		, SpirVConfig config );
+	SDWSPIRV_API std::string displaySpirv( std::vector< uint32_t > const & spirv );
+	SDWSPIRV_API ast::Shader parseSpirv( ast::ShaderStage stage
+		, std::vector< uint32_t > const & spirv );
 }
 
 #endif

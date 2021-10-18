@@ -3,7 +3,9 @@ See LICENSE file in root folder
 */
 #include "HlslHelpers.hpp"
 
+#include <ShaderAST/Expr/ExprArrayAccess.hpp>
 #include <ShaderAST/Expr/ExprIdentifier.hpp>
+#include <ShaderAST/Expr/ExprLiteral.hpp>
 #include <ShaderAST/Expr/ExprMbrSelect.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampler.hpp>
@@ -631,7 +633,7 @@ namespace hlsl
 	{
 		if ( type->getKind() == ast::type::Kind::eGeometryInput )
 		{
-			return "[" + std::to_string( getArraySize( static_cast< ast::type::GeometryInput const & >( *type ).layout ) ) + "]";
+			return "[" + std::to_string( ast::type::getArraySize( static_cast< ast::type::GeometryInput const & >( *type ).layout ) ) + "]";
 		}
 
 		std::string result;
@@ -1060,6 +1062,13 @@ namespace hlsl
 
 	ast::var::VariablePtr AdaptationData::processPending( ast::var::VariablePtr var )
 	{
+		auto it = paramToMain.find( var );
+
+		if ( it != paramToMain.end() )
+		{
+			return it->second;
+		}
+
 		if ( var->isShaderInput() )
 		{
 			return processPendingInput( var );
@@ -1106,10 +1115,22 @@ namespace hlsl
 
 		if ( inputVar )
 		{
-			inputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, inputVar )
-					, mbrIndex
-					, var->getFlags() ) );
+			if ( inputVar->getType()->getKind() == ast::type::Kind::eGeometryInput )
+			{
+				inputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::GeometryInput const & >( *inputVar->getType() ).type
+							, ast::expr::makeIdentifier( cache, inputVar )
+							, nullptr/* just a placeholder */ )
+						, mbrIndex
+						, var->getFlags() ) );
+			}
+			else
+			{
+				inputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, inputVar )
+						, mbrIndex
+						, var->getFlags() ) );
+			}
 		}
 		else
 		{
