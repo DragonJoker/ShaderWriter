@@ -24,7 +24,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::VertexWriter writer;
@@ -40,7 +40,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::VertexWriter writer;
@@ -55,7 +55,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::VertexWriter writer;
@@ -70,7 +70,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::VertexWriter writer;
@@ -87,7 +87,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::VertexWriter writer;
@@ -104,7 +104,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -122,7 +122,7 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::GeometryWriter writer;
@@ -142,7 +142,7 @@ namespace
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
 			DummyMainT;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}

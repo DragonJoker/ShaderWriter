@@ -3,6 +3,7 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef CurrentCompilers
 #define CurrentCompilers Compilers_All
 
 namespace
@@ -45,9 +46,9 @@ namespace
 	using InputPosition = PositionT< ast::var::Flag::eShaderInput >;
 	using OutputPosition = PositionT< ast::var::Flag::eShaderOutput >;
 
-	void noIO( test::sdw_test::TestCounts & testCounts )
+	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "noIO" );
+		testBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
@@ -66,9 +67,9 @@ namespace
 		testEnd();
 	}
 
-	void outputOnly( test::sdw_test::TestCounts & testCounts )
+	void specificOutputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "outputOnly" );
+		testBegin( "specificOutputOnly" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
@@ -98,9 +99,9 @@ namespace
 		testEnd();
 	}
 
-	void inputOnly( test::sdw_test::TestCounts & testCounts )
+	void specificInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "inputOnly" );
+		testBegin( "specificInputOnly" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
@@ -127,9 +128,9 @@ namespace
 		testEnd();
 	}
 
-	void inout( test::sdw_test::TestCounts & testCounts )
+	void specificInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "inout" );
+		testBegin( "specificInAndOut" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
@@ -594,10 +595,10 @@ namespace
 sdwTestSuiteMain( TestWriterGeometryShader )
 {
 	sdwTestSuiteBegin();
-	noIO( testCounts );
-	inputOnly( testCounts );
-	outputOnly( testCounts );
-	inout( testCounts );
+	noSpecificIO( testCounts );
+	specificInputOnly( testCounts );
+	specificOutputOnly( testCounts );
+	specificInAndOut( testCounts );
 	basicPipeline( testCounts );
 	voxelPipeline( testCounts );
 	sdwTestSuiteEnd();

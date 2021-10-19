@@ -19,7 +19,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 3u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -39,7 +39,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 3u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -58,7 +58,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -77,7 +77,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -100,7 +100,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -123,7 +123,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -157,7 +157,7 @@ namespace
 				checkEqual( writer.getShader().getContainer()->size(), 1u );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -185,7 +185,7 @@ namespace
 				endRequire;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 }

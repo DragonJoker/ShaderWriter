@@ -72,7 +72,7 @@ namespace
 							, s.getSize( 0_i ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -101,7 +101,7 @@ namespace
 							, s.getSize() );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -214,7 +214,7 @@ namespace
 							, s.getLevels() );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -271,7 +271,7 @@ namespace
 							, s.sample( test::getDefault< SampleT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -303,7 +303,7 @@ namespace
 								, 0.5_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -361,7 +361,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -397,7 +397,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -450,7 +450,7 @@ namespace
 							, s.proj( test::getDefault< SampleProjT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -484,7 +484,7 @@ namespace
 								, 0.5_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -538,7 +538,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -572,7 +572,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -630,7 +630,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -665,7 +665,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -722,7 +722,7 @@ namespace
 								, test::getDefault < OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -760,7 +760,7 @@ namespace
 								, test::getDefault < OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -818,7 +818,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -854,7 +854,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -910,7 +910,7 @@ namespace
 								, 1_i ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -941,7 +941,7 @@ namespace
 							, s.fetch( test::getDefault< FetchT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -999,7 +999,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1054,7 +1054,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1090,7 +1090,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1146,7 +1146,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1182,7 +1182,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1240,7 +1240,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1277,7 +1277,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1331,7 +1331,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1365,7 +1365,7 @@ namespace
 								, 1.0_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1421,7 +1421,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1457,7 +1457,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1517,7 +1517,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1555,7 +1555,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1615,7 +1615,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1656,7 +1656,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1712,7 +1712,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1749,7 +1749,7 @@ namespace
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1807,7 +1807,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1846,7 +1846,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1901,7 +1901,7 @@ namespace
 								, 1_i ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1937,7 +1937,7 @@ namespace
 								, 0.5_f ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -1992,7 +1992,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -2028,7 +2028,7 @@ namespace
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -2077,7 +2077,7 @@ namespace
 								, o ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -2114,7 +2114,7 @@ namespace
 								, o ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -2171,7 +2171,7 @@ namespace
 								, offsets ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -2209,7 +2209,7 @@ namespace
 								, offsets ) );
 					} );
 				test::writeShader( writer
-					, testCounts );
+					, testCounts, CurrentCompilers );
 			}
 			testEnd();
 		}

@@ -28,7 +28,7 @@ namespace
 					}
 					FI;
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -46,7 +46,7 @@ namespace
 				, [&]()
 				{
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -70,7 +70,7 @@ namespace
 					}
 					FI;
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}

@@ -23,7 +23,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -41,7 +41,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -59,7 +59,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -77,7 +77,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -95,7 +95,7 @@ namespace
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -113,7 +113,7 @@ namespace
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -131,7 +131,7 @@ namespace
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -149,7 +149,7 @@ namespace
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -167,7 +167,7 @@ namespace
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					check( shader.getContainer()->size() == count );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -186,7 +186,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -205,7 +205,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -224,7 +224,7 @@ namespace
 					auto & stmt = *shader.getContainer()->back();
 					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
