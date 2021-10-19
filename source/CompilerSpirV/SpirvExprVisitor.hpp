@@ -223,8 +223,8 @@ namespace spirv
 		ValueId m_initialiser;
 		bool m_hasFuncInit{ false };
 		bool m_isAlias;
-		std::array< ast::type::StructPtr, 4u > m_unsignedExtendedTypes;
-		std::array< ast::type::StructPtr, 4u > m_signedExtendedTypes;
+		std::array< ast::type::BaseStructPtr, 4u > m_unsignedExtendedTypes;
+		std::array< ast::type::BaseStructPtr, 4u > m_signedExtendedTypes;
 		uint32_t m_aliasId{ 1u };
 	};
 }

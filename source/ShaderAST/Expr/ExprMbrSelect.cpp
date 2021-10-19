@@ -9,39 +9,6 @@ namespace ast::expr
 {
 	namespace
 	{
-		bool isStructType( type::TypePtr type )
-		{
-			return type->getKind() == type::Kind::eStruct
-				|| ( type->getKind() == type::Kind::eGeometryInput
-					&& ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eStruct
-						|| ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eArray
-							&& static_cast< type::Array const & >( *static_cast< type::GeometryInput const & >( *type ).type ).getType()->getKind() == type::Kind::eStruct ) ) )
-				|| ( type->getKind() == type::Kind::eGeometryOutput
-					&& static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct );
-		}
-
-		type::StructPtr getStructType( type::TypePtr type )
-		{
-			if ( type->getKind() == type::Kind::eGeometryInput )
-			{
-				type = static_cast< type::GeometryInput const & >( *type ).type;
-
-				if ( type->getKind() == type::Kind::eArray )
-				{
-					return getStructType( static_cast< type::Array const & >( *type ).getType() );
-				}
-
-				return nullptr;
-			}
-
-			if ( type->getKind() == type::Kind::eGeometryOutput )
-			{
-				return getStructType( static_cast< type::GeometryOutput const & >( *type ).type );
-			}
-
-			return std::static_pointer_cast< type::Struct >( type );
-		}
-
 		type::TypePtr getMbrType( type::TypePtr outerType
 			, uint32_t memberIndex )
 		{
@@ -87,6 +54,7 @@ namespace ast::expr
 
 	type::StructPtr MbrSelect::getOuterType()const
 	{
+		assert( isStructType( m_outer->getType() ) );
 		return getStructType( m_outer->getType() );
 	}
 

@@ -751,13 +751,14 @@ namespace hlsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			uint32_t index = 0u;
 
-			for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+			for ( auto & mbr : structType )
 			{
 				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
 					, mbr.type
-					, mbr.flag );
+					, structType.getFlag() );
 				m_adaptationData.addPendingInput( mbrVar, index++ );
 			}
 		}
@@ -777,13 +778,14 @@ namespace hlsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			uint32_t index = 0u;
 
-			for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+			for ( auto & mbr : structType )
 			{
 				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
 					, mbr.type
-					, mbr.flag );
+					, structType.getFlag() );
 				m_adaptationData.addPendingOutput( mbrVar, index++ );
 			}
 		}

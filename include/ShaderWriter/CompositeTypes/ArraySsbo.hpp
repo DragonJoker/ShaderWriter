@@ -25,7 +25,7 @@ namespace sdw
 
 		ArraySsboT( ShaderWriter & writer
 			, std::string const & name
-			, ast::type::StructPtr dataType
+			, ast::type::BaseStructPtr dataType
 			, uint32_t bind
 			, uint32_t set
 			, bool enabled );
@@ -50,7 +50,7 @@ namespace sdw
 		std::string m_name;
 		ast::InterfaceBlock m_interface;
 		ast::SsboInfo m_info;
-		type::StructPtr m_ssboType;
+		type::BaseStructPtr m_ssboType;
 		var::VariablePtr m_dataVar;
 		var::VariablePtr m_ssboVar;
 		bool m_enabled;

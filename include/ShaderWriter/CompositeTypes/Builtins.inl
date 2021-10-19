@@ -90,7 +90,7 @@ namespace sdw
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
-			, ast::stmt::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
+			, sdw::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
 	}
 
 	template< typename StreamDataT >
@@ -98,7 +98,7 @@ namespace sdw
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
-			, ast::stmt::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
+			, sdw::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
 	}
 
 	//*************************************************************************

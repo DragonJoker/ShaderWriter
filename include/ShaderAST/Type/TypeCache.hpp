@@ -61,7 +61,7 @@ namespace ast::type
 	{
 	public:
 		SDAST_API TypesCache();
-		SDAST_API ~TypesCache();
+		SDAST_API ~TypesCache() = default;
 		SDAST_API TypePtr getUndefined();
 		SDAST_API TypePtr getVoid();
 		SDAST_API TypePtr getBool();
@@ -117,7 +117,8 @@ namespace ast::type
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );
 		SDAST_API FunctionPtr getFunction( TypePtr returnType, var::VariableList parameters );
-		SDAST_API StructPtr getStruct( MemoryLayout layout, std::string const & name );
+		SDAST_API BaseStructPtr getStruct( MemoryLayout layout, std::string const & name );
+		SDAST_API IOStructPtr getIOStruct( MemoryLayout layout, std::string const & name, var::Flag flag );
 		SDAST_API ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize );
 
 		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex );
@@ -131,7 +132,9 @@ namespace ast::type
 		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;
 		TypeCache< Function, std::function< FunctionPtr( TypePtr, var::VariableList ) >, std::function< size_t( TypePtr, var::VariableList ) > > m_function;
-		TypeCache< Struct, std::function< StructPtr( MemoryLayout, std::string ) >, std::function< size_t( MemoryLayout, std::string const & ) > > m_struct;
+		TypeCache< BaseStruct, std::function< BaseStructPtr( MemoryLayout, std::string ) >, std::function< size_t( MemoryLayout, std::string const & ) > > m_struct;
+		TypeCache< IOStruct, std::function< IOStructPtr( MemoryLayout, std::string, var::Flag ) >, std::function< size_t( MemoryLayout, std::string const &, var::Flag ) > > m_inputStruct;
+		TypeCache< IOStruct, std::function< IOStructPtr( MemoryLayout, std::string, var::Flag ) >, std::function< size_t( MemoryLayout, std::string const &, var::Flag ) > > m_outputStruct;
 		TypeCache< Array, std::function< ArrayPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_array;
 		TypeCache< Pointer, std::function< PointerPtr( TypePtr, Storage ) >, std::function< size_t( TypePtr, Storage ) > > m_pointer;
 		struct MemberTypeInfo

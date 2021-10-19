@@ -35,12 +35,12 @@ namespace hlsl
 	std::string getSemantic( std::string const & name
 		, ast::type::TypePtr type
 		, Semantic & defaultSemantic );
-	void addOutputMember( ast::type::StructPtr outputStruct
+	void addOutputMember( ast::type::BaseStructPtr outputStruct
 		, std::string const & varName
 		, ast::type::TypePtr varType
 		, Semantic & outIntSem
 		, Semantic & outFltSem );
-	void addInputMember( ast::type::StructPtr inputStruct
+	void addInputMember( ast::type::BaseStructPtr inputStruct
 		, std::string const & varName
 		, ast::type::TypePtr varType
 		, Semantic & inIntSem
@@ -85,10 +85,10 @@ namespace hlsl
 		VariableIdMap outputVars;
 		VariableExprMap inputMembers;
 		VariableExprMap outputMembers;
-		ast::type::StructPtr globalInputStruct;
-		ast::type::StructPtr globalOutputStruct;
-		ast::type::StructPtr mainInputStruct;
-		ast::type::StructPtr mainOutputStruct;
+		ast::type::BaseStructPtr globalInputStruct;
+		ast::type::BaseStructPtr globalOutputStruct;
+		ast::type::BaseStructPtr mainInputStruct;
+		ast::type::BaseStructPtr mainOutputStruct;
 		ast::var::VariablePtr inputVar;
 		ast::var::VariablePtr outputVar;
 		ast::var::VariablePtr mainOutputVar;

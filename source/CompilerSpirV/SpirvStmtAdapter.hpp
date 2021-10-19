@@ -16,9 +16,9 @@ namespace spirv
 		PreprocContext & context;
 		ModuleConfig const & config;
 		ast::var::VariablePtr geomOutput{};
-		std::vector< ast::var::VariablePtr > geomOutputs;
+		std::vector< ast::var::VariablePtr > geomOutputs{};
 		ast::var::VariablePtr geomInput{};
-		std::vector< ast::var::VariablePtr > geomInputs;
+		std::vector< ast::var::VariablePtr > geomInputs{};
 	};
 
 	class StmtAdapter

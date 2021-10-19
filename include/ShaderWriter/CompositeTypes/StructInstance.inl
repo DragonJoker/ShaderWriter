@@ -12,7 +12,7 @@ namespace sdw
 		return T{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
 				, member.type->getIndex()
-				, uint32_t( member.flag ) )
+				, m_type->getFlag() )
 			, true};
 	}
 
@@ -25,7 +25,7 @@ namespace sdw
 		return Array< T >{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
 				, member.type->getIndex()
-				, uint32_t( member.flag ) )
+				, m_type->getFlag() )
 			, true };
 	}
 }

@@ -47,14 +47,14 @@ namespace ast::type
 				, std::string pname
 				, uint32_t poffset
 				, uint32_t psize
-				, uint32_t plocation
-				, var::Flag pflag )
+				, uint32_t parrayStride
+				, uint32_t plocation )
 				: type{ std::move( ptype ) }
 				, name{ std::move( pname ) }
 				, offset{ std::move( poffset ) }
 				, size{ std::move( psize ) }
+				, arrayStride{ std::move( parrayStride ) }
 				, location{ std::move( plocation ) }
-				, flag{ std::move( pflag ) }
 			{
 			}
 
@@ -64,7 +64,6 @@ namespace ast::type
 			uint32_t size{};
 			uint32_t arrayStride{};
 			uint32_t location{ InvalidLocation };
-			var::Flag flag{};
 		};
 
 	private:
@@ -79,43 +78,13 @@ namespace ast::type
 			, uint32_t index
 			, Struct const & copy );
 
-	public:
+	protected:
 		SDAST_API Struct( TypesCache & cache
 			, MemoryLayout layout
-			, std::string name );
-		SDAST_API Member declMember( std::string name
-			, Kind kind
-			, uint32_t arraySize = NotArray );
-		SDAST_API Member declMember( std::string name
-			, Kind kind
-			, uint32_t arraySize
-			, uint32_t location
-			, var::Flag input );
-		SDAST_API Member declMember( std::string name
-			, TypePtr type );
-		SDAST_API Member declMember( std::string name
-			, TypePtr type
-			, uint32_t location
-			, var::Flag input );
-		SDAST_API Member declMember( std::string name
-			, ArrayPtr type
-			, uint32_t arraySize );
-		SDAST_API Member declMember( std::string name
-			, ArrayPtr type
-			, uint32_t arraySize
-			, uint32_t location
-			, var::Flag input );
-		SDAST_API Member declMember( std::string name
-			, ArrayPtr type );
-		SDAST_API Member declMember( std::string name
-			, ArrayPtr type
-			, uint32_t location
-			, var::Flag input );
-		SDAST_API Member declMember( std::string name
-			, StructPtr type
-			, uint32_t arraySize );
-		SDAST_API Member declMember( std::string name
-			, StructPtr type );
+			, std::string name
+			, var::Flag flag );
+
+	public:
 		SDAST_API Member getMember( uint32_t index );
 		SDAST_API Member getMember( std::string const & name );
 		SDAST_API uint32_t findMember( std::string const & name );
@@ -166,25 +135,104 @@ namespace ast::type
 			return m_layout;
 		}
 
-	private:
+		uint32_t getFlag()const
+		{
+			return uint32_t( m_flag );
+		}
+
+		bool isShaderInput()const
+		{
+			return m_flag == var::Flag::eShaderInput;
+		}
+
+		bool isShaderOutput()const
+		{
+			return m_flag == var::Flag::eShaderOutput;
+		}
+
+	protected:
 		std::pair< uint32_t, uint32_t > doLookupMember( std::string const & name
 			, TypePtr type );
-		Member doAddMember( TypePtr type
-			, std::string const & name );
-		Member doAddIOMember( TypePtr type
-			, std::string const & name
-			, uint32_t location
-			, var::Flag input );
+		void doAddMember( Member const & member );
+
+	private:
+		void doCopyMembers( Struct const & rhs );
 		void doUpdateOffsets();
 
 	private:
 		std::string m_name;
 		std::vector< Member > m_members;
 		MemoryLayout m_layout;
+		var::Flag m_flag{};
 	};
-	using StructPtr = std::shared_ptr< Struct >;
 
-	SDAST_API size_t getHash( MemoryLayout layout, std::string const & name );
+	class BaseStruct
+		: public Struct
+	{
+	public:
+		SDAST_API BaseStruct( TypesCache & cache
+			, MemoryLayout layout
+			, std::string name );
+
+		SDAST_API Member declMember( std::string name
+			, Kind kind
+			, uint32_t arraySize = NotArray );
+		SDAST_API Member declMember( std::string name
+			, TypePtr type );
+		SDAST_API Member declMember( std::string name
+			, ArrayPtr type
+			, uint32_t arraySize );
+		SDAST_API Member declMember( std::string name
+			, ArrayPtr type );
+		SDAST_API Member declMember( std::string name
+			, BaseStructPtr type
+			, uint32_t arraySize );
+		SDAST_API Member declMember( std::string name
+			, BaseStructPtr type );
+
+	private:
+		Member doCreateMember( TypePtr type
+			, std::string const & name );
+	};
+
+	class IOStruct
+		: public Struct
+	{
+	public:
+		SDAST_API IOStruct( TypesCache & cache
+			, MemoryLayout layout
+			, std::string name
+			, var::Flag flag );
+
+		SDAST_API Member declMember( std::string name
+			, Kind kind
+			, uint32_t arraySize
+			, uint32_t location );
+		SDAST_API Member declMember( std::string name
+			, TypePtr type
+			, uint32_t location );
+		SDAST_API Member declMember( std::string name
+			, ArrayPtr type
+			, uint32_t arraySize
+			, uint32_t location );
+		SDAST_API Member declMember( std::string name
+			, ArrayPtr type
+			, uint32_t location );
+
+	private:
+		Struct::Member doCreateMember( TypePtr type
+			, std::string const & name
+			, uint32_t location );
+	};
+
+	SDAST_API bool isStructType( type::TypePtr type );
+	SDAST_API type::StructPtr getStructType( type::TypePtr type );
+
+	SDAST_API size_t getHash( MemoryLayout layout
+		, std::string const & name );
+	SDAST_API size_t getHash( MemoryLayout layout
+		, std::string const & name
+		, var::Flag flag );
 
 	SDAST_API bool operator==( Struct const & lhs, Struct const & rhs );
 

@@ -331,6 +331,14 @@ namespace ast::type
 		{
 			return ( value + align - 1 ) & ~( align - 1 );
 		}
+
+		void copyMembers( std::vector< Struct::Member > & lhs
+			, std::vector< Struct::Member > const & rhs )
+		{
+			lhs.insert( lhs.end()
+				, rhs.begin()
+				, rhs.end() );
+		}
 	}
 
 	//*************************************************************************
@@ -340,25 +348,9 @@ namespace ast::type
 		: Type{ cache, Kind::eStruct }
 		, m_name{ rhs.getName() }
 		, m_layout{ rhs.m_layout }
+		, m_flag{ rhs.m_flag }
 	{
-		for ( auto & member : rhs )
-		{
-			if ( member.type->getKind() == Kind::eArray )
-			{
-				declMember( member.name
-					, std::static_pointer_cast< Array >( member.type ) );
-			}
-			else if ( member.type->getKind() == Kind::eStruct )
-			{
-				declMember( member.name
-					, std::static_pointer_cast< Struct >( member.type ) );
-			}
-			else
-			{
-				declMember( member.name
-					, member.type );
-			}
-		}
+		doCopyMembers( rhs );
 	}
 
 	Struct::Struct( TypesCache & cache
@@ -368,26 +360,11 @@ namespace ast::type
 		: Type{ cache, parent, index, copy }
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
+		, m_flag{ copy.m_flag }
 	{
-		for ( auto & member : copy )
-		{
-			if ( member.type->getKind() == Kind::eArray )
-			{
-				declMember( member.name
-					, std::static_pointer_cast< Array >( member.type ) );
-			}
-			else if ( member.type->getKind() == Kind::eStruct )
-			{
-				declMember( member.name
-					, std::static_pointer_cast< Struct >( member.type ) );
-			}
-			else
-			{
-				declMember( member.name
-					, member.type );
-			}
-		}
+		doCopyMembers( copy );
 	}
+
 
 	Struct::Struct( TypesCache & cache
 		, Struct & parent
@@ -399,149 +376,13 @@ namespace ast::type
 
 	Struct::Struct( TypesCache & cache
 		, MemoryLayout layout
-		, std::string name )
+		, std::string name
+		, var::Flag flag )
 		: Type{ cache, Kind::eStruct }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
+		, m_flag{ flag }
 	{
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, Kind kind
-		, uint32_t arraySize )
-	{
-		TypePtr mbrType;
-		auto type = getCache().getBasicType( kind );
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( m_members.size() ) );
-		}
-		else
-		{
-			mbrType = getCache().getMemberType( type
-				, *this
-				, uint32_t( m_members.size() ) );
-		}
-
-		return doAddMember( mbrType, name );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, Kind kind
-		, uint32_t arraySize
-		, uint32_t location
-		, var::Flag input )
-	{
-		TypePtr mbrType;
-		auto type = getCache().getBasicType( kind );
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( m_members.size() ) );
-		}
-		else
-		{
-			mbrType = getCache().getMemberType( type
-				, *this
-				, uint32_t( m_members.size() ) );
-		}
-
-		return doAddIOMember( mbrType, name, location, input );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, TypePtr type )
-	{
-		return declMember( name
-			, getNonArrayKind( type )
-			, getArraySize( type ) );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, ArrayPtr type
-		, uint32_t arraySize )
-	{
-		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
-			, *this
-			, uint32_t( m_members.size() ) );
-		return doAddMember( mbrType, name );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, ArrayPtr type
-		, uint32_t arraySize
-		, uint32_t location
-		, var::Flag input )
-	{
-		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
-			, *this
-			, uint32_t( m_members.size() ) );
-		return doAddIOMember( mbrType, name, location, input );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, ArrayPtr type )
-	{
-		Struct::Member result;
-		auto kind = getNonArrayKind( type );
-
-		if ( kind == Kind::eStruct )
-		{
-			result = declMember( name
-				, std::static_pointer_cast< Struct >( type->getType() )
-				, type->getArraySize() );
-		}
-		else if ( kind == Kind::eArray )
-		{
-			result = declMember( name
-				, std::static_pointer_cast< Array >( type->getType() )
-				, type->getArraySize() );
-		}
-		else
-		{
-			result = declMember( name
-				, kind
-				, type->getArraySize() );
-		}
-
-		return result;
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, StructPtr type
-		, uint32_t arraySize )
-	{
-		TypePtr mbrType;
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
-				, *this
-				, uint32_t( m_members.size() ) );
-		}
-		else
-		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( mbrType
-				, *this
-				, uint32_t( m_members.size() ) );
-		}
-
-		return doAddMember( mbrType, name );
-	}
-
-	Struct::Member Struct::declMember( std::string name
-		, StructPtr type )
-	{
-		return declMember( name
-			, type
-			, NotArray );
 	}
 
 	Struct::Member Struct::getMember( uint32_t index )
@@ -611,35 +452,10 @@ namespace ast::type
 				: m_members.back().offset + m_members.back().size ) );
 	}
 
-	Struct::Member Struct::doAddMember( TypePtr type
-		, std::string const & name )
+	void Struct::doAddMember( Struct::Member const & member )
 	{
-		auto [size, offset] = doLookupMember( name, type );
-		auto stride = type->getKind() == Kind::eArray
-			? getArrayStride( type, m_layout )
-			: 0u;
-		m_members.push_back( { std::move( type )
-			, std::string( name )
-			, offset
-			, size
-			, stride } );
+		m_members.push_back( member );
 		doUpdateOffsets();
-		return m_members.back();
-	}
-
-	Struct::Member Struct::doAddIOMember( TypePtr type
-		, std::string const & name
-		, uint32_t location
-		, var::Flag input )
-	{
-		auto [size, offset] = doLookupMember( name, type );
-		m_members.push_back( { std::move( type )
-			, std::string( name )
-			, offset
-			, size
-			, location
-			, input } );
-		return m_members.back();
 	}
 
 	void Struct::doUpdateOffsets()
@@ -653,19 +469,272 @@ namespace ast::type
 			offset = member.offset + getAligned( member.size, alignment );
 		}
 	}
+	void Struct::doCopyMembers( Struct const & rhs )
+	{
+		for ( auto & member : rhs )
+		{
+			m_members.push_back( member );
+		}
+
+		doUpdateOffsets();
+	}
 
 	//*************************************************************************
 
-	size_t getHash( MemoryLayout layout, std::string const & name )
+	BaseStruct::BaseStruct( TypesCache & cache
+		, MemoryLayout layout
+		, std::string name )
+		: Struct{ cache, layout, name, {} }
+	{
+	}
+
+	Struct::Member BaseStruct::declMember( std::string name
+		, Kind kind
+		, uint32_t arraySize )
+	{
+		TypePtr mbrType;
+		auto type = getCache().getBasicType( kind );
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( size() ) );
+		}
+
+		return doCreateMember( mbrType, name );
+	}
+
+	Struct::Member BaseStruct::declMember( std::string name
+		, TypePtr type )
+	{
+		return declMember( name
+			, getNonArrayKind( type )
+			, getArraySize( type ) );
+	}
+
+	Struct::Member BaseStruct::declMember( std::string name
+		, ArrayPtr type
+		, uint32_t arraySize )
+	{
+		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			, *this
+			, uint32_t( size() ) );
+		return doCreateMember( mbrType, name );
+	}
+
+	Struct::Member BaseStruct::declMember( std::string name
+		, ArrayPtr type )
+	{
+		Struct::Member result;
+		auto kind = getNonArrayKind( type );
+
+		if ( kind == Kind::eStruct )
+		{
+			auto structType = std::static_pointer_cast< Struct >( type->getType() );
+
+			if ( structType->getFlag() )
+			{
+				throw std::runtime_error{ "Unsupported struct member input struct." };
+			}
+
+			result = declMember( name
+				, std::static_pointer_cast< BaseStruct >( structType )
+				, type->getArraySize() );
+		}
+		else if ( kind == Kind::eArray )
+		{
+			result = declMember( name
+				, std::static_pointer_cast< Array >( type->getType() )
+				, type->getArraySize() );
+		}
+		else
+		{
+			result = declMember( name
+				, kind
+				, type->getArraySize() );
+		}
+
+		return result;
+	}
+
+	Struct::Member BaseStruct::declMember( std::string name
+		, BaseStructPtr type
+		, uint32_t arraySize )
+	{
+		TypePtr mbrType;
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getCache().getMemberType( mbrType
+				, *this
+				, uint32_t( size() ) );
+		}
+
+		return doCreateMember( mbrType, name );
+	}
+
+	Struct::Member BaseStruct::declMember( std::string name
+		, BaseStructPtr type )
+	{
+		return declMember( name
+			, type
+			, NotArray );
+	}
+
+	Struct::Member BaseStruct::doCreateMember( TypePtr type
+		, std::string const & name )
+	{
+		auto [size, offset] = doLookupMember( name, type );
+		auto stride = type->getKind() == Kind::eArray
+			? getArrayStride( type, getMemoryLayout() )
+			: 0u;
+		Member result{ std::move( type )
+			, std::string( name )
+			, offset
+			, size
+			, stride };
+		doAddMember( result );
+		return result;
+	}
+
+	//*************************************************************************
+
+	IOStruct::IOStruct( TypesCache & cache
+		, MemoryLayout layout
+		, std::string name
+		, var::Flag flag )
+		: Struct{ cache, layout, name, flag }
+	{
+	}
+
+	Struct::Member IOStruct::declMember( std::string name
+		, Kind kind
+		, uint32_t arraySize
+		, uint32_t location )
+	{
+		TypePtr mbrType;
+		auto type = getCache().getBasicType( kind );
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( size() ) );
+		}
+
+		return doCreateMember( mbrType, name, location );
+	}
+
+	Struct::Member IOStruct::declMember( std::string name
+		, TypePtr type
+		, uint32_t location )
+	{
+		return declMember( name
+			, getNonArrayKind( type )
+			, getArraySize( type )
+			, location );
+	}
+
+	Struct::Member IOStruct::declMember( std::string name
+		, ArrayPtr type
+		, uint32_t arraySize
+		, uint32_t location )
+	{
+		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			, *this
+			, uint32_t( size() ) );
+		return doCreateMember( mbrType, name, location );
+	}
+
+	Struct::Member IOStruct::declMember( std::string name
+		, ArrayPtr type
+		, uint32_t location )
+	{
+		Struct::Member result;
+		auto kind = getNonArrayKind( type );
+
+		if ( kind == Kind::eArray )
+		{
+			result = declMember( name
+				, std::static_pointer_cast< Array >( type->getType() )
+				, type->getArraySize()
+				, location );
+		}
+		else if ( kind == Kind::eStruct )
+		{
+			throw std::runtime_error{ "Unsupported input struct member struct." };
+		}
+		else
+		{
+			result = declMember( name
+				, kind
+				, type->getArraySize()
+				, location );
+		}
+
+		return result;
+	}
+
+	Struct::Member IOStruct::doCreateMember( TypePtr type
+		, std::string const & name
+		, uint32_t location )
+	{
+		auto [size, offset] = doLookupMember( name, type );
+		Member result{ std::move( type )
+			, std::string( name )
+			, offset
+			, size
+			, 0u
+			, location };
+		doAddMember( result );
+		return result;
+	}
+
+	//*************************************************************************
+
+	size_t getHash( MemoryLayout layout
+		, std::string const & name )
 	{
 		size_t result = std::hash< std::string >{}( name );
 		result = hashCombine( result, layout );
 		return result;
 	}
 
+	size_t getHash( MemoryLayout layout
+		, std::string const & name
+		, var::Flag flag )
+	{
+		size_t result = std::hash< std::string >{}( name );
+		result = hashCombine( result, layout );
+		result = hashCombine( result, flag );
+		return result;
+	}
+
 	bool operator==( Struct const & lhs, Struct const & rhs )
 	{
 		auto result = static_cast< Type const & >( lhs ) == static_cast< Type const & >( rhs )
+			&& lhs.getFlag() == rhs.getFlag()
 			&& lhs.size() == rhs.size();
 		auto itl = lhs.begin();
 		auto itr = rhs.begin();
@@ -695,6 +764,54 @@ namespace ast::type
 	}
 
 	//*************************************************************************
+
+	bool isStructType( type::TypePtr type )
+	{
+		return type->getKind() == type::Kind::eStruct
+			|| ( type->getKind() == type::Kind::eGeometryInput
+				&& ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eStruct
+					|| ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eArray
+						&& static_cast< type::Array const & >( *static_cast< type::GeometryInput const & >( *type ).type ).getType()->getKind() == type::Kind::eStruct ) ) )
+			|| ( type->getKind() == type::Kind::eGeometryOutput
+				&& static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct );
+	}
+
+	type::StructPtr getStructType( type::TypePtr type )
+	{
+		while ( type->getKind() != type::Kind::eStruct )
+		{
+			if ( type->getKind() == type::Kind::ePointer )
+			{
+				type = static_cast< type::Pointer const & >( *type ).getPointerType();
+			}
+			else if ( type->getKind() == type::Kind::eGeometryInput )
+			{
+				type = static_cast< type::GeometryInput const & >( *type ).type;
+
+				if ( type->getKind() == type::Kind::eArray )
+				{
+					return getStructType( static_cast< type::Array const & >( *type ).getType() );
+				}
+
+				return nullptr;
+			}
+			else if ( type->getKind() == type::Kind::eGeometryOutput )
+			{
+				type = static_cast< type::GeometryOutput const & >( *type ).type;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if ( type->getKind() == type::Kind::eStruct )
+		{
+			return std::static_pointer_cast< type::Struct >( type );
+		}
+
+		return nullptr;
+	}
 
 	uint32_t getSize( Type const & type
 		, MemoryLayout layout )

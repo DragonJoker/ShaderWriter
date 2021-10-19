@@ -22,20 +22,20 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache )
 		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd430
+			auto result = cache.getIOStruct( ast::type::MemoryLayout::eStd430
 				, ( FlagT == ast::var::Flag::eShaderOutput
 					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position" );
+					: std::string{ "Input" } ) + "Position"
+				, FlagT );
 
 			if ( result->empty() )
 			{
 				result->declMember( "position"
 					, ast::type::Kind::eVec3F
 					, ast::type::NotArray
-					, 0u
-					, FlagT );
+					, 0u );
 			}
 
 			return result;
@@ -308,7 +308,9 @@ namespace
 
 				static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
 				{
-					auto result = cache.getStruct( ast::type::MemoryLayout::eStd430, "GeomInput" );
+					auto result = cache.getIOStruct( ast::type::MemoryLayout::eStd430
+						, "GeomInput"
+						, ast::var::Flag::eShaderInput );
 
 					if ( result->empty() )
 					{
@@ -316,18 +318,15 @@ namespace
 						result->declMember( "position"
 							, ast::type::Kind::eVec3F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderInput );
+							, index++ );
 						result->declMember( "normal"
 							, ast::type::Kind::eVec3F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderInput );
+							, index++ );
 						result->declMember( "texcoord"
 							, ast::type::Kind::eVec3F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderInput );
+							, index++ );
 					}
 
 					return result;
@@ -357,7 +356,9 @@ namespace
 
 				static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
 				{
-					auto result = cache.getStruct( ast::type::MemoryLayout::eStd430, "GeomOutput" );
+					auto result = cache.getIOStruct( ast::type::MemoryLayout::eStd430
+						, "GeomOutput"
+							, ast::var::Flag::eShaderOutput );
 
 					if ( result->empty() )
 					{
@@ -365,28 +366,23 @@ namespace
 						result->declMember( "position"
 							, ast::type::Kind::eVec3F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderOutput );
+							, index++ );
 						result->declMember( "normal"
 							, ast::type::Kind::eVec3F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderOutput );
+							, index++ );
 						result->declMember( "texcoord"
 							, ast::type::Kind::eVec3F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderOutput );
+							, index++ );
 						result->declMember( "axis"
 							, ast::type::Kind::eUInt
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderOutput );
+							, index++ );
 						result->declMember( "aabb"
 							, ast::type::Kind::eVec4F
 							, ast::type::NotArray
-							, index++
-							, ast::var::Flag::eShaderOutput );
+							, index++ );
 					}
 
 					return result;

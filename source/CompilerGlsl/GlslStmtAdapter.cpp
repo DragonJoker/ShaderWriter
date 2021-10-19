@@ -156,11 +156,13 @@ namespace glsl
 
 					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						auto & structType = static_cast< ast::type::Struct const & >( *type );
+
+						for ( auto & mbr : structType )
 						{
 							auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "geomOut_" + mbr.name }
 								, mbr.type
-								, mbr.flag );
+								, structType.getFlag() );
 							m_adaptationData.geomOutputs.emplace_back( var );
 							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
 								, mbr.location ) );
@@ -179,11 +181,13 @@ namespace glsl
 
 					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						auto & structType = static_cast< ast::type::Struct const & >( *type );
+
+						for ( auto & mbr : structType )
 						{
 							auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "geomIn_" + mbr.name }
 								, m_cache.getArray( mbr.type, getArraySize( geomType.layout ) )
-								, mbr.flag );
+								, structType.getFlag() );
 							m_adaptationData.geomInputs.emplace_back( var );
 							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
 								, mbr.location ) );

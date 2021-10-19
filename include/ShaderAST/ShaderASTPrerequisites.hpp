@@ -112,6 +112,10 @@ namespace ast
 		using FunctionPtr = std::shared_ptr< Function >;
 		class Struct;
 		using StructPtr = std::shared_ptr< Struct >;
+		class BaseStruct;
+		using BaseStructPtr = std::shared_ptr< BaseStruct >;
+		class IOStruct;
+		using IOStructPtr = std::shared_ptr< IOStruct >;
 		class Array;
 		using ArrayPtr = std::shared_ptr< Array >;
 		struct ImageConfiguration;

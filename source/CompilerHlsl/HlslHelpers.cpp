@@ -569,30 +569,6 @@ namespace hlsl
 		return result;
 	}
 
-	uint32_t getArraySize( ast::type::InputLayout layout )
-	{
-		switch ( layout )
-		{
-		case ast::type::InputLayout::ePointList:
-			return 1u;
-		case ast::type::InputLayout::eLineList:
-		case ast::type::InputLayout::eLineStrip:
-			return 2u;
-		case ast::type::InputLayout::eTriangleList:
-		case ast::type::InputLayout::eTriangleStrip:
-		case ast::type::InputLayout::eTriangleFan:
-			return 3u;
-		case ast::type::InputLayout::eLineListWithAdjacency:
-		case ast::type::InputLayout::eLineStripWithAdjacency:
-			return 4u;
-		case ast::type::InputLayout::eTriangleListWithAdjacency:
-		case ast::type::InputLayout::eTriangleStripWithAdjacency:
-			return 6u;
-		default:
-			return 1u;
-		}
-	}
-
 	std::string getTypeName( ast::type::TypePtr type )
 	{
 		std::string result;
@@ -973,7 +949,7 @@ namespace hlsl
 		return it;
 	}
 
-	void addOutputMember( ast::type::StructPtr outputStruct
+	void addOutputMember( ast::type::BaseStructPtr outputStruct
 		, std::string const & varName
 		, ast::type::TypePtr varType
 		, Semantic & outIntSem
@@ -1017,7 +993,7 @@ namespace hlsl
 		}
 	}
 
-	void addInputMember( ast::type::StructPtr inputStruct
+	void addInputMember( ast::type::BaseStructPtr inputStruct
 		, std::string const & varName
 		, ast::type::TypePtr varType
 		, Semantic & inIntSem

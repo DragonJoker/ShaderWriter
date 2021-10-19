@@ -746,21 +746,22 @@ namespace glsl
 			m_result += "\n" + m_indent + "{\n";
 			auto save = m_indent;
 			m_indent += "\t";
+			auto & structType = *stmt->getType();
 
-			for ( auto & member : *stmt->getType() )
+			for ( auto & mbr : structType )
 			{
 				m_result += m_indent;
 
-				if ( member.location != ast::type::Struct::InvalidLocation )
+				if ( mbr.location != ast::type::Struct::InvalidLocation )
 				{
-					m_result += "layout( location=" + std::to_string( member.location ) + " ) ";
-					m_result += ( member.flag == ast::var::Flag::eShaderInput
+					m_result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
+					m_result += ( structType.isShaderInput()
 						? std::string{ "in" }
 						: std::string{ "out" } ) + " ";
 				}
 
-				m_result += getTypeName( member.type ) + " " + member.name;
-				m_result += getTypeArraySize( member.type );
+				m_result += getTypeName( mbr.type ) + " " + mbr.name;
+				m_result += getTypeArraySize( mbr.type );
 				m_result += ";\n";
 			}
 

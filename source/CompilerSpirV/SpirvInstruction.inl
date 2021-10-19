@@ -102,7 +102,7 @@ namespace spirv
 		, uint32_t OperandsCount
 		, bool HasName
 		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( UInt32ListIt & buffer )
+	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( BufferIt & buffer )
 		: Instruction{ config, Operator, buffer }
 	{
 	}
@@ -113,7 +113,7 @@ namespace spirv
 		, uint32_t OperandsCount
 		, bool HasName
 		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( UInt32ListCIt & buffer )
+	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( BufferCIt & buffer )
 		: Instruction{ config, Operator, buffer }
 	{
 	}
@@ -133,7 +133,7 @@ namespace spirv
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( UInt32ListIt & buffer )
+	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( BufferIt & buffer )
 		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
 	{
 	}
@@ -141,7 +141,7 @@ namespace spirv
 	template< spv::Op Operator
 		, bool HasReturnTypeId
 		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( UInt32ListCIt & buffer )
+	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( BufferCIt & buffer )
 		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
 	{
 	}
