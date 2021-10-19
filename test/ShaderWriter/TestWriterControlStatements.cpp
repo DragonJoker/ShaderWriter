@@ -18,7 +18,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -41,7 +41,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -65,7 +65,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -93,7 +93,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -121,7 +121,7 @@ namespace
 				HCTIWS;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -139,7 +139,7 @@ namespace
 				ROF;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -157,7 +157,7 @@ namespace
 				ROF;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -175,7 +175,7 @@ namespace
 				ROF;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -194,7 +194,7 @@ namespace
 					ROF;
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -213,7 +213,7 @@ namespace
 					ROF;
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -253,7 +253,7 @@ namespace
 					ROF;
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -273,7 +273,7 @@ namespace
 				ELIHW;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -292,7 +292,7 @@ namespace
 				ELIHWOD;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -316,7 +316,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -357,7 +357,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -401,7 +401,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -471,7 +471,7 @@ namespace
 				FI;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -493,7 +493,7 @@ namespace
 				ROF;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -518,7 +518,7 @@ namespace
 				ELIHW;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -543,7 +543,7 @@ namespace
 				ELIHWOD;
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -560,7 +560,7 @@ namespace
 				writer.ternary( ctrl > 10_i, res1, res2 );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 }

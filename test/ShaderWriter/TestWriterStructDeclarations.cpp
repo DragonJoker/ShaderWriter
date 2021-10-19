@@ -24,7 +24,7 @@ namespace
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -41,7 +41,7 @@ namespace
 			check( getArraySize( retrieved.getType() ) == 4u );
 			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}

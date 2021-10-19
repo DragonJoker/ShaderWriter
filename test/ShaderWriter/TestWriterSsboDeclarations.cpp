@@ -30,7 +30,7 @@ namespace
 				{
 					retrieved = test::getDefault< T >( writer );
 				} );
-			test::writeShader( writer, testCounts, true, false );
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -55,7 +55,7 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-			test::writeShader( writer, testCounts, true, false );
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -80,7 +80,7 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-			test::writeShader( writer, testCounts, true, false );
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}

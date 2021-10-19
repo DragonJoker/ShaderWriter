@@ -53,7 +53,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -77,7 +77,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -161,7 +161,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -186,7 +186,7 @@ namespace
 			} );
 
 		test::writeShader( writer.getShader()
-			, testCounts );
+			, testCounts, CurrentCompilers );
 
 #if !defined( __APPLE__ )
 		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
@@ -245,7 +245,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -272,7 +272,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -291,7 +291,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -332,7 +332,7 @@ namespace
 				pxl_FragColor = vec4( removeGamma( 0.1_f, vec3( 0.0_f, 0.0_f, 0.0_f ) ), colour.w() );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -361,7 +361,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -381,7 +381,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 
@@ -435,7 +435,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -455,7 +455,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 
@@ -509,7 +509,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -529,7 +529,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 
@@ -584,7 +584,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -603,7 +603,7 @@ namespace
 				} );
 
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 
@@ -669,7 +669,7 @@ namespace
 				pxl_fragColor = vec4( irradiance, 1.0_f );
 			} );
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -694,7 +694,7 @@ namespace
 					out.vtx.position = vec4( position, 1.f );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -713,7 +713,7 @@ namespace
 					frag_color = base_color_sampler.sample( in_texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 
@@ -774,7 +774,7 @@ namespace
 						camera.getMember<Mat4>( "camera_view" ) * vec4( out_position, 1.f );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -849,7 +849,7 @@ namespace
 					frag_color = base_color_sampler.sample( in_texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 
@@ -895,7 +895,7 @@ namespace
 					out.vtx.clipDistance[3] = dot( vec4( 0.0_f, 1.0_f, 0.0_f, tileMax.y() ), p );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -908,7 +908,7 @@ namespace
 					outColor = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -937,7 +937,7 @@ namespace
 					kernelImage.store( iuv, vec4( 1.0_f ) );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -1080,7 +1080,7 @@ namespace
 					voxels[in.globalInvocationID.x()].colorMask = 0_u;
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -1110,7 +1110,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, false, false );
+				, Compilers_SPIRV );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -1138,7 +1138,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, true, false, false );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -1163,7 +1163,7 @@ namespace
 						, normalize( transpose( mat3( mtx ) ) * pos ) );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -1190,7 +1190,7 @@ namespace
 						, length( constVec.xyxy() ) );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -1245,7 +1245,7 @@ namespace
 					SMAAEdgeDetectionVS( vtx_texture, vtx_offset );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -1277,7 +1277,7 @@ namespace
 					foo( t, dir );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 		}
 		//test::validateShaders( shaders
 		//	, testCounts );

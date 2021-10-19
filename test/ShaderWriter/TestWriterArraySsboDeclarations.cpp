@@ -29,7 +29,7 @@ namespace
 			check( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -48,7 +48,7 @@ namespace
 			check( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -71,7 +71,7 @@ namespace
 			check( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ShaderStructBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}

@@ -511,7 +511,7 @@ namespace
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -550,7 +550,7 @@ namespace
 					check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::type::Kind::eBoolean );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -568,7 +568,7 @@ namespace
 					a = b && c;
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 	}
@@ -612,7 +612,7 @@ namespace
 					testComparators( writer, testCounts, d, c, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -649,7 +649,7 @@ namespace
 					testComparators( writer, testCounts, d, c, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -686,7 +686,7 @@ namespace
 					testComparators( writer, testCounts, d, c, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 	}
@@ -732,7 +732,7 @@ namespace
 					testComparators( writer, testCounts, d, c, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -769,7 +769,7 @@ namespace
 					testComparators( writer, testCounts, d, c, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -806,7 +806,7 @@ namespace
 					testComparators( writer, testCounts, d, c, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 	}
@@ -831,7 +831,7 @@ namespace
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -849,7 +849,7 @@ namespace
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 		{
@@ -867,7 +867,7 @@ namespace
 					testVecOperators( writer, testCounts, c, a, b );
 				} );
 			test::writeShader( writer
-				, testCounts );
+				, testCounts, CurrentCompilers );
 			testEnd();
 		}
 	}
@@ -889,8 +889,7 @@ namespace
 					auto xb = writer.declLocale( "xb", writer.cast<Float>( xa ) );
 				} );
 			test::writeShader( writer
-				, testCounts
-				, true, false, false );
+				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders

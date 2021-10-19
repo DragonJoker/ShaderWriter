@@ -52,7 +52,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			simpleMain( writer, value );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -64,7 +64,7 @@ namespace
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			check( shader.getStatements()->size() == count );
 			dummyMain( writer );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -77,7 +77,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			simpleMain( writer, value );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -89,7 +89,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			arrayMain( writer, value, 4u );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -101,7 +101,7 @@ namespace
 			check( getArraySize( value.getType() ) == 4u );
 			check( shader.getStatements()->size() == count );
 			dummyMain( writer );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -114,7 +114,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 			arrayMain( writer, value, 4u );
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
 	}

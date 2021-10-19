@@ -15,7 +15,10 @@
 #define Compilers_HLSL false, true, false
 #define Compilers_GLSL false, false, true
 #define Compilers_SPIRV true, false, false
+#define Compilers_NoHLSL true, false, true
 #define Compilers_All true, true, true
+
+#define CurrentCompilers Compilers_All
 
 namespace test
 {
@@ -412,14 +415,14 @@ namespace test
 
 	void writeShader( ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
-		, bool validateSpirV = true
-		, bool validateHlsl = true
-		, bool validateGlsl = true );
+		, bool validateSpirV
+		, bool validateHlsl
+		, bool validateGlsl );
 	void writeShader( sdw::ShaderWriter const & writer
 		, sdw_test::TestCounts & testCounts
-		, bool validateSpirV = true
-		, bool validateHlsl = true
-		, bool validateGlsl = true );
+		, bool validateSpirV
+		, bool validateHlsl
+		, bool validateGlsl );
 	void validateShaders( ast::ShaderArray const & shaders
 		, sdw_test::TestCounts & testCounts );
 	void validateShader( ast::Shader const & writer

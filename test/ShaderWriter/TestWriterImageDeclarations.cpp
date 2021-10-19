@@ -31,7 +31,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts );
 		}
 		{
@@ -48,7 +48,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts );
 		}
 		{
@@ -63,7 +63,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts );
 		}
 		{
@@ -78,7 +78,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts );
 		}
 		{
@@ -96,7 +96,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts );
 		}
 		{
@@ -114,7 +114,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-			test::writeShader( writer, testCounts );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts );
 		}
 	}
