@@ -114,6 +114,8 @@ namespace ast::debug
 				return "STD140";
 			case type::MemoryLayout::eStd430:
 				return "STD430";
+			case type::MemoryLayout::eC:
+				return "C";
 			default:
 				AST_Failure( "Unsupported type::MemoryLayout" );
 				return "UNDEFINED";

@@ -66,6 +66,8 @@ namespace ast
 			return result;
 		}
 
+		static constexpr uint32_t InvalidComponentCount = ~( 0u );
+
 		uint32_t getReturnComponentCount( ast::expr::TextureAccess value )
 		{
 			switch ( value )
@@ -511,7 +513,7 @@ namespace ast
 				return 4u;
 
 			default:
-				return ~( 0u );
+				return InvalidComponentCount;
 			}
 		}
 
@@ -1275,7 +1277,7 @@ namespace ast
 				auto returnType = expr->getType();
 				auto count = getComponentCount( returnType->getKind() );
 
-				if ( returnComponentsCount != ~( 0u ) && returnComponentsCount != count )
+				if ( returnComponentsCount != InvalidComponentCount && returnComponentsCount != count )
 				{
 					assert( returnComponentsCount > count );
 					returnType = m_cache.getVector( getScalarType( returnType->getKind() ), returnComponentsCount );
@@ -1292,7 +1294,7 @@ namespace ast
 					, kind
 					, std::move( args ) );
 
-				if ( returnComponentsCount != ~( 0u ) && returnComponentsCount != count )
+				if ( returnComponentsCount != InvalidComponentCount && returnComponentsCount != count )
 				{
 					ast::expr::SwizzleKind swizzleKind;
 

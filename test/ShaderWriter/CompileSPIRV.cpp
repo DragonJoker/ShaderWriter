@@ -380,7 +380,7 @@ namespace test
 
 					--gpuIndex;
 					VkDeviceQueueCreateInfo queue_info = {};
-					queue_info.queueFamilyIndex = ~( 0u );
+					queue_info.queueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 
 					vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, nullptr );
 					assert( info.queue_family_count >= 1 );
@@ -397,7 +397,7 @@ namespace test
 							break;
 						}
 					}
-					assert( queue_info.queueFamilyIndex != ~( 0u ) );
+					assert( queue_info.queueFamilyIndex != VK_QUEUE_FAMILY_IGNORED );
 					assert( info.queue_family_count >= 1 );
 
 					float queue_priorities[1] = { 0.0 };

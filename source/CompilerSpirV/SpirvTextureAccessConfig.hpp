@@ -604,6 +604,8 @@ namespace spirv
 			| getLod( value );
 	}
 
+	static constexpr uint32_t InvalidComponentCount = ~( 0u );
+
 	inline void getSpirVConfig( ast::expr::TextureAccess value
 		, IntrinsicConfig & config )
 	{
@@ -611,7 +613,7 @@ namespace spirv
 		config.offsetIndex = 0u;
 		config.needsImage = false;
 		config.mask = getMask( value );
-		config.returnComponentsCount = ~( 0u );
+		config.returnComponentsCount = InvalidComponentCount;
 
 		switch ( value )
 		{

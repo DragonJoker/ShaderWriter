@@ -17,7 +17,7 @@ namespace sdw
 	public:
 		SDW_API Pcb( ShaderWriter & writer
 			, std::string const & name
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
 		SDW_API void end();
 

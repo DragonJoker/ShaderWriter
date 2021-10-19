@@ -1387,17 +1387,17 @@ namespace spirv
 		if ( !m_unsignedExtendedTypes[count] )
 		{
 			std::string name = "SDW_ExtendedResultTypeU" + std::to_string( count + 1u );
-			m_unsignedExtendedTypes[count] = m_module.getCache().getStruct( ast::type::MemoryLayout::eStd430, name );
-			auto type = count == 3
-				? m_module.getCache().getVec4U()
-				: ( count == 2
-					? m_module.getCache().getVec3U()
-					: ( count == 1
-						? m_module.getCache().getVec2U()
-						: ( m_module.getCache().getUInt() ) ) );
+			m_unsignedExtendedTypes[count] = m_module.getCache().getStruct( ast::type::MemoryLayout::eC, name );
 
 			if ( m_unsignedExtendedTypes[count]->empty() )
 			{
+				auto type = count == 3
+					? m_module.getCache().getVec4U()
+					: ( count == 2
+						? m_module.getCache().getVec3U()
+						: ( count == 1
+							? m_module.getCache().getVec2U()
+							: m_module.getCache().getUInt() ) );
 				m_unsignedExtendedTypes[count]->declMember( "result", type );
 				m_unsignedExtendedTypes[count]->declMember( "extended", type );
 			}
@@ -1413,17 +1413,17 @@ namespace spirv
 		if ( !m_signedExtendedTypes[count] )
 		{
 			std::string name = "SDW_ExtendedResultTypeS" + std::to_string( count + 1u );
-			m_signedExtendedTypes[count] = m_module.getCache().getStruct( ast::type::MemoryLayout::eStd430, name );
-			auto type = count == 3
-				? m_module.getCache().getVec4I()
-				: ( count == 2
-					? m_module.getCache().getVec3I()
-					: ( count == 1
-						? m_module.getCache().getVec2I()
-						: ( m_module.getCache().getInt() ) ) );
+			m_signedExtendedTypes[count] = m_module.getCache().getStruct( ast::type::MemoryLayout::eC, name );
 
 			if ( m_signedExtendedTypes[count]->empty() )
 			{
+				auto type = count == 3
+					? m_module.getCache().getVec4I()
+					: ( count == 2
+						? m_module.getCache().getVec3I()
+						: ( count == 1
+							? m_module.getCache().getVec2I()
+							: m_module.getCache().getInt() ) );
 				m_signedExtendedTypes[count]->declMember( "result", type );
 				m_signedExtendedTypes[count]->declMember( "extended", type );
 			}

@@ -80,6 +80,7 @@
 	<Type Name="ast::type::Struct">
 		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eStd140">{m_name,s8b}[std140] {m_members}</DisplayString>
 		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eStd430">{m_name,s8b}[std430] {m_members}</DisplayString>
+		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eC">{m_name,s8b} {m_members}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="name">m_name</Item>

@@ -22,6 +22,9 @@ namespace ast::debug
 			case ast::type::MemoryLayout::eStd430:
 				result = "STD430";
 				break;
+			case ast::type::MemoryLayout::eC:
+				result = "C";
+				break;
 			default:
 				AST_Failure( "Unsupported type::MemoryLayout" );
 				result = "UNDEFINED";

@@ -17,13 +17,15 @@ namespace ast::type
 	{
 		eStd140,
 		eStd430,
+		eC,
 	};
 
 	class Struct
 		: public Type
 	{
 	public:
-		static constexpr uint32_t NotFound = ~0u;
+		static constexpr uint32_t NotFound = ~( 0u );
+		static constexpr uint32_t InvalidLocation = ~( 0u );
 
 		struct Member
 		{
@@ -46,7 +48,7 @@ namespace ast::type
 				, uint32_t poffset
 				, uint32_t psize
 				, uint32_t plocation
-				, ast::var::Flag pflag )
+				, var::Flag pflag )
 				: type{ std::move( ptype ) }
 				, name{ std::move( pname ) }
 				, offset{ std::move( poffset ) }
@@ -61,8 +63,8 @@ namespace ast::type
 			uint32_t offset{};
 			uint32_t size{};
 			uint32_t arrayStride{};
-			uint32_t location{ ~( 0u ) };
-			ast::var::Flag flag{};
+			uint32_t location{ InvalidLocation };
+			var::Flag flag{};
 		};
 
 	private:
@@ -88,13 +90,13 @@ namespace ast::type
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t location
-			, ast::var::Flag input );
+			, var::Flag input );
 		SDAST_API Member declMember( std::string name
 			, TypePtr type );
 		SDAST_API Member declMember( std::string name
 			, TypePtr type
 			, uint32_t location
-			, ast::var::Flag input );
+			, var::Flag input );
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type
 			, uint32_t arraySize );
@@ -102,13 +104,13 @@ namespace ast::type
 			, ArrayPtr type
 			, uint32_t arraySize
 			, uint32_t location
-			, ast::var::Flag input );
+			, var::Flag input );
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type );
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type
 			, uint32_t location
-			, ast::var::Flag input );
+			, var::Flag input );
 		SDAST_API Member declMember( std::string name
 			, StructPtr type
 			, uint32_t arraySize );
@@ -119,7 +121,7 @@ namespace ast::type
 		SDAST_API uint32_t findMember( std::string const & name );
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
-		inline bool hasMember( std::string const & name )
+		bool hasMember( std::string const & name )
 		{
 			return findMember( name ) != NotFound;
 		}
@@ -165,13 +167,15 @@ namespace ast::type
 		}
 
 	private:
-		SDAST_API Member doAddMember( TypePtr type
+		std::pair< uint32_t, uint32_t > doLookupMember( std::string const & name
+			, TypePtr type );
+		Member doAddMember( TypePtr type
 			, std::string const & name );
-		SDAST_API Member doAddIOMember( TypePtr type
+		Member doAddIOMember( TypePtr type
 			, std::string const & name
 			, uint32_t location
-			, ast::var::Flag input );
-		SDAST_API void doUpdateOffsets();
+			, var::Flag input );
+		void doUpdateOffsets();
 
 	private:
 		std::string m_name;

@@ -280,9 +280,9 @@ namespace hlsl
 		doAppendLineEnd();
 		m_result += "\n";
 
-		if ( stmt->getWorkGroupsZ() == ~( 0u ) )
+		if ( stmt->getWorkGroupsZ() == ast::stmt::InputComputeLayout::Uninit )
 		{
-			if ( stmt->getWorkGroupsY() == ~( 0u ) )
+			if ( stmt->getWorkGroupsY() == ast::stmt::InputComputeLayout::Uninit )
 			{
 				m_result += m_indent + "[numthreads( " + std::to_string( stmt->getWorkGroupsX() ) + " )]";
 			}
