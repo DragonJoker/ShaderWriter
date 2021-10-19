@@ -256,8 +256,8 @@ namespace spirv
 			, ValueIdList poperands = ValueIdList{}
 			, Optional< std::string > pname = nullopt
 			, Optional< std::map< int32_t, spv::Id > > plabels = nullopt );
-		inline InstructionT( UInt32ListIt & buffer );
-		inline InstructionT( UInt32ListCIt & buffer );
+		inline InstructionT( BufferIt & buffer );
+		inline InstructionT( BufferCIt & buffer );
 	};
 
 	template< spv::Op Operator
@@ -284,8 +284,8 @@ namespace spirv
 		inline VariadicInstructionT( Optional< ValueId > preturnTypeId = nullopt
 			, Optional< ValueId > presultId = nullopt
 			, ValueIdList poperands = ValueIdList{} );
-		inline VariadicInstructionT( UInt32ListIt & buffer );
-		inline VariadicInstructionT( UInt32ListCIt & buffer );
+		inline VariadicInstructionT( BufferIt & buffer );
+		inline VariadicInstructionT( BufferCIt & buffer );
 	};
 
 	template< spv::Op Operator >

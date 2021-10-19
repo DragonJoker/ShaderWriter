@@ -26,7 +26,7 @@ namespace
 			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
 		}
 
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
 		{
 			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "St" );
 
@@ -63,7 +63,7 @@ namespace
 			return std::make_unique< sdw::Struct >( writer, makeType( writer.getTypesCache() ) );
 		}
 
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
 		{
 			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140, "St2" );
 

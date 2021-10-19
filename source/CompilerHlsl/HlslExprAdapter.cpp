@@ -815,28 +815,6 @@ namespace hlsl
 
 			return result;
 		}
-
-		ast::type::StructPtr getStructType( ast::type::TypePtr type )
-		{
-			if ( type->getKind() == ast::type::Kind::eGeometryInput )
-			{
-				type = static_cast< ast::type::GeometryInput const & >( *type ).type;
-
-				if ( type->getKind() == ast::type::Kind::eArray )
-				{
-					return getStructType( static_cast< ast::type::Array const & >( *type ).getType() );
-				}
-
-				return nullptr;
-			}
-
-			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
-			{
-				return getStructType( static_cast< ast::type::GeometryOutput const & >( *type ).type );
-			}
-
-			return std::static_pointer_cast< ast::type::Struct >( type );
-		}
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache

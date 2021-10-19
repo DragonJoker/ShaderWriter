@@ -65,7 +65,6 @@ namespace hlsl
 		ast::stmt::Container * m_inOutDeclarations;
 		ast::stmt::Container * m_intrinsics;
 		ast::stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
-		ast::stmt::OutputGeometryLayout * m_outputGeometryLayout{ nullptr };
 	};
 }
 

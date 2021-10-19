@@ -13,25 +13,25 @@ namespace ast
 {
 	struct InterfaceBlock
 	{
-		inline InterfaceBlock( type::TypesCache & cache
+		InterfaceBlock( type::TypesCache & cache
 			, type::MemoryLayout layout
 			, std::string name )
 			: m_type{ getType( cache, layout, std::move( name ) ) }
 		{
 		}
 		
-		inline InterfaceBlock( type::StructPtr dataType )
+		InterfaceBlock( type::BaseStructPtr dataType )
 			: m_type{ std::move( dataType ) }
 		{
 		}
 
-		inline std::string const & getName()const
+		std::string const & getName()const
 		{
 			return m_type->getName();
 		}
 
 		template< type::Kind Kind >
-		inline type::TypePtr registerMember( std::string const & name
+		type::TypePtr registerMember( std::string const & name
 			, uint32_t arraySize = ast::type::NotArray )
 		{
 			static_assert( Kind != type::Kind::eBoolean, "Can't put a boolean type inside an interface block" );
@@ -41,34 +41,34 @@ namespace ast
 			return m_type->declMember( name, Kind, arraySize ).type;
 		}
 
-		inline type::TypePtr registerMember( std::string const & name
-			, type::StructPtr type
+		type::TypePtr registerMember( std::string const & name
+			, type::BaseStructPtr type
 			, uint32_t arraySize = ast::type::NotArray )
 		{
 			return m_type->declMember( name, type, arraySize ).type;
 		}
 
-		inline uint32_t findMember( std::string const & name )const
+		uint32_t findMember( std::string const & name )const
 		{
 			return m_type->findMember( name );
 		}
 
-		inline bool hasMember( std::string const & name )const
+		bool hasMember( std::string const & name )const
 		{
 			return m_type->hasMember( name );
 		}
 
-		inline type::TypePtr getMember( std::string const & name )const
+		type::TypePtr getMember( std::string const & name )const
 		{
 			return m_type->getMember( name ).type;
 		}
 
-		inline type::StructPtr getType()const
+		type::BaseStructPtr getType()const
 		{
 			return m_type;
 		}
 
-		static type::StructPtr getType( type::TypesCache & cache
+		static type::BaseStructPtr getType( type::TypesCache & cache
 			, type::MemoryLayout layout
 			, std::string name )
 		{
@@ -76,11 +76,11 @@ namespace ast
 		}
 
 	private:
-		type::StructPtr m_type;
+		type::BaseStructPtr m_type;
 	};
 
 	struct BoInfo
-		: DescriptorInfoT< type::Struct >
+		: DescriptorInfoT< type::BaseStruct >
 	{
 		BoInfo( type::TypesCache & cache
 			, type::MemoryLayout layout
@@ -92,7 +92,7 @@ namespace ast
 		{
 		}
 		
-		BoInfo( type::StructPtr dataType
+		BoInfo( type::BaseStructPtr dataType
 			, uint32_t bind
 			, uint32_t set )
 			: DescriptorInfoT{ std::move( dataType )

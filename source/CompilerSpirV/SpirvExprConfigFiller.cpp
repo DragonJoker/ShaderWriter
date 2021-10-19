@@ -144,10 +144,11 @@ namespace spirv
 			if ( !processed
 				&& outer->getType()->getKind() == ast::type::Kind::eGeometryInput )
 			{
-				auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
+				auto outerType = expr->getOuterType();
+				auto mbr = outerType->getMember( expr->getMemberIndex() );
 				m_config.addShaderInput( "geomIn_" + mbr.name
 					, mbr.type
-					, uint32_t( mbr.flag )
+					, outerType->getFlag()
 					, static_cast< ast::type::GeometryInput const & >( *outer->getType() ) );
 			}
 		}

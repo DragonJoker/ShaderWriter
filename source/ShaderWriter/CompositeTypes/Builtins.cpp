@@ -297,14 +297,14 @@ namespace sdw
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
-			, ast::stmt::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
+			, sdw::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
 	}
 
 	void OutputStreamT< Void >::restartStrip()
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
-			, ast::stmt::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
+			, sdw::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
 	}
 
 	//*************************************************************************

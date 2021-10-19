@@ -20,7 +20,7 @@ namespace
 		{
 		}
 
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
 		{
 			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
 				, "Light" );

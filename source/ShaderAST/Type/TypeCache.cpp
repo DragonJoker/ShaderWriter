@@ -8,6 +8,8 @@ See LICENSE file in root folder
 #include "ShaderAST/Type/TypeSampler.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
 
+#include <stdexcept>
+
 namespace ast::type
 {
 	//*************************************************************************
@@ -51,7 +53,7 @@ namespace ast::type
 		, m_struct{ [this]( MemoryLayout layout
 				, std::string name )
 			{
-				return std::make_shared< Struct >( *this
+				return std::make_shared< BaseStruct >( *this
 					, layout
 					, std::move( name ) );
 			}
@@ -59,6 +61,36 @@ namespace ast::type
 				, std::string const & name )noexcept
 			{
 				return ast::type::getHash( layout, name );
+			} }
+		, m_inputStruct{ [this]( MemoryLayout layout
+				, std::string name
+				, var::Flag flag )
+			{
+				return std::make_shared< IOStruct >( *this
+					, layout
+					, std::move( name )
+					, flag );
+			}
+			, []( MemoryLayout layout
+				, std::string const & name
+				, var::Flag flag )noexcept
+			{
+				return ast::type::getHash( layout, name, flag );
+			} }
+		, m_outputStruct{ [this]( MemoryLayout layout
+				, std::string name
+				, var::Flag flag )
+			{
+				return std::make_shared< IOStruct >( *this
+					, layout
+					, std::move( name )
+					, flag );
+			}
+			, []( MemoryLayout layout
+				, std::string const & name
+				, var::Flag flag )noexcept
+			{
+				return ast::type::getHash( layout, name, flag );
 			} }
 		, m_array{ []( TypePtr type
 				, uint32_t arraySize )
@@ -87,10 +119,6 @@ namespace ast::type
 		{
 			m_basicTypes[i] = std::make_shared< Type >( *this, Kind( i ) );
 		}
-	}
-
-	TypesCache::~TypesCache()
-	{
 	}
 
 	TypePtr TypesCache::getUndefined()
@@ -634,10 +662,25 @@ namespace ast::type
 			, std::move( parameters ) );
 	}
 
-	StructPtr TypesCache::getStruct( MemoryLayout layout
+	BaseStructPtr TypesCache::getStruct( MemoryLayout layout
 		, std::string const & name )
 	{
 		return m_struct.getType( layout, name );
+	}
+
+	IOStructPtr TypesCache::getIOStruct( MemoryLayout layout
+		, std::string const & name
+		, var::Flag flag )
+	{
+		if ( flag != var::Flag::eShaderInput
+			&& flag != var::Flag::eShaderOutput )
+		{
+			throw std::runtime_error{ "Non I/O structure." };
+		}
+
+		return ( flag == var::Flag::eShaderInput
+			? m_inputStruct.getType( layout, name, flag )
+			: m_outputStruct.getType( layout, name, flag ) );
 	}
 
 	ArrayPtr TypesCache::getArray( TypePtr type

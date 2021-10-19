@@ -15,15 +15,15 @@ namespace sdw
 	public:
 		SDW_API Struct( ShaderWriter & writer
 			, std::string name
-			, type::MemoryLayout layout = type::MemoryLayout::eC );
+			, type::MemoryLayout layout = type::MemoryLayout::eStd140 );
 		SDW_API Struct( ShaderWriter & writer
-			, ast::type::StructPtr type );
+			, ast::type::BaseStructPtr type );
 		SDW_API void end();
 		template< typename InstanceT = StructInstance >
 		InstanceT getInstance( std::string const & name
 			, bool enabled )const;
 
-		type::StructPtr getType()const
+		type::BaseStructPtr getType()const
 		{
 			return m_type;
 		}
@@ -39,19 +39,20 @@ namespace sdw
 	private:
 		ShaderWriter * m_writer;
 		Shader * m_shader;
-		type::StructPtr m_type;
+		type::BaseStructPtr m_type;
 	};
 
-	class InputStruct
+	template< var::Flag FlagT >
+	class IOStructT
 	{
 	private:
-		SDW_API InputStruct( ShaderWriter & writer
+		IOStructT( ShaderWriter & writer
 			, std::string name );
-		SDW_API InputStruct( ShaderWriter & writer
-			, ast::type::StructPtr type );
-		SDW_API void end();
+		IOStructT( ShaderWriter & writer
+			, ast::type::IOStructPtr type );
+		void end();
 
-		type::StructPtr getType()const
+		type::IOStructPtr getType()const
 		{
 			return m_type;
 		}
@@ -67,36 +68,11 @@ namespace sdw
 	private:
 		ShaderWriter * m_writer;
 		Shader * m_shader;
-		type::StructPtr m_type;
+		type::IOStructPtr m_type;
 	};
 
-	class OutputStruct
-	{
-	private:
-		SDW_API OutputStruct( ShaderWriter & writer
-			, std::string name );
-		SDW_API OutputStruct( ShaderWriter & writer
-			, ast::type::StructPtr type );
-		SDW_API void end();
-
-		type::StructPtr getType()const
-		{
-			return m_type;
-		}
-
-		template< typename T >
-		inline void declMember( std::string const & name
-			, uint32_t location );
-		template< typename T >
-		inline void declMember( std::string const & name
-			, uint32_t dimension
-			, uint32_t location );
-
-	private:
-		ShaderWriter * m_writer;
-		Shader * m_shader;
-		type::StructPtr m_type;
-	};
+	using InputStruct = IOStructT< var::Flag::eShaderInput >;
+	using OutputStruct = IOStructT< var::Flag::eShaderOutput >;
 }
 
 #include "Struct.inl"

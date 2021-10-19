@@ -5,32 +5,32 @@ namespace sdw
 {
 	namespace details
 	{
-		inline ast::type::StructPtr getSsboType( ast::type::TypesCache & cache
+		inline ast::type::BaseStructPtr getSsboType( ast::type::TypesCache & cache
 			, std::string const & name
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout )
 		{
 			ast::type::ArrayPtr arrayType = cache.getArray( dataType, type::UnknownArraySize );
-			ast::type::StructPtr result = cache.getStruct( layout, name );
+			auto result = cache.getStruct( layout, name );
 			result->declMember( name + "Data", arrayType );
 			return result;
 		}
 
-		inline ast::type::StructPtr getSsboType( ast::type::TypesCache & cache
+		inline ast::type::BaseStructPtr getSsboType( ast::type::TypesCache & cache
 			, std::string const & name
-			, ast::type::StructPtr dataType )
+			, ast::type::BaseStructPtr dataType )
 		{
-			ast::type::StructPtr result = cache.getStruct( dataType->getMemoryLayout(), name );
+			auto result = cache.getStruct( dataType->getMemoryLayout(), name );
 			result->declMember( name + "Data", dataType, type::UnknownArraySize );
 			return result;
 		}
 
 		template< typename InstanceT >
-		inline ast::type::StructPtr makeSsboType( ShaderWriter & writer
+		inline ast::type::BaseStructPtr makeSsboType( ShaderWriter & writer
 			, bool enabled )
 		{
 			auto & cache = getTypesCache( writer );
-			ast::type::StructPtr result = InstanceT::makeType( cache );
+			ast::type::BaseStructPtr result = InstanceT::makeType( cache );
 
 			if ( enabled )
 			{
@@ -80,7 +80,7 @@ namespace sdw
 	template< typename InstanceT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
 		, std::string const & name
-		, ast::type::StructPtr dataType
+		, ast::type::BaseStructPtr dataType
 		, uint32_t bind
 		, uint32_t set
 		, bool enabled )

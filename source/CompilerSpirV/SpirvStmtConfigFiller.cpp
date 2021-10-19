@@ -117,11 +117,13 @@ namespace spirv
 
 					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						auto & structType = static_cast< ast::type::Struct const & >( *type );
+
+						for ( auto & mbr : structType )
 						{
 							m_result.addShaderOutput( "geomOut_" + mbr.name
 								, mbr.type
-								, uint32_t( mbr.flag ) );
+								, structType.getFlag() );
 						}
 					}
 				}
@@ -132,11 +134,13 @@ namespace spirv
 
 					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+						auto & structType = static_cast< ast::type::Struct const & >( *type );
+
+						for ( auto & mbr : structType )
 						{
 							m_result.addShaderInput( "geomIn_" + mbr.name
 								, mbr.type
-								, uint32_t( mbr.flag )
+								, structType.getFlag()
 								, geomType );
 						}
 					}
