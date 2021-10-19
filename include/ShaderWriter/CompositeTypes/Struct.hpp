@@ -15,7 +15,7 @@ namespace sdw
 	public:
 		SDW_API Struct( ShaderWriter & writer
 			, std::string name
-			, type::MemoryLayout layout = type::MemoryLayout::eStd140 );
+			, type::MemoryLayout layout = type::MemoryLayout::eC );
 		SDW_API Struct( ShaderWriter & writer
 			, ast::type::StructPtr type );
 		SDW_API void end();

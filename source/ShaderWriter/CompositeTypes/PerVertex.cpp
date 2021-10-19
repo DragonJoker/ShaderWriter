@@ -14,7 +14,7 @@ namespace sdw
 	{
 		InterfaceBlock doGetInfo( ast::type::TypesCache & cache )
 		{
-			InterfaceBlock result{ cache, type::MemoryLayout::eStd430, "gl_PerVertex" };
+			InterfaceBlock result{ cache, type::MemoryLayout::eC, "gl_PerVertex" };
 
 			if ( !result.hasMember( "gl_Position" ) )
 			{

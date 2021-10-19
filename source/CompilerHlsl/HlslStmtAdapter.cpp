@@ -164,15 +164,15 @@ namespace hlsl
 		, m_cache{ shader.getTypesCache() }
 	{
 		auto cont = ast::stmt::makeContainer();
-		m_adaptationData.mainInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_MainInput" );
-		m_adaptationData.mainOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_MainOutput" );
+		m_adaptationData.mainInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eC, "HLSL_SDW_MainInput" );
+		m_adaptationData.mainOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eC, "HLSL_SDW_MainOutput" );
 		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainInputStruct ) );
 		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainOutputStruct ) );
 
 		if ( shader.getType() != ast::ShaderStage::eGeometry )
 		{
-			m_adaptationData.globalInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Input" );
-			m_adaptationData.globalOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eStd430, "HLSL_SDW_Output" );
+			m_adaptationData.globalInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eC, "HLSL_SDW_Input" );
+			m_adaptationData.globalOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eC, "HLSL_SDW_Output" );
 			cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalInputStruct ) );
 			cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.globalOutputStruct ) );
 

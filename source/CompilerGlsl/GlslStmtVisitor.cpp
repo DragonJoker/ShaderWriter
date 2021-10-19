@@ -751,7 +751,7 @@ namespace glsl
 			{
 				m_result += m_indent;
 
-				if ( member.location != ~( 0u ) )
+				if ( member.location != ast::type::Struct::InvalidLocation )
 				{
 					m_result += "layout( location=" + std::to_string( member.location ) + " ) ";
 					m_result += ( member.flag == ast::var::Flag::eShaderInput

@@ -374,7 +374,7 @@ namespace sdw
 		/**@{*/
 		template< typename T = Pcb >
 		inline T declPushConstantsBuffer( std::string const & name
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -386,7 +386,7 @@ namespace sdw
 		/**@{*/
 		template< typename T = Struct >
 		inline T declStruct( std::string const & name
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140 );
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC );
 		/**@}*/
 #pragma endregion
 #pragma region Output declaration

@@ -57,7 +57,7 @@ namespace ast::type
 		uint32_t getNaiveSize( Type const & type )
 		{
 			auto arraySize = getArraySize( type );
-			return ( arraySize == ast::type::NotArray
+			return ( arraySize == NotArray
 				? getNaiveSize( type.getKind() )
 				: arraySize * getNaiveSize( getNonArrayType( type ) ) );
 		}
@@ -410,7 +410,7 @@ namespace ast::type
 		, Kind kind
 		, uint32_t arraySize )
 	{
-		type::TypePtr mbrType;
+		TypePtr mbrType;
 		auto type = getCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
@@ -433,9 +433,9 @@ namespace ast::type
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t location
-		, ast::var::Flag input )
+		, var::Flag input )
 	{
-		type::TypePtr mbrType;
+		TypePtr mbrType;
 		auto type = getCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
@@ -476,7 +476,7 @@ namespace ast::type
 		, ArrayPtr type
 		, uint32_t arraySize
 		, uint32_t location
-		, ast::var::Flag input )
+		, var::Flag input )
 	{
 		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
 			, *this
@@ -490,13 +490,13 @@ namespace ast::type
 		Struct::Member result;
 		auto kind = getNonArrayKind( type );
 
-		if ( kind == type::Kind::eStruct )
+		if ( kind == Kind::eStruct )
 		{
 			result = declMember( name
 				, std::static_pointer_cast< Struct >( type->getType() )
 				, type->getArraySize() );
 		}
-		else if ( kind == type::Kind::eArray )
+		else if ( kind == Kind::eArray )
 		{
 			result = declMember( name
 				, std::static_pointer_cast< Array >( type->getType() )
@@ -516,7 +516,7 @@ namespace ast::type
 		, StructPtr type
 		, uint32_t arraySize )
 	{
-		type::TypePtr mbrType;
+		TypePtr mbrType;
 
 		if ( arraySize != NotArray )
 		{
@@ -590,12 +590,12 @@ namespace ast::type
 			} );
 	}
 
-	Struct::Member Struct::doAddMember( type::TypePtr type
-		, std::string const & name )
+	std::pair< uint32_t, uint32_t > Struct::doLookupMember( std::string const & name
+		, TypePtr type )
 	{
 		auto it = std::find_if( m_members.begin()
 			, m_members.end()
-			, [&name]( Member const & lookup )
+			, [&name]( Struct::Member const & lookup )
 			{
 				return lookup.name == name;
 			} );
@@ -605,10 +605,16 @@ namespace ast::type
 			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
 		}
 
-		auto size = getPackedSize( *type, m_layout );
-		auto offset = m_members.empty()
-			? 0u
-			: m_members.back().offset + m_members.back().size;
+		return std::make_pair( getSize( *type, m_layout )
+			, ( m_members.empty()
+				? 0u
+				: m_members.back().offset + m_members.back().size ) );
+	}
+
+	Struct::Member Struct::doAddMember( TypePtr type
+		, std::string const & name )
+	{
+		auto [size, offset] = doLookupMember( name, type );
 		auto stride = type->getKind() == Kind::eArray
 			? getArrayStride( type, m_layout )
 			: 0u;
@@ -621,27 +627,12 @@ namespace ast::type
 		return m_members.back();
 	}
 
-	Struct::Member Struct::doAddIOMember( type::TypePtr type
+	Struct::Member Struct::doAddIOMember( TypePtr type
 		, std::string const & name
 		, uint32_t location
-		, ast::var::Flag input )
+		, var::Flag input )
 	{
-		auto it = std::find_if( m_members.begin()
-			, m_members.end()
-			, [&name]( Member const & lookup )
-			{
-				return lookup.name == name;
-			} );
-
-		if ( it != m_members.end() )
-		{
-			throw std::runtime_error{ "Struct member [" + name + "] already exists." };
-		}
-
-		auto size = getNaiveSize( *type );
-		auto offset = m_members.empty()
-			? 0u
-			: m_members.back().offset + m_members.back().size;
+		auto [size, offset] = doLookupMember( name, type );
 		m_members.push_back( { std::move( type )
 			, std::string( name )
 			, offset
@@ -657,7 +648,7 @@ namespace ast::type
 
 		for ( auto & member : m_members )
 		{
-			uint32_t alignment = getPackedAlignment( *member.type, m_layout );
+			uint32_t alignment = getAlignment( *member.type, m_layout );
 			member.offset = getAligned( offset, alignment );
 			offset = member.offset + getAligned( member.size, alignment );
 		}
@@ -665,7 +656,7 @@ namespace ast::type
 
 	//*************************************************************************
 
-	size_t getHash( type::MemoryLayout layout, std::string const & name )
+	size_t getHash( MemoryLayout layout, std::string const & name )
 	{
 		size_t result = std::hash< std::string >{}( name );
 		result = hashCombine( result, layout );
@@ -708,6 +699,11 @@ namespace ast::type
 	uint32_t getSize( Type const & type
 		, MemoryLayout layout )
 	{
+		if ( layout == MemoryLayout::eC )
+		{
+			return getNaiveSize( type );
+		}
+
 		return getPackedSize( type, layout );
 	}
 
@@ -720,6 +716,11 @@ namespace ast::type
 	uint32_t getAlignment( Type const & type
 		, MemoryLayout layout )
 	{
+		if ( layout == MemoryLayout::eC )
+		{
+			return 1u;
+		}
+
 		return getPackedAlignment( type, layout );
 	}
 
@@ -732,6 +733,11 @@ namespace ast::type
 	uint32_t getArrayStride( Array const & type
 		, MemoryLayout layout )
 	{
+		if ( layout == MemoryLayout::eC )
+		{
+			return getNaiveSize( *type.getType() );
+		}
+
 		return getPackedArrayStride( type, layout );
 	}
 
