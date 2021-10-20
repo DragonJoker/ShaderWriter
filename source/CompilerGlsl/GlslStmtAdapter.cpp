@@ -150,52 +150,29 @@ namespace glsl
 
 				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					m_adaptationData.geomOutput = param;
-					auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-					type = geomType.type;
-
-					if ( type->getKind() == ast::type::Kind::eStruct )
-					{
-						auto & structType = static_cast< ast::type::Struct const & >( *type );
-
-						for ( auto & mbr : structType )
-						{
-							auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "geomOut_" + mbr.name }
-								, mbr.type
-								, structType.getFlag() );
-							m_adaptationData.geomOutputs.emplace_back( var );
-							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
-								, mbr.location ) );
-						}
-					}
-
-					m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
-						, geomType.layout
-						, geomType.count ) );
+					doProcessGeometryOutput( param
+						, static_cast< ast::type::GeometryOutput const & >( *type ) );
 				}
 				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
 				{
-					m_adaptationData.geomInput = param;
-					auto & geomType = static_cast< ast::type::GeometryInput const & >( *type );
-					type = geomType.type;
+					doProcessGeometryInput( param
+						, static_cast< ast::type::GeometryInput const & >( *type ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto & structType = static_cast< ast::type::Struct const & >( *type );
 
-					if ( type->getKind() == ast::type::Kind::eStruct )
+					if ( structType.isShaderInput() )
 					{
-						auto & structType = static_cast< ast::type::Struct const & >( *type );
-
-						for ( auto & mbr : structType )
-						{
-							auto var = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "geomIn_" + mbr.name }
-								, m_cache.getArray( mbr.type, getArraySize( geomType.layout ) )
-								, structType.getFlag() );
-							m_adaptationData.geomInputs.emplace_back( var );
-							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
-								, mbr.location ) );
-						}
+						doProcessInput( param
+							, static_cast< ast::type::IOStruct const & >( *type )
+							, ast::type::NotArray );
 					}
-
-					m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
-						, geomType.layout ) );
+					else if ( structType.isShaderOutput() )
+					{
+						doProcessOutput( param
+							, static_cast< ast::type::IOStruct const & >( *type ) );
+					}
 				}
 			}
 
@@ -324,6 +301,77 @@ namespace glsl
 		if ( !cont->empty() )
 		{
 			m_result->addStmt( std::move( cont ) );
+		}
+	}
+
+	void StmtAdapter::doProcessGeometryOutput( ast::var::VariablePtr var
+		, ast::type::GeometryOutput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			doProcessOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType ) );
+		}
+
+		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+			, geomType.layout
+			, geomType.count ) );
+	}
+
+	void StmtAdapter::doProcessGeometryInput( ast::var::VariablePtr var
+		, ast::type::GeometryInput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, getArraySize( geomType.layout ) );
+		}
+
+		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
+			, geomType.layout ) );
+	}
+
+	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType )
+	{
+		m_adaptationData.output = var;
+
+		for ( auto & mbr : ioType )
+		{
+			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "sdwOut_" + mbr.name }
+				, mbr.type
+				, ioType.getFlag() );
+			m_adaptationData.outputs.emplace_back( mbrVar );
+			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+				, mbr.location ) );
+		}
+	}
+
+	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType
+		, uint32_t arraySize )
+	{
+		m_adaptationData.input = var;
+
+		for ( auto & mbr : ioType )
+		{
+			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "sdwIn_" + mbr.name }
+				, ( arraySize == ast::type::NotArray
+					? mbr.type
+					: m_cache.getArray( mbr.type, arraySize ) )
+				, ioType.getFlag() );
+			m_adaptationData.inputs.emplace_back( mbrVar );
+			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+				, mbr.location ) );
 		}
 	}
 }

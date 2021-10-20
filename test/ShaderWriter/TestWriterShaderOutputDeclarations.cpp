@@ -4,7 +4,7 @@
 namespace
 {
 #define DummyMain writer.implementMain( [](){} )
-#define DummyMainT writer.implementMainT< sdw::PointList, sdw::PointStream, 1u >( [&]( sdw::PointList in, sdw::PointStream out ){ out.vtx.position = in.vtx[0].position;out.append(); } )
+#define DummyMainT writer.implementMainT< 1u, sdw::PointList, sdw::PointStream >( [&]( sdw::PointList in, sdw::PointStream out ){ out.vtx.position = in.vtx[0].position;out.append(); } )
 
 	template< typename T >
 	void testShaderOutput( test::sdw_test::TestCounts & testCounts )

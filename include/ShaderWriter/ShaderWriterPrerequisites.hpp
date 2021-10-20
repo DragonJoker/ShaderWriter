@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/Type.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>
+#include <ShaderAST/Type/TypeGeometryIO.hpp>
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 
 #include <map>
@@ -25,24 +26,6 @@ See LICENSE file in root folder
 	using Out##TypeName##Array = sdw::OutParam< sdw::Array< TypeName > >;\
 	using InOut##TypeName##Array = sdw::InOutParam< sdw::Array< TypeName > >
 
-#define Writer_Image( Prefix, TypeName, Format, Postfix )\
-	template< ast::type::AccessKind AccessT >\
-	using Prefix##TypeName##Format##T = TypeName##T< ast::type::ImageFormat::e##Format##Postfix, AccessT >;\
-	using R##Prefix##TypeName##Format = R##TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
-	Writer_Parameter( R##Prefix##TypeName##Format );\
-	Writer_ArrayParameter( R##Prefix##TypeName##Format );\
-	using W##Prefix##TypeName##Format = W##TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
-	Writer_Parameter( W##Prefix##TypeName##Format );\
-	Writer_ArrayParameter( W##Prefix##TypeName##Format );\
-	using RW##Prefix##TypeName##Format = RW##TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
-	Writer_Parameter( RW##Prefix##TypeName##Format );\
-	Writer_ArrayParameter( RW##Prefix##TypeName##Format )
-
-#define Writer_SampledImage( Prefix, TypeName, Format, Postfix )\
-	using Prefix##TypeName##Format = TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
-	Writer_Parameter( Prefix##TypeName##Format );\
-	Writer_ArrayParameter( Prefix##TypeName##Format )
-
 #if defined( ShaderWriter_Static )
 #	define SDW_API
 #elif defined( _WIN32 )
@@ -57,40 +40,39 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+#pragma region Base
+	/**
+	*name
+	*	Base.
+	*/
+	/**@{*/
 	using ShaderArray = ast::ShaderArray;
-
-	struct InVertex;
-	struct InTessellationControl;
-	struct InTessellationEvaluation;
-	struct InGeometry;
-	struct InFragment;
-	struct InCompute;
-	struct OutVertex;
-	struct OutTessellationControl;
-	struct OutTessellationEvaluation;
-	struct OutGeometry;
-	struct OutFragment;
-	struct WriterScope;
-
-	struct PerVertex;
-
-	class Pcb;
 	class ShaderWriter;
-	class Ssbo;
-	class Struct;
-	class StructInstance;
-	class Ubo;
+	/**@}*/
+#pragma endregion
+#pragma region Base types
+	/**
+	*name
+	*	Base types.
+	*/
+	/**@{*/
+	struct Value;
+	struct Void;
+	struct Boolean;
+
+	template< ast::type::Kind KindT >
+	struct ArithmeticValue;
+	using Half = ArithmeticValue< ast::type::Kind::eHalf >;
+	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
+	using Double = ArithmeticValue< ast::type::Kind::eDouble >;
+
+	template< ast::type::Kind KindT >
+	struct IntegerValue;
+	using Int = IntegerValue< ast::type::Kind::eInt >;
+	using UInt = IntegerValue< ast::type::Kind::eUInt >;
 
 	template< typename T >
 	struct Array;
-	template< typename TypeT >
-	struct Param;
-	template< typename TypeT >
-	struct InParam;
-	template< typename TypeT >
-	struct OutParam;
-	template< typename TypeT >
-	struct InOutParam;
 	template< typename TypeT >
 	struct Vec2T;
 	template< typename TypeT >
@@ -115,42 +97,6 @@ namespace sdw
 	struct Mat4x2T;
 	template< typename TypeT >
 	struct Mat4x3T;
-	struct Image;
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct ImageT;
-	struct Sampler;
-	struct SampledImage;
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	struct SampledImageT;
-	template< typename InstanceT >
-	class ArraySsboT;
-
-	struct Value;
-	struct Void;
-	struct Boolean;
-
-	template< ast::type::Kind KindT >
-	struct ArithmeticValue;
-	template< ast::type::Kind KindT >
-	struct IntegerValue;
-
-	using Half = ArithmeticValue< ast::type::Kind::eHalf >;
-	using Float = ArithmeticValue< ast::type::Kind::eFloat >;
-	using Double = ArithmeticValue< ast::type::Kind::eDouble >;
-	using Int = IntegerValue< ast::type::Kind::eInt >;
-	using UInt = IntegerValue< ast::type::Kind::eUInt >;
-
-	class Struct;
-	class StructInstance;
 
 	using Vec2 = Vec2T< Float >;
 	using Vec3 = Vec3T< Float >;
@@ -187,6 +133,134 @@ namespace sdw
 	using DMat4 = Mat4T< Double >;
 	using DMat4x2 = Mat4x2T< Double >;
 	using DMat4x3 = Mat4x3T< Double >;
+	/**@}*/
+#pragma endregion
+#pragma region Shader interface types
+	/**
+	*name
+	*	Shader interface types.
+	*/
+	/**@{*/
+	class Struct;
+	class StructInstance;
+
+	class Pcb;
+	class Ssbo;
+	class Ubo;
+
+	template< typename InstanceT >
+	class ArraySsboT;
+	/**@}*/
+#pragma endregion
+#pragma region Shader I/O
+	/**
+	*name
+	*	Shader I/O.
+	*/
+	/**@{*/
+	struct PerVertex;
+
+	struct InTessellationControl;
+	struct InTessellationEvaluation;
+	struct InGeometry;
+	struct InFragment;
+	struct InCompute;
+	struct OutTessellationControl;
+	struct OutTessellationEvaluation;
+	struct OutGeometry;
+	struct OutFragment;
+
+	template< ast::var::Flag FlagT >
+	struct VoidT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct InputT;
+
+	using Input = InputT< VoidT >;
+	/**
+	*name
+	*	Vertex.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct VertexInT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct VertexOutT;
+
+	using VertexIn = VertexInT< VoidT >;
+	using VertexOut = VertexOutT< VoidT >;
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, template< ast::var::Flag FlagT > typename OutT >
+	using VertexMainFuncT = std::function< void( VertexInT< InT >, VertexOutT< OutT > ) >;
+	/**@}*/
+	/**
+	*name
+	*	Geometry.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT, ast::type::InputLayout LayoutT >
+	struct GeomInT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct GeomOutT;
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using PointListT = GeomInT< DataT, ast::type::InputLayout::ePointList >;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using LineListT = GeomInT< DataT, ast::type::InputLayout::eLineList >;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using TriangleListT = GeomInT< DataT, ast::type::InputLayout::eTriangleList >;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using LineListWithAdjT = GeomInT< DataT, ast::type::InputLayout::eLineListWithAdjacency >;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using TriangleListWithAdjT = GeomInT< DataT, ast::type::InputLayout::eTriangleListWithAdjacency >;
+
+	using PointList = PointListT< VoidT >;
+	using LineList = LineListT< VoidT >;
+	using TriangleList = TriangleListT< VoidT >;
+	using LineListWithAdj = LineListWithAdjT< VoidT >;
+	using TriangleListWithAdj = TriangleListWithAdjT< VoidT >;
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct PointStreamT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct LineStreamT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TriangleStreamT;
+
+	using PointStream = PointStreamT< VoidT >;
+	using LineStream = LineStreamT< VoidT >;
+	using TriangleStream = TriangleStreamT< VoidT >;
+
+	template< typename InputArrT, typename OutStreamT >
+	using GeometryMainFuncT = std::function< void( InputArrT, OutStreamT ) >;
+	/**@}*/
+	/**
+	*name
+	*	Fragment.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct FragmentInT;
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using FragmentMainFuncT = std::function< void( InputT< DataT > ) >;
+	/**@}*/
+	/**@}*/
+#pragma endregion
+#pragma region Images
+	/**
+	*name
+	*	Images.
+	*/
+	/**@{*/
+	struct Image;
+	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct ImageT;
 
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using ImageBufferT = ImageT< FormatT
@@ -321,6 +395,22 @@ namespace sdw
 	using RWImage2DMST = Image2DMST< FormatT, ast::type::AccessKind::eReadWrite >;
 	template< ast::type::ImageFormat FormatT >
 	using RWImage2DMSArrayT = Image2DMSArrayT< FormatT, ast::type::AccessKind::eReadWrite >;
+	/**@}*/
+#pragma endregion
+#pragma region Sampled images
+	/**
+	*name
+	*	Sampled images.
+	*/
+	/**@{*/
+	struct Sampler;
+	struct SampledImage;
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool DepthT
+		, bool MsT >
+	struct SampledImageT;
 
 	template< ast::type::ImageFormat FormatT >
 	using SampledImageBufferT = SampledImageT< FormatT
@@ -418,9 +508,18 @@ namespace sdw
 		, true
 		, false
 		, true >;
-
+	/**@}*/
+#pragma endregion
+#pragma region Function related
+	/**
+	*name
+	*	Function related.
+	*/
+	/**@{*/
 	template< typename RetT, typename ... ParamsT >
 	struct Function;
+	template< typename TypeT >
+	struct Param;
 	template< typename TypeT >
 	struct InParam;
 	template< typename TypeT >
@@ -507,6 +606,31 @@ namespace sdw
 	Writer_ArrayParameter( DMat4 );
 	Writer_ArrayParameter( DMat4x2 );
 	Writer_ArrayParameter( DMat4x3 );
+	/**@}*/
+#pragma endregion
+#pragma region Function and images related
+	/**
+	*name
+	*	Function and images related.
+	*/
+	/**@{*/
+#	define Writer_Image( Prefix, TypeName, Format, Postfix )\
+		template< ast::type::AccessKind AccessT >\
+		using Prefix##TypeName##Format##T = TypeName##T< ast::type::ImageFormat::e##Format##Postfix, AccessT >;\
+		using R##Prefix##TypeName##Format = R##TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
+		Writer_Parameter( R##Prefix##TypeName##Format );\
+		Writer_ArrayParameter( R##Prefix##TypeName##Format );\
+		using W##Prefix##TypeName##Format = W##TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
+		Writer_Parameter( W##Prefix##TypeName##Format );\
+		Writer_ArrayParameter( W##Prefix##TypeName##Format );\
+		using RW##Prefix##TypeName##Format = RW##TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
+		Writer_Parameter( RW##Prefix##TypeName##Format );\
+		Writer_ArrayParameter( RW##Prefix##TypeName##Format )
+
+#	define Writer_SampledImage( Prefix, TypeName, Format, Postfix )\
+		using Prefix##TypeName##Format = TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
+		Writer_Parameter( Prefix##TypeName##Format );\
+		Writer_ArrayParameter( Prefix##TypeName##Format )
 
 	Writer_Image( , ImageBuffer, Rgba32, f );
 	Writer_Image( , Image1D, Rgba32, f );
@@ -1001,6 +1125,16 @@ namespace sdw
 	Writer_SampledImage( U, SampledImage2DMS, R8, u );
 	Writer_SampledImage( U, SampledImage2DMSArray, R8, u );
 
+#	undef Writer_SampledImage
+#	undef Writer_Image
+	/**@}*/
+#pragma endregion
+#pragma region Traits
+	/**
+	*name
+	*	Traits.
+	*/
+	/**@{*/
 	template< typename T >
 	struct TypeTraits;
 
@@ -1042,10 +1176,9 @@ namespace sdw
 
 	template< typename LhsT, typename RhsT >
 	static bool constexpr areCompatible = AreCompatibleT< LhsT, RhsT >::value;
+	/**@}*/
+#pragma endregion
 }
-
-#undef Writer_SampledImage
-#undef Writer_Image
 
 #include "ShaderWriterPrerequisites.inl"
 #include "Helpers.hpp"

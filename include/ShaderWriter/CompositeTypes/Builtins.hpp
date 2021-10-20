@@ -13,6 +13,12 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+#pragma region Base declarations
+	/**
+	*name
+	*	Base declarations.
+	*/
+	/**@{*/
 	struct Builtin
 	{
 		SDW_API Builtin( ShaderWriter & writer );
@@ -31,21 +37,83 @@ namespace sdw
 		ShaderWriter * m_writer;
 		ast::Shader * m_shader;
 	};
-
-#pragma region Built-in inputs
+	/**@}*/
+#pragma endregion
+#pragma region I/O
 	/**
 	*name
-	*	Built-in inputs.
+	*	I/O.
 	*/
 	/**@{*/
+	/**
+	*	Placeholder for I/O empty types.
+	*/
+	template< ast::var::Flag FlagT >
+	struct VoidT
+		: public Value
+	{
+		VoidT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	};
+	/**
+	*	Holds input data for shaders.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct InputT
+		: public DataT< ast::var::Flag::eShaderInput >
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
+		InputT( ShaderWriter & writer );
+		InputT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	};
+	/**
+	*	Holds output data for shaders.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct OutputT
+		: public DataT< ast::var::Flag::eShaderOutput >
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderOutput;
+
+		OutputT( ShaderWriter & writer );
+		OutputT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	};
+	/**@}*/
+#pragma endregion
+#pragma region Vertex shader
 	/**
 	*name
 	*	Vertex shader.
 	*/
 	/**@{*/
-	struct InVertex : Builtin
+	/**
+	*	Holds input data for a vertex shader.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct VertexInT
+		: public InputT< DataT >
 	{
-		SDW_API InVertex( ShaderWriter & writer );
+		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+
+		VertexInT( ShaderWriter & writer );
+		VertexInT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
 		//in int gl_VertexIndex;
 		Int const vertexIndex;
 		//in int gl_InstanceIndex;
@@ -57,7 +125,107 @@ namespace sdw
 		//in int gl_BaseInstance;
 		Int const baseInstance;
 	};
+	/**
+	*	Holds per vertex output data.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct VertexOutT
+		: public OutputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+
+		VertexOutT( ShaderWriter & writer );
+		VertexOutT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		PerVertex vtx;
+	};
 	/**@}*/
+#pragma endregion
+#pragma region Geometry shader
+	/**
+	*name
+	*	Geometry shader.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT
+		, type::InputLayout LayoutT >
+	struct GeomInT
+		: Array< InputT< DataT > >
+	{
+		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+
+		GeomInT( ShaderWriter & writer );
+		GeomInT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		Array< PerVertex > vtx;
+	};
+	/**
+	*	Holds data and functions to append primitives to the stream or restart it.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct GeomOutT
+		: public OutputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+
+	protected:
+		GeomOutT( ShaderWriter & writer
+			, type::OutputLayout layout
+			, uint32_t count );
+
+	public:
+		GeomOutT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		void append();
+		void restartStrip();
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		PerVertex vtx;
+	};
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct PointStreamT
+		: public GeomOutT< DataT >
+	{
+		PointStreamT( ShaderWriter & writer
+			, uint32_t count );
+	};
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct LineStreamT
+		: public GeomOutT< DataT >
+	{
+		LineStreamT( ShaderWriter & writer
+			, uint32_t count );
+	};
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TriangleStreamT
+		: public GeomOutT< DataT >
+	{
+		TriangleStreamT( ShaderWriter & writer
+			, uint32_t count );
+	};
+	/**@}*/
+	/**@}*/
+#pragma endregion
+#pragma region Built-in inputs
+	/**
+	*name
+	*	Built-in inputs.
+	*/
+	/**@{*/
 	/**
 	*name
 	*	Tessellation control shader.
@@ -98,72 +266,6 @@ namespace sdw
 		Array< PerVertex > const vtx;
 	};
 	/**@}*/
-	/**
-	*	Holds input data for a geometry shader.
-	*/
-	template< typename InputDataT >
-	struct InputT
-		: public InputDataT
-	{
-		InputT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
-		{
-			return InputDataT::makeType( cache );
-		}
-	};
-	/**
-	*	Holds input data for a geometry shader.
-	*\remarks
-	*	Only holds the PerVertex builtins.
-	*/
-	template<>
-	struct InputT< Void >
-		: public Value
-	{
-		SDW_API InputT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
-		{
-			return Void::makeType( cache );
-		}
-	};
-
-	template< typename InputDataT, type::InputLayout LayoutT >
-	struct InputArrayT
-		: Array< InputT< InputDataT > >
-	{
-	public:
-		InputArrayT( ShaderWriter & writer );
-		InputArrayT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
-
-		Array< PerVertex > vtx;
-	};
-
-	template< typename InputDataT >
-	using PointListT = InputArrayT< InputDataT, type::InputLayout::ePointList >;
-	template< typename InputDataT >
-	using LineListT = InputArrayT< InputDataT, type::InputLayout::eLineList >;
-	template< typename InputDataT >
-	using TriangleListT = InputArrayT< InputDataT, type::InputLayout::eTriangleList >;
-	template< typename InputDataT >
-	using LineListWithAdjT = InputArrayT< InputDataT, type::InputLayout::eLineListWithAdjacency >;
-	template< typename InputDataT >
-	using TriangleListWithAdjT = InputArrayT< InputDataT, type::InputLayout::eTriangleListWithAdjacency >;
-
-	using PointList = PointListT< Void >;
-	using LineList = LineListT< Void >;
-	using TriangleList = TriangleListT< Void >;
-	using LineListWithAdj = LineListWithAdjT< Void >;
-	using TriangleListWithAdj = TriangleListWithAdjT< Void >;
 	/**
 	*name
 	*	Geometry shader.
@@ -240,18 +342,6 @@ namespace sdw
 	/**@{*/
 	/**
 	*name
-	*	Vertex shader.
-	*/
-	/**@{*/
-	struct OutVertex : Builtin
-	{
-		SDW_API OutVertex( ShaderWriter & writer );
-		//out gl_PerVertex;
-		PerVertex vtx;
-	};
-	/**@}*/
-	/**
-	*name
 	*	Tessellation control shader.
 	*/
 	/**@{*/
@@ -283,89 +373,6 @@ namespace sdw
 	*	Geometry shader.
 	*/
 	/**@{*/
-
-	/**
-	*	Holds data and functions to append primitives to the stream or restart it.
-	*/
-	template< typename StreamDataT >
-	struct OutputStreamT
-		: public StreamDataT
-	{
-	protected:
-		OutputStreamT( ShaderWriter & writer
-			, type::OutputLayout layout
-			, uint32_t count );
-
-	public:
-		OutputStreamT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		void append();
-		void restartStrip();
-
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache )
-		{
-			return StreamDataT::makeType( cache );
-		}
-
-		PerVertex vtx;
-	};
-	/**
-	*	Holds data and functions to append primitives to the stream or restart it.
-	*\remarks
-	*	Only holds the PerVertex builtins.
-	*/
-	template<>
-	struct OutputStreamT< Void >
-		: public Value
-	{
-	protected:
-		SDW_API OutputStreamT( ShaderWriter & writer
-			, type::OutputLayout layout
-			, uint32_t count );
-
-	public:
-		SDW_API OutputStreamT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		SDW_API void append();
-		SDW_API void restartStrip();
-
-		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
-
-		PerVertex vtx;
-	};
-
-	template< typename StreamDataT >
-	struct PointStreamT
-		: public OutputStreamT< StreamDataT >
-	{
-		PointStreamT( ShaderWriter & writer
-			, uint32_t count );
-	};
-
-	template< typename StreamDataT >
-	struct LineStreamT
-		: public OutputStreamT< StreamDataT >
-	{
-		LineStreamT( ShaderWriter & writer
-			, uint32_t count );
-	};
-
-	template< typename StreamDataT >
-	struct TriangleStreamT
-		: public OutputStreamT< StreamDataT >
-	{
-		TriangleStreamT( ShaderWriter & writer
-			, uint32_t count );
-	};
-
-	using PointStream = PointStreamT< Void >;
-	using LineStream = LineStreamT< Void >;
-	using TriangleStream = TriangleStreamT< Void >;
-
 	struct OutGeometry : Builtin
 	{
 		SDW_API OutGeometry( ShaderWriter & writer );

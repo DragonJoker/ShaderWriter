@@ -18,10 +18,10 @@ namespace glsl
 		GlslConfig const & writerConfig;
 		IntrinsicsConfig intrinsicsConfig;
 		uint32_t nextVarId;
-		ast::var::VariablePtr geomOutput{};
-		std::vector< ast::var::VariablePtr > geomOutputs{};
-		ast::var::VariablePtr geomInput{};
-		std::vector< ast::var::VariablePtr > geomInputs{};
+		ast::var::VariablePtr output{};
+		std::vector< ast::var::VariablePtr > outputs{};
+		ast::var::VariablePtr input{};
+		std::vector< ast::var::VariablePtr > inputs{};
 	};
 
 	class StmtAdapter
@@ -47,6 +47,17 @@ namespace glsl
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
+
+	private:
+		void doProcessGeometryOutput( ast::var::VariablePtr var
+			, ast::type::GeometryOutput const & geomType );
+		void doProcessGeometryInput( ast::var::VariablePtr var
+			, ast::type::GeometryInput const & geomType );
+		void doProcessOutput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType );
+		void doProcessInput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType
+			, uint32_t arraySize );
 
 	private:
 		ast::type::TypesCache & m_cache;

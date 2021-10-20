@@ -38,12 +38,13 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts
-					, true, false, false );
+					, Compilers_SPIRV );
 				test::writeShader( writer
 					, testCounts
-					, false, true, true );
+					, Compilers_NoSPIRV );
 				test::validateShader( writer.getShader()
-					, testCounts );
+					, testCounts
+					, Compilers_SPIRV );
 			}
 			testEnd();
 		}
@@ -83,12 +84,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -140,12 +142,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -198,12 +201,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -278,14 +282,15 @@ namespace
 					{
 						test::writeShader( writer
 							, testCounts
-							, true, false, false );
+							, Compilers_SPIRV );
 						test::validateShader( writer.getShader()
-							, testCounts );
+							, testCounts
+							, Compilers_SPIRV );
 					}
 
 					test::writeShader( writer
 						, testCounts
-						, false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true );
+						, { false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true } );
 				}
 				testEnd();
 			}
@@ -356,12 +361,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -432,12 +438,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -508,12 +515,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -584,12 +592,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -660,12 +669,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}
@@ -740,14 +750,15 @@ namespace
 					{
 						test::writeShader( writer
 							, testCounts
-							, true, false, false );
+							, Compilers_SPIRV );
 						test::validateShader( writer.getShader()
-							, testCounts );
+							, testCounts
+							, Compilers_SPIRV );
 					}
 
 					test::writeShader( writer
 						, testCounts
-						, false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true );
+						, { false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true } );
 				}
 				testEnd();
 			}
@@ -825,12 +836,13 @@ namespace
 						} );
 					test::writeShader( writer
 						, testCounts
-						, true, false, false );
+						, Compilers_SPIRV );
 					test::writeShader( writer
 						, testCounts
-						, false, true, true );
+						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
-						, testCounts );
+						, testCounts
+						, Compilers_SPIRV );
 				}
 				testEnd();
 			}

@@ -57,23 +57,129 @@ namespace
 		testEnd();
 	}
 
+	namespace vtx
+	{
+		template< sdw::var::Flag FlagT >
+		struct VtxInT
+			: sdw::StructInstance
+		{
+			VtxInT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, position{ getMember< sdw::Vec2 >( "position" ) }
+				, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , VtxInT );
+
+			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+					, "VtxInT"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "position"
+						, sdw::type::Kind::eVec2F
+						, sdw::type::NotArray
+						, 0u );
+					result->declMember( "texcoord"
+						, sdw::type::Kind::eVec2F
+						, sdw::type::NotArray
+						, 1u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec2 position;
+			sdw::Vec2 texcoord;
+		};
+
+		template< sdw::var::Flag FlagT >
+		struct VtxOutT
+			: sdw::StructInstance
+		{
+			VtxOutT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, position{ getMember< sdw::Vec2 >( "position" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , VtxOutT );
+
+			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+					, "VtxOutT"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "position"
+						, sdw::type::Kind::eVec2F
+						, sdw::type::NotArray
+						, 0u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec2 position;
+		};
+
+		template< sdw::var::Flag FlagT >
+		struct FrgInT
+			: sdw::StructInstance
+		{
+			FrgInT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , FrgInT );
+
+			static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
+					, "FragmentIn"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "texcoord"
+						, ast::type::Kind::eVec2F
+						, ast::type::NotArray
+						, 0u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec2 texcoord;
+		};
+	}
+
 	void vertex( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "vertex" );
 		using namespace sdw;
-
+		using namespace vtx;
 		VertexWriter writer;
-		auto position = writer.declInput< Vec2 >( "position", 0u );
-		auto texcoord = writer.declInput< Vec2 >( "texcoord", 1u );
 
-		// Shader outputs
-		auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
-		auto out = writer.getOut();
-
-		writer.implementFunction< sdw::Void >( "main", [&]()
+		writer.implementMainT< VtxInT, VtxOutT >( [&]( sdw::VertexInT< VtxInT > in
+			, sdw::VertexOutT< VtxOutT > out )
 			{
-				vtx_texture = texcoord;
-				out.vtx.position = vec4( position.x(), position.y(), 0.0, 1.0 );
+				out.position = in.texcoord;
+				out.vtx.position = vec4( in.position.x(), in.position.y(), 0.0, 1.0 );
 			} );
 
 		test::writeShader( writer
@@ -85,6 +191,7 @@ namespace
 	{
 		testBegin( "fragment" );
 		using namespace sdw;
+		using namespace vtx;
 
 		FragmentWriter writer;
 		// Shader inputs
@@ -94,7 +201,6 @@ namespace
 		hdrConfig.end();
 
 		auto c3d_mapDiffuse = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapDiffuse", 1u, 0u );
-		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		// Shader outputs
 		auto pxl_rgb = writer.declOutput< Vec4 >( "pxl_rgb", 0 );
@@ -142,11 +248,10 @@ namespace
 			, InSampledImage2DRgba32{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< FrgInT >( [&]( InputT< FrgInT > in )
 			{
 				auto hdrColor = writer.declLocale( "hdrColor"
-					, sampleTex( c3d_mapDiffuse, vtx_texture ) );
+					, sampleTex( c3d_mapDiffuse, in.texcoord ) );
 				hdrColor *= vec3( exposureBias ); // Hardcoded Exposure Adjustment.
 
 				auto current = writer.declLocale( "current"
@@ -191,7 +296,7 @@ namespace
 #if !defined( __APPLE__ )
 		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
 		test::validateShader( writer.getShader()
-			, testCounts );
+			, testCounts, CurrentCompilers );
 #endif
 
 		testEnd();
@@ -336,28 +441,67 @@ namespace
 		testEnd();
 	}
 
+	namespace posCol
+	{
+		template< sdw::var::Flag FlagT >
+		struct VtxDataT
+			: sdw::StructInstance
+		{
+			VtxDataT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, position{ getMember< sdw::Vec4 >( "position" ) }
+				, colour{ getMember< sdw::Vec4 >( "colour" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , VtxDataT );
+
+			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+					, ( FlagT == ast::var::Flag::eShaderOutput
+						? std::string{ "Output" }
+						: std::string{ "Input" } ) + "VtxData"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "position"
+						, sdw::type::Kind::eVec4F
+						, sdw::type::NotArray
+						, 0u );
+					result->declMember( "colour"
+						, sdw::type::Kind::eVec4F
+						, sdw::type::NotArray
+						, 1u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec4 position;
+			sdw::Vec4 colour;
+		};
+	}
+
 	void vtx_frag( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "vtx_frag" );
 		using namespace sdw;
+		using namespace posCol;
 
 		ShaderArray shaders;
 		{
 			VertexWriter writer;
 
-			// Shader inputs
-			auto pos = writer.declInput< Vec4 >( "pos", 0u );
-			auto color = writer.declInput< Vec4 >( "color", 1u );
-			auto in = writer.getIn();
-
-			// Shader outputs
-			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
-			auto out = writer.getOut();
-
-			writer.implementFunction< void >( "main", [&]()
+			writer.implementMainT< VtxDataT, VtxDataT >( [&]( VertexInT< VtxDataT > in
+				, VertexOutT< VtxDataT > out )
 				{
-					outColor = color;
-					out.vtx.position = pos;
+					out.colour = in.colour;
+					out.position = in.position;
+					out.vtx.position = in.position;
 				} );
 
 			test::writeShader( writer
@@ -368,16 +512,12 @@ namespace
 			using namespace sdw;
 			FragmentWriter writer;
 
-			// Shader inputs
-			auto vtxColor = writer.declInput< Vec4 >( "vtxColor", 0u );
-
 			// Shader outputs
 			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
 
-			writer.implementFunction< void >( "main"
-				, [&]()
+			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
 				{
-					outColor = vtxColor;
+					outColor = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -386,7 +526,7 @@ namespace
 		}
 
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -394,6 +534,7 @@ namespace
 	{
 		testBegin( "charles" );
 		using namespace sdw;
+		using namespace posCol;
 
 		ShaderArray shaders;
 		{
@@ -415,22 +556,19 @@ namespace
 					vec4( 0.0_f, 0.0f, 1.0f, 1.0f ),
 				} );
 
-			// Shader inputs
-			auto in = writer.getIn();
-
-			// Shader outputs
-			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
-			auto out = writer.getOut();
-
-			writer.implementFunction< void >( "main", [&]()
+			writer.implementMainT< VtxDataT, VtxDataT >( [&]( VertexInT< VtxDataT > in
+				, VertexOutT< VtxDataT > out )
 				{
-					outColor = colors[in.vertexIndex];
+					out.colour = colors[in.vertexIndex];
+					out.position = positions[in.vertexIndex];
 					out.vtx.position = positions[in.vertexIndex];
 
-					outColor = colors[0];
+					out.colour = colors[0];
+					out.position = positions[0];
 					out.vtx.position = positions[0];
 
-					outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.colour = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 					out.vtx.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 				} );
 
@@ -442,16 +580,12 @@ namespace
 			using namespace sdw;
 			FragmentWriter writer;
 
-			// Shader inputs
-			auto color = writer.declInput< Vec4 >( "color", 0u );
-
 			// Shader outputs
 			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
 
-			writer.implementFunction< void >( "main"
-				, [&]()
+			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
 				{
-					outColor = color;
+					outColor = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -460,7 +594,7 @@ namespace
 		}
 
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -468,6 +602,7 @@ namespace
 	{
 		testBegin( "charles_approx" );
 		using namespace sdw;
+		using namespace posCol;
 
 		ShaderArray shaders;
 		{
@@ -489,22 +624,18 @@ namespace
 					vec4( 0.0_f, 0.0, 1.0, 1.0 ),
 			} );
 
-			// Shader inputs
-			auto in = writer.getIn();
-
-			// Shader outputs
-			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
-			auto out = writer.getOut();
-
-			writer.implementFunction< void >( "main", [&]()
+			writer.implementMainT< VtxDataT, VtxDataT >( [&]( VertexInT< VtxDataT > in
+				, VertexOutT< VtxDataT > out )
 				{
-					outColor = colors[in.vertexIndex];
+					out.colour = colors[in.vertexIndex];
+					out.position = positions[in.vertexIndex];
 					out.vtx.position = positions[in.vertexIndex];
 
-					outColor = colors[0];
+					out.colour = colors[0];
+					out.position = positions[0];
 					out.vtx.position = positions[0];
 
-					outColor = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.colour = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
 					out.vtx.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 				} );
 
@@ -513,19 +644,14 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			using namespace sdw;
 			FragmentWriter writer;
-
-			// Shader inputs
-			auto color = writer.declInput< Vec4 >( "color", 0u );
 
 			// Shader outputs
 			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
 
-			writer.implementFunction< void >( "main"
-				, [&]()
+			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
 				{
-					outColor = color;
+					outColor = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -534,7 +660,7 @@ namespace
 		}
 
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -542,6 +668,7 @@ namespace
 	{
 		testBegin( "charles_latest" );
 		using namespace sdw;
+		using namespace posCol;
 
 		ShaderArray shaders;
 		{
@@ -568,19 +695,14 @@ namespace
 					0_i, 1_i, 6_i, 6_i, 1_i, 7_i,
 					1_i, 2_i, 7_i, 7_i, 2_i, 8_i } );
 
-			// Shader inputs
-			auto in = writer.getIn();
-
-			// Shader outputs
-			auto outColor = writer.declOutput<Vec4>( "outColor", 0u );
-			auto out = writer.getOut();
-
-			writer.implementFunction<void>(
-				"main", [&]()
+			writer.implementMainT< VtxDataT, VtxDataT >( [&]( VertexInT< VtxDataT > in
+				, VertexOutT< VtxDataT > out )
 				{
+					out.position =
+						vec4( positions[indices[in.vertexIndex]], 0.0_f, 1.0_f );
 					out.vtx.position =
 						vec4( positions[indices[in.vertexIndex]], 0.0_f, 1.0_f );
-					outColor = vec4( colors[indices[in.vertexIndex]], 1.0_f );
+					out.colour = vec4( colors[indices[in.vertexIndex]], 1.0_f );
 				} );
 
 			test::writeShader( writer
@@ -590,16 +712,12 @@ namespace
 		{
 			FragmentWriter writer;
 
-			// Shader inputs
-			auto color = writer.declInput<Vec4>( "color", 0u );
-
 			// Shader outputs
 			auto fragColor = writer.declOutput<Vec4>( "fragColor", 0u );
 
-			writer.implementFunction<void>(
-				"main", [&]()
+			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
 				{
-					fragColor = color;
+					fragColor = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -608,7 +726,7 @@ namespace
 		}
 
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -616,22 +734,21 @@ namespace
 	{
 		testBegin( "radiance_computer" );
 		using namespace sdw;
+		using namespace posCol;
 		FragmentWriter writer;
 
 		// Inputs
-		auto vtx_worldPosition = writer.declInput< Vec3 >( "vtx_worldPosition", 0u );
 		auto c3d_mapEnvironment = writer.declSampledImage< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
 
 		// Outputs
 		auto pxl_fragColor = writer.declOutput< Vec4 >( "pxl_FragColor", 0u );
 
-		writer.implementFunction< Void >( "main"
-			, [&]()
+		writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
 			{
 				// From https://learnopengl.com/#!PBR/Lighting
 				// the sample direction equals the hemisphere's orientation 
 				auto normal = writer.declLocale( "normal"
-					, normalize( vtx_worldPosition ) );
+					, normalize( in.position.xyz() ) );
 
 				auto irradiance = writer.declLocale( "irradiance"
 					, vec3( 0.0_f ) );
@@ -673,25 +790,81 @@ namespace
 		testEnd();
 	}
 
+	namespace posTexNmlTan
+	{
+		template< sdw::var::Flag FlagT >
+		struct PositionT
+			: sdw::StructInstance
+		{
+			PositionT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, position{ getMember< sdw::Vec3 >( "position" ) }
+				, normal{ getMember< sdw::Vec3 >( "normal" ) }
+				, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+				, tangent{ getMember< sdw::Vec4 >( "tangent" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , PositionT );
+
+			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+					, ( FlagT == ast::var::Flag::eShaderOutput
+						? std::string{ "Output" }
+						: std::string{ "Input" } ) + "Position"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "position"
+						, sdw::type::Kind::eVec3F
+						, sdw::type::NotArray
+						, 0u );
+					result->declMember( "normal"
+						, sdw::type::Kind::eVec3F
+						, sdw::type::NotArray
+						, 1u );
+					result->declMember( "texcoord"
+						, sdw::type::Kind::eVec2F
+						, sdw::type::NotArray
+						, 2u );
+					result->declMember( "tangent"
+						, sdw::type::Kind::eVec4F
+						, sdw::type::NotArray
+						, 3u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec3 position;
+			sdw::Vec3 normal;
+			sdw::Vec2 texcoord;
+			sdw::Vec4 tangent;
+		};
+	}
+
 	void arthapzMin( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "arthapzMin" );
 		sdw::ShaderArray shaders;
+		using namespace posTexNmlTan;
 		{
 			auto writer = sdw::VertexWriter{};
 
-			auto position = writer.declInput<sdw::Vec3>( "vertex_position", 0u );
-			auto texcoord = writer.declInput<sdw::Vec2>( "vertex_texcoord", 2u );
-			auto out_texcoord = writer.declOutput<sdw::Vec2>( "out_vertex_texcoord", 2u );
-			auto out = writer.getOut();
-
-			writer.implementFunction<void>( "main", [&]()
+			writer.implementMainT< PositionT, PositionT >( [&]( sdw::VertexInT< PositionT > in
+				, sdw::VertexOutT< PositionT > out )
 				{
 					using namespace sdw;
 
-					out_texcoord = texcoord;
-
-					out.vtx.position = vec4( position, 1.f );
+					out.texcoord = in.texcoord;
+					out.normal = in.normal;
+					out.position = in.position;
+					out.tangent = in.tangent;
+					out.vtx.position = vec4( in.position, 1.f );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -699,7 +872,6 @@ namespace
 		}
 		{
 			auto writer = sdw::FragmentWriter{};
-			auto in_texcoord = writer.declInput<sdw::Vec2>( "in_texcoord", 2u );
 			auto frag_color = writer.declOutput<sdw::Vec4>( "frag_color", 0u );
 			auto base_color_sampler = writer.declSampledImage<FImg2DRgba32>( "base_color_sampler", 0, 2 );
 
@@ -708,9 +880,9 @@ namespace
 					writer.returnStmt( sdw::vec4( 0._f, 0.f, 0.f, 0.f ) );
 				} );
 
-			writer.implementFunction<void>( "main", [&]()
+			writer.implementMainT< PositionT >( [&]( sdw::InputT< PositionT > in )
 				{
-					frag_color = base_color_sampler.sample( in_texcoord ) + getEmissiveColor();
+					frag_color = base_color_sampler.sample( in.texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -718,7 +890,7 @@ namespace
 		}
 
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -730,18 +902,9 @@ namespace
 			+ std::to_string( hasEmissiveMap )
 			+ std::to_string( hasNormalMap ) );
 		sdw::ShaderArray shaders;
+		using namespace posTexNmlTan;
 		{
 			auto writer = sdw::VertexWriter{};
-
-			auto position = writer.declInput<sdw::Vec3>( "vertex_position", 0u );
-			auto normal = writer.declInput<sdw::Vec3>( "vertex_normal", 1u );
-			auto texcoord = writer.declInput<sdw::Vec2>( "vertex_texcoord", 2u );
-			auto tangent = writer.declInput<sdw::Vec4>( "tangent", 3u );
-
-			auto out_position = writer.declOutput<sdw::Vec3>( "out_vertex_position", 0u );
-			auto out_normal = writer.declOutput<sdw::Vec3>( "out_vertex_normal", 1u );
-			auto out_texcoord = writer.declOutput<sdw::Vec2>( "out_vertex_texcoord", 2u );
-			auto out_tangent = writer.declOutput<sdw::Vec4>( "out_vertex_tangent", 3u );
 
 			auto camera = sdw::Ubo{ writer, "camera", 0, 0 };
 			camera.declMember<sdw::Vec4>( "camera_position" );
@@ -754,35 +917,30 @@ namespace
 			transform.declMember<sdw::Mat4>( "transform_inverted_model" );
 			transform.end();
 
-			auto out = writer.getOut();
-
-			writer.implementFunction<void>( "main", [&]()
+			writer.implementMainT< PositionT, PositionT >( [&]( sdw::VertexInT< PositionT > in
+				, sdw::VertexOutT< PositionT > out )
 				{
 					using namespace sdw;
 
 					auto model_space_position =
 						writer.declLocale( "model_space_position",
-							transform.getMember<Mat4>( "transform_model" ) * vec4( position, 1.f ) );
+							transform.getMember<Mat4>( "transform_model" ) * vec4( in.position, 1.f ) );
 
-					out_position = model_space_position.xyz() / model_space_position.w();
-					out_normal = normalize(
-						transpose( mat3( transform.getMember<Mat4>( "transform_inverted_model" ) ) ) * normal );
-					out_texcoord = texcoord;
-					out_tangent = tangent;
+					out.position = model_space_position.xyz() / model_space_position.w();
+					out.normal = normalize(
+						transpose( mat3( transform.getMember<Mat4>( "transform_inverted_model" ) ) ) * in.normal );
+					out.texcoord = in.texcoord;
+					out.tangent = in.tangent;
 
 					out.vtx.position = camera.getMember<Mat4>( "camera_projection" ) *
-						camera.getMember<Mat4>( "camera_view" ) * vec4( out_position, 1.f );
+						camera.getMember<Mat4>( "camera_view" ) * vec4( out.position, 1.f ); // TODO: Disable output as RHS ?
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			auto writer = sdw::FragmentWriter{}; auto in_position = writer.declInput<sdw::Vec3>( "in_position", 0u );
-			auto in_normal = writer.declInput<sdw::Vec3>( "in_normal", 1u );
-			auto in_texcoord = writer.declInput<sdw::Vec2>( "in_texcoord", 2u );
-			auto in_tangent = writer.declInput<sdw::Vec4>( "in_tangent", 3u );
-
+			auto writer = sdw::FragmentWriter{};
 			auto frag_color = writer.declOutput<sdw::Vec4>( "frag_color", 0u );
 
 			auto camera = sdw::Ubo{ writer, "camera", 0, 0 };
@@ -810,25 +968,30 @@ namespace
 
 			auto out = writer.getOut();
 
-			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor", [&]()
+			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor"
+				, [&]( sdw::Vec2 const & texcoord )
 				{
 					if ( hasEmissiveMap )
-						writer.returnStmt( emissive_sampler.sample( in_texcoord ) *
+						writer.returnStmt( emissive_sampler.sample( texcoord ) *
 							material.getMember<sdw::Vec4>( "emissive_factor" ) );
 					else
 						writer.returnStmt( sdw::vec4( 0._f, 0.f, 0.f, 0.f ) );
-				} );
+				}
+				, sdw::InVec2{ writer, "texcoord" } );
 
-			auto getNormal = writer.implementFunction<sdw::Vec3>( "getNormal", [&]()
+			auto getNormal = writer.implementFunction<sdw::Vec3>( "getNormal"
+				, [&]( sdw::Vec3 const & normal
+					, sdw::Vec2 const & texcoord
+					, sdw::Vec4 const & tangent )
 				{
 					if ( hasNormalMap )
 					{
 						auto tangent_normal =
 							writer.declLocale( "tangent_normal",
-								normal_sampler.sample( in_texcoord ).xyz() * 2.f - 1.f );
+								normal_sampler.sample( texcoord ).xyz() * 2.f - 1.f );
 
-						auto N = writer.declLocale( "N", sdw::normalize( in_normal ) );
-						auto T = writer.declLocale( "T", sdw::normalize( in_tangent.xyz() ) );
+						auto N = writer.declLocale( "N", sdw::normalize( normal ) );
+						auto T = writer.declLocale( "T", sdw::normalize( tangent.xyz() ) );
 						auto B = writer.declLocale( "B", -sdw::normalize( sdw::cross( N, T ) ) );
 
 						auto TBN = writer.declLocale<sdw::Mat3>( "TBN", sdw::mat3( T, B, N ) );
@@ -836,17 +999,21 @@ namespace
 						writer.returnStmt( sdw::normalize( TBN * tangent_normal ) );
 					}
 					else
-						writer.returnStmt( in_normal );
-				} );
+						writer.returnStmt( normal );
+				}
+				, sdw::InVec3{ writer, "normal" }
+				, sdw::InVec2{ writer, "texcoord" }
+				, sdw::InVec4{ writer, "tangent" } );
 
-			writer.implementFunction<void>( "main", [&]()
+			writer.implementMainT< PositionT >( [&]( sdw::InputT< PositionT > in )
 				{
-					auto N = writer.declLocale<sdw::Vec3>( "N", sdw::normalize( getNormal() ) );
+					auto N = writer.declLocale<sdw::Vec3>( "N"
+						, sdw::normalize( getNormal( in.normal, in.texcoord, in.tangent ) ) );
 					auto V = writer.declLocale<sdw::Vec3>( "V",
 						camera.getMember<sdw::Vec4>( "position" ).xyz() -
-						in_position );
+						in.position );
 
-					frag_color = base_color_sampler.sample( in_texcoord ) + getEmissiveColor();
+					frag_color = base_color_sampler.sample( in.texcoord ) + getEmissiveColor( in.texcoord );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -854,27 +1021,67 @@ namespace
 		}
 
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
+	}
+
+	namespace pos
+	{
+		template< sdw::var::Flag FlagT >
+		struct PositionT
+			: sdw::StructInstance
+		{
+			PositionT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, position{ getMember< sdw::Vec4 >( "position" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , PositionT );
+
+			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+					, ( FlagT == ast::var::Flag::eShaderOutput
+						? std::string{ "Output" }
+						: std::string{ "Input" } ) + "Position"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "position"
+						, sdw::type::Kind::eVec4F
+						, sdw::type::NotArray
+						, 0u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec4 position;
+		};
+		using InputPosition = PositionT< sdw::var::Flag::eShaderInput >;
+		using OutputPosition = PositionT< sdw::var::Flag::eShaderOutput >;
 	}
 
 	void clipDistance( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "clipDistance" );
 		using namespace sdw;
+		using namespace pos;
 		sdw::ShaderArray shaders;
 		{
 			VertexWriter writer;
-			auto position = writer.declInput< Vec4 >( "position", 0u );
 			auto cfg = writer.declUniformBuffer( "Config", 0u, 0u );
 			auto mvps = cfg.declMember< sdw::Mat4 >( "mvps", 6u );
 			auto tiles = cfg.declMember< sdw::Vec4 >( "tiles" );
 			auto instances = cfg.declMember< sdw::UVec4 >( "instances", 6u );
 			cfg.end();
-			auto in = writer.getIn();
-			auto out = writer.getOut();
 
-			writer.implementMain( [&]()
+			writer.implementMainT< PositionT, PositionT >( [&]( sdw::VertexInT< PositionT > in
+				, sdw::VertexOutT< PositionT > out )
 				{
 					auto tileIndex = writer.declLocale( "tileIndex"
 						, instances[in.instanceIndex / 4][in.instanceIndex % 4] );
@@ -886,7 +1093,7 @@ namespace
 						, tileMin + tiles.zw() * 2.0_f );
 
 					auto p = writer.declLocale( "p"
-						, mvps[tileIndex] * position );
+						, mvps[tileIndex] * in.position );
 					out.vtx.position = p;
 
 					out.vtx.clipDistance[0] = dot( vec4( 1.0_f, 0.0_f, 0.0_f, -tileMin.x() ), p );
@@ -912,7 +1119,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -941,7 +1148,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -1084,7 +1291,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -1114,7 +1321,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -1167,7 +1374,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
@@ -1195,12 +1402,59 @@ namespace
 		testEnd();
 	}
 
+	namespace posOff
+	{
+		template< sdw::var::Flag FlagT >
+		struct PositionT
+			: sdw::StructInstance
+		{
+			PositionT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, position{ getMember< sdw::Vec4 >( "position" ) }
+				, texoff{ getMember< sdw::Vec2 >( "texoff" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , PositionT );
+
+			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+					, ( FlagT == ast::var::Flag::eShaderOutput
+						? std::string{ "Output" }
+						: std::string{ "Input" } ) + "Position"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "position"
+						, sdw::type::Kind::eVec4F
+						, sdw::type::NotArray
+						, 0u );
+					result->declMember( "texoff"
+						, sdw::type::Kind::eVec2F
+						, sdw::type::NotArray
+						, 1u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec4 position;
+			sdw::Vec2 texoff;
+		};
+		using InputPosition = PositionT< sdw::var::Flag::eShaderInput >;
+		using OutputPosition = PositionT< sdw::var::Flag::eShaderOutput >;
+	}
+
 	void smaaEdgeDetectionVS( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "smaaEdgeDetectionVS" );
 		using namespace sdw;
+		using namespace posOff;
 		{
-			using namespace sdw;
 			VertexWriter writer;
 
 			float w = 300;
@@ -1218,7 +1472,6 @@ namespace
 			// Shader outputs
 			auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
 			auto vtx_offset = writer.declOutputArray< Vec4 >( "vtx_offset", 1u, 3u );
-			auto out = writer.getOut();
 
 			/**
 			 * Edge Detection Vertex Shader
@@ -1234,8 +1487,8 @@ namespace
 				, InVec2{ writer, "texCoord" }
 				, OutVec4Array{ writer, "offset", 3u } );
 
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT, VoidT >( [&]( sdw::VertexInT< VoidT > in
+				, sdw::VertexOutT< VoidT > out )
 				{
 					out.vtx.position = vec4( position, 0.0_f, 1.0_f );
 					vtx_texture = uv;

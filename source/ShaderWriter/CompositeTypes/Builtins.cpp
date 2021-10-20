@@ -9,45 +9,25 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+#pragma region Base declarations
+	/**
+	*name
+	*	Base declarations.
+	*/
+	/**@{*/
 	Builtin::Builtin( ShaderWriter & writer )
 		: m_writer{ &writer }
 		, m_shader{ &writer.getShader() }
 	{
 	}
-
+	/**@}*/
+#pragma endregion
 #pragma region Built-in inputs
 	/**
 	*name
 	*	Built-in inputs.
 	*/
 	/**@{*/
-	InVertex::InVertex( ShaderWriter & writer )
-		: Builtin{ writer }
-		, vertexIndex{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_VertexIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, instanceIndex{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_InstanceIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, drawID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_DrawID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, baseVertex{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_BaseVertex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, baseInstance{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_BaseInstance", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-	{
-	}
-
-	//*************************************************************************
-
 	InTessellationControl::InTessellationControl( ShaderWriter & writer )
 		: Builtin{ writer }
 		, patchVerticesIn{ writer
@@ -104,15 +84,6 @@ namespace sdw
 		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
 				, vtx.getType() ) );
-	}
-
-	//*************************************************************************
-
-	InputT< Void >::InputT( ShaderWriter & writer
-		, ast::expr::ExprPtr expr
-		, bool enabled )
-		: Value{ writer, std::move( expr ), enabled }
-	{
 	}
 
 	//*************************************************************************
@@ -215,19 +186,6 @@ namespace sdw
 	*	Built-in outputs.
 	*/
 	/**@{*/
-	OutVertex::OutVertex( ShaderWriter & writer )
-		: Builtin{ writer }
-		, vtx{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "", PerVertex::getBaseType( writer.getTypesCache() ), var::Flag::eShaderOutput ) ) }
-	{
-		addStmt( findWriterMandat( *this )
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eVertexOutput
-				, vtx.getType() ) );
-	}
-
-	//*************************************************************************
-
 	OutTessellationControl::OutTessellationControl( ShaderWriter & writer )
 		: Builtin{ writer }
 		, tessLevelOuter{ writer
@@ -259,52 +217,6 @@ namespace sdw
 		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
 				, vtx.getType() ) );
-	}
-
-	//*************************************************************************
-
-	OutputStreamT< Void >::OutputStreamT( ShaderWriter & writer
-		, ast::expr::ExprPtr expr
-		, bool enabled )
-		: Value{ writer, std::move( expr ), enabled }
-		, vtx{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "", PerVertex::getBaseType( getTypesCache( writer ) ), var::Flag::eShaderOutput ) ) }
-	{
-	}
-
-	OutputStreamT< Void >::OutputStreamT( ShaderWriter & writer
-		, type::OutputLayout layout
-		, uint32_t count )
-		: OutputStreamT{ writer
-			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "geomOut"
-					, type::makeGeometryOutputType( makeType( getTypesCache( writer ) )
-						, layout
-						, count ) ) ) }
-	{
-		addStmt( writer
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
-				, vtx.getType() ) );
-	}
-
-	ast::type::TypePtr OutputStreamT< Void >::makeType( ast::type::TypesCache & cache )
-	{
-		return cache.getVoid();
-	}
-
-	void OutputStreamT< Void >::append()
-	{
-		ShaderWriter & writer = findWriterMandat( *this );
-		addStmt( writer
-			, sdw::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
-	}
-
-	void OutputStreamT< Void >::restartStrip()
-	{
-		ShaderWriter & writer = findWriterMandat( *this );
-		addStmt( writer
-			, sdw::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
 	}
 
 	//*************************************************************************

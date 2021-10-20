@@ -20,7 +20,9 @@ namespace spirv
 	struct ModuleConfig
 	{
 		std::set< spv::Capability > requiredCapabilities;
+		ast::var::VariablePtr input;
 		std::set< ast::var::VariablePtr > inputs;
+		ast::var::VariablePtr output;
 		std::set< ast::var::VariablePtr > outputs;
 		mutable uint32_t nextVarId{ 0u };
 		mutable uint32_t aliasId{ 0u };
@@ -28,7 +30,7 @@ namespace spirv
 		void addShaderInput( std::string const & name
 			, ast::type::TypePtr type
 			, uint32_t flags
-			, ast::type::GeometryInput const & geomType );
+			, uint32_t arraySize );
 		void addShaderOutput( std::string const & name
 			, ast::type::TypePtr type
 			, uint32_t flags );

@@ -55,6 +55,10 @@ namespace hlsl
 			, ast::type::GeometryInput const & geomType );
 		void registerGeometryOutput( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
+		void registerInput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType );
+		void registerOutput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType );
 
 	private:
 		IntrinsicsConfig const & m_intrinsicsConfig;

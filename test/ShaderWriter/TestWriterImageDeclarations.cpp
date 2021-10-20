@@ -32,7 +32,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-			test::validateShader( writer.getShader(), testCounts );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
 			sdw::ComputeWriter writer;
@@ -49,7 +49,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-			test::validateShader( writer.getShader(), testCounts );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
 			sdw::ComputeWriter writer;
@@ -64,7 +64,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-			test::validateShader( writer.getShader(), testCounts );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
 			sdw::ComputeWriter writer;
@@ -79,7 +79,7 @@ namespace
 			check( shader.getStatements()->size() == count );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-			test::validateShader( writer.getShader(), testCounts );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
 			sdw::ComputeWriter writer;
@@ -97,7 +97,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-			test::validateShader( writer.getShader(), testCounts );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
 			sdw::ComputeWriter writer;
@@ -115,7 +115,7 @@ namespace
 			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-			test::validateShader( writer.getShader(), testCounts );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 	}
 

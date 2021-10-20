@@ -1104,13 +1104,36 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+
+	//*************************************************************************
+
+#pragma region I/O declaration
+	/**
+	*name
+	*	I/O declaration.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename InT
+		, template< ast::var::Flag FlagT > typename OutT >
+	inline void VertexWriter::implementMainT( VertexMainFuncT< InT, OutT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, function
+			, makeInParam( VertexInT< InT >{ *this } )
+			, makeOutParam( VertexOutT< OutT >{ *this } ) );
+	}
+	/**@}*/
+#pragma endregion
+
+	//*************************************************************************
+
 #pragma region I/O Layout declaration
 	/**
 	*name
 	*	I/O layout declaration.
 	*/
 	/**@{*/
-	template< typename InputArrT, typename OutStreamT, uint32_t MaxPrimCountT >
+	template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
 	inline void GeometryWriter::implementMainT( std::function< void( InputArrT, OutStreamT ) > const & function )
 	{
 		( void )implementFunction< Void >( "main"
@@ -1220,6 +1243,24 @@ namespace sdw
 		return Array< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
+	}
+	/**@}*/
+#pragma endregion
+
+	//*************************************************************************
+
+#pragma region I/O Layout declaration
+	/**
+	*name
+	*	I/O layout declaration.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void FragmentWriter::implementMainT( FragmentMainFuncT< DataT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, function
+			, makeInParam( InputT< DataT >{ *this } ) );
 	}
 	/**@}*/
 #pragma endregion

@@ -214,8 +214,11 @@ namespace test
 	}\
 	test::endTest( testCounts );
 
+#define success()\
+	testCounts.incTest()
+
 #define failure( x )\
-	testCounts.incTest();\
+	success();\
 	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts )\
 
 #define require( x )\

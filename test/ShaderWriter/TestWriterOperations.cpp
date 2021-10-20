@@ -893,7 +893,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 }
