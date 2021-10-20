@@ -112,37 +112,28 @@ namespace spirv
 
 				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-					type = geomType.type;
-
-					if ( type->getKind() == ast::type::Kind::eStruct )
-					{
-						auto & structType = static_cast< ast::type::Struct const & >( *type );
-
-						for ( auto & mbr : structType )
-						{
-							m_result.addShaderOutput( "geomOut_" + mbr.name
-								, mbr.type
-								, structType.getFlag() );
-						}
-					}
+					doProcessGeometryOutput( param
+						, static_cast< ast::type::GeometryOutput const & >( *type ) );
 				}
 				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
 				{
-					auto & geomType = static_cast< ast::type::GeometryInput const & >( *type );
-					type = geomType.type;
+					doProcessGeometryInput( param
+						, static_cast< ast::type::GeometryInput const & >( *type ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto & structType = static_cast< ast::type::Struct const & >( *type );
 
-					if ( type->getKind() == ast::type::Kind::eStruct )
+					if ( structType.isShaderInput() )
 					{
-						auto & structType = static_cast< ast::type::Struct const & >( *type );
-
-						for ( auto & mbr : structType )
-						{
-							m_result.addShaderInput( "geomIn_" + mbr.name
-								, mbr.type
-								, structType.getFlag()
-								, geomType );
-						}
+						doProcessInput( param
+							, static_cast< ast::type::IOStruct const & >( *type )
+							, ast::type::NotArray );
+					}
+					else if ( structType.isShaderOutput() )
+					{
+						doProcessOutput( param
+							, static_cast< ast::type::IOStruct const & >( *type ) );
 					}
 				}
 			}
@@ -432,6 +423,63 @@ namespace spirv
 		for ( auto & member : *type )
 		{
 			doTraverseType( member.type );
+		}
+	}
+
+	void StmtConfigFiller::doProcessGeometryOutput( ast::var::VariablePtr var
+		, ast::type::GeometryOutput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			doProcessOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType ) );
+		}
+	}
+
+	void StmtConfigFiller::doProcessGeometryInput( ast::var::VariablePtr var
+		, ast::type::GeometryInput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, getArraySize( geomType.layout ) );
+		}
+	}
+
+	void StmtConfigFiller::doProcessOutput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType )
+	{
+		m_result.output = var;
+
+		for ( auto & mbr : ioType )
+		{
+			m_result.addShaderOutput( "sdwOut_" + mbr.name
+				, mbr.type
+				, ioType.getFlag() );
+		}
+	}
+
+	void StmtConfigFiller::doProcessInput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType
+		, uint32_t arraySize )
+	{
+		m_result.input = var;
+
+		for ( auto & mbr : ioType )
+		{
+			m_result.addShaderInput( "sdwIn_" + mbr.name
+				, mbr.type
+				, ioType.getFlag()
+				, arraySize );
 		}
 	}
 }

@@ -76,19 +76,26 @@ namespace spirv
 		auto outer = expr->getOuterExpr();
 
 		if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.geomOutput )
+			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.config.output )
 		{
-			assert( m_adaptationData.geomOutputs.size() > expr->getMemberIndex() );
+			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
 			m_result = ast::expr::makeIdentifier( m_cache
-				, m_adaptationData.geomOutputs[expr->getMemberIndex()] );
+				, m_adaptationData.outputs[expr->getMemberIndex()] );
+		}
+		else if ( outer->getKind() == ast::expr::Kind::eIdentifier
+			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.config.input )
+		{
+			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
+			m_result = ast::expr::makeIdentifier( m_cache
+				, m_adaptationData.inputs[expr->getMemberIndex()] );
 		}
 		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
 			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() == m_adaptationData.geomInput )
+			&& static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() == m_adaptationData.config.input )
 		{
-			assert( m_adaptationData.geomInputs.size() > expr->getMemberIndex() );
+			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
 			m_result = ast::expr::makeArrayAccess( expr->getType()
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.geomInputs[expr->getMemberIndex()] )
+				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputs[expr->getMemberIndex()] )
 				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
 		}
 		else

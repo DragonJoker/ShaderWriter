@@ -2123,34 +2123,40 @@ namespace ast
 
 			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
-				if ( stmt->getName() == "main"
-					&& stmt->getType()->size() < 2u
-					&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
+				if ( stmt->getName() == "main" )
 				{
-					auto funcType = stmt->getType();
-					auto & cache = funcType->getCache();
-					auto inType = type::makeGeometryInputType( m_inputGeometryLayoutStmt->getType()
-						, m_inputGeometryLayoutStmt->getLayout() );
-					auto outType = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
-						, m_outputGeometryLayoutStmt->getLayout()
-						, m_outputGeometryLayoutStmt->getPrimCount() );
-					var::VariableList parameters;
-					parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomData" }
-						, inType
-						, var::Flag::eInputParam | var::Flag::eShaderInput ) );
-					parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomStream" }
-						, outType
-						, var::Flag::eInputParam | var::Flag::eOutputParam | var::Flag::eShaderOutput ) );
+					if ( stmt->getType()->size() < 2u
+						&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
+					{
+						auto funcType = stmt->getType();
+						auto & cache = funcType->getCache();
+						auto inType = type::makeGeometryInputType( m_inputGeometryLayoutStmt->getType()
+							, m_inputGeometryLayoutStmt->getLayout() );
+						auto outType = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
+							, m_outputGeometryLayoutStmt->getLayout()
+							, m_outputGeometryLayoutStmt->getPrimCount() );
+						var::VariableList parameters;
+						parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomData" }
+							, inType
+							, var::Flag::eInputParam | var::Flag::eShaderInput ) );
+						parameters.push_back( var::makeVariable( EntityName{ ++m_data.nextVarId, "geomStream" }
+							, outType
+							, var::Flag::eInputParam | var::Flag::eOutputParam | var::Flag::eShaderOutput ) );
 
-					funcType = cache.getFunction( funcType->getReturnType()
-						, std::move( parameters ) );
-					auto save = m_current;
-					auto cont = stmt::makeFunctionDecl( funcType
-						, stmt->getName() );
-					m_current = cont.get();
-					visitContainerStmt( stmt );
-					m_current = save;
-					m_current->addStmt( std::move( cont ) );
+						funcType = cache.getFunction( funcType->getReturnType()
+							, std::move( parameters ) );
+						auto save = m_current;
+						auto cont = stmt::makeFunctionDecl( funcType
+							, stmt->getName() );
+						m_current = cont.get();
+						visitContainerStmt( stmt );
+						m_current = save;
+						m_current->addStmt( std::move( cont ) );
+					}
+					else
+					{
+						StmtCloner::visitFunctionDeclStmt( stmt );
+					}
 				}
 				else
 				{

@@ -54,18 +54,17 @@ namespace
 		sdw::ShaderArray shaders;
 		{
 			VertexWriter writer;
-			auto out = writer.getOut();
-			writer.implementFunction< Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+				, VertexOut out )
 				{
 					out.vtx.position = vec4( 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
-				, false, true, true );
+				, Compilers_NoSPIRV );
 			test::writeShader( writer
 				, testCounts
-				, true, false, false );
+				, Compilers_SPIRV );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -77,21 +76,21 @@ namespace
 
 			auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
-			writer.implementFunction< Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT >( [&]( InputT< VoidT > in )
 				{
 					fragOutput = light.color * light.intensity;
 				} );
 			test::writeShader( writer
 				, testCounts
-				, false, true, true );
+				, Compilers_NoSPIRV );
 			test::writeShader( writer
 				, testCounts
-				, true, false, false );
+				, Compilers_SPIRV );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts
+			, Compilers_SPIRV );
 		testEnd();
 	}
 		
@@ -110,17 +109,16 @@ namespace
 
 		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
-		writer.implementFunction< Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( InputT< VoidT > in )
 			{
 				fragOutput = lights[0].color * lights[1].intensity;
 			} );
 		test::writeShader( writer
 			, testCounts
-			, false, true, true );
+			, Compilers_NoSPIRV );
 		test::writeShader( writer
 			, testCounts
-			, true, false, false );
+			, Compilers_SPIRV );
 		testEnd();
 	}
 
@@ -131,18 +129,17 @@ namespace
 		sdw::ShaderArray shaders;
 		{
 			VertexWriter writer;
-			auto out = writer.getOut();
-			writer.implementFunction< Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+				, VertexOut out )
 				{
 					out.vtx.position = vec4( 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
-				, false, true, true );
+				, Compilers_NoSPIRV );
 			test::writeShader( writer
 				, testCounts
-				, true, false, false );
+				, Compilers_SPIRV );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
@@ -154,21 +151,21 @@ namespace
 
 			auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
-			writer.implementFunction< Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT >( [&]( InputT< VoidT > in )
 				{
 					fragOutput = light.color * light.intensity;
 				} );
 			test::writeShader( writer
 				, testCounts
-				, false, true, true );
+				, Compilers_NoSPIRV );
 			test::writeShader( writer
 				, testCounts
-				, true, false, false );
+				, Compilers_SPIRV );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts
+			, Compilers_SPIRV );
 		testEnd();
 	}
 
@@ -193,10 +190,10 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts
-			, false, true, true );
+			, Compilers_NoSPIRV );
 		test::writeShader( writer
 			, testCounts
-			, true, false, false );
+			, Compilers_SPIRV );
 		testEnd();
 	}
 
@@ -216,10 +213,10 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts
-			, false, true, true );
+			, Compilers_NoSPIRV );
 		test::writeShader( writer
 			, testCounts
-			, true, false, false );
+			, Compilers_SPIRV );
 		testEnd();
 	}
 }

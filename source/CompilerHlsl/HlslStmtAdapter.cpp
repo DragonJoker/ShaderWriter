@@ -260,6 +260,27 @@ namespace hlsl
 			}
 			else
 			{
+				for ( auto & param : *funcType )
+				{
+					auto type = param->getType();
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
+					{
+						auto & structType = static_cast< ast::type::Struct const & >( *type );
+
+						if ( structType.isShaderInput() )
+						{
+							registerInput( param
+								, static_cast< ast::type::IOStruct const & >( *type ) );
+						}
+						else if ( structType.isShaderOutput() )
+						{
+							registerOutput( param
+								, static_cast< ast::type::IOStruct const & >( *type ) );
+						}
+					}
+				}
+
 				// Write function content into a temporary container
 				auto save = m_current;
 				auto cont = ast::stmt::makeContainer();
@@ -543,24 +564,13 @@ namespace hlsl
 
 		if ( m_adaptationData.globalInputStruct )
 		{
-			for ( auto & input : m_adaptationData.inputVars )
+			for ( auto & mbr : *m_adaptationData.globalInputStruct )
 			{
-				auto var = input.second;
 				addInputMember( m_adaptationData.mainInputStruct
-					, var->getName()
-					, var->getType()
+					, mbr.name
+					, mbr.type
 					, *pintSem
 					, *pfltSem );
-
-				if ( !m_adaptationData.globalInputStruct->hasMember( var->getName() ) )
-				{
-					m_adaptationData.globalInputStruct->declMember( var->getName()
-						, var->getType() );
-				}
-				else
-				{
-					assert( var->getType()->getKind() == m_adaptationData.globalInputStruct->getMember( var->getName() ).type->getKind() );
-				}
 			}
 		}
 
@@ -575,12 +585,11 @@ namespace hlsl
 			intSem.index = 0u;
 			fltSem.index = 0u;
 
-			for ( auto & output : m_adaptationData.outputVars )
+			for ( auto & mbr : *m_adaptationData.globalOutputStruct )
 			{
-				auto var = output.second;
 				addOutputMember( m_adaptationData.mainOutputStruct
-					, var->getName()
-					, var->getType()
+					, mbr.name
+					, mbr.type
 					, *pintSem
 					, *pfltSem );
 			}
@@ -589,7 +598,7 @@ namespace hlsl
 
 	void StmtAdapter::writeMain( ast::stmt::FunctionDecl * stmt )
 	{
-		assert( stmt->getType()->empty() );
+		//assert( stmt->getType()->empty() );
 		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
 		ast::var::VariableList mainParameters;
 		auto mainInputVar = m_shader.registerName( "sdwMainInput", m_adaptationData.mainInputStruct );
@@ -752,15 +761,9 @@ namespace hlsl
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			uint32_t index = 0u;
-
-			for ( auto & mbr : structType )
-			{
-				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
-					, mbr.type
-					, structType.getFlag() );
-				m_adaptationData.addPendingInput( mbrVar, index++ );
-			}
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		assert( !m_adaptationData.inputVar );
@@ -779,15 +782,9 @@ namespace hlsl
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			uint32_t index = 0u;
-
-			for ( auto & mbr : structType )
-			{
-				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
-					, mbr.type
-					, structType.getFlag() );
-				m_adaptationData.addPendingOutput( mbrVar, index++ );
-			}
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		assert( !m_adaptationData.mainOutputVar );
@@ -797,5 +794,33 @@ namespace hlsl
 				, geomType.count )
 			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput );
 		m_adaptationData.paramToMain.emplace( var, m_adaptationData.mainOutputVar );
+	}
+
+	void StmtAdapter::registerInput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType )
+	{
+		uint32_t index = 0u;
+
+		for ( auto & mbr : ioType )
+		{
+			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
+				, mbr.type
+				, ioType.getFlag() );
+			m_adaptationData.addPendingInput( mbrVar, index++ );
+		}
+	}
+
+	void StmtAdapter::registerOutput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType )
+	{
+		uint32_t index = 0u;
+
+		for ( auto & mbr : ioType )
+		{
+			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
+				, mbr.type
+				, ioType.getFlag() );
+			m_adaptationData.addPendingOutput( mbrVar, index++ );
+		}
 	}
 }

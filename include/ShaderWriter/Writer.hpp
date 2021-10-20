@@ -559,9 +559,17 @@ namespace sdw
 	{
 	public:
 		SDW_API VertexWriter();
-
-		SDW_API InVertex getIn();
-		SDW_API OutVertex getOut();
+#pragma region I/O declaration
+		/**
+		*name
+		*	I/O declaration.
+		*/
+		/**@{*/
+		template< template< ast::var::Flag FlagT > typename InT
+			, template< ast::var::Flag FlagT > typename OutT >
+		inline void implementMainT( VertexMainFuncT< InT, OutT > const & function );
+		/**@}*/
+#pragma endregion
 	};
 
 	class TessellationControlWriter
@@ -602,8 +610,8 @@ namespace sdw
 		SDW_API InGeometry getIn();
 		SDW_API OutGeometry getOut();
 
-		template< typename InputArrT, typename OutStreamT, uint32_t MaxPrimCountT >
-		inline void implementMainT( std::function< void( InputArrT, OutStreamT ) > const & function );
+		template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
+		inline void implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 		/**@}*/
 #pragma endregion
 #pragma region Stream Output declaration
@@ -645,11 +653,21 @@ namespace sdw
 	{
 	public:
 		SDW_API FragmentWriter();
-
+#pragma region I/O layout declaration
+		/**
+		*name
+		*	I/O layout declaration.
+		*/
+		/**@{*/
 		SDW_API void fragmentLayout( ast::FragmentOrigin origin
 			, ast::FragmentCenter center );
 		SDW_API InFragment getIn();
 		SDW_API OutFragment getOut();
+
+		template< template< ast::var::Flag FlagT > typename DataT >
+		inline void implementMainT( FragmentMainFuncT< DataT > const & function );
+		/**@}*/
+#pragma endregion
 #pragma region Blend Output declaration
 		/**
 		*name

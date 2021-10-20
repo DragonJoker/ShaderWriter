@@ -229,7 +229,7 @@ namespace spirv
 	void ModuleConfig::addShaderInput( std::string const & name
 		, ast::type::TypePtr type
 		, uint32_t flags
-		, ast::type::GeometryInput const & geomType )
+		, uint32_t arraySize )
 	{
 		auto it = std::find_if( inputs.begin()
 			, inputs.end()
@@ -242,7 +242,9 @@ namespace spirv
 		{
 			auto & cache = type->getCache();
 			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-				, cache.getArray( type, getArraySize( geomType.layout ) )
+				, ( arraySize == ast::type::NotArray
+					? type
+					: cache.getArray( type, arraySize ) )
 				, flags );
 			inputs.emplace( var );
 		}

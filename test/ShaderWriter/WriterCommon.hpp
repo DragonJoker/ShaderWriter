@@ -12,11 +12,15 @@
 #include <ShaderWriter/WriterDebug.hpp>
 #include <ShaderWriter/Source.hpp>
 
-#define Compilers_HLSL false, true, false
-#define Compilers_GLSL false, false, true
-#define Compilers_SPIRV true, false, false
-#define Compilers_NoHLSL true, false, true
-#define Compilers_All true, true, true
+#define Compilers_GLSL { false, false, true }
+#define Compilers_HLSL { false, true, false }
+#define Compilers_SPIRV { true, false, false }
+
+#define Compilers_NoGLSL { true, true, false }
+#define Compilers_NoHLSL { true, false, true }
+#define Compilers_NoSPIRV { false, true, true }
+
+#define Compilers_All { true, true, true }
 
 #define CurrentCompilers Compilers_All
 
@@ -413,20 +417,25 @@ namespace test
 			, true };
 	}
 
+	struct Compilers
+	{
+		bool spirV;
+		bool hlsl;
+		bool glsl;
+	};
+
 	void writeShader( ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
-		, bool validateSpirV
-		, bool validateHlsl
-		, bool validateGlsl );
+		, Compilers const & compilers );
 	void writeShader( sdw::ShaderWriter const & writer
 		, sdw_test::TestCounts & testCounts
-		, bool validateSpirV
-		, bool validateHlsl
-		, bool validateGlsl );
+		, Compilers const & compilers );
 	void validateShaders( ast::ShaderArray const & shaders
-		, sdw_test::TestCounts & testCounts );
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
 	void validateShader( ast::Shader const & writer
-		, sdw_test::TestCounts & testCounts );
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
 	void expectError( std::string const & value
 		, sdw_test::TestCounts & testCounts );
 }

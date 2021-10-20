@@ -146,10 +146,10 @@ namespace spirv
 			{
 				auto outerType = expr->getOuterType();
 				auto mbr = outerType->getMember( expr->getMemberIndex() );
-				m_config.addShaderInput( "geomIn_" + mbr.name
+				m_config.addShaderInput( "sdwIn_" + mbr.name
 					, mbr.type
 					, outerType->getFlag()
-					, static_cast< ast::type::GeometryInput const & >( *outer->getType() ) );
+					, getArraySize( static_cast< ast::type::GeometryInput const & >( *outer->getType() ).layout ) );
 			}
 		}
 	}
@@ -297,13 +297,15 @@ namespace spirv
 		checkType( expr, m_config );
 
 		if ( expr->getVariable()->isShaderInput()
-			&& expr->getType()->getKind() != ast::type::Kind::eGeometryInput )
+			&& expr->getType()->getKind() != ast::type::Kind::eGeometryInput
+			&& expr->getVariable() != m_config.input )
 		{
 			m_config.inputs.insert( expr->getVariable() );
 		}
 
 		if ( expr->getVariable()->isShaderOutput() 
-			&& !expr->getVariable()->isMember() )
+			&& !expr->getVariable()->isMember()
+			&& expr->getVariable() != m_config.output )
 		{
 			m_config.outputs.insert( expr->getVariable() );
 		}

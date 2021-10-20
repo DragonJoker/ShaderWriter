@@ -464,16 +464,6 @@ namespace sdw
 	{
 	}
 
-	InVertex VertexWriter::getIn()
-	{
-		return InVertex{ *this };
-	}
-
-	OutVertex VertexWriter::getOut()
-	{
-		return OutVertex{ *this };
-	}
-
 	//*************************************************************************
 
 	TessellationControlWriter::TessellationControlWriter()

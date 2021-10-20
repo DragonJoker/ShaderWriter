@@ -1646,8 +1646,12 @@ namespace spirv
 				auto storageClass = spv::StorageClass( instruction.operands[0] );
 				auto pointedType = instruction.operands[1];
 				auto it = types.find( pointedType );
-				assert( it != types.end() );
-				auto result = it->second;
+				std::string result{ "unknown" };
+
+				if ( it != types.end() )
+				{
+					result = it->second;
+				}
 
 				switch ( storageClass )
 				{

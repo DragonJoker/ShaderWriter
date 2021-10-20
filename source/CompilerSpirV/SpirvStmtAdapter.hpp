@@ -15,10 +15,8 @@ namespace spirv
 	{
 		PreprocContext & context;
 		ModuleConfig const & config;
-		ast::var::VariablePtr geomOutput{};
-		std::vector< ast::var::VariablePtr > geomOutputs{};
-		ast::var::VariablePtr geomInput{};
-		std::vector< ast::var::VariablePtr > geomInputs{};
+		std::vector< ast::var::VariablePtr > outputs{};
+		std::vector< ast::var::VariablePtr > inputs{};
 	};
 
 	class StmtAdapter
@@ -51,6 +49,16 @@ namespace spirv
 		void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override;
 		void visitPreprocIf( ast::stmt::PreprocIf * preproc )override;
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
+
+	private:
+		void doProcessGeometryOutput( ast::var::VariablePtr var
+			, ast::type::GeometryOutput const & geomType );
+		void doProcessGeometryInput( ast::var::VariablePtr var
+			, ast::type::GeometryInput const & geomType );
+		void doProcessOutput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType );
+		void doProcessInput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType );
 
 	private:
 		AdaptationData & m_adaptationData;

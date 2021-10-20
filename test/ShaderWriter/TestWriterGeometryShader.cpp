@@ -3,12 +3,9 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_All
-
 namespace
 {
-	template< ast::var::Flag FlagT >
+	template< sdw::var::Flag FlagT >
 	struct PositionT
 		: sdw::StructInstance
 	{
@@ -22,10 +19,10 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			auto result = cache.getIOStruct( ast::type::MemoryLayout::eStd430
-				, ( FlagT == ast::var::Flag::eShaderOutput
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+				, ( FlagT == sdw::var::Flag::eShaderOutput
 					? std::string{ "Output" }
 					: std::string{ "Input" } ) + "Position"
 				, FlagT );
@@ -33,8 +30,8 @@ namespace
 			if ( result->empty() )
 			{
 				result->declMember( "position"
-					, ast::type::Kind::eVec3F
-					, ast::type::NotArray
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
 					, 0u );
 			}
 
@@ -43,8 +40,57 @@ namespace
 
 		sdw::Vec3 position;
 	};
-	using InputPosition = PositionT< ast::var::Flag::eShaderInput >;
-	using OutputPosition = PositionT< ast::var::Flag::eShaderOutput >;
+	using InputPosition = PositionT< sdw::var::Flag::eShaderInput >;
+
+	template< sdw::var::Flag FlagT >
+	struct VoxelIOT
+		: sdw::StructInstance
+	{
+		VoxelIOT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, position{ getMember< sdw::Vec3 >( "position" ) }
+			, normal{ getMember< sdw::Vec3 >( "normal" ) }
+			, texcoord{ getMember< sdw::Vec3 >( "texcoord" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , VoxelIOT );
+
+		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Data"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				uint32_t index = 0u;
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, index++ );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, index++ );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, index++ );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 position;
+		sdw::Vec3 normal;
+		sdw::Vec3 texcoord;
+	};
+	using InputVoxel = VoxelIOT< sdw::var::Flag::eShaderInput >;
 
 	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
 	{
@@ -53,7 +99,7 @@ namespace
 		{
 			GeometryWriter writer;
 
-			writer.implementMainT< PointList, PointStream, 1u >( [&]( PointList in
+			writer.implementMainT< 1u, PointList, PointStream >( [&]( PointList in
 				, PointStream out )
 				{
 					out.vtx.position = in.vtx[0].position;
@@ -73,9 +119,9 @@ namespace
 		using namespace sdw;
 		{
 			GeometryWriter writer;
-			using MyTriangleStream = sdw::TriangleStreamT< OutputPosition >;
+			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 
-			writer.implementMainT< TriangleList, MyTriangleStream, 3u >( [&]( TriangleList in
+			writer.implementMainT< 3u, TriangleList, MyTriangleStream >( [&]( TriangleList in
 				, MyTriangleStream out )
 				{
 					out.position = in.vtx[0].position.xyz();
@@ -105,9 +151,9 @@ namespace
 		using namespace sdw;
 		{
 			GeometryWriter writer;
-			using MyTriangleList = sdw::TriangleListT< InputPosition >;
+			using MyTriangleList = sdw::TriangleListT< PositionT >;
 
-			writer.implementMainT< MyTriangleList, TriangleStream, 3u >( [&]( MyTriangleList in
+			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( MyTriangleList in
 				, TriangleStream out )
 				{
 					out.vtx.position = vec4( in[0].position, 0.0_f ) + in.vtx[0].position;
@@ -134,10 +180,10 @@ namespace
 		using namespace sdw;
 		{
 			GeometryWriter writer;
-			using MyTriangleList = sdw::TriangleListT< InputPosition >;
-			using MyTriangleStream = sdw::TriangleStreamT< OutputPosition >;
+			using MyTriangleList = sdw::TriangleListT< PositionT >;
+			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 
-			writer.implementMainT< MyTriangleList, MyTriangleStream, 3u >( [&]( MyTriangleList in
+			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( MyTriangleList in
 				, MyTriangleStream out )
 				{
 					out.position = in[0].position;
@@ -165,23 +211,15 @@ namespace
 	{
 		testBegin( "basicPipeline" );
 		using namespace sdw;
-		sdw::ShaderArray shaders;
+		ShaderArray shaders;
 		{
 			VertexWriter writer;
-			// Inputs
-			uint32_t index = 0u;
-			auto position = writer.declInput< Vec4 >( "position", index++ );
 
-			// Outputs
-			index = 0u;
-			auto vtx_position = writer.declOutput< Vec3 >( "vtx_position", index++ );
-			auto out = writer.getOut();
-
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< PositionT, PositionT >( [&]( VertexInT< PositionT > in
+				, VertexOutT< PositionT > out )
 				{
-					vtx_position = position.xyz();
-					out.vtx.position = position;
+					out.position = in.position;
+					out.vtx.position = vec4( out.position , 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -191,14 +229,14 @@ namespace
 		{
 			GeometryWriter writer;
 
-			sdw::Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
-			auto mvp = voxelizeUbo.declMember< sdw::Mat4 >( "mvp" );
+			Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			auto mvp = voxelizeUbo.declMember< Mat4 >( "mvp" );
 			voxelizeUbo.end();
 
-			using MyTriangleList = sdw::TriangleListT< InputPosition >;
-			using MyTriangleStream = sdw::TriangleStreamT< OutputPosition >;
+			using MyTriangleList = TriangleListT< PositionT >;
+			using MyTriangleStream = TriangleStreamT< PositionT >;
 
-			writer.implementMainT< MyTriangleList, MyTriangleStream, 3u >( [&]( MyTriangleList in
+			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( MyTriangleList in
 				, MyTriangleStream out )
 				{
 					auto pos = writer.declLocale< Vec4 >( "pos" );
@@ -227,16 +265,11 @@ namespace
 		}
 		{
 			FragmentWriter writer;
-
-			uint32_t index = 0u;
-			auto geo_position = writer.declInput< Vec3 >( "geo_position", index++ );
-
 			auto pxl_fragColor( writer.declOutput< Vec4 >( "pxl_fragColor", 0 ) );
 
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< PositionT >( [&]( InputT< PositionT > in )
 				{
-					pxl_fragColor = vec4( geo_position, 1.0f );
+					pxl_fragColor = vec4( in.position, 1.0f );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -244,37 +277,87 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts );
+			, testCounts
+			, CurrentCompilers );
 		testEnd();
 	}
+
+	template< sdw::var::Flag FlagT >
+	struct IOVoxelGeomT
+		: sdw::StructInstance
+	{
+		IOVoxelGeomT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, position{ getMember< sdw::Vec3 >( "position" ) }
+			, normal{ getMember< sdw::Vec3 >( "normal" ) }
+			, texcoord{ getMember< sdw::Vec3 >( "texcoord" ) }
+			, axis{ getMember< sdw::UInt >( "axis" ) }
+			, aabb{ getMember< sdw::Vec4 >( "aabb" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , IOVoxelGeomT );
+
+		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+				, "GeomOutput"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				uint32_t index = 0u;
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, index++ );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, index++ );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, index++ );
+				result->declMember( "axis"
+					, sdw::type::Kind::eUInt
+					, sdw::type::NotArray
+					, index++ );
+				result->declMember( "aabb"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray
+					, index++ );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 position;
+		sdw::Vec3 normal;
+		sdw::Vec3 texcoord;
+		sdw::UInt axis;
+		sdw::Vec4 aabb;
+	};
+	using InputVoxelGeom = IOVoxelGeomT< sdw::var::Flag::eShaderInput >;
 
 	void voxelPipeline( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "voxelPipeline" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
+
 		{
 			VertexWriter writer;
-			// Inputs
-			uint32_t index = 0u;
-			auto position = writer.declInput< Vec4 >( "position", index++ );
-			auto normal = writer.declInput< Vec3 >( "normal", index++ );
-			auto uv = writer.declInput< Vec3 >( "uv", index++ );
 
-			// Outputs
-			index = 0u;
-			auto vtx_position = writer.declOutput< Vec3 >( "vtx_position", index++ );
-			auto vtx_normal = writer.declOutput< Vec3 >( "vtx_normal", index++ );
-			auto vtx_texture = writer.declOutput< Vec3 >( "vtx_texture", index++ );
-			auto out = writer.getOut();
-
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< VoxelIOT, VoxelIOT >( [&]( VertexInT< VoxelIOT > in
+				, sdw::VertexOutT< VoxelIOT > out )
 				{
-					vtx_position = position.xyz();
-					vtx_normal = normal.xyz();
-					vtx_texture = uv.xyz();
-					out.vtx.position = position;
+					out.position = in.position;
+					out.normal = in.normal.xyz();
+					out.texcoord = in.texcoord.xyz();
+					out.vtx.position = vec4( in.position, 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -291,114 +374,10 @@ namespace
 			auto c3d_size = voxelizeUbo.declMember< sdw::Vec2 >( "c3d_size" );
 			voxelizeUbo.end();
 
-			struct GeomInput
-				: sdw::StructInstance
-			{
-				GeomInput( ShaderWriter & writer
-					, sdw::expr::ExprPtr expr
-					, bool enabled = true )
-					: sdw::StructInstance{ writer, std::move( expr ), enabled }
-					, position{ getMember< Vec3 >( "position" ) }
-					, normal{ getMember< Vec3 >( "normal" ) }
-					, texcoord{ getMember< Vec3 >( "texcoord" ) }
-				{
-				}
+			using MyTriangleList = sdw::TriangleListT< VoxelIOT >;
+			using MyTriangleStream = sdw::TriangleStreamT< IOVoxelGeomT >;
 
-				SDW_DeclStructInstance( , GeomInput );
-
-				static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
-				{
-					auto result = cache.getIOStruct( ast::type::MemoryLayout::eStd430
-						, "GeomInput"
-						, ast::var::Flag::eShaderInput );
-
-					if ( result->empty() )
-					{
-						uint32_t index = 0u;
-						result->declMember( "position"
-							, ast::type::Kind::eVec3F
-							, ast::type::NotArray
-							, index++ );
-						result->declMember( "normal"
-							, ast::type::Kind::eVec3F
-							, ast::type::NotArray
-							, index++ );
-						result->declMember( "texcoord"
-							, ast::type::Kind::eVec3F
-							, ast::type::NotArray
-							, index++ );
-					}
-
-					return result;
-				}
-
-				sdw::Vec3 position;
-				sdw::Vec3 normal;
-				sdw::Vec3 texcoord;
-			};
-
-			struct GeomOutput
-				: sdw::StructInstance
-			{
-				GeomOutput( ShaderWriter & writer
-					, sdw::expr::ExprPtr expr
-					, bool enabled = true )
-					: sdw::StructInstance{ writer, std::move( expr ), enabled }
-					, position{ getMember< Vec3 >( "position" ) }
-					, normal{ getMember< Vec3 >( "normal" ) }
-					, texcoord{ getMember< Vec3 >( "texcoord" ) }
-					, axis{ getMember< UInt >( "axis" ) }
-					, aabb{ getMember< Vec4 >( "aabb" ) }
-				{
-				}
-
-				SDW_DeclStructInstance( , GeomOutput );
-
-				static ast::type::StructPtr makeType( ast::type::TypesCache & cache )
-				{
-					auto result = cache.getIOStruct( ast::type::MemoryLayout::eStd430
-						, "GeomOutput"
-							, ast::var::Flag::eShaderOutput );
-
-					if ( result->empty() )
-					{
-						uint32_t index = 0u;
-						result->declMember( "position"
-							, ast::type::Kind::eVec3F
-							, ast::type::NotArray
-							, index++ );
-						result->declMember( "normal"
-							, ast::type::Kind::eVec3F
-							, ast::type::NotArray
-							, index++ );
-						result->declMember( "texcoord"
-							, ast::type::Kind::eVec3F
-							, ast::type::NotArray
-							, index++ );
-						result->declMember( "axis"
-							, ast::type::Kind::eUInt
-							, ast::type::NotArray
-							, index++ );
-						result->declMember( "aabb"
-							, ast::type::Kind::eVec4F
-							, ast::type::NotArray
-							, index++ );
-					}
-
-					return result;
-				}
-
-				sdw::Vec3 position;
-				sdw::Vec3 normal;
-				sdw::Vec3 texcoord;
-				sdw::UInt axis;
-				sdw::Vec4 aabb;
-			};
-
-			using MyTriangleList = sdw::TriangleListT< GeomInput >;
-			using MyTriangleStream = sdw::TriangleStreamT< GeomOutput >;
-
-			writer.implementMainT< MyTriangleList, MyTriangleStream, 3u >( [&]( MyTriangleList in
+			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( MyTriangleList in
 				, MyTriangleStream out )
 				{
 					auto faceNormal = writer.declLocale( "faceNormal"

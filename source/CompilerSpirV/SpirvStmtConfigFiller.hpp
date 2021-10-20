@@ -66,6 +66,17 @@ namespace spirv
 		void doTraverseType( ast::type::StructPtr type );
 
 	private:
+		void doProcessGeometryOutput( ast::var::VariablePtr var
+			, ast::type::GeometryOutput const & geomType );
+		void doProcessGeometryInput( ast::var::VariablePtr var
+			, ast::type::GeometryInput const & geomType );
+		void doProcessOutput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType );
+		void doProcessInput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & ioType
+			, uint32_t arraySize );
+
+	private:
 		ModuleConfig & m_result;
 	};
 }

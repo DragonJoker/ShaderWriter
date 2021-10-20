@@ -79,58 +79,28 @@ namespace spirv
 
 				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					m_adaptationData.geomOutput = param;
-					auto & geomType = static_cast< ast::type::GeometryOutput const & >( *type );
-					type = geomType.type;
-
-					if ( type->getKind() == ast::type::Kind::eStruct )
-					{
-						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
-						{
-							auto it = std::find_if( m_adaptationData.config.outputs.begin()
-								, m_adaptationData.config.outputs.end()
-								, [&mbr]( ast::var::VariablePtr const & lookup )
-								{
-									return lookup->getName() == "geomOut_" + mbr.name;
-								} );
-							assert( it != m_adaptationData.config.outputs.end() );
-							auto var = *it;
-							m_adaptationData.geomOutputs.emplace_back( var );
-							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
-								, mbr.location ) );
-						}
-					}
-
-					m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
-						, geomType.layout
-						, geomType.count ) );
+					doProcessGeometryOutput( param
+						, static_cast< ast::type::GeometryOutput const & >( *type ) );
 				}
 				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
 				{
-					m_adaptationData.geomInput = param;
-					auto & geomType = static_cast< ast::type::GeometryInput const & >( *type );
-					type = geomType.type;
+					doProcessGeometryInput( param
+						, static_cast< ast::type::GeometryInput const & >( *type ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto & structType = static_cast< ast::type::Struct const & >( *type );
 
-					if ( type->getKind() == ast::type::Kind::eStruct )
+					if ( structType.isShaderInput() )
 					{
-						for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
-						{
-							auto it = std::find_if( m_adaptationData.config.inputs.begin()
-								, m_adaptationData.config.inputs.end()
-								, [&mbr]( ast::var::VariablePtr const & lookup )
-								{
-									return lookup->getName() == "geomIn_" + mbr.name;
-								} );
-							assert( it != m_adaptationData.config.inputs.end() );
-							auto var = *it;
-							m_adaptationData.geomInputs.emplace_back( var );
-							m_current->addStmt( ast::stmt::makeInOutVariableDecl( var
-								, mbr.location ) );
-						}
+						doProcessInput( param
+							, static_cast< ast::type::IOStruct const & >( *type ) );
 					}
-
-					m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
-						, geomType.layout ) );
+					else if ( structType.isShaderOutput() )
+					{
+						doProcessOutput( param
+							, static_cast< ast::type::IOStruct const & >( *type ) );
+					}
 				}
 			}
 
@@ -298,6 +268,79 @@ namespace spirv
 			{
 				preproc->getElse()->accept( this );
 			}
+		}
+	}
+
+	void StmtAdapter::doProcessGeometryOutput( ast::var::VariablePtr var
+		, ast::type::GeometryOutput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			doProcessOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType ) );
+		}
+
+		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+			, geomType.layout
+			, geomType.count ) );
+	}
+
+	void StmtAdapter::doProcessGeometryInput( ast::var::VariablePtr var
+		, ast::type::GeometryInput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType ) );
+		}
+
+		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
+			, geomType.layout ) );
+	}
+
+	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType )
+	{
+		for ( auto & mbr : ioType )
+		{
+			auto it = std::find_if( m_adaptationData.config.outputs.begin()
+				, m_adaptationData.config.outputs.end()
+				, [&mbr]( ast::var::VariablePtr const & lookup )
+				{
+					return lookup->getName() == "sdwOut_" + mbr.name;
+				} );
+			assert( it != m_adaptationData.config.outputs.end() );
+			auto mbrVar = *it;
+			m_adaptationData.outputs.emplace_back( mbrVar );
+			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+				, mbr.location ) );
+		}
+	}
+
+	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & ioType )
+	{
+		for ( auto & mbr : ioType )
+		{
+			auto it = std::find_if( m_adaptationData.config.inputs.begin()
+				, m_adaptationData.config.inputs.end()
+				, [&mbr]( ast::var::VariablePtr const & lookup )
+				{
+					return lookup->getName() == "sdwIn_" + mbr.name;
+				} );
+			assert( it != m_adaptationData.config.inputs.end() );
+			auto mbrVar = *it;
+			m_adaptationData.inputs.emplace_back( mbrVar );
+			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+				, mbr.location ) );
 		}
 	}
 }

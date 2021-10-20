@@ -153,7 +153,7 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts
-					, true, !isShadowV< DimT, ArrayedT, DepthT >, true );
+					, { true, !isShadowV< DimT, ArrayedT, DepthT >, true } );
 			}
 			testEnd();
 		}
