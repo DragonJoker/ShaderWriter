@@ -85,37 +85,6 @@ namespace sdw
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
 				, vtx.getType() ) );
 	}
-
-	//*************************************************************************
-
-	InCompute::InCompute( ShaderWriter & writer )
-		: Builtin{ writer }
-		, numWorkGroups{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_NumWorkGroups", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) )
-			, true }
-		, workGroupID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_WorkGroupID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) )
-			, true }
-		, localInvocationID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_LocalInvocationID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) )
-			, true }
-		, globalInvocationID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_GlobalInvocationID", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) )
-			, true }
-		, localInvocationIndex{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_LocalInvocationIndex", writer.getTypesCache().getUInt(), var::Flag::eShaderInput ) )
-			, true }
-		, workGroupSize{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_WorkGroupSize", writer.getTypesCache().getVec3U(), var::Flag::eShaderInput ) )
-			, true }
-	{
-	}
 	/**@}*/
 #pragma endregion
 #pragma region Built-in outputs

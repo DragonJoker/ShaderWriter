@@ -1370,4 +1370,19 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region Input layout declaration
+	/**
+	*name
+	*	I/O layout declaration.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void ComputeWriter::implementMainT( ComputeMainFuncT< DataT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, function
+			, makeInParam( ComputeInT< DataT >{ *this } ) );
+	}
+	/**@}*/
+#pragma endregion
 }

@@ -880,7 +880,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 16u, 16u );
-			writer.implementMain( [&]()
+			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 				{
 					auto b = writer.declLocale(
 						"b", 1_u );

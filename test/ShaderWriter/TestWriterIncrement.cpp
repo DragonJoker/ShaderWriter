@@ -11,7 +11,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				i++;
@@ -31,7 +31,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				++i;
@@ -51,7 +51,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", i++ );
@@ -70,7 +70,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", ++i );
@@ -89,7 +89,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				writer.ifStmt( sdw::makeCondition( i++ )
@@ -112,7 +112,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				IF( writer, ++i )
@@ -135,7 +135,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				{
 					auto & writerInt = ( writer );
@@ -169,7 +169,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				FOR( writer, Int, i, 0_i, i < 12_i, ++i )
 				{
