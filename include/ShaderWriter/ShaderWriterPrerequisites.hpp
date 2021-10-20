@@ -162,20 +162,19 @@ namespace sdw
 
 	struct InTessellationControl;
 	struct InTessellationEvaluation;
-	struct InGeometry;
-	struct InFragment;
 	struct InCompute;
 	struct OutTessellationControl;
 	struct OutTessellationEvaluation;
-	struct OutGeometry;
-	struct OutFragment;
 
 	template< ast::var::Flag FlagT >
 	struct VoidT;
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct InputT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct OutputT;
 
 	using Input = InputT< VoidT >;
+	using Output = OutputT< VoidT >;
 	/**
 	*name
 	*	Vertex.
@@ -199,20 +198,20 @@ namespace sdw
 	*/
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT, ast::type::InputLayout LayoutT >
-	struct GeomInT;
+	struct GeometryInT;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	struct GeomOutT;
+	struct GeometryOutT;
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using PointListT = GeomInT< DataT, ast::type::InputLayout::ePointList >;
+	using PointListT = GeometryInT< DataT, ast::type::InputLayout::ePointList >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using LineListT = GeomInT< DataT, ast::type::InputLayout::eLineList >;
+	using LineListT = GeometryInT< DataT, ast::type::InputLayout::eLineList >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using TriangleListT = GeomInT< DataT, ast::type::InputLayout::eTriangleList >;
+	using TriangleListT = GeometryInT< DataT, ast::type::InputLayout::eTriangleList >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using LineListWithAdjT = GeomInT< DataT, ast::type::InputLayout::eLineListWithAdjacency >;
+	using LineListWithAdjT = GeometryInT< DataT, ast::type::InputLayout::eLineListWithAdjacency >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using TriangleListWithAdjT = GeomInT< DataT, ast::type::InputLayout::eTriangleListWithAdjacency >;
+	using TriangleListWithAdjT = GeometryInT< DataT, ast::type::InputLayout::eTriangleListWithAdjacency >;
 
 	using PointList = PointListT< VoidT >;
 	using LineList = LineListT< VoidT >;
@@ -241,9 +240,12 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct FragmentInT;
-
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using FragmentMainFuncT = std::function< void( InputT< DataT > ) >;
+	struct FragmentOutT;
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, template< ast::var::Flag FlagT > typename OutT >
+	using FragmentMainFuncT = std::function< void( FragmentInT< InT >, FragmentOutT< OutT > ) >;
 	/**@}*/
 	/**@}*/
 #pragma endregion

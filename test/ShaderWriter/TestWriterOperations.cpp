@@ -478,8 +478,8 @@ namespace
 		{
 			testBegin( "testBool" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto & statements = *writer.getShader().getContainer();
 					auto a = writer.declLocale< sdw::Boolean >( "a" );
@@ -517,8 +517,8 @@ namespace
 		{
 			testBegin( "testBoolOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto & statements = *writer.getShader().getContainer();
 					auto a = writer.declLocale< sdw::Boolean >( "a", true );
@@ -556,8 +556,8 @@ namespace
 		{
 			testBegin( "testBoolOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< sdw::Boolean >( "a", false );
 					auto b = writer.declLocale< sdw::Boolean >( "b", false );
@@ -579,8 +579,8 @@ namespace
 		{
 			testBegin( "testFloat" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< FloatT >( "a" );
 					auto b = writer.declLocale< FloatT >( "b" );
@@ -618,8 +618,8 @@ namespace
 		{
 			testBegin( "testFloatOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< FloatT >( "a", true );
 					auto b = writer.declLocale< FloatT >( "b", true );
@@ -655,8 +655,8 @@ namespace
 		{
 			testBegin( "testFloatOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< FloatT >( "a", false );
 					auto b = writer.declLocale< FloatT >( "b", false );
@@ -697,8 +697,8 @@ namespace
 		{
 			testBegin( "testInt" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< IntT >( "a" );
 					auto b = writer.declLocale< IntT >( "b" );
@@ -738,8 +738,8 @@ namespace
 		{
 			testBegin( "testIntOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< IntT >( "a", true );
 					auto b = writer.declLocale< IntT >( "b", true );
@@ -775,8 +775,8 @@ namespace
 		{
 			testBegin( "testIntOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< IntT >( "a", false );
 					auto b = writer.declLocale< IntT >( "b", false );
@@ -818,8 +818,8 @@ namespace
 		{
 			testBegin( "testVec" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< VecType >( "a" );
 					auto b = writer.declLocale< VecType >( "b" );
@@ -837,8 +837,8 @@ namespace
 		{
 			testBegin( "testVecOptEnabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< VecType >( "a", true );
 					auto b = writer.declLocale< VecType >( "b", true );
@@ -855,8 +855,8 @@ namespace
 		{
 			testBegin( "testVecOptDisabled" );
 			sdw::FragmentWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto a = writer.declLocale< VecType >( "a", false );
 					auto b = writer.declLocale< VecType >( "b", false );

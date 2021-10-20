@@ -331,14 +331,6 @@ namespace ast::type
 		{
 			return ( value + align - 1 ) & ~( align - 1 );
 		}
-
-		void copyMembers( std::vector< Struct::Member > & lhs
-			, std::vector< Struct::Member > const & rhs )
-		{
-			lhs.insert( lhs.end()
-				, rhs.begin()
-				, rhs.end() );
-		}
 	}
 
 	//*************************************************************************

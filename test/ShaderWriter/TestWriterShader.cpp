@@ -29,7 +29,8 @@ namespace
 		auto s = blockName.getMember< StructInstance >( "s" );
 		auto cond = blockName.getMember< Int >( "cond" );
 
-		writer.implementFunction< sdw::Void >( "main", [&]()
+		writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+			, sdw::FragmentOutT< sdw::VoidT > )
 			{
 				auto scale = writer.declLocale( "scale"
 					, vec4( 1.0_f, 1.0_f, 2.0_f, 1.0_f ) );
@@ -166,6 +167,40 @@ namespace
 
 			sdw::Vec2 texcoord;
 		};
+
+		template< sdw::var::Flag FlagT >
+		struct FrgOutT
+			: sdw::StructInstance
+		{
+			FrgOutT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, colour{ getMember< sdw::Vec4 >( "colour" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , FrgOutT );
+
+			static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
+					, "FragmentOut"
+					, FlagT );
+
+				if ( result->empty() )
+				{
+					result->declMember( "colour"
+						, ast::type::Kind::eVec4F
+						, ast::type::NotArray
+						, 0u );
+				}
+
+				return result;
+			}
+
+			sdw::Vec4 colour;
+		};
 	}
 
 	void vertex( test::sdw_test::TestCounts & testCounts )
@@ -248,7 +283,8 @@ namespace
 			, InSampledImage2DRgba32{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
-		writer.implementMainT< FrgInT >( [&]( InputT< FrgInT > in )
+		writer.implementMainT< FrgInT, VoidT >( [&]( FragmentInT< FrgInT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto hdrColor = writer.declLocale( "hdrColor"
 					, sampleTex( c3d_mapDiffuse, in.texcoord ) );
@@ -381,29 +417,11 @@ namespace
 		testEnd();
 	}
 
-	void outputs( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "outputs" );
-		using namespace sdw;
-		FragmentWriter writer;
-
-		auto pxl_velocity( writer.declOutput< Vec4 >( "pxl_velocity", 0u ) );
-
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
-			{
-				pxl_velocity.xy() = vec2( 0.0_f );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		testEnd();
-	}
-
 	void skybox( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "skybox" );
 		using namespace sdw;
+		using namespace vtx;
 		FragmentWriter writer;
 
 		// Shader inputs
@@ -413,7 +431,6 @@ namespace
 		hdrConfig.end();
 
 		auto c3d_mapSkybox = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapSkybox", 1u, 0u );
-		auto vtx_texture = writer.declInput< Vec2 >( "vtx_texture", 0u );
 
 		auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
 			, [&]( Float const & gamma
@@ -424,17 +441,14 @@ namespace
 			, InFloat{ writer, "gamma" }
 			, InVec3{ writer, "srgb" } );
 
-		// Shader outputs
-		auto pxl_FragColor = writer.declOutput< Vec4 >( "pxl_FragColor", 0u );
-
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< FrgInT, FrgOutT >( [&]( FragmentInT< FrgInT > in
+			, FragmentOutT< FrgOutT > out )
 			{
 				auto colour = writer.declLocale( "colour"
-					, c3d_mapSkybox.sample( vtx_texture ) );
+					, c3d_mapSkybox.sample( in.texcoord ) );
 
-				pxl_FragColor = vec4( removeGamma( c3d_gamma, colour.xyz() ), colour.w() );
-				pxl_FragColor = vec4( removeGamma( 0.1_f, vec3( 0.0_f, 0.0_f, 0.0_f ) ), colour.w() );
+				out.colour = vec4( removeGamma( c3d_gamma, colour.xyz() ), colour.w() );
+				out.colour = vec4( removeGamma( 0.1_f, vec3( 0.0_f, 0.0_f, 0.0_f ) ), colour.w() );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -491,6 +505,7 @@ namespace
 		testBegin( "vtx_frag" );
 		using namespace sdw;
 		using namespace posCol;
+		using vtx::FrgOutT;
 
 		ShaderArray shaders;
 		{
@@ -512,12 +527,10 @@ namespace
 			using namespace sdw;
 			FragmentWriter writer;
 
-			// Shader outputs
-			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
-
-			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
+			writer.implementMainT< VtxDataT, FrgOutT >( [&]( FragmentInT< VtxDataT > in
+				, FragmentOutT< FrgOutT > out )
 				{
-					outColor = in.colour;
+					out.colour = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -535,6 +548,7 @@ namespace
 		testBegin( "charles" );
 		using namespace sdw;
 		using namespace posCol;
+		using vtx::FrgOutT;
 
 		ShaderArray shaders;
 		{
@@ -580,12 +594,10 @@ namespace
 			using namespace sdw;
 			FragmentWriter writer;
 
-			// Shader outputs
-			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
-
-			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
+			writer.implementMainT< VtxDataT, FrgOutT >( [&]( FragmentInT< VtxDataT > in
+				, FragmentOutT< FrgOutT > out )
 				{
-					outColor = in.colour;
+					out.colour = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -603,6 +615,7 @@ namespace
 		testBegin( "charles_approx" );
 		using namespace sdw;
 		using namespace posCol;
+		using vtx::FrgOutT;
 
 		ShaderArray shaders;
 		{
@@ -646,12 +659,10 @@ namespace
 		{
 			FragmentWriter writer;
 
-			// Shader outputs
-			auto outColor = writer.declOutput< Vec4 >( "fragColor", 0u );
-
-			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
+			writer.implementMainT< VtxDataT, FrgOutT >( [&]( FragmentInT< VtxDataT > in
+				, FragmentOutT< FrgOutT > out )
 				{
-					outColor = in.colour;
+					out.colour = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -669,6 +680,7 @@ namespace
 		testBegin( "charles_latest" );
 		using namespace sdw;
 		using namespace posCol;
+		using vtx::FrgOutT;
 
 		ShaderArray shaders;
 		{
@@ -712,12 +724,10 @@ namespace
 		{
 			FragmentWriter writer;
 
-			// Shader outputs
-			auto fragColor = writer.declOutput<Vec4>( "fragColor", 0u );
-
-			writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
+			writer.implementMainT< VtxDataT, FrgOutT >( [&]( FragmentInT< VtxDataT > in
+				, FragmentOutT< FrgOutT > out )
 				{
-					fragColor = in.colour;
+					out.colour = in.colour;
 				} );
 
 			test::writeShader( writer
@@ -735,15 +745,14 @@ namespace
 		testBegin( "radiance_computer" );
 		using namespace sdw;
 		using namespace posCol;
+		using vtx::FrgOutT;
 		FragmentWriter writer;
 
 		// Inputs
 		auto c3d_mapEnvironment = writer.declSampledImage< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
 
-		// Outputs
-		auto pxl_fragColor = writer.declOutput< Vec4 >( "pxl_FragColor", 0u );
-
-		writer.implementMainT< VtxDataT >( [&]( InputT< VtxDataT > in )
+		writer.implementMainT< VtxDataT, FrgOutT >( [&]( FragmentInT< VtxDataT > in
+			, FragmentOutT< FrgOutT > out )
 			{
 				// From https://learnopengl.com/#!PBR/Lighting
 				// the sample direction equals the hemisphere's orientation 
@@ -783,7 +792,7 @@ namespace
 				ROF;
 
 				irradiance = irradiance * 3.1415927410125732421875_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
-				pxl_fragColor = vec4( irradiance, 1.0_f );
+				out.colour = vec4( irradiance, 1.0_f );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -852,6 +861,7 @@ namespace
 		testBegin( "arthapzMin" );
 		sdw::ShaderArray shaders;
 		using namespace posTexNmlTan;
+		using vtx::FrgOutT;
 		{
 			auto writer = sdw::VertexWriter{};
 
@@ -872,7 +882,6 @@ namespace
 		}
 		{
 			auto writer = sdw::FragmentWriter{};
-			auto frag_color = writer.declOutput<sdw::Vec4>( "frag_color", 0u );
 			auto base_color_sampler = writer.declSampledImage<FImg2DRgba32>( "base_color_sampler", 0, 2 );
 
 			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor", [&]()
@@ -880,9 +889,10 @@ namespace
 					writer.returnStmt( sdw::vec4( 0._f, 0.f, 0.f, 0.f ) );
 				} );
 
-			writer.implementMainT< PositionT >( [&]( sdw::InputT< PositionT > in )
+			writer.implementMainT< PositionT, FrgOutT >( [&]( sdw::FragmentInT< PositionT > in
+				, sdw::FragmentOutT< FrgOutT > out )
 				{
-					frag_color = base_color_sampler.sample( in.texcoord ) + getEmissiveColor();
+					out.colour = base_color_sampler.sample( in.texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -903,6 +913,7 @@ namespace
 			+ std::to_string( hasNormalMap ) );
 		sdw::ShaderArray shaders;
 		using namespace posTexNmlTan;
+		using vtx::FrgOutT;
 		{
 			auto writer = sdw::VertexWriter{};
 
@@ -941,7 +952,6 @@ namespace
 		}
 		{
 			auto writer = sdw::FragmentWriter{};
-			auto frag_color = writer.declOutput<sdw::Vec4>( "frag_color", 0u );
 
 			auto camera = sdw::Ubo{ writer, "camera", 0, 0 };
 			camera.declMember<sdw::Vec4>( "position" );
@@ -965,8 +975,6 @@ namespace
 			auto ambiant_occlusion_sampler =
 				writer.declSampledImage<FImg2DRgba32>( "ambiant_occlusion_sampler", 3, 2 );
 			auto emissive_sampler = writer.declSampledImage<FImg2DRgba32>( "emissive_sampler", 4, 2 );
-
-			auto out = writer.getOut();
 
 			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor"
 				, [&]( sdw::Vec2 const & texcoord )
@@ -1005,7 +1013,8 @@ namespace
 				, sdw::InVec2{ writer, "texcoord" }
 				, sdw::InVec4{ writer, "tangent" } );
 
-			writer.implementMainT< PositionT >( [&]( sdw::InputT< PositionT > in )
+			writer.implementMainT< PositionT, FrgOutT >( [&]( sdw::FragmentInT< PositionT > in
+				, sdw::FragmentOutT< FrgOutT > out )
 				{
 					auto N = writer.declLocale<sdw::Vec3>( "N"
 						, sdw::normalize( getNormal( in.normal, in.texcoord, in.tangent ) ) );
@@ -1013,7 +1022,7 @@ namespace
 						camera.getMember<sdw::Vec4>( "position" ).xyz() -
 						in.position );
 
-					frag_color = base_color_sampler.sample( in.texcoord ) + getEmissiveColor( in.texcoord );
+					out.colour = base_color_sampler.sample( in.texcoord ) + getEmissiveColor( in.texcoord );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -1071,6 +1080,7 @@ namespace
 		testBegin( "clipDistance" );
 		using namespace sdw;
 		using namespace pos;
+		using vtx::FrgOutT;
 		sdw::ShaderArray shaders;
 		{
 			VertexWriter writer;
@@ -1108,11 +1118,10 @@ namespace
 		{
 			FragmentWriter writer;
 
-			auto outColor = writer.declOutput< sdw::Vec4 >( "outColor", 0u );
-
-			writer.implementMain( [&]()
+			writer.implementMainT< PositionT, FrgOutT >( [&]( sdw::FragmentInT< PositionT > in
+				, sdw::FragmentOutT< FrgOutT > out )
 				{
-					outColor = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
+					out.colour = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -1337,8 +1346,8 @@ namespace
 			auto d = writer.declInput< Vec2 >( "d", 2u );
 			auto s = writer.declSampledImage< FImg2DRgba32 >( "s", 0u, 0u );
 
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT >
+				, FragmentOutT< VoidT > )
 				{
 					auto factor = writer.declLocale( "factor"
 						, r * s.lod( tex, 0.0_f, ivec2( 0_i, -2_i ) ).r() );
@@ -1390,8 +1399,8 @@ namespace
 			auto constVec = writer.declConstant( "constVec"
 				, vec4( 300.0_f ) );
 
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT >
+				, VertexOutT< VoidT > )
 				{
 					auto loc = writer.declLocale( "loc"
 						, length( constVec.xyxy() ) );
@@ -1547,7 +1556,6 @@ sdwTestSuiteMain( TestWriterShader )
 	compute( testCounts );
 	swizzles( testCounts );
 	conversions( testCounts );
-	outputs( testCounts );
 	skybox( testCounts );
 	vtx_frag( testCounts );
 	charles( testCounts );

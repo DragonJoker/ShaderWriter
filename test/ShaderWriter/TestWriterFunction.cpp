@@ -96,7 +96,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( test::getDefault< ValueT >( writer ) );
 			} );
@@ -145,7 +146,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< ValueT >( "v" );
 				test( v );
@@ -170,7 +172,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
 				test( a[0] );
@@ -198,7 +201,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( inpa );
 			} );
@@ -224,7 +228,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( outa );
 			} );
@@ -252,7 +257,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMember< ValueT >( "v" );
 				test( uv );
@@ -281,7 +287,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMember< ValueT >( "v" );
 				test( uv );
@@ -310,7 +317,8 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto s = st.getInstance< StructInstance >( "s", true );
 				auto sv = s.getMember< ValueT >( "v" );
@@ -336,7 +344,8 @@ namespace
 			}
 			, sdw::OutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< ValueT >( "v" );
 				test( v );
@@ -361,7 +370,8 @@ namespace
 			}
 			, sdw::OutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
 				test( a[0] );
@@ -389,7 +399,8 @@ namespace
 			}
 			, sdw::OutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( outa );
 			} );
@@ -417,7 +428,8 @@ namespace
 			}
 			, sdw::OutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMember< ValueT >( "v" );
 				test( uv );
@@ -446,7 +458,8 @@ namespace
 			}
 			, sdw::OutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto s = st.getInstance< StructInstance >( "s", true );
 				auto sv = s.getMember< ValueT >( "v" );
@@ -472,7 +485,8 @@ namespace
 			}
 			, sdw::InOutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< ValueT >( "v" );
 				test( v );
@@ -497,7 +511,8 @@ namespace
 			}
 			, sdw::InOutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
 				test( a[0] );
@@ -525,7 +540,8 @@ namespace
 			}
 			, sdw::InOutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( outa );
 			} );
@@ -553,7 +569,8 @@ namespace
 			}
 			, sdw::InOutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMember< ValueT >( "v" );
 				test( uv );
@@ -582,7 +599,8 @@ namespace
 			}
 			, sdw::InOutParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto s = st.getInstance< StructInstance >( "s", true );
 				auto sv = s.getMember< ValueT >( "v" );
@@ -612,7 +630,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( test::getDefaultArray< ValueT >( writer, 4u ) );
 			} );
@@ -640,7 +659,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declConstantArray< ValueT >( "a", test::getDefaultVector< ValueT >( writer, 4u ) );
 				test( a );
@@ -669,7 +689,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
 				test( a );
@@ -700,7 +721,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( inpa );
 			} );
@@ -730,7 +752,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( outa );
 			} );
@@ -762,7 +785,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMemberArray< ValueT >( "v" );
 				test( uv );
@@ -795,7 +819,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMemberArray< ValueT >( "v" );
 				test( uv );
@@ -828,7 +853,8 @@ namespace
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto s = st.getInstance< StructInstance >( "s", true );
 				auto sv = s.getMemberArray< ValueT >( "v" );
@@ -858,7 +884,8 @@ namespace
 			}
 			, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
 				test( a );
@@ -889,7 +916,8 @@ namespace
 			}
 		, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( outa );
 			} );
@@ -918,7 +946,8 @@ namespace
 			}
 		, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( uv );
 			} );
@@ -950,7 +979,8 @@ namespace
 			}
 			, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto s = st.getInstance< StructInstance >( "s", true );
 				auto sv = s.getMemberArray< ValueT >( "v" );
@@ -980,7 +1010,8 @@ namespace
 			}
 			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto a = writer.declLocaleArray< ValueT >( "a", 4u );
 				test( a );
@@ -1011,7 +1042,8 @@ namespace
 			}
 		, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				test( outa );
 			} );
@@ -1043,7 +1075,8 @@ namespace
 			}
 			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto uv = buffer.getMemberArray< ValueT >( "v" );
 				test( uv );
@@ -1076,7 +1109,8 @@ namespace
 			}
 			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto s = st.getInstance< StructInstance >( "s", true );
 				auto sv = s.getMemberArray< ValueT >( "v" );
@@ -1099,8 +1133,8 @@ namespace
 			}
 			, InVec4Array{ writer, "p", 4u } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
 				foo01( va );
@@ -1123,8 +1157,8 @@ namespace
 			}
 			, InOutVec4{ writer, "p" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				foo02( v );
@@ -1153,8 +1187,8 @@ namespace
 			, InMat4{ writer, "m" }
 			, InVec4{ writer, "p" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				auto m = writer.declLocale< Mat4 >( "m" );
@@ -1189,8 +1223,8 @@ namespace
 			, InSt{ writer, "m" }
 			, InVec4{ writer, "p" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				auto inst = st->getInstance< St >( "inst", true );
@@ -1218,8 +1252,8 @@ namespace
 			, InSampledImage2DRgba32{ writer, "sim" }
 			, InVec2{ writer, "pos" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
@@ -1243,11 +1277,11 @@ namespace
 			}
 			, InVec2{ writer, "e" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
-				//auto e = writer.declLocale< Vec2 >( "e" );
-				//e = foo06( e );
+				auto e = writer.declLocale< Vec2 >( "e" );
+				e = foo06( e );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -1321,8 +1355,8 @@ namespace
 			}
 			, InVec2{ writer, "pos" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< VoidT > out )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );

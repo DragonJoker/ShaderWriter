@@ -88,53 +88,6 @@ namespace sdw
 
 	//*************************************************************************
 
-	InFragment::InFragment( ShaderWriter & writer )
-		: Builtin{ writer }
-		, fragCoord{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_FragCoord", writer.getTypesCache().getVec4F(), var::Flag::eShaderInput ) )
-			, true }
-		, frontFacing{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_FrontFacing", writer.getTypesCache().getBool(), var::Flag::eShaderInput ) )
-			, true }
-		, pointCoord{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PointCoord", writer.getTypesCache().getVec2F(), var::Flag::eShaderInput ) )
-			, true }
-		, sampleID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_SampleID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, samplePosition{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_SamplePosition", writer.getTypesCache().getVec2F(), var::Flag::eShaderInput ) )
-			, true }
-		, sampleMaskIn{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_SampleMaskIn", writer.getTypesCache().getArray( writer.getTypesCache().getInt() ), var::Flag::eShaderInput ) )
-			, true }
-		, clipDistance{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_ClipDistance", writer.getTypesCache().getArray( writer.getTypesCache().getFloat() ), var::Flag::eShaderInput ) )
-			, true }
-		, primitiveID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PrimitiveID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, layer{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_Layer", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, viewportIndex{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_ViewportIndex", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-	{
-	}
-
-	//*************************************************************************
-
 	InCompute::InCompute( ShaderWriter & writer )
 		: Builtin{ writer }
 		, numWorkGroups{ writer
@@ -202,21 +155,6 @@ namespace sdw
 		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
 				, vtx.getType() ) );
-	}
-
-	//*************************************************************************
-
-	OutFragment::OutFragment( ShaderWriter & writer )
-		: Builtin{ writer }
-		, fragDepth{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_FragDepth", writer.getTypesCache().getFloat(), var::Flag::eShaderOutput ) )
-			, true }
-		, sampleMask{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_SampleMask", writer.getTypesCache().getArray( writer.getTypesCache().getInt() ), var::Flag::eShaderOutput ) )
-			, true }
-	{
 	}
 	/**@}*/
 #pragma endregion

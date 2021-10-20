@@ -60,7 +60,7 @@ namespace sdw
 		, std::string name )
 		: m_writer{ &writer }
 		, m_shader{ &sdw::getShader( *m_writer ) }
-		, m_type{ getTypesCache( *m_writer ).getStruct( ast::type::MemoryLayout::eC, std::move( name ) ) }
+		, m_type{ getTypesCache( *m_writer ).getIOStruct( ast::type::MemoryLayout::eC, std::move( name ), FlagT ) }
 	{
 	}
 
