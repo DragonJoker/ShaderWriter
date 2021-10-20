@@ -194,6 +194,18 @@ namespace sdw
 					, PerVertex::getArrayType( getTypesCache( writer ), getArraySize( LayoutT ) )
 					, FlagT ) )
 			, true }
+		, primitiveIDIn{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_PrimitiveIDIn"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+		, invocationID{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_InvocationID"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
 	{
 	}
 
@@ -230,7 +242,25 @@ namespace sdw
 			, makeIdent( getTypesCache( writer )
 				, getShader( writer ).registerBuiltin( ""
 					, PerVertex::getBaseType( getTypesCache( writer ) )
-					, var::Flag::eShaderOutput ) ) }
+					, FlagT ) ) }
+		, primitiveID{ writer
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "gl_PrimitiveID"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+		, layer{ writer
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "gl_Layer"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+		, viewportIndex{ writer
+			, makeIdent( getTypesCache( writer )
+				, sdw::getShader( writer ).registerBuiltin( "gl_ViewportIndex"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
 	{
 	}
 

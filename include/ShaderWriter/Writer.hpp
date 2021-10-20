@@ -607,9 +607,6 @@ namespace sdw
 		*	I/O layout declaration.
 		*/
 		/**@{*/
-		SDW_API InGeometry getIn();
-		SDW_API OutGeometry getOut();
-
 		template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
 		inline void implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 		/**@}*/

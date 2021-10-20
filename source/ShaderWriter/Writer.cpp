@@ -505,16 +505,6 @@ namespace sdw
 	{
 	}
 
-	InGeometry GeometryWriter::getIn()
-	{
-		return InGeometry{ *this };
-	}
-
-	OutGeometry GeometryWriter::getOut()
-	{
-		return OutGeometry{ *this };
-	}
-
 	//*************************************************************************
 
 	FragmentWriter::FragmentWriter()
