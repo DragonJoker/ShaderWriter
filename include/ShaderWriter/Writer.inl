@@ -1255,12 +1255,14 @@ namespace sdw
 	*	I/O layout declaration.
 	*/
 	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT >
-	inline void FragmentWriter::implementMainT( FragmentMainFuncT< DataT > const & function )
+	template< template< ast::var::Flag FlagT > typename InT
+		, template< ast::var::Flag FlagT > typename OutT >
+	inline void FragmentWriter::implementMainT( FragmentMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, function
-			, makeInParam( InputT< DataT >{ *this } ) );
+			, makeInParam( FragmentInT< InT >{ *this } )
+			, makeOutParam( FragmentOutT< OutT >{ *this } ) );
 	}
 	/**@}*/
 #pragma endregion

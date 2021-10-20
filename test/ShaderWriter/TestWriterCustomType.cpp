@@ -7,6 +7,42 @@
 
 namespace
 {
+	template< sdw::var::Flag FlagT >
+	struct ColourT
+		: sdw::StructInstance
+	{
+		ColourT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, colour{ getMember< sdw::Vec3 >( "colour" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , ColourT );
+
+		static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Colour"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, 0u );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 colour;
+	};
+
 	struct Light
 		: public sdw::StructInstance
 	{
@@ -74,11 +110,10 @@ namespace
 			auto light = lightUbo.declStructMember< Light >( "light" );
 			lightUbo.end();
 
-			auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
-
-			writer.implementMainT< VoidT >( [&]( InputT< VoidT > in )
+			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+				, FragmentOutT< ColourT > out )
 				{
-					fragOutput = light.color * light.intensity;
+					out.colour = light.color * light.intensity;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -107,11 +142,10 @@ namespace
 			, 2u );
 		lightsUbo.end();
 
-		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
-
-		writer.implementMainT< VoidT >( [&]( InputT< VoidT > in )
+		writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< ColourT > out )
 			{
-				fragOutput = lights[0].color * lights[1].intensity;
+				out.colour = lights[0].color * lights[1].intensity;
 			} );
 		test::writeShader( writer
 			, testCounts
@@ -149,11 +183,10 @@ namespace
 			auto light = lightSsbo.declStructMember< Light >( "light" );
 			lightSsbo.end();
 
-			auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
-
-			writer.implementMainT< VoidT >( [&]( InputT< VoidT > in )
+			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+				, FragmentOutT< ColourT > out )
 				{
-					fragOutput = light.color * light.intensity;
+					out.colour = light.color * light.intensity;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -182,11 +215,10 @@ namespace
 			, 2u );
 		lightsSsbo.end();
 
-		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
-
-		writer.implementFunction< Void >( "main", [&]()
+		writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< ColourT > out )
 			{
-				fragOutput = lights[0].color * lights[1].intensity;
+				out.colour = lights[0].color * lights[1].intensity;
 			} );
 		test::writeShader( writer
 			, testCounts
@@ -205,11 +237,11 @@ namespace
 		FragmentWriter writer;
 
 		auto lights = writer.declArrayShaderStorageBuffer< Light >( "LightsSsbo", 1u, 0u );
-		auto fragOutput = writer.declOutput< Vec3 >( "fragOutput", 0u );
 
-		writer.implementFunction< Void >( "main", [&]()
+		writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+			, FragmentOutT< ColourT > out )
 			{
-				fragOutput = lights[0].color * lights[1].intensity;
+				out.colour = lights[0].color * lights[1].intensity;
 			} );
 		test::writeShader( writer
 			, testCounts

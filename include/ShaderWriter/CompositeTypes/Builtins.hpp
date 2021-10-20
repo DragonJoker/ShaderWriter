@@ -153,13 +153,13 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	struct GeomInT
+	struct GeometryInT
 		: Array< InputT< DataT > >
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
-		GeomInT( ShaderWriter & writer );
-		GeomInT( ShaderWriter & writer
+		GeometryInT( ShaderWriter & writer );
+		GeometryInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
@@ -175,18 +175,18 @@ namespace sdw
 	*	Holds data and functions to append primitives to the stream or restart it.
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
-	struct GeomOutT
+	struct GeometryOutT
 		: public OutputT< DataT >
 	{
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
 	protected:
-		GeomOutT( ShaderWriter & writer
+		GeometryOutT( ShaderWriter & writer
 			, type::OutputLayout layout
 			, uint32_t count );
 
 	public:
-		GeomOutT( ShaderWriter & writer
+		GeometryOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
@@ -206,7 +206,7 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct PointStreamT
-		: public GeomOutT< DataT >
+		: public GeometryOutT< DataT >
 	{
 		PointStreamT( ShaderWriter & writer
 			, uint32_t count );
@@ -214,7 +214,7 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct LineStreamT
-		: public GeomOutT< DataT >
+		: public GeometryOutT< DataT >
 	{
 		LineStreamT( ShaderWriter & writer
 			, uint32_t count );
@@ -222,12 +222,72 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct TriangleStreamT
-		: public GeomOutT< DataT >
+		: public GeometryOutT< DataT >
 	{
 		TriangleStreamT( ShaderWriter & writer
 			, uint32_t count );
 	};
 	/**@}*/
+	/**@}*/
+#pragma endregion
+#pragma region Fragment shader
+	/**
+	*name
+	*	Fragment shader.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct FragmentInT
+		: public InputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+
+		FragmentInT( ShaderWriter & writer );
+		FragmentInT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		//in vec4 gl_FragCoord;
+		Vec4 const fragCoord;
+		//in bool gl_FrontFacing;
+		Boolean const frontFacing;
+		//in vec2 gl_PointCoord;
+		Vec2 const pointCoord;
+		//in int gl_SampleID;
+		Int const sampleID;
+		//in vec2 gl_SamplePosition;
+		Vec2 const samplePosition;
+		//in int gl_SampleMaskIn[];
+		Array< Int > const sampleMaskIn;
+		//in float gl_ClipDistance[];
+		Array < Float > const clipDistance;
+		//in int gl_PrimitiveID;
+		Int const primitiveID;
+		//in int gl_Layer;
+		Int const layer;
+		//in int gl_ViewportIndex;
+		Int const viewportIndex;
+	};
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct FragmentOutT
+		: public OutputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+
+		FragmentOutT( ShaderWriter & writer );
+		FragmentOutT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		//out float gl_FragDepth;
+		Float fragDepth;
+		//out int gl_SampleMask[];
+		Array< Int > sampleMask;
+	};
 	/**@}*/
 #pragma endregion
 #pragma region Built-in inputs
@@ -274,36 +334,6 @@ namespace sdw
 		Array< Float > const tessLevelInner;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		Array< PerVertex > const vtx;
-	};
-	/**@}*/
-	/**
-	*name
-	*	Fragment shader.
-	*/
-	/**@{*/
-	struct InFragment : Builtin
-	{
-		SDW_API InFragment( ShaderWriter & writer );
-		//in vec4 gl_FragCoord;
-		Vec4 const fragCoord;
-		//in bool gl_FrontFacing;
-		Boolean const frontFacing;
-		//in vec2 gl_PointCoord;
-		Vec2 const pointCoord;
-		//in int gl_SampleID;
-		Int const sampleID;
-		//in vec2 gl_SamplePosition;
-		Vec2 const samplePosition;
-		//in int gl_SampleMaskIn[];
-		Array< Int > const sampleMaskIn;
-		//in float gl_ClipDistance[];
-		Array < Float > const clipDistance;
-		//in int gl_PrimitiveID;
-		Int const primitiveID;
-		//in int gl_Layer;
-		Int const layer;
-		//in int gl_ViewportIndex;
-		Int const viewportIndex;
 	};
 	/**@}*/
 	/**
@@ -362,20 +392,6 @@ namespace sdw
 		SDW_API OutTessellationEvaluation( ShaderWriter & writer );
 		//out gl_PerVertex;
 		PerVertex vtx;
-	};
-	/**@}*/
-	/**
-	*name
-	*	Fragment shader.
-	*/
-	/**@{*/
-	struct OutFragment : Builtin
-	{
-		SDW_API OutFragment( ShaderWriter & writer );
-		//out float gl_FragDepth;
-		Float fragDepth;
-		//out int gl_SampleMask[];
-		Array< Int > sampleMask;
 	};
 	/**@}*/
 	/**@}*/

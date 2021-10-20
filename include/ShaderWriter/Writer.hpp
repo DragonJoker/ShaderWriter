@@ -658,11 +658,10 @@ namespace sdw
 		/**@{*/
 		SDW_API void fragmentLayout( ast::FragmentOrigin origin
 			, ast::FragmentCenter center );
-		SDW_API InFragment getIn();
-		SDW_API OutFragment getOut();
 
-		template< template< ast::var::Flag FlagT > typename DataT >
-		inline void implementMainT( FragmentMainFuncT< DataT > const & function );
+		template< template< ast::var::Flag FlagT > typename InT
+			, template< ast::var::Flag FlagT > typename OutT >
+		inline void implementMainT( FragmentMainFuncT< InT, OutT > const & function );
 		/**@}*/
 #pragma endregion
 #pragma region Blend Output declaration

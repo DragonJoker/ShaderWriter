@@ -227,24 +227,38 @@ namespace hlsl
 
 		if ( stmt->getName() == "main" )
 		{
+			for ( auto & param : *funcType )
+			{
+				auto type = param->getType();
+
+				if ( type->getKind() == ast::type::Kind::eGeometryInput )
+				{
+					registerGeometryInput( param, static_cast< ast::type::GeometryInput const & >( *type ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+				{
+					registerGeometryOutput( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto & structType = static_cast< ast::type::Struct const & >( *type );
+
+					if ( structType.isShaderInput() )
+					{
+						registerInput( param
+							, static_cast< ast::type::IOStruct const & >( *type ) );
+					}
+					else if ( structType.isShaderOutput() )
+					{
+						registerOutput( param
+							, static_cast< ast::type::IOStruct const & >( *type ) );
+					}
+				}
+			}
+
 			if ( m_shader.getType() == ast::ShaderStage::eGeometry )
 			{
 				assert( !funcType->empty() );
-
-				for ( auto & param : *funcType )
-				{
-					auto type = param->getType();
-
-					if ( type->getKind() == ast::type::Kind::eGeometryInput )
-					{
-						registerGeometryInput( param, static_cast< ast::type::GeometryInput const & >( *type ) );
-					}
-					else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
-					{
-						registerGeometryOutput( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
-					}
-				}
-
 				ast::var::VariableList parameters;
 				parameters.push_back( m_adaptationData.inputVar );
 				parameters.push_back( m_adaptationData.mainOutputVar );
@@ -260,27 +274,6 @@ namespace hlsl
 			}
 			else
 			{
-				for ( auto & param : *funcType )
-				{
-					auto type = param->getType();
-
-					if ( type->getKind() == ast::type::Kind::eStruct )
-					{
-						auto & structType = static_cast< ast::type::Struct const & >( *type );
-
-						if ( structType.isShaderInput() )
-						{
-							registerInput( param
-								, static_cast< ast::type::IOStruct const & >( *type ) );
-						}
-						else if ( structType.isShaderOutput() )
-						{
-							registerOutput( param
-								, static_cast< ast::type::IOStruct const & >( *type ) );
-						}
-					}
-				}
-
 				// Write function content into a temporary container
 				auto save = m_current;
 				auto cont = ast::stmt::makeContainer();

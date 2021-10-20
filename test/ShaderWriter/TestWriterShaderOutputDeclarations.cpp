@@ -126,8 +126,6 @@ namespace
 		}
 		{
 			sdw::GeometryWriter writer;
-			auto in = writer.getIn();
-			auto out = writer.getOut();
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "StreamOutputValue_0";
 			auto value = writer.declStreamOutput< T >( name, 0u, 1u );

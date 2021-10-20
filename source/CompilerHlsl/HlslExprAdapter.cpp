@@ -1242,7 +1242,6 @@ namespace hlsl
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		auto processed = false;
-		bool isBuiltin = false;
 		std::string builtinName;
 		ast::var::FlagHolder * flags{};
 		ast::var::VariablePtr var;
@@ -1253,7 +1252,6 @@ namespace hlsl
 		{
 			var = m_adaptationData.processPending( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() );
 			builtinName = ( getStructType( outer->getType() )->begin() + expr->getMemberIndex() )->name;
-			isBuiltin = var->isBuiltin();
 			flags = var.get();
 			auto type = var->getType();
 
@@ -1291,7 +1289,6 @@ namespace hlsl
 		}
 		else
 		{
-			isBuiltin = expr->isBuiltin();
 			flags = expr;
 			builtinName = ( static_cast< ast::type::Struct const & >( *outer->getType() ).begin() + expr->getMemberIndex() )->name;
 

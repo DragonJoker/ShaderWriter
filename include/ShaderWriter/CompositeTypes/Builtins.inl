@@ -184,7 +184,7 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	GeomInT< DataT, LayoutT >::GeomInT( ShaderWriter & writer
+	GeometryInT< DataT, LayoutT >::GeometryInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: Array< InputT< DataT > >{ writer, std::move( expr ), enabled }
@@ -211,8 +211,8 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-		GeomInT< DataT, LayoutT >::GeomInT( ShaderWriter & writer )
-		: GeomInT{ writer
+	GeometryInT< DataT, LayoutT >::GeometryInT( ShaderWriter & writer )
+		: GeometryInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "geomIn"
 					, ast::type::makeGeometryInputType( makeType( getTypesCache( writer ) )
@@ -226,7 +226,7 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	ast::type::TypePtr GeomInT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	ast::type::TypePtr GeometryInT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
 	{
 		return InputT< DataT >::makeType( cache );
 	}
@@ -234,7 +234,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	GeomOutT< DataT >::GeomOutT( ShaderWriter & writer
+	GeometryOutT< DataT >::GeometryOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
@@ -265,15 +265,16 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	GeomOutT< DataT >::GeomOutT( ShaderWriter & writer
+	GeometryOutT< DataT >::GeometryOutT( ShaderWriter & writer
 		, type::OutputLayout layout
 		, uint32_t count )
-		: GeomOutT{ writer
+		: GeometryOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "geomOut"
 					, ast::type::makeGeometryOutputType( makeType( getTypesCache( writer ) )
 						, layout
-						, count ) ) ) }
+						, count )
+					, FlagT ) ) }
 	{
 		addStmt( writer
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
@@ -281,7 +282,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void GeomOutT< DataT >::append()
+	void GeometryOutT< DataT >::append()
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
@@ -289,7 +290,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void GeomOutT< DataT >::restartStrip()
+	void GeometryOutT< DataT >::restartStrip()
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
@@ -297,7 +298,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr GeomOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::TypePtr GeometryOutT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
 		return OutputT< DataT >::makeType( cache );
 	}
@@ -306,7 +307,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	PointStreamT< DataT >::PointStreamT( ShaderWriter & writer
 		, uint32_t count )
-		: GeomOutT< DataT >{ writer, type::OutputLayout::ePointList, count }
+		: GeometryOutT< DataT >{ writer, type::OutputLayout::ePointList, count }
 	{
 	}
 
@@ -315,7 +316,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	LineStreamT< DataT >::LineStreamT( ShaderWriter & writer
 		, uint32_t count )
-		: GeomOutT< DataT >{ writer, type::OutputLayout::eLineStrip, count }
+		: GeometryOutT< DataT >{ writer, type::OutputLayout::eLineStrip, count }
 	{
 	}
 
@@ -324,8 +325,137 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	TriangleStreamT< DataT >::TriangleStreamT( ShaderWriter & writer
 		, uint32_t count )
-		: GeomOutT< DataT >{ writer, type::OutputLayout::eTriangleStrip, count }
+		: GeometryOutT< DataT >{ writer, type::OutputLayout::eTriangleStrip, count }
 	{
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Fragment shader
+	/**
+	*name
+	*	Fragment shader.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer )
+		: FragmentInT{ writer
+			, makeExpr( writer
+				, getShader( writer ).registerName( "fragIn"
+					, makeType( getTypesCache( writer ) )
+					, FlagT ) ) }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		, fragCoord{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_FragCoord"
+					, getTypesCache( writer ).getVec4F()
+					, FlagT ) )
+			, true }
+		, frontFacing{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_FrontFacing"
+					, getTypesCache( writer ).getBool()
+					, FlagT ) )
+			, true }
+		, pointCoord{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_PointCoord"
+					, getTypesCache( writer ).getVec2F()
+					, FlagT ) )
+			, true }
+		, sampleID{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_SampleID"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+		, samplePosition{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_SamplePosition"
+					, getTypesCache( writer ).getVec2F()
+					, FlagT ) )
+			, true }
+		, sampleMaskIn{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_SampleMaskIn"
+					, getTypesCache( writer ).getArray( getTypesCache( writer ).getInt() )
+					, FlagT ) )
+			, true }
+		, clipDistance{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_ClipDistance"
+					, getTypesCache( writer ).getArray( getTypesCache( writer ).getFloat() )
+					, FlagT ) )
+			, true }
+		, primitiveID{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_PrimitiveID"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+		, layer{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_Layer"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+		, viewportIndex{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_ViewportIndex"
+					, getTypesCache( writer ).getInt()
+					, FlagT ) )
+			, true }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	ast::type::TypePtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache )
+	{
+		return InputT< DataT >::makeType( cache );
+	}
+
+	//*************************************************************************
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	FragmentOutT< DataT >::FragmentOutT( ShaderWriter & writer )
+		: FragmentOutT{ writer
+			, makeExpr( writer
+				, getShader( writer ).registerName( "fragOut"
+					, makeType( getTypesCache( writer ) )
+					, FlagT ) ) }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	FragmentOutT< DataT >::FragmentOutT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: OutputT< DataT >{ writer, std::move( expr ), enabled }
+		, fragDepth{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_FragDepth"
+					, getTypesCache( writer ).getFloat()
+					, FlagT ) )
+			, true }
+		, sampleMask{ writer
+			, makeIdent( getTypesCache( writer )
+				, getShader( writer ).registerBuiltin( "gl_SampleMask"
+					, getTypesCache( writer ).getArray( getTypesCache( writer ).getInt() )
+					, FlagT ) )
+			, true }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	ast::type::TypePtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	{
+		return OutputT< DataT >::makeType( cache );
 	}
 	/**@}*/
 #pragma endregion

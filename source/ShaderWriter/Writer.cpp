@@ -512,16 +512,6 @@ namespace sdw
 	{
 	}
 
-	InFragment FragmentWriter::getIn()
-	{
-		return InFragment{ *this };
-	}
-
-	OutFragment FragmentWriter::getOut()
-	{
-		return OutFragment{ *this };
-	}
-
 	void FragmentWriter::fragmentLayout( ast::FragmentOrigin origin
 		, ast::FragmentCenter center )
 	{
