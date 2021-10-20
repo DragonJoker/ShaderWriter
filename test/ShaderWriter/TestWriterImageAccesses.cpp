@@ -44,7 +44,7 @@ namespace
 					, Compilers_NoSPIRV );
 				test::validateShader( writer.getShader()
 					, testCounts
-					, Compilers_SPIRV );
+					, CurrentCompilers );
 			}
 			testEnd();
 		}
@@ -90,7 +90,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -148,7 +148,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -207,7 +207,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -290,7 +290,7 @@ namespace
 
 					test::writeShader( writer
 						, testCounts
-						, { false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true } );
+						, { false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true, ForceDisplayShaders } );
 				}
 				testEnd();
 			}
@@ -367,7 +367,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -444,7 +444,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -521,7 +521,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -598,7 +598,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -675,7 +675,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}
@@ -758,7 +758,7 @@ namespace
 
 					test::writeShader( writer
 						, testCounts
-						, { false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true } );
+						, { false, ( FormatT == ast::type::ImageFormat::eR32i || FormatT == ast::type::ImageFormat::eR32u ), true, ForceDisplayShaders } );
 				}
 				testEnd();
 			}
@@ -842,7 +842,7 @@ namespace
 						, Compilers_NoSPIRV );
 					test::validateShader( writer.getShader()
 						, testCounts
-						, Compilers_SPIRV );
+						, CurrentCompilers );
 				}
 				testEnd();
 			}

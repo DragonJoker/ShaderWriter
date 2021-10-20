@@ -90,7 +90,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts
-			, Compilers_SPIRV );
+			, CurrentCompilers );
 		testEnd();
 	}
 		
@@ -165,7 +165,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts
-			, Compilers_SPIRV );
+			, CurrentCompilers );
 		testEnd();
 	}
 

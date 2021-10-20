@@ -12,15 +12,17 @@
 #include <ShaderWriter/WriterDebug.hpp>
 #include <ShaderWriter/Source.hpp>
 
-#define Compilers_GLSL { false, false, true }
-#define Compilers_HLSL { false, true, false }
-#define Compilers_SPIRV { true, false, false }
+#define ForceDisplayShaders false
 
-#define Compilers_NoGLSL { true, true, false }
-#define Compilers_NoHLSL { true, false, true }
-#define Compilers_NoSPIRV { false, true, true }
+#define Compilers_GLSL { false, false, true, ForceDisplayShaders }
+#define Compilers_HLSL { false, true, false, ForceDisplayShaders }
+#define Compilers_SPIRV { true, false, false, ForceDisplayShaders }
 
-#define Compilers_All { true, true, true }
+#define Compilers_NoGLSL { true, true, false, ForceDisplayShaders }
+#define Compilers_NoHLSL { true, false, true, ForceDisplayShaders }
+#define Compilers_NoSPIRV { false, true, true, ForceDisplayShaders }
+
+#define Compilers_All { true, true, true, ForceDisplayShaders }
 
 #define CurrentCompilers Compilers_All
 
@@ -422,6 +424,7 @@ namespace test
 		bool spirV;
 		bool hlsl;
 		bool glsl;
+		bool forceDisplay;
 	};
 
 	void writeShader( ast::Shader const & shader
