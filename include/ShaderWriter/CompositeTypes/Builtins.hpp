@@ -290,6 +290,40 @@ namespace sdw
 	};
 	/**@}*/
 #pragma endregion
+#pragma region Compute shader
+	/**
+	*name
+	*	Compute shader.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct ComputeInT
+		: public InputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+
+		ComputeInT( ShaderWriter & writer );
+		ComputeInT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		//in uvec3 gl_NumWorkGroups;
+		UVec3 const numWorkGroups;
+		//in uvec3 gl_WorkGroupID;
+		UVec3 const workGroupID;
+		//in uvec3 gl_LocalInvocationID;
+		UVec3 const localInvocationID;
+		//in uvec3 gl_GlobalInvocationID;
+		UVec3 const globalInvocationID;
+		//in uint  gl_LocalInvocationIndex;
+		UInt const localInvocationIndex;
+		//const uvec3 gl_WorkGroupSize;
+		UVec3 const workGroupSize;
+	};
+	/**@}*/
+#pragma endregion
 #pragma region Built-in inputs
 	/**
 	*name
@@ -334,28 +368,6 @@ namespace sdw
 		Array< Float > const tessLevelInner;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		Array< PerVertex > const vtx;
-	};
-	/**@}*/
-	/**
-	*name
-	*	Compute shader.
-	*/
-	/**@{*/
-	struct InCompute : Builtin
-	{
-		SDW_API InCompute( ShaderWriter & writer );
-		//in uvec3 gl_NumWorkGroups;
-		UVec3 const numWorkGroups;
-		//in uvec3 gl_WorkGroupID;
-		UVec3 const workGroupID;
-		//in uvec3 gl_LocalInvocationID;
-		UVec3 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
-		UVec3 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
-		UInt const localInvocationIndex;
-		//const uvec3 gl_WorkGroupSize;
-		UVec3 const workGroupSize;
 	};
 	/**@}*/
 	/**@}*/

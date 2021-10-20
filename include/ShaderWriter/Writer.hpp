@@ -704,10 +704,20 @@ namespace sdw
 	public:
 		SDW_API ComputeWriter();
 
+#pragma region Input layout declaration
+		/**
+		*name
+		*	I/O layout declaration.
+		*/
+		/**@{*/
 		SDW_API void inputLayout( uint32_t localSizeX );
 		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY );
 		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
-		SDW_API InCompute getIn();
+
+		template< template< ast::var::Flag FlagT > typename DataT >
+		inline void implementMainT( ComputeMainFuncT< DataT > const & function );
+		/**@}*/
+#pragma endregion
 	};
 
 	template< typename WriterT >

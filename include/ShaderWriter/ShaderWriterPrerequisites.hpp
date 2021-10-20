@@ -247,6 +247,17 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename OutT >
 	using FragmentMainFuncT = std::function< void( FragmentInT< InT >, FragmentOutT< OutT > ) >;
 	/**@}*/
+	/**
+	*name
+	*	Compute.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct ComputeInT;
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using ComputeMainFuncT = std::function< void( ComputeInT< DataT > ) >;
+	/**@}*/
 	/**@}*/
 #pragma endregion
 #pragma region Images

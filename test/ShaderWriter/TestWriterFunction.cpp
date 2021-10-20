@@ -1399,8 +1399,8 @@ namespace
 			, InInt{ writer, "pi" } );
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto p = writer.declLocaleArray< Vec4 >( "p", 4u );
 				auto v = writer.declLocale< Vec4 >( "v" );
@@ -1429,8 +1429,8 @@ namespace
 			, InVec3{ writer, "pp" } );
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				auto v = writer.declLocale< Float >( "v", 0.0_f );
@@ -1468,8 +1468,7 @@ namespace
 			, InRImage3DRgba32{ writer, "ps" }
 			, InVec3{ writer, "pp" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				foo02( s, p );
@@ -1505,8 +1504,7 @@ namespace
 			, InWImage3DRgba32{ writer, "ps" }
 			, InVec3{ writer, "pp" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				foo02( s, p );
@@ -1542,8 +1540,7 @@ namespace
 			, InRWImage3DRgba32{ writer, "ps" }
 			, InVec3{ writer, "pp" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				foo02( s, p );
@@ -1571,8 +1568,7 @@ namespace
 			}
 			, InSt{ writer, "pst" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto r = writer.declLocale< Vec4 >( "r" );
 				auto st = writer.declLocale< St >( "st" );
@@ -1609,8 +1605,7 @@ namespace
 			}
 			, InSt2{ writer, "pst2" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto r = writer.declLocale< Vec4 >( "r" );
 				auto st2 = writer.declLocale< St2 >( "st2" );
@@ -1643,8 +1638,7 @@ namespace
 			, InFloat{ writer, "test" }
 			, InFloat{ writer, "end" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto v = writer.declLocale< Float >( "v" );
 				auto e = writer.declLocale< Float >( "e" );
@@ -1691,8 +1685,7 @@ namespace
 			, InFloat{ writer, "ptest" }
 			, InFloat{ writer, "pend" } );
 
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto v = writer.declLocale< Float >( "v" );
 				auto e = writer.declLocale< Float >( "e" );
@@ -1727,8 +1720,8 @@ namespace
 			, InVec3{ writer, "srgb" } );
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto f = writer.declLocale< Float >( "f" );
 				auto v = writer.declLocale< Vec3 >( "v" );
@@ -1786,8 +1779,8 @@ namespace
 			, InVec4{ writer, "p" } );
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				v = foo02( foo01( v ) );
@@ -1833,8 +1826,8 @@ namespace
 			, OutVec2{ writer, "e" } );
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+
+		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
 			{
 				auto v = writer.declLocale< Vec2 >( "v" );
 				auto e = writer.declLocale< Vec2 >( "e" );

@@ -525,11 +525,6 @@ namespace sdw
 	{
 	}
 
-	InCompute ComputeWriter::getIn()
-	{
-		return InCompute{ *this };
-	}
-
 	void ComputeWriter::inputLayout( uint32_t localSizeX )
 	{
 		addStmt( stmt::makeInputComputeLayout( localSizeX, 1, 1 ) );
