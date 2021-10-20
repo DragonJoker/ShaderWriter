@@ -28,8 +28,6 @@
 #include "spirv_hlsl.hpp"
 #pragma GCC diagnostic pop
 
-#define SDW_Test_DisplayShaders 0
-
 namespace test
 {
 	namespace
@@ -174,9 +172,9 @@ namespace test
 		void displayShader( std::string const & name
 			, std::string const & shader
 			, test::TestCounts & testCounts
-			, bool force = false )
+			, bool force )
 		{
-			if ( force || SDW_Test_DisplayShaders )
+			if ( force )
 			{
 				testCounts.streams.cout << "////////////////////////////////////////////////////////////" << std::endl;
 				testCounts.streams.cout << "// " << name << std::endl;
@@ -288,32 +286,33 @@ namespace test
 			if ( compilers.glsl )
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts );
+				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay );
 			}
 
 			if ( compilers.hlsl )
 			{
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts );
+				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay );
 			}
 		}
 
 		void testWriteDebug( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
 			, test::TestCounts & testCounts )
 		{
 			auto debug = ::sdw::writeDebug( shader );
-			displayShader( "Statements", debug, testCounts );
+			displayShader( "Statements", debug, testCounts, compilers.forceDisplay );
 		}
 
 		void testWriteGlsl( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
-			, bool validateGlsl
+			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
 #if SDW_HasCompilerGlsl
 
-			if ( validateGlsl )
+			if ( compilers.glsl )
 			{
 				auto validate = [&]()
 				{
@@ -334,7 +333,7 @@ namespace test
 					}
 					else
 					{
-						displayShader( "GLSL", glsl, testCounts );
+						displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay );
 					}
 				};
 				checkNoThrow( validate() );
@@ -345,12 +344,12 @@ namespace test
 
 		void testWriteHlsl( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
-			, bool validateHlsl
+			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
 #if SDW_HasCompilerHlsl
 
-			if ( validateHlsl )
+			if ( compilers.hlsl )
 			{
 				auto validate = [&]()
 				{
@@ -379,7 +378,7 @@ namespace test
 					}
 					else
 					{
-						displayShader( "HLSL", hlsl, testCounts );
+						displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay );
 					}
 				};
 				checkNoThrow( validate() );
@@ -412,7 +411,7 @@ namespace test
 							return;
 						}
 
-						displayShader( "SPIR-V", textSpirv, testCounts );
+						displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay );
 						std::vector< uint32_t > spirv;
 
 						try
@@ -543,10 +542,10 @@ namespace test
 		, Compilers const & compilers )
 	{
 		auto specialisation = getSpecialisationInfo( shader );
-		testWriteDebug( shader, specialisation, testCounts );
+		testWriteDebug( shader, specialisation, compilers, testCounts );
 		testWriteSpirV( shader, specialisation, compilers, testCounts );
-		testWriteGlsl( shader, specialisation, compilers.glsl, testCounts );
-		testWriteHlsl( shader, specialisation, compilers.hlsl, testCounts );
+		testWriteGlsl( shader, specialisation, compilers, testCounts );
+		testWriteHlsl( shader, specialisation, compilers, testCounts );
 	}
 
 	void writeShader( sdw::ShaderWriter const & writer
