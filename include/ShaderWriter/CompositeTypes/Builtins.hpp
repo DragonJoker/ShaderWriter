@@ -166,6 +166,10 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
 		Array< PerVertex > vtx;
+		//in int gl_PrimitiveIDIn;
+		Int const primitiveIDIn;
+		//in int gl_InvocationID;
+		Int const invocationID;
 	};
 	/**
 	*	Holds data and functions to append primitives to the stream or restart it.
@@ -192,6 +196,12 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
 		PerVertex vtx;
+		//out int gl_PrimitiveID;
+		Int primitiveID;
+		//out int gl_Layer;
+		Int layer;
+		//out int gl_ViewportIndex;
+		Int viewportIndex;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -264,20 +274,6 @@ namespace sdw
 		Array< Float > const tessLevelInner;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		Array< PerVertex > const vtx;
-	};
-	/**@}*/
-	/**
-	*name
-	*	Geometry shader.
-	*/
-	/**@{*/
-	struct InGeometry : Builtin
-	{
-		SDW_API InGeometry( ShaderWriter & writer );
-		//in int gl_PrimitiveIDIn;
-		Int const primitiveIDIn;
-		//in int gl_InvocationID;
-		Int const invocationID;
 	};
 	/**@}*/
 	/**
@@ -366,22 +362,6 @@ namespace sdw
 		SDW_API OutTessellationEvaluation( ShaderWriter & writer );
 		//out gl_PerVertex;
 		PerVertex vtx;
-	};
-	/**@}*/
-	/**
-	*name
-	*	Geometry shader.
-	*/
-	/**@{*/
-	struct OutGeometry : Builtin
-	{
-		SDW_API OutGeometry( ShaderWriter & writer );
-		//out int gl_PrimitiveID;
-		Int primitiveID;
-		//out int gl_Layer;
-		Int layer;
-		//out int gl_ViewportIndex;
-		Int viewportIndex;
 	};
 	/**@}*/
 	/**

@@ -88,21 +88,6 @@ namespace sdw
 
 	//*************************************************************************
 
-	InGeometry::InGeometry( ShaderWriter & writer )
-		: Builtin{ writer }
-		, primitiveIDIn{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PrimitiveIDIn", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-		, invocationID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_InvocationID", writer.getTypesCache().getInt(), var::Flag::eShaderInput ) )
-			, true }
-	{
-	}
-
-	//*************************************************************************
-
 	InFragment::InFragment( ShaderWriter & writer )
 		: Builtin{ writer }
 		, fragCoord{ writer
@@ -217,25 +202,6 @@ namespace sdw
 		addStmt( findWriterMandat( *this )
 			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
 				, vtx.getType() ) );
-	}
-
-	//*************************************************************************
-
-	OutGeometry::OutGeometry( ShaderWriter & writer )
-		: Builtin{ writer }
-		, primitiveID{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "gl_PrimitiveID", getTypesCache( writer ).getInt(), var::Flag::eShaderOutput ) )
-			, true }
-		, layer{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "gl_Layer", getTypesCache( writer ).getInt(), var::Flag::eShaderOutput ) )
-			, true }
-		, viewportIndex{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "gl_ViewportIndex", getTypesCache( writer ).getInt(), var::Flag::eShaderOutput ) )
-			, true }
-	{
 	}
 
 	//*************************************************************************
