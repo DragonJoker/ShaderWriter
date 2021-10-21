@@ -3156,28 +3156,28 @@ namespace sdw
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
-	Vec2 distance( Vec2 const & p0
+	Float distance( Vec2 const & p0
 		, Vec2 const & p1 )
 	{
-		return Vec2{ *findWriter( p0, p1 )
+		return Float{ *findWriter( p0, p1 )
 			, expr::makeDistance2F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
-	Vec3 distance( Vec3 const & p0
+	Float distance( Vec3 const & p0
 		, Vec3 const & p1 )
 	{
-		return Vec3{ *findWriter( p0, p1 )
+		return Float{ *findWriter( p0, p1 )
 			, expr::makeDistance3F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
-	Vec4 distance( Vec4 const & p0
+	Float distance( Vec4 const & p0
 		, Vec4 const & p1 )
 	{
-		return Vec4{ *findWriter( p0, p1 )
+		return Float{ *findWriter( p0, p1 )
 			, expr::makeDistance4F( findTypesCache( p0, p1 )
 					, makeExpr( p0 )
 				, makeExpr( p1 ) )

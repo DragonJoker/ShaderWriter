@@ -847,9 +847,9 @@ namespace sdw
 	*/
 	/**@{*/
 	SDW_API Float distance( Float const & p0, Float const & p1 );
-	SDW_API Vec2 distance( Vec2 const & p0, Vec2 const & p1 );
-	SDW_API Vec3 distance( Vec3 const & p0, Vec3 const & p1 );
-	SDW_API Vec4 distance( Vec4 const & p0, Vec4 const & p1 );
+	SDW_API Float distance( Vec2 const & p0, Vec2 const & p1 );
+	SDW_API Float distance( Vec3 const & p0, Vec3 const & p1 );
+	SDW_API Float distance( Vec4 const & p0, Vec4 const & p1 );
 	SDW_API Double distance( Double const & p0, Double const & p1 );
 	SDW_API Double distance( DVec2 const & p0, DVec2 const & p1 );
 	SDW_API Double distance( DVec3 const & p0, DVec3 const & p1 );

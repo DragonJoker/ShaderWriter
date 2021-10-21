@@ -5492,7 +5492,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2f
+	*	float
 	*@param[in] p0
 	*	vec2f
 	*@param[in] p1
@@ -5504,14 +5504,14 @@ namespace ast::expr
 	{
 		assert( p0->getType()->getKind() == type::Kind::eVec2F );
 		assert( p1->getType()->getKind() == type::Kind::eVec2F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eDistance2F
 			, std::move( p0 )
 			, std::move( p1 ) );
 	}
 	/**
 	*@return
-	*	vec3f
+	*	float
 	*@param[in] p0
 	*	vec3f
 	*@param[in] p1
@@ -5523,14 +5523,14 @@ namespace ast::expr
 	{
 		assert( p0->getType()->getKind() == type::Kind::eVec3F );
 		assert( p1->getType()->getKind() == type::Kind::eVec3F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eDistance3F
 			, std::move( p0 )
 			, std::move( p1 ) );
 	}
 	/**
 	*@return
-	*	vec4f
+	*	float
 	*@param[in] p0
 	*	vec4f
 	*@param[in] p1
@@ -5542,7 +5542,7 @@ namespace ast::expr
 	{
 		assert( p0->getType()->getKind() == type::Kind::eVec4F );
 		assert( p1->getType()->getKind() == type::Kind::eVec4F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eDistance4F
 			, std::move( p0 )
 			, std::move( p1 ) );
