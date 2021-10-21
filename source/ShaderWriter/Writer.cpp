@@ -27,8 +27,6 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	//*************************************************************************
-
 	ShaderWriter::ShaderWriter( ast::ShaderStage type )
 		: m_shader{ std::make_unique< Shader >( type ) }
 	{
@@ -456,85 +454,4 @@ namespace sdw
 	{
 		return m_shader->registerBuiltin( name, type, flag );
 	}
-
-	//*************************************************************************
-
-	VertexWriter::VertexWriter()
-		: ShaderWriter{ ast::ShaderStage::eVertex }
-	{
-	}
-
-	//*************************************************************************
-
-	TessellationControlWriter::TessellationControlWriter()
-		: ShaderWriter{ ast::ShaderStage::eTessellationControl }
-	{
-	}
-
-	//*************************************************************************
-
-	TessellationEvaluationWriter::TessellationEvaluationWriter()
-		: ShaderWriter{ ast::ShaderStage::eTessellationControl }
-	{
-	}
-
-	InTessellationEvaluation TessellationEvaluationWriter::getIn()
-	{
-		return InTessellationEvaluation{ *this };
-	}
-
-	OutTessellationEvaluation TessellationEvaluationWriter::getOut()
-	{
-		return OutTessellationEvaluation{ *this };
-	}
-
-	//*************************************************************************
-
-	GeometryWriter::GeometryWriter()
-		: ShaderWriter{ ast::ShaderStage::eGeometry }
-	{
-	}
-
-	//*************************************************************************
-
-	FragmentWriter::FragmentWriter()
-		: ShaderWriter{ ast::ShaderStage::eFragment }
-	{
-	}
-
-	void FragmentWriter::fragmentLayout( ast::FragmentOrigin origin
-		, ast::FragmentCenter center )
-	{
-		addStmt( stmt::makeFragmentLayout( origin, center ) );
-	}
-
-	//*************************************************************************
-
-	ComputeWriter::ComputeWriter()
-		: ShaderWriter{ ast::ShaderStage::eCompute }
-	{
-	}
-
-	void ComputeWriter::inputLayout( uint32_t localSizeX )
-	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX, 1, 1 ) );
-	}
-
-	void ComputeWriter::inputLayout( uint32_t localSizeX
-		, uint32_t localSizeY )
-	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX
-			, localSizeY, 1 ) );
-	}
-
-	void ComputeWriter::inputLayout( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ )
-	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX
-			, localSizeY
-			, localSizeZ ) );
-	}
-
-	//*************************************************************************
 }

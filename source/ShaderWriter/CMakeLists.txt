@@ -13,6 +13,18 @@ set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
 set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
 
 set( ${PROJECT_NAME}_HEADER_FILES
+	${INCLUDE_DIR}/ComputeWriter.hpp
+	${INCLUDE_DIR}/ComputeWriter.inl
+	${INCLUDE_DIR}/VertexWriter.hpp
+	${INCLUDE_DIR}/VertexWriter.inl
+	${INCLUDE_DIR}/TessellationControlWriter.hpp
+	${INCLUDE_DIR}/TessellationControlWriter.inl
+	${INCLUDE_DIR}/TessellationEvaluationWriter.hpp
+	${INCLUDE_DIR}/TessellationEvaluationWriter.inl
+	${INCLUDE_DIR}/GeometryWriter.hpp
+	${INCLUDE_DIR}/GeometryWriter.inl
+	${INCLUDE_DIR}/FragmentWriter.hpp
+	${INCLUDE_DIR}/FragmentWriter.inl
 	${INCLUDE_DIR}/Helpers.hpp
 	${INCLUDE_DIR}/Helpers.inl
 	${INCLUDE_DIR}/ShaderWriterPrerequisites.hpp
@@ -26,6 +38,12 @@ set( ${PROJECT_NAME}_HEADER_FILES
 	${SOURCE_DIR}/WriterInt.hpp
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
+	${SOURCE_DIR}/ComputeWriter.cpp
+	${SOURCE_DIR}/VertexWriter.cpp
+	${SOURCE_DIR}/TessellationControlWriter.cpp
+	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
+	${SOURCE_DIR}/GeometryWriter.cpp
+	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/Helpers.cpp
 	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
 	${SOURCE_DIR}/Value.cpp

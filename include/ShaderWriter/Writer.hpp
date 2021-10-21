@@ -559,186 +559,6 @@ namespace sdw
 		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
 	};
 
-	class VertexWriter
-		: public ShaderWriter
-	{
-	public:
-		SDW_API VertexWriter();
-#pragma region I/O declaration
-		/**
-		*name
-		*	I/O declaration.
-		*/
-		/**@{*/
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( VertexMainFuncT< InT, OutT > const & function );
-		/**@}*/
-#pragma endregion
-	};
-
-	class TessellationControlWriter
-		: public ShaderWriter
-	{
-	public:
-		SDW_API TessellationControlWriter();
-#pragma region I/O declaration
-		/**
-		*name
-		*	I/O declaration.
-		*/
-		/**@{*/
-		template< template< ast::var::Flag FlagT > typename InT
-			, uint32_t MaxPointsT
-			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( TessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, uint32_t MaxPointsT
-			, template< ast::var::Flag FlagT > typename OutT
-			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( TessControlMainFuncT< InT, MaxPointsT, OutT, PatchT > const & function );
-		/**@}*/
-#pragma endregion
-	};
-
-	class TessellationEvaluationWriter
-		: public ShaderWriter
-	{
-	public:
-		SDW_API TessellationEvaluationWriter();
-
-		SDW_API InTessellationEvaluation getIn();
-		SDW_API OutTessellationEvaluation getOut();
-	};
-
-	class GeometryWriter
-		: public ShaderWriter
-	{
-	private:
-		using ShaderWriter::implementMain;
-
-	public:
-		SDW_API GeometryWriter();
-
-#pragma region I/O layout declaration
-		/**
-		*name
-		*	I/O layout declaration.
-		*/
-		/**@{*/
-		template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
-		inline void implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
-		/**@}*/
-#pragma endregion
-#pragma region Stream Output declaration
-		/**
-		*name
-		*	Stream Output declaration.
-		*/
-		/**@{*/
-		template< typename T >
-		inline T declStreamOutput( std::string const & name
-			, uint32_t location
-			, uint32_t streamIndex
-			, bool enabled = true );
-		template< typename T >
-		inline T declStreamOutput( std::string const & name
-			, uint32_t location
-			, uint32_t streamIndex
-			, uint32_t attributes
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string const & name
-			, uint32_t location
-			, uint32_t streamIndex
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string const & name
-			, uint32_t location
-			, uint32_t streamIndex
-			, uint32_t dimension
-			, uint32_t attributes
-			, bool enabled = true );
-		/**@}*/
-#pragma endregion
-	};
-
-	class FragmentWriter
-		: public ShaderWriter
-	{
-	public:
-		SDW_API FragmentWriter();
-#pragma region I/O layout declaration
-		/**
-		*name
-		*	I/O layout declaration.
-		*/
-		/**@{*/
-		SDW_API void fragmentLayout( ast::FragmentOrigin origin
-			, ast::FragmentCenter center );
-
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( FragmentMainFuncT< InT, OutT > const & function );
-		/**@}*/
-#pragma endregion
-#pragma region Blend Output declaration
-		/**
-		*name
-		*	Blend Output declaration.
-		*/
-		/**@{*/
-		template< typename T >
-		inline T declBlendOutput( std::string const & name
-			, uint32_t location
-			, uint32_t blendIndex
-			, bool enabled = true );
-		template< typename T >
-		inline T declBlendOutput( std::string const & name
-			, uint32_t location
-			, uint32_t blendIndex
-			, uint32_t attributes
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string const & name
-			, uint32_t location
-			, uint32_t blendIndex
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string const & name
-			, uint32_t location
-			, uint32_t blendIndex
-			, uint32_t dimension
-			, uint32_t attributes
-			, bool enabled = true );
-		/**@}*/
-#pragma endregion
-	};
-
-	class ComputeWriter
-		: public ShaderWriter
-	{
-	public:
-		SDW_API ComputeWriter();
-
-#pragma region Input layout declaration
-		/**
-		*name
-		*	I/O layout declaration.
-		*/
-		/**@{*/
-		SDW_API void inputLayout( uint32_t localSizeX );
-		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY );
-		SDW_API void inputLayout( uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ );
-
-		template< template< ast::var::Flag FlagT > typename DataT >
-		inline void implementMainT( ComputeMainFuncT< DataT > const & function );
-		/**@}*/
-#pragma endregion
-	};
-
 	template< typename WriterT >
 	struct WriterScopeT
 	{
@@ -862,6 +682,13 @@ namespace sdw
 #define HCTIWS\
  ).endSwitch();\
 	}
+
+#include "VertexWriter.hpp"
+#include "TessellationControlWriter.hpp"
+#include "TessellationEvaluationWriter.hpp"
+#include "GeometryWriter.hpp"
+#include "FragmentWriter.hpp"
+#include "ComputeWriter.hpp"
 
 #include "Writer.inl"
 

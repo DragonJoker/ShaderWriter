@@ -160,10 +160,7 @@ namespace sdw
 	/**@{*/
 	struct PerVertex;
 
-	struct InTessellationControl;
 	struct InTessellationEvaluation;
-	struct InCompute;
-	struct OutTessellationControl;
 	struct OutTessellationEvaluation;
 
 	template< ast::var::Flag FlagT >
@@ -179,120 +176,8 @@ namespace sdw
 
 	using Input = InputT< VoidT >;
 	using Output = OutputT< VoidT >;
-	/**
-	*name
-	*	Vertex.
-	*/
-	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct VertexInT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct VertexOutT;
-
-	using VertexIn = VertexInT< VoidT >;
-	using VertexOut = VertexOutT< VoidT >;
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename OutT >
-	using VertexMainFuncT = std::function< void( VertexInT< InT >, VertexOutT< OutT > ) >;
-	/**@}*/
-	/**
-	*name
-	*	Tessellation Control.
-	*/
-	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT
-		, uint32_t MaxPointsT >
-	struct TessControlInT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct TessControlOutT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct TessPatchOutT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct TessPatchInT;
-
-	using TessControlIn = TessControlInT< VoidT, 0u >;
-	using TessControlOut = TessControlOutT< VoidT >;
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, uint32_t MaxPointsT
-		, template< ast::var::Flag FlagT > typename PatchT >
-	using TessControlPatchRoutineT = std::function< void( TessControlInT< InT, MaxPointsT >
-		, TessPatchOutT< PatchT > ) >;
-	template< template< ast::var::Flag FlagT > typename InT
-		, uint32_t MaxPointsT
-		, template< ast::var::Flag FlagT > typename OutT
-		, template< ast::var::Flag FlagT > typename PatchT >
-	using TessControlMainFuncT = std::function< void( TessControlInT< InT, MaxPointsT >
-		, TessControlOutT< OutT >
-		, TessPatchOutT< PatchT > ) >;
-	/**@}*/
-	/**
-	*name
-	*	Geometry.
-	*/
-	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT, ast::type::InputLayout LayoutT >
-	struct GeometryInT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct GeometryOutT;
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	using PointListT = GeometryInT< DataT, ast::type::InputLayout::ePointList >;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	using LineListT = GeometryInT< DataT, ast::type::InputLayout::eLineList >;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	using TriangleListT = GeometryInT< DataT, ast::type::InputLayout::eTriangleList >;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	using LineListWithAdjT = GeometryInT< DataT, ast::type::InputLayout::eLineListWithAdjacency >;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	using TriangleListWithAdjT = GeometryInT< DataT, ast::type::InputLayout::eTriangleListWithAdjacency >;
-
-	using PointList = PointListT< VoidT >;
-	using LineList = LineListT< VoidT >;
-	using TriangleList = TriangleListT< VoidT >;
-	using LineListWithAdj = LineListWithAdjT< VoidT >;
-	using TriangleListWithAdj = TriangleListWithAdjT< VoidT >;
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct PointStreamT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct LineStreamT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct TriangleStreamT;
-
-	using PointStream = PointStreamT< VoidT >;
-	using LineStream = LineStreamT< VoidT >;
-	using TriangleStream = TriangleStreamT< VoidT >;
-
-	template< typename InputArrT, typename OutStreamT >
-	using GeometryMainFuncT = std::function< void( InputArrT, OutStreamT ) >;
-	/**@}*/
-	/**
-	*name
-	*	Fragment.
-	*/
-	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct FragmentInT;
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct FragmentOutT;
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename OutT >
-	using FragmentMainFuncT = std::function< void( FragmentInT< InT >, FragmentOutT< OutT > ) >;
-	/**@}*/
-	/**
-	*name
-	*	Compute.
-	*/
-	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct ComputeInT;
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	using ComputeMainFuncT = std::function< void( ComputeInT< DataT > ) >;
-	/**@}*/
+	using PatchIn = PatchInT< VoidT >;
+	using PatchOut = PatchOutT< VoidT >;
 	/**@}*/
 #pragma endregion
 #pragma region Images

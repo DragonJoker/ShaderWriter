@@ -1398,9 +1398,7 @@ namespace
 			, OutVec4{ writer, "pv" }
 			, InInt{ writer, "pi" } );
 
-		writer.inputLayout( 16 );
-
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto p = writer.declLocaleArray< Vec4 >( "p", 4u );
 				auto v = writer.declLocale< Vec4 >( "v" );
@@ -1428,9 +1426,7 @@ namespace
 			, InFloat{ writer, "pv" }
 			, InVec3{ writer, "pp" } );
 
-		writer.inputLayout( 16 );
-
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				auto v = writer.declLocale< Float >( "v", 0.0_f );
@@ -1447,7 +1443,6 @@ namespace
 		testBegin( "rImageParamForward" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		auto s = writer.declImage< RFImg3DRgba32 >( "s", 0u, 0u );
 
@@ -1468,7 +1463,7 @@ namespace
 			, InRImage3DRgba32{ writer, "ps" }
 			, InVec3{ writer, "pp" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				foo02( s, p );
@@ -1483,7 +1478,6 @@ namespace
 		testBegin( "wImageParamForward" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		auto s = writer.declImage< WFImg3DRgba32 >( "s", 0u, 0u );
 
@@ -1504,7 +1498,7 @@ namespace
 			, InWImage3DRgba32{ writer, "ps" }
 			, InVec3{ writer, "pp" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				foo02( s, p );
@@ -1519,7 +1513,6 @@ namespace
 		testBegin( "rwImageParamForward" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		auto s = writer.declImage< RWFImg3DRgba32 >( "s", 0u, 0u );
 
@@ -1540,7 +1533,7 @@ namespace
 			, InRWImage3DRgba32{ writer, "ps" }
 			, InVec3{ writer, "pp" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto p = writer.declLocale< Vec3 >( "p" );
 				foo02( s, p );
@@ -1555,7 +1548,6 @@ namespace
 		testBegin( "structInParam" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		St::declare( writer );
 
@@ -1568,7 +1560,7 @@ namespace
 			}
 			, InSt{ writer, "pst" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto r = writer.declLocale< Vec4 >( "r" );
 				auto st = writer.declLocale< St >( "st" );
@@ -1584,7 +1576,6 @@ namespace
 		testBegin( "structInParamForward" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		St::declare( writer );
 		St2::declare( writer );
@@ -1605,7 +1596,7 @@ namespace
 			}
 			, InSt2{ writer, "pst2" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto r = writer.declLocale< Vec4 >( "r" );
 				auto st2 = writer.declLocale< St2 >( "st2" );
@@ -1621,7 +1612,6 @@ namespace
 		testBegin( "paramInWhile" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		auto foo01 = writer.implementFunction< Float >( "foo01"
 			, [&]( Float test
@@ -1638,7 +1628,7 @@ namespace
 			, InFloat{ writer, "test" }
 			, InFloat{ writer, "end" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto v = writer.declLocale< Float >( "v" );
 				auto e = writer.declLocale< Float >( "e" );
@@ -1655,7 +1645,6 @@ namespace
 		testBegin( "paramMbrAccessInWhile" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
 		St::declare( writer );
 
@@ -1685,7 +1674,7 @@ namespace
 			, InFloat{ writer, "ptest" }
 			, InFloat{ writer, "pend" } );
 
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto v = writer.declLocale< Float >( "v" );
 				auto e = writer.declLocale< Float >( "e" );
@@ -1719,9 +1708,7 @@ namespace
 			, InFloat{ writer, "gamma" }
 			, InVec3{ writer, "srgb" } );
 
-		writer.inputLayout( 16 );
-
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto f = writer.declLocale< Float >( "f" );
 				auto v = writer.declLocale< Vec3 >( "v" );
@@ -1778,9 +1765,7 @@ namespace
 			}
 			, InVec4{ writer, "p" } );
 
-		writer.inputLayout( 16 );
-
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto v = writer.declLocale< Vec4 >( "v" );
 				v = foo02( foo01( v ) );
@@ -1825,9 +1810,7 @@ namespace
 			, InVec2{ writer, "dir" }
 			, OutVec2{ writer, "e" } );
 
-		writer.inputLayout( 16 );
-
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto v = writer.declLocale< Vec2 >( "v" );
 				auto e = writer.declLocale< Vec2 >( "e" );

@@ -879,8 +879,7 @@ namespace
 		sdw::ShaderArray shaders;
 		{
 			ComputeWriter writer;
-			writer.inputLayout( 16u, 16u );
-			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+			writer.implementMainT< VoidT >( 16u, [&]( ComputeInT< VoidT > in )
 				{
 					auto b = writer.declLocale(
 						"b", 1_u );

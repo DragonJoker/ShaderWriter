@@ -29,8 +29,7 @@ namespace
 			{
 				ComputeWriter writer;
 				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-				writer.inputLayout( 1u );
-				writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+				writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 					{
 						auto j = writer.declLocale( "j"
 							, s.getSize() );
@@ -74,8 +73,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							auto j = writer.declLocale( "j"
 								, s.getSamples() );
@@ -122,8 +120,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -180,8 +177,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -240,8 +236,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -321,8 +316,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -397,8 +391,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -473,8 +466,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -549,8 +541,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -625,8 +616,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -702,8 +692,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
@@ -783,8 +772,7 @@ namespace
 				{
 					ComputeWriter writer;
 					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
-					writer.inputLayout( 1u );
-					writer.implementMainT< sdw::VoidT >( [&]( sdw::ComputeInT< sdw::VoidT > in )
+					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
 							{
