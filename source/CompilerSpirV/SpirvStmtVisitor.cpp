@@ -306,7 +306,7 @@ namespace spirv
 			, ast::var::VariableList{ type->begin(), type->end() } );
 		m_currentBlock = m_result.newBlock();
 
-		if ( stmt->getName() == "main" )
+		if ( stmt->isEntryPoint() )
 		{
 			m_result.registerEntryPoint( ValueId{ m_function->declaration.front()->resultId.value() }
 				, stmt->getName()

@@ -141,7 +141,7 @@ namespace glsl
 	{
 		auto funcType = stmt->getType();
 
-		if ( stmt->getName() == "main"
+		if ( stmt->isEntryPoint()
 			&& !funcType->empty() )
 		{
 			for ( auto & param : *funcType )
@@ -178,7 +178,7 @@ namespace glsl
 
 			funcType = m_cache.getFunction( m_cache.getVoid(), {} );
 			auto save = m_current;
-			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName() );
+			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;
@@ -341,15 +341,15 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType )
+		, ast::type::IOStruct const & structType )
 	{
 		m_adaptationData.output = var;
 
-		for ( auto & mbr : ioType )
+		for ( auto & mbr : structType )
 		{
 			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "sdwOut_" + mbr.name }
 				, mbr.type
-				, ioType.getFlag() );
+				, structType.getFlag() );
 			m_adaptationData.outputs.emplace_back( mbrVar );
 			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
 				, mbr.location ) );
@@ -357,18 +357,18 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType
+		, ast::type::IOStruct const & structType
 		, uint32_t arraySize )
 	{
 		m_adaptationData.input = var;
 
-		for ( auto & mbr : ioType )
+		for ( auto & mbr : structType )
 		{
 			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "sdwIn_" + mbr.name }
 				, ( arraySize == ast::type::NotArray
 					? mbr.type
 					: m_cache.getArray( mbr.type, arraySize ) )
-				, ioType.getFlag() );
+				, structType.getFlag() );
 			m_adaptationData.inputs.emplace_back( mbrVar );
 			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
 				, mbr.location ) );

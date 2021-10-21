@@ -57,6 +57,7 @@ namespace sdw
 	inline stmt::FunctionDeclPtr getFunctionHeader( ShaderWriter & writer
 		, ast::var::VariableList & args
 		, std::string const & name
+		, stmt::FunctionFlag flag
 		, ParamsT && ... params );
 
 	//***********************************************************************************************

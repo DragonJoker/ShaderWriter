@@ -3,7 +3,7 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
+#define DummyMain writer.implementMain( [](){} )
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT

@@ -4,8 +4,7 @@
 namespace
 {
 #define DummyMain( value ) \
-	writer.implementFunction< sdw::Void >( "main"\
-		, [&]()\
+	writer.implementMain( [&]()\
 		{\
 			auto v = writer.declLocale( "v", value );\
 		} )

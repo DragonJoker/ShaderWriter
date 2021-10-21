@@ -70,8 +70,20 @@ namespace sdw
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
+		return implementFunction< ReturnT >( name
+			, ast::stmt::FunctionFlag::eNone
+			, function
+			, std::forward< ParamsT >( params )... );
+	}
+
+	template< typename ReturnT, typename ... ParamsT >
+	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
+		, ast::stmt::FunctionFlag flag
+		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
+		, ParamsT && ... params )
+	{
 		ast::var::VariableList args;
-		auto decl = getFunctionHeader< ReturnT >( *this, args, name, params... );
+		auto decl = getFunctionHeader< ReturnT >( *this, args, name, flag, params... );
 		doPushScope( decl.get(), args );
 		details::doUpdateParams( decl->getType(), params... );
 		function( params... );
@@ -83,7 +95,9 @@ namespace sdw
 
 	inline void ShaderWriter::implementMain( std::function< void() > const & function )
 	{
-		( void )implementFunction< Void >( "main", function );
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function );
 	}
 	/**@}*/
 #pragma endregion
@@ -1118,6 +1132,7 @@ namespace sdw
 	inline void VertexWriter::implementMainT( VertexMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( VertexInT< InT >{ *this } )
 			, makeOutParam( VertexOutT< OutT >{ *this } ) );
@@ -1137,6 +1152,7 @@ namespace sdw
 	inline void GeometryWriter::implementMainT( std::function< void( InputArrT, OutStreamT ) > const & function )
 	{
 		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( InputArrT{ *this } )
 			, makeInOutParam( OutStreamT{ *this, MaxPrimCountT } ) );
@@ -1260,6 +1276,7 @@ namespace sdw
 	inline void FragmentWriter::implementMainT( FragmentMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( FragmentInT< InT >{ *this } )
 			, makeOutParam( FragmentOutT< OutT >{ *this } ) );
@@ -1380,6 +1397,7 @@ namespace sdw
 	inline void ComputeWriter::implementMainT( ComputeMainFuncT< DataT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( ComputeInT< DataT >{ *this } ) );
 	}

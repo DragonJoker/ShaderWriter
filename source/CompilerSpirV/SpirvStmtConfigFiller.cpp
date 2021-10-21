@@ -103,7 +103,7 @@ namespace spirv
 	{
 		auto funcType = stmt->getType();
 
-		if ( stmt->getName() == "main"
+		if ( stmt->isEntryPoint()
 			&& !funcType->empty() )
 		{
 			for ( auto & param : *funcType )

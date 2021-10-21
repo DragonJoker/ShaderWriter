@@ -68,7 +68,7 @@ namespace spirv
 	{
 		auto funcType = stmt->getType();
 
-		if ( stmt->getName() == "main"
+		if ( stmt->isEntryPoint()
 			&& !funcType->empty() )
 		{
 			auto & cache = funcType->getCache();
@@ -106,7 +106,7 @@ namespace spirv
 
 			funcType = cache.getFunction( cache.getVoid(), {} );
 			auto save = m_current;
-			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName() );
+			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
 			m_current = cont.get();
 			visitContainerStmt( stmt );
 			m_current = save;

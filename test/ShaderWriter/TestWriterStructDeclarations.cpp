@@ -3,14 +3,14 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
+#define DummyMain writer.implementMain( [](){} )
 
 	template< typename T >
 	void testStruct( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testStruct" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnum< T > ) };
@@ -27,7 +27,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnum< T > ) };

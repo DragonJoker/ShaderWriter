@@ -6,7 +6,7 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
+#define DummyMain writer.implementMain( [](){} )
 
 	template< typename T >
 	void testStructuredSsbo( test::sdw_test::TestCounts & testCounts )

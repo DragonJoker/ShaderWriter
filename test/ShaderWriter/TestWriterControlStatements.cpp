@@ -7,8 +7,7 @@ namespace
 	{
 		testBegin( "testIf" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 1_i );
 				IF( writer, ctrlVar != 0_i )
@@ -26,8 +25,7 @@ namespace
 	{
 		testBegin( "testIfElse" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 1_i );
 				IF( writer, ctrlVar != 0_i )
@@ -49,8 +47,7 @@ namespace
 	{
 		testBegin( "testIfElseIf" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
@@ -73,8 +70,7 @@ namespace
 	{
 		testBegin( "testIfElseIfElse" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
@@ -101,8 +97,7 @@ namespace
 	{
 		testBegin( "testSwitch" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrl = writer.declLocale< sdw::Int >( "ctrl" );
 				SWITCH( writer, ctrl )
@@ -129,8 +124,7 @@ namespace
 	{
 		testBegin( "testForPlusEqual" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
 				{
@@ -147,8 +141,7 @@ namespace
 	{
 		testBegin( "testForPreInc" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
 				{
@@ -165,8 +158,7 @@ namespace
 	{
 		testBegin( "testForPostInc" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
 				{
@@ -184,8 +176,7 @@ namespace
 		testBegin( "testForPreDec" );
 		{
 			sdw::VertexWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
 					{
@@ -204,8 +195,7 @@ namespace
 		testBegin( "testForPostDec" );
 		{
 			sdw::VertexWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
 					{
@@ -223,8 +213,7 @@ namespace
 		testBegin( "testForSuccessive" );
 		{
 			sdw::VertexWriter writer;
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
 					{
@@ -262,8 +251,7 @@ namespace
 	{
 		testBegin( "testWhile" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 20_i );
 				WHILE( writer, ctrlVar != 0_i )
@@ -281,8 +269,7 @@ namespace
 	{
 		testBegin( "testDoWhile" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 20_i );
 				DOWHILE( writer, ctrlVar != 0_i )
@@ -300,8 +287,7 @@ namespace
 	{
 		testBegin( "testNestedIf" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				IF( writer, ctrlVar1 != 0_i )
@@ -324,8 +310,7 @@ namespace
 	{
 		testBegin( "testNestedIfElse" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				IF( writer, ctrlVar1 != 0_i )
@@ -365,8 +350,7 @@ namespace
 	{
 		testBegin( "testNestedIfElseIf" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
@@ -409,8 +393,7 @@ namespace
 	{
 		testBegin( "testNestedIfElseIfElse" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
@@ -479,8 +462,7 @@ namespace
 	{
 		testBegin( "testNestedFor" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
 				{
@@ -501,8 +483,7 @@ namespace
 	{
 		testBegin( "testNestedWhile" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 20_i );
 				WHILE( writer, ctrlVar1 != 0_i )
@@ -526,8 +507,7 @@ namespace
 	{
 		testBegin( "testNestedDoWhile" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 20_i );
 				DOWHILE( writer, ctrlVar1 != 0_i )
@@ -551,8 +531,7 @@ namespace
 	{
 		testBegin( "testTernary" );
 		sdw::VertexWriter writer;
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto ctrl = writer.declLocale< sdw::Int >( "ctrl", 20_i );
 				auto res1 = writer.declLocale< sdw::Int >( "res1", 20_i );
