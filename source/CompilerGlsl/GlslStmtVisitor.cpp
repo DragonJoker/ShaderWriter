@@ -814,7 +814,10 @@ namespace glsl
 		if ( !stmt->getVariable()->isBuiltin() )
 		{
 			doAppendLineEnd();
-			m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+			m_result += m_indent;
+			m_result += getDirectionName( *stmt->getVariable() ) + " ";
+			m_result += getInterpolationQualifier( *stmt->getVariable() ) + " ";
+			m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
 			m_result += getTypeArraySize( stmt->getVariable()->getType() );
 			m_result += ";\n";
 		}

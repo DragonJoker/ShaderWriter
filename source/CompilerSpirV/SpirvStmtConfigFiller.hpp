@@ -75,6 +75,10 @@ namespace spirv
 		void doProcessInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & ioType
 			, uint32_t arraySize );
+		void doProcessOutputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType );
+		void doProcessInputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType );
 
 	private:
 		ModuleConfig & m_result;

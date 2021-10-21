@@ -25,6 +25,7 @@ namespace spirv
 		, AdaptationData & adaptationData )
 		: StmtCloner{ result }
 		, m_adaptationData{ adaptationData }
+		, m_entryPointFinish{ ast::stmt::makeContainer() }
 	{
 	}
 
@@ -66,12 +67,10 @@ namespace spirv
 
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		auto funcType = stmt->getType();
-
-		if ( stmt->isEntryPoint()
-			&& !funcType->empty() )
+		if ( stmt->getFlags() )
 		{
-			auto & cache = funcType->getCache();
+			auto funcType = stmt->getType();
+			bool isEntryPoint = stmt->isEntryPoint();
 
 			for ( auto & param : *funcType )
 			{
@@ -87,30 +86,57 @@ namespace spirv
 					doProcessGeometryInput( param
 						, static_cast< ast::type::GeometryInput const & >( *type ) );
 				}
-				else if ( type->getKind() == ast::type::Kind::eStruct )
+				else
 				{
-					auto & structType = static_cast< ast::type::Struct const & >( *type );
+					uint32_t arraySize = ast::type::NotArray;
 
-					if ( structType.isShaderInput() )
+					if ( type->getKind() == ast::type::Kind::eArray )
 					{
-						doProcessInput( param
-							, static_cast< ast::type::IOStruct const & >( *type ) );
+						auto & arrayType = static_cast< ast::type::Array const & >( *type );
+						type = arrayType.getType();
+						arraySize = arrayType.getArraySize();
 					}
-					else if ( structType.isShaderOutput() )
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						doProcessOutput( param
-							, static_cast< ast::type::IOStruct const & >( *type ) );
+						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+						if ( structType->isShaderInput() )
+						{
+							doProcessInput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, isEntryPoint );
+						}
+						else if ( structType->isShaderOutput() )
+						{
+							doProcessOutput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, isEntryPoint );
+						}
+						else if ( param->isPatchInput() )
+						{
+							doProcessInputPatch( param
+								, structType
+								, isEntryPoint );
+						}
+						else if ( param->isPatchOutput() )
+						{
+							doProcessOutputPatch( param
+								, structType
+								, isEntryPoint );
+						}
 					}
 				}
 			}
 
-			funcType = cache.getFunction( cache.getVoid(), {} );
-			auto save = m_current;
-			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
-			m_current = cont.get();
-			visitContainerStmt( stmt );
-			m_current = save;
-			m_current->addStmt( std::move( cont ) );
+			if ( stmt->isEntryPoint() )
+			{
+				doProcessEntryPoint( stmt );
+			}
+			else if ( stmt->isPatchRoutine() )
+			{
+				doProcessPatchRoutine( stmt );
+			}
 		}
 		else
 		{
@@ -281,7 +307,8 @@ namespace spirv
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			assert( structType.isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType ) );
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
 		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
@@ -299,7 +326,8 @@ namespace spirv
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			assert( structType.isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType ) );
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
 		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
@@ -307,7 +335,8 @@ namespace spirv
 	}
 
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType )
+		, ast::type::IOStruct const & ioType
+		, bool isEntryPoint )
 	{
 		for ( auto & mbr : ioType )
 		{
@@ -320,13 +349,18 @@ namespace spirv
 			assert( it != m_adaptationData.config.outputs.end() );
 			auto mbrVar = *it;
 			m_adaptationData.outputs.emplace_back( mbrVar );
-			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-				, mbr.location ) );
+
+			if ( isEntryPoint )
+			{
+				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+					, mbr.location ) );
+			}
 		}
 	}
 
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType )
+		, ast::type::IOStruct const & ioType
+		, bool isEntryPoint )
 	{
 		for ( auto & mbr : ioType )
 		{
@@ -339,8 +373,60 @@ namespace spirv
 			assert( it != m_adaptationData.config.inputs.end() );
 			auto mbrVar = *it;
 			m_adaptationData.inputs.emplace_back( mbrVar );
-			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-				, mbr.location ) );
+
+			if ( isEntryPoint )
+			{
+				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+					, mbr.location ) );
+			}
 		}
+	}
+
+	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType
+		, bool isEntryPoint )
+	{
+		if ( isEntryPoint )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		}
+	}
+
+	void StmtAdapter::doProcessInputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType
+		, bool isEntryPoint )
+	{
+		if ( isEntryPoint )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		}
+	}
+
+	void StmtAdapter::doProcessEntryPoint( ast::stmt::FunctionDecl * stmt )
+	{
+		auto & cache = stmt->getType()->getCache();
+		auto funcType = cache.getFunction( cache.getVoid(), {} );
+		auto save = m_current;
+		auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
+		m_current = cont.get();
+		visitContainerStmt( stmt );
+
+		if ( stmt->isEntryPoint() )
+		{
+			visitContainerStmt( m_entryPointFinish.get() );
+		}
+
+		m_current = save;
+		m_current->addStmt( std::move( cont ) );
+	}
+
+	void StmtAdapter::doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
+	{
+		auto save = m_current;
+		m_current = m_entryPointFinish.get();
+		visitContainerStmt( stmt );
+		m_current = save;
 	}
 }

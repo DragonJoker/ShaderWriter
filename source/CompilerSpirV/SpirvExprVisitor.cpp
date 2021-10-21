@@ -331,11 +331,13 @@ namespace spirv
 				AST_Failure( "Unsupported built-in variable storage." );
 			}
 		}
-		else if ( var->isShaderInput() )
+		else if ( var->isShaderInput()
+			|| var->isPatchInput() )
 		{
 			result = spv::StorageClassInput;
 		}
-		else if ( var->isShaderOutput() )
+		else if ( var->isShaderOutput()
+			|| var->isPatchOutput() )
 		{
 			result = spv::StorageClassOutput;
 		}

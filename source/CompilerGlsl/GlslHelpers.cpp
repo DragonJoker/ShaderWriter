@@ -314,7 +314,8 @@ namespace glsl
 		{
 			result = "noperspective";
 		}
-		else if ( var.isPatch() )
+		else if ( var.isPatchInput()
+			|| var.isPatchOutput() )
 		{
 			result = "patch";
 		}
@@ -388,12 +389,14 @@ namespace glsl
 			result = "inout";
 		}
 		else if ( var.isInputParam()
-			|| var.isShaderInput() )
+			|| var.isShaderInput()
+			|| var.isPatchInput() )
 		{
 			result = "in";
 		}
 		else if ( var.isOutputParam()
-			|| var.isShaderOutput() )
+			|| var.isShaderOutput()
+			|| var.isPatchOutput() )
 		{
 			result = "out";
 		}

@@ -54,14 +54,25 @@ namespace glsl
 		void doProcessGeometryInput( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
 		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType );
+			, ast::type::IOStruct const & structType
+			, bool entryPoint );
 		void doProcessInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType
-			, uint32_t arraySize );
+			, ast::type::IOStruct const & structType
+			, uint32_t arraySize
+			, bool entryPoint );
+		void doProcessOutputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType
+			, bool entryPoint );
+		void doProcessInputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType
+			, bool entryPoint );
+		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
+		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 
 	private:
 		ast::type::TypesCache & m_cache;
 		AdaptationData & m_adaptationData;
+		ast::stmt::ContainerPtr m_entryPointFinish;
 	};
 }
 

@@ -1142,6 +1142,42 @@ namespace sdw
 
 	//*************************************************************************
 
+#pragma region I/O declaration
+	/**
+	*name
+	*	I/O declaration.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	void TessellationControlWriter::implementPatchRoutineT( TessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
+	{
+		( void )implementFunction< Void >( "sdwPatchRoutine"
+			, ast::stmt::FunctionFlag::ePatchRoutine
+			, function
+			, makeInParam( TessControlInT< InT, MaxPointsT >{ *this, false } )
+			, makeOutParam( TessPatchOutT< PatchT >{ *this } ) );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	void TessellationControlWriter::implementMainT( TessControlMainFuncT< InT, MaxPointsT, OutT, PatchT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function
+			, makeInParam( TessControlInT< InT, MaxPointsT >{ *this, true } )
+			, makeOutParam( TessControlOutT< OutT >{ *this } )
+			, makeOutParam( TessPatchOutT< PatchT >{ *this } ) );
+	}
+	/**@}*/
+#pragma endregion
+
+	//*************************************************************************
+
 #pragma region I/O Layout declaration
 	/**
 	*name

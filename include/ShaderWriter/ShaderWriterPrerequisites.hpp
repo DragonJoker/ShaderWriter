@@ -169,6 +169,10 @@ namespace sdw
 	template< ast::var::Flag FlagT >
 	struct VoidT;
 	template< template< ast::var::Flag FlagT > typename DataT >
+	struct PatchInT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct PatchOutT;
+	template< template< ast::var::Flag FlagT > typename DataT >
 	struct InputT;
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct OutputT;
@@ -191,6 +195,37 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, template< ast::var::Flag FlagT > typename OutT >
 	using VertexMainFuncT = std::function< void( VertexInT< InT >, VertexOutT< OutT > ) >;
+	/**@}*/
+	/**
+	*name
+	*	Tessellation Control.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT
+		, uint32_t MaxPointsT >
+	struct TessControlInT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TessControlOutT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TessPatchOutT;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TessPatchInT;
+
+	using TessControlIn = TessControlInT< VoidT, 0u >;
+	using TessControlOut = TessControlOutT< VoidT >;
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	using TessControlPatchRoutineT = std::function< void( TessControlInT< InT, MaxPointsT >
+		, TessPatchOutT< PatchT > ) >;
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	using TessControlMainFuncT = std::function< void( TessControlInT< InT, MaxPointsT >
+		, TessControlOutT< OutT >
+		, TessPatchOutT< PatchT > ) >;
 	/**@}*/
 	/**
 	*name

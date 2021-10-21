@@ -59,6 +59,36 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	/**
+	*	Holds input patch data for shaders.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct PatchInT
+		: public DataT< ast::var::Flag::ePatchInput >
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::ePatchInput;
+
+		PatchInT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	};
+	/**
+	*	Holds output patch data for shaders.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct PatchOutT
+		: public DataT< ast::var::Flag::ePatchOutput >
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::ePatchOutput;
+
+		PatchOutT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	};
+	/**
 	*	Holds input data for shaders.
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -67,7 +97,6 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		InputT( ShaderWriter & writer );
 		InputT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -83,7 +112,6 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderOutput;
 
-		OutputT( ShaderWriter & writer );
 		OutputT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -142,6 +170,73 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
 		PerVertex vtx;
+	};
+	/**@}*/
+#pragma endregion
+#pragma region Tessellation control shader
+	/**
+	*name
+	*	Tessellation control shader.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT
+		, uint32_t MaxPointsT >
+	struct TessControlInT
+		: Array< InputT< DataT > >
+	{
+		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+
+		TessControlInT( ShaderWriter & writer
+			, bool fromEntryPoint );
+		TessControlInT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		//in int gl_PatchVerticesIn;
+		Int patchVerticesIn;
+		//in int gl_PrimitiveID;
+		Int primitiveID;
+		//in int gl_InvocationID;
+		Int invocationID;
+		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
+		Array< PerVertex > vtx;
+
+		static constexpr uint32_t MaxPoints = MaxPointsT;
+	};
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TessControlOutT
+		: OutputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+
+		TessControlOutT( ShaderWriter & writer );
+		TessControlOutT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		//patch out float gl_TessLevelOuter[4];
+		Array< Float > tessLevelOuter;
+		//patch out float gl_TessLevelInner[2];
+		Array< Float > tessLevelInner;
+		//out gl_PerVertex gl_out[];
+		Array< PerVertex > vtx;
+	};
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct TessPatchOutT
+		: PatchOutT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = PatchOutT< DataT >::FlagT;
+
+		TessPatchOutT( ShaderWriter & writer );
+		TessPatchOutT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	/**@}*/
 #pragma endregion
@@ -332,24 +427,6 @@ namespace sdw
 	/**@{*/
 	/**
 	*name
-	*	Tessellation control shader.
-	*/
-	/**@{*/
-	struct InTessellationControl : Builtin
-	{
-		SDW_API InTessellationControl( ShaderWriter & writer );
-		//in int gl_PatchVerticesIn;
-		Int const patchVerticesIn;
-		//in int gl_PrimitiveID;
-		Int const primitiveID;
-		//in int gl_InvocationID;
-		Int const invocationID;
-		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
-		Array< PerVertex > const vtx;
-	};
-	/**@}*/
-	/**
-	*name
 	*	Tessellation evaluation shader.
 	*/
 	/**@{*/
@@ -378,22 +455,6 @@ namespace sdw
 	*	Built-in outputs.
 	*/
 	/**@{*/
-	/**
-	*name
-	*	Tessellation control shader.
-	*/
-	/**@{*/
-	struct OutTessellationControl : Builtin
-	{
-		SDW_API OutTessellationControl( ShaderWriter & writer );
-		//patch out float gl_TessLevelOuter[4];
-		Array< Float > tessLevelOuter;
-		//patch out float gl_TessLevelInner[2];
-		Array< Float > tessLevelInner;
-		//out gl_PerVertex gl_out[];
-		Array< PerVertex > vtx;
-	};
-	/**@}*/
 	/**
 	*name
 	*	Tessellation evaluation shader.

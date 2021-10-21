@@ -56,12 +56,23 @@ namespace spirv
 		void doProcessGeometryInput( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
 		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType );
+			, ast::type::IOStruct const & ioType
+			, bool isEntryPoint );
 		void doProcessInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType );
+			, ast::type::IOStruct const & ioType
+			, bool isEntryPoint );
+		void doProcessOutputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType
+			, bool isEntryPoint );
+		void doProcessInputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType
+			, bool isEntryPoint );
+		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
+		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 
 	private:
 		AdaptationData & m_adaptationData;
+		ast::stmt::ContainerPtr m_entryPointFinish;
 	};
 }
 
