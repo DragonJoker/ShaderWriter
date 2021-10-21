@@ -112,6 +112,11 @@ namespace sdw
 		m_shader->addStmt( std::move( stmt ) );
 	}
 
+	void ShaderWriter::addFuncStmt( stmt::StmtPtr stmt )
+	{
+		m_shader->addFuncStmt( std::move( stmt ) );
+	}
+
 	void ShaderWriter::inlineComment( std::string const & comment )
 	{
 	}

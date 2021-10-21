@@ -130,6 +130,7 @@ namespace ast
 		SDAST_API bool hasVar( std::string const & name )const;
 		SDAST_API var::VariablePtr getVar( std::string const & name )const;
 		SDAST_API void addStmt( stmt::StmtPtr stmt );
+		SDAST_API void addFuncStmt( stmt::StmtPtr stmt );
 		SDAST_API void registerSsbo( std::string const & name
 			, SsboInfo const & info );
 		SDAST_API void registerUbo( std::string const & name
@@ -200,6 +201,11 @@ namespace ast
 		inline stmt::Container * getContainer()
 		{
 			return m_blocks.back().container;
+		}
+
+		inline stmt::Container * getFuncContainer()
+		{
+			return m_blocks.front().container;
 		}
 
 		inline ast::ShaderStage getType()const
