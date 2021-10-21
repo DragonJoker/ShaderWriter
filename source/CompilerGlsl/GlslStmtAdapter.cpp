@@ -101,6 +101,7 @@ namespace glsl
 		: ast::StmtCloner{ result }
 		, m_cache{ cache }
 		, m_adaptationData{ adaptationData }
+		, m_entryPointFinish{ ast::stmt::makeContainer() }
 	{
 	}
 	
@@ -139,11 +140,11 @@ namespace glsl
 
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		auto funcType = stmt->getType();
-
-		if ( stmt->isEntryPoint()
-			&& !funcType->empty() )
+		if ( stmt->getFlags() )
 		{
+			auto isEntryPoint = stmt->isEntryPoint();
+			auto funcType = stmt->getType();
+
 			for ( auto & param : *funcType )
 			{
 				auto type = param->getType();
@@ -158,31 +159,58 @@ namespace glsl
 					doProcessGeometryInput( param
 						, static_cast< ast::type::GeometryInput const & >( *type ) );
 				}
-				else if ( type->getKind() == ast::type::Kind::eStruct )
+				else
 				{
-					auto & structType = static_cast< ast::type::Struct const & >( *type );
+					uint32_t arraySize = ast::type::NotArray;
 
-					if ( structType.isShaderInput() )
+					if ( type->getKind() == ast::type::Kind::eArray )
 					{
-						doProcessInput( param
-							, static_cast< ast::type::IOStruct const & >( *type )
-							, ast::type::NotArray );
+						auto & arrayType = static_cast< ast::type::Array const & >( *type );
+						type = arrayType.getType();
+						arraySize = arrayType.getArraySize();
 					}
-					else if ( structType.isShaderOutput() )
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						doProcessOutput( param
-							, static_cast< ast::type::IOStruct const & >( *type ) );
+						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+						if ( structType->isShaderInput() )
+						{
+							doProcessInput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, arraySize
+								, isEntryPoint );
+						}
+						else if ( structType->isShaderOutput() )
+						{
+							doProcessOutput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, isEntryPoint );
+						}
+						else if ( param->isPatchInput() )
+						{
+							doProcessInputPatch( param
+								, structType
+								, isEntryPoint );
+						}
+						else if ( param->isPatchOutput() )
+						{
+							doProcessOutputPatch( param
+								, structType
+								, isEntryPoint );
+						}
 					}
 				}
 			}
 
-			funcType = m_cache.getFunction( m_cache.getVoid(), {} );
-			auto save = m_current;
-			auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
-			m_current = cont.get();
-			visitContainerStmt( stmt );
-			m_current = save;
-			m_current->addStmt( std::move( cont ) );
+			if ( stmt->isEntryPoint() )
+			{
+				doProcessEntryPoint( stmt );
+			}
+			else if ( stmt->isPatchRoutine() )
+			{
+				doProcessPatchRoutine( stmt );
+			}
 		}
 		else
 		{
@@ -314,7 +342,8 @@ namespace glsl
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			assert( structType.isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType ) );
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
 		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
@@ -333,7 +362,8 @@ namespace glsl
 			assert( structType.isShaderInput() );
 			doProcessInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, getArraySize( geomType.layout ) );
+				, getArraySize( geomType.layout )
+				, true );
 		}
 
 		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
@@ -341,7 +371,8 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & structType )
+		, ast::type::IOStruct const & structType
+		, bool entryPoint )
 	{
 		m_adaptationData.output = var;
 
@@ -351,14 +382,19 @@ namespace glsl
 				, mbr.type
 				, structType.getFlag() );
 			m_adaptationData.outputs.emplace_back( mbrVar );
-			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-				, mbr.location ) );
+
+			if ( entryPoint )
+			{
+				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+					, mbr.location ) );
+			}
 		}
 	}
 
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & structType
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool entryPoint )
 	{
 		m_adaptationData.input = var;
 
@@ -370,8 +406,59 @@ namespace glsl
 					: m_cache.getArray( mbr.type, arraySize ) )
 				, structType.getFlag() );
 			m_adaptationData.inputs.emplace_back( mbrVar );
-			m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-				, mbr.location ) );
+
+			if ( entryPoint )
+			{
+				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+					, mbr.location ) );
+			}
 		}
+	}
+
+	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType
+		, bool entryPoint )
+	{
+		if ( entryPoint )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		}
+	}
+
+	void StmtAdapter::doProcessInputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType
+		, bool entryPoint )
+	{
+		if ( entryPoint )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		}
+	}
+
+	void StmtAdapter::doProcessEntryPoint( ast::stmt::FunctionDecl * stmt )
+	{
+		auto funcType = m_cache.getFunction( m_cache.getVoid(), {} );
+		auto save = m_current;
+		auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
+		m_current = cont.get();
+		visitContainerStmt( stmt );
+
+		if ( stmt->isEntryPoint() )
+		{
+			visitContainerStmt( m_entryPointFinish.get() );
+		}
+
+		m_current = save;
+		m_current->addStmt( std::move( cont ) );
+	}
+
+	void StmtAdapter::doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
+	{
+		auto save = m_current;
+		m_current = m_entryPointFinish.get();
+		visitContainerStmt( stmt );
+		m_current = save;
 	}
 }

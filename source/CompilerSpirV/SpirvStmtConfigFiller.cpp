@@ -101,11 +101,10 @@ namespace spirv
 
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		auto funcType = stmt->getType();
-
-		if ( stmt->isEntryPoint()
-			&& !funcType->empty() )
+		if ( stmt->getFlags() )
 		{
+			auto funcType = stmt->getType();
+
 			for ( auto & param : *funcType )
 			{
 				auto type = param->getType();
@@ -120,20 +119,40 @@ namespace spirv
 					doProcessGeometryInput( param
 						, static_cast< ast::type::GeometryInput const & >( *type ) );
 				}
-				else if ( type->getKind() == ast::type::Kind::eStruct )
+				else
 				{
-					auto & structType = static_cast< ast::type::Struct const & >( *type );
+					uint32_t arraySize = ast::type::NotArray;
 
-					if ( structType.isShaderInput() )
+					if ( type->getKind() == ast::type::Kind::eArray )
 					{
-						doProcessInput( param
-							, static_cast< ast::type::IOStruct const & >( *type )
-							, ast::type::NotArray );
+						auto & arrayType = static_cast< ast::type::Array const & >( *type );
+						type = arrayType.getType();
+						arraySize = arrayType.getArraySize();
 					}
-					else if ( structType.isShaderOutput() )
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						doProcessOutput( param
-							, static_cast< ast::type::IOStruct const & >( *type ) );
+						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+						if ( structType->isShaderInput() )
+						{
+							doProcessInput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, arraySize );
+						}
+						else if ( structType->isShaderOutput() )
+						{
+							doProcessOutput( param
+								, static_cast< ast::type::IOStruct const & >( *structType ) );
+						}
+						else if ( param->isPatchInput() )
+						{
+							doProcessInputPatch( param, structType );
+						}
+						else if ( param->isPatchOutput() )
+						{
+							doProcessOutputPatch( param, structType );
+						}
 					}
 				}
 			}
@@ -213,12 +232,12 @@ namespace spirv
 
 		if ( !var->isShaderConstant() )
 		{
-			if ( stmt->getVariable()->isShaderInput() )
+			if ( var->isShaderInput() )
 			{
 				m_result.inputs.insert( var );
 			}
 
-			if ( stmt->getVariable()->isShaderOutput() )
+			if ( var->isShaderOutput() )
 			{
 				m_result.outputs.insert( var );
 			}
@@ -481,5 +500,17 @@ namespace spirv
 				, ioType.getFlag()
 				, arraySize );
 		}
+	}
+
+	void StmtConfigFiller::doProcessOutputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType )
+	{
+		m_result.outputs.emplace( var );
+	}
+
+	void StmtConfigFiller::doProcessInputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType )
+	{
+		m_result.inputs.emplace( var );
 	}
 }

@@ -471,16 +471,6 @@ namespace sdw
 	{
 	}
 
-	InTessellationControl TessellationControlWriter::getIn()
-	{
-		return InTessellationControl{ *this };
-	}
-
-	OutTessellationControl TessellationControlWriter::getOut()
-	{
-		return OutTessellationControl{ *this };
-	}
-
 	//*************************************************************************
 
 	TessellationEvaluationWriter::TessellationEvaluationWriter()

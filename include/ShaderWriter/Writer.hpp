@@ -582,9 +582,23 @@ namespace sdw
 	{
 	public:
 		SDW_API TessellationControlWriter();
-
-		SDW_API InTessellationControl getIn();
-		SDW_API OutTessellationControl getOut();
+#pragma region I/O declaration
+		/**
+		*name
+		*	I/O declaration.
+		*/
+		/**@{*/
+		template< template< ast::var::Flag FlagT > typename InT
+			, uint32_t MaxPointsT
+			, template< ast::var::Flag FlagT > typename PatchT >
+		inline void implementPatchRoutineT( TessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
+		template< template< ast::var::Flag FlagT > typename InT
+			, uint32_t MaxPointsT
+			, template< ast::var::Flag FlagT > typename OutT
+			, template< ast::var::Flag FlagT > typename PatchT >
+		inline void implementMainT( TessControlMainFuncT< InT, MaxPointsT, OutT, PatchT > const & function );
+		/**@}*/
+#pragma endregion
 	};
 
 	class TessellationEvaluationWriter

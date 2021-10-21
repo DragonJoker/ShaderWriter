@@ -676,7 +676,12 @@ namespace spirv
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		visitVariable( stmt->getVariable() );
+		auto result = visitVariable( stmt->getVariable() );
+
+		if ( stmt->getVariable()->isPatch() )
+		{
+			m_result.decorate( result, spv::DecorationPatch );
+		}
 	}
 
 	void StmtVisitor::visitWhileStmt( ast::stmt::While * stmt )

@@ -29,14 +29,15 @@ namespace ast::var
 		eStatic = 1 << 15,
 		eFlat = 1 << 16,
 		eNoPerspective = 1 << 17,
-		ePatch = 1 << 18,
-		eCentroid = 1 << 19,
-		ePerSample = 1 << 20,
-		eGeometryStream = 1 << 21,
-		eBlendIndex = 1 << 22,
-		eLoopVar = 1 << 23,
-		eTemp = 1 << 24,
-		eAlias = 1 << 25,
+		ePatchInput = 1 << 18,
+		ePatchOutput = 1 << 19,
+		eCentroid = 1 << 20,
+		ePerSample = 1 << 21,
+		eGeometryStream = 1 << 22,
+		eBlendIndex = 1 << 23,
+		eLoopVar = 1 << 24,
+		eTemp = 1 << 25,
+		eAlias = 1 << 26,
 	};
 
 	class FlagHolder
@@ -164,9 +165,19 @@ namespace ast::var
 			return hasFlag( Flag::eNoPerspective );
 		}
 
+		bool isPatchInput()const
+		{
+			return hasFlag( Flag::ePatchInput );
+		}
+
+		bool isPatchOutput()const
+		{
+			return hasFlag( Flag::ePatchOutput );
+		}
+
 		bool isPatch()const
 		{
-			return hasFlag( Flag::ePatch );
+			return isPatchInput() || isPatchOutput();
 		}
 
 		bool isCentroid()const
