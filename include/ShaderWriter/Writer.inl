@@ -300,6 +300,22 @@ namespace sdw
 			, enabled };
 	}
 
+	template< typename T >
+		inline T declSampledImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true )
+	{
+		return declSampledImage < T::Format
+			, T::Dim
+			, T::Arrayed
+			, T::Depth
+			, T::Ms > ( name
+				, binding
+				, set
+				, enabled );
+	}
+
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
@@ -330,6 +346,24 @@ namespace sdw
 		return Array< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
+	}
+
+	template< typename T >
+		inline Array< T > ShaderWriter::declSampledImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled )
+	{
+		return declSampledImageArray < T::Format
+			, T::Dim
+			, T::Arrayed
+			, T::Depth
+			, T::Ms > ( name
+				, binding
+				, set
+				, dimension
+				, enabled );
 	}
 	/**@}*/
 #pragma endregion
@@ -370,6 +404,23 @@ namespace sdw
 			, enabled };
 	}
 
+	template< typename T >
+		inline T ShaderWriter::declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled )
+	{
+		return declImage < T::Format
+			, T::Access
+			, T::Dim
+			, T::Arrayed
+			, T::Depth
+			, T::Ms > ( name
+				, binding
+				, set
+				, enabled );
+	}
+
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
@@ -401,6 +452,25 @@ namespace sdw
 		return Array< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
+	}
+
+	template< typename T >
+		inline Array< T > ShaderWriter::declImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled )
+	{
+		return declImageArray < T::Format
+			, T::Access
+			, T::Dim
+			, T::Arrayed
+			, T::Depth
+			, T::Ms > ( name
+				, binding
+				, set
+				, dimension
+				, enabled );
 	}
 	/**@}*/
 #pragma endregion

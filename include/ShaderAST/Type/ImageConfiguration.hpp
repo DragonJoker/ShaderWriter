@@ -15,6 +15,9 @@ namespace ast::type
 		eFalse,
 		eTrue,
 		eDontCare,
+		eCount,
+		eMin = eFalse,
+		eMax = eDontCare,
 	};
 
 	enum class AccessKind
@@ -23,6 +26,9 @@ namespace ast::type
 		eRead,
 		eWrite,
 		eReadWrite,
+		eCount,
+		eMin = eRead,
+		eMax = eReadWrite,
 	};
 
 	enum class ImageDim
@@ -34,6 +40,9 @@ namespace ast::type
 		eCube,
 		eRect,
 		eBuffer,
+		eCount,
+		eMin = e1D,
+		eMax = eBuffer,
 	};
 
 	enum class ImageFormat
@@ -64,6 +73,9 @@ namespace ast::type
 		eR32u,
 		eR16u,
 		eR8u,
+		eCount,
+		eMin = eUnknown,
+		eMax = eR8u,
 	};
 
 	template< ImageFormat FormatT >
