@@ -11,6 +11,8 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Visitors/CloneStmt.hpp>
 
+#include <unordered_set>
+
 namespace glsl
 {
 	struct AdaptationData
@@ -68,11 +70,13 @@ namespace glsl
 			, bool entryPoint );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
+		void doDeclareStruct( ast::type::StructPtr const & structType );
 
 	private:
 		ast::type::TypesCache & m_cache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::ContainerPtr m_entryPointFinish;
+		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 	};
 }
 

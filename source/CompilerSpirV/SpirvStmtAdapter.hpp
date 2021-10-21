@@ -9,6 +9,8 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Visitors/CloneStmt.hpp>
 
+#include <unordered_set>
+
 namespace spirv
 {
 	struct AdaptationData
@@ -69,10 +71,19 @@ namespace spirv
 			, bool isEntryPoint );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
+		void doProcessInOut( ast::type::FunctionPtr funcType
+			, bool isEntryPoint );
+		void doDeclareStruct( ast::type::StructPtr const & structType );
 
 	private:
 		AdaptationData & m_adaptationData;
-		ast::stmt::ContainerPtr m_entryPointFinish;
+		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		struct PendingFunction
+		{
+			ast::type::FunctionPtr funcType;
+			ast::stmt::ContainerPtr statements;
+		};
+		std::map< std::string, PendingFunction > m_pending;
 	};
 }
 

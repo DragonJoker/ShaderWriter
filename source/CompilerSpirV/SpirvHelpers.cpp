@@ -226,6 +226,28 @@ namespace spirv
 
 	//*************************************************************************
 
+	bool ModuleConfig::isInput( ast::var::VariablePtr var )const
+	{
+		if ( var == input )
+		{
+			return true;
+		}
+
+		auto it = inputMapping.find( var );
+		return it != inputMapping.end();
+	}
+
+	bool ModuleConfig::isOutput( ast::var::VariablePtr var )const
+	{
+		if ( var == output )
+		{
+			return true;
+		}
+
+		auto it = outputMapping.find( var );
+		return it != outputMapping.end();
+	}
+
 	void ModuleConfig::addShaderInput( std::string const & name
 		, ast::type::TypePtr type
 		, uint32_t flags
@@ -251,6 +273,46 @@ namespace spirv
 	}
 
 	void ModuleConfig::addShaderOutput( std::string const & name
+		, ast::type::TypePtr type
+		, uint32_t flags )
+	{
+		auto it = std::find_if( outputs.begin()
+			, outputs.end()
+			, [&name]( ast::var::VariablePtr const & lookup )
+			{
+				return name == lookup->getName();
+			} );
+
+		if ( it == outputs.end() )
+		{
+			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
+				, type
+				, flags );
+			outputs.emplace( var );
+		}
+	}
+
+	void ModuleConfig::addPatchInput( std::string const & name
+		, ast::type::TypePtr type
+		, uint32_t flags )
+	{
+		auto it = std::find_if( inputs.begin()
+			, inputs.end()
+			, [&name]( ast::var::VariablePtr const & lookup )
+			{
+				return name == lookup->getName();
+			} );
+
+		if ( it == inputs.end() )
+		{
+			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
+				, type
+				, flags );
+			inputs.emplace( var );
+		}
+	}
+
+	void ModuleConfig::addPatchOutput( std::string const & name
 		, ast::type::TypePtr type
 		, uint32_t flags )
 	{

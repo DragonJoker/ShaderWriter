@@ -421,7 +421,7 @@ namespace glsl
 	{
 		if ( entryPoint )
 		{
-			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			doDeclareStruct( structType );
 			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 		}
 	}
@@ -432,7 +432,7 @@ namespace glsl
 	{
 		if ( entryPoint )
 		{
-			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			doDeclareStruct( structType );
 			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 		}
 	}
@@ -460,5 +460,13 @@ namespace glsl
 		m_current = m_entryPointFinish.get();
 		visitContainerStmt( stmt );
 		m_current = save;
+	}
+
+	void StmtAdapter::doDeclareStruct( ast::type::StructPtr const & structType )
+	{
+		if ( m_declaredStructs.emplace( structType ).second )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+		}
 	}
 }

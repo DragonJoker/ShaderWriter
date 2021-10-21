@@ -67,14 +67,20 @@ namespace spirv
 
 	private:
 		void doProcessGeometryOutput( ast::var::VariablePtr var
-			, ast::type::GeometryOutput const & geomType );
+			, ast::type::GeometryOutput const & geomType
+			, std::string const & name );
 		void doProcessGeometryInput( ast::var::VariablePtr var
-			, ast::type::GeometryInput const & geomType );
+			, ast::type::GeometryInput const & geomType
+			, std::string const & name );
 		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType );
+			, ast::type::IOStruct const & ioType
+			, std::string const & name
+			, bool isEntryPoint );
 		void doProcessInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & ioType
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, std::string const & name
+			, bool isEntryPoint );
 		void doProcessOutputPatch( ast::var::VariablePtr var
 			, ast::type::StructPtr const & structType );
 		void doProcessInputPatch( ast::var::VariablePtr var

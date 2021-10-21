@@ -298,14 +298,14 @@ namespace spirv
 
 		if ( expr->getVariable()->isShaderInput()
 			&& expr->getType()->getKind() != ast::type::Kind::eGeometryInput
-			&& expr->getVariable() != m_config.input )
+			&& !m_config.isInput( expr->getVariable() ) )
 		{
 			m_config.inputs.insert( expr->getVariable() );
 		}
 
 		if ( expr->getVariable()->isShaderOutput() 
 			&& !expr->getVariable()->isMember()
-			&& expr->getVariable() != m_config.output )
+			&& !m_config.isOutput( expr->getVariable() ) )
 		{
 			m_config.outputs.insert( expr->getVariable() );
 		}

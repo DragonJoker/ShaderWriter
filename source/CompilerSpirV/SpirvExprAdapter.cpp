@@ -76,14 +76,14 @@ namespace spirv
 		auto outer = expr->getOuterExpr();
 
 		if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.config.output )
+			&& m_adaptationData.config.isOutput( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 		{
 			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
 			m_result = ast::expr::makeIdentifier( m_cache
 				, m_adaptationData.outputs[expr->getMemberIndex()] );
 		}
 		else if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.config.input )
+			&& m_adaptationData.config.isInput( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 		{
 			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
 			m_result = ast::expr::makeIdentifier( m_cache
@@ -91,7 +91,7 @@ namespace spirv
 		}
 		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
 			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() == m_adaptationData.config.input )
+			&& m_adaptationData.config.isInput( static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() ) )
 		{
 			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
 			m_result = ast::expr::makeArrayAccess( expr->getType()
