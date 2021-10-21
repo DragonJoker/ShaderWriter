@@ -297,12 +297,7 @@ namespace ast
 	var::VariablePtr Shader::registerBlockVariable( std::string const & name
 		, type::TypePtr type )
 	{
-		if ( m_blocks.size() > 1u )
-		{
-			return registerLocale( name, type );
-		}
-
-		return registerConstant( name, type );
+		return registerLocale( name, type );
 	}
 
 	var::VariablePtr Shader::registerLocale( std::string const & name

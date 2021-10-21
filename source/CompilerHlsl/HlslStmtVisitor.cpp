@@ -173,7 +173,7 @@ namespace hlsl
 		doAppendLineEnd();
 		auto type = stmt->getType();
 
-		if ( stmt->getName() == "main"
+		if ( stmt->isEntryPoint()
 			&& !type->empty() )
 		{
 			auto it = type->begin();

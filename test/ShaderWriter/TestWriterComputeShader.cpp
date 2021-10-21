@@ -57,8 +57,7 @@ namespace
 			, OutVec4Array{ writer, "offset", 3u } );
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto csPosition = writer.declLocale< Vec4 >( "csPosition" );
 				csPosition.xyz() /= csPosition.w();
@@ -94,8 +93,7 @@ namespace
 		ComputeWriter writer;
 
 		writer.inputLayout( 16 );
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto o = writer.declLocaleArray( "o"
 					, 6u

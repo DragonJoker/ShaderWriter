@@ -137,7 +137,8 @@ namespace ast
 	{
 		auto save = m_current;
 		auto cont = stmt::makeFunctionDecl( stmt->getType()
-			, stmt->getName() );
+			, stmt->getName()
+			, stmt->getFlags() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;

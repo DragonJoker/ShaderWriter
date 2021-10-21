@@ -5,7 +5,7 @@
 
 namespace
 {
-#define DummyMain writer.implementFunction< sdw::Void >( "main", [](){} )
+#define DummyMain writer.implementMain( [](){} )
 
 	template< typename T >
 	void testUbo( test::sdw_test::TestCounts & testCounts )

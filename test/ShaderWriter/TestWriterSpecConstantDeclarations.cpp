@@ -20,8 +20,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eSpecialisationConstantDecl );
 			check( static_cast< sdw::stmt::SpecialisationConstantDecl const & >( stmt ).getLocation() == 0u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					IF( writer, value )
 					{
@@ -42,8 +41,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSpecialisationConstant() );
 			check( shader.getStatements()->size() == count );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -62,8 +60,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eSpecialisationConstantDecl );
 			check( static_cast< sdw::stmt::SpecialisationConstantDecl const & >( stmt ).getLocation() == 2u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					IF( writer, value )
 					{

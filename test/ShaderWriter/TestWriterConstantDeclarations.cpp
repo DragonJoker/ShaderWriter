@@ -5,8 +5,7 @@ namespace
 {
 	void dummyMain( sdw::ShaderWriter & writer )
 	{
-		writer.implementFunction< sdw::Void >( "main"
-			, []()
+		writer.implementMain( []()
 			{
 			} );
 	}
@@ -15,8 +14,7 @@ namespace
 	void simpleMain( sdw::ShaderWriter & writer
 		, T const & value )
 	{
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto out = writer.declLocale< T >( "outValue", value );
 			} );
@@ -27,8 +25,7 @@ namespace
 		, sdw::Array< T > const & value
 		, uint32_t size )
 	{
-		writer.implementFunction< sdw::Void >( "main"
-			, [&]()
+		writer.implementMain( [&]()
 			{
 				auto out = writer.declLocaleArray< T >( "outValue", size );
 				for ( uint32_t i = 0u; i < size; ++i )

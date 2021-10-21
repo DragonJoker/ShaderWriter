@@ -468,7 +468,7 @@ namespace glsl
 		m_indent += "\t";
 		visitContainerStmt( stmt );
 
-		if ( stmt->getName() == "main"
+		if ( stmt->isEntryPoint()
 			&& m_writerConfig.shaderStage == ast::ShaderStage::eVertex )
 		{
 			if ( m_writerConfig.flipVertY )

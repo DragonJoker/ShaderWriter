@@ -8,10 +8,12 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	FunctionDecl::FunctionDecl( type::FunctionPtr type
-		, std::string name )
+		, std::string name
+		, uint32_t flags )
 		: Compound{ Kind::eFunctionDecl }
 		, m_type{ std::move( type ) }
 		, m_name{ std::move( name ) }
+		, m_flags{ flags }
 	{
 	}
 

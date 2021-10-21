@@ -10,8 +10,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					auto vec = writer.declLocale< Vec2 >( "vec" );
@@ -34,8 +33,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = degrees( v );
@@ -53,8 +51,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = degrees( v );
@@ -72,8 +69,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = degrees( v );
@@ -91,8 +87,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = radians( v );
@@ -110,8 +105,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = radians( v );
@@ -129,8 +123,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = radians( v );
@@ -148,8 +141,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = radians( v );
@@ -167,8 +159,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = cosh( v );
@@ -186,8 +177,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = cosh( v );
@@ -205,8 +195,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = cosh( v );
@@ -224,8 +213,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = cosh( v );
@@ -243,8 +231,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = sinh( v );
@@ -262,8 +249,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = sinh( v );
@@ -281,8 +267,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = sinh( v );
@@ -300,8 +285,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = sinh( v );
@@ -319,8 +303,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = tanh( v );
@@ -338,8 +321,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = tanh( v );
@@ -357,8 +339,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = tanh( v );
@@ -376,8 +357,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = tanh( v );
@@ -395,8 +375,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = cos( v );
@@ -414,8 +393,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = cos( v );
@@ -433,8 +411,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = cos( v );
@@ -452,8 +429,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = cos( v );
@@ -471,8 +447,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = sin( v );
@@ -490,8 +465,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = sin( v );
@@ -509,8 +483,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = sin( v );
@@ -528,8 +501,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = sin( v );
@@ -547,8 +519,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = tan( v );
@@ -566,8 +537,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = tan( v );
@@ -585,8 +555,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = tan( v );
@@ -604,8 +573,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = tan( v );
@@ -623,8 +591,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = acos( v );
@@ -642,8 +609,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = acos( v );
@@ -661,8 +627,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = acos( v );
@@ -680,8 +645,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = acos( v );
@@ -699,8 +663,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = asin( v );
@@ -718,8 +681,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = asin( v );
@@ -737,8 +699,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = asin( v );
@@ -756,8 +717,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = asin( v );
@@ -775,8 +735,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = atan( v );
@@ -794,8 +753,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = atan( v );
@@ -813,8 +771,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = atan( v );
@@ -832,8 +789,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = atan( v );
@@ -851,8 +807,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = acosh( v );
@@ -870,8 +825,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = acosh( v );
@@ -889,8 +843,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = acosh( v );
@@ -908,8 +861,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = acosh( v );
@@ -927,8 +879,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = asinh( v );
@@ -946,8 +897,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = asinh( v );
@@ -965,8 +915,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = asinh( v );
@@ -984,8 +933,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = asinh( v );
@@ -1003,8 +951,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = atanh( v );
@@ -1022,8 +969,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = atanh( v );
@@ -1041,8 +987,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = atanh( v );
@@ -1060,8 +1005,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = atanh( v );
@@ -1079,8 +1023,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -1099,8 +1042,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -1119,8 +1061,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -1139,8 +1080,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -1159,8 +1099,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = exp( v );
@@ -1178,8 +1117,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = exp( v );
@@ -1197,8 +1135,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = exp( v );
@@ -1216,8 +1153,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = exp( v );
@@ -1235,8 +1171,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = log( v );
@@ -1254,8 +1189,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = log( v );
@@ -1273,8 +1207,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = log( v );
@@ -1292,8 +1225,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = log( v );
@@ -1311,8 +1243,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = exp2( v );
@@ -1330,8 +1261,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = exp2( v );
@@ -1349,8 +1279,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = exp2( v );
@@ -1368,8 +1297,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = exp2( v );
@@ -1387,8 +1315,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = log2( v );
@@ -1406,8 +1333,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = log2( v );
@@ -1425,8 +1351,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = log2( v );
@@ -1444,8 +1369,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = log2( v );
@@ -1463,8 +1387,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = sqrt( v );
@@ -1482,8 +1405,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = sqrt( v );
@@ -1501,8 +1423,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = sqrt( v );
@@ -1520,8 +1441,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = sqrt( v );
@@ -1539,8 +1459,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = sqrt( v );
@@ -1558,8 +1477,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = sqrt( v );
@@ -1577,8 +1495,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = sqrt( v );
@@ -1596,8 +1513,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = sqrt( v );
@@ -1615,8 +1531,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = inverseSqrt( v );
@@ -1634,8 +1549,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = inverseSqrt( v );
@@ -1653,8 +1567,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = inverseSqrt( v );
@@ -1672,8 +1585,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = inverseSqrt( v );
@@ -1691,8 +1603,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = inverseSqrt( v );
@@ -1710,8 +1621,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = inverseSqrt( v );
@@ -1729,8 +1639,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = inverseSqrt( v );
@@ -1748,8 +1657,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = inverseSqrt( v );
@@ -1767,8 +1675,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = abs( v );
@@ -1786,8 +1693,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = abs( v );
@@ -1805,8 +1711,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = abs( v );
@@ -1824,8 +1729,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = abs( v );
@@ -1843,8 +1747,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = abs( v );
@@ -1862,8 +1765,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = abs( v );
@@ -1881,8 +1783,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = abs( v );
@@ -1900,8 +1801,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = abs( v );
@@ -1919,8 +1819,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Int >( "v" );
 					v = abs( v );
@@ -1938,8 +1837,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< IVec2 >( "v" );
 					v = abs( v );
@@ -1957,8 +1855,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< IVec3 >( "v" );
 					v = abs( v );
@@ -1976,8 +1873,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< IVec4 >( "v" );
 					v = abs( v );
@@ -1995,8 +1891,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = sign( v );
@@ -2014,8 +1909,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = sign( v );
@@ -2033,8 +1927,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = sign( v );
@@ -2052,8 +1945,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = sign( v );
@@ -2071,8 +1963,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = sign( v );
@@ -2090,8 +1981,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = sign( v );
@@ -2109,8 +1999,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = sign( v );
@@ -2128,8 +2017,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = sign( v );
@@ -2147,8 +2035,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Int >( "v" );
 					v = sign( v );
@@ -2166,8 +2053,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< IVec2 >( "v" );
 					v = sign( v );
@@ -2185,8 +2071,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< IVec3 >( "v" );
 					v = sign( v );
@@ -2204,8 +2089,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< IVec4 >( "v" );
 					v = sign( v );
@@ -2223,8 +2107,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = floor( v );
@@ -2242,8 +2125,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = floor( v );
@@ -2261,8 +2143,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = floor( v );
@@ -2280,8 +2161,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = floor( v );
@@ -2299,8 +2179,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = floor( v );
@@ -2318,8 +2197,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = floor( v );
@@ -2337,8 +2215,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = floor( v );
@@ -2356,8 +2233,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = floor( v );
@@ -2375,8 +2251,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = trunc( v );
@@ -2394,8 +2269,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = trunc( v );
@@ -2413,8 +2287,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = trunc( v );
@@ -2432,8 +2305,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = trunc( v );
@@ -2451,8 +2323,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = trunc( v );
@@ -2470,8 +2341,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = trunc( v );
@@ -2489,8 +2359,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = trunc( v );
@@ -2508,8 +2377,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = trunc( v );
@@ -2527,8 +2395,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = round( v );
@@ -2546,8 +2413,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = round( v );
@@ -2565,8 +2431,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = round( v );
@@ -2584,8 +2449,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = round( v );
@@ -2603,8 +2467,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = round( v );
@@ -2622,8 +2485,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = round( v );
@@ -2641,8 +2503,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = round( v );
@@ -2660,8 +2521,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = round( v );
@@ -2679,8 +2539,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = roundEven( v );
@@ -2698,8 +2557,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = roundEven( v );
@@ -2717,8 +2575,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = roundEven( v );
@@ -2736,8 +2593,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = roundEven( v );
@@ -2755,8 +2611,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = roundEven( v );
@@ -2774,8 +2629,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = roundEven( v );
@@ -2793,8 +2647,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = roundEven( v );
@@ -2812,8 +2665,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = roundEven( v );
@@ -2831,8 +2683,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = ceil( v );
@@ -2850,8 +2701,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = ceil( v );
@@ -2869,8 +2719,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = ceil( v );
@@ -2888,8 +2737,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = ceil( v );
@@ -2907,8 +2755,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = ceil( v );
@@ -2926,8 +2773,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = ceil( v );
@@ -2945,8 +2791,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = ceil( v );
@@ -2964,8 +2809,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = ceil( v );
@@ -2983,8 +2827,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Float >( "v" );
 					v = fract( v );
@@ -3002,8 +2845,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					v = fract( v );
@@ -3021,8 +2863,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec3 >( "v" );
 					v = fract( v );
@@ -3040,8 +2881,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					v = fract( v );
@@ -3059,8 +2899,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					v = fract( v );
@@ -3078,8 +2917,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec2 >( "v" );
 					v = fract( v );
@@ -3097,8 +2935,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec3 >( "v" );
 					v = fract( v );
@@ -3116,8 +2953,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< DVec4 >( "v" );
 					v = fract( v );
@@ -3135,8 +2971,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -3155,8 +2990,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -3175,8 +3009,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -3195,8 +3028,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -3215,8 +3047,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -3235,8 +3066,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -3255,8 +3085,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -3275,8 +3104,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -3295,8 +3123,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -3315,8 +3142,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -3335,8 +3161,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -3355,8 +3180,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -3375,8 +3199,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -3395,8 +3218,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -3415,8 +3237,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -3435,8 +3256,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -3455,8 +3275,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -3475,8 +3294,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -3495,8 +3313,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -3515,8 +3332,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -3535,8 +3351,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -3555,8 +3370,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -3575,8 +3389,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -3595,8 +3408,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -3615,8 +3427,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Int >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -3635,8 +3446,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec2 >( "v1" );
 					auto v2 = writer.declLocale< IVec2 >( "v2" );
@@ -3655,8 +3465,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec3 >( "v1" );
 					auto v2 = writer.declLocale< IVec3 >( "v2" );
@@ -3675,8 +3484,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec4 >( "v1" );
 					auto v2 = writer.declLocale< IVec4 >( "v2" );
@@ -3695,8 +3503,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UInt >( "v1" );
 					auto v2 = writer.declLocale< UInt >( "v2" );
@@ -3715,8 +3522,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec2 >( "v1" );
 					auto v2 = writer.declLocale< UVec2 >( "v2" );
@@ -3735,8 +3541,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec3 >( "v1" );
 					auto v2 = writer.declLocale< UVec3 >( "v2" );
@@ -3755,8 +3560,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec4 >( "v1" );
 					auto v2 = writer.declLocale< UVec4 >( "v2" );
@@ -3775,8 +3579,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -3795,8 +3598,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -3815,8 +3617,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -3835,8 +3636,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -3855,8 +3655,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -3875,8 +3674,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -3895,8 +3693,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -3915,8 +3712,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -3935,8 +3731,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Int >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -3955,8 +3750,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec2 >( "v1" );
 					auto v2 = writer.declLocale< IVec2 >( "v2" );
@@ -3975,8 +3769,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec3 >( "v1" );
 					auto v2 = writer.declLocale< IVec3 >( "v2" );
@@ -3995,8 +3788,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec4 >( "v1" );
 					auto v2 = writer.declLocale< IVec4 >( "v2" );
@@ -4015,8 +3807,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UInt >( "v1" );
 					auto v2 = writer.declLocale< UInt >( "v2" );
@@ -4035,8 +3826,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec2 >( "v1" );
 					auto v2 = writer.declLocale< UVec2 >( "v2" );
@@ -4055,8 +3845,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec3 >( "v1" );
 					auto v2 = writer.declLocale< UVec3 >( "v2" );
@@ -4075,8 +3864,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec4 >( "v1" );
 					auto v2 = writer.declLocale< UVec4 >( "v2" );
@@ -4095,8 +3883,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -4116,8 +3903,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -4137,8 +3923,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -4158,8 +3943,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -4179,8 +3963,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -4200,8 +3983,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -4221,8 +4003,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -4242,8 +4023,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -4263,8 +4043,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -4284,8 +4063,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -4305,8 +4083,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -4326,8 +4103,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -4347,8 +4123,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -4368,8 +4143,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -4389,8 +4163,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -4410,8 +4183,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -4431,8 +4203,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -4451,8 +4222,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -4471,8 +4241,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -4491,8 +4260,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -4511,8 +4279,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -4531,8 +4298,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -4551,8 +4317,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -4571,8 +4336,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -4591,8 +4355,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -4612,8 +4375,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -4633,8 +4395,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -4654,8 +4415,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -4675,8 +4435,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -4696,8 +4455,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -4717,8 +4475,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -4738,8 +4495,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -4759,8 +4515,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					sdw::isnan( v1 );
@@ -4778,8 +4533,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					sdw::isnan( v1 );
@@ -4797,8 +4551,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					sdw::isnan( v1 );
@@ -4816,8 +4569,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					sdw::isnan( v1 );
@@ -4835,8 +4587,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					sdw::isnan( v1 );
@@ -4854,8 +4605,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					sdw::isnan( v1 );
@@ -4873,8 +4623,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					sdw::isnan( v1 );
@@ -4892,8 +4641,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					sdw::isnan( v1 );
@@ -4911,8 +4659,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					sdw::isinf( v1 );
@@ -4930,8 +4677,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					sdw::isinf( v1 );
@@ -4949,8 +4695,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					sdw::isinf( v1 );
@@ -4968,8 +4713,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					sdw::isinf( v1 );
@@ -4987,8 +4731,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					sdw::isinf( v1 );
@@ -5006,8 +4749,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					sdw::isinf( v1 );
@@ -5025,8 +4767,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					sdw::isinf( v1 );
@@ -5044,8 +4785,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					sdw::isinf( v1 );
@@ -5063,8 +4803,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5083,8 +4822,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5103,8 +4841,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5123,8 +4860,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5143,8 +4879,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5163,8 +4898,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5183,8 +4917,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5203,8 +4936,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5223,8 +4955,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Int >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5243,8 +4974,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec2 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5263,8 +4993,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec3 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5283,8 +5012,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< IVec4 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5303,8 +5031,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UInt >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5323,8 +5050,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec2 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5343,8 +5069,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec3 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5363,8 +5088,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< UVec4 >( "v1" );
 					auto res = writer.declLocale( "res"
@@ -5383,8 +5107,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -5404,8 +5127,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -5425,8 +5147,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -5446,8 +5167,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -5467,8 +5187,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -5488,8 +5207,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -5509,8 +5227,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -5530,8 +5247,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -5551,8 +5267,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -5571,8 +5286,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< IVec2 >( "v2" );
@@ -5591,8 +5305,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< IVec3 >( "v2" );
@@ -5611,8 +5324,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< IVec4 >( "v2" );
@@ -5631,8 +5343,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -5651,8 +5362,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< IVec2 >( "v2" );
@@ -5671,8 +5381,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< IVec3 >( "v2" );
@@ -5691,8 +5400,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< IVec4 >( "v2" );
@@ -5711,8 +5419,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -5731,8 +5438,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< IVec2 >( "v2" );
@@ -5751,8 +5457,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< IVec3 >( "v2" );
@@ -5771,8 +5476,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< IVec4 >( "v2" );
@@ -5791,8 +5495,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -5811,8 +5514,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< IVec2 >( "v2" );
@@ -5831,8 +5533,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< IVec3 >( "v2" );
@@ -5851,8 +5552,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< IVec4 >( "v2" );
@@ -5871,8 +5571,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< UVec2 >( "v" );
 					auto r = writer.declLocale< Double >( "r" );
@@ -5891,8 +5590,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					auto r = writer.declLocale< UInt >( "r" );
@@ -5911,8 +5609,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					auto r = writer.declLocale< UInt >( "r" );
@@ -5931,8 +5628,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
 					auto r = writer.declLocale< UInt >( "r" );
@@ -5951,8 +5647,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					auto r = writer.declLocale< UInt >( "r" );
@@ -5971,8 +5666,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
 					auto r = writer.declLocale< UInt >( "r" );
@@ -5991,8 +5685,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< Double >( "v" );
 					auto r = writer.declLocale< UVec2 >( "r" );
@@ -6011,8 +5704,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< UInt >( "v" );
 					auto r = writer.declLocale< Vec2 >( "r" );
@@ -6031,8 +5723,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< UInt >( "v" );
 					auto r = writer.declLocale< Vec2 >( "r" );
@@ -6051,8 +5742,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< UInt >( "v" );
 					auto r = writer.declLocale< Vec2 >( "r" );
@@ -6071,8 +5761,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< UInt >( "v" );
 					auto r = writer.declLocale< Vec4 >( "r" );
@@ -6091,8 +5780,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< UInt >( "v" );
 					auto r = writer.declLocale< Vec4 >( "r" );
@@ -6111,8 +5799,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					length( v1 );
@@ -6130,8 +5817,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					length( v1 );
@@ -6149,8 +5835,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					length( v1 );
@@ -6168,8 +5853,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					length( v1 );
@@ -6187,8 +5871,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					length( v1 );
@@ -6206,8 +5889,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					length( v1 );
@@ -6225,8 +5907,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					length( v1 );
@@ -6244,8 +5925,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					length( v1 );
@@ -6263,8 +5943,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -6283,8 +5962,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -6303,8 +5981,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -6323,8 +6000,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -6343,8 +6019,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -6363,8 +6038,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -6383,8 +6057,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -6403,8 +6076,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -6423,8 +6095,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -6443,8 +6114,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -6463,8 +6133,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -6483,8 +6152,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -6503,8 +6171,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -6523,8 +6190,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -6543,8 +6209,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -6563,8 +6228,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -6583,8 +6247,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -6603,8 +6266,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -6623,8 +6285,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					normalize( v1 );
@@ -6642,8 +6303,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					normalize( v1 );
@@ -6661,8 +6321,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					normalize( v1 );
@@ -6680,8 +6339,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					normalize( v1 );
@@ -6699,8 +6357,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					normalize( v1 );
@@ -6718,8 +6375,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					normalize( v1 );
@@ -6737,8 +6393,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					normalize( v1 );
@@ -6756,8 +6411,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					normalize( v1 );
@@ -6775,8 +6429,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -6796,8 +6449,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -6817,8 +6469,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -6838,8 +6489,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -6859,8 +6509,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -6880,8 +6529,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -6901,8 +6549,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -6922,8 +6569,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -6943,8 +6589,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -6963,8 +6608,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -6983,8 +6627,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -7003,8 +6646,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -7023,8 +6665,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -7043,8 +6684,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -7063,8 +6703,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -7083,8 +6722,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -7103,8 +6741,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
@@ -7124,8 +6761,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -7145,8 +6781,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
@@ -7166,8 +6801,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
@@ -7187,8 +6821,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
@@ -7208,8 +6841,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
@@ -7229,8 +6861,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
@@ -7250,8 +6881,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
@@ -7272,8 +6902,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -7419,8 +7048,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -7482,8 +7110,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< LhsT >( "lhs" );
 					auto rhs = writer.declLocale< RhsT >( "rhs" );
@@ -7629,8 +7256,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
 					auto r = writer.declLocale( "r"
@@ -7774,8 +7400,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< Mat2 >( "m" );
 					determinant( m );
@@ -7793,8 +7418,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< DMat2 >( "m" );
 					determinant( m );
@@ -7812,8 +7436,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< Mat3 >( "m" );
 					determinant( m );
@@ -7831,8 +7454,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< DMat3 >( "m" );
 					determinant( m );
@@ -7850,8 +7472,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< Mat4 >( "m" );
 					determinant( m );
@@ -7869,8 +7490,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< DMat4 >( "m" );
 					determinant( m );
@@ -7888,8 +7508,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< Mat2 >( "m" );
 					m = inverse( m );
@@ -7907,8 +7526,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< DMat2 >( "m" );
 					m = inverse( m );
@@ -7926,8 +7544,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< Mat3 >( "m" );
 					m = inverse( m );
@@ -7945,8 +7562,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< DMat3 >( "m" );
 					m = inverse( m );
@@ -7964,8 +7580,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< Mat4 >( "m" );
 					m = inverse( m );
@@ -7983,8 +7598,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto m = writer.declLocale< DMat4 >( "m" );
 					m = inverse( m );
@@ -8003,8 +7617,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -8108,8 +7721,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -8213,8 +7825,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -8318,8 +7929,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -8423,8 +8033,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -8528,8 +8137,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
 					auto rhs = writer.declLocale< ValueT >( "rhs" );
@@ -8633,8 +8241,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
 					auto res = writer.declLocale( "res"
@@ -8674,8 +8281,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
 					auto res = writer.declLocale( "res"
@@ -8715,8 +8321,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
 					auto res = writer.declLocale( "res"
@@ -8755,8 +8360,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto y = writer.declLocale< UInt >( "y" );
@@ -8778,8 +8382,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto y = writer.declLocale< UVec2 >( "y" );
@@ -8801,8 +8404,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto y = writer.declLocale< UVec3 >( "y" );
@@ -8824,8 +8426,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto y = writer.declLocale< UVec4 >( "y" );
@@ -8847,8 +8448,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto y = writer.declLocale< UInt >( "y" );
@@ -8870,8 +8470,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto y = writer.declLocale< UVec2 >( "y" );
@@ -8893,8 +8492,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto y = writer.declLocale< UVec3 >( "y" );
@@ -8916,8 +8514,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto y = writer.declLocale< UVec4 >( "y" );
@@ -8939,8 +8536,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto y = writer.declLocale< UInt >( "y" );
@@ -8962,8 +8558,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto y = writer.declLocale< UVec2 >( "y" );
@@ -8985,8 +8580,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto y = writer.declLocale< UVec3 >( "y" );
@@ -9008,8 +8602,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto y = writer.declLocale< UVec4 >( "y" );
@@ -9031,8 +8624,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto y = writer.declLocale< Int >( "y" );
@@ -9054,8 +8646,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto y = writer.declLocale< IVec2 >( "y" );
@@ -9077,8 +8668,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto y = writer.declLocale< IVec3 >( "y" );
@@ -9100,8 +8690,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto y = writer.declLocale< IVec4 >( "y" );
@@ -9123,8 +8712,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9145,8 +8733,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9167,8 +8754,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9189,8 +8775,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9211,8 +8796,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9233,8 +8817,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9255,8 +8838,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9277,8 +8859,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
@@ -9299,8 +8880,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto y = writer.declLocale< Int >( "y" );
@@ -9322,8 +8902,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto y = writer.declLocale< IVec2 >( "y" );
@@ -9345,8 +8924,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto y = writer.declLocale< IVec3 >( "y" );
@@ -9368,8 +8946,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto y = writer.declLocale< IVec4 >( "y" );
@@ -9391,8 +8968,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto y = writer.declLocale< UInt >( "y" );
@@ -9414,8 +8990,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto y = writer.declLocale< UVec2 >( "y" );
@@ -9437,8 +9012,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto y = writer.declLocale< UVec3 >( "y" );
@@ -9460,8 +9034,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto y = writer.declLocale< UVec4 >( "y" );
@@ -9483,8 +9056,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9503,8 +9075,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9523,8 +9094,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9543,8 +9113,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9563,8 +9132,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9583,8 +9151,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9603,8 +9170,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9623,8 +9189,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9643,8 +9208,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9663,8 +9227,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9683,8 +9246,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9703,8 +9265,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9723,8 +9284,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9743,8 +9303,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9763,8 +9322,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9783,8 +9341,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9803,8 +9360,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9823,8 +9379,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9843,8 +9398,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9863,8 +9417,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9883,8 +9436,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9903,8 +9455,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9923,8 +9474,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9943,8 +9493,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9963,8 +9512,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x" );
 					auto r = writer.declLocale( "r"
@@ -9983,8 +9531,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10003,8 +9550,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10023,8 +9569,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< IVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10043,8 +9588,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10063,8 +9607,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec2 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10083,8 +9626,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec3 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10103,8 +9645,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UVec4 >( "x" );
 					auto r = writer.declLocale( "r"
@@ -10128,8 +9669,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10155,8 +9695,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10182,8 +9721,7 @@ namespace
 			type.declMember< sdw::Float >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Float >( "x", 0.0_f );
 					writer.declLocale( "r"
@@ -10210,8 +9748,7 @@ namespace
 			type.declMember< sdw::HVec2 >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
 					writer.declLocale( "r"
@@ -10238,8 +9775,7 @@ namespace
 			type.declMember< sdw::HVec4 >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
 					writer.declLocale( "r"
@@ -10266,8 +9802,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10293,8 +9828,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10320,8 +9854,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10347,8 +9880,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10374,8 +9906,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10401,8 +9932,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10428,8 +9958,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10455,8 +9984,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10482,8 +10010,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10509,8 +10036,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10536,8 +10062,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Int >( "x", 0_i );
 					writer.declLocale( "r"
@@ -10563,8 +10088,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< UInt >( "x", 0_u );
 					writer.declLocale( "r"
@@ -10590,8 +10114,7 @@ namespace
 			type.declMember< sdw::Float >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< Float >( "x", 0.0_f );
 					writer.declLocale( "r"
@@ -10618,8 +10141,7 @@ namespace
 			type.declMember< sdw::HVec2 >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
 					writer.declLocale( "r"
@@ -10646,8 +10168,7 @@ namespace
 			type.declMember< sdw::HVec4 >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
 					writer.declLocale( "r"
@@ -10674,8 +10195,7 @@ namespace
 			type.declMember< sdw::Int >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto c = writer.declLocale< Int >( "c", 0_i );
 					auto v = writer.declLocale< Int >( "v", 1_i );
@@ -10702,8 +10222,7 @@ namespace
 			type.declMember< sdw::UInt >( name );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto c = writer.declLocale< UInt >( "c", 0_u );
 					auto v = writer.declLocale< UInt >( "v", 1_u );
@@ -10725,8 +10244,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					dFdx( v1 );
@@ -10744,8 +10262,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					dFdx( v1 );
@@ -10763,8 +10280,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					dFdx( v1 );
@@ -10782,8 +10298,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					dFdx( v1 );
@@ -10801,8 +10316,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					dFdxCoarse( v1 );
@@ -10820,8 +10334,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					dFdxCoarse( v1 );
@@ -10839,8 +10352,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					dFdxCoarse( v1 );
@@ -10858,8 +10370,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					dFdxCoarse( v1 );
@@ -10877,8 +10388,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					dFdxFine( v1 );
@@ -10896,8 +10406,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					dFdxFine( v1 );
@@ -10915,8 +10424,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					dFdxFine( v1 );
@@ -10934,8 +10442,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					dFdxFine( v1 );
@@ -10953,8 +10460,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					dFdy( v1 );
@@ -10972,8 +10478,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					dFdy( v1 );
@@ -10991,8 +10496,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					dFdy( v1 );
@@ -11010,8 +10514,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					dFdy( v1 );
@@ -11029,8 +10532,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					dFdyCoarse( v1 );
@@ -11048,8 +10550,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					dFdyCoarse( v1 );
@@ -11067,8 +10568,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					dFdyCoarse( v1 );
@@ -11086,8 +10586,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					dFdyCoarse( v1 );
@@ -11105,8 +10604,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					dFdyFine( v1 );
@@ -11124,8 +10622,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					dFdyFine( v1 );
@@ -11143,8 +10640,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					dFdyFine( v1 );
@@ -11162,8 +10658,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					dFdyFine( v1 );
@@ -11181,8 +10676,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					fwidth( v1 );
@@ -11200,8 +10694,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					fwidth( v1 );
@@ -11219,8 +10712,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					fwidth( v1 );
@@ -11238,8 +10730,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					fwidth( v1 );
@@ -11257,8 +10748,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					interpolateAtCentroid( v1 );
@@ -11276,8 +10766,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					interpolateAtCentroid( v1 );
@@ -11295,8 +10784,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					interpolateAtCentroid( v1 );
@@ -11314,8 +10802,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					interpolateAtCentroid( v1 );
@@ -11333,8 +10820,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -11353,8 +10839,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -11373,8 +10858,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -11393,8 +10877,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Int >( "v2" );
@@ -11413,8 +10896,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -11433,8 +10915,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -11453,8 +10934,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
@@ -11473,8 +10953,7 @@ namespace
 		{
 			ComputeWriter writer;
 			writer.inputLayout( 1u );
-			writer.implementFunction< sdw::Void >( "main"
-				, [&]()
+			writer.implementMain( [&]()
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );

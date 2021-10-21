@@ -225,7 +225,7 @@ namespace hlsl
 	{
 		auto funcType = stmt->getType();
 
-		if ( stmt->getName() == "main" )
+		if ( stmt->isEntryPoint() )
 		{
 			for ( auto & param : *funcType )
 			{
@@ -262,8 +262,10 @@ namespace hlsl
 				ast::var::VariableList parameters;
 				parameters.push_back( m_adaptationData.inputVar );
 				parameters.push_back( m_adaptationData.mainOutputVar );
-				auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), parameters )
-					, stmt->getName() );
+				auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType()
+						, parameters )
+					, stmt->getName()
+					, stmt->getFlags() );
 				auto save = m_current;
 				m_current = cont.get();
 				m_current->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
@@ -283,7 +285,8 @@ namespace hlsl
 
 				// Write SDW_main function
 				rewriteShaderIOVars();
-				auto sdwMainCont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), ast::var::VariableList{} )
+				auto sdwMainCont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType()
+						, ast::var::VariableList{} )
 					, "SDW_" + stmt->getName() );
 				sdwMainCont->addStmt( std::move( cont ) );
 				m_current->addStmt( std::move( sdwMainCont ) );
@@ -622,7 +625,8 @@ namespace hlsl
 		}
 
 		auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( mainRetType, mainParameters )
-			, stmt->getName() );
+			, stmt->getName()
+			, stmt->getFlags() );
 
 		// Assign main inputs to global inputs, if needed
 		if ( !m_adaptationData.mainInputStruct->empty()
@@ -743,7 +747,8 @@ namespace hlsl
 		}
 
 		return ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
-			, stmt->getName() );
+			, stmt->getName()
+			, stmt->getFlags() );
 	}
 
 	void StmtAdapter::registerGeometryInput( ast::var::VariablePtr var

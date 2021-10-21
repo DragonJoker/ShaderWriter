@@ -5,7 +5,7 @@ namespace
 {
 #define DummyMain \
 	writer.inputLayout( 1, 1, 1 );\
-	writer.implementFunction< sdw::Void >( "main", [](){} )
+	writer.implementMain( [](){} )
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::AccessKind AccessT

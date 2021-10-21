@@ -322,22 +322,26 @@ namespace sdw
 	inline stmt::FunctionDeclPtr getFunctionHeader( ShaderWriter & writer
 		, ast::var::VariableList & args
 		, std::string const & name
+		, stmt::FunctionFlag flag
 		, ParamsT && ... params )
 	{
 		auto & cache = getTypesCache( writer );
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 		return stmt::makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
-			, name );
+			, name
+			, flag );
 	}
 
 	template<>
 	inline stmt::FunctionDeclPtr getFunctionHeader< void >( ShaderWriter & writer
 		, ast::var::VariableList & args
-		, std::string const & name )
+		, std::string const & name
+		, stmt::FunctionFlag flag )
 	{
 		auto & cache = getTypesCache( writer );
 		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), args )
-			, name );
+			, name
+			, flag );
 	}
 
 	//***********************************************************************************************

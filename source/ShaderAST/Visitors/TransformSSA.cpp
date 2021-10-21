@@ -2123,7 +2123,7 @@ namespace ast
 
 			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
-				if ( stmt->getName() == "main" )
+				if ( stmt->isEntryPoint() )
 				{
 					if ( stmt->getType()->size() < 2u
 						&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
@@ -2147,7 +2147,8 @@ namespace ast
 							, std::move( parameters ) );
 						auto save = m_current;
 						auto cont = stmt::makeFunctionDecl( funcType
-							, stmt->getName() );
+							, stmt->getName()
+							, stmt->getFlags() );
 						m_current = cont.get();
 						visitContainerStmt( stmt );
 						m_current = save;
