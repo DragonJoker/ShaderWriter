@@ -103,6 +103,7 @@ namespace spirv
 	{
 		if ( stmt->getFlags() )
 		{
+			bool isEntryPoint = stmt->isEntryPoint();
 			auto funcType = stmt->getType();
 
 			for ( auto & param : *funcType )
@@ -112,12 +113,14 @@ namespace spirv
 				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
 					doProcessGeometryOutput( param
-						, static_cast< ast::type::GeometryOutput const & >( *type ) );
+						, static_cast< ast::type::GeometryOutput const & >( *type )
+						, stmt->getName() );
 				}
 				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
 				{
 					doProcessGeometryInput( param
-						, static_cast< ast::type::GeometryInput const & >( *type ) );
+						, static_cast< ast::type::GeometryInput const & >( *type )
+						, stmt->getName() );
 				}
 				else
 				{
@@ -138,12 +141,16 @@ namespace spirv
 						{
 							doProcessInput( param
 								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize );
+								, arraySize
+								, stmt->getName()
+								, isEntryPoint );
 						}
 						else if ( structType->isShaderOutput() )
 						{
 							doProcessOutput( param
-								, static_cast< ast::type::IOStruct const & >( *structType ) );
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, stmt->getName()
+								, isEntryPoint );
 						}
 						else if ( param->isPatchInput() )
 						{
@@ -446,7 +453,8 @@ namespace spirv
 	}
 
 	void StmtConfigFiller::doProcessGeometryOutput( ast::var::VariablePtr var
-		, ast::type::GeometryOutput const & geomType )
+		, ast::type::GeometryOutput const & geomType
+		, std::string const & name )
 	{
 		auto type = geomType.type;
 
@@ -455,12 +463,15 @@ namespace spirv
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			assert( structType.isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType ) );
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, name
+				, true );
 		}
 	}
 
 	void StmtConfigFiller::doProcessGeometryInput( ast::var::VariablePtr var
-		, ast::type::GeometryInput const & geomType )
+		, ast::type::GeometryInput const & geomType
+		, std::string const & name )
 	{
 		auto type = geomType.type;
 
@@ -470,14 +481,25 @@ namespace spirv
 			assert( structType.isShaderInput() );
 			doProcessInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, getArraySize( geomType.layout ) );
+				, getArraySize( geomType.layout )
+				, name
+				, true );
 		}
 	}
 
 	void StmtConfigFiller::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType )
+		, ast::type::IOStruct const & ioType
+		, std::string const & name
+		, bool isEntryPoint )
 	{
-		m_result.output = var;
+		if ( isEntryPoint )
+		{
+			m_result.output = var;
+		}
+		else
+		{
+			m_result.outputMapping.emplace( var, name );
+		}
 
 		for ( auto & mbr : ioType )
 		{
@@ -489,9 +511,18 @@ namespace spirv
 
 	void StmtConfigFiller::doProcessInput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & ioType
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, std::string const & name
+		, bool isEntryPoint )
 	{
-		m_result.input = var;
+		if ( isEntryPoint )
+		{
+			m_result.input = var;
+		}
+		else
+		{
+			m_result.inputMapping.emplace( var, name );
+		}
 
 		for ( auto & mbr : ioType )
 		{
@@ -505,12 +536,16 @@ namespace spirv
 	void StmtConfigFiller::doProcessOutputPatch( ast::var::VariablePtr var
 		, ast::type::StructPtr const & structType )
 	{
-		m_result.outputs.emplace( var );
+		m_result.addPatchOutput( var->getName()
+			, var->getType()
+			, var->getFlags() );
 	}
 
 	void StmtConfigFiller::doProcessInputPatch( ast::var::VariablePtr var
 		, ast::type::StructPtr const & structType )
 	{
-		m_result.inputs.emplace( var );
+		m_result.addPatchInput( var->getName()
+			, var->getType()
+			, var->getFlags() );
 	}
 }

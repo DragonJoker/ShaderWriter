@@ -25,7 +25,6 @@ namespace spirv
 		, AdaptationData & adaptationData )
 		: StmtCloner{ result }
 		, m_adaptationData{ adaptationData }
-		, m_entryPointFinish{ ast::stmt::makeContainer() }
 	{
 	}
 
@@ -69,65 +68,8 @@ namespace spirv
 	{
 		if ( stmt->getFlags() )
 		{
-			auto funcType = stmt->getType();
-			bool isEntryPoint = stmt->isEntryPoint();
-
-			for ( auto & param : *funcType )
-			{
-				auto type = param->getType();
-
-				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
-				{
-					doProcessGeometryOutput( param
-						, static_cast< ast::type::GeometryOutput const & >( *type ) );
-				}
-				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
-				{
-					doProcessGeometryInput( param
-						, static_cast< ast::type::GeometryInput const & >( *type ) );
-				}
-				else
-				{
-					uint32_t arraySize = ast::type::NotArray;
-
-					if ( type->getKind() == ast::type::Kind::eArray )
-					{
-						auto & arrayType = static_cast< ast::type::Array const & >( *type );
-						type = arrayType.getType();
-						arraySize = arrayType.getArraySize();
-					}
-
-					if ( type->getKind() == ast::type::Kind::eStruct )
-					{
-						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-
-						if ( structType->isShaderInput() )
-						{
-							doProcessInput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, isEntryPoint );
-						}
-						else if ( structType->isShaderOutput() )
-						{
-							doProcessOutput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, isEntryPoint );
-						}
-						else if ( param->isPatchInput() )
-						{
-							doProcessInputPatch( param
-								, structType
-								, isEntryPoint );
-						}
-						else if ( param->isPatchOutput() )
-						{
-							doProcessOutputPatch( param
-								, structType
-								, isEntryPoint );
-						}
-					}
-				}
-			}
+			doProcessInOut( stmt->getType()
+				, stmt->isEntryPoint() );
 
 			if ( stmt->isEntryPoint() )
 			{
@@ -388,7 +330,7 @@ namespace spirv
 	{
 		if ( isEntryPoint )
 		{
-			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			doDeclareStruct( structType );
 			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 		}
 	}
@@ -399,7 +341,7 @@ namespace spirv
 	{
 		if ( isEntryPoint )
 		{
-			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			doDeclareStruct( structType );
 			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 		}
 	}
@@ -415,7 +357,12 @@ namespace spirv
 
 		if ( stmt->isEntryPoint() )
 		{
-			visitContainerStmt( m_entryPointFinish.get() );
+			for ( auto & pending : m_pending )
+			{
+				doProcessInOut( pending.second.funcType
+					, false );
+				visitContainerStmt( pending.second.statements.get() );
+			}
 		}
 
 		m_current = save;
@@ -425,8 +372,80 @@ namespace spirv
 	void StmtAdapter::doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
 	{
 		auto save = m_current;
-		m_current = m_entryPointFinish.get();
+		auto cont = ast::stmt::makeContainer();
+		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
+		m_pending.emplace( stmt->getName()
+			, PendingFunction{ stmt->getType(), std::move( cont ) } );
+	}
+
+	void StmtAdapter::doProcessInOut( ast::type::FunctionPtr funcType
+		, bool isEntryPoint )
+	{
+		for ( auto & param : *funcType )
+		{
+			auto type = param->getType();
+
+			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				doProcessGeometryOutput( param
+					, static_cast< ast::type::GeometryOutput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+			{
+				doProcessGeometryInput( param
+					, static_cast< ast::type::GeometryInput const & >( *type ) );
+			}
+			else
+			{
+				uint32_t arraySize = ast::type::NotArray;
+
+				if ( type->getKind() == ast::type::Kind::eArray )
+				{
+					auto & arrayType = static_cast< ast::type::Array const & >( *type );
+					type = arrayType.getType();
+					arraySize = arrayType.getArraySize();
+				}
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+					if ( structType->isShaderInput() )
+					{
+						doProcessInput( param
+							, static_cast< ast::type::IOStruct const & >( *structType )
+							, isEntryPoint );
+					}
+					else if ( structType->isShaderOutput() )
+					{
+						doProcessOutput( param
+							, static_cast< ast::type::IOStruct const & >( *structType )
+							, isEntryPoint );
+					}
+					else if ( param->isPatchInput() )
+					{
+						doProcessInputPatch( param
+							, structType
+							, isEntryPoint );
+					}
+					else if ( param->isPatchOutput() )
+					{
+						doProcessOutputPatch( param
+							, structType
+							, isEntryPoint );
+					}
+				}
+			}
+		}
+	}
+
+	void StmtAdapter::doDeclareStruct( ast::type::StructPtr const & structType )
+	{
+		if ( m_declaredStructs.emplace( structType ).second )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+		}
 	}
 }

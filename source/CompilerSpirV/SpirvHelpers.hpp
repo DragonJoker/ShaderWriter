@@ -21,17 +21,27 @@ namespace spirv
 	{
 		std::set< spv::Capability > requiredCapabilities;
 		ast::var::VariablePtr input;
+		std::map< ast::var::VariablePtr, std::string > inputMapping;
 		std::set< ast::var::VariablePtr > inputs;
 		ast::var::VariablePtr output;
+		std::map< ast::var::VariablePtr, std::string > outputMapping;
 		std::set< ast::var::VariablePtr > outputs;
 		mutable uint32_t nextVarId{ 0u };
 		mutable uint32_t aliasId{ 0u };
 
+		bool isInput( ast::var::VariablePtr var )const;
+		bool isOutput( ast::var::VariablePtr var )const;
 		void addShaderInput( std::string const & name
 			, ast::type::TypePtr type
 			, uint32_t flags
 			, uint32_t arraySize );
 		void addShaderOutput( std::string const & name
+			, ast::type::TypePtr type
+			, uint32_t flags );
+		void addPatchInput( std::string const & name
+			, ast::type::TypePtr type
+			, uint32_t flags );
+		void addPatchOutput( std::string const & name
 			, ast::type::TypePtr type
 			, uint32_t flags );
 	};
