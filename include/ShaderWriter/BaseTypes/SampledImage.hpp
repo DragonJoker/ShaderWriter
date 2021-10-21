@@ -155,6 +155,13 @@ namespace sdw
 		{
 			SDW_DeclValue( , SampledImageFuncsT );
 
+			static constexpr ast::type::ImageFormat Format = FormatT;
+			static constexpr ast::type::ImageDim Dim = DimT;
+			static constexpr bool Arrayed = ArrayedT;
+			static constexpr bool Depth = DepthT;
+			static constexpr bool Ms = MsT;
+			using Enable = EnableT;
+
 			inline SampledImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );

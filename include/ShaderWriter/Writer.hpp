@@ -217,12 +217,23 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
+		template< typename T >
+		inline T declSampledImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
 		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSampledImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -245,6 +256,11 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
+		template< typename T >
+		inline T declImage( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
@@ -252,6 +268,12 @@ namespace sdw
 			, bool DepthT
 			, bool MsT >
 		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declImageArray( std::string const & name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
