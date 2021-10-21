@@ -10,8 +10,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				i++;
@@ -30,8 +29,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				++i;
@@ -50,8 +48,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", i++ );
@@ -69,8 +66,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", ++i );
@@ -88,8 +84,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				writer.ifStmt( sdw::makeCondition( i++ )
@@ -111,8 +106,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				IF( writer, ++i )
@@ -134,8 +128,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				{
 					auto & writerInt = ( writer );
@@ -168,8 +161,7 @@ namespace
 
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				FOR( writer, Int, i, 0_i, i < 12_i, ++i )
 				{

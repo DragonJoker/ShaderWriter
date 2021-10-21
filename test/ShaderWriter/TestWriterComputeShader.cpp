@@ -13,8 +13,7 @@ namespace
 		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declImage< RWUImg2DR32 >( "img", 1u, 0u );
 
-		writer.inputLayout( 16u, 16u );
-		writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeInT< VoidT > in )
 			{
 				ssbo[in.globalInvocationID.x()]
 					= ssbo[in.globalInvocationID.x()]
@@ -56,8 +55,7 @@ namespace
 			, InVec2{ writer, "texcoord" }
 			, OutVec4Array{ writer, "offset", 3u } );
 
-		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto csPosition = writer.declLocale< Vec4 >( "csPosition" );
 				csPosition.xyz() /= csPosition.w();
@@ -92,8 +90,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		writer.inputLayout( 16 );
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto o = writer.declLocaleArray( "o"
 					, 6u
@@ -121,9 +118,8 @@ namespace
 			ComputeWriter writer;
 			auto kernelImage =
 				writer.declImage<RWFImg2DRgba32>( "kernelImage", 0, 0 );
-			writer.inputLayout( 32u );
 
-			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
 				{
 					IVec2 iuv = writer.declLocale(
 						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
@@ -194,8 +190,6 @@ namespace
 			using namespace sdw;
 			ComputeWriter writer;
 
-			writer.inputLayout( 256u, 1u, 1u );
-
 			// Inputs
 			sdw::Ubo voxelizer{ writer
 				, "VoxelUbo"
@@ -257,7 +251,7 @@ namespace
 				, InUInt{ writer, "idx" }
 				, InUVec3{ writer, "dim" } );
 
-			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+			writer.implementMainT< VoidT >( 256u, [&]( ComputeIn in )
 				{
 					auto color = writer.declLocale( "color"
 						, decodeColor( voxels[in.globalInvocationID.x()].colorMask ) );
@@ -291,9 +285,8 @@ namespace
 			ComputeWriter writer;
 			auto srcImage = writer.declImage<RFImg2DRgba32>( "srcImage", 0, 0 );
 			auto dstImage = writer.declImageArray<RWFImg2DRgba32>( "dstImage", 1, 0, 8u );
-			writer.inputLayout( 32u );
 
-			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
 				{
 					IVec2 iuv = writer.declLocale(
 						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
@@ -318,14 +311,13 @@ namespace
 		ShaderArray shaders;
 		{
 			auto writer = ComputeWriter{};
-			writer.inputLayout( 16u, 16u );
 
 			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
 
-			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+			writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 				{
 					auto tmp = writer.declLocale( "tmp"
 						, normalize( transpose( mat3( mtx ) ) * pos ) );
@@ -346,7 +338,6 @@ namespace
 		ShaderArray shaders;
 		{
 			ComputeWriter writer;
-			writer.inputLayout( 16u, 16u );
 
 			auto foo = writer.implementFunction< sdw::Vec4 >( "foo"
 				, [&]( Vec3 const & t
@@ -359,7 +350,7 @@ namespace
 				, InVec3{ writer, "t" }
 				, InVec2{ writer, "dir" } );
 
-			writer.implementMainT< VoidT >( [&]( ComputeInT< VoidT > in )
+			writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 				{
 					auto t = writer.declLocale( "t", vec3( 0.5_f ) );
 					auto dir = writer.declLocale( "dir", vec2( 1.0_f ) );
