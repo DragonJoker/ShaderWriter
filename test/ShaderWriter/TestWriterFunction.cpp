@@ -1812,6 +1812,40 @@ namespace
 		testEnd();
 	}
 
+	void nestedFunctionDecl( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "nestedFunctionDecl" );
+		using namespace sdw;
+		ComputeWriter writer;
+		writer.inputLayout( 16 );
+
+		writer.implementMain( [&]()
+			{
+				auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
+					, [&]( Float const & gamma
+						, Vec3 const & srgb )
+					{
+						IF( writer, gamma < 0.0_f )
+						{
+							writer.returnStmt( srgb );
+						}
+						FI;
+
+						writer.returnStmt( pow( srgb, vec3( gamma ) ) );
+					}
+					, InFloat{ writer, "gamma" }
+					, InVec3{ writer, "srgb" } );
+
+				auto f = writer.declLocale< Float >( "f" );
+				auto v = writer.declLocale< Vec3 >( "v" );
+				v = removeGamma( f, v );
+			} );
+
+		test::writeShader( writer
+			, testCounts );
+		testEnd();
+	}
+
 	template< typename ValueT >
 	void testParams( test::sdw_test::TestCounts & testCounts )
 	{
@@ -1910,6 +1944,7 @@ sdwTestSuiteMain( TestWriterFunction )
 	returnAfterWhile( testCounts );
 	paramInWhile( testCounts );
 	paramMbrAccessInWhile( testCounts );
+	nestedFunctionDecl( testCounts );
 	sdwTestSuiteEnd();
 }
 

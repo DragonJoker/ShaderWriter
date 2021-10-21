@@ -410,6 +410,23 @@ namespace ast
 		}
 	}
 
+	void Shader::addFuncStmt( stmt::StmtPtr stmt )
+	{
+		if ( m_ignore )
+		{
+			if ( stmt->getKind() == ast::stmt::Kind::eSimple )
+			{
+				m_savedStmt = std::move( stmt );
+			}
+
+			m_ignore = false;
+		}
+		else
+		{
+			getFuncContainer()->addStmt( std::move( stmt ) );
+		}
+	}
+
 	void Shader::registerSsbo( std::string const & name
 		, SsboInfo const & info )
 	{

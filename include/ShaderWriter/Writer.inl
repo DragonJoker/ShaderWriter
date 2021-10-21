@@ -77,7 +77,7 @@ namespace sdw
 		function( params... );
 		doPopScope();
 		auto functionType = decl->getType();
-		addStmt( std::move( decl ) );
+		addFuncStmt( std::move( decl ) );
 		return Function< ReturnT, ParamsT... >{ *this, functionType, name };
 	}
 
