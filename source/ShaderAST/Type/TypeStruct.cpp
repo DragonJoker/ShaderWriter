@@ -765,7 +765,15 @@ namespace ast::type
 					|| ( static_cast< type::GeometryInput const & >( *type ).type->getKind() == type::Kind::eArray
 						&& static_cast< type::Array const & >( *static_cast< type::GeometryInput const & >( *type ).type ).getType()->getKind() == type::Kind::eStruct ) ) )
 			|| ( type->getKind() == type::Kind::eGeometryOutput
-				&& static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct );
+				&& static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct )
+			|| ( type->getKind() == type::Kind::eTessellationOutputPatch
+				&& static_cast< type::TessellationOutputPatch const & >( *type ).getType()->getKind() == type::Kind::eStruct )
+			|| ( type->getKind() == type::Kind::eTessellationControlInput
+				&& static_cast< type::TessellationControlInput const & >( *type ).getType()->getKind() == type::Kind::eStruct )
+			|| ( type->getKind() == type::Kind::eTessellationControlOutput
+				&& ( static_cast< type::TessellationControlOutput const & >( *type ).getType()->getKind() == type::Kind::eStruct
+					|| ( static_cast< type::TessellationControlOutput const & >( *type ).getType()->getKind() == type::Kind::eArray
+						&& static_cast< type::Array const & >( *static_cast< type::TessellationControlOutput const & >( *type ).getType() ).getType()->getKind() == type::Kind::eStruct ) ) );
 	}
 
 	type::StructPtr getStructType( type::TypePtr type )
@@ -790,6 +798,25 @@ namespace ast::type
 			else if ( type->getKind() == type::Kind::eGeometryOutput )
 			{
 				type = static_cast< type::GeometryOutput const & >( *type ).type;
+			}
+			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
+			{
+				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType();
+			}
+			else if ( type->getKind() == type::Kind::eTessellationControlInput )
+			{
+				type = static_cast< type::TessellationControlInput const & >( *type ).getType();
+			}
+			else if ( type->getKind() == type::Kind::eTessellationControlOutput )
+			{
+				type = static_cast< type::TessellationControlOutput const & >( *type ).getType();
+
+				if ( type->getKind() == type::Kind::eArray )
+				{
+					return getStructType( static_cast< type::Array const & >( *type ).getType() );
+				}
+
+				return nullptr;
 			}
 			else
 			{

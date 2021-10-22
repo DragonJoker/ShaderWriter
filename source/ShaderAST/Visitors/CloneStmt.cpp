@@ -203,6 +203,16 @@ namespace ast
 			, stmt->getPrimCount() ) );
 	}
 
+	void StmtCloner::visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout * stmt )
+	{
+		m_current->addStmt( stmt::makeOutputTessellationControlLayout( stmt->getType()
+			, stmt->getDomain()
+			, stmt->getPartitioning()
+			, stmt->getTopology()
+			, stmt->getVertexOrder()
+			, stmt->getOutputVertices() ) );
+	}
+
 	void StmtCloner::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
 	{
 		m_current->addStmt( stmt::makePerVertexDecl( stmt->getSource()

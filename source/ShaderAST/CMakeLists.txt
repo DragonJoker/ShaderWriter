@@ -258,6 +258,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtList.hpp
 	${INCLUDE_DIR}/Stmt/StmtLoop.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputGeometryLayout.hpp
+	${INCLUDE_DIR}/Stmt/StmtOutputTessellationControlLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtPerVertexDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPushConstantsBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtReturn.hpp
@@ -304,6 +305,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtInputGeometryLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtLoop.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputGeometryLayout.cpp
+	${SOURCE_DIR}/Stmt/StmtOutputTessellationControlLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtPerVertexDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPushConstantsBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtReturn.cpp
@@ -349,6 +351,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
+	${INCLUDE_DIR}/Type/TypeTessellationControlIO.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/ImageConfiguration.cpp
@@ -362,6 +365,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeSampledImage.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
+	${SOURCE_DIR}/Type/TypeTessellationControlIO.cpp
 )
 source_group( "Header Files\\Type"
 	FILES

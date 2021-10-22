@@ -227,6 +227,24 @@ namespace glsl
 				return std::string{};
 			}
 		}
+
+		void join( std::string & lhs
+			, std::string const & rhs
+			, std::string const & sep )
+		{
+			if ( lhs.empty() )
+			{
+				lhs = rhs;
+				return;
+			}
+
+			if ( rhs.empty() )
+			{
+				return;
+			}
+
+			lhs = lhs + sep + rhs;
+		}
 	}
 
 	//*************************************************************************
@@ -556,11 +574,11 @@ namespace glsl
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent;
-		m_result += getInOutLayout( m_writerConfig, *stmt ) + " ";
-		m_result += getInterpolationQualifier( *stmt->getVariable() ) + " ";
-		m_result += getDirectionName( *stmt->getVariable() ) + " ";
-		m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+		m_result += m_indent + getInOutLayout( m_writerConfig, *stmt );
+		join( m_result, getInterpolationQualifier( *stmt->getVariable() ), " " );
+		join( m_result, getDirectionName( *stmt->getVariable() ), " " );
+		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+		join( m_result, stmt->getVariable()->getName(), " " );
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
@@ -606,6 +624,12 @@ namespace glsl
 		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
 	}
 
+	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "layout(vertices=" + std::to_string( stmt->getOutputVertices() ) + ") out;\n";
+	}
+
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 		m_appendLineEnd = true;
@@ -640,6 +664,8 @@ namespace glsl
 			m_result += m_indent + "out " + decl + ";\n";
 			break;
 		}
+
+		m_appendLineEnd = true;
 	}
 
 	void StmtVisitor::visitReturnStmt( ast::stmt::Return * stmt )
@@ -815,9 +841,10 @@ namespace glsl
 		{
 			doAppendLineEnd();
 			m_result += m_indent;
-			m_result += getDirectionName( *stmt->getVariable() ) + " ";
-			m_result += getInterpolationQualifier( *stmt->getVariable() ) + " ";
-			m_result += getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+			join( m_result, getDirectionName( *stmt->getVariable() ), " " );
+			join( m_result, getInterpolationQualifier( *stmt->getVariable() ), " " );
+			join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+			join( m_result, stmt->getVariable()->getName(), " " );
 			m_result += getTypeArraySize( stmt->getVariable()->getType() );
 			m_result += ";\n";
 		}

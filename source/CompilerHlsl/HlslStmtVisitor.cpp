@@ -7,22 +7,86 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
+	namespace
+	{
+		std::string getName( ast::type::OutputDomain value )
+		{
+			switch ( value )
+			{
+			case ast::type::OutputDomain::eIsolines:
+				return "isoline";
+			case ast::type::OutputDomain::eTriangles:
+				return "tri";
+			case ast::type::OutputDomain::eQuads:
+				return "quad";
+			default:
+				AST_Failure( "Unsupported type::OutputDomain." );
+				return "undefined";
+			}
+		}
+
+		std::string getName( ast::type::OutputPartitioning value )
+		{
+			switch ( value )
+			{
+			case ast::type::OutputPartitioning::eEqual:
+				return "integer";
+			case ast::type::OutputPartitioning::eFractionalEven:
+				return "fractionaleven";
+			case ast::type::OutputPartitioning::eFractionalOdd:
+				return "fractionalodd";
+			default:
+				AST_Failure( "Unsupported type::OutputPartitioning." );
+				return "undefined";
+			}
+		}
+
+		std::string getName( ast::type::OutputTopology domain
+			, ast::type::OutputVertexOrder order )
+		{
+			switch ( domain )
+			{
+			case ast::type::OutputTopology::ePoint:
+				return "point";
+			case ast::type::OutputTopology::eLine:
+				return "line";
+			case ast::type::OutputTopology::eTriangle:
+				switch ( order )
+				{
+				case ast::type::OutputVertexOrder::eCW:
+					return "triangle_cw";
+				case ast::type::OutputVertexOrder::eCCW:
+					return "triangle_ccw";
+				default:
+					AST_Failure( "Unsupported type::OutputVertexOrder." );
+					return "UNDEFINED";
+				}
+			default:
+				AST_Failure( "Unsupported type::OutputDomain." );
+				return "UNDEFINED";
+			}
+		}
+	}
+
 	std::string StmtVisitor::submit( HlslConfig const & writerConfig
+		, std::set< std::string > const & patchRoutines
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
 		std::string result;
-		StmtVisitor vis{ writerConfig, aliases, std::move( indent ), result };
+		StmtVisitor vis{ writerConfig, patchRoutines, aliases, std::move( indent ), result };
 		stmt->accept( &vis );
 		return result;
 	}
 
 	StmtVisitor::StmtVisitor( HlslConfig const & writerConfig
+		, std::set< std::string > const & patchRoutines
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, std::string indent
 		, std::string & result )
 		: m_writerConfig{ writerConfig }
+		, m_patchRoutines{ patchRoutines }
 		, m_aliases{ aliases }
 		, m_indent{ std::move( indent ) }
 		, m_result{ result }
@@ -172,23 +236,78 @@ namespace hlsl
 		m_appendLineEnd = true;
 		doAppendLineEnd();
 		auto type = stmt->getType();
+		ast::var::VariableList params;
 
-		if ( stmt->isEntryPoint()
-			&& !type->empty() )
+		if ( !type->empty() )
 		{
-			auto it = type->begin();
-			auto argType = ( *it )->getType();
-
-			if ( argType->getKind() == ast::type::Kind::eGeometryInput )
+			if ( stmt->isEntryPoint() )
 			{
-				++it;
-				argType = ( *it )->getType();
+				auto it = type->begin();
+				auto argType = ( *it )->getType();
 
-				if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
+				if ( argType->getKind() == ast::type::Kind::eGeometryInput )
 				{
-					auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
-					m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
+					params.push_back( *it );
+					++it;
+					params.push_back( *it );
+					argType = ( *it )->getType();
+
+					if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
+					{
+						auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
+						m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
+					}
 				}
+				else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
+				{
+					auto & tessciType = static_cast< ast::type::TessellationControlInput const & >( *argType );
+					argType = tessciType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( *it );
+					}
+
+					++it;
+					argType = ( *it )->getType();
+
+					if ( argType->getKind() == ast::type::Kind::eTessellationControlOutput )
+					{
+						auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *argType );
+						m_result += m_indent + "[domain(\"" + getName( tesscoType.getDomain() ) + "\")]\n";
+						m_result += m_indent + "[partitioning(\"" + getName( tesscoType.getPartitioning() ) + "\")]\n";
+						m_result += m_indent + "[outputtopology(\"" + getName( tesscoType.getTopology(), tesscoType.getOrder() ) + "\")]\n";
+						m_result += m_indent + "[outputcontrolpoints(" + std::to_string( tesscoType.getOutputVertices() ) + ")]\n";
+
+						if ( !m_patchRoutines.empty() )
+						{
+							m_result += m_indent + "[patchconstantfunc(\"" + ( *m_patchRoutines.begin() ) + "\")]\n";
+						}
+
+						argType = tesscoType.getType();
+
+						if ( argType->getKind() != ast::type::Kind::eVoid
+							&& ( argType->getKind() != ast::type::Kind::eStruct
+								|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+						{
+							params.push_back( *it );
+						}
+					}
+					else
+					{
+						params.push_back( *it );
+					}
+				}
+				else
+				{
+					params.push_back( *it );
+				}
+			}
+			else
+			{
+				params.insert( params.end(), type->begin(), type->end() );
 			}
 		}
 
@@ -196,7 +315,7 @@ namespace hlsl
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;
 
-		for ( auto & param : *type )
+		for ( auto & param : params )
 		{
 			m_result += sep + getDirectionName( *param )
 				+ getTypeName( param->getType() ) + " "
@@ -308,6 +427,11 @@ namespace hlsl
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 		AST_Failure( "ast::stmt::OutputGeometryLayout unexpected at that point" );
+	}
+
+	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
+	{
+		AST_Failure( "ast::stmt::visitOutputTessellationControlLayoutStmt unexpected at that point" );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )

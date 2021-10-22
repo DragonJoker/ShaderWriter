@@ -310,6 +310,15 @@ namespace ast::debug
 		case type::Kind::eGeometryOutput:
 			result = "GEOMOUT";
 			break;
+		case type::Kind::eTessellationControlInput:
+			result = "TESSCIN";
+			break;
+		case type::Kind::eTessellationControlOutput:
+			result = "TESSCOUT";
+			break;
+		case type::Kind::eTessellationOutputPatch:
+			result = "OUTPATCH";
+			break;
 		default:
 			assert( false );
 			result = "UNKNOWN";
@@ -504,6 +513,68 @@ namespace ast::debug
 			return "TRIANGLESTRIP";
 		default:
 			AST_Failure( "Unsupported output layout." );
+			return "UNDEFINED";
+		}
+	}
+
+	std::string getName( type::OutputDomain value )
+	{
+		switch ( value )
+		{
+		case type::OutputDomain::eIsolines:
+			return "ISOLINES";
+		case type::OutputDomain::eTriangles:
+			return "TRIANGLES";
+		case type::OutputDomain::eQuads:
+			return "QUADS";
+		default:
+			AST_Failure( "Unsupported type::OutputDomain." );
+			return "UNDEFINED";
+		}
+	}
+
+	std::string getName( type::OutputPartitioning value )
+	{
+		switch ( value )
+		{
+		case type::OutputPartitioning::eEqual:
+			return "EQUAL";
+		case type::OutputPartitioning::eFractionalEven:
+			return "FRACTIONALEVEN";
+		case type::OutputPartitioning::eFractionalOdd:
+			return "FRACTIONALODD";
+		default:
+			AST_Failure( "Unsupported type::OutputPartitioning." );
+			return "UNDEFINED";
+		}
+	}
+
+	std::string getName( type::OutputTopology value )
+	{
+		switch ( value )
+		{
+		case type::OutputTopology::ePoint:
+			return "POINT";
+		case type::OutputTopology::eLine:
+			return "LINE";
+		case type::OutputTopology::eTriangle:
+			return "TRIANGLE";
+		default:
+			AST_Failure( "Unsupported type::OutputPartitioning." );
+			return "UNDEFINED";
+		}
+	}
+
+	std::string getName( type::OutputVertexOrder value )
+	{
+		switch ( value )
+		{
+		case type::OutputVertexOrder::eCW:
+			return "CW";
+		case type::OutputVertexOrder::eCCW:
+			return "CCW";
+		default:
+			AST_Failure( "Unsupported type::OutputVertexOrder." );
 			return "UNDEFINED";
 		}
 	}

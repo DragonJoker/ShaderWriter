@@ -660,9 +660,12 @@ namespace hlsl
 			, ast::var::VariablePtr var
 			, AdaptationData & adaptationData )
 		{
-			auto it = adaptationData.inputMembers.find( var );
+			auto prvSize = adaptationData.inputMembers.size();
+			auto index = uint32_t( adaptationData.inputVars.size() );
+			adaptationData.addPendingInput( var, index );
+			auto replVar = adaptationData.processPendingInput( var );
 
-			if ( it == adaptationData.inputMembers.end() )
+			if ( prvSize != adaptationData.inputMembers.size() )
 			{
 				auto hlslKind = getBuiltinHlslKind( var->getName()
 					, var->getType()->getKind() );
@@ -674,66 +677,33 @@ namespace hlsl
 						, var->getName() );
 				}
 
-				adaptationData.inputVars.emplace( 128, var );
+				auto inputStruct = adaptationData.globalInputStruct;
 
-				if ( adaptationData.globalInputStruct )
+				if ( inputStruct )
 				{
-					auto index = adaptationData.globalInputStruct->findMember( var->getName() );
-
-					if ( index == ast::type::Struct::NotFound )
+					if ( inputStruct->findMember( var->getName() ) == ast::type::Struct::NotFound )
 					{
 						if ( var->getType()->getKind() == ast::type::Kind::eStruct )
 						{
-							adaptationData.globalInputStruct->declMember( var->getName()
+							inputStruct->declMember( var->getName()
 								, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
 						}
 						else if ( var->getType()->getKind() == ast::type::Kind::eArray )
 						{
-							adaptationData.globalInputStruct->declMember( var->getName()
+							inputStruct->declMember( var->getName()
 								, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
 						}
 						else
 						{
-							adaptationData.globalInputStruct->declMember( var->getName()
+							inputStruct->declMember( var->getName()
 								, var->getType() );
 						}
-
-						index = adaptationData.globalInputStruct->findMember( var->getName() );
 					}
-
-					if ( adaptationData.inputVar )
-					{
-						it = adaptationData.inputMembers.emplace( var
-							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
-								, index
-								, var->getFlags() ) ).first;
-					}
-				}
-				else if ( adaptationData.inputVar )
-				{
-					var = adaptationData.processPendingInput( var );
-					auto index = adaptationData.mainInputStruct->findMember( var->getName() );
-
-					if ( index == ast::type::Struct::NotFound )
-					{
-						it = adaptationData.inputMembers.emplace( var
-							, ast::expr::makeIdentifier( cache, adaptationData.inputVar ) ).first;
-					}
-					else
-					{
-						it = adaptationData.inputMembers.emplace( var
-							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.inputVar )
-								, uint32_t( adaptationData.inputMembers.size() )
-								, var->getFlags() ) ).first;
-					}
-				}
-				else
-				{
-					it = adaptationData.inputMembers.emplace( var
-						, ast::expr::makeIdentifier( cache, var ) ).first;
 				}
 			}
 
+			auto it = adaptationData.inputMembers.find( var );
+			assert( it != adaptationData.inputMembers.end() );
 			return ast::ExprCloner::submit( it->second );
 		}
 
@@ -741,61 +711,51 @@ namespace hlsl
 			, ast::var::VariablePtr var
 			, AdaptationData & adaptationData )
 		{
-			ast::expr::ExprPtr save{ nullptr };
-			ast::expr::Expr * toClone{ nullptr };
-			auto it = adaptationData.outputMembers.find( var );
+			auto prvSize = adaptationData.outputMembers.size();
+			auto index = uint32_t( adaptationData.outputVars.size() );
+			adaptationData.addPendingOutput( var, index );
+			auto replVar = adaptationData.processPendingOutput( var );
 
-			if ( it == adaptationData.outputMembers.end() )
+			if ( prvSize != adaptationData.outputMembers.size() )
 			{
-				adaptationData.outputVars.emplace( uint32_t( 128u + adaptationData.outputVars.size() ), var );
+				assert( var );
+				adaptationData.outputVars.emplace( index, var );
 
 				if ( adaptationData.outputVar )
 				{
-					var = adaptationData.processPendingOutput( var );
 					bool added = false;
+					auto outputStruct = adaptationData.globalOutputStruct;
 
-					if ( adaptationData.globalOutputStruct )
+					if ( outputStruct )
 					{
 						if ( var->getType()->getKind() == ast::type::Kind::eStruct )
 						{
 							if ( std::static_pointer_cast< ast::type::Struct >( var->getType() )->getName() != "gl_PerVertex" )
 							{
-								adaptationData.globalOutputStruct->declMember( var->getName()
+								outputStruct->declMember( var->getName()
 									, std::static_pointer_cast< ast::type::Struct >( var->getType() ) );
 								added = true;
 							}
 						}
 						else if ( var->getType()->getKind() == ast::type::Kind::eArray )
 						{
-							adaptationData.globalOutputStruct->declMember( var->getName()
+							outputStruct->declMember( var->getName()
 								, std::static_pointer_cast< ast::type::Array >( var->getType() ) );
 							added = true;
 						}
 						else
 						{
-							adaptationData.globalOutputStruct->declMember( var->getName()
+							outputStruct->declMember( var->getName()
 								, var->getType() );
 							added = true;
 						}
 					}
-
-					if ( added )
-					{
-						it = adaptationData.outputMembers.emplace( var
-							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, adaptationData.outputVar )
-								, uint32_t( adaptationData.outputMembers.size() )
-								, var->getFlags() ) ).first;
-						toClone = it->second.get();
-					}
-					else
-					{
-						save = ast::expr::makeIdentifier( cache, adaptationData.outputVar );
-						toClone = save.get();
-					}
 				}
 			}
 
-			return ast::ExprCloner::submit( toClone );
+			auto it = adaptationData.outputMembers.find( var );
+			assert( it != adaptationData.outputMembers.end() );
+			return ast::ExprCloner::submit( it->second );
 		}
 
 		ast::expr::ExprPtr registerBuiltinVar( ast::type::TypesCache & cache
@@ -1262,24 +1222,8 @@ namespace hlsl
 				if ( type->getKind() == ast::type::Kind::eStruct )
 				{
 					var = m_adaptationData.processPendingOutput( builtinName );
-
-					auto it = std::find_if( m_adaptationData.outputVars.begin()
-						, m_adaptationData.outputVars.end()
-						, [&builtinName]( VariableIdMap::value_type const & lookup )
-						{
-							return builtinName == lookup.second->getName();
-						} );
-
-					if ( it != m_adaptationData.outputVars.end() )
-					{
-						auto itMbr = m_adaptationData.outputMembers.find( it->second );
-
-						if ( itMbr != m_adaptationData.outputMembers.end() )
-						{
-							m_result = ast::ExprCloner::submit( itMbr->second );
-							processed = true;
-						}
-					}
+					m_result = m_adaptationData.getOutputExpr( builtinName );
+					processed = m_result != nullptr;
 				}
 			}
 			else if ( type->getKind() == ast::type::Kind::eStruct )
@@ -1301,48 +1245,14 @@ namespace hlsl
 		if ( flags->isShaderInput() )
 		{
 			var = m_adaptationData.processPendingInput( builtinName );
-
-			auto it = std::find_if( m_adaptationData.inputVars.begin()
-				, m_adaptationData.inputVars.end()
-				, [&builtinName]( VariableIdMap::value_type const & lookup )
-				{
-					return builtinName == lookup.second->getName();
-				} );
-
-			if ( it != m_adaptationData.inputVars.end() )
-			{
-				var = it->second;
-			}
-
-			auto itMbr = m_adaptationData.inputMembers.find( var );
-
-			if ( itMbr != m_adaptationData.inputMembers.end() )
-			{
-				m_result = ast::ExprCloner::submit( itMbr->second );
-				processed = true;
-			}
+			m_result = m_adaptationData.getInputExpr( builtinName );
+			processed = m_result != nullptr;
 		}
 		else if ( flags->isShaderOutput() )
 		{
 			var = m_adaptationData.processPendingOutput( builtinName );
-
-			auto it = std::find_if( m_adaptationData.outputVars.begin()
-				, m_adaptationData.outputVars.end()
-				, [&builtinName]( VariableIdMap::value_type const & lookup )
-				{
-					return builtinName == lookup.second->getName();
-				} );
-
-			if ( it != m_adaptationData.outputVars.end() )
-			{
-				auto itMbr = m_adaptationData.outputMembers.find( it->second );
-
-				if ( itMbr != m_adaptationData.outputMembers.end() )
-				{
-					m_result = ast::ExprCloner::submit( itMbr->second );
-					processed = true;
-				}
-			}
+			m_result = m_adaptationData.getOutputExpr( builtinName );
+			processed = m_result != nullptr;
 		}
 		else
 		{

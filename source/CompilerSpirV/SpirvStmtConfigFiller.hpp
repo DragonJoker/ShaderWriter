@@ -41,6 +41,7 @@ namespace spirv
 		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
 		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
+		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( ast::stmt::Return * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
@@ -72,8 +73,17 @@ namespace spirv
 		void doProcessGeometryInput( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType
 			, std::string const & name );
+		void doProcessTessellationControlOutput( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & tessType
+			, std::string const & name
+			, bool isEntryPoint );
+		void doProcessTessellationControlInput( ast::var::VariablePtr var
+			, ast::type::TessellationControlInput const & tessType
+			, std::string const & name
+			, bool isEntryPoint );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & ioType
+			, uint32_t arraySize
 			, std::string const & name
 			, bool isEntryPoint );
 		void doProcessInput( ast::var::VariablePtr var

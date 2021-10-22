@@ -32,6 +32,7 @@ See LICENSE file in root folder
 #include "StmtInputComputeLayout.hpp"
 #include "StmtInputGeometryLayout.hpp"
 #include "StmtOutputGeometryLayout.hpp"
+#include "StmtOutputTessellationControlLayout.hpp"
 #include "StmtPerVertexDecl.hpp"
 #include "StmtPushConstantsBufferDecl.hpp"
 #include "StmtReturn.hpp"
@@ -78,6 +79,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitInputComputeLayoutStmt( InputComputeLayout * ) = 0;
 		SDAST_API virtual void visitInputGeometryLayoutStmt( InputGeometryLayout * ) = 0;
 		SDAST_API virtual void visitOutputGeometryLayoutStmt( OutputGeometryLayout * ) = 0;
+		SDAST_API virtual void visitOutputTessellationControlLayoutStmt( OutputTessellationControlLayout * ) = 0;
 		SDAST_API virtual void visitPerVertexDeclStmt( PerVertexDecl * ) = 0;
 		SDAST_API virtual void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl * ) = 0;
 		SDAST_API virtual void visitReturnStmt( Return * ) = 0;

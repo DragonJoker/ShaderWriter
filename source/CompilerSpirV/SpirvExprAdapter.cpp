@@ -52,7 +52,8 @@ namespace spirv
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		auto it = m_adaptationData.context.constExprs.find( expr->getVariable()->getId() );
+		auto var = expr->getVariable();
+		auto it = m_adaptationData.context.constExprs.find( var->getId() );
 
 		if ( it != m_adaptationData.context.constExprs.end() )
 		{
@@ -67,6 +68,21 @@ namespace spirv
 		}
 		else
 		{
+			if ( var->isShaderOutput()
+				&& var->isBuiltin() )
+			{
+				auto & cache = var->getType()->getCache();
+
+				if ( var->getName() == "gl_TessLevelOuter" )
+				{
+					var->updateType( cache.getArray( getNonArrayType( var->getType() ), 4u ) );
+				}
+				else if ( var->getName() == "gl_TessLevelInner" )
+				{
+					var->updateType( cache.getArray( getNonArrayType( var->getType() ), 2u ) );
+				}
+			}
+
 			m_result = ExprCloner::submit( expr );
 		}
 	}
@@ -96,6 +112,15 @@ namespace spirv
 			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
 			m_result = ast::expr::makeArrayAccess( expr->getType()
 				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputs[expr->getMemberIndex()] )
+				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
+		}
+		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
+			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
+			&& m_adaptationData.config.isOutput( static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() ) )
+		{
+			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
+			m_result = ast::expr::makeArrayAccess( expr->getType()
+				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputs[expr->getMemberIndex()] )
 				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
 		}
 		else

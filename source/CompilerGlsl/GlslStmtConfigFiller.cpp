@@ -141,6 +141,10 @@ namespace glsl
 	{
 	}
 
+	void StmtConfigFiller::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 	}

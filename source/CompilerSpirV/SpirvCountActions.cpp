@@ -353,6 +353,10 @@ namespace spirv
 			{
 			}
 
+			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
+			{
+			}
+
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
 			{
 			}

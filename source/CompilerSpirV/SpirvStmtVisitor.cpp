@@ -503,6 +503,15 @@ namespace spirv
 		m_result.registerExecutionMode( stmt->getLayout(), stmt->getPrimCount() );
 	}
 
+	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
+	{
+		m_result.registerExecutionMode( stmt->getDomain()
+			, stmt->getPartitioning()
+			, stmt->getTopology()
+			, stmt->getVertexOrder()
+			, stmt->getOutputVertices() );
+	}
+
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 		switch ( stmt->getSource() )
