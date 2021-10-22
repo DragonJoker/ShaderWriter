@@ -66,6 +66,11 @@ namespace ast::var
 			return m_type;
 		}
 
+		void updateType( type::TypePtr type )
+		{
+			m_type = type;
+		}
+
 		std::string const & getName()const
 		{
 			return m_nameId.name;

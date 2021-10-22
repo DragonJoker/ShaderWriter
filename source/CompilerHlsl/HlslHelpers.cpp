@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprMbrSelect.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampler.hpp>
+#include <ShaderAST/Visitors/CloneExpr.hpp>
 
 #include <stdexcept>
 
@@ -81,6 +82,11 @@ namespace hlsl
 
 			return result;
 		}
+	}
+
+	bool needsSeparateMain( ast::ShaderStage stage )
+	{
+		return stage != ast::ShaderStage::eGeometry;
 	}
 
 	std::string getTypeName( ast::type::Kind kind )
@@ -597,6 +603,14 @@ namespace hlsl
 			result = getLayoutName( static_cast< ast::type::GeometryOutput const & >( *type ).layout )
 				+ "<" + getTypeName( static_cast< ast::type::GeometryOutput const & >( *type ).type ) + ">";
 			break;
+		case ast::type::Kind::eTessellationControlInput:
+			result = std::string{ "InputPatch" }
+				+ "<" + getTypeName( static_cast< ast::type::TessellationControlInput const & >( *type ).getType() )
+				+ ", " + std::to_string( static_cast< ast::type::TessellationControlInput const & >( *type ).getInputVertices() ) + ">";
+			break;
+		case ast::type::Kind::eTessellationControlOutput:
+			result = getTypeName( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;
@@ -1020,20 +1034,26 @@ namespace hlsl
 		, uint32_t index )
 	{
 		auto ires = pendingOutputs.emplace( var->getName(), PendingIO{} );
-		assert( ires.second );
-		auto it = ires.first;
-		it->second.index = index;
-		it->second.var = var;
+
+		if ( ires.second )
+		{
+			auto it = ires.first;
+			it->second.index = index;
+			it->second.var = var;
+		}
 	}
 
 	void AdaptationData::addPendingInput( ast::var::VariablePtr var
 		, uint32_t index )
 	{
 		auto ires = pendingInputs.emplace( var->getName(), PendingIO{} );
-		assert( ires.second );
-		auto it = ires.first;
-		it->second.index = index;
-		it->second.var = var;
+
+		if ( ires.second )
+		{
+			auto it = ires.first;
+			it->second.index = index;
+			it->second.var = var;
+		}
 	}
 
 	ast::var::VariablePtr AdaptationData::processPending( ast::var::VariablePtr var )
@@ -1076,7 +1096,38 @@ namespace hlsl
 
 		if ( globalInputStruct )
 		{
-			globalInputStruct->declMember( var->getName(), var->getType() );
+			uint32_t arraySize = ast::type::NotArray;
+
+			if ( type->getKind() == ast::type::Kind::eArray )
+			{
+				auto & arrayType = static_cast< ast::type::Array const & >( *type );
+				type = arrayType.getType();
+				arraySize = arrayType.getArraySize();
+			}
+
+			if ( type->getKind() == ast::type::Kind::eStruct )
+			{
+				for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+				{
+					addPendingInput( ast::var::makeVariable( { ++nextVarId, mbr.name }
+						, ( arraySize == ast::type::NotArray
+							? mbr.type
+							: cache.getArray( mbr.type, arraySize ) ) )
+						, index );
+					processPendingInput( mbr.name );
+				}
+
+				it = pendingInputs.find( name );
+			}
+			else
+			{
+				globalInputStruct->declMember( name
+					, ( arraySize == ast::type::NotArray
+						? type
+						: cache.getArray( getNonArrayType( type )
+							, std::max( getArraySize( type ), 1u ) * arraySize ) ) );
+			}
+
 			mbrIndex = uint32_t( globalInputStruct->size() - 1u );
 		}
 		else
@@ -1095,6 +1146,15 @@ namespace hlsl
 			{
 				inputMembers.emplace( var
 					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::GeometryInput const & >( *inputVar->getType() ).type
+							, ast::expr::makeIdentifier( cache, inputVar )
+							, nullptr/* just a placeholder */ )
+						, mbrIndex
+						, var->getFlags() ) );
+			}
+			else if ( inputVar->getType()->getKind() == ast::type::Kind::eTessellationControlInput )
+			{
+				inputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::TessellationControlInput const & >( *inputVar->getType() ).getType()
 							, ast::expr::makeIdentifier( cache, inputVar )
 							, nullptr/* just a placeholder */ )
 						, mbrIndex
@@ -1144,10 +1204,37 @@ namespace hlsl
 		auto type = var->getType();
 		auto & cache = type->getCache();
 		auto index = it->second.index;
+		uint32_t mbrIndex = 0u;
 
 		if ( globalOutputStruct )
 		{
-			globalOutputStruct->declMember( name, type );
+			uint32_t arraySize = ast::type::NotArray;
+
+			if ( type->getKind() == ast::type::Kind::eArray )
+			{
+				auto & arrayType = static_cast< ast::type::Array const & >( *type );
+				type = arrayType.getType();
+				arraySize = arrayType.getArraySize();
+			}
+
+			if ( type->getKind() == ast::type::Kind::eStruct )
+			{
+				for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
+				{
+					addPendingOutput( ast::var::makeVariable( { ++nextVarId, mbr.name }
+							, ( arraySize == ast::type::NotArray
+								? mbr.type
+								: cache.getArray( type, arraySize ) ) )
+						, index );
+					processPendingOutput( mbr.name );
+				}
+			}
+			else
+			{
+				globalOutputStruct->declMember( name, type );
+			}
+
+			mbrIndex = uint32_t( globalOutputStruct->size() - 1u );
 		}
 		else
 		{
@@ -1156,14 +1243,27 @@ namespace hlsl
 				, type
 				, outIntSem
 				, outFltSem );
+			mbrIndex = uint32_t( mainOutputStruct->size() - 1u );
 		}
 
 		if ( outputVar )
 		{
-			outputMembers.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outputVar )
-					, uint32_t( outputMembers.size() )
-					, var->getFlags() ) );
+			if ( outputVar->getType()->getKind() == ast::type::Kind::eTessellationControlOutput )
+			{
+				outputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::TessellationControlOutput const & >( *inputVar->getType() ).getType()
+							, ast::expr::makeIdentifier( cache, inputVar )
+							, nullptr/* just a placeholder */ )
+						, mbrIndex
+						, var->getFlags() ) );
+			}
+			else
+			{
+				outputMembers.emplace( var
+					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outputVar )
+						, mbrIndex
+						, var->getFlags() ) );
+			}
 		}
 		else
 		{
@@ -1180,5 +1280,49 @@ namespace hlsl
 	{
 		auto result = processPendingOutput( srcVar->getName() );
 		return result ? result : srcVar;
+	}
+
+	ast::expr::ExprPtr AdaptationData::getInputExpr( std::string const & name )
+	{
+		auto it = std::find_if( inputVars.begin()
+			, inputVars.end()
+			, [&name]( VariableIdMap::value_type const & lookup )
+			{
+				return name == lookup.second->getName();
+			} );
+
+		if ( it != inputVars.end() )
+		{
+			auto itMbr = inputMembers.find( it->second );
+
+			if ( itMbr != inputMembers.end() )
+			{
+				return ast::ExprCloner::submit( itMbr->second );
+			}
+		}
+
+		return nullptr;
+	}
+
+	ast::expr::ExprPtr AdaptationData::getOutputExpr( std::string const & name )
+	{
+		auto it = std::find_if( outputVars.begin()
+			, outputVars.end()
+			, [&name]( VariableIdMap::value_type const & lookup )
+			{
+				return name == lookup.second->getName();
+			} );
+
+		if ( it != outputVars.end() )
+		{
+			auto itMbr = outputMembers.find( it->second );
+
+			if ( itMbr != outputMembers.end() )
+			{
+				return ast::ExprCloner::submit( itMbr->second );
+			}
+		}
+
+		return nullptr;
 	}
 }

@@ -35,6 +35,6 @@ namespace hlsl
 			, shader.getStatements() );
 		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return hlsl::StmtVisitor::submit( writerConfig, aliases, dxStatements.get() );
+		return hlsl::StmtVisitor::submit( writerConfig, adaptationData.patchRoutines, aliases, dxStatements.get() );
 	}
 }

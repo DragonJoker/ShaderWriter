@@ -57,6 +57,12 @@ namespace spirv
 			, ast::type::GeometryOutput const & geomType );
 		void doProcessGeometryInput( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
+		void doProcessTessellationControlOutput( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & tessType
+			, bool isEntryPoint );
+		void doProcessTessellationControlInput( ast::var::VariablePtr var
+			, ast::type::TessellationControlInput const & tessType
+			, bool isEntryPoint );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & ioType
 			, bool isEntryPoint );
@@ -64,7 +70,7 @@ namespace spirv
 			, ast::type::IOStruct const & ioType
 			, bool isEntryPoint );
 		void doProcessOutputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType
+			, ast::type::TessellationOutputPatch const & patchType
 			, bool isEntryPoint );
 		void doProcessInputPatch( ast::var::VariablePtr var
 			, ast::type::StructPtr const & structType

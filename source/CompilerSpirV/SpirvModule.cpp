@@ -929,6 +929,15 @@ namespace spirv
 		registerExecutionMode( spv::ExecutionModeInvocations, { ValueId{ 1u } } );
 	}
 
+	void Module::registerExecutionMode( ast::type::OutputDomain domain
+		, ast::type::OutputPartitioning partitioning
+		, ast::type::OutputTopology topology
+		, ast::type::OutputVertexOrder order
+		, uint32_t outputVertices )
+	{
+		registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ outputVertices } } );
+	}
+
 	void Module::registerExecutionMode( ast::type::InputLayout layout )
 	{
 		switch ( layout )
@@ -1220,6 +1229,35 @@ namespace spirv
 				, arrayStride );
 			registerExecutionMode( inputType.layout );
 		}
+		else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+		{
+			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+		{
+			auto & outputType = static_cast< ast::type::TessellationControlOutput const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+			registerExecutionMode( outputType.getDomain()
+				, outputType.getPartitioning()
+				, outputType.getTopology()
+				, outputType.getOrder()
+				, outputType.getOutputVertices() );
+		}
+		else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
+		{
+			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
+			result = registerType( inputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else
 		{
 			result = doRegisterNonArrayType( type
@@ -1483,11 +1521,17 @@ namespace spirv
 	void Module::addBuiltin( std::string const & name
 		, ValueId id )
 	{
-		auto builtin = getBuiltin( name );
+		std::vector< spv::Decoration > additionalDecorations;
+		auto builtin = getBuiltin( name, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
 		{
 			decorate( id, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
+
+			for ( auto & decoration : additionalDecorations )
+			{
+				decorate( id, decoration );
+			}
 		}
 	}
 
@@ -1496,11 +1540,18 @@ namespace spirv
 		, uint32_t mbrIndex )
 	{
 		bool result = false;
-		auto builtin = getBuiltin( name );
+		std::vector< spv::Decoration > additionalDecorations;
+		auto builtin = getBuiltin( name, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
 		{
 			decorateMember( outer, mbrIndex, { spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) } );
+
+			for ( auto & decoration : additionalDecorations )
+			{
+				decorateMember( outer, mbrIndex, decoration );
+			}
+
 			result = true;
 		}
 

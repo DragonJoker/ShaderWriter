@@ -274,7 +274,8 @@ namespace spirv
 
 	void ModuleConfig::addShaderOutput( std::string const & name
 		, ast::type::TypePtr type
-		, uint32_t flags )
+		, uint32_t flags
+		, uint32_t arraySize )
 	{
 		auto it = std::find_if( outputs.begin()
 			, outputs.end()
@@ -285,8 +286,11 @@ namespace spirv
 
 		if ( it == outputs.end() )
 		{
+			auto & cache = type->getCache();
 			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-				, type
+				, ( arraySize == ast::type::NotArray
+					? type
+					: cache.getArray( type, arraySize ) )
 				, flags );
 			outputs.emplace( var );
 		}
@@ -344,7 +348,8 @@ namespace spirv
 
 	//*************************************************************************
 
-	spv::BuiltIn getBuiltin( std::string const & name )
+	spv::BuiltIn getBuiltin( std::string const & name
+		, std::vector< spv::Decoration > & additionalDecorations )
 	{
 		auto result = spv::BuiltInMax;
 
@@ -391,10 +396,12 @@ namespace spirv
 		else if ( name == "gl_TessLevelOuter" )
 		{
 			result = spv::BuiltInTessLevelOuter;
+			additionalDecorations.push_back( spv::DecorationPatch );
 		}
 		else if ( name == "gl_TessLevelInner" )
 		{
 			result = spv::BuiltInTessLevelInner;
+			additionalDecorations.push_back( spv::DecorationPatch );
 		}
 		else if ( name == "gl_TessCoord" )
 		{

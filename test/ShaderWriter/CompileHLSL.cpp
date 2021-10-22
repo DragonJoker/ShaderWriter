@@ -43,10 +43,10 @@ namespace test
 			model = "vs_5_0";
 			break;
 		case ast::ShaderStage::eTessellationControl:
-			model = "ds_5_0";
+			model = "hs_5_0";
 			break;
 		case ast::ShaderStage::eTessellationEvaluation:
-			model = "hs_5_0";
+			model = "ds_5_0";
 			break;
 		case ast::ShaderStage::eGeometry:
 			model = "gs_5_0";

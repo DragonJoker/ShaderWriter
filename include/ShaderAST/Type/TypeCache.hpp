@@ -14,6 +14,7 @@ See LICENSE file in root folder
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
 #include "TypeStruct.hpp"
+#include "TypeTessellationControlIO.hpp"
 
 #include <array>
 #include <functional>

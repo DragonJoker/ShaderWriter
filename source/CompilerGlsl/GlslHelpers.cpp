@@ -282,6 +282,15 @@ namespace glsl
 		case ast::type::Kind::eArray:
 			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
 			break;
+		case ast::type::Kind::eTessellationOutputPatch:
+			result = getTypeName( std::static_pointer_cast< ast::type::TessellationOutputPatch >( type )->getType() );
+			break;
+		case ast::type::Kind::eTessellationControlInput:
+			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlInput >( type )->getType() );
+			break;
+		case ast::type::Kind::eTessellationControlOutput:
+			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;

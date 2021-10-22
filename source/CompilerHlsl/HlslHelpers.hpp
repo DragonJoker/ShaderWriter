@@ -12,8 +12,11 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 
+#include <set>
+
 namespace hlsl
 {
+	bool needsSeparateMain( ast::ShaderStage stage );
 	std::string getTypeName( ast::type::Kind kind );
 	std::string getTypeName( ast::type::TypePtr type );
 	std::string getTypeArraySize( ast::type::TypePtr type );
@@ -97,6 +100,7 @@ namespace hlsl
 		LinkedVars linkedVars;
 		FuncNames funcs;
 		VarReplacements replacedVars;
+		std::set< std::string > patchRoutines;
 		uint32_t aliasId{ 0u };
 		uint32_t nextVarId{ 0u };
 		Semantic inIntSem{ "BLENDINDICES", 0u };
@@ -113,6 +117,8 @@ namespace hlsl
 		ast::var::VariablePtr processPendingInput( ast::var::VariablePtr var );
 		ast::var::VariablePtr processPendingOutput( std::string const & name );
 		ast::var::VariablePtr processPendingOutput( ast::var::VariablePtr var );
+		ast::expr::ExprPtr getInputExpr( std::string const & name );
+		ast::expr::ExprPtr getOutputExpr( std::string const & name );
 
 	private:
 		std::map< std::string, PendingIO > pendingOutputs;

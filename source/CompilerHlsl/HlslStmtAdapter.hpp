@@ -9,6 +9,8 @@ See LICENSE file in root folder
 #include "HlslHelpers.hpp"
 #include "HlslShader.hpp"
 
+#include <unordered_set>
+
 namespace hlsl
 {
 	class StmtAdapter
@@ -55,10 +57,25 @@ namespace hlsl
 			, ast::type::GeometryInput const & geomType );
 		void registerGeometryOutput( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
+		void registerTessellationControlInput( ast::var::VariablePtr var
+			, ast::type::TessellationControlInput const & tessType
+			, bool isEntryPoint );
+		void registerTessellationControlOutput( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & tessType
+			, bool isEntryPoint );
 		void registerInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType );
+			, ast::type::IOStruct const & structType
+			, bool isEntryPoint );
 		void registerOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType );
+			, ast::type::IOStruct const & structType
+			, bool isEntryPoint );
+		void registerInputPatch( ast::var::VariablePtr var
+			, ast::type::StructPtr const & structType
+			, bool isEntryPoint );
+		void registerOutputPatch( ast::var::VariablePtr var
+			, ast::type::TessellationOutputPatch const & patchType
+			, bool isEntryPoint );
+		void declareStruct( ast::type::StructPtr const & structType );
 
 	private:
 		IntrinsicsConfig const & m_intrinsicsConfig;
@@ -69,6 +86,7 @@ namespace hlsl
 		ast::stmt::Container * m_inOutDeclarations;
 		ast::stmt::Container * m_intrinsics;
 		ast::stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
+		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 	};
 }
 

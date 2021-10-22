@@ -169,7 +169,7 @@ namespace hlsl
 		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainInputStruct ) );
 		cont->addStmt( ast::stmt::makeStructureDecl( m_adaptationData.mainOutputStruct ) );
 
-		if ( shader.getType() != ast::ShaderStage::eGeometry )
+		if ( needsSeparateMain( shader.getType() ) )
 		{
 			m_adaptationData.globalInputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eC, "HLSL_SDW_Input" );
 			m_adaptationData.globalOutputStruct = shader.getTypesCache().getStruct( ast::type::MemoryLayout::eC, "HLSL_SDW_Output" );
@@ -223,51 +223,107 @@ namespace hlsl
 
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		auto funcType = stmt->getType();
-
-		if ( stmt->isEntryPoint() )
+		if ( stmt->getFlags() )
 		{
+			auto funcType = stmt->getType();
+			auto isEntryPoint = stmt->isEntryPoint();
+
+			if ( stmt->isPatchRoutine() )
+			{
+				m_adaptationData.patchRoutines.insert( stmt->getName() );
+			}
+
 			for ( auto & param : *funcType )
 			{
 				auto type = param->getType();
 
 				if ( type->getKind() == ast::type::Kind::eGeometryInput )
 				{
-					registerGeometryInput( param, static_cast< ast::type::GeometryInput const & >( *type ) );
+					registerGeometryInput( param
+						, static_cast< ast::type::GeometryInput const & >( *type ) );
 				}
 				else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					registerGeometryOutput( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
+					registerGeometryOutput( param
+						, static_cast< ast::type::GeometryOutput const & >( *type ) );
 				}
-				else if ( type->getKind() == ast::type::Kind::eStruct )
+				else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
 				{
-					auto & structType = static_cast< ast::type::Struct const & >( *type );
+					registerTessellationControlInput( param
+						, static_cast< ast::type::TessellationControlInput const & >( *type )
+						, isEntryPoint );
+				}
+				else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+				{
+					registerTessellationControlOutput( param
+						, static_cast< ast::type::TessellationControlOutput const & >( *type )
+						, isEntryPoint );
+				}
+				else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+				{
+					registerOutputPatch( param
+						, static_cast< ast::type::TessellationOutputPatch const & >( *type )
+						, isEntryPoint );
+				}
+				else
+				{
+					uint32_t arraySize = ast::type::NotArray;
 
-					if ( structType.isShaderInput() )
+					if ( type->getKind() == ast::type::Kind::eArray )
 					{
-						registerInput( param
-							, static_cast< ast::type::IOStruct const & >( *type ) );
+						auto & arrayType = static_cast< ast::type::Array const & >( *type );
+						type = arrayType.getType();
+						arraySize = arrayType.getArraySize();
 					}
-					else if ( structType.isShaderOutput() )
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						registerOutput( param
-							, static_cast< ast::type::IOStruct const & >( *type ) );
+						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+						if ( structType->isShaderInput() )
+						{
+							registerInput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, isEntryPoint );
+						}
+						else if ( structType->isShaderOutput() )
+						{
+							registerOutput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, isEntryPoint );
+						}
+						else if ( param->isPatchInput() )
+						{
+							registerInputPatch( param
+								, structType
+								, isEntryPoint );
+						}
 					}
 				}
 			}
 
-			if ( m_shader.getType() == ast::ShaderStage::eGeometry )
+		if ( !needsSeparateMain( m_shader.getType() ) )
 			{
 				assert( !funcType->empty() );
 				ast::var::VariableList parameters;
-				parameters.push_back( m_adaptationData.inputVar );
-				parameters.push_back( m_adaptationData.mainOutputVar );
+
+				if ( m_adaptationData.inputVar )
+				{
+					parameters.push_back( m_adaptationData.inputVar );
+				}
+
+				if ( m_adaptationData.mainOutputVar )
+				{
+					parameters.push_back( m_adaptationData.mainOutputVar );
+				}
+
 				auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType()
 						, parameters )
 					, stmt->getName()
 					, stmt->getFlags() );
 				auto save = m_current;
 				m_current = cont.get();
+
 				m_current->addStmt( ast::stmt::makeVariableDecl( m_adaptationData.outputVar ) );
 				visitContainerStmt( stmt );
 				m_current = save;
@@ -315,7 +371,7 @@ namespace hlsl
 			auto index = uint32_t( m_adaptationData.inputMembers.size() );
 			m_adaptationData.addPendingInput( var, index );
 
-			if ( m_shader.getType() != ast::ShaderStage::eGeometry )
+			if ( needsSeparateMain( m_shader.getType() ) )
 			{
 				m_adaptationData.processPendingInput( var );
 			}
@@ -326,7 +382,7 @@ namespace hlsl
 			auto index = uint32_t( m_adaptationData.outputMembers.size() );
 			m_adaptationData.addPendingOutput( var, index );
 
-			if ( m_shader.getType() != ast::ShaderStage::eGeometry )
+			if ( needsSeparateMain( m_shader.getType() ) )
 			{
 				m_adaptationData.processPendingOutput( var );
 			}
@@ -761,7 +817,8 @@ namespace hlsl
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			assert( structType.isShaderInput() );
 			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType ) );
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
 		assert( !m_adaptationData.inputVar );
@@ -782,7 +839,8 @@ namespace hlsl
 			auto & structType = static_cast< ast::type::Struct const & >( *type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType ) );
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
 		assert( !m_adaptationData.mainOutputVar );
@@ -794,31 +852,122 @@ namespace hlsl
 		m_adaptationData.paramToMain.emplace( var, m_adaptationData.mainOutputVar );
 	}
 
+	void StmtAdapter::registerTessellationControlInput( ast::var::VariablePtr var
+		, ast::type::TessellationControlInput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, isEntryPoint );
+		}
+
+		if ( !m_adaptationData.inputVar )
+		{
+			m_adaptationData.inputVar = m_shader.registerName( "mainInput"
+				, ast::type::makeTessellationControlInputType( m_adaptationData.mainInputStruct
+					, tessType.getInputVertices() )
+				, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput );
+		}
+
+		m_adaptationData.paramToMain.emplace( var, m_adaptationData.inputVar );
+	}
+
+	void StmtAdapter::registerTessellationControlOutput( ast::var::VariablePtr var
+		, ast::type::TessellationControlOutput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, isEntryPoint );
+		}
+
+		m_adaptationData.mainOutputVar = m_shader.registerName( "mainOutput"
+			, ast::type::makeTessellationControlOutputType( m_adaptationData.mainOutputStruct
+				, tessType.getDomain()
+				, tessType.getPartitioning()
+				, tessType.getTopology()
+				, tessType.getOrder()
+				, tessType.getOutputVertices() )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput );
+		m_adaptationData.paramToMain.emplace( var, m_adaptationData.mainOutputVar );
+	}
+
 	void StmtAdapter::registerInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType )
+		, ast::type::IOStruct const & structType
+		, bool isEntryPoint )
 	{
 		uint32_t index = 0u;
 
-		for ( auto & mbr : ioType )
+		for ( auto & mbr : structType )
 		{
 			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
 				, mbr.type
-				, ioType.getFlag() );
+				, structType.getFlag() );
 			m_adaptationData.addPendingInput( mbrVar, index++ );
 		}
 	}
 
 	void StmtAdapter::registerOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType )
+		, ast::type::IOStruct const & structType
+		, bool isEntryPoint )
 	{
 		uint32_t index = 0u;
 
-		for ( auto & mbr : ioType )
+		for ( auto & mbr : structType )
 		{
 			auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, mbr.name }
 				, mbr.type
-				, ioType.getFlag() );
+				, structType.getFlag() );
 			m_adaptationData.addPendingOutput( mbrVar, index++ );
+		}
+	}
+
+	void StmtAdapter::registerInputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType
+		, bool isEntryPoint )
+	{
+		declareStruct( structType );
+	}
+
+	void StmtAdapter::registerOutputPatch( ast::var::VariablePtr var
+		, ast::type::TessellationOutputPatch const & patchType
+		, bool isEntryPoint )
+	{
+		auto type = patchType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			declareStruct( std::static_pointer_cast< ast::type::Struct >( type ) );
+		}
+	}
+
+	void StmtAdapter::declareStruct( ast::type::StructPtr const & structType )
+	{
+		if ( m_declaredStructs.emplace( structType ).second )
+		{
+			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
 		}
 	}
 }

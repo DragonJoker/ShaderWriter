@@ -42,6 +42,7 @@ namespace ast::debug
 		SDAST_API void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override;
 		SDAST_API void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override;
 		SDAST_API void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override;
+		SDAST_API void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override;
 		SDAST_API void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
 		SDAST_API void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;
 		SDAST_API void visitReturnStmt( stmt::Return * stmt )override;

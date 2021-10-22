@@ -276,6 +276,45 @@ namespace spirv
 			, geomType.layout ) );
 	}
 
+	void StmtAdapter::doProcessTessellationControlOutput( ast::var::VariablePtr var
+		, ast::type::TessellationControlOutput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			doProcessOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
+		}
+
+		m_current->addStmt( ast::stmt::makeOutputTessellationControlLayout( type
+			, tessType.getDomain()
+			, tessType.getPartitioning()
+			, tessType.getTopology()
+			, tessType.getOrder()
+			, tessType.getOutputVertices() ) );
+	}
+
+	void StmtAdapter::doProcessTessellationControlInput( ast::var::VariablePtr var
+		, ast::type::TessellationControlInput const & geomType
+		, bool isEntryPoint )
+	{
+		auto type = geomType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, isEntryPoint );
+		}
+	}
+
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & ioType
 		, bool isEntryPoint )
@@ -325,13 +364,26 @@ namespace spirv
 	}
 
 	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
-		, ast::type::StructPtr const & structType
+		, ast::type::TessellationOutputPatch const & patchType
 		, bool isEntryPoint )
 	{
 		if ( isEntryPoint )
 		{
-			doDeclareStruct( structType );
-			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+			auto type = patchType.getType();
+
+			if ( type->getKind() == ast::type::Kind::eStruct )
+			{
+				doDeclareStruct( std::static_pointer_cast< ast::type::Struct >( type ) );
+			}
+
+			if ( isEntryPoint )
+			{
+				m_current->addStmt( ast::stmt::makeInOutVariableDecl( var, patchType.getLocation() ) );
+			}
+			else
+			{
+				m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+			}
 		}
 	}
 
@@ -397,6 +449,24 @@ namespace spirv
 				doProcessGeometryInput( param
 					, static_cast< ast::type::GeometryInput const & >( *type ) );
 			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
+			{
+				doProcessTessellationControlInput( param
+					, static_cast< ast::type::TessellationControlInput const & >( *type )
+					, isEntryPoint );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+			{
+				doProcessTessellationControlOutput( param
+					, static_cast< ast::type::TessellationControlOutput const & >( *type )
+					, isEntryPoint );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+			{
+				doProcessOutputPatch( param
+					, static_cast< ast::type::TessellationOutputPatch const & >( *type )
+					, isEntryPoint );
+			}
 			else
 			{
 				uint32_t arraySize = ast::type::NotArray;
@@ -427,12 +497,6 @@ namespace spirv
 					else if ( param->isPatchInput() )
 					{
 						doProcessInputPatch( param
-							, structType
-							, isEntryPoint );
-					}
-					else if ( param->isPatchOutput() )
-					{
-						doProcessOutputPatch( param
 							, structType
 							, isEntryPoint );
 					}

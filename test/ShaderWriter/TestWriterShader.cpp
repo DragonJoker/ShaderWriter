@@ -195,7 +195,6 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			using namespace sdw;
 			FragmentWriter writer;
 
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in

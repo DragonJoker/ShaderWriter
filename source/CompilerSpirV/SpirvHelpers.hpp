@@ -37,7 +37,8 @@ namespace spirv
 			, uint32_t arraySize );
 		void addShaderOutput( std::string const & name
 			, ast::type::TypePtr type
-			, uint32_t flags );
+			, uint32_t flags
+			, uint32_t arraySize );
 		void addPatchInput( std::string const & name
 			, ast::type::TypePtr type
 			, uint32_t flags );
@@ -79,7 +80,8 @@ namespace spirv
 		std::map< uint32_t, ast::expr::ExprList > constAggrExprs;
 	};
 
-	spv::BuiltIn getBuiltin( std::string const & name );
+	spv::BuiltIn getBuiltin( std::string const & name
+		, std::vector< spv::Decoration > & additionalDecorations );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
 	std::string getTypeName( spv::Op op );

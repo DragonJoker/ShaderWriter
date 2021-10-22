@@ -112,13 +112,30 @@ namespace
 				if ( result->empty() )
 				{
 					uint32_t index = 0u;
-					result->declMember( "position", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "normal", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "tangent", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "bitangent", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "texture", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "instance", sdw::type::Kind::eInt, sdw::type::NotArray, index++ );
-					result->end();
+					result->declMember( "position"
+						, sdw::type::Kind::eVec3F
+						, ast::type::NotArray
+						, index++ );
+					result->declMember( "normal"
+						, sdw::type::Kind::eVec3F
+						, ast::type::NotArray
+						, index++ );
+					result->declMember( "tangent"
+						, sdw::type::Kind::eVec3F
+						, ast::type::NotArray
+						, index++ );
+					result->declMember( "bitangent"
+						, sdw::type::Kind::eVec3F
+						, ast::type::NotArray
+						, index++ );
+					result->declMember( "texture"
+						, sdw::type::Kind::eVec3F
+						, ast::type::NotArray
+						, index++ );
+					result->declMember( "instance"
+						, sdw::type::Kind::eInt
+						, ast::type::NotArray
+						, index++ );
 				}
 
 				return result;
@@ -152,6 +169,42 @@ namespace
 	};
 	using Surface = SurfaceT < sdw::var::Flag{} > ;
 	using InSurface = SurfaceT < sdw::var::Flag::eShaderInput > ;
+
+	template< sdw::var::Flag FlagT >
+	struct SimplePatchT
+		: sdw::StructInstance
+	{
+		SimplePatchT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, control{ getMember< sdw::Vec3 >( "control" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , SimplePatchT );
+
+		template< sdw::var::Flag FlagU >
+		SimplePatchT operator=( SimplePatchT< FlagU > const & rhs )
+		{
+			control = rhs.control;
+		}
+
+		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "SimplePatch" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "control", sdw::type::Kind::eVec3F );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 control;
+	};
 
 	template< sdw::var::Flag FlagT >
 	struct BezierPatchT
@@ -266,9 +319,21 @@ namespace
 		{
 			TessellationControlWriter writer;
 
-			writer.implementMainT< VoidT, 1u, VoidT, VoidT >( [&]( TessControlInT< VoidT, 1u > in
-				, TessControlOutT< VoidT > out
-				, TessPatchOutT< VoidT > patch )
+			writer.implementPatchRoutineT< VoidT, 32u, VoidT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< VoidT, 32u > in
+					, TrianglesTessControlOutT< VoidT > out )
+				{
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					out.tessLevelOuter[1] = 2.0_f;
+					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< VoidT, 32u, VoidT >( 6u
+				, [&]( TessControlInT< VoidT, 32u > in
+					, TrianglesTessPatchOutT< VoidT > patch )
 				{
 				} );
 			test::writeShader( writer
@@ -285,11 +350,23 @@ namespace
 		{
 			TessellationControlWriter writer;
 
-			writer.implementMainT< VoidT, 1u, PositionT, VoidT >( [&]( TessControlInT< VoidT, 1u > in
-				, TessControlOutT< PositionT > out
-				, TessPatchOutT< VoidT > patch )
+			writer.implementPatchRoutineT< VoidT, 32u, PositionT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< VoidT, 32u > in
+				, TrianglesTessControlOutT< PositionT > out )
 				{
-					out.position = vec3( 1.0_f, 0.0_f, 0.0_f );
+					out[0].position = in.vtx[0].position.xyz();
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					out.tessLevelOuter[1] = 2.0_f;
+					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< VoidT, 32u, VoidT >( 6u
+				, [&]( TessControlInT< VoidT, 32u > in
+					, TrianglesTessPatchOutT< VoidT > patch )
+				{
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -305,13 +382,22 @@ namespace
 		{
 			TessellationControlWriter writer;
 
-			writer.implementMainT< PositionT, 1u, VoidT, VoidT >( [&]( TessControlInT< PositionT, 1u > in
-				, TessControlOutT< VoidT > out
-				, TessPatchOutT< VoidT > patch )
+			writer.implementPatchRoutineT< PositionT, 32u, VoidT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< PositionT, 32u > in
+				, TrianglesTessControlOutT< VoidT > out )
 				{
-					out.tessLevelOuter[0] = in[0].position.x();
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
 					out.tessLevelOuter[1] = in[0].position.y();
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< PositionT, 32u, VoidT >( 6u
+				, [&]( TessControlInT< PositionT, 32u > in
+					, TrianglesTessPatchOutT< VoidT > patch )
+				{
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -327,14 +413,153 @@ namespace
 		{
 			TessellationControlWriter writer;
 
-			writer.implementMainT< PositionT, 1u, PositionT, VoidT >( [&]( TessControlInT< PositionT, 1u > in
-				, TessControlOutT< PositionT > out
-				, TessPatchOutT< VoidT > patch )
+			writer.implementPatchRoutineT< PositionT, 32u, PositionT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< PositionT, 32u > in
+				, TrianglesTessControlOutT< PositionT > out )
 				{
-					out.position = in[0].position;
-					out.tessLevelOuter[0] = in[0].position.x();
+					out[0].position = in[0].position;
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
 					out.tessLevelOuter[1] = in[0].position.y();
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< PositionT, 32u, VoidT >( 6u
+				, [&]( TessControlInT< PositionT, 32u > in
+					, TrianglesTessPatchOutT< VoidT > patch )
+				{
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void noSpecificIOPatch( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "noSpecificIOPatch" );
+		using namespace sdw;
+		{
+			TessellationControlWriter writer;
+
+			writer.implementPatchRoutineT< VoidT, 32u, VoidT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< VoidT, 32u > in
+				, TrianglesTessControlOutT< VoidT > out )
+				{
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					out.tessLevelOuter[1] = 2.0_f;
+					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< VoidT, 32u, SimplePatchT >( 6u
+				, [&]( TessControlInT< VoidT, 32u > in
+					, TrianglesTessPatchOutT< SimplePatchT > patch )
+				{
+					patch.control = vec3( 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificOutputOnlyPatch" );
+		using namespace sdw;
+		{
+			TessellationControlWriter writer;
+
+			writer.implementPatchRoutineT< VoidT, 32u, PositionT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< VoidT, 32u > in
+				, TrianglesTessControlOutT< PositionT > out )
+				{
+					out[0].position = in.vtx[0].position.xyz();
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					out.tessLevelOuter[1] = 2.0_f;
+					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< VoidT, 32u, SimplePatchT >( 6u
+				, [&]( TessControlInT< VoidT, 32u > in
+					, TrianglesTessPatchOutT< SimplePatchT > patch )
+				{
+					patch.control = vec3( 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificInputOnlyPatch" );
+		using namespace sdw;
+		{
+			TessellationControlWriter writer;
+
+			writer.implementPatchRoutineT< PositionT, 32u, VoidT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< PositionT, 32u > in
+				, TrianglesTessControlOutT< VoidT > out )
+				{
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					out.tessLevelOuter[1] = in[0].position.y();
+					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< PositionT, 32u, SimplePatchT >( 6u
+				, [&]( TessControlInT< PositionT, 32u > in
+					, TrianglesTessPatchOutT< SimplePatchT > patch )
+				{
+					patch.control = in[0].position;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificInAndOutPatch( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificInAndOutPatch" );
+		using namespace sdw;
+		{
+			TessellationControlWriter writer;
+
+			writer.implementPatchRoutineT< PositionT, 32u, PositionT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< PositionT, 32u > in
+				, TrianglesTessControlOutT< PositionT > out )
+				{
+					out[0].position = in[0].position;
+					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					out.tessLevelOuter[1] = in[0].position.y();
+					out.tessLevelInner[0] = out.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< PositionT, 32u, SimplePatchT >( 6u
+				, [&]( TessControlInT< PositionT, 32u > in
+					, TrianglesTessPatchOutT< SimplePatchT > patch )
+				{
+					patch.control = in[0].position;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -349,9 +574,6 @@ namespace
 		using namespace sdw;
 		{
 			TessellationControlWriter writer;
-			//..OutputGeometryLayout( "vertices = 1" );
-
-			writer.declType< BezierPatchOut >();
 
 			// TCS inputs
 			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
@@ -401,8 +623,49 @@ namespace
 				, InVec3{ writer, "planePoint" }
 				, InVec3{ writer, "planeNormal " } );
 
-			writer.implementPatchRoutineT< SurfaceT, 32u, BezierPatchT >( [&]( TessControlInT< SurfaceT, 32u > in
-				, TessPatchOutT< BezierPatchT > patch )
+			writer.implementPatchRoutineT< SurfaceT, 32u, SurfaceT >( ast::type::OutputPartitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::OutputVertexOrder::eCCW
+				, 1u
+				, [&]( TessControlInT< SurfaceT, 32u > in
+				, TrianglesTessControlOutT< SurfaceT > out )
+				{
+					// Set the control points of the output patch
+					FOR( writer, Int, i, 0, i < 3_i, i++ )
+					{
+						auto tbn = writer.declLocale( "tbn"
+							, mat3( normalize( in[i].tangent )
+								, normalize( in[i].bitangent )
+								, normalize( in[i].normal ) ) );
+						auto v3MapNormal = writer.declLocale( "v3MapNormal"
+							, c3d_mapNormal.lod( in[i].texture.xy(), 0.0_f ).xyz() );
+						v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0, 1.0 ) );
+						out[i].normal = normalize( tbn * v3MapNormal );
+						out[i].tangent = in[i].tangent;
+						out[i].bitangent = in[i].bitangent;
+						out[i].texture = in[i].texture;
+						out[i].instance = in[i].instance;
+					}
+					ROF;
+
+					// Calculate the distance from the camera to the three control points
+					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
+						, distance( pos, in[0].position ) );
+					auto eyeToVertexDistance1 = writer.declLocale( "eyeToVertexDistance1"
+						, distance( pos, in[1].position ) );
+					auto eyeToVertexDistance2 = writer.declLocale( "eyeToVertexDistance2"
+						, distance( pos, in[2].position ) );
+
+					// Calculate the tessellation levels
+					out.tessLevelOuter[0] = getTessLevel( eyeToVertexDistance1, eyeToVertexDistance2 );
+					out.tessLevelOuter[1] = getTessLevel( eyeToVertexDistance2, eyeToVertexDistance0 );
+					out.tessLevelOuter[2] = getTessLevel( eyeToVertexDistance0, eyeToVertexDistance1 );
+					out.tessLevelInner[0] = out.tessLevelOuter[2];
+				} );
+
+			writer.implementMainT< SurfaceT, 32u, BezierPatchT >( 6u
+				, [&]( TessControlInT< SurfaceT, 32u > in
+					, TrianglesTessPatchOutT< BezierPatchT > patch )
 				{
 					// The original vertices stay the same
 					patch.wpB030 = in[0].position;
@@ -458,43 +721,6 @@ namespace
 						+ patch.wpB120 ) / 6.0;
 					patch.wpB111 += ( patch.wpB111 - center ) / 2.0;
 				} );
-
-			writer.implementMainT< SurfaceT, 32u, SurfaceT, BezierPatchT >( [&]( TessControlInT< SurfaceT, 32u > in
-				, TessControlOutT< SurfaceT > out
-				, TessPatchOutT< BezierPatchT > patch )
-				{
-					// Set the control points of the output patch
-					FOR( writer, Int, i, 0, i < 3_i, i++ )
-					{
-						auto tbn = writer.declLocale( "tbn"
-							, mat3( normalize( in[i].tangent )
-								, normalize( in[i].bitangent )
-								, normalize( in[i].normal ) ) );
-						auto v3MapNormal = writer.declLocale( "v3MapNormal"
-							, c3d_mapNormal.sample( in[i].texture.xy() ).xyz() );
-						v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0, 1.0 ) );
-						out.normal = normalize( tbn * v3MapNormal );
-						out.tangent = in[i].tangent;
-						out.bitangent = in[i].bitangent;
-						out.texture = in[i].texture;
-						out.instance = in[i].instance;
-					}
-					ROF;
-
-					// Calculate the distance from the camera to the three control points
-					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
-						, distance( pos, in[0].position ) );
-					auto eyeToVertexDistance1 = writer.declLocale( "eyeToVertexDistance1"
-						, distance( pos, in[1].position ) );
-					auto eyeToVertexDistance2 = writer.declLocale( "eyeToVertexDistance2"
-						, distance( pos, in[2].position ) );
-
-					// Calculate the tessellation levels
-					out.tessLevelOuter[0] = getTessLevel( eyeToVertexDistance1, eyeToVertexDistance2 );
-					out.tessLevelOuter[1] = getTessLevel( eyeToVertexDistance2, eyeToVertexDistance0 );
-					out.tessLevelOuter[2] = getTessLevel( eyeToVertexDistance0, eyeToVertexDistance1 );
-					out.tessLevelInner[0] = out.tessLevelOuter[2];
-				} );
 			test::writeShader( writer
 				, testCounts
 				, CurrentCompilers );
@@ -506,10 +732,14 @@ namespace
 sdwTestSuiteMain( TestWriterTessellationControlShader )
 {
 	sdwTestSuiteBegin();
-	//noSpecificIO( testCounts );
-	//specificInputOnly( testCounts );
-	//specificOutputOnly( testCounts );
-	//specificInAndOut( testCounts );
+	noSpecificIO( testCounts );
+	specificInputOnly( testCounts );
+	specificOutputOnly( testCounts );
+	specificInAndOut( testCounts );
+	noSpecificIOPatch( testCounts );
+	specificInputOnlyPatch( testCounts );
+	specificOutputOnlyPatch( testCounts );
+	specificInAndOutPatch( testCounts );
 	tessellationControl( testCounts );
 	sdwTestSuiteEnd();
 }

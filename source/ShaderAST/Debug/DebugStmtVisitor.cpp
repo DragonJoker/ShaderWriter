@@ -407,6 +407,16 @@ namespace ast::debug
 		m_result += ") C(" + std::to_string( stmt->getPrimCount() ) + ")\n";
 	}
 
+	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "L(" + getName( stmt->getDomain() );
+		m_result += "," + getName( stmt->getPartitioning() );
+		m_result += "," + getName( stmt->getTopology() );
+		m_result += "," + getName( stmt->getVertexOrder() );
+		m_result += ") C(" + std::to_string( stmt->getOutputVertices() ) + ")\n";
+	}
+
 	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
 	{
 		displayStmtName( stmt, false );

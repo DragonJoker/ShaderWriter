@@ -122,6 +122,25 @@ namespace spirv
 						, static_cast< ast::type::GeometryInput const & >( *type )
 						, stmt->getName() );
 				}
+				else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
+				{
+					doProcessTessellationControlInput( param
+						, static_cast< ast::type::TessellationControlInput const & >( *type )
+						, stmt->getName()
+						, isEntryPoint );
+				}
+				else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+				{
+					doProcessTessellationControlOutput( param
+						, static_cast< ast::type::TessellationControlOutput const & >( *type )
+						, stmt->getName()
+						, isEntryPoint );
+				}
+				else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+				{
+					doProcessOutputPatch( param
+						, std::static_pointer_cast< ast::type::Struct >( type ) );
+				}
 				else
 				{
 					uint32_t arraySize = ast::type::NotArray;
@@ -149,16 +168,13 @@ namespace spirv
 						{
 							doProcessOutput( param
 								, static_cast< ast::type::IOStruct const & >( *structType )
+								, arraySize
 								, stmt->getName()
 								, isEntryPoint );
 						}
 						else if ( param->isPatchInput() )
 						{
 							doProcessInputPatch( param, structType );
-						}
-						else if ( param->isPatchOutput() )
-						{
-							doProcessOutputPatch( param, structType );
 						}
 					}
 				}
@@ -279,6 +295,10 @@ namespace spirv
 	}
 
 	void StmtConfigFiller::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
 	}
 
@@ -464,6 +484,7 @@ namespace spirv
 			assert( structType.isShaderOutput() );
 			doProcessOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
+				, ast::type::NotArray
 				, name
 				, true );
 		}
@@ -487,8 +508,47 @@ namespace spirv
 		}
 	}
 
+	void StmtConfigFiller::doProcessTessellationControlOutput( ast::var::VariablePtr var
+		, ast::type::TessellationControlOutput const & tessType
+		, std::string const & name
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			doProcessOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, tessType.getOutputVertices()
+				, name
+				, isEntryPoint );
+		}
+	}
+
+	void StmtConfigFiller::doProcessTessellationControlInput( ast::var::VariablePtr var
+		, ast::type::TessellationControlInput const & geomType
+		, std::string const & name
+		, bool isEntryPoint )
+	{
+		auto type = geomType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, geomType.getInputVertices()
+				, name
+				, isEntryPoint );
+		}
+	}
+
 	void StmtConfigFiller::doProcessOutput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & ioType
+		, uint32_t arraySize
 		, std::string const & name
 		, bool isEntryPoint )
 	{
@@ -505,7 +565,8 @@ namespace spirv
 		{
 			m_result.addShaderOutput( "sdwOut_" + mbr.name
 				, mbr.type
-				, ioType.getFlag() );
+				, ioType.getFlag()
+				, arraySize );
 		}
 	}
 

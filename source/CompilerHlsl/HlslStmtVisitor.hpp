@@ -16,12 +16,14 @@ namespace hlsl
 	{
 	public:
 		static std::string submit( HlslConfig const & writerConfig
+			, std::set< std::string > const & patchRoutines
 			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, ast::stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
 		StmtVisitor( HlslConfig const & writerConfig
+			, std::set< std::string > const & patchRoutines
 			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string indent
 			, std::string & result );
@@ -49,6 +51,7 @@ namespace hlsl
 		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
 		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
+		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( ast::stmt::Return * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
@@ -72,6 +75,7 @@ namespace hlsl
 
 	private:
 		HlslConfig const & m_writerConfig;
+		std::set< std::string > const & m_patchRoutines;
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 		std::string m_indent;
 		std::string & m_result;

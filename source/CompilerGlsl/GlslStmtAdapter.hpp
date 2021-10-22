@@ -55,15 +55,20 @@ namespace glsl
 			, ast::type::GeometryOutput const & geomType );
 		void doProcessGeometryInput( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
+		void doProcessTessellationControlInput( ast::var::VariablePtr var
+			, ast::type::TessellationControlInput const & geomType );
+		void doProcessTessellationControlOutput( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & geomType );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
+			, uint32_t arraySize
 			, bool entryPoint );
 		void doProcessInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
 			, bool entryPoint );
 		void doProcessOutputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType
+			, ast::type::TessellationOutputPatch const & patchType
 			, bool entryPoint );
 		void doProcessInputPatch( ast::var::VariablePtr var
 			, ast::type::StructPtr const & structType
