@@ -301,10 +301,10 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T declSampledImage( std::string const & name
+		inline T ShaderWriter::declSampledImage( std::string const & name
 			, uint32_t binding
 			, uint32_t set
-			, bool enabled = true )
+			, bool enabled )
 	{
 		return declSampledImage < T::Format
 			, T::Dim
