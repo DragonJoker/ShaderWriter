@@ -546,7 +546,7 @@ namespace sdw
 			, uint32_t location
 			, uint32_t attributes
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerBuiltin( std::string const & name
+		SDW_API var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, type::TypePtr type
 			, var::Flag flag );
 

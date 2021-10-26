@@ -13,18 +13,23 @@ namespace sdw
 	*	Compute.
 	*/
 	/**@{*/
+	SDW_API UVec3 getWorkGroupSize( ast::type::TypePtr type );
+
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct ComputeInT
 		: public InputT< DataT >
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
-		ComputeInT( ShaderWriter & writer );
+		ComputeInT( ShaderWriter & writer
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ  );
 		ComputeInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		//in uvec3 gl_NumWorkGroups;
 		UVec3 const numWorkGroups;

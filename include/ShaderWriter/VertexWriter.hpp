@@ -27,7 +27,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		//in int gl_VertexIndex;
 		Int const vertexIndex;
@@ -54,7 +54,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		PerVertex vtx;
 	};

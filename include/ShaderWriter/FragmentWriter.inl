@@ -24,61 +24,61 @@ namespace sdw
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
 		, fragCoord{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_FragCoord"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eFragCoord
 					, getTypesCache( writer ).getVec4F()
 					, FlagT ) )
 			, true }
 		, frontFacing{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_FrontFacing"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eFrontFacing
 					, getTypesCache( writer ).getBool()
 					, FlagT ) )
 			, true }
 		, pointCoord{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_PointCoord"
+				, getShader( writer ).registerBuiltin( ast::Builtin::ePointCoord
 					, getTypesCache( writer ).getVec2F()
 					, FlagT ) )
 			, true }
 		, sampleID{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_SampleID"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eSampleID
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, samplePosition{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_SamplePosition"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eSamplePosition
 					, getTypesCache( writer ).getVec2F()
 					, FlagT ) )
 			, true }
 		, sampleMaskIn{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_SampleMaskIn"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eSampleMask
 					, getTypesCache( writer ).getArray( getTypesCache( writer ).getInt() )
 					, FlagT ) )
 			, true }
 		, clipDistance{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_ClipDistance"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eClipDistance
 					, getTypesCache( writer ).getArray( getTypesCache( writer ).getFloat() )
 					, FlagT ) )
 			, true }
 		, primitiveID{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_PrimitiveID"
+				, getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveID
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, layer{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_Layer"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eLayer
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, viewportIndex{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_ViewportIndex"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eViewportIndex
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
@@ -86,7 +86,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
 		return InputT< DataT >::makeType( cache );
 	}
@@ -110,13 +110,13 @@ namespace sdw
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
 		, fragDepth{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_FragDepth"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eFragDepth
 					, getTypesCache( writer ).getFloat()
 					, FlagT ) )
 			, true }
 		, sampleMask{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_SampleMask"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eSampleMask
 					, getTypesCache( writer ).getArray( getTypesCache( writer ).getInt() )
 					, FlagT ) )
 			, true }
@@ -124,7 +124,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
 		return OutputT< DataT >::makeType( cache );
 	}

@@ -31,6 +31,14 @@ namespace ast::type
 		{
 			Member() = default;
 			Member( TypePtr ptype
+				, Builtin pbuiltin )
+				: type{ std::move( ptype ) }
+				, builtin{ pbuiltin }
+				, name{ ast::getName( pbuiltin ) }
+			{
+			}
+
+			Member( TypePtr ptype
 				, std::string pname
 				, uint32_t poffset
 				, uint32_t psize
@@ -59,6 +67,7 @@ namespace ast::type
 			}
 
 			TypePtr type{};
+			Builtin builtin{};
 			std::string name{};
 			uint32_t offset{};
 			uint32_t size{};
@@ -87,12 +96,19 @@ namespace ast::type
 	public:
 		SDAST_API Member getMember( uint32_t index );
 		SDAST_API Member getMember( std::string const & name );
-		SDAST_API uint32_t findMember( std::string const & name );
+		SDAST_API uint32_t findMember( std::string const & name )const;
+		SDAST_API Member getMember( Builtin builtin );
+		SDAST_API uint32_t findMember( Builtin builtin )const;
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		bool hasMember( std::string const & name )
 		{
 			return findMember( name ) != NotFound;
+		}
+
+		bool hasMember( Builtin builtin )
+		{
+			return findMember( builtin ) != NotFound;
 		}
 
 		std::string const & getName()const
@@ -174,6 +190,9 @@ namespace ast::type
 			, MemoryLayout layout
 			, std::string name );
 
+		SDAST_API Member declMember( Builtin builtin
+			, Kind kind
+			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize = NotArray );
@@ -193,6 +212,8 @@ namespace ast::type
 	private:
 		Member doCreateMember( TypePtr type
 			, std::string const & name );
+		Member doCreateMember( TypePtr type
+			, Builtin builtin );
 	};
 
 	class IOStruct
@@ -204,6 +225,9 @@ namespace ast::type
 			, std::string name
 			, var::Flag flag );
 
+		SDAST_API Member declMember( Builtin builtin
+			, Kind kind
+			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize
@@ -220,9 +244,11 @@ namespace ast::type
 			, uint32_t location );
 
 	private:
-		Struct::Member doCreateMember( TypePtr type
+		Member doCreateMember( TypePtr type
 			, std::string const & name
 			, uint32_t location );
+		Member doCreateMember( TypePtr type
+			, Builtin builtin );
 	};
 
 	SDAST_API bool isStructType( type::TypePtr type );

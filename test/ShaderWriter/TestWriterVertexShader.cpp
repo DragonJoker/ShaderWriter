@@ -3,9 +3,6 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_All
-
 namespace
 {
 	template< ast::var::Flag FlagT >
@@ -22,7 +19,7 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache )
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
 		{
 			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
 				, ( FlagT == ast::var::Flag::eShaderOutput
@@ -63,9 +60,68 @@ namespace
 		testEnd();
 	}
 
-	void specificOutputOnly( test::sdw_test::TestCounts & testCounts )
+	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificOutputOnly" );
+		testBegin( "specificMemberInputOnly" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+
+			writer.implementMainT< PositionT, VoidT >( [&]( VertexInT< PositionT > in
+				, VertexOutT< VoidT > out )
+				{
+					out.vtx.position = vec4( in.position, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificGlobalInputOnly" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto position = writer.declInput< Vec3 >( "position", 0u );
+
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
+				, VertexOutT< VoidT > out )
+				{
+					out.vtx.position = vec4( position, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMixedInputOnly" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto offset = writer.declInput< Vec3 >( "offset", 1u );
+
+			writer.implementMainT< PositionT, VoidT >( [&]( VertexInT< PositionT > in
+				, VertexOutT< VoidT > out )
+				{
+					out.vtx.position = vec4( in.position + offset, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
 			VertexWriter writer;
@@ -83,16 +139,60 @@ namespace
 		testEnd();
 	}
 
-	void specificInputOnly( test::sdw_test::TestCounts & testCounts )
+	void specificGlobalOutputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificInputOnly" );
+		testBegin( "specificGlobalOutputOnly" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto position = writer.declOutput< Vec3 >( "position", 0u );
+
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
+				, VertexOutT< VoidT > out )
+				{
+					position = vec3( 1.0_f );
+					out.vtx.position = vec4( position, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMixedOutputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMixedOutputOnly" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto offset = writer.declOutput< Vec3 >( "offset", 1u );
+
+			writer.implementMainT< VoidT, PositionT >( [&]( VertexInT< VoidT > in
+				, VertexOutT< PositionT > out )
+				{
+					offset = vec3( 2.0_f );
+					out.position = vec3( 1.0_f );
+					out.vtx.position = vec4( out.position, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			VertexWriter writer;
 
-			writer.implementMainT< PositionT, VoidT >( [&]( VertexInT< PositionT > in
-				, VertexOutT< VoidT > out )
+			writer.implementMainT< PositionT, PositionT >( [&]( VertexInT< PositionT > in
+				, VertexOutT< PositionT > out )
 				{
+					out.position = in.position;
 					out.vtx.position = vec4( in.position, 1.0_f );
 				} );
 			test::writeShader( writer
@@ -102,16 +202,41 @@ namespace
 		testEnd();
 	}
 
-	void specificInAndOut( test::sdw_test::TestCounts & testCounts )
+	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificInAndOut" );
+		testBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
 			VertexWriter writer;
+			auto inPosition = writer.declInput< Vec3 >( "inPosition", 0u );
+			auto outPosition = writer.declOutput< Vec3 >( "outPosition", 0u );
+
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
+				, VertexOutT< VoidT > out )
+				{
+					outPosition = inPosition;
+					out.vtx.position = vec4( inPosition, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMixedInAndOut" );
+		using namespace sdw;
+		{
+			VertexWriter writer;
+			auto inOffset = writer.declInput< Vec3 >( "inOffset", 1u );
+			auto outOffset = writer.declOutput< Vec3 >( "outOffset", 1u );
 
 			writer.implementMainT< PositionT, PositionT >( [&]( VertexInT< PositionT > in
 				, VertexOutT< PositionT > out )
 				{
+					outOffset = inOffset;
 					out.position = in.position;
 					out.vtx.position = vec4( in.position, 1.0_f );
 				} );
@@ -157,7 +282,7 @@ namespace
 
 			SDW_DeclStructInstance( , PositionT );
 
-			static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
 			{
 				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
 					, ( FlagT == ast::var::Flag::eShaderOutput
@@ -270,12 +395,18 @@ sdwTestSuiteMain( TestWriterVertexShader )
 {
 	sdwTestSuiteBegin();
 	noSpecificIO( testCounts );
-	specificInputOnly( testCounts );
-	specificOutputOnly( testCounts );
-	specificInAndOut( testCounts );
+	specificMemberInputOnly( testCounts );
+	specificGlobalInputOnly( testCounts );
+	specificMixedInputOnly( testCounts );
+	specificMemberOutputOnly( testCounts );
+	specificGlobalOutputOnly( testCounts );
+	specificMixedOutputOnly( testCounts );
+	specificMemberInAndOut( testCounts );
+	specificGlobalInAndOut( testCounts );
+	specificMixedInAndOut( testCounts );
+	constVectorShuffle( testCounts );
 	vertex( testCounts );
 	smaaEdgeDetectionVS( testCounts );
-	constVectorShuffle( testCounts );
 	sdwTestSuiteEnd();
 }
 

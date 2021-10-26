@@ -46,14 +46,14 @@ namespace sdw
 		//patch in float gl_TessLevelInner[2];
 		Array< Float > const tessLevelInner;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
-		Array< PerVertex > const vtx;
+		//Array< PerVertex > const vtx;
 	};
 
 	struct OutTessellationEvaluation : Builtin
 	{
 		SDW_API OutTessellationEvaluation( ShaderWriter & writer );
 		//out gl_PerVertex;
-		PerVertex vtx;
+		//PerVertex vtx;
 	};
 
 	class TessellationEvaluationWriter

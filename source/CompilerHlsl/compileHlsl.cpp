@@ -17,16 +17,21 @@ namespace hlsl
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
 	{
-		auto intrinsicsConfig = hlsl::StmtConfigFiller::submit( shader );
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
 		auto ssaStatements = ast::transformSSA( shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
-		AdaptationData adaptationData{};
+		HlslShader hlslShader{ shader };
+		AdaptationData adaptationData{ hlslShader };
 		adaptationData.aliasId = ssaData.aliasId;
 		adaptationData.nextVarId = ssaData.nextVarId;
-		auto dxStatements = hlsl::StmtAdapter::submit( shader
+
+		auto intrinsicsConfig = hlsl::StmtConfigFiller::submit( hlslShader
+			, adaptationData
+			, ssaStatements.get() );
+
+		auto dxStatements = hlsl::StmtAdapter::submit( hlslShader
 			, ssaStatements.get()
 			, intrinsicsConfig
 			, writerConfig
@@ -35,6 +40,6 @@ namespace hlsl
 			, shader.getStatements() );
 		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return hlsl::StmtVisitor::submit( writerConfig, adaptationData.patchRoutines, aliases, dxStatements.get() );
+		return hlsl::StmtVisitor::submit( writerConfig, adaptationData.entryPoints, aliases, dxStatements.get() );
 	}
 }

@@ -52,7 +52,7 @@ namespace
 			writer.implementMainT< 1u, PointList, PointStream >( [&]( PointList in
 				, PointStream out )
 				{
-					out.vtx.position = in.vtx[0].position;
+					out.vtx.position = in[0].vtx.position;
 					out.append();
 					out.restartStrip();
 				} );
@@ -74,16 +74,16 @@ namespace
 			writer.implementMainT< 3u, TriangleList, MyTriangleStream >( [&]( TriangleList in
 				, MyTriangleStream out )
 				{
-					out.position = in.vtx[0].position.xyz();
-					out.vtx.position = in.vtx[0].position;
+					out.position = in[0].vtx.position.xyz();
+					out.vtx.position = in[0].vtx.position;
 					out.append();
 
-					out.position = in.vtx[1].position.xyz();
-					out.vtx.position = in.vtx[1].position;
+					out.position = in[1].vtx.position.xyz();
+					out.vtx.position = in[1].vtx.position;
 					out.append();
 
-					out.position = in.vtx[2].position.xyz();
-					out.vtx.position = in.vtx[2].position;
+					out.position = in[2].vtx.position.xyz();
+					out.vtx.position = in[2].vtx.position;
 					out.append();
 
 					out.restartStrip();
@@ -106,13 +106,13 @@ namespace
 			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( MyTriangleList in
 				, TriangleStream out )
 				{
-					out.vtx.position = vec4( in[0].position, 0.0_f ) + in.vtx[0].position;
+					out.vtx.position = vec4( in[0].position, 0.0_f ) + in[0].vtx.position;
 					out.append();
 
-					out.vtx.position = vec4( in[1].position, 0.0_f ) + in.vtx[1].position;
+					out.vtx.position = vec4( in[1].position, 0.0_f ) + in[1].vtx.position;
 					out.append();
 
-					out.vtx.position = vec4( in[2].position, 0.0_f ) + in.vtx[2].position;
+					out.vtx.position = vec4( in[2].position, 0.0_f ) + in[2].vtx.position;
 					out.append();
 
 					out.restartStrip();
@@ -137,15 +137,15 @@ namespace
 				, MyTriangleStream out )
 				{
 					out.position = in[0].position;
-					out.vtx.position = in.vtx[0].position;
+					out.vtx.position = in[0].vtx.position;
 					out.append();
 
 					out.position = in[1].position;
-					out.vtx.position = in.vtx[1].position;
+					out.vtx.position = in[1].vtx.position;
 					out.append();
 
 					out.position = in[2].position;
-					out.vtx.position = in.vtx[2].position;
+					out.vtx.position = in[2].vtx.position;
 					out.append();
 
 					out.restartStrip();

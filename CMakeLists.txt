@@ -9,10 +9,10 @@ endif ()
 set( MAIN_PROJECT_NAME "ShaderWriter" )
 
 # Set main project version numbers
-set( VERSION_MAJOR 0 )
-set( VERSION_MINOR 1 )
+set( VERSION_MAJOR 1 )
+set( VERSION_MINOR 2 )
 set( VERSION_BUILD 0 )
-set( VERSION_YEAR 2018 )
+set( VERSION_YEAR 2021 )
 
 if ( NOT DEFINED SDW_BUILD_SDW )
 	set( SDW_BUILD_SDW ON )
@@ -94,11 +94,10 @@ endif ()
 #	MSVC specifics
 #--------------------------------------------------------------------------------------------------
 if( MSVC )
-	# We remove the existing /Zm flag to replace it by /Zm300
-	string( REGEX REPLACE ".*(/Zm[0-9]+).*" "\\1" ZmFlag ${CMAKE_CXX_FLAGS} )
-	if( (NOT "${ZmFlag}" STREQUAL "") AND (NOT "${CMAKE_CXX_FLAGS}" STREQUAL "${ZmFlag}") )
-		string( REPLACE ${ZmFlag} "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
-	endif()
+	string( REGEX REPLACE "/Z[iI7]" "/ZI" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}" )
+	string( REGEX REPLACE "/W[0-4]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" )
+	string( REGEX REPLACE "/W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}" )
+	string( REGEX REPLACE "/Zm[0-9]*" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}" )
 	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm300" )
 	add_definitions( -D_CRT_SECURE_NO_WARNINGS )
 endif()

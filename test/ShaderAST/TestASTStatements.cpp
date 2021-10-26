@@ -715,10 +715,11 @@ namespace
 	{
 		testBegin( "testInputComputeLayout" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makeInputComputeLayout( 16, 32, 64 );
+		auto stmt = ast::stmt::makeInputComputeLayout( cache.getVoid(), 16, 32, 64 );
 		testCounts.streams.cout << "StmtInputComputeLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInputComputeLayout );
+		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
 		check( stmt->getWorkGroupsX() == 16u );
 		check( stmt->getWorkGroupsY() == 32u );
 		check( stmt->getWorkGroupsZ() == 64u );

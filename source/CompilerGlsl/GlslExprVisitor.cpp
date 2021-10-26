@@ -142,10 +142,20 @@ namespace glsl
 	{
 		visitAssignmentExpr( expr );
 	}
+
 	void ExprVisitor::visitAssignExpr( ast::expr::Assign * expr )
 	{
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( lhs == rhs )
+		{
+			return;
+		}
+
 		visitAssignmentExpr( expr );
 	}
+
 	void ExprVisitor::visitDivideAssignExpr( ast::expr::DivideAssign * expr )
 	{
 		visitAssignmentExpr( expr );

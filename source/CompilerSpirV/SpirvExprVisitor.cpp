@@ -859,6 +859,10 @@ namespace spirv
 				, allLiterals
 				, hasFuncInit );
 		}
+		else if ( var->getBuiltin() == ast::Builtin::eWorkGroupSize )
+		{
+			m_result = m_context.workGroupSizeExpr;
+		}
 		else if ( var->isMember() )
 		{
 			m_result = makeAccessChain( expr
@@ -1099,7 +1103,8 @@ namespace spirv
 
 		if ( expr->getSwizzle().isOneComponent()
 			&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier
-			&& !static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->isTempVar() )
+			&& !static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->isTempVar()
+			&& static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getBuiltin() != ast::Builtin::eWorkGroupSize )
 		{
 			m_result = loadVariable( makeAccessChain( expr
 				, m_context
@@ -1452,6 +1457,7 @@ namespace spirv
 				VariableInfo sourceInfo;
 				auto name = adaptName( var->getName() );
 				auto varInfo = m_module.registerVariable( name
+					, var->getBuiltin()
 					, getStorageClass( var )
 					, false
 					, false
@@ -1537,6 +1543,7 @@ namespace spirv
 		VariableInfo info;
 		info.rvalue = true;
 		auto result = m_module.registerVariable( "functmp_" + std::to_string( m_aliasId++ )
+			, ast::Builtin::eNone
 			, spv::StorageClassFunction
 			, false
 			, false
@@ -1564,6 +1571,7 @@ namespace spirv
 		{
 			VariableInfo sourceInfo;
 			m_result = m_module.registerVariable( adaptName( var->getName() )
+				, var->getBuiltin()
 				, storageClass
 				, var->isAlias()
 				, var->isParam()
@@ -1585,6 +1593,7 @@ namespace spirv
 		{
 			VariableInfo sourceInfo;
 			auto varInfo = m_module.registerVariable( adaptName( var->getName() )
+				, var->getBuiltin()
 				, storageClass
 				, false
 				, false

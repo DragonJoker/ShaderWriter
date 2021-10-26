@@ -110,7 +110,13 @@ namespace spirv
 			{
 				auto type = param->getType();
 
-				if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+				if ( type->getKind() == ast::type::Kind::eComputeInput )
+				{
+					doProcessComputeInput( param
+						, static_cast< ast::type::ComputeInput const & >( *type )
+						, stmt->getName() );
+				}
+				else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 				{
 					doProcessGeometryOutput( param
 						, static_cast< ast::type::GeometryOutput const & >( *type )
@@ -472,6 +478,24 @@ namespace spirv
 		}
 	}
 
+	void StmtConfigFiller::doProcessComputeInput( ast::var::VariablePtr var
+		, ast::type::ComputeInput const & compType
+		, std::string const & name )
+	{
+		auto type = compType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, ast::type::NotArray
+				, name
+				, true );
+		}
+	}
+
 	void StmtConfigFiller::doProcessGeometryOutput( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType
 		, std::string const & name )
@@ -564,6 +588,7 @@ namespace spirv
 		for ( auto & mbr : ioType )
 		{
 			m_result.addShaderOutput( "sdwOut_" + mbr.name
+				, mbr.builtin
 				, mbr.type
 				, ioType.getFlag()
 				, arraySize );
@@ -588,6 +613,7 @@ namespace spirv
 		for ( auto & mbr : ioType )
 		{
 			m_result.addShaderInput( "sdwIn_" + mbr.name
+				, mbr.builtin
 				, mbr.type
 				, ioType.getFlag()
 				, arraySize );

@@ -566,6 +566,7 @@ namespace glsl
 			, ", " );
 
 		m_result += ") uniform ";
+		//m_result += getAccessQualifierName( image->getConfig() ) + " ";
 		m_result += getQualifiedName( ast::type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
@@ -756,8 +757,13 @@ namespace glsl
 		}
 		else if ( stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
 		{
-			doAppendLineEnd();
-			m_result += m_indent + doSubmit( stmt->getExpr() ) + ";\n";
+			auto result = doSubmit( stmt->getExpr() );
+
+			if ( !result.empty() )
+			{
+				doAppendLineEnd();
+				m_result += m_indent + result + ";\n";
+			}
 		}
 	}
 

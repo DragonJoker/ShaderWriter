@@ -7,10 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InputComputeLayout::InputComputeLayout( uint32_t workGroupsX
+	InputComputeLayout::InputComputeLayout( type::TypePtr type
+		, uint32_t workGroupsX
 		, uint32_t workGroupsY
 		, uint32_t workGroupsZ )
 		: Stmt{ Kind::eInputComputeLayout }
+		, m_type{ type }
 		, m_workGroupsX{ workGroupsX }
 		, m_workGroupsY{ workGroupsY }
 		, m_workGroupsZ{ workGroupsZ }

@@ -59,6 +59,7 @@ namespace spirv
 			, ast::type::TypePtr type
 			, ValueId exprResultId );
 		SDWSPIRV_API VariableInfo registerVariable( std::string const & name
+			, ast::Builtin builtin
 			, spv::StorageClass storage
 			, bool isAlias
 			, bool isParam
@@ -192,9 +193,9 @@ namespace spirv
 		spv::Id getNextId();
 		void addDebug( std::string const & name
 			, ValueId id );
-		void addBuiltin( std::string const & name
+		void addBuiltin( ast::Builtin builtin
 			, ValueId id );
-		bool addMbrBuiltin( std::string const & name
+		bool addMbrBuiltin( ast::Builtin pbuiltin
 			, ValueId outer
 			, uint32_t mbrIndex );
 		void addVariable( std::string const & name

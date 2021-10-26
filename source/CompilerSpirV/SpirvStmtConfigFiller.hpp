@@ -67,6 +67,9 @@ namespace spirv
 		void doTraverseType( ast::type::StructPtr type );
 
 	private:
+		void doProcessComputeInput( ast::var::VariablePtr var
+			, ast::type::ComputeInput const & compType
+			, std::string const & name );
 		void doProcessGeometryOutput( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType
 			, std::string const & name );

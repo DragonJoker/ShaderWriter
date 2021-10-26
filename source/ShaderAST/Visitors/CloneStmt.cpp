@@ -185,7 +185,8 @@ namespace ast
 
 	void StmtCloner::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
-		m_current->addStmt( stmt::makeInputComputeLayout( stmt->getWorkGroupsX()
+		m_current->addStmt( stmt::makeInputComputeLayout( stmt->getType()
+			, stmt->getWorkGroupsX()
 			, stmt->getWorkGroupsY()
 			, stmt->getWorkGroupsZ() ) );
 	}

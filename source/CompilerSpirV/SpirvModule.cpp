@@ -172,6 +172,24 @@ namespace spirv
 				, initialiser ) );
 			return result;
 		}
+
+		std::string adaptName( std::string const & name )
+		{
+			static std::map< std::string, std::string > const names
+			{
+				{ "gl_InstanceID", "gl_InstanceIndex" },
+				{ "gl_VertexID", "gl_VertexIndex" },
+			};
+
+			auto it = names.find( name );
+
+			if ( it != names.end() )
+			{
+				return it->second;
+			}
+
+			return name;
+		}
 	}
 
 	//*************************************************************************
@@ -501,6 +519,7 @@ namespace spirv
 	}
 
 	VariableInfo Module::registerVariable( std::string const & name
+		, ast::Builtin builtin
 		, spv::StorageClass storage
 		, bool isAlias
 		, bool isParam
@@ -516,7 +535,12 @@ namespace spirv
 			ValueId id{ getNextId()
 				, type->getCache().getPointerType( type, convert( storage ) ) };
 			addDebug( name, id );
-			addBuiltin( name, id );
+
+			if ( builtin != ast::Builtin::eNone )
+			{
+				addBuiltin( builtin, id );
+			}
+
 			addVariable( name, id, it, initialiser );
 			sourceInfo = it->second;
 		}
@@ -1258,6 +1282,14 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
+		else if ( type->getKind() == ast::type::Kind::eComputeInput )
+		{
+			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
+			result = registerType( inputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else
 		{
 			result = doRegisterNonArrayType( type
@@ -1363,7 +1395,7 @@ namespace spirv
 			auto index = member.type->getIndex();
 			debug.push_back( makeInstruction< MemberNameInstruction >( result, ValueId{ index }, member.name ) );
 
-			if ( !addMbrBuiltin( member.name, result, index ) )
+			if ( member.builtin == ast::Builtin::eNone )
 			{
 				decorateMember( result
 					, index
@@ -1371,6 +1403,7 @@ namespace spirv
 			}
 			else
 			{
+				addMbrBuiltin( member.builtin, result, index );
 				hasBuiltin = true;
 			}
 
@@ -1518,11 +1551,11 @@ namespace spirv
 		}
 	}
 
-	void Module::addBuiltin( std::string const & name
+	void Module::addBuiltin( ast::Builtin pbuiltin
 		, ValueId id )
 	{
 		std::vector< spv::Decoration > additionalDecorations;
-		auto builtin = getBuiltin( name, additionalDecorations );
+		auto builtin = getBuiltin( pbuiltin, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
 		{
@@ -1535,13 +1568,13 @@ namespace spirv
 		}
 	}
 
-	bool Module::addMbrBuiltin( std::string const & name
+	bool Module::addMbrBuiltin( ast::Builtin pbuiltin
 		, ValueId outer
 		, uint32_t mbrIndex )
 	{
 		bool result = false;
 		std::vector< spv::Decoration > additionalDecorations;
-		auto builtin = getBuiltin( name, additionalDecorations );
+		auto builtin = getBuiltin( pbuiltin, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
 		{

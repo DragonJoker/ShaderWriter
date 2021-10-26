@@ -15,28 +15,23 @@ namespace sdw
 		: Array< InputT< DataT > >{ writer, std::move( expr ), enabled }
 		, patchVerticesIn{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_PatchVerticesIn"
+				, getShader( writer ).registerBuiltin( ast::Builtin::ePatchVerticesIn
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, primitiveID{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_PrimitiveID"
+				, getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveID
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, invocationID{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_InvocationID"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eInvocationID
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
-		, vtx{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_in"
-					, PerVertex::getArrayType( getTypesCache( writer ), MaxPointsT )
-					, FlagT ) )
-			, true }
+		, vtx{ writer, *this, FlagT }
 	{
 	}
 
@@ -50,19 +45,15 @@ namespace sdw
 					, ast::type::makeTessellationControlInputType( makeType( getTypesCache( writer ) ), MaxPointsT )
 					, FlagT ) ) }
 	{
-		if ( fromEntryPoint )
-		{
-			addStmt( findWriterMandat( *this )
-				, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlInput
-					, vtx.getType() ) );
-		}
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, uint32_t MaxPointsT >
-		ast::type::TypePtr TessControlInT< DataT, MaxPointsT >::makeType( ast::type::TypesCache & cache )
+		ast::type::IOStructPtr TessControlInT< DataT, MaxPointsT >::makeType( ast::type::TypesCache & cache )
 	{
-		return InputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache );
+		PerVertex::fillType( *result );
+		return result;
 	}
 
 	//*************************************************************************
@@ -75,24 +66,19 @@ namespace sdw
 		: Array< OutputT< DataT > >{ writer, std::move( expr ), enabled }
 		, tessLevelOuter{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_TessLevelOuter"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eTessLevelOuter
 					, getTypesCache( writer ).getArray( getTypesCache( writer ).getFloat()
 						, getOuterArraySize( DomainT ) )
 					, FlagT ) )
 			, true }
 		, tessLevelInner{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_TessLevelInner"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eTessLevelInner
 					, getTypesCache( writer ).getArray( getTypesCache( writer ).getFloat()
 						, getInnerArraySize( DomainT ) )
 					, FlagT ) )
 			, hasInnerLevel( DomainT ) }
-		, vtx{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_out"
-					, PerVertex::getArrayType( getTypesCache( writer ), 32u )
-					, FlagT ) )
-			, true }
+		, vtx{ writer, *this, FlagT }
 	{
 	}
 
@@ -114,16 +100,15 @@ namespace sdw
 						, outputVertex )
 					, FlagT ) ) }
 	{
-		addStmt( findWriterMandat( *this )
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationControlOutput
-				, vtx.getType() ) );
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputDomain DomainT >
-	ast::type::TypePtr TessControlOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr TessControlOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
 	{
-		return OutputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
+		PerVertex::fillType( *result );
+		return result;
 	}
 
 	//*************************************************************************

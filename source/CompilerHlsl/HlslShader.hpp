@@ -15,6 +15,9 @@ namespace hlsl
 		HlslShader( ast::Shader const & shader );
 
 		void registerVariable( ast::var::VariablePtr var );
+		ast::var::VariablePtr registerBuiltin( ast::Builtin builtin
+			, ast::type::TypePtr type
+			, uint32_t flags );
 		ast::var::VariablePtr registerName( std::string const & name
 			, ast::type::TypePtr type
 			, uint32_t flags );
@@ -40,6 +43,11 @@ namespace hlsl
 		inline ast::ShaderStage getType()const
 		{
 			return m_shader.getType();
+		}
+
+		inline ast::type::TypesCache & getTypesCache()const
+		{
+			return m_shader.getTypesCache();
 		}
 
 	private:

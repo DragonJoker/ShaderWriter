@@ -110,7 +110,7 @@ namespace ast
 			, uint32_t location
 			, uint32_t attributes
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerBuiltin( std::string const & name
+		SDAST_API var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, type::TypePtr type
 			, var::Flag flag );
 		SDAST_API var::VariablePtr registerBlockVariable( std::string const & name

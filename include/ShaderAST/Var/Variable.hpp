@@ -18,6 +18,10 @@ namespace ast::var
 			, VariablePtr outer
 			, type::TypePtr type
 			, uint32_t flags );
+		SDAST_API Variable( uint32_t id
+			, Builtin builtin
+			, type::TypePtr type
+			, uint32_t flags );
 		SDAST_API Variable( EntityName nameId
 			, type::FunctionPtr type );
 		SDAST_API Variable( uint32_t id
@@ -71,7 +75,7 @@ namespace ast::var
 			m_type = type;
 		}
 
-		std::string const & getName()const
+		std::string getName()const
 		{
 			return m_nameId.name;
 		}
@@ -108,10 +112,18 @@ namespace ast::var
 			return m_nameId.id;
 		}
 
+		Builtin getBuiltin()const
+		{
+			return ( isBuiltin()
+				? m_builtin
+				: Builtin::eNone );
+		}
+
 	private:
 		EntityName m_nameId;
 		VariablePtr m_outer;
 		type::TypePtr m_type;
+		Builtin m_builtin;
 	};
 
 	inline VariablePtr makeVariable( EntityName nameId
@@ -121,7 +133,7 @@ namespace ast::var
 		return std::make_shared< Variable >( std::move( nameId )
 			, outer
 			, type
-			, Flag::eTemp );
+			, Flag::eNone );
 	}
 
 	inline VariablePtr makeVariable( EntityName nameId
@@ -132,7 +144,7 @@ namespace ast::var
 		return std::make_shared< Variable >( std::move( nameId )
 			, outer
 			, type
-			, uint32_t( flag ) | uint32_t( Flag::eTemp ) );
+			, uint32_t( flag ) );
 	}
 
 	inline VariablePtr makeVariable( EntityName nameId
@@ -143,7 +155,7 @@ namespace ast::var
 		return std::make_shared< Variable >( std::move( nameId )
 			, outer
 			, type
-			, flags | uint32_t( Flag::eTemp ) );
+			, flags );
 	}
 
 	inline VariablePtr makeVariable( EntityName nameId
@@ -151,7 +163,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( std::move( nameId )
 			, type
-			, Flag::eTemp );
+			, Flag::eNone );
 	}
 
 	inline VariablePtr makeVariable( EntityName nameId
@@ -160,7 +172,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( std::move( nameId )
 			, type
-			, flags | uint32_t( Flag::eTemp ) );
+			, flags );
 	}
 
 	inline VariablePtr makeVariable( EntityName nameId
@@ -169,7 +181,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( std::move( nameId )
 			, type
-			, uint32_t( flag ) | uint32_t( Flag::eTemp ) );
+			, uint32_t( flag ) );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -180,7 +192,7 @@ namespace ast::var
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, outer
 			, type
-			, Flag::eTemp );
+			, Flag::eNone );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -192,7 +204,7 @@ namespace ast::var
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, outer
 			, type
-			, uint32_t( flag ) | uint32_t( Flag::eTemp ) );
+			, uint32_t( flag ) );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -204,7 +216,7 @@ namespace ast::var
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, outer
 			, type
-			, flags | uint32_t( Flag::eTemp ) );
+			, flags );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -213,7 +225,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, type
-			, Flag::eTemp );
+			, Flag::eNone );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -223,7 +235,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, type
-			, flags | uint32_t( Flag::eTemp ) );
+			, flags );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -233,7 +245,29 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, type
-			, uint32_t( flag ) | uint32_t( Flag::eTemp ) );
+			, uint32_t( flag ) );
+	}
+
+	inline VariablePtr makeBuiltin( uint32_t id
+		, Builtin builtin
+		, type::TypePtr type
+		, Flag flag )
+	{
+		return std::make_shared< Variable >( id
+			, builtin
+			, type
+			, uint32_t( flag ) | uint32_t( Flag::eBuiltin ) );
+	}
+
+	inline VariablePtr makeBuiltin( uint32_t id
+		, Builtin builtin
+		, type::TypePtr type
+		, uint32_t flags )
+	{
+		return std::make_shared< Variable >( id
+			, builtin
+			, type
+			, uint32_t( flags ) | uint32_t( Flag::eBuiltin ) );
 	}
 
 	inline VariablePtr makeFunction( uint32_t id

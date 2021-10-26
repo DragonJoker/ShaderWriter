@@ -15,6 +15,8 @@ namespace hlsl
 	class ExprAdapter
 		: public ast::ExprCloner
 	{
+		friend struct IOMapping;
+
 	public:
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::Expr * expr

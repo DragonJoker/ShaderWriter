@@ -15,21 +15,38 @@ namespace sdw
 	/**
 	*	Holds input data for a geometry shader.
 	*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	struct GeometryDataT
+		: InputT< DataT >
+	{
+		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+
+		GeometryDataT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+
+		PerVertex vtx;
+	};
+	
+	/**
+	*	Holds input data for a geometry shader.
+	*/
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
 	struct GeometryInT
-		: Array< InputT< DataT > >
+		: Array< GeometryDataT< DataT > >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = GeometryDataT< DataT >::FlagT;
 
 		GeometryInT( ShaderWriter & writer );
 		GeometryInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
-		Array< PerVertex > vtx;
 		//in int gl_PrimitiveIDIn;
 		Int const primitiveIDIn;
 		//in int gl_InvocationID;
@@ -72,7 +89,7 @@ namespace sdw
 		void append();
 		void restartStrip();
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		PerVertex vtx;
 		//out int gl_PrimitiveID;

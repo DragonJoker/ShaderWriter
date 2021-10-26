@@ -15,18 +15,39 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	IntrinsicsConfig StmtConfigFiller::submit( ast::Shader const & shader )
+	namespace
+	{
+		bool isOutput( ast::stmt::PerVertexDecl::Source source )
+		{
+			return source == ast::stmt::PerVertexDecl::Source::eGeometryOutput
+				|| source == ast::stmt::PerVertexDecl::Source::eTessellationControlOutput
+				|| source == ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput
+				|| source == ast::stmt::PerVertexDecl::Source::eVertexOutput;
+		}
+	}
+
+	IntrinsicsConfig StmtConfigFiller::submit( HlslShader & shader
+		, AdaptationData & adaptationData
+		, ast::stmt::Container * container )
 	{
 		IntrinsicsConfig result;
-		StmtConfigFiller vis{ shader, result };
-		shader.getStatements()->accept( &vis );
+		StmtConfigFiller vis{ shader, adaptationData, result };
+		container->accept( &vis );
 		return result;
 	}
 
-	StmtConfigFiller::StmtConfigFiller( ast::Shader const & shader
+	StmtConfigFiller::StmtConfigFiller( HlslShader & shader
+		, AdaptationData & adaptationData
 		, IntrinsicsConfig & result )
-		: m_result{ result }
+		: m_shader{ shader }
+		, m_adaptationData{ adaptationData }
+		, m_result{ result }
 	{
+	}
+
+	void StmtConfigFiller::doSubmit( ast::expr::Expr * expr )
+	{
+		ExprConfigFiller::submit( expr, m_adaptationData, m_result );
 	}
 
 	void StmtConfigFiller::visitBreakStmt( ast::stmt::Break * cont )
@@ -70,13 +91,13 @@ namespace hlsl
 
 	void StmtConfigFiller::visitDoWhileStmt( ast::stmt::DoWhile * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		doSubmit( stmt->getCtrlExpr() );
 		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		doSubmit( stmt->getCtrlExpr() );
 		visitContainerStmt( stmt );
 	}
 
@@ -87,9 +108,9 @@ namespace hlsl
 
 	void StmtConfigFiller::visitForStmt( ast::stmt::For * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getInitExpr(), m_result );
-		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
-		ExprConfigFiller::submit( stmt->getIncrExpr(), m_result );
+		doSubmit( stmt->getInitExpr() );
+		doSubmit( stmt->getCtrlExpr() );
+		doSubmit( stmt->getIncrExpr() );
 		visitContainerStmt( stmt );
 	}
 
@@ -99,12 +120,32 @@ namespace hlsl
 
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
+		if ( stmt->getFlags() )
+		{
+			if ( !stmt->isEntryPoint() )
+			{
+				m_adaptationData.entryPoints.emplace( stmt->getName()
+					, std::make_unique< EntryPoint >( m_shader
+						, &m_adaptationData
+						, stmt->isEntryPoint() ) );
+				m_adaptationData.currentEntryPoint = m_adaptationData.entryPoints[stmt->getName()].get();
+			}
+			else
+			{
+				m_adaptationData.currentEntryPoint = m_adaptationData.mainEntryPoint;
+			}
+
+			m_adaptationData.currentEntryPoint->needsSeparateFunc = needsSeparateMain( m_shader.getType()
+				, stmt->isEntryPoint() );
+			m_adaptationData.currentEntryPoint->initialise( *stmt );
+		}
+
 		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		doSubmit( stmt->getCtrlExpr() );
 		visitContainerStmt( stmt );
 
 		for ( auto & elseIf : stmt->getElseIfList() )
@@ -124,6 +165,19 @@ namespace hlsl
 
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		auto var = stmt->getVariable();
+
+		if ( var->isShaderInput() )
+		{
+			m_adaptationData.mainEntryPoint->addInputVar( var
+				, stmt->getLocation() );
+		}
+
+		if ( var->isShaderOutput() )
+		{
+			m_adaptationData.mainEntryPoint->addOutputVar( var
+				, stmt->getLocation() );
+		}
 	}
 
 	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
@@ -148,13 +202,33 @@ namespace hlsl
 
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
+		auto index = 0u;
+		auto type = getNonArrayType( stmt->getType() );
+		assert( type->getKind() == ast::type::Kind::eStruct );
+
+		for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
+		{
+			auto name = ast::getName( member.builtin );
+			auto var = ( m_shader.hasVar( name )
+				? m_shader.getVar( name, member.type )
+				: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
+
+			if ( isOutput( stmt->getSource() ) )
+			{
+				m_adaptationData.mainEntryPoint->addPendingOutput( var, index++ );
+			}
+			else
+			{
+				m_adaptationData.mainEntryPoint->addPendingInput( var, index++ );
+			}
+		}
 	}
 
 	void StmtConfigFiller::visitReturnStmt( ast::stmt::Return * stmt )
 	{
 		if ( stmt->getExpr() )
 		{
-			ExprConfigFiller::submit( stmt->getExpr(), m_result );
+			doSubmit( stmt->getExpr() );
 		}
 	}
 
@@ -177,7 +251,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getExpr(), m_result );
+		doSubmit( stmt->getExpr() );
 	}
 
 	void StmtConfigFiller::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
@@ -191,28 +265,34 @@ namespace hlsl
 
 	void StmtConfigFiller::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
+		doSubmit( stmt->getTestExpr()->getValue() );
 		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
+		auto var = stmt->getVariable();
+
+		if ( var->isBuiltin() )
+		{
+			m_adaptationData.mainEntryPoint->addBuiltin( var );
+		}
 	}
 
 	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )
 	{
-		ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+		doSubmit( stmt->getCtrlExpr() );
 		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
-		ExprConfigFiller::submit( preproc->getExpr(), m_result );
+		doSubmit( preproc->getExpr() );
 	}
 
 	void StmtConfigFiller::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
-		ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
+		doSubmit( preproc->getCtrlExpr() );
 		visitContainerStmt( preproc );
 	}
 
@@ -231,7 +311,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
-		ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
+		doSubmit( preproc->getCtrlExpr() );
 		visitContainerStmt( preproc );
 	}
 

@@ -68,13 +68,16 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Struct::Member">
-		<DisplayString>[{offset}, {size}] {*type} {name}</DisplayString>
+		<DisplayString Condition="builtin==0">[{offset}, {size}] {*type} {name}</DisplayString>
+		<DisplayString Condition="builtin!=0">{*type} {builtin}</DisplayString>
 		<Expand>
 			<Item Name="type">*type</Item>
 			<Item Name="name">name</Item>
 			<Item Name="offset">offset</Item>
 			<Item Name="size">size</Item>
 			<Item Name="arrayStride">arrayStride</Item>
+			<Item Name="builtin">builtin</Item>
+			<Item Name="location">location</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Struct">

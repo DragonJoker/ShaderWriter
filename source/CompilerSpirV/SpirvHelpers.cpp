@@ -249,6 +249,7 @@ namespace spirv
 	}
 
 	void ModuleConfig::addShaderInput( std::string const & name
+		, ast::Builtin builtin
 		, ast::type::TypePtr type
 		, uint32_t flags
 		, uint32_t arraySize )
@@ -263,16 +264,29 @@ namespace spirv
 		if ( it == inputs.end() )
 		{
 			auto & cache = type->getCache();
-			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-				, ( arraySize == ast::type::NotArray
-					? type
-					: cache.getArray( type, arraySize ) )
-				, flags );
-			inputs.emplace( var );
+
+			if ( builtin == ast::Builtin::eNone )
+			{
+				inputs.emplace( ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
+					, ( arraySize == ast::type::NotArray
+						? type
+						: cache.getArray( type, arraySize ) )
+					, flags ) );
+			}
+			else
+			{
+				inputs.emplace( ast::var::makeBuiltin( ++nextVarId
+					, builtin
+					, ( arraySize == ast::type::NotArray
+						? type
+						: cache.getArray( type, arraySize ) )
+					, flags ) );
+			}
 		}
 	}
 
 	void ModuleConfig::addShaderOutput( std::string const & name
+		, ast::Builtin builtin
 		, ast::type::TypePtr type
 		, uint32_t flags
 		, uint32_t arraySize )
@@ -287,12 +301,24 @@ namespace spirv
 		if ( it == outputs.end() )
 		{
 			auto & cache = type->getCache();
-			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-				, ( arraySize == ast::type::NotArray
-					? type
-					: cache.getArray( type, arraySize ) )
-				, flags );
-			outputs.emplace( var );
+
+			if ( builtin == ast::Builtin::eNone )
+			{
+				outputs.emplace( ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
+					, ( arraySize == ast::type::NotArray
+						? type
+						: cache.getArray( type, arraySize ) )
+					, flags ) );
+			}
+			else
+			{
+				outputs.emplace( ast::var::makeBuiltin( ++nextVarId
+					, builtin
+					, ( arraySize == ast::type::NotArray
+						? type
+						: cache.getArray( type, arraySize ) )
+					, flags ) );
+			}
 		}
 	}
 
@@ -348,271 +374,142 @@ namespace spirv
 
 	//*************************************************************************
 
-	spv::BuiltIn getBuiltin( std::string const & name
+	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, std::vector< spv::Decoration > & additionalDecorations )
 	{
-		auto result = spv::BuiltInMax;
-
-		if ( name == "gl_Position" )
+		switch ( builtin )
 		{
-			result = spv::BuiltInPosition;
-		}
-		else if ( name == "gl_PointSize" )
-		{
-			result = spv::BuiltInPointSize;
-		}
-		else if ( name == "gl_ClipDistance" )
-		{
-			result = spv::BuiltInClipDistance;
-		}
-		else if ( name == "gl_CullDistance" )
-		{
-			result = spv::BuiltInCullDistance;
-		}
-		else if ( name == "gl_VertexID" )
-		{
-			result = spv::BuiltInVertexId;
-		}
-		else if ( name == "gl_InstanceID" )
-		{
-			result = spv::BuiltInInstanceId;
-		}
-		else if ( name == "gl_PrimitiveID" )
-		{
-			result = spv::BuiltInPrimitiveId;
-		}
-		else if ( name == "gl_InvocationID" )
-		{
-			result = spv::BuiltInInvocationId;
-		}
-		else if ( name == "gl_Layer" )
-		{
-			result = spv::BuiltInLayer;
-		}
-		else if ( name == "gl_ViewportIndex" )
-		{
-			result = spv::BuiltInViewportIndex;
-		}
-		else if ( name == "gl_TessLevelOuter" )
-		{
-			result = spv::BuiltInTessLevelOuter;
+		case ast::Builtin::ePosition:
+			return spv::BuiltInPosition;
+		case ast::Builtin::ePointSize:
+			return spv::BuiltInPointSize;
+		case ast::Builtin::eClipDistance:
+			return spv::BuiltInClipDistance;
+		case ast::Builtin::eCullDistance:
+			return spv::BuiltInCullDistance;
+		case ast::Builtin::ePrimitiveID:
+		case ast::Builtin::ePrimitiveIDIn:
+			return spv::BuiltInPrimitiveId;
+		case ast::Builtin::eInvocationID:
+			return spv::BuiltInInvocationId;
+		case ast::Builtin::eLayer:
+			return spv::BuiltInLayer;
+		case ast::Builtin::eViewportIndex:
+			return spv::BuiltInViewportIndex;
+		case ast::Builtin::eTessLevelOuter:
 			additionalDecorations.push_back( spv::DecorationPatch );
-		}
-		else if ( name == "gl_TessLevelInner" )
-		{
-			result = spv::BuiltInTessLevelInner;
+			return spv::BuiltInTessLevelOuter;
+		case ast::Builtin::eTessLevelInner:
 			additionalDecorations.push_back( spv::DecorationPatch );
+			return spv::BuiltInTessLevelInner;
+		case ast::Builtin::eTessCoord:
+			return spv::BuiltInTessCoord;
+		case ast::Builtin::ePatchVertices:
+		case ast::Builtin::ePatchVerticesIn:
+			return spv::BuiltInPatchVertices;
+		case ast::Builtin::eFragCoord:
+			return spv::BuiltInFragCoord;
+		case ast::Builtin::ePointCoord:
+			return spv::BuiltInPointCoord;
+		case ast::Builtin::eFrontFacing:
+			return spv::BuiltInFrontFacing;
+		case ast::Builtin::eSampleID:
+			return spv::BuiltInSampleId;
+		case ast::Builtin::eSamplePosition:
+			return spv::BuiltInSamplePosition;
+		case ast::Builtin::eSampleMask:
+		case ast::Builtin::eSampleMaskIn:
+			return spv::BuiltInSampleMask;
+		case ast::Builtin::eFragDepth:
+			return spv::BuiltInFragDepth;
+		case ast::Builtin::eHelperInvocation:
+			return spv::BuiltInHelperInvocation;
+		case ast::Builtin::eNumWorkGroups:
+			return spv::BuiltInNumWorkgroups;
+		case ast::Builtin::eWorkGroupSize:
+			return spv::BuiltInWorkgroupSize;
+		case ast::Builtin::eWorkGroupID:
+			return spv::BuiltInWorkgroupId;
+		case ast::Builtin::eLocalInvocationID:
+			return spv::BuiltInLocalInvocationId;
+		case ast::Builtin::eGlobalInvocationID:
+			return spv::BuiltInGlobalInvocationId;
+		case ast::Builtin::eLocalInvocationIndex:
+			return spv::BuiltInLocalInvocationIndex;
+		case ast::Builtin::eWorkDim:
+			return spv::BuiltInWorkDim;
+		case ast::Builtin::eGlobalSize:
+			return spv::BuiltInGlobalSize;
+		case ast::Builtin::eEnqueuedWorkgroupSize:
+			return spv::BuiltInEnqueuedWorkgroupSize;
+		case ast::Builtin::eGlobalLinearID:
+			return spv::BuiltInGlobalLinearId;
+		case ast::Builtin::eSubgroupSize:
+			return spv::BuiltInSubgroupSize;
+		case ast::Builtin::eSubgroupMaxSize:
+			return spv::BuiltInSubgroupMaxSize;
+		case ast::Builtin::eNumSubgroups:
+			return spv::BuiltInNumSubgroups;
+		case ast::Builtin::eNumEnqueuedSubgroups:
+			return spv::BuiltInNumEnqueuedSubgroups;
+		case ast::Builtin::eSubgroupID:
+			return spv::BuiltInSubgroupId;
+		case ast::Builtin::eSubgroupLocalInvocationID:
+			return spv::BuiltInSubgroupLocalInvocationId;
+		case ast::Builtin::eVertexIndex:
+			return spv::BuiltInVertexIndex;
+		case ast::Builtin::eInstanceIndex:
+			return spv::BuiltInInstanceIndex;
+		case ast::Builtin::eSubgroupEqMaskKHR:
+			return spv::BuiltInSubgroupEqMaskKHR;
+		case ast::Builtin::eSubgroupGeMaskKHR:
+			return spv::BuiltInSubgroupGeMaskKHR;
+		case ast::Builtin::eSubgroupGtMaskKHR:
+			return spv::BuiltInSubgroupGtMaskKHR;
+		case ast::Builtin::eSubgroupLeMaskKHR:
+			return spv::BuiltInSubgroupLeMaskKHR;
+		case ast::Builtin::eSubgroupLtMaskKHR:
+			return spv::BuiltInSubgroupLtMaskKHR;
+		case ast::Builtin::eBaseVertex:
+			return spv::BuiltInBaseVertex;
+		case ast::Builtin::eBaseInstance:
+			return spv::BuiltInBaseInstance;
+		case ast::Builtin::eDrawIndex:
+			return spv::BuiltInDrawIndex;
+		case ast::Builtin::eDeviceIndex:
+			return spv::BuiltInDeviceIndex;
+		case ast::Builtin::eViewIndex:
+			return spv::BuiltInViewIndex;
+		case ast::Builtin::eBaryCoordNoPerspAMD:
+			return spv::BuiltInBaryCoordNoPerspAMD;
+		case ast::Builtin::eBaryCoordNoPerspCentroidAMD:
+			return spv::BuiltInBaryCoordNoPerspCentroidAMD;
+		case ast::Builtin::eBaryCoordNoPerspSampleAMD:
+			return spv::BuiltInBaryCoordNoPerspSampleAMD;
+		case ast::Builtin::eBaryCoordSmoothAMD:
+			return spv::BuiltInBaryCoordSmoothAMD;
+		case ast::Builtin::eBaryCoordSmoothCentroidAMD:
+			return spv::BuiltInBaryCoordSmoothCentroidAMD;
+		case ast::Builtin::eBaryCoordSmoothSampleAMD:
+			return spv::BuiltInBaryCoordSmoothSampleAMD;
+		case ast::Builtin::eBaryCoordPullModelAMD:
+			return spv::BuiltInBaryCoordPullModelAMD;
+		case ast::Builtin::eFragStencilRefEXT:
+			return spv::BuiltInFragStencilRefEXT;
+		case ast::Builtin::eViewportMaskNV:
+			return spv::BuiltInViewportMaskNV;
+		case ast::Builtin::eSecondaryPositionNV:
+			return spv::BuiltInSecondaryPositionNV;
+		case ast::Builtin::eSecondaryViewportMaskNV:
+			return spv::BuiltInSecondaryViewportMaskNV;
+		case ast::Builtin::ePositionPerViewNV:
+			return spv::BuiltInPositionPerViewNV;
+		case ast::Builtin::eViewportMaskPerViewNV:
+			return spv::BuiltInViewportMaskPerViewNV;
+		default:
+			AST_Failure( "Unsupported ast::Builtin" );
+			return spv::BuiltInMax;
 		}
-		else if ( name == "gl_TessCoord" )
-		{
-			result = spv::BuiltInTessCoord;
-		}
-		else if ( name == "gl_PatchVertices" )
-		{
-			result = spv::BuiltInPatchVertices;
-		}
-		else if ( name == "gl_FragCoord" )
-		{
-			result = spv::BuiltInFragCoord;
-		}
-		else if ( name == "gl_PointCoord" )
-		{
-			result = spv::BuiltInPointCoord;
-		}
-		else if ( name == "gl_FrontFacing" )
-		{
-			result = spv::BuiltInFrontFacing;
-		}
-		else if ( name == "gl_SampleID" )
-		{
-			result = spv::BuiltInSampleId;
-		}
-		else if ( name == "gl_SamplePosition" )
-		{
-			result = spv::BuiltInSamplePosition;
-		}
-		else if ( name == "gl_SampleMask" )
-		{
-			result = spv::BuiltInSampleMask;
-		}
-		else if ( name == "gl_FragDepth" )
-		{
-			result = spv::BuiltInFragDepth;
-		}
-		else if ( name == "gl_HelperInvocation" )
-		{
-			result = spv::BuiltInHelperInvocation;
-		}
-		else if ( name == "gl_NumWorkgroups" )
-		{
-			result = spv::BuiltInNumWorkgroups;
-		}
-		else if ( name == "gl_WorkgroupSize" )
-		{
-			result = spv::BuiltInWorkgroupSize;
-		}
-		else if ( name == "gl_WorkgroupID" )
-		{
-			result = spv::BuiltInWorkgroupId;
-		}
-		else if ( name == "gl_LocalInvocationID" )
-		{
-			result = spv::BuiltInLocalInvocationId;
-		}
-		else if ( name == "gl_GlobalInvocationID" )
-		{
-			result = spv::BuiltInGlobalInvocationId;
-		}
-		else if ( name == "gl_LocalInvocationIndex" )
-		{
-			result = spv::BuiltInLocalInvocationIndex;
-		}
-		else if ( name == "gl_WorkDim" )
-		{
-			result = spv::BuiltInWorkDim;
-		}
-		else if ( name == "gl_GlobalSize" )
-		{
-			result = spv::BuiltInGlobalSize;
-		}
-		else if ( name == "gl_EnqueuedWorkgroupSize" )
-		{
-			result = spv::BuiltInEnqueuedWorkgroupSize;
-		}
-		else if ( name == "gl_GlobalOffset" )
-		{
-			result = spv::BuiltInGlobalOffset;
-		}
-		else if ( name == "gl_GlobalLinearID" )
-		{
-			result = spv::BuiltInGlobalLinearId;
-		}
-		else if ( name == "gl_SubgroupSize" )
-		{
-			result = spv::BuiltInSubgroupSize;
-		}
-		else if ( name == "gl_SubgroupMaxSize" )
-		{
-			result = spv::BuiltInSubgroupMaxSize;
-		}
-		else if ( name == "gl_NumSubgroups" )
-		{
-			result = spv::BuiltInNumSubgroups;
-		}
-		else if ( name == "gl_NumEnqueuedSubgroups" )
-		{
-			result = spv::BuiltInNumEnqueuedSubgroups;
-		}
-		else if ( name == "gl_SubgroupID" )
-		{
-			result = spv::BuiltInSubgroupId;
-		}
-		else if ( name == "gl_SubgroupLocalInvocationID" )
-		{
-			result = spv::BuiltInSubgroupLocalInvocationId;
-		}
-		else if ( name == "gl_VertexIndex" )
-		{
-			result = spv::BuiltInVertexIndex;
-		}
-		else if ( name == "gl_InstanceIndex" )
-		{
-			result = spv::BuiltInInstanceIndex;
-		}
-		else if ( name == "gl_SubgroupEqMaskKHR" )
-		{
-			result = spv::BuiltInSubgroupEqMaskKHR;
-		}
-		else if ( name == "gl_SubgroupGeMaskKHR" )
-		{
-			result = spv::BuiltInSubgroupGeMaskKHR;
-		}
-		else if ( name == "gl_SubgroupGtMaskKHR" )
-		{
-			result = spv::BuiltInSubgroupGtMaskKHR;
-		}
-		else if ( name == "gl_SubgroupLeMaskKHR" )
-		{
-			result = spv::BuiltInSubgroupLeMaskKHR;
-		}
-		else if ( name == "gl_SubgroupLtMaskKHR" )
-		{
-			result = spv::BuiltInSubgroupLtMaskKHR;
-		}
-		else if ( name == "gl_BaseVertex" )
-		{
-			result = spv::BuiltInBaseVertex;
-		}
-		else if ( name == "gl_BaseInstance" )
-		{
-			result = spv::BuiltInBaseInstance;
-		}
-		else if ( name == "gl_DrawIndex" )
-		{
-			result = spv::BuiltInDrawIndex;
-		}
-		else if ( name == "gl_DeviceIndex" )
-		{
-			result = spv::BuiltInDeviceIndex;
-		}
-		else if ( name == "gl_ViewIndex" )
-		{
-			result = spv::BuiltInViewIndex;
-		}
-		else if ( name == "gl_BaryCoordNoPerspAMD" )
-		{
-			result = spv::BuiltInBaryCoordNoPerspAMD;
-		}
-		else if ( name == "gl_BaryCoordNoPerspCentroidAMD" )
-		{
-			result = spv::BuiltInBaryCoordNoPerspCentroidAMD;
-		}
-		else if ( name == "gl_BaryCoordNoPerspSampleAMD" )
-		{
-			result = spv::BuiltInBaryCoordNoPerspSampleAMD;
-		}
-		else if ( name == "gl_BaryCoordSmoothAMD" )
-		{
-			result = spv::BuiltInBaryCoordSmoothAMD;
-		}
-		else if ( name == "gl_BaryCoordSmoothCentroidAMD" )
-		{
-			result = spv::BuiltInBaryCoordSmoothCentroidAMD;
-		}
-		else if ( name == "gl_BaryCoordSmoothSampleAMD" )
-		{
-			result = spv::BuiltInBaryCoordSmoothSampleAMD;
-		}
-		else if ( name == "gl_BaryCoordPullModelAMD" )
-		{
-			result = spv::BuiltInBaryCoordPullModelAMD;
-		}
-		else if ( name == "gl_FragStencilRefEXT" )
-		{
-			result = spv::BuiltInFragStencilRefEXT;
-		}
-		else if ( name == "gl_ViewportMaskNV" )
-		{
-			result = spv::BuiltInViewportMaskNV;
-		}
-		else if ( name == "gl_SecondaryPositionNV" )
-		{
-			result = spv::BuiltInSecondaryPositionNV;
-		}
-		else if ( name == "gl_SecondaryViewportMaskNV" )
-		{
-			result = spv::BuiltInSecondaryViewportMaskNV;
-		}
-		else if ( name == "gl_PositionPerViewNV" )
-		{
-			result = spv::BuiltInPositionPerViewNV;
-		}
-		else if ( name == "gl_ViewportMaskPerViewNV" )
-		{
-			result = spv::BuiltInViewportMaskPerViewNV;
-		}
-
-		return result;
 	}
 
 	spv::MemoryModel getMemoryModel()

@@ -22,6 +22,24 @@ namespace hlsl
 #endif
 	}
 
+	ast::var::VariablePtr HlslShader::registerBuiltin( ast::Builtin builtin
+		, ast::type::TypePtr type
+		, uint32_t flags )
+	{
+		auto name = ast::getName( builtin );
+		auto ires = m_registered.emplace( name, nullptr );
+
+		if ( ires.second )
+		{
+			ires.first->second = ast::var::makeBuiltin( ++m_shader.getData().nextVarId
+				, builtin
+				, type
+				, flags );
+		}
+
+		return ires.first->second;
+	}
+
 	ast::var::VariablePtr HlslShader::registerName( std::string const & name
 		, ast::type::TypePtr type
 		, uint32_t flags )

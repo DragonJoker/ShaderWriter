@@ -176,41 +176,11 @@ namespace glsl
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
-		auto outer = expr->getOuterExpr();
+		m_result = doProcessMbr( expr->getOuterExpr()
+			, expr->getMemberIndex()
+			, expr->getMemberFlags() );
 
-		if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.output )
-		{
-			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeIdentifier( m_cache
-				, m_adaptationData.outputs[expr->getMemberIndex()] );
-		}
-		else if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == m_adaptationData.input )
-		{
-			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeIdentifier( m_cache
-				, m_adaptationData.inputs[expr->getMemberIndex()] );
-		}
-		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
-			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() == m_adaptationData.output )
-		{
-			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeArrayAccess( expr->getType()
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputs[expr->getMemberIndex()] )
-				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
-		}
-		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
-			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
-			&& static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() == m_adaptationData.input )
-		{
-			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeArrayAccess( expr->getType()
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputs[expr->getMemberIndex()] )
-				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
-		}
-		else
+		if ( !m_result )
 		{
 			ExprCloner::visitMbrSelectExpr( expr );
 		}
@@ -452,5 +422,99 @@ namespace glsl
 		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()
 			, std::move( args ) );
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doProcessIOMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, uint32_t mbrFlags
+		, IOVars & io )
+	{
+		assert( isStructType( outer->getType() ) );
+		auto structType = getStructType( outer->getType() );
+		auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
+		ast::expr::ExprPtr result;
+		ast::expr::ExprPtr indexExpr{};
+
+		if ( isPerVertex( mbr.builtin ) )
+		{
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+				outer = arrayAccess.getLHS();
+
+				if ( outer->getKind() == ast::expr::Kind::eIdentifier
+					&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+				{
+					indexExpr = doSubmit( arrayAccess.getRHS() );
+				}
+			}
+
+			if ( outer->getKind() == ast::expr::Kind::eIdentifier
+				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+			{
+				if ( indexExpr )
+				{
+					auto type = getNonArrayType( io.perVertex->getType() );
+					assert( isStructType( type ) );
+					auto perVertexType = getStructType( type );
+					mbrIndex = perVertexType->findMember( mbr.builtin );
+					assert( mbrIndex != ast::type::NotArray );
+					result = ast::expr::makeArrayAccess( perVertexType
+						, ast::expr::makeIdentifier( m_cache, io.perVertex )
+						, std::move( indexExpr ) );
+					result = ast::expr::makeMbrSelect( std::move( result )
+						, mbrIndex
+						, mbrFlags | ast::var::Flag::eBuiltin );
+				}
+				else
+				{
+					auto ires = io.perVertexMbrs.emplace( mbr.builtin, nullptr );
+
+					if ( ires.second )
+					{
+						ires.first->second = ast::expr::makeIdentifier( m_cache
+							, ast::var::makeVariable( { ++m_adaptationData.nextVarId, "gl_" + getName( mbr.builtin ) }
+								, mbr.type
+								, mbrFlags | ast::var::Flag::eBuiltin ) );
+					}
+
+					auto it = ires.first;
+					result = ExprCloner::submit( it->second.get() );
+				}
+			}
+		}
+		else
+		{
+			if ( outer->getKind() == ast::expr::Kind::eIdentifier
+				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+			{
+				assert( io.vars.size() > mbrIndex );
+				result = ast::expr::makeIdentifier( m_cache
+					, io.vars[mbrIndex] );
+			}
+			else if ( outer->getKind() == ast::expr::Kind::eIdentifier
+				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+			{
+				assert( io.vars.size() > mbrIndex );
+				result = ast::expr::makeIdentifier( m_cache
+					, io.vars[mbrIndex] );
+			}
+		}
+
+		return result;
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doProcessMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, uint32_t mbrFlags )
+	{
+		auto result = doProcessIOMbr( outer, mbrIndex, mbrFlags, m_adaptationData.inputs );
+
+		if ( !result )
+		{
+			result = doProcessIOMbr( outer, mbrIndex, mbrFlags, m_adaptationData.outputs );
+		}
+
+		return result;
 	}
 }

@@ -17,14 +17,14 @@ namespace hlsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::Shader const & shader
+		static ast::stmt::ContainerPtr submit( HlslShader & shader
 			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData );
 
 	private:
-		StmtAdapter( ast::Shader const & shader
+		StmtAdapter( HlslShader & shader
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
@@ -53,40 +53,15 @@ namespace hlsl
 		void rewriteShaderIOVars();
 		void writeMain( ast::stmt::FunctionDecl * stmt );
 		ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt );
-		void registerGeometryInput( ast::var::VariablePtr var
-			, ast::type::GeometryInput const & geomType );
-		void registerGeometryOutput( ast::var::VariablePtr var
-			, ast::type::GeometryOutput const & geomType );
-		void registerTessellationControlInput( ast::var::VariablePtr var
-			, ast::type::TessellationControlInput const & tessType
-			, bool isEntryPoint );
-		void registerTessellationControlOutput( ast::var::VariablePtr var
-			, ast::type::TessellationControlOutput const & tessType
-			, bool isEntryPoint );
-		void registerInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
-			, bool isEntryPoint );
-		void registerOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
-			, bool isEntryPoint );
-		void registerInputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType
-			, bool isEntryPoint );
-		void registerOutputPatch( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType
-			, bool isEntryPoint );
-		void declareStruct( ast::type::StructPtr const & structType );
 
 	private:
 		IntrinsicsConfig const & m_intrinsicsConfig;
 		HlslConfig const & m_writerConfig;
 		AdaptationData & m_adaptationData;
-		HlslShader m_shader;
+		HlslShader & m_shader;
 		ast::type::TypesCache & m_cache;
-		ast::stmt::Container * m_inOutDeclarations;
 		ast::stmt::Container * m_intrinsics;
-		ast::stmt::InputComputeLayout * m_inputComputeLayout{ nullptr };
-		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		ast::stmt::Container * m_inOutDeclarations;
 	};
 }
 

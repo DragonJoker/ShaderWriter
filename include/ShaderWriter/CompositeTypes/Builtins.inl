@@ -18,14 +18,19 @@ namespace sdw
 	VoidT< FlagT >::VoidT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: Value{ writer, std::move( expr ), enabled }
+		: StructInstance{ writer, std::move( expr ), enabled }
 	{
 	}
 
 	template< ast::var::Flag FlagT >
-	ast::type::TypePtr VoidT< FlagT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr VoidT< FlagT >::makeIOType( ast::type::TypesCache & cache )
 	{
-		return Void::makeType( cache );
+		return cache.getIOStruct( ast::type::MemoryLayout::eC
+			, "SDW_Void"
+				+ ( FlagT == ast::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } )
+			, FlagT );
 	}
 
 	//*************************************************************************
@@ -39,9 +44,9 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr PatchInT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr PatchInT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return DataT< FlagT >::makeType( cache );
+		return DataT< FlagT >::makeIOType( cache );
 	}
 
 	//*************************************************************************
@@ -55,9 +60,9 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr PatchOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr PatchOutT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return DataT< FlagT >::makeType( cache );
+		return DataT< FlagT >::makeIOType( cache );
 	}
 
 	//*************************************************************************
@@ -71,9 +76,9 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr InputT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr InputT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return DataT< FlagT >::makeType( cache );
+		return DataT< FlagT >::makeIOType( cache );
 	}
 
 	//*************************************************************************
@@ -87,9 +92,9 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr OutputT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr OutputT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return DataT< FlagT >::makeType( cache );
+		return DataT< FlagT >::makeIOType( cache );
 	}
 	/**@}*/
 #pragma endregion

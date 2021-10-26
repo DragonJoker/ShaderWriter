@@ -19,59 +19,54 @@ namespace sdw
 		: Builtin{ writer }
 		, tessCoord{ writer
 			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_TessCoord"
+				, writer.getShader().registerBuiltin( ast::Builtin::eTessCoord
 					, writer.getTypesCache().getVec3F()
 					, var::Flag::eShaderInput ) )
 			, true }
 		, patchVerticesIn{ writer
 			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PatchVerticesIn"
+				, writer.getShader().registerBuiltin( ast::Builtin::ePatchVertices
 					, writer.getTypesCache().getInt()
 					, var::Flag::eShaderInput ) )
 			, true }
 		, primitiveID{ writer
 			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_PrimitiveID"
+				, writer.getShader().registerBuiltin( ast::Builtin::ePrimitiveID
 					, writer.getTypesCache().getInt()
 					, var::Flag::eShaderInput ) )
 			, true }
 		, tessLevelOuter{ writer
 			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_TessLevelOuter"
+				, writer.getShader().registerBuiltin( ast::Builtin::eTessLevelOuter
 					, writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 4u )
 					, var::Flag::eShaderInput ) )
 			, true }
 		, tessLevelInner{ writer
 			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_TessLevelInner"
+				, writer.getShader().registerBuiltin( ast::Builtin::eTessLevelInner
 					, writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 2u )
 					, var::Flag::eShaderInput ) )
 			, true }
-		, vtx{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( "gl_in"
-					, PerVertex::getArrayType( writer.getTypesCache(), 32u )
-					, var::Flag::eShaderInput ) )
-			, true }
+		//, vtx{ writer, *this, true }
 	{
-		addStmt( findWriterMandat( *this )
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
-				, vtx.getType() ) );
+		//addStmt( findWriterMandat( *this )
+		//	, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
+		//		, vtx.getType() ) );
 	}
 
 	//*************************************************************************
 
 	OutTessellationEvaluation::OutTessellationEvaluation( ShaderWriter & writer )
 		: Builtin{ writer }
-		, vtx{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( ""
-					, PerVertex::getBaseType( writer.getTypesCache() )
-					, var::Flag::eShaderOutput ) ) }
+		//, vtx{ writer
+		//	, makeIdent( writer.getTypesCache()
+		//		, writer.getShader().registerName( "gl_out"
+		//			, PerVertex::getBaseType( writer.getTypesCache() )
+		//			, var::Flag::eShaderOutput ) ) }
 	{
-		addStmt( findWriterMandat( *this )
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
-				, vtx.getType() ) );
+		//addStmt( findWriterMandat( *this )
+		//	, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
+		//		, vtx.getType() ) );
 	}
 
 	//*************************************************************************

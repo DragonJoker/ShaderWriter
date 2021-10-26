@@ -38,6 +38,132 @@ namespace glsl
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
 		}
+
+		ast::stmt::PerVertexDecl::Source getPerVertexSource( ast::ShaderStage stage
+			, bool isInput )
+		{
+			switch ( stage )
+			{
+			case ast::ShaderStage::eVertex:
+				assert( !isInput );
+				return ast::stmt::PerVertexDecl::eVertexOutput;
+			case ast::ShaderStage::eTessellationControl:
+				if ( isInput )
+				{
+					return ast::stmt::PerVertexDecl::eTessellationControlInput;
+				}
+				return ast::stmt::PerVertexDecl::eTessellationControlOutput;
+				break;
+			case ast::ShaderStage::eTessellationEvaluation:
+				if ( isInput )
+				{
+					return ast::stmt::PerVertexDecl::eTessellationEvaluationInput;
+				}
+				return ast::stmt::PerVertexDecl::eTessellationEvaluationOutput;
+			case ast::ShaderStage::eGeometry:
+				if ( isInput )
+				{
+					return ast::stmt::PerVertexDecl::eGeometryInput;
+				}
+				return ast::stmt::PerVertexDecl::eGeometryOutput;
+			case ast::ShaderStage::eFragment:
+				AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
+				return ast::stmt::PerVertexDecl::eVertexOutput;
+			case ast::ShaderStage::eCompute:
+				AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
+				return ast::stmt::PerVertexDecl::eVertexOutput;
+			default:
+				AST_Failure( "Unexpected shader stage." );
+				return ast::stmt::PerVertexDecl::eVertexOutput;
+			}
+		}
+
+		ast::type::StructPtr getPerVertexBaseType( ast::type::TypesCache & cache
+			, bool isInput )
+		{
+			auto result{ cache.getIOStruct( ast::type::MemoryLayout::eC
+				, "gl_PerVertex"
+				, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
+
+			if ( !result->hasMember( ast::Builtin::ePosition ) )
+			{
+				result->declMember( ast::Builtin::ePosition
+					, ast::type::Kind::eVec4F
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::ePointSize
+					, ast::type::Kind::eFloat
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::eClipDistance
+					, ast::type::Kind::eFloat
+					, 8u );
+				result->declMember( ast::Builtin::eCullDistance
+					, ast::type::Kind::eFloat
+					, 8u );
+			}
+
+			return result;
+		}
+
+		ast::type::ArrayPtr getPerVertexArrayType( ast::type::TypesCache & cache
+			, uint32_t count
+			, bool isInput )
+		{
+			return cache.getArray( getPerVertexBaseType( cache, isInput )
+				, count );
+		}
+
+		ast::type::TypePtr getPerVertexType( ast::type::TypesCache & cache
+			, ast::ShaderStage stage
+			, bool isInput
+			, uint32_t m_maxPoint
+			, ast::type::InputLayout inputLayout )
+		{
+			switch ( stage )
+			{
+			case ast::ShaderStage::eVertex:
+				assert( !isInput );
+				return getPerVertexBaseType( cache
+					, isInput );
+			case ast::ShaderStage::eTessellationControl:
+				if ( isInput )
+				{
+					return getPerVertexArrayType( cache
+						, m_maxPoint
+						, isInput );
+				}
+				return  getPerVertexArrayType( cache
+					, 32u
+					, isInput );
+				break;
+			case ast::ShaderStage::eTessellationEvaluation:
+				if ( isInput )
+				{
+					return getPerVertexArrayType( cache
+						, 32u
+						, isInput );
+				}
+				return getPerVertexBaseType( cache
+					, isInput );
+			case ast::ShaderStage::eGeometry:
+				if ( isInput )
+				{
+					return getPerVertexArrayType( cache
+						, getArraySize( inputLayout )
+						, isInput );
+				}
+				return getPerVertexBaseType( cache
+					, isInput );
+			case ast::ShaderStage::eFragment:
+				AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
+				return nullptr;
+			case ast::ShaderStage::eCompute:
+				AST_Failure( "Unexpected gl_PerVertex declaration in compute shader." );
+				return nullptr;
+			default:
+				AST_Failure( "Unexpected shader stage." );
+				return nullptr;
+			}
+		}
 	}
 
 	ast::stmt::ContainerPtr StmtAdapter::submit( ast::type::TypesCache & cache
@@ -163,6 +289,11 @@ namespace glsl
 				{
 					doProcessTessellationControlInput( param
 						, static_cast< ast::type::TessellationControlInput const & >( *type ) );
+				}
+				else if ( type->getKind() == ast::type::Kind::eComputeInput )
+				{
+					doProcessComputeInput( param
+						, static_cast< ast::type::ComputeInput const & >( *type ) );
 				}
 				else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
 				{
@@ -367,6 +498,7 @@ namespace glsl
 		, ast::type::GeometryInput const & geomType )
 	{
 		auto type = geomType.type;
+		m_inputLayout = geomType.layout;
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
@@ -406,10 +538,32 @@ namespace glsl
 			, tessType.getOutputVertices() ) );
 	}
 
+	void StmtAdapter::doProcessComputeInput( ast::var::VariablePtr var
+		, ast::type::ComputeInput const & compType )
+	{
+		auto type = compType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, ast::type::NotArray
+				, true );
+		}
+
+		m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
+			, compType.getLocalSizeX()
+			, compType.getLocalSizeY()
+			, compType.getLocalSizeZ() ) );
+	}
+
 	void StmtAdapter::doProcessTessellationControlInput( ast::var::VariablePtr var
 		, ast::type::TessellationControlInput const & tessType )
 	{
 		auto type = tessType.getType();
+		m_maxPoint = tessType.getInputVertices();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
@@ -427,34 +581,12 @@ namespace glsl
 		, uint32_t arraySize
 		, bool entryPoint )
 	{
-		m_adaptationData.output = var;
-
-		for ( auto & mbr : structType )
-		{
-			auto name = "sdwOut_" + mbr.name;
-			auto it = std::find_if( m_adaptationData.outputs.begin()
-				, m_adaptationData.outputs.end()
-				, [&name]( ast::var::VariablePtr const & lookup )
-				{
-					return name == lookup->getName();
-				} );
-
-			if ( it == m_adaptationData.outputs.end() )
-			{
-				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
-					, ( arraySize == ast::type::NotArray
-						? mbr.type
-						: m_cache.getArray( mbr.type, arraySize ) )
-					, structType.getFlag() );
-				m_adaptationData.outputs.emplace_back( mbrVar );
-
-				if ( entryPoint )
-				{
-					m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-						, mbr.location ) );
-				}
-			}
-		}
+		doProcessIO( var
+			, structType
+			, arraySize
+			, entryPoint
+			, false
+			, m_adaptationData.outputs );
 	}
 
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
@@ -462,31 +594,73 @@ namespace glsl
 		, uint32_t arraySize
 		, bool entryPoint )
 	{
-		m_adaptationData.input = var;
+		doProcessIO( var
+			, structType
+			, arraySize
+			, entryPoint
+			, true
+			, m_adaptationData.inputs );
+	}
+
+	void StmtAdapter::doProcessIO( ast::var::VariablePtr var
+		, ast::type::IOStruct const & structType
+		, uint32_t arraySize
+		, bool entryPoint
+		, bool isInput
+		, IOVars & io )
+	{
+		io.var = var;
 
 		for ( auto & mbr : structType )
 		{
-			auto name = "sdwIn_" + mbr.name;
-			auto it = std::find_if( m_adaptationData.inputs.begin()
-				, m_adaptationData.inputs.end()
-				, [&name]( ast::var::VariablePtr const & lookup )
-				{
-					return name == lookup->getName();
-				} );
-
-			if ( it == m_adaptationData.inputs.end() )
+			if ( isPerVertex( mbr.builtin ) )
 			{
-				auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
-					, ( arraySize == ast::type::NotArray
-						? mbr.type
-						: m_cache.getArray( mbr.type, arraySize ) )
-					, structType.getFlag() );
-				m_adaptationData.inputs.emplace_back( mbrVar );
+				auto type = doDeclarePerVertex( isInput, io );
+				std::string outerName;
 
-				if ( entryPoint )
+				if ( type->getKind() == ast::type::Kind::eArray )
 				{
-					m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-						, mbr.location ) );
+					if ( isInput )
+					{
+						outerName = "gl_in";
+					}
+					else
+					{
+						outerName = "gl_out";
+					}
+				}
+
+				io.perVertex = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, outerName }
+					, type
+					, ( ast::var::Flag::eBuiltin
+						| ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) );
+			}
+			else
+			{
+				auto name = ( mbr.builtin != ast::Builtin::eNone
+					? "gl_" + getName( mbr.builtin )
+					: "sdw" + ( isInput ? std::string{ "In" } : std::string{ "Out" } ) + "_" + mbr.name );
+				auto it = std::find_if( io.vars.begin()
+					, io.vars.end()
+					, [&name]( ast::var::VariablePtr const & lookup )
+					{
+						return name == lookup->getName();
+					} );
+
+				if ( it == io.vars.end() )
+				{
+					auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
+						, ( arraySize == ast::type::NotArray
+							? mbr.type
+							: m_cache.getArray( mbr.type, arraySize ) )
+						, structType.getFlag() );
+					io.vars.emplace_back( mbrVar );
+
+					if ( entryPoint && mbr.builtin == ast::Builtin::eNone )
+					{
+						m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+							, mbr.location ) );
+					}
 				}
 			}
 		}
@@ -550,5 +724,40 @@ namespace glsl
 		{
 			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
 		}
+	}
+
+	ast::type::TypePtr StmtAdapter::doDeclarePerVertex( bool isInput
+		, IOVars & io )
+	{
+		if ( ( isInput && !m_inPerVertex )
+			|| ( !isInput && !m_outPerVertex ) )
+		{
+			auto type = getPerVertexType( m_cache
+				, m_adaptationData.writerConfig.shaderStage
+				, isInput
+				, m_maxPoint
+				, m_inputLayout );
+			m_current->addStmt( ast::stmt::makePerVertexDecl( getPerVertexSource( m_adaptationData.writerConfig.shaderStage
+					, isInput )
+				, type ) );
+
+			if ( isInput )
+			{
+				m_inPerVertex = type;
+			}
+			else
+			{
+				m_outPerVertex = type;
+			}
+
+			return type;
+		}
+
+		if ( isInput )
+		{
+			return m_inPerVertex;
+		}
+
+		return m_outPerVertex;
 	}
 }

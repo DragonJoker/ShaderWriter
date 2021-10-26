@@ -15,15 +15,21 @@ See LICENSE file in root folder
 
 namespace glsl
 {
+	struct IOVars
+	{
+		ast::var::VariablePtr var{};
+		std::vector< ast::var::VariablePtr > vars{};
+		ast::var::VariablePtr perVertex{};
+		std::map< ast::Builtin, ast::expr::ExprPtr > perVertexMbrs;
+	};
+
 	struct AdaptationData
 	{
 		GlslConfig const & writerConfig;
 		IntrinsicsConfig intrinsicsConfig;
 		uint32_t nextVarId;
-		ast::var::VariablePtr output{};
-		std::vector< ast::var::VariablePtr > outputs{};
-		ast::var::VariablePtr input{};
-		std::vector< ast::var::VariablePtr > inputs{};
+		IOVars inputs;
+		IOVars outputs;
 	};
 
 	class StmtAdapter
@@ -59,6 +65,8 @@ namespace glsl
 			, ast::type::TessellationControlInput const & geomType );
 		void doProcessTessellationControlOutput( ast::var::VariablePtr var
 			, ast::type::TessellationControlOutput const & geomType );
+		void doProcessComputeInput( ast::var::VariablePtr var
+			, ast::type::ComputeInput const & compType );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
@@ -67,6 +75,12 @@ namespace glsl
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
 			, bool entryPoint );
+		void doProcessIO( ast::var::VariablePtr var
+			, ast::type::IOStruct const & structType
+			, uint32_t arraySize
+			, bool entryPoint
+			, bool isInput
+			, IOVars & io );
 		void doProcessOutputPatch( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType
 			, bool entryPoint );
@@ -76,12 +90,18 @@ namespace glsl
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		void doDeclareStruct( ast::type::StructPtr const & structType );
+		ast::type::TypePtr doDeclarePerVertex( bool isInput
+			, IOVars & io );
 
 	private:
 		ast::type::TypesCache & m_cache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::ContainerPtr m_entryPointFinish;
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		uint32_t m_maxPoint{};
+		ast::type::InputLayout m_inputLayout;
+		ast::type::TypePtr m_inPerVertex;
+		ast::type::TypePtr m_outPerVertex;
 	};
 }
 

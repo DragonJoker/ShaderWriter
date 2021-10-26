@@ -399,13 +399,43 @@ namespace ast::type
 		return *it;
 	}
 
-	uint32_t Struct::findMember( std::string const & name )
+	uint32_t Struct::findMember( std::string const & name )const
 	{
 		auto it = std::find_if( m_members.begin()
 			, m_members.end()
 			, [&name]( Member const & lookup )
 			{
 				return lookup.name == name;
+			} );
+		return m_members.end() == it
+			? NotFound
+			: uint32_t( std::distance( m_members.begin(), it ) );
+	}
+
+	Struct::Member Struct::getMember( Builtin builtin )
+	{
+		auto it = std::find_if( m_members.begin()
+			, m_members.end()
+			, [&builtin]( Member const & lookup )
+			{
+				return lookup.builtin == builtin;
+			} );
+
+		if ( it == m_members.end() )
+		{
+			throw std::runtime_error{ "Struct member [" + ast::getName( builtin ) + "] was not found." };
+		}
+
+		return *it;
+	}
+
+	uint32_t Struct::findMember( Builtin builtin )const
+	{
+		auto it = std::find_if( m_members.begin()
+			, m_members.end()
+			, [&builtin]( Member const & lookup )
+			{
+				return lookup.builtin == builtin;
 			} );
 		return m_members.end() == it
 			? NotFound
@@ -478,6 +508,29 @@ namespace ast::type
 		, std::string name )
 		: Struct{ cache, layout, name, {} }
 	{
+	}
+
+	Struct::Member BaseStruct::declMember( Builtin builtin
+		, Kind kind
+		, uint32_t arraySize )
+	{
+		TypePtr mbrType;
+		auto type = getCache().getBasicType( kind );
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( size() ) );
+		}
+
+		return doCreateMember( mbrType, builtin );
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name
@@ -604,6 +657,16 @@ namespace ast::type
 		return result;
 	}
 
+	Struct::Member BaseStruct::doCreateMember( TypePtr type
+		, Builtin builtin )
+	{
+		auto [size, offset] = doLookupMember( ast::getName( builtin ), type );
+		Member result{ std::move( type )
+			, builtin };
+		doAddMember( result );
+		return result;
+	}
+
 	//*************************************************************************
 
 	IOStruct::IOStruct( TypesCache & cache
@@ -612,6 +675,29 @@ namespace ast::type
 		, var::Flag flag )
 		: Struct{ cache, layout, name, flag }
 	{
+	}
+
+	Struct::Member IOStruct::declMember( Builtin builtin
+		, Kind kind
+		, uint32_t arraySize )
+	{
+		TypePtr mbrType;
+		auto type = getCache().getBasicType( kind );
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( size() ) );
+		}
+
+		return doCreateMember( mbrType, builtin );
 	}
 
 	Struct::Member IOStruct::declMember( std::string name
@@ -703,6 +789,16 @@ namespace ast::type
 		return result;
 	}
 
+	Struct::Member IOStruct::doCreateMember( TypePtr type
+		, Builtin builtin )
+	{
+		auto [size, offset] = doLookupMember( ast::getName( builtin ), type );
+		Member result{ std::move( type )
+			, builtin };
+		doAddMember( result );
+		return result;
+	}
+
 	//*************************************************************************
 
 	size_t getHash( MemoryLayout layout
@@ -766,6 +862,8 @@ namespace ast::type
 						&& static_cast< type::Array const & >( *static_cast< type::GeometryInput const & >( *type ).type ).getType()->getKind() == type::Kind::eStruct ) ) )
 			|| ( type->getKind() == type::Kind::eGeometryOutput
 				&& static_cast< type::GeometryOutput const & >( *type ).type->getKind() == type::Kind::eStruct )
+			|| ( type->getKind() == type::Kind::eComputeInput
+				&& static_cast< type::ComputeInput const & >( *type ).getType()->getKind() == type::Kind::eStruct )
 			|| ( type->getKind() == type::Kind::eTessellationOutputPatch
 				&& static_cast< type::TessellationOutputPatch const & >( *type ).getType()->getKind() == type::Kind::eStruct )
 			|| ( type->getKind() == type::Kind::eTessellationControlInput
@@ -798,6 +896,10 @@ namespace ast::type
 			else if ( type->getKind() == type::Kind::eGeometryOutput )
 			{
 				type = static_cast< type::GeometryOutput const & >( *type ).type;
+			}
+			else if ( type->getKind() == type::Kind::eComputeInput )
+			{
+				type = static_cast< type::ComputeInput const & >( *type ).getType();
 			}
 			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
 			{
