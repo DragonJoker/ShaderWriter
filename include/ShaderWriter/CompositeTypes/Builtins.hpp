@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/BaseTypes/Float.hpp"
 #include "ShaderWriter/CompositeTypes/PerVertex.hpp"
+#include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 #include "ShaderWriter/VecTypes/Vec3.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
@@ -24,13 +25,13 @@ namespace sdw
 	*/
 	template< ast::var::Flag FlagT >
 	struct VoidT
-		: public Value
+		: public StructInstance
 	{
 		VoidT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache );
 	};
 	/**
 	*	Holds input patch data for shaders.
@@ -45,7 +46,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 	};
 	/**
 	*	Holds output patch data for shaders.
@@ -60,7 +61,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 	};
 	/**
 	*	Holds input data for shaders.
@@ -75,7 +76,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 	};
 	/**
 	*	Holds output data for shaders.
@@ -90,7 +91,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 	};
 	/**@}*/
 #pragma endregion

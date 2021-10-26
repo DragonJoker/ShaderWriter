@@ -5,6 +5,42 @@
 
 namespace
 {
+	void emptyMain( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "emptyMain" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+			{
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+	
+	void readWorkGroupSize( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "readWorkGroupSize" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+			{
+				auto value = writer.declLocale( "value"
+					, in.workGroupSize.x() + in.workGroupSize.y() + in.workGroupSize.z() );
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
 	void compute( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "compute" );
@@ -13,7 +49,7 @@ namespace
 		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declImage< RWUImg2DR32 >( "img", 1u, 0u );
 
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeInT< VoidT > in )
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 			{
 				ssbo[in.globalInvocationID.x()]
 					= ssbo[in.globalInvocationID.x()]
@@ -284,7 +320,7 @@ namespace
 		{
 			ComputeWriter writer;
 			auto srcImage = writer.declImage<RFImg2DRgba32>( "srcImage", 0, 0 );
-			auto dstImage = writer.declImageArray<RWFImg2DRgba32>( "dstImage", 1, 0, 8u );
+			auto dstImage = writer.declImageArray<RWFImg2DRgba32>( "dstImage", 1, 0, 4u );
 
 			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
 				{
@@ -296,7 +332,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
@@ -358,9 +394,10 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
-		//test::validateShaders( shaders
-		//	, testCounts, CurrentCompilers );
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 }
@@ -368,6 +405,8 @@ namespace
 sdwTestSuiteMain( TestWriterComputeShader )
 {
 	sdwTestSuiteBegin();
+	emptyMain( testCounts );
+	readWorkGroupSize( testCounts );
 	compute( testCounts );
 	swizzles( testCounts );
 	conversions( testCounts );

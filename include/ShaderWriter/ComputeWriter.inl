@@ -8,11 +8,17 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ComputeInT< DataT >::ComputeInT( ShaderWriter & writer )
+	ComputeInT< DataT >::ComputeInT( ShaderWriter & writer
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
 		: ComputeInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "compIn"
-					, makeType( getTypesCache( writer ) )
+					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
+						, localSizeX
+						, localSizeY
+						, localSizeZ )
 					, FlagT ) ) }
 	{
 	}
@@ -22,49 +28,40 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, numWorkGroups{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_NumWorkGroups"
-					, getTypesCache( writer ).getVec3U()
-					, FlagT ) )
-			, true }
-		, workGroupID{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_WorkGroupID"
-					, getTypesCache( writer ).getVec3U()
-					, FlagT ) )
-			, true }
-		, localInvocationID{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_LocalInvocationID"
-					, getTypesCache( writer ).getVec3U()
-					, FlagT ) )
-			, true }
-		, globalInvocationID{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_GlobalInvocationID"
-					, getTypesCache( writer ).getVec3U()
-					, FlagT ) )
-			, true }
-		, localInvocationIndex{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_LocalInvocationIndex"
-					, getTypesCache( writer ).getUInt()
-					, FlagT ) )
-			, true }
-		, workGroupSize{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_WorkGroupSize"
-					, getTypesCache( writer ).getVec3U()
-					, FlagT ) )
-			, true }
+		, numWorkGroups{ this->getMember< UVec3 >( ast::Builtin::eNumWorkGroups ) }
+		, workGroupID{ this->getMember< UVec3 >( ast::Builtin::eWorkGroupID ) }
+		, localInvocationID{ this->getMember< UVec3 >( ast::Builtin::eLocalInvocationID ) }
+		, globalInvocationID{ this->getMember< UVec3 >( ast::Builtin::eGlobalInvocationID ) }
+		, localInvocationIndex{ this->getMember< UInt >( ast::Builtin::eLocalInvocationIndex ) }
+		, workGroupSize{ getWorkGroupSize( this->getType() ) }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::TypePtr ComputeInT< DataT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr ComputeInT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return InputT< DataT >::makeType( cache );
+		auto result = InputT< DataT >::makeType( cache );
+
+		if ( !result->hasMember( ast::Builtin::eNumWorkGroups ) )
+		{
+			result->declMember( ast::Builtin::eNumWorkGroups
+				, type::Kind::eVec3U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eWorkGroupID
+				, type::Kind::eVec3U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eLocalInvocationID
+				, type::Kind::eVec3U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eGlobalInvocationID
+				, type::Kind::eVec3U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eLocalInvocationIndex
+				, type::Kind::eUInt
+				, ast::type::NotArray );
+		}
+
+		return result;
 	}
 
 	//*************************************************************************
@@ -90,13 +87,13 @@ namespace sdw
 		, uint32_t localSizeZ
 		, ComputeMainFuncT< DataT > const & function )
 	{
-		addStmt( stmt::makeInputComputeLayout( localSizeX
-			, localSizeY
-			, localSizeZ ) );
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( ComputeInT< DataT >{ *this } ) );
+			, makeInParam( ComputeInT< DataT >{ *this
+				, localSizeX
+				, localSizeY
+				, localSizeZ} ) );
 	}
 
 	//*************************************************************************

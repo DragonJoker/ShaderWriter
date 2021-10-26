@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "Type.hpp"
 #include "TypeArray.hpp"
+#include "TypeComputeIO.hpp"
 #include "TypeFunction.hpp"
 #include "TypeGeometryIO.hpp"
 #include "TypeImage.hpp"

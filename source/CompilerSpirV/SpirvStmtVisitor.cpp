@@ -103,18 +103,23 @@ namespace spirv
 
 		for ( auto & input : moduleConfig.inputs )
 		{
-			m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() )
-				, spv::StorageClassInput
-				, input->isAlias()
-				, input->isParam()
-				, input->isOutputParam()
-				, input->getType()
-				, info ).id );
+			if ( input->getBuiltin() != ast::Builtin::eWorkGroupSize )
+			{
+				m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() )
+					, input->getBuiltin()
+					, spv::StorageClassInput
+					, input->isAlias()
+					, input->isParam()
+					, input->isOutputParam()
+					, input->getType()
+					, info ).id );
+			}
 		}
 
 		for ( auto & output : moduleConfig.outputs )
 		{
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() )
+				, output->getBuiltin()
 				, spv::StorageClassOutput
 				, output->isAlias()
 				, output->isParam()
@@ -336,6 +341,7 @@ namespace spirv
 			{
 				VariableInfo sourceInfo;
 				auto varInfo = m_result.registerVariable( param->getName()
+					, ast::Builtin::eNone
 					, spv::StorageClassFunction
 					, false
 					, false
@@ -431,7 +437,7 @@ namespace spirv
 		{
 			m_result.decorate( varId, { spv::Id( spv::DecorationSpecId ), stmt->getLocation() } );
 		}
-		else
+		else if ( !var->isBuiltin() )
 		{
 			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 		}
@@ -489,8 +495,8 @@ namespace spirv
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
-		auto id = m_result.registerLiteral( ids, m_result.getCache().getVec3I() );
-		m_result.decorate( id, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
+		m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getCache().getVec3U() );
+		m_result.decorate( m_context.workGroupSizeExpr, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
@@ -745,6 +751,7 @@ namespace spirv
 		if ( var->isMember() )
 		{
 			auto outer = m_result.registerVariable( var->getOuter()->getName()
+				, var->getOuter()->getBuiltin()
 				, getStorageClass( var )
 				, var->isAlias()
 				, var->isParam()
@@ -757,6 +764,7 @@ namespace spirv
 		}
 
 		return m_result.registerVariable( var->getName()
+			, var->getBuiltin()
 			, getStorageClass( var )
 			, var->isAlias()
 			, var->isParam()

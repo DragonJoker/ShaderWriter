@@ -377,6 +377,7 @@ namespace spirv
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
 						m_result = m_module.loadVariable( ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock );
 						m_result = m_module.registerVariable( var->getName()
+							, var->getBuiltin()
 							, getStorageClass( var )
 							, false
 							, false
@@ -388,6 +389,7 @@ namespace spirv
 					else
 					{
 						m_result = m_module.registerVariable( var->getName()
+							, var->getBuiltin()
 							, getStorageClass( var )
 							, false
 							, false

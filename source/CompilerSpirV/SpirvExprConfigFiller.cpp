@@ -147,6 +147,7 @@ namespace spirv
 				auto outerType = expr->getOuterType();
 				auto mbr = outerType->getMember( expr->getMemberIndex() );
 				m_config.addShaderInput( "sdwIn_" + mbr.name
+					, mbr.builtin
 					, mbr.type
 					, outerType->getFlag()
 					, getArraySize( static_cast< ast::type::GeometryInput const & >( *outer->getType() ).layout ) );

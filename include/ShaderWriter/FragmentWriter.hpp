@@ -24,7 +24,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		//in vec4 gl_FragCoord;
 		Vec4 const fragCoord;
@@ -59,7 +59,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		//out float gl_FragDepth;
 		Float fragDepth;

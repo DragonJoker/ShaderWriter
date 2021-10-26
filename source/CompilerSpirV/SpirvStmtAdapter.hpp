@@ -53,6 +53,8 @@ namespace spirv
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
 
 	private:
+		void doProcessComputeInput( ast::var::VariablePtr var
+			, ast::type::ComputeInput const & compType );
 		void doProcessGeometryOutput( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
 		void doProcessGeometryInput( ast::var::VariablePtr var

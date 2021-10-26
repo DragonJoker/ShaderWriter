@@ -32,10 +32,12 @@ namespace spirv
 		bool isInput( ast::var::VariablePtr var )const;
 		bool isOutput( ast::var::VariablePtr var )const;
 		void addShaderInput( std::string const & name
+			, ast::Builtin builtin
 			, ast::type::TypePtr type
 			, uint32_t flags
 			, uint32_t arraySize );
 		void addShaderOutput( std::string const & name
+			, ast::Builtin builtin
 			, ast::type::TypePtr type
 			, uint32_t flags
 			, uint32_t arraySize );
@@ -78,9 +80,10 @@ namespace spirv
 	{
 		std::map< uint32_t, ast::expr::ExprPtr > constExprs;
 		std::map< uint32_t, ast::expr::ExprList > constAggrExprs;
+		ValueId workGroupSizeExpr;
 	};
 
-	spv::BuiltIn getBuiltin( std::string const & name
+	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, std::vector< spv::Decoration > & additionalDecorations );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );

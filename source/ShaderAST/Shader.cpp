@@ -284,13 +284,15 @@ namespace ast
 		return result;
 	}
 
-	var::VariablePtr Shader::registerBuiltin( std::string const & name
+	var::VariablePtr Shader::registerBuiltin( ast::Builtin builtin
 		, type::TypePtr type
 		, var::Flag flag )
 	{
-		var::VariablePtr result = registerName( name
+		auto result = var::makeBuiltin( ++m_data.nextVarId
+			, builtin
 			, type
-			, var::Flag::eBuiltin | flag );
+			, flag );
+		registerVariable( result );
 		return result;
 	}
 

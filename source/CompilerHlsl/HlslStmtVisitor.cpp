@@ -66,10 +66,146 @@ namespace hlsl
 				return "UNDEFINED";
 			}
 		}
+
+		std::string writeIOMember( ast::type::Struct::Member const & member
+			, Semantic & intSem
+			, Semantic & fltSem )
+		{
+			auto varType = member.type;
+			auto & cache = varType->getCache();
+			std::string semantic;
+
+			if ( member.builtin == ast::Builtin::eClipDistance )
+			{
+				varType = cache.getVec4F();
+				semantic = std::to_string( 0 )
+					+ ": "
+					+ "SV_ClipDistance0";
+				semantic = std::to_string( 1 )
+					+ ": "
+					+ "SV_ClipDistance1";
+			}
+			else if ( member.builtin == ast::Builtin::eCullDistance )
+			{
+				// Merged with SV_ClipDistance ?
+			}
+			else
+			{
+				if ( isSignedIntType( varType->getKind() )
+					|| isUnsignedIntType( varType->getKind() ) )
+				{
+					semantic = ": " + getSemantic( member.builtin, member.location, varType, intSem );
+				}
+				else
+				{
+					semantic = ": " + getSemantic( member.builtin, member.location, varType, fltSem );
+				}
+			}
+
+			if ( semantic.empty() )
+			{
+				return semantic;
+			}
+
+			std::string result = getTypeName( varType ) + " ";
+			result += member.name;
+			result += getTypeArraySize( varType );
+			result += semantic + ";\n";
+			return result;
+		}
+
+		std::string writeIOMembers( std::string indent
+			, ast::type::Struct const & structType
+			, ast::ShaderStage stage )
+		{
+			Semantic rintSem = { "BLENDINDICES", 0u };
+			Semantic rfltSem = { "TEXCOORD", 0u };
+			Semantic * pintSem = &rintSem;
+			Semantic * pfltSem = &rfltSem;
+			std::string result;
+
+			if ( stage == ast::ShaderStage::eFragment )
+			{
+				rintSem.name = "SV_Target";
+				pfltSem = &rintSem;
+			}
+
+			for ( auto & mbr : structType )
+			{
+				result += indent + writeIOMember( mbr, *pintSem, *pfltSem );
+			}
+
+			return result;
+		}
+
+		std::string writeBaseMember( ast::type::Struct::Member const & member )
+		{
+			std::string result = getTypeName( member.type ) + " ";
+			auto name = member.name;
+			auto index = name.find( ":" );
+
+			if ( index != std::string::npos )
+			{
+				// There are semantics for this variable.
+				name = name.substr( 0, index )
+					+ getTypeArraySize( member.type )
+					+ name.substr( index );
+			}
+			else
+			{
+				name += getTypeArraySize( member.type );
+			}
+
+			result += name + ";\n";
+			return result;
+		}
+
+		std::string writeBaseMembers( std::string indent
+			, ast::type::Struct const & structType )
+		{
+			std::string result;
+
+			for ( auto & mbr : structType )
+			{
+				result += indent + writeBaseMember( mbr );
+			}
+
+			return result;
+		}
+
+		std::string writeMembers( std::string indent
+			, ast::type::Struct const & structType
+			, ast::ShaderStage stage )
+		{
+			if ( structType.isShaderInput()
+				|| structType.isShaderOutput() )
+			{
+				return writeIOMembers( indent
+					, static_cast< ast::type::IOStruct const & >( structType )
+					, stage );
+			}
+
+			return writeBaseMembers( indent, structType );
+		}
+
+		std::string writeMember( ast::type::Struct::Member const & member
+			, Semantic & intSem
+			, Semantic & fltSem )
+		{
+			if ( member.builtin != ast::Builtin::eNone
+				|| member.location != ast::type::Struct::InvalidLocation )
+			{
+				return writeIOMember( member
+					, intSem
+					, fltSem );
+			}
+
+			return writeBaseMember( member );
+		}
 	}
 
 	std::string StmtVisitor::submit( HlslConfig const & writerConfig
-		, std::set< std::string > const & patchRoutines
+		, EntryPointMap const & patchRoutines
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, ast::stmt::Stmt * stmt
 		, std::string indent )
@@ -81,7 +217,7 @@ namespace hlsl
 	}
 
 	StmtVisitor::StmtVisitor( HlslConfig const & writerConfig
-		, std::set< std::string > const & patchRoutines
+		, EntryPointMap const & patchRoutines
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, std::string indent
 		, std::string & result )
@@ -258,6 +394,31 @@ namespace hlsl
 						m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
 					}
 				}
+				else if ( argType->getKind() == ast::type::Kind::eComputeInput )
+				{
+					auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
+
+					if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
+					{
+						if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
+						{
+							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
+						}
+						else
+						{
+							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
+								+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
+						}
+					}
+					else
+					{
+						m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
+							+ ", " + std::to_string( compType.getLocalSizeY() )
+							+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
+					}
+
+					params.push_back( *it );
+				}
 				else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
 				{
 					auto & tessciType = static_cast< ast::type::TessellationControlInput const & >( *argType );
@@ -283,7 +444,20 @@ namespace hlsl
 
 						if ( !m_patchRoutines.empty() )
 						{
-							m_result += m_indent + "[patchconstantfunc(\"" + ( *m_patchRoutines.begin() ) + "\")]\n";
+							auto rit = std::find_if( m_patchRoutines.begin()
+								, m_patchRoutines.end()
+								, []( auto & lookup )
+								{
+									return !lookup.second->isMain;
+								} );
+
+							if ( rit != m_patchRoutines.end() )
+							{
+								m_result += m_indent + "[patchconstantfunc(\"" + ( rit->first ) + "\")]\n";
+							}
+							else
+							{
+							}
 						}
 
 						argType = tesscoType.getType();
@@ -514,26 +688,9 @@ namespace hlsl
 			auto save = m_indent;
 			m_indent += "\t";
 
-			for ( auto & member : *stmt->getType() )
-			{
-				m_result += m_indent + getTypeName( member.type ) + " ";
-				auto name = member.name;
-				auto index = name.find( ":" );
-
-				if ( index != std::string::npos )
-				{
-					// There are semantics for this variable.
-					name = name.substr( 0, index )
-						+ getTypeArraySize( member.type )
-						+ name.substr( index );
-				}
-				else
-				{
-					name += getTypeArraySize( member.type );
-				}
-
-				m_result += name + ";\n";
-			}
+			m_result += writeMembers( m_indent
+				, *stmt->getType()
+				, m_writerConfig.shaderStage );
 
 			m_indent = save;
 			m_result += m_indent + "};\n";

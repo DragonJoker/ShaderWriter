@@ -39,6 +39,14 @@ namespace glsl
 		void doProcessTextureSample( ast::expr::TextureAccessCall * expr );
 		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
 
+		ast::expr::ExprPtr doProcessIOMbr( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, uint32_t mbrFlags
+			, IOVars & io );
+		ast::expr::ExprPtr doProcessMbr( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, uint32_t mbrFlags );
+
 	private:
 		ast::type::TypesCache & m_cache;
 		AdaptationData & m_adaptationData;

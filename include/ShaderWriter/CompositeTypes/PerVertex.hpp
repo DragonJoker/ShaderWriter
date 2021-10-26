@@ -15,21 +15,17 @@ See LICENSE file in root folder
 namespace sdw
 {
 	struct PerVertex
-		: public Value
 	{
 		SDW_API PerVertex( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-		SDW_API PerVertex( ShaderWriter & writer
-			, stmt::PerVertexDecl::Source source = stmt::PerVertexDecl::eVertexOutput );
+			, StructInstance & instance
+			, ast::var::Flag flag );
+
 		Vec4 position;
 		Float pointSize;
 		Array< Float > clipDistance;
 		Array< Float > cullDistance;
 
-		SDW_API static ast::type::StructPtr getBaseType( ast::type::TypesCache & cache );
-		SDW_API static ast::type::ArrayPtr getArrayType( ast::type::TypesCache & cache, uint32_t count );
-		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		SDW_API static void fillType( ast::type::IOStruct & structType );
 	};
 }
 

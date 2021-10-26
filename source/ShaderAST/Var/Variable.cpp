@@ -10,6 +10,8 @@ namespace ast::var
 {
 	//*********************************************************************************************
 
+	//*********************************************************************************************
+
 	Variable::Variable( EntityName nameId
 		, VariablePtr outer
 		, type::TypePtr type
@@ -31,6 +33,17 @@ namespace ast::var
 		}
 
 		assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
+	}
+
+	Variable::Variable( uint32_t id
+		, Builtin builtin
+		, type::TypePtr type
+		, uint32_t flags )
+		: FlagHolder{ flags }
+		, m_nameId{ id, ast::getName( builtin ) }
+		, m_type{ std::move( type ) }
+		, m_builtin{ builtin }
+	{
 	}
 
 	Variable::Variable( EntityName nameId

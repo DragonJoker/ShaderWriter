@@ -3,13 +3,19 @@ See LICENSE file in root folder
 */
 #include "HlslHelpers.hpp"
 
+#include "HlslShader.hpp"
+#include "HlslExprAdapter.hpp"
+
 #include <ShaderAST/Expr/ExprArrayAccess.hpp>
 #include <ShaderAST/Expr/ExprIdentifier.hpp>
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 #include <ShaderAST/Expr/ExprMbrSelect.hpp>
+#include <ShaderAST/Stmt/StmtStructureDecl.hpp>
+#include <ShaderAST/Type/TypeGeometryIO.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampler.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <stdexcept>
 
@@ -82,11 +88,101 @@ namespace hlsl
 
 			return result;
 		}
+
+		bool isShaderInput( ast::Builtin builtin
+			, ast::ShaderStage type )
+		{
+			return
+				( type == ast::ShaderStage::eCompute
+					&& ( builtin == ast::Builtin::eNumWorkGroups
+						|| builtin == ast::Builtin::eWorkGroupID
+						|| builtin == ast::Builtin::eLocalInvocationID
+						|| builtin == ast::Builtin::eGlobalInvocationID
+						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
+				|| ( type == ast::ShaderStage::eFragment
+					&& ( builtin == ast::Builtin::eFragCoord
+						|| builtin == ast::Builtin::eFrontFacing
+						|| builtin == ast::Builtin::ePointCoord
+						|| builtin == ast::Builtin::eSampleID
+						|| builtin == ast::Builtin::eSamplePosition
+						|| builtin == ast::Builtin::eSampleMaskIn
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eLayer
+						|| builtin == ast::Builtin::eViewportIndex ) )
+				|| ( type == ast::ShaderStage::eGeometry
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::ePrimitiveIDIn
+						|| builtin == ast::Builtin::eInvocationID ) )
+				|| ( type == ast::ShaderStage::eTessellationControl
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::ePatchVerticesIn
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eInvocationID ) )
+				|| ( type == ast::ShaderStage::eTessellationEvaluation
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eTessCoord
+						|| builtin == ast::Builtin::ePatchVerticesIn
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eTessLevelInner
+						|| builtin == ast::Builtin::eTessLevelOuter ) )
+				|| ( type == ast::ShaderStage::eVertex
+					&& ( builtin == ast::Builtin::eVertexIndex
+						|| builtin == ast::Builtin::eInstanceIndex
+						|| builtin == ast::Builtin::eDrawIndex
+						|| builtin == ast::Builtin::eBaseVertex
+						|| builtin == ast::Builtin::eBaseInstance
+						|| builtin == ast::Builtin::eTessLevelOuter ) );
+		}
+
+		bool isShaderOutput( ast::Builtin builtin
+			, ast::ShaderStage type )
+		{
+			return
+				( type == ast::ShaderStage::eFragment
+					&& ( builtin == ast::Builtin::eFragDepth
+						|| builtin == ast::Builtin::eSampleMask
+						|| builtin == ast::Builtin::eFragStencilRefEXT ) )
+				|| ( type == ast::ShaderStage::eGeometry
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eLayer
+						|| builtin == ast::Builtin::eViewportIndex ) )
+				|| ( type == ast::ShaderStage::eTessellationControl
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance
+						|| builtin == ast::Builtin::eTessLevelInner
+						|| builtin == ast::Builtin::eTessLevelOuter ) )
+				|| ( type == ast::ShaderStage::eTessellationEvaluation
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance ) )
+				|| ( type == ast::ShaderStage::eVertex
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance ) );
+		}
 	}
 
-	bool needsSeparateMain( ast::ShaderStage stage )
+	bool needsSeparateMain( ast::ShaderStage stage
+		, bool isMain )
 	{
-		return stage != ast::ShaderStage::eGeometry;
+		return stage == ast::ShaderStage::eFragment
+			|| stage == ast::ShaderStage::eVertex
+			|| ( stage == ast::ShaderStage::eTessellationControl && !isMain )
+			|| stage == ast::ShaderStage::eTessellationEvaluation;
 	}
 
 	std::string getTypeName( ast::type::Kind kind )
@@ -611,6 +707,9 @@ namespace hlsl
 		case ast::type::Kind::eTessellationControlOutput:
 			result = getTypeName( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType() );
 			break;
+		case ast::type::Kind::eComputeInput:
+			result = getTypeName( static_cast< ast::type::ComputeInput const & >( *type ).getType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;
@@ -847,40 +946,64 @@ namespace hlsl
 		return result;
 	}
 
-	std::string getSemantic( std::string const & name
+	ast::type::Kind getBuiltinHlslKind( ast::Builtin builtin
+		, ast::type::Kind input )
+	{
+		ast::type::Kind result = input;
+
+		if ( builtin == ast::Builtin::eVertexIndex
+			|| builtin == ast::Builtin::eInstanceIndex
+			|| builtin == ast::Builtin::eDrawIndex
+			|| builtin == ast::Builtin::eBaseVertex
+			|| builtin == ast::Builtin::eBaseInstance
+			|| builtin == ast::Builtin::ePrimitiveID
+			|| builtin == ast::Builtin::eInvocationID
+			|| builtin == ast::Builtin::eSampleID
+			|| builtin == ast::Builtin::eLayer
+			|| builtin == ast::Builtin::eViewportIndex
+			|| builtin == ast::Builtin::ePatchVerticesIn
+			|| builtin == ast::Builtin::ePrimitiveIDIn )
+		{
+			result = ast::type::Kind::eUInt;
+		}
+
+		return result;
+	}
+
+	std::string getSemantic( ast::Builtin builtin
+		, uint32_t location
 		, ast::type::TypePtr type
 		, Semantic & defaultSemantic )
 	{
-		static std::map< std::string, std::string > const NamesMap
+		static std::map< ast::Builtin, std::string > const NamesMap
 		{
-			{ "gl_InvocationID", "SV_GSInstanceID" },
-			{ "gl_LocalInvocationID", "SV_GroupThreadID" },
-			{ "gl_LocalInvocationIndex", "SV_GroupIndex" },
-			{ "gl_WorkGroupID", "SV_GroupID" },
-			{ "gl_TessCord", "SV_DomainLocation" },
-			{ "gl_GlobalInvocationID", "SV_DispatchThreadID" },
-			{ "gl_FragDepth", "SV_Depth" },
-			{ "gl_SampleMask", "SV_Coverage" },
-			{ "gl_SampleMaskIn", "SV_Coverage" },
-			{ "gl_CullDistance", "SV_CullDistance" },
-			{ "gl_ClipDistance", "SV_ClipDistance" },
-			{ "gl_TessLevelInner", "SV_InsideTessFactor" },
-			{ "gl_InstanceID", "SV_InstanceID" },
-			{ "gl_InstanceIndex", "SV_InstanceID" },
-			{ "gl_FrontFacing", "SV_IsFrontFace" },
-			{ "gl_Position", "SV_Position" },
-			{ "gl_FragCoord", "SV_Position" },
-			{ "gl_PrimitiveID", "SV_PrimitiveID" },
-			{ "gl_Layer", "SV_RenderTargetArrayIndex" },
-			{ "gl_SampleID", "SV_SampleIndex" },
-			{ "gl_FragStencilRef", "SV_StencilRef" },
-			{ "gl_TessLevelOuter", "SV_TessFactor" },
-			{ "gl_VertexID", "SV_VertexID" },
-			{ "gl_VertexIndex", "SV_VertexID" },
-			{ "gl_ViewportIndex", "SV_ViewportArrayIndex" },
+			{ ast::Builtin::eInvocationID, "SV_GSInstanceID" },
+			{ ast::Builtin::eLocalInvocationID, "SV_GroupThreadID" },
+			{ ast::Builtin::eLocalInvocationIndex, "SV_GroupIndex" },
+			{ ast::Builtin::eWorkGroupID, "SV_GroupID" },
+			{ ast::Builtin::eTessCoord, "SV_DomainLocation" },
+			{ ast::Builtin::eGlobalInvocationID, "SV_DispatchThreadID" },
+			{ ast::Builtin::eFragDepth, "SV_Depth" },
+			{ ast::Builtin::eSampleMask, "SV_Coverage" },
+			{ ast::Builtin::eCullDistance, "SV_CullDistance" },
+			{ ast::Builtin::eClipDistance, "SV_ClipDistance" },
+			{ ast::Builtin::eTessLevelInner, "SV_InsideTessFactor" },
+			{ ast::Builtin::eInstanceIndex, "SV_InstanceID" },
+			{ ast::Builtin::eInstanceIndex, "SV_InstanceID" },
+			{ ast::Builtin::eFrontFacing, "SV_IsFrontFace" },
+			{ ast::Builtin::ePosition, "SV_Position" },
+			{ ast::Builtin::eFragCoord, "SV_Position" },
+			{ ast::Builtin::ePrimitiveID, "SV_PrimitiveID" },
+			{ ast::Builtin::eLayer, "SV_RenderTargetArrayIndex" },
+			{ ast::Builtin::eSampleID, "SV_SampleIndex" },
+			{ ast::Builtin::eFragStencilRefEXT, "SV_StencilRef" },
+			{ ast::Builtin::eTessLevelOuter, "SV_TessFactor" },
+			{ ast::Builtin::eVertexIndex, "SV_VertexID" },
+			{ ast::Builtin::eVertexIndex, "SV_VertexID" },
+			{ ast::Builtin::eViewportIndex, "SV_ViewportArrayIndex" },
 		};
 		std::string result;
-		auto it = NamesMap.find( name );
+		auto it = NamesMap.find( builtin );
 
 		if ( it != NamesMap.end() )
 		{
@@ -888,7 +1011,7 @@ namespace hlsl
 		}
 		else
 		{
-			result = defaultSemantic.name + std::to_string( defaultSemantic.index );
+			result = defaultSemantic.name + std::to_string( location );
 			uint32_t inc = 1u;
 
 			if ( isMatrixType( type->getKind() ) )
@@ -963,106 +1086,458 @@ namespace hlsl
 		return it;
 	}
 
-	void addOutputMember( ast::type::BaseStructPtr outputStruct
-		, std::string const & varName
-		, ast::type::TypePtr varType
-		, Semantic & outIntSem
-		, Semantic & outFltSem )
-	{
-		auto & cache = outputStruct->getCache();
+	//*********************************************************************************************
 
-		if ( varName == "gl_ClipDistance" )
+	static uint32_t constexpr BuiltinIndex = 128u;
+
+	IOMapping::IOMapping( HlslShader & pshader
+		, bool needsSeparateFunc
+		, bool pisInput )
+		: shader{ &pshader }
+		, stage{ shader->getType() }
+		, isInput{ pisInput }
+	{
+		auto suffix = ( isInput ? std::string{ "Input" } : std::string{ "Output" } );
+		auto flag = isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderInput;
+		paramStruct = shader->getTypesCache().getIOStruct( ast::type::MemoryLayout::eC
+			, "HLSL_SDW_Param" + suffix
+			, flag );
+		paramVar = shader->registerName( "sdw" + suffix + "Param"
+			, paramStruct
+			, flag );
+
+		if ( needsSeparateFunc )
 		{
-			auto realType = cache.getVec4F();
-			outputStruct->declMember( varName + "0"
-				+ ": "
-				+ "SV_ClipDistance0"
-				, realType );
-			outputStruct->declMember( varName + "1"
-				+ ": "
-				+ "SV_ClipDistance1"
-				, realType );
-		}
-		else if ( varName == "gl_CullDistance" )
-		{
-			// Merged with SV_ClipDistance ?
+			globalStruct = shader->getTypesCache().getStruct( ast::type::MemoryLayout::eC
+				, "HLSL_SDW_" + suffix );
+			globalVar = shader->registerName( "sdw" + suffix
+				, globalStruct
+				, ast::var::Flag::eStatic );
+			mainVar = globalVar;
 		}
 		else
 		{
-			if ( isSignedIntType( varType->getKind() )
-				|| isUnsignedIntType( varType->getKind() ) )
+			mainVar = paramVar;
+		}
+	}
+
+	void IOMapping::declare( bool needsSeparateFunc
+		, ast::stmt::Container & stmt )
+	{
+		stmt.addStmt( ast::stmt::makeStructureDecl( paramStruct ) );
+
+		if ( needsSeparateFunc )
+		{
+			stmt.addStmt( ast::stmt::makeStructureDecl( globalStruct ) );
+		}
+
+		if ( globalVar && !globalStruct->empty() )
+		{
+			assert( mainVar == globalVar );
+			stmt.addStmt( ast::stmt::makeVariableDecl( globalVar ) );
+		}
+	}
+
+	ast::var::VariablePtr IOMapping::initialiseMainVar( ast::var::VariablePtr srcVar
+		, ast::type::TypePtr type
+		, uint32_t flags
+		, VarVarMap & paramToEntryPoint )
+	{
+		mainVar->updateType( type );
+		paramToEntryPoint.emplace( srcVar, mainVar );
+		return mainVar;
+	}
+
+	void IOMapping::addPending( ast::var::VariablePtr pendingVar
+		, uint32_t location )
+	{
+		auto ires = pending.emplace( pendingVar->getName(), PendingIO{} );
+
+		if ( ires.second )
+		{
+			auto it = ires.first;
+			it->second.location = location;
+			it->second.var = pendingVar;
+		}
+	}
+
+	void IOMapping::addPendingMbr( ast::var::VariablePtr outerVar
+		, uint32_t mbrIndex
+		, uint32_t flags
+		, uint32_t location )
+	{
+		auto it = std::find_if( pendingMbr.begin()
+			, pendingMbr.end()
+			, [&outerVar, &mbrIndex]( PendingMbrIO const & lookup )
 			{
-				outputStruct->declMember( varName
-					+ ": "
-					+ getSemantic( varName, varType, outIntSem )
-					, varType );
+				return lookup.index == mbrIndex
+					&& lookup.outer == outerVar;
+			} );
+
+		if ( it == pendingMbr.end() )
+		{
+			PendingIO io{};
+			io.location = location;
+			io.flags = flags;
+			pendingMbr.push_back( { outerVar, mbrIndex, io } );
+		}
+	}
+
+	void IOMapping::addPendingMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & flags
+		, uint32_t location )
+	{
+		auto ident = ast::findIdentifier( outer );
+		assert( ident );
+		addPendingMbr( ident->getVariable()
+			, mbrIndex
+			, flags.getFlags()
+			, location );
+	}
+
+	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & pflags
+		, ExprAdapter & adapter )
+	{
+		if ( !pflags.isShaderInput() && !pflags.isShaderOutput() )
+		{
+			return nullptr;
+		}
+
+		auto ident = ast::findIdentifier( outer );
+
+		if ( !ident )
+		{
+			return nullptr;
+		}
+
+		auto outerVar = ident->getVariable();
+		auto it = std::find_if( pendingMbr.begin()
+			, pendingMbr.end()
+			, [&outerVar, &mbrIndex]( PendingMbrIO const & lookup )
+			{
+				return lookup.index == mbrIndex
+					&& lookup.outer == outerVar;
+			} );
+
+		if ( pendingMbr.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto & mbr = *it;
+
+		if ( mbr.io.result.mbrIndex == ast::type::Struct::NotFound )
+		{
+			auto structType = getStructType( mbr.outer->getType() );
+			mbr.io.result = processPendingType( *structType
+				, mbr.index
+				, mbr.io.flags
+				, mbr.io.location );
+		}
+
+		auto & cache = mbr.outer->getType()->getCache();
+		auto outerIdent = ast::expr::makeIdentifier( cache, mainVar );
+
+		if ( outer->getKind() != ast::expr::Kind::eArrayAccess )
+		{
+			return ast::expr::makeMbrSelect( std::move( outerIdent )
+				, mbr.io.result.mbrIndex
+				, mbr.io.result.flags );
+		}
+
+		auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+		return ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( arrayAccess.getType()
+				, std::move( outerIdent )
+				, adapter.doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) )
+			, mbr.io.result.mbrIndex
+			, mbr.io.result.flags );
+	}
+
+	ast::expr::ExprPtr IOMapping::processPending( std::string const & name )
+	{
+		auto it = pending.find( name );
+
+		if ( pending.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto & mbr = *it;
+		auto pendingVar = mbr.second.var;
+		auto type = pendingVar->getType();
+		auto location = it->second.location;
+
+		if ( mbr.second.result.mbrIndex == ast::type::Struct::NotFound )
+		{
+			mbr.second.result = processPendingType( type
+				, pendingVar->getName()
+				, pendingVar->isBuiltin() ? pendingVar->getBuiltin() : ast::Builtin::eNone
+				, mbr.second.flags
+				, location );
+		}
+
+		auto & cache = type->getCache();
+		auto outerIdent = ast::expr::makeIdentifier( cache, mainVar );
+		return ast::expr::makeMbrSelect( std::move( outerIdent )
+			, mbr.second.result.mbrIndex
+			, mbr.second.result.flags );
+	}
+
+	ast::expr::ExprPtr IOMapping::processPending( ast::var::VariablePtr srcVar )
+	{
+		auto result = processPending( srcVar->getName() );
+
+		if ( result )
+		{
+			return result;
+		}
+
+		return ast::expr::makeIdentifier( srcVar->getType()->getCache()
+				, srcVar );
+	}
+
+	bool IOMapping::isValid( ast::Builtin builtin )
+	{
+		if ( isInput )
+		{
+			return isShaderInput( builtin, stage );
+		}
+
+		return isShaderOutput( builtin, stage );
+	}
+
+	PendingResult IOMapping::processPendingType( ast::type::TypePtr type
+		, std::string const & name
+		, ast::Builtin builtin
+		, uint32_t flags
+		, uint32_t location )
+	{
+		if ( globalStruct )
+		{
+			auto res = globalStruct->findMember( name );
+
+			if ( res != ast::type::Struct::NotFound )
+			{
+				return { res, 0u };
+			}
+		}
+
+		if ( builtin != ast::Builtin::eNone )
+		{
+			auto res = paramStruct->findMember( builtin );
+
+			if ( res != ast::type::Struct::NotFound )
+			{
+				return { res, flags };
+			}
+		}
+		else
+		{
+			auto res = paramStruct->findMember( name );
+
+			if ( res != ast::type::Struct::NotFound )
+			{
+				return { res, flags };
+			}
+		}
+
+		auto resultIndex = uint32_t( paramStruct->size() );
+		auto resultFlags = flags;
+
+		if ( builtin != ast::Builtin::eNone )
+		{
+			paramStruct->declMember( builtin
+				, getNonArrayType( type )->getKind()
+				, getArraySize( type ) );
+		}
+		else
+		{
+			paramStruct->declMember( name
+				, getNonArrayType( type )->getKind()
+				, getArraySize( type )
+				, location );
+		}
+
+		if ( globalStruct )
+		{
+			// Separate function needed.
+			resultIndex = uint32_t( globalStruct->size() );
+			resultFlags = 0u;
+			globalStruct->declMember( name
+				, getNonArrayType( type )->getKind()
+				, getArraySize( type ) );
+		}
+
+		return { resultIndex, resultFlags };
+	}
+
+	PendingResult IOMapping::processPendingType( ast::type::Struct const & structType
+		, uint32_t mbrIndex
+		, uint32_t mbrFlags
+		, uint32_t mbrLocation )
+	{
+		auto & mbr = *std::next( structType.begin(), ptrdiff_t( mbrIndex ) );
+		return processPendingType( mbr.type
+			, mbr.name
+			, mbr.builtin
+			, mbrFlags
+			, mbrLocation );
+	}
+
+	//*********************************************************************************************
+
+	EntryPoint::EntryPoint( HlslShader & pshader
+		, AdaptationData * pparent
+		, bool pisMain )
+		: shader{ &pshader }
+		, parent{ pparent }
+		, isMain{ pisMain }
+		, inputs{ *shader, needsSeparateMain( shader->getType(), isMain ), true }
+		, outputs{ *shader, needsSeparateMain( shader->getType(), isMain ), false }
+	{
+	}
+
+	void EntryPoint::initialise( ast::stmt::FunctionDecl const & stmt )
+	{
+		auto funcType = stmt.getType();
+		auto isEntryPoint = stmt.isEntryPoint();
+
+		for ( auto & param : *funcType )
+		{
+			auto type = param->getType();
+
+			if ( type->getKind() == ast::type::Kind::eComputeInput )
+			{
+				registerComputeInput( param
+					, static_cast< ast::type::ComputeInput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+			{
+				registerGeometryInput( param
+					, static_cast< ast::type::GeometryInput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				registerGeometryOutput( param
+					, static_cast< ast::type::GeometryOutput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
+			{
+				registerTessellationControlInput( param
+					, static_cast< ast::type::TessellationControlInput const & >( *type )
+					, isEntryPoint );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+			{
+				registerTessellationControlOutput( param
+					, static_cast< ast::type::TessellationControlOutput const & >( *type )
+					, isEntryPoint );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+			{
+				registerOutputPatch( param
+					, static_cast< ast::type::TessellationOutputPatch const & >( *type )
+					, isEntryPoint );
 			}
 			else
 			{
-				outputStruct->declMember( varName
-					+ ": "
-					+ getSemantic( varName, varType, outFltSem )
-					, varType );
+				uint32_t arraySize = ast::type::NotArray;
+
+				if ( type->getKind() == ast::type::Kind::eArray )
+				{
+					auto & arrayType = static_cast< ast::type::Array const & >( *type );
+					type = arrayType.getType();
+					arraySize = arrayType.getArraySize();
+				}
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+					if ( structType->isShaderInput() )
+					{
+						registerInput( param
+							, static_cast< ast::type::IOStruct const & >( *structType )
+							, isEntryPoint );
+					}
+					else if ( structType->isShaderOutput() )
+					{
+						registerOutput( param
+							, static_cast< ast::type::IOStruct const & >( *structType )
+							, isEntryPoint );
+					}
+					else if ( param->isPatchInput() )
+					{
+						registerInputPatch( param
+							, structType
+							, isEntryPoint );
+					}
+				}
 			}
 		}
 	}
 
-	void addInputMember( ast::type::BaseStructPtr inputStruct
-		, std::string const & varName
-		, ast::type::TypePtr varType
-		, Semantic & inIntSem
-		, Semantic & inFltSem )
+	ast::stmt::ContainerPtr EntryPoint::declare()
 	{
-		if ( isSignedIntType( varType->getKind() )
-			|| isUnsignedIntType( varType->getKind() ) )
+		auto cont = ast::stmt::makeContainer();
+		inputs.declare( needsSeparateFunc, *cont );
+		outputs.declare( needsSeparateFunc, *cont );
+		inOutDeclarations = cont.get();
+		return cont;
+	}
+
+	void EntryPoint::addInputVar( ast::var::VariablePtr var
+		, uint32_t location )
+	{
+		inputs.addPending( var, location );
+
+		if ( needsSeparateFunc )
 		{
-			inputStruct->declMember( varName
-				+ ": "
-				+ getSemantic( varName, varType, inIntSem )
-				, varType );
-		}
-		else
-		{
-			inputStruct->declMember( varName
-				+ ": "
-				+ getSemantic( varName, varType, inFltSem )
-				, varType );
+			inputs.processPending( var );
 		}
 	}
 
-	void AdaptationData::addPendingOutput( ast::var::VariablePtr var
-		, uint32_t index )
+	void EntryPoint::addOutputVar( ast::var::VariablePtr var
+		, uint32_t location )
 	{
-		auto ires = pendingOutputs.emplace( var->getName(), PendingIO{} );
+		outputs.addPending( var, location );
 
-		if ( ires.second )
+		if ( needsSeparateFunc )
 		{
-			auto it = ires.first;
-			it->second.index = index;
-			it->second.var = var;
+			outputs.processPending( var );
 		}
 	}
 
-	void AdaptationData::addPendingInput( ast::var::VariablePtr var
-		, uint32_t index )
+	ast::expr::ExprPtr EntryPoint::processPendingMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & flags
+		, ExprAdapter & adapter )
 	{
-		auto ires = pendingInputs.emplace( var->getName(), PendingIO{} );
-
-		if ( ires.second )
+		if ( flags.isShaderInput() )
 		{
-			auto it = ires.first;
-			it->second.index = index;
-			it->second.var = var;
+			return processPendingMbrInput( outer
+				, mbrIndex
+				, flags
+				, adapter );
 		}
+
+		return processPendingMbrOutput( outer
+			, mbrIndex
+			, flags
+			, adapter );
 	}
 
-	ast::var::VariablePtr AdaptationData::processPending( ast::var::VariablePtr var )
+	ast::expr::ExprPtr EntryPoint::processPending( ast::var::VariablePtr var )
 	{
-		auto it = paramToMain.find( var );
+		auto it = paramToEntryPoint.find( var );
 
-		if ( it != paramToMain.end() )
+		if ( it != paramToEntryPoint.end() )
 		{
-			return it->second;
+			return ast::expr::makeIdentifier( var->getType()->getCache()
+				, it->second );
 		}
 
 		if ( var->isShaderInput() )
@@ -1073,256 +1548,274 @@ namespace hlsl
 		return processPendingOutput( var );
 	}
 
-	ast::var::VariablePtr AdaptationData::processPendingInput( std::string const & name )
+	bool EntryPoint::isInput( ast::Builtin builtin )
 	{
-		auto it = pendingInputs.find( name );
+		return inputs.isValid( builtin );
+	}
 
-		if ( pendingInputs.end() == it )
+	bool EntryPoint::isOutput( ast::Builtin builtin )
+	{
+		return outputs.isValid( builtin );
+	}
+
+	void EntryPoint::addMbrBuiltin( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & flags
+		, uint32_t location )
+	{
+		if ( flags.isShaderOutput() )
 		{
-			return nullptr;
-		}
-
-		auto var = it->second.var;
-
-		if ( it->second.resultVar )
-		{
-			return it->second.resultVar;
-		}
-
-		auto type = var->getType();
-		auto & cache = type->getCache();
-		auto index = it->second.index;
-		uint32_t mbrIndex = 0u;
-
-		if ( globalInputStruct )
-		{
-			uint32_t arraySize = ast::type::NotArray;
-
-			if ( type->getKind() == ast::type::Kind::eArray )
-			{
-				auto & arrayType = static_cast< ast::type::Array const & >( *type );
-				type = arrayType.getType();
-				arraySize = arrayType.getArraySize();
-			}
-
-			if ( type->getKind() == ast::type::Kind::eStruct )
-			{
-				for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
-				{
-					addPendingInput( ast::var::makeVariable( { ++nextVarId, mbr.name }
-						, ( arraySize == ast::type::NotArray
-							? mbr.type
-							: cache.getArray( mbr.type, arraySize ) ) )
-						, index );
-					processPendingInput( mbr.name );
-				}
-
-				it = pendingInputs.find( name );
-			}
-			else
-			{
-				globalInputStruct->declMember( name
-					, ( arraySize == ast::type::NotArray
-						? type
-						: cache.getArray( getNonArrayType( type )
-							, std::max( getArraySize( type ), 1u ) * arraySize ) ) );
-			}
-
-			mbrIndex = uint32_t( globalInputStruct->size() - 1u );
+			addPendingMbrOutput( outer
+				, mbrIndex
+				, flags
+				, location );
 		}
 		else
 		{
-			addInputMember( mainInputStruct
-				, var->getName()
-				, var->getType()
-				, inIntSem
-				, inFltSem );
-			mbrIndex = uint32_t( mainInputStruct->size() - 1u );
+			addPendingMbrInput( outer
+				, mbrIndex
+				, flags
+				, location );
 		}
-
-		if ( inputVar )
-		{
-			if ( inputVar->getType()->getKind() == ast::type::Kind::eGeometryInput )
-			{
-				inputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::GeometryInput const & >( *inputVar->getType() ).type
-							, ast::expr::makeIdentifier( cache, inputVar )
-							, nullptr/* just a placeholder */ )
-						, mbrIndex
-						, var->getFlags() ) );
-			}
-			else if ( inputVar->getType()->getKind() == ast::type::Kind::eTessellationControlInput )
-			{
-				inputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::TessellationControlInput const & >( *inputVar->getType() ).getType()
-							, ast::expr::makeIdentifier( cache, inputVar )
-							, nullptr/* just a placeholder */ )
-						, mbrIndex
-						, var->getFlags() ) );
-			}
-			else
-			{
-				inputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, inputVar )
-						, mbrIndex
-						, var->getFlags() ) );
-			}
-		}
-		else
-		{
-			inputMembers.emplace( var
-				, ast::expr::makeIdentifier( cache, var ) );
-		}
-
-		inputVars.emplace( ( var->isBuiltin() ? 128u : 0u ) + index, var );
-		it->second.resultVar = var;
-		return var;
 	}
 
-	ast::var::VariablePtr AdaptationData::processPendingInput( ast::var::VariablePtr srcVar )
+	void EntryPoint::addBuiltin( ast::var::VariablePtr var )
 	{
-		auto result = processPendingInput( srcVar->getName() );
-		return result ? result : srcVar;
+		//auto & cache = var->getType()->getCache();
+
+		//if ( isInput( var->getBuiltin() ) )
+		//{
+		//	auto hlslKind = getBuiltinHlslKind( var->getBuiltin()
+		//		, var->getType()->getKind() );
+
+		//	if ( hlslKind != var->getType()->getKind() )
+		//	{
+		//		var = shader->registerName( var->getName()
+		//			, cache.getBasicType( hlslKind ) );
+		//	}
+
+		//	addInputBuiltin( var );
+		//}
+
+		//if ( isOutput( var->getBuiltin() ) )
+		//{
+		//	auto hlslKind = getBuiltinHlslKind( var->getBuiltin()
+		//		, var->getType()->getKind() );
+
+		//	if ( hlslKind != var->getType()->getKind() )
+		//	{
+		//		var = shader->registerName( var->getName()
+		//			, cache.getBasicType( hlslKind ) );
+		//	}
+
+		//	addOutputBuiltin( var );
+		//}
 	}
 
-	ast::var::VariablePtr AdaptationData::processPendingOutput( std::string const & name )
+	void EntryPoint::registerComputeInput( ast::var::VariablePtr var
+		, ast::type::ComputeInput const & compType )
 	{
-		auto it = pendingOutputs.find( name );
+		auto type = compType.getType();
 
-		if ( pendingOutputs.end() == it )
+		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			return nullptr;
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
-		auto var = it->second.var;
-
-		if ( it->second.resultVar )
-		{
-			return it->second.resultVar;
-		}
-
-		auto type = var->getType();
-		auto & cache = type->getCache();
-		auto index = it->second.index;
-		uint32_t mbrIndex = 0u;
-
-		if ( globalOutputStruct )
-		{
-			uint32_t arraySize = ast::type::NotArray;
-
-			if ( type->getKind() == ast::type::Kind::eArray )
-			{
-				auto & arrayType = static_cast< ast::type::Array const & >( *type );
-				type = arrayType.getType();
-				arraySize = arrayType.getArraySize();
-			}
-
-			if ( type->getKind() == ast::type::Kind::eStruct )
-			{
-				for ( auto & mbr : static_cast< ast::type::Struct const & >( *type ) )
-				{
-					addPendingOutput( ast::var::makeVariable( { ++nextVarId, mbr.name }
-							, ( arraySize == ast::type::NotArray
-								? mbr.type
-								: cache.getArray( type, arraySize ) ) )
-						, index );
-					processPendingOutput( mbr.name );
-				}
-			}
-			else
-			{
-				globalOutputStruct->declMember( name, type );
-			}
-
-			mbrIndex = uint32_t( globalOutputStruct->size() - 1u );
-		}
-		else
-		{
-			addOutputMember( mainOutputStruct
-				, name
-				, type
-				, outIntSem
-				, outFltSem );
-			mbrIndex = uint32_t( mainOutputStruct->size() - 1u );
-		}
-
-		if ( outputVar )
-		{
-			if ( outputVar->getType()->getKind() == ast::type::Kind::eTessellationControlOutput )
-			{
-				outputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( static_cast< ast::type::TessellationControlOutput const & >( *inputVar->getType() ).getType()
-							, ast::expr::makeIdentifier( cache, inputVar )
-							, nullptr/* just a placeholder */ )
-						, mbrIndex
-						, var->getFlags() ) );
-			}
-			else
-			{
-				outputMembers.emplace( var
-					, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outputVar )
-						, mbrIndex
-						, var->getFlags() ) );
-			}
-		}
-		else
-		{
-			outputMembers.emplace( var
-				, ast::expr::makeIdentifier( cache, var ) );
-		}
-
-		outputVars.emplace( ( var->isBuiltin() ? 128u : 0u ) + index, var );
-		it->second.resultVar = var;
-		return var;
+		inputs.initialiseMainVar( var
+			, ast::type::makeComputeInputType( inputs.paramStruct
+				, compType.getLocalSizeX()
+				, compType.getLocalSizeY()
+				, compType.getLocalSizeZ() )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
+			, paramToEntryPoint );
 	}
 
-	ast::var::VariablePtr AdaptationData::processPendingOutput( ast::var::VariablePtr srcVar )
+	void EntryPoint::registerGeometryInput( ast::var::VariablePtr var
+		, ast::type::GeometryInput const & geomType )
 	{
-		auto result = processPendingOutput( srcVar->getName() );
-		return result ? result : srcVar;
-	}
+		auto type = geomType.type;
 
-	ast::expr::ExprPtr AdaptationData::getInputExpr( std::string const & name )
-	{
-		auto it = std::find_if( inputVars.begin()
-			, inputVars.end()
-			, [&name]( VariableIdMap::value_type const & lookup )
-			{
-				return name == lookup.second->getName();
-			} );
-
-		if ( it != inputVars.end() )
+		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto itMbr = inputMembers.find( it->second );
-
-			if ( itMbr != inputMembers.end() )
-			{
-				return ast::ExprCloner::submit( itMbr->second );
-			}
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
-		return nullptr;
+		inputs.initialiseMainVar( var
+			, ast::type::makeGeometryInputType( inputs.paramStruct
+				, geomType.layout )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
+			, paramToEntryPoint );
 	}
 
-	ast::expr::ExprPtr AdaptationData::getOutputExpr( std::string const & name )
+	void EntryPoint::registerGeometryOutput( ast::var::VariablePtr var
+		, ast::type::GeometryOutput const & geomType )
 	{
-		auto it = std::find_if( outputVars.begin()
-			, outputVars.end()
-			, [&name]( VariableIdMap::value_type const & lookup )
-			{
-				return name == lookup.second->getName();
-			} );
+		auto type = geomType.type;
 
-		if ( it != outputVars.end() )
+		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto itMbr = outputMembers.find( it->second );
-
-			if ( itMbr != outputMembers.end() )
-			{
-				return ast::ExprCloner::submit( itMbr->second );
-			}
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
 		}
 
-		return nullptr;
+		outputs.initialiseMainVar( var
+			, ast::type::makeGeometryOutputType( outputs.paramStruct
+				, geomType.layout
+				, geomType.count )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput
+			, paramToEntryPoint );
 	}
+
+	void EntryPoint::registerTessellationControlInput( ast::var::VariablePtr var
+		, ast::type::TessellationControlInput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, isEntryPoint );
+		}
+
+		inputs.initialiseMainVar( var
+			, ast::type::makeTessellationControlInputType( inputs.paramStruct
+				, tessType.getInputVertices() )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
+			, paramToEntryPoint );
+	}
+
+	void EntryPoint::registerTessellationControlOutput( ast::var::VariablePtr var
+		, ast::type::TessellationControlOutput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, isEntryPoint );
+		}
+
+		outputs.initialiseMainVar( var
+			, ast::type::makeTessellationControlOutputType( outputs.paramStruct
+				, tessType.getDomain()
+				, tessType.getPartitioning()
+				, tessType.getTopology()
+				, tessType.getOrder()
+				, tessType.getOutputVertices() )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput
+			, paramToEntryPoint );
+	}
+
+	void EntryPoint::registerInput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & structType
+		, bool isEntryPoint )
+	{
+		uint32_t index = 0u;
+		auto flags = structType.getFlag();
+
+		for ( auto & mbr : structType )
+		{
+			inputs.addPendingMbr( var
+				, index++
+				, ( flags
+					| ( ( mbr.builtin == ast::Builtin::eNone )
+						? ast::var::Flag::eNone
+						: ast::var::Flag::eBuiltin ) )
+				, ( ( mbr.builtin == ast::Builtin::eNone )
+					? mbr.location
+					: ast::type::Struct::InvalidLocation ) );
+		}
+	}
+
+	void EntryPoint::registerOutput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & structType
+		, bool isEntryPoint )
+	{
+		uint32_t index = 0u;
+		auto flags = structType.getFlag();
+
+		for ( auto & mbr : structType )
+		{
+			outputs.addPendingMbr( var
+				, index++
+				, ( flags
+					| ( ( mbr.builtin == ast::Builtin::eNone )
+						? ast::var::Flag::eNone
+						: ast::var::Flag::eBuiltin ) )
+				, ( ( mbr.builtin == ast::Builtin::eNone )
+					? mbr.location
+					: ast::type::Struct::InvalidLocation ) );
+		}
+	}
+
+	void EntryPoint::registerInputPatch( ast::var::VariablePtr var
+		, ast::type::StructPtr const & structType
+		, bool isEntryPoint )
+	{
+		parent->declareStruct( structType, inOutDeclarations );
+	}
+
+	void EntryPoint::registerOutputPatch( ast::var::VariablePtr var
+		, ast::type::TessellationOutputPatch const & patchType
+		, bool isEntryPoint )
+	{
+		auto type = patchType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			parent->declareStruct( std::static_pointer_cast< ast::type::Struct >( type )
+				, inOutDeclarations );
+		}
+	}
+
+	//*********************************************************************************************
+
+	AdaptationData::AdaptationData( HlslShader & shader )
+	{
+		entryPoints.emplace( "main"
+			, std::make_unique< EntryPoint >( shader, this, true ) );
+		mainEntryPoint = entryPoints["main"].get();
+	}
+
+	void AdaptationData::declareStruct( ast::type::StructPtr const & structType
+		, ast::stmt::Container * stmt )
+	{
+		if ( stmt
+			&& m_declaredStructs.emplace( structType ).second )
+		{
+			stmt->addStmt( ast::stmt::makeStructureDecl( structType ) );
+		}
+	}
+
+	//*********************************************************************************************
 }

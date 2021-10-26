@@ -448,10 +448,10 @@ namespace sdw
 		return m_shader->registerOutput( name, location, attributes, type );
 	}
 
-	var::VariablePtr ShaderWriter::registerBuiltin( std::string const & name
+	var::VariablePtr ShaderWriter::registerBuiltin( ast::Builtin builtin
 		, type::TypePtr type
 		, var::Flag flag )
 	{
-		return m_shader->registerBuiltin( name, type, flag );
+		return m_shader->registerBuiltin( builtin, type, flag );
 	}
 }

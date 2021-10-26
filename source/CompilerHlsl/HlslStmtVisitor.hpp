@@ -16,14 +16,14 @@ namespace hlsl
 	{
 	public:
 		static std::string submit( HlslConfig const & writerConfig
-			, std::set< std::string > const & patchRoutines
+			, EntryPointMap const & patchRoutines
 			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, ast::stmt::Stmt * stmt
 			, std::string indent = std::string{} );
 
 	private:
 		StmtVisitor( HlslConfig const & writerConfig
-			, std::set< std::string > const & patchRoutines
+			, EntryPointMap const & patchRoutines
 			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string indent
 			, std::string & result );
@@ -75,7 +75,7 @@ namespace hlsl
 
 	private:
 		HlslConfig const & m_writerConfig;
-		std::set< std::string > const & m_patchRoutines;
+		EntryPointMap const & m_patchRoutines;
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 		std::string m_indent;
 		std::string & m_result;

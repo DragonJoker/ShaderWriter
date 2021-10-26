@@ -16,11 +16,16 @@ namespace hlsl
 		: public ast::stmt::Visitor
 	{
 	public:
-		static IntrinsicsConfig submit( ast::Shader const & shader );
+		static IntrinsicsConfig submit( HlslShader & shader
+			, AdaptationData & adaptationData
+			, ast::stmt::Container * container );
 
 	private:
-		StmtConfigFiller( ast::Shader const & shader
+		StmtConfigFiller( HlslShader & shader
+			, AdaptationData & adaptationData
 			, IntrinsicsConfig & result );
+
+		void doSubmit( ast::expr::Expr * expr );
 
 		void visitBreakStmt( ast::stmt::Break * cont )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
@@ -66,6 +71,8 @@ namespace hlsl
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 	private:
+		HlslShader & m_shader;
+		AdaptationData & m_adaptationData;
 		IntrinsicsConfig & m_result;
 	};
 }

@@ -69,6 +69,7 @@ namespace ast::type
 		eTessellationOutputPatch,
 		eTessellationControlInput,
 		eTessellationControlOutput,
+		eComputeInput,
 		eCount,
 		eMin = eUndefined,
 		eMax = eArray,

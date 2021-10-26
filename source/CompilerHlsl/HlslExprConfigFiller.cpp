@@ -12,21 +12,26 @@ See LICENSE file in root folder
 namespace hlsl
 {
 	void ExprConfigFiller::submit( ast::expr::Expr * expr
+		, AdaptationData & adaptationData
 		, IntrinsicsConfig & config )
 	{
-		ExprConfigFiller vis{ config };
+		ExprConfigFiller vis{ adaptationData, config };
 		expr->accept( &vis );
 	}
 
 	void ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
+		, AdaptationData & adaptationData
 		, IntrinsicsConfig & config )
 	{
 		submit( expr.get()
+			, adaptationData
 			, config );
 	}
 
-	ExprConfigFiller::ExprConfigFiller( IntrinsicsConfig & config )
+	ExprConfigFiller::ExprConfigFiller( AdaptationData & adaptationData
+		, IntrinsicsConfig & config )
 		: ast::expr::SimpleVisitor{}
+		, m_adaptationData{ adaptationData }
 		, m_config{ config }
 	{
 	}
@@ -66,6 +71,14 @@ namespace hlsl
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		expr->getOuterExpr()->accept( this );
+
+		if ( expr->isBuiltin() )
+		{
+			m_adaptationData.currentEntryPoint->addMbrBuiltin( expr->getOuterExpr()
+				, expr->getMemberIndex()
+				, *expr
+				, 0u );
+		}
 	}
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
@@ -110,6 +123,12 @@ namespace hlsl
 
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
+		auto var = expr->getVariable();
+
+		if ( var->isBuiltin() )
+		{
+			m_adaptationData.currentEntryPoint->addBuiltin( var );
+		}
 	}
 
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )

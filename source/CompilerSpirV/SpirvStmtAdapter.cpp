@@ -239,6 +239,26 @@ namespace spirv
 		}
 	}
 
+	void StmtAdapter::doProcessComputeInput( ast::var::VariablePtr var
+		, ast::type::ComputeInput const & compType )
+	{
+		auto type = compType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			doProcessInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
+		}
+
+		m_current->addStmt( ast::stmt::makeInputComputeLayout( type
+			, compType.getLocalSizeX()
+			, compType.getLocalSizeY()
+			, compType.getLocalSizeZ() ) );
+	}
+
 	void StmtAdapter::doProcessGeometryOutput( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
@@ -325,7 +345,8 @@ namespace spirv
 				, m_adaptationData.config.outputs.end()
 				, [&mbr]( ast::var::VariablePtr const & lookup )
 				{
-					return lookup->getName() == "sdwOut_" + mbr.name;
+					return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
+						|| lookup->getName() == "sdwOut_" + mbr.name;
 				} );
 			assert( it != m_adaptationData.config.outputs.end() );
 			auto mbrVar = *it;
@@ -349,13 +370,14 @@ namespace spirv
 				, m_adaptationData.config.inputs.end()
 				, [&mbr]( ast::var::VariablePtr const & lookup )
 				{
-					return lookup->getName() == "sdwIn_" + mbr.name;
+					return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
+						|| lookup->getName() == "sdwIn_" + mbr.name;
 				} );
 			assert( it != m_adaptationData.config.inputs.end() );
 			auto mbrVar = *it;
 			m_adaptationData.inputs.emplace_back( mbrVar );
 
-			if ( isEntryPoint )
+			if ( isEntryPoint && mbr.builtin != ast::Builtin::eWorkGroupSize )
 			{
 				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
 					, mbr.location ) );
@@ -439,7 +461,12 @@ namespace spirv
 		{
 			auto type = param->getType();
 
-			if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			if ( type->getKind() == ast::type::Kind::eComputeInput )
+			{
+				doProcessComputeInput( param
+					, static_cast< ast::type::ComputeInput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 			{
 				doProcessGeometryOutput( param
 					, static_cast< ast::type::GeometryOutput const & >( *type ) );

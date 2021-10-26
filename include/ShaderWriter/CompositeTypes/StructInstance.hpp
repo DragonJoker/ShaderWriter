@@ -24,6 +24,10 @@ namespace sdw
 		inline T getMember( std::string const & name )const;
 		template< typename T >
 		inline Array< T > getMemberArray( std::string const & name )const;
+		template< typename T >
+		inline T getMember( ast::Builtin builtin )const;
+		template< typename T >
+		inline Array< T > getMemberArray( ast::Builtin builtin )const;
 
 	private:
 		type::StructPtr m_type;

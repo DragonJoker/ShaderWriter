@@ -28,7 +28,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		//in int gl_PatchVerticesIn;
 		Int patchVerticesIn;
@@ -37,7 +37,7 @@ namespace sdw
 		//in int gl_InvocationID;
 		Int invocationID;
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
-		Array< PerVertex > vtx;
+		PerVertex vtx;
 
 		static constexpr uint32_t MaxPoints = MaxPointsT;
 	};
@@ -60,14 +60,14 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
 
 		//patch out float gl_TessLevelOuter[];
 		Array< Float > tessLevelOuter;
 		//patch out float gl_TessLevelInner[];
 		Array< Float > tessLevelInner;
 		//out gl_PerVertex gl_out[];
-		Array< PerVertex > vtx;
+		PerVertex vtx;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >

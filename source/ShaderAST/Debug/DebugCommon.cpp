@@ -319,6 +319,9 @@ namespace ast::debug
 		case type::Kind::eTessellationOutputPatch:
 			result = "OUTPATCH";
 			break;
+		case type::Kind::eComputeInput:
+			result = "COMPIN";
+			break;
 		default:
 			assert( false );
 			result = "UNKNOWN";

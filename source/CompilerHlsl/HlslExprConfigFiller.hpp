@@ -16,12 +16,15 @@ namespace hlsl
 	{
 	public:
 		static void submit( ast::expr::Expr * expr
+			, AdaptationData & adaptationData
 			, IntrinsicsConfig & config );
 		static void submit( ast::expr::ExprPtr const & expr
+			, AdaptationData & adaptationData
 			, IntrinsicsConfig & config );
 
 	private:
-		ExprConfigFiller( IntrinsicsConfig & config );
+		ExprConfigFiller( AdaptationData & adaptationData
+			, IntrinsicsConfig & config );
 
 		void visitUnaryExpr( ast::expr::Unary * expr )override;
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
@@ -43,6 +46,7 @@ namespace hlsl
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
 
 	private:
+		AdaptationData & m_adaptationData;
 		IntrinsicsConfig & m_config;
 	};
 }

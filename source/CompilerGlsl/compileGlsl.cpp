@@ -18,6 +18,8 @@ namespace glsl
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig const & writerConfig )
 	{
+		auto config = writerConfig;
+		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
 		auto ssaStatements = ast::transformSSA( shader.getTypesCache()
@@ -25,7 +27,7 @@ namespace glsl
 			, ssaData );
 		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 			, ssaStatements.get() );
-		glsl::AdaptationData adaptationData{ writerConfig
+		glsl::AdaptationData adaptationData{ config
 			, glsl::StmtConfigFiller::submit( simplified.get() )
 			, ssaData.nextVarId };
 		auto glStatements = glsl::StmtAdapter::submit( shader.getTypesCache()
@@ -33,6 +35,6 @@ namespace glsl
 			, adaptationData );
 		glStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), glStatements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return glsl::StmtVisitor::submit( writerConfig, aliases, glStatements.get() );
+		return glsl::StmtVisitor::submit( config, aliases, glStatements.get() );
 	}
 }

@@ -7,27 +7,40 @@ namespace sdw
 {
 	//*************************************************************************
 
+	template< template< ast::var::Flag FlagT > typename DataT >
+	GeometryDataT< DataT >::GeometryDataT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		, vtx{ writer, *this, FlagT }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	ast::type::IOStructPtr GeometryDataT< DataT >::makeType( ast::type::TypesCache & cache )
+	{
+		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache );
+		PerVertex::fillType( *result );
+		return result;
+	}
+
+	//*************************************************************************
+
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
 	GeometryInT< DataT, LayoutT >::GeometryInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: Array< InputT< DataT > >{ writer, std::move( expr ), enabled }
-		, vtx{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_in"
-					, PerVertex::getArrayType( getTypesCache( writer ), getArraySize( LayoutT ) )
-					, FlagT ) )
-			, true }
+		: Array< GeometryDataT< DataT > >{ writer, std::move( expr ), enabled }
 		, primitiveIDIn{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_PrimitiveIDIn"
+				, getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveIDIn
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, invocationID{ writer
 			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( "gl_InvocationID"
+				, getShader( writer ).registerBuiltin( ast::Builtin::eInvocationID
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
@@ -44,16 +57,13 @@ namespace sdw
 						, LayoutT )
 					, FlagT ) ) }
 	{
-		addStmt( writer
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryInput
-				, vtx.getType() ) );
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	ast::type::TypePtr GeometryInT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr GeometryInT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
 	{
-		return InputT< DataT >::makeType( cache );
+		return GeometryDataT< DataT >::makeType( cache );
 	}
 
 	//*************************************************************************
@@ -64,26 +74,22 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
-		, vtx{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ""
-					, PerVertex::getBaseType( getTypesCache( writer ) )
-					, FlagT ) ) }
+		, vtx{ writer, *this, FlagT }
 		, primitiveID{ writer
 			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "gl_PrimitiveID"
+				, sdw::getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveID
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, layer{ writer
 			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "gl_Layer"
+				, sdw::getShader( writer ).registerBuiltin( ast::Builtin::eLayer
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
 		, viewportIndex{ writer
 			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( "gl_ViewportIndex"
+				, sdw::getShader( writer ).registerBuiltin( ast::Builtin::eViewportIndex
 					, getTypesCache( writer ).getInt()
 					, FlagT ) )
 			, true }
@@ -102,9 +108,6 @@ namespace sdw
 						, count )
 					, FlagT ) ) }
 	{
-		addStmt( writer
-			, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eGeometryOutput
-				, vtx.getType() ) );
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
@@ -127,9 +130,11 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::OutputLayout LayoutT >
-	ast::type::TypePtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
 	{
-		return OutputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
+		PerVertex::fillType( *result );
+		return result;
 	}
 
 	//*************************************************************************
