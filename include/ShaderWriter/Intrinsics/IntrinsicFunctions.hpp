@@ -456,11 +456,11 @@ namespace sdw
 	*	modf
 	*/
 	/**@{*/
-	SDW_API Float modf( Float const & x, Float & i );
-	SDW_API Vec2 modf( Vec2 const & x, Vec2 & i );
-	SDW_API Vec3 modf( Vec3 const & x, Vec3 & i );
-	SDW_API Vec4 modf( Vec4 const & x, Vec4 & i );
-	SDW_API Double modf( Double const & x, Double & i );
+	SDW_API Float modf( Float const & x, Float const & i );
+	SDW_API Vec2 modf( Vec2 const & x, Vec2 const & i );
+	SDW_API Vec3 modf( Vec3 const & x, Vec3 const & i );
+	SDW_API Vec4 modf( Vec4 const & x, Vec4 const & i );
+	SDW_API Double modf( Double const & x, Double const & i );
 	SDW_API DVec2 modf( DVec2 const & x, DVec2 const & i );
 	SDW_API DVec3 modf( DVec3 const & x, DVec3 const & i );
 	SDW_API DVec4 modf( DVec4 const & x, DVec4 const & i );

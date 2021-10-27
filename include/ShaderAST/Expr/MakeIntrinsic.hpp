@@ -2565,7 +2565,7 @@ namespace ast::expr
 	*	float
 	*@param[in] x
 	*	float
-	*@param[out] i
+	*@param[in] i
 	*	float
 	*/
 	inline IntrinsicCallPtr makeModf1F( type::TypesCache & cache
@@ -2584,7 +2584,7 @@ namespace ast::expr
 	*	vec2f
 	*@param[in] x
 	*	vec2f
-	*@param[out] i
+	*@param[in] i
 	*	vec2f
 	*/
 	inline IntrinsicCallPtr makeModf2F( type::TypesCache & cache
@@ -2603,7 +2603,7 @@ namespace ast::expr
 	*	vec3f
 	*@param[in] x
 	*	vec3f
-	*@param[out] i
+	*@param[in] i
 	*	vec3f
 	*/
 	inline IntrinsicCallPtr makeModf3F( type::TypesCache & cache
@@ -2622,7 +2622,7 @@ namespace ast::expr
 	*	vec4f
 	*@param[in] x
 	*	vec4f
-	*@param[out] i
+	*@param[in] i
 	*	vec4f
 	*/
 	inline IntrinsicCallPtr makeModf4F( type::TypesCache & cache
@@ -2641,7 +2641,7 @@ namespace ast::expr
 	*	double
 	*@param[in] x
 	*	double
-	*@param[out] i
+	*@param[in] i
 	*	double
 	*/
 	inline IntrinsicCallPtr makeModf1D( type::TypesCache & cache

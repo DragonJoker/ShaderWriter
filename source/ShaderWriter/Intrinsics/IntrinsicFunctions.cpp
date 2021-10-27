@@ -1535,7 +1535,7 @@ namespace sdw
 	*/
 	/**@{*/
 	Float modf( Float const & x
-		, Float & i )
+		, Float const & i )
 	{
 		return Float{ *findWriter( x, i )
 			, expr::makeModf1F( findTypesCache( x, i )
@@ -1544,7 +1544,7 @@ namespace sdw
 			, areOptionalEnabled( x, i ) };
 	}
 	Vec2 modf( Vec2 const & x
-		, Vec2 & i )
+		, Vec2 const & i )
 	{
 		return Vec2{ *findWriter( x, i )
 			, expr::makeModf2F( findTypesCache( x, i )
@@ -1553,7 +1553,7 @@ namespace sdw
 			, areOptionalEnabled( x, i ) };
 	}
 	Vec3 modf( Vec3 const & x
-		, Vec3 & i )
+		, Vec3 const & i )
 	{
 		return Vec3{ *findWriter( x, i )
 			, expr::makeModf3F( findTypesCache( x, i )
@@ -1562,7 +1562,7 @@ namespace sdw
 			, areOptionalEnabled( x, i ) };
 	}
 	Vec4 modf( Vec4 const & x
-		, Vec4 & i )
+		, Vec4 const & i )
 	{
 		return Vec4{ *findWriter( x, i )
 			, expr::makeModf4F( findTypesCache( x, i )
@@ -1571,7 +1571,7 @@ namespace sdw
 			, areOptionalEnabled( x, i ) };
 	}
 	Double modf( Double const & x
-		, Double & i )
+		, Double const & i )
 	{
 		return Double{ *findWriter( x, i )
 			, expr::makeModf1D( findTypesCache( x, i )
