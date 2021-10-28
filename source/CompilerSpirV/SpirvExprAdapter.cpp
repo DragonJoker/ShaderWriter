@@ -83,49 +83,29 @@ namespace spirv
 				}
 			}
 
-			m_result = ExprCloner::submit( expr );
+			m_result = m_adaptationData.config.processPending( expr->getVariable()
+				, m_container );
+
+			if ( !m_result )
+			{
+				m_result = ExprCloner::submit( expr );
+			}
 		}
 	}
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
-		auto outer = expr->getOuterExpr();
+		m_result = m_adaptationData.config.processPendingMbr( expr->getOuterExpr()
+			, expr->getMemberIndex()
+			, *expr
+			, *this
+			, m_container );
 
-		if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& m_adaptationData.config.isOutput( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
+		if ( !m_result )
 		{
-			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeIdentifier( m_cache
-				, m_adaptationData.outputs[expr->getMemberIndex()] );
-		}
-		else if ( outer->getKind() == ast::expr::Kind::eIdentifier
-			&& m_adaptationData.config.isInput( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
-		{
-			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeIdentifier( m_cache
-				, m_adaptationData.inputs[expr->getMemberIndex()] );
-		}
-		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
-			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
-			&& m_adaptationData.config.isInput( static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() ) )
-		{
-			assert( m_adaptationData.inputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeArrayAccess( expr->getType()
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.inputs[expr->getMemberIndex()] )
-				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
-		}
-		else if ( outer->getKind() == ast::expr::Kind::eArrayAccess
-			&& static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS()->getKind() == ast::expr::Kind::eIdentifier
-			&& m_adaptationData.config.isOutput( static_cast< ast::expr::Identifier const & >( *static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS() ).getVariable() ) )
-		{
-			assert( m_adaptationData.outputs.size() > expr->getMemberIndex() );
-			m_result = ast::expr::makeArrayAccess( expr->getType()
-				, ast::expr::makeIdentifier( m_cache, m_adaptationData.outputs[expr->getMemberIndex()] )
-				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( *outer ).getRHS() ) );
-		}
-		else
-		{
-			ExprCloner::visitMbrSelectExpr( expr );
+			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
+				, expr->getMemberIndex()
+				, expr->getMemberFlags() );
 		}
 	}
 

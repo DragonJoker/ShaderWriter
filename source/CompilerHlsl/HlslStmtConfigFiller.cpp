@@ -135,8 +135,6 @@ namespace hlsl
 				m_adaptationData.currentEntryPoint = m_adaptationData.mainEntryPoint;
 			}
 
-			m_adaptationData.currentEntryPoint->needsSeparateFunc = needsSeparateMain( m_shader.getType()
-				, stmt->isEntryPoint() );
 			m_adaptationData.currentEntryPoint->initialise( *stmt );
 		}
 
@@ -271,12 +269,6 @@ namespace hlsl
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		auto var = stmt->getVariable();
-
-		if ( var->isBuiltin() )
-		{
-			m_adaptationData.mainEntryPoint->addBuiltin( var );
-		}
 	}
 
 	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )

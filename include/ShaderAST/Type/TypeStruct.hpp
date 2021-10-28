@@ -20,6 +20,9 @@ namespace ast::type
 		eC,
 	};
 
+	SDAST_API std::string getRealName( Builtin builtin
+		, uint32_t index );
+
 	class Struct
 		: public Type
 	{
@@ -31,10 +34,12 @@ namespace ast::type
 		{
 			Member() = default;
 			Member( TypePtr ptype
-				, Builtin pbuiltin )
+				, Builtin pbuiltin
+				, uint32_t pbuiltinIndex = InvalidLocation )
 				: type{ std::move( ptype ) }
 				, builtin{ pbuiltin }
-				, name{ ast::getName( pbuiltin ) }
+				, name{ getRealName( pbuiltin, pbuiltinIndex ) }
+				, builtinIndex{ pbuiltinIndex }
 			{
 			}
 
@@ -73,6 +78,7 @@ namespace ast::type
 			uint32_t size{};
 			uint32_t arrayStride{};
 			uint32_t location{ InvalidLocation };
+			uint32_t builtinIndex{ InvalidLocation };
 		};
 
 	private:
@@ -97,8 +103,10 @@ namespace ast::type
 		SDAST_API Member getMember( uint32_t index );
 		SDAST_API Member getMember( std::string const & name );
 		SDAST_API uint32_t findMember( std::string const & name )const;
-		SDAST_API Member getMember( Builtin builtin );
-		SDAST_API uint32_t findMember( Builtin builtin )const;
+		SDAST_API Member getMember( Builtin builtin
+			, uint32_t index = InvalidLocation );
+		SDAST_API uint32_t findMember( Builtin builtin
+			, uint32_t index = InvalidLocation )const;
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		bool hasMember( std::string const & name )
@@ -106,9 +114,10 @@ namespace ast::type
 			return findMember( name ) != NotFound;
 		}
 
-		bool hasMember( Builtin builtin )
+		bool hasMember( Builtin builtin
+			, uint32_t index = InvalidLocation )
 		{
-			return findMember( builtin ) != NotFound;
+			return findMember( builtin, index ) != NotFound;
 		}
 
 		std::string const & getName()const
@@ -192,7 +201,8 @@ namespace ast::type
 
 		SDAST_API Member declMember( Builtin builtin
 			, Kind kind
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, uint32_t index = InvalidLocation );
 		SDAST_API Member declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize = NotArray );
@@ -208,12 +218,18 @@ namespace ast::type
 			, uint32_t arraySize );
 		SDAST_API Member declMember( std::string name
 			, BaseStructPtr type );
+		SDAST_API Member declMember( std::string name
+			, IOStructPtr type
+			, uint32_t arraySize );
+		SDAST_API Member declMember( std::string name
+			, IOStructPtr type );
 
 	private:
 		Member doCreateMember( TypePtr type
 			, std::string const & name );
 		Member doCreateMember( TypePtr type
-			, Builtin builtin );
+			, Builtin builtin
+			, uint32_t index = InvalidLocation );
 	};
 
 	class IOStruct
@@ -227,7 +243,8 @@ namespace ast::type
 
 		SDAST_API Member declMember( Builtin builtin
 			, Kind kind
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, uint32_t index = InvalidLocation );
 		SDAST_API Member declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize
@@ -242,16 +259,24 @@ namespace ast::type
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type
 			, uint32_t location );
+		SDAST_API Member declMember( std::string name
+			, StructPtr type
+			, uint32_t arraySize );
+		SDAST_API Member declMember( std::string name
+			, StructPtr type );
 
 	private:
 		Member doCreateMember( TypePtr type
 			, std::string const & name
 			, uint32_t location );
 		Member doCreateMember( TypePtr type
-			, Builtin builtin );
+			, Builtin builtin
+			, uint32_t index = InvalidLocation );
 	};
 
+	SDAST_API bool isStructType( type::Type const & type );
 	SDAST_API bool isStructType( type::TypePtr type );
+	SDAST_API type::Struct const * getStructType( type::Type const & type );
 	SDAST_API type::StructPtr getStructType( type::TypePtr type );
 
 	SDAST_API size_t getHash( MemoryLayout layout

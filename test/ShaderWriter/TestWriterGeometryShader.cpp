@@ -19,7 +19,7 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
 		{
 			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
 				, ( FlagT == sdw::var::Flag::eShaderOutput
@@ -49,10 +49,12 @@ namespace
 		{
 			GeometryWriter writer;
 
-			writer.implementMainT< 1u, PointList, PointStream >( [&]( PointList in
+			writer.implementMainT< 1u, PointList, PointStream >( [&]( GeometryIn in
+				, PointList list
 				, PointStream out )
 				{
-					out.vtx.position = in[0].vtx.position;
+					out.primitiveID = in.primitiveID;
+					out.vtx.position = list[0].vtx.position;
 					out.append();
 					out.restartStrip();
 				} );
@@ -63,56 +65,26 @@ namespace
 		testEnd();
 	}
 
-	void specificOutputOnly( test::sdw_test::TestCounts & testCounts )
+	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificOutputOnly" );
-		using namespace sdw;
-		{
-			GeometryWriter writer;
-			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
-
-			writer.implementMainT< 3u, TriangleList, MyTriangleStream >( [&]( TriangleList in
-				, MyTriangleStream out )
-				{
-					out.position = in[0].vtx.position.xyz();
-					out.vtx.position = in[0].vtx.position;
-					out.append();
-
-					out.position = in[1].vtx.position.xyz();
-					out.vtx.position = in[1].vtx.position;
-					out.append();
-
-					out.position = in[2].vtx.position.xyz();
-					out.vtx.position = in[2].vtx.position;
-					out.append();
-
-					out.restartStrip();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificInputOnly( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificInputOnly" );
+		testBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
 			using MyTriangleList = sdw::TriangleListT< PositionT >;
 
-			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( MyTriangleList in
+			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( GeometryIn in
+				, MyTriangleList list
 				, TriangleStream out )
 				{
-					out.vtx.position = vec4( in[0].position, 0.0_f ) + in[0].vtx.position;
+					out.primitiveID = in.primitiveID;
+					out.vtx.position = vec4( list[0].position, 0.0_f ) + list[0].vtx.position;
 					out.append();
 
-					out.vtx.position = vec4( in[1].position, 0.0_f ) + in[1].vtx.position;
+					out.vtx.position = vec4( list[1].position, 0.0_f ) + list[1].vtx.position;
 					out.append();
 
-					out.vtx.position = vec4( in[2].position, 0.0_f ) + in[2].vtx.position;
+					out.vtx.position = vec4( list[2].position, 0.0_f ) + list[2].vtx.position;
 					out.append();
 
 					out.restartStrip();
@@ -124,28 +96,208 @@ namespace
 		testEnd();
 	}
 
-	void specificInAndOut( test::sdw_test::TestCounts & testCounts )
+	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificInAndOut" );
+		testBegin( "specificGlobalOnly" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleList = sdw::TriangleListT< VoidT >;
+			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
+
+			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( GeometryIn in
+				, MyTriangleList list
+				, TriangleStream out )
+				{
+					out.primitiveID = in.primitiveID;
+					out.vtx.position = vec4( offset[0], 0.0_f ) + list[0].vtx.position;
+					out.append();
+
+					out.vtx.position = vec4( offset[1], 0.0_f ) + list[1].vtx.position;
+					out.append();
+
+					out.vtx.position = vec4( offset[2], 0.0_f ) + list[2].vtx.position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMixedInputOnly" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleList = sdw::TriangleListT< PositionT >;
+			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
+
+			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( GeometryIn in
+				, MyTriangleList list
+				, TriangleStream out )
+				{
+					out.primitiveID = in.primitiveID;
+					out.vtx.position = vec4( list[0].position, 0.0_f ) + vec4( offset[0], 0.0_f ) + list[0].vtx.position;
+					out.append();
+
+					out.vtx.position = vec4( list[1].position, 0.0_f ) + vec4( offset[1], 0.0_f ) + list[1].vtx.position;
+					out.append();
+
+					out.vtx.position = vec4( list[2].position, 0.0_f ) + vec4( offset[2], 0.0_f ) + list[2].vtx.position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMemberOutputOnly" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
+
+			writer.implementMainT< 3u, TriangleList, MyTriangleStream >( [&]( GeometryIn in
+				, TriangleList list
+				, MyTriangleStream out )
+				{
+					out.primitiveID = in.primitiveID;
+					out.position = list[0].vtx.position.xyz();
+					out.vtx.position = list[0].vtx.position;
+					out.append();
+
+					out.primitiveID = in.primitiveID;
+					out.position = list[1].vtx.position.xyz();
+					out.vtx.position = list[1].vtx.position;
+					out.append();
+
+					out.primitiveID = in.primitiveID;
+					out.position = list[2].vtx.position.xyz();
+					out.vtx.position = list[2].vtx.position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			GeometryWriter writer;
 			using MyTriangleList = sdw::TriangleListT< PositionT >;
 			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 
-			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( MyTriangleList in
+			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( GeometryIn in
+				, MyTriangleList list
 				, MyTriangleStream out )
 				{
-					out.position = in[0].position;
-					out.vtx.position = in[0].vtx.position;
+					out.primitiveID = in.primitiveID;
+					out.position = list[0].position;
+					out.vtx.position = list[0].vtx.position;
 					out.append();
 
-					out.position = in[1].position;
-					out.vtx.position = in[1].vtx.position;
+					out.primitiveID = in.primitiveID;
+					out.position = list[1].position;
+					out.vtx.position = list[1].vtx.position;
 					out.append();
 
-					out.position = in[2].position;
-					out.vtx.position = in[2].vtx.position;
+					out.primitiveID = in.primitiveID;
+					out.position = list[2].position;
+					out.vtx.position = list[2].vtx.position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificGlobalInAndOut" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleList = sdw::TriangleListT< VoidT >;
+			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
+			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
+
+			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( GeometryIn in
+				, MyTriangleList list
+				, MyTriangleStream out )
+				{
+					out.primitiveID = in.primitiveID;
+					out.position = offset[0];
+					out.vtx.position = list[0].vtx.position;
+					out.append();
+
+					out.primitiveID = in.primitiveID;
+					out.position = offset[1];
+					out.vtx.position = list[1].vtx.position;
+					out.append();
+
+					out.primitiveID = in.primitiveID;
+					out.position = offset[2];
+					out.vtx.position = list[2].vtx.position;
+					out.append();
+
+					out.restartStrip();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "specificMixedInAndOut" );
+		using namespace sdw;
+		{
+			GeometryWriter writer;
+			using MyTriangleList = sdw::TriangleListT< PositionT >;
+			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
+			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
+
+			writer.implementMainT< 3u, MyTriangleList, MyTriangleStream >( [&]( GeometryIn in
+				, MyTriangleList list
+				, MyTriangleStream out )
+				{
+					out.primitiveID = in.primitiveID;
+					out.position = list[0].position + offset[0];
+					out.vtx.position = list[0].vtx.position;
+					out.append();
+
+					out.primitiveID = in.primitiveID;
+					out.position = list[1].position + offset[1];
+					out.vtx.position = list[1].vtx.position;
+					out.append();
+
+					out.primitiveID = in.primitiveID;
+					out.position = list[2].position + offset[2];
+					out.vtx.position = list[2].vtx.position;
 					out.append();
 
 					out.restartStrip();
@@ -162,9 +314,13 @@ sdwTestSuiteMain( TestWriterGeometryShader )
 {
 	sdwTestSuiteBegin();
 	noSpecificIO( testCounts );
-	specificInputOnly( testCounts );
-	specificOutputOnly( testCounts );
-	specificInAndOut( testCounts );
+	specificMemberInputOnly( testCounts );
+	specificGlobalInputOnly( testCounts );
+	specificMixedInputOnly( testCounts );
+	specificMemberOutputOnly( testCounts );
+	specificMemberInAndOut( testCounts );
+	specificGlobalInAndOut( testCounts );
+	specificMixedInAndOut( testCounts );
 	sdwTestSuiteEnd();
 }
 

@@ -433,10 +433,11 @@ namespace glsl
 		auto structType = getStructType( outer->getType() );
 		auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
 		ast::expr::ExprPtr result;
-		ast::expr::ExprPtr indexExpr{};
 
-		if ( isPerVertex( mbr.builtin ) )
+		if ( isPerVertex( mbr.builtin, m_adaptationData.writerConfig.shaderStage ) )
 		{
+			ast::expr::ExprPtr indexExpr{};
+
 			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
 			{
 				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
@@ -458,7 +459,7 @@ namespace glsl
 					assert( isStructType( type ) );
 					auto perVertexType = getStructType( type );
 					mbrIndex = perVertexType->findMember( mbr.builtin );
-					assert( mbrIndex != ast::type::NotArray );
+					assert( mbrIndex != ast::type::Struct::NotFound );
 					result = ast::expr::makeArrayAccess( perVertexType
 						, ast::expr::makeIdentifier( m_cache, io.perVertex )
 						, std::move( indexExpr ) );
@@ -483,21 +484,66 @@ namespace glsl
 				}
 			}
 		}
+		else if ( mbr.builtin != ast::Builtin::eNone )
+		{
+			auto it = io.vars.find( structType );
+
+			if ( it != io.vars.end() )
+			{
+				auto mbrIt = std::find_if( it->second.begin()
+					, it->second.end()
+					, [&mbr]( ast::var::VariablePtr const & lookup )
+					{
+						return lookup->getName() == mbr.name
+							|| lookup->getName() == "gl_" + mbr.name;
+					} );
+				assert( mbrIt != it->second.end() );
+				result = ast::expr::makeIdentifier( m_cache
+					, *mbrIt );
+			}
+		}
 		else
 		{
+			ast::expr::ExprPtr indexExpr{};
+
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+				outer = arrayAccess.getLHS();
+
+				if ( outer->getKind() == ast::expr::Kind::eIdentifier
+					&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+				{
+					indexExpr = doSubmit( arrayAccess.getRHS() );
+				}
+			}
+
 			if ( outer->getKind() == ast::expr::Kind::eIdentifier
 				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
 			{
-				assert( io.vars.size() > mbrIndex );
+				auto it = io.vars.find( structType );
+				assert( it != io.vars.end() );
+				auto mbrIt = std::find_if( it->second.begin()
+					, it->second.end()
+					, [&mbr]( ast::var::VariablePtr const & lookup )
+					{
+						return lookup->getName() == mbr.name
+							|| ( !lookup->isBuiltin()
+								&& ( lookup->getName() == "sdwIn_" + mbr.name
+									|| lookup->getName() == "sdwOut_" + mbr.name ) )
+							|| ( lookup->isBuiltin()
+								&& lookup->getName() == "gl_" + mbr.name );
+					} );
+				assert( mbrIt != it->second.end() );
 				result = ast::expr::makeIdentifier( m_cache
-					, io.vars[mbrIndex] );
-			}
-			else if ( outer->getKind() == ast::expr::Kind::eIdentifier
-				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
-			{
-				assert( io.vars.size() > mbrIndex );
-				result = ast::expr::makeIdentifier( m_cache
-					, io.vars[mbrIndex] );
+					, *mbrIt );
+
+				if ( indexExpr )
+				{
+					result = ast::expr::makeArrayAccess( mbr.type
+						, std::move( result )
+						, std::move( indexExpr ) );
+				}
 			}
 		}
 

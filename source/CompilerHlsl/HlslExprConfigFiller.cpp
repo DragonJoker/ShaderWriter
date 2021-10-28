@@ -79,6 +79,15 @@ namespace hlsl
 				, *expr
 				, 0u );
 		}
+		else if ( expr->isShaderInput() || expr->isShaderOutput() )
+		{
+			auto type = expr->getOuterType();
+			auto mbr = type->getMember( expr->getMemberIndex() );
+			m_adaptationData.currentEntryPoint->addPendingMbrInput( expr->getOuterExpr()
+				, expr->getMemberIndex()
+				, *expr
+				, mbr.location );
+		}
 	}
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
@@ -123,12 +132,6 @@ namespace hlsl
 
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		auto var = expr->getVariable();
-
-		if ( var->isBuiltin() )
-		{
-			m_adaptationData.currentEntryPoint->addBuiltin( var );
-		}
 	}
 
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )

@@ -67,38 +67,36 @@ namespace hlsl
 			}
 		}
 
-		std::string writeIOMember( ast::type::Struct::Member const & member
+		std::string writeIOMember( ast::type::TypePtr type
+			, std::string name
+			, ast::Builtin builtin
+			, uint32_t builtinIndex
+			, uint32_t location
 			, Semantic & intSem
 			, Semantic & fltSem )
 		{
-			auto varType = member.type;
-			auto & cache = varType->getCache();
+			auto & cache = type->getCache();
 			std::string semantic;
 
-			if ( member.builtin == ast::Builtin::eClipDistance )
+			if ( builtin == ast::Builtin::eClipDistance )
 			{
-				varType = cache.getVec4F();
-				semantic = std::to_string( 0 )
-					+ ": "
-					+ "SV_ClipDistance0";
-				semantic = std::to_string( 1 )
-					+ ": "
-					+ "SV_ClipDistance1";
+				type = cache.getVec4F();
+				semantic = ": SV_ClipDistance" + std::to_string( builtinIndex );
 			}
-			else if ( member.builtin == ast::Builtin::eCullDistance )
+			else if ( builtin == ast::Builtin::eCullDistance )
 			{
 				// Merged with SV_ClipDistance ?
 			}
 			else
 			{
-				if ( isSignedIntType( varType->getKind() )
-					|| isUnsignedIntType( varType->getKind() ) )
+				if ( isSignedIntType( type->getKind() )
+					|| isUnsignedIntType( type->getKind() ) )
 				{
-					semantic = ": " + getSemantic( member.builtin, member.location, varType, intSem );
+					semantic = ": " + getSemantic( builtin, location, type, intSem );
 				}
 				else
 				{
-					semantic = ": " + getSemantic( member.builtin, member.location, varType, fltSem );
+					semantic = ": " + getSemantic( builtin, location, type, fltSem );
 				}
 			}
 
@@ -107,11 +105,24 @@ namespace hlsl
 				return semantic;
 			}
 
-			std::string result = getTypeName( varType ) + " ";
-			result += member.name;
-			result += getTypeArraySize( varType );
-			result += semantic + ";\n";
+			std::string result = getTypeName( type ) + " ";
+			result += name;
+			result += getTypeArraySize( type );
+			result += semantic;
 			return result;
+		}
+
+		std::string writeIOMember( ast::type::Struct::Member const & member
+			, Semantic & intSem
+			, Semantic & fltSem )
+		{
+			return writeIOMember( member.type
+				, member.name
+				, member.builtin
+				, member.builtinIndex
+				, member.location
+				, intSem
+				, fltSem ) + ";\n";
 		}
 
 		std::string writeIOMembers( std::string indent
@@ -124,7 +135,8 @@ namespace hlsl
 			Semantic * pfltSem = &rfltSem;
 			std::string result;
 
-			if ( stage == ast::ShaderStage::eFragment )
+			if ( stage == ast::ShaderStage::eFragment
+				&& structType.isShaderOutput() )
 			{
 				rintSem.name = "SV_Target";
 				pfltSem = &rintSem;
@@ -378,63 +390,55 @@ namespace hlsl
 		{
 			if ( stmt->isEntryPoint() )
 			{
-				auto it = type->begin();
-				auto argType = ( *it )->getType();
-
-				if ( argType->getKind() == ast::type::Kind::eGeometryInput )
+				for ( auto & mbr : *type )
 				{
-					params.push_back( *it );
-					++it;
-					params.push_back( *it );
-					argType = ( *it )->getType();
+					auto argType = mbr->getType();
 
 					if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
 					{
 						auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
 						m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
+						params.push_back( mbr );
 					}
-				}
-				else if ( argType->getKind() == ast::type::Kind::eComputeInput )
-				{
-					auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
-
-					if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
+					else if ( argType->getKind() == ast::type::Kind::eComputeInput )
 					{
-						if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
+						auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
+
+						if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
 						{
-							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
+							if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
+							{
+								m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
+							}
+							else
+							{
+								m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
+									+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
+							}
 						}
 						else
 						{
 							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
-								+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
+								+ ", " + std::to_string( compType.getLocalSizeY() )
+								+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
 						}
+
+						params.push_back( mbr );
 					}
-					else
+					else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
 					{
-						m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
-							+ ", " + std::to_string( compType.getLocalSizeY() )
-							+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
+						auto & tessciType = static_cast< ast::type::TessellationControlInput const & >( *argType );
+						argType = tessciType.getType();
+
+						if ( argType->getKind() != ast::type::Kind::eVoid
+							&& ( argType->getKind() != ast::type::Kind::eStruct
+								|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+						{
+							params.push_back( mbr );
+						}
+
 					}
-
-					params.push_back( *it );
-				}
-				else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
-				{
-					auto & tessciType = static_cast< ast::type::TessellationControlInput const & >( *argType );
-					argType = tessciType.getType();
-
-					if ( argType->getKind() != ast::type::Kind::eVoid
-						&& ( argType->getKind() != ast::type::Kind::eStruct
-							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
-					{
-						params.push_back( *it );
-					}
-
-					++it;
-					argType = ( *it )->getType();
-
-					if ( argType->getKind() == ast::type::Kind::eTessellationControlOutput )
+					else if ( argType->getKind() == ast::type::Kind::eTessellationControlOutput )
 					{
 						auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *argType );
 						m_result += m_indent + "[domain(\"" + getName( tesscoType.getDomain() ) + "\")]\n";
@@ -466,17 +470,13 @@ namespace hlsl
 							&& ( argType->getKind() != ast::type::Kind::eStruct
 								|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
 						{
-							params.push_back( *it );
+							params.push_back( mbr );
 						}
 					}
 					else
 					{
-						params.push_back( *it );
+						params.push_back( mbr );
 					}
-				}
-				else
-				{
-					params.push_back( *it );
 				}
 			}
 			else
@@ -488,13 +488,30 @@ namespace hlsl
 		m_result += m_indent + getTypeName( type->getReturnType() );
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;
+		Semantic sem{ "", 0u };
 
 		for ( auto & param : params )
 		{
-			m_result += sep + getDirectionName( *param )
-				+ getTypeName( param->getType() ) + " "
-				+ param->getName() + getTypeArraySize( param->getType() );
-			sep = ", ";
+			if ( param->isBuiltin() )
+			{
+				m_result += sep + getDirectionName( *param )
+					+ writeIOMember( param->getType()
+						, param->getName()
+						, param->getBuiltin()
+						, ast::type::Struct::InvalidLocation
+						, ast::type::Struct::InvalidLocation
+						, sem
+						, sem );
+			}
+			else
+			{
+				m_result += sep + getDirectionName( *param )
+					+ getTypeName( param->getType() ) + " "
+					+ param->getName()
+					+ getTypeArraySize( param->getType() );
+			}
+
+			sep = m_indent + "\n\t, ";
 		}
 
 		m_result += ")";

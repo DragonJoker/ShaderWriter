@@ -3,7 +3,8 @@
 
 namespace
 {
-#define DummyMain writer.implementMain( [](){} )
+#define BeginMain writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentIn, sdw::FragmentOut )
+#define EndMain )
 
 	template< typename T >
 	void testStruct( test::sdw_test::TestCounts & testCounts )
@@ -18,12 +19,15 @@ namespace
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
-			auto instance = st.getInstance( "st" + sdw::debug::getName( sdw::typeEnum< T > ), true );
-			auto retrieved = instance.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
-			DummyMain;
+			BeginMain
+			{
+				auto instance = st.getInstance( "st" + sdw::debug::getName( sdw::typeEnum< T > ), true );
+				auto retrieved = instance.template getMember< T >( name );
+				check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+				check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+				check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			}
+			EndMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -35,12 +39,15 @@ namespace
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
-			auto instance = st.getInstance( "stArray4" + sdw::debug::getName( sdw::typeEnum< T > ), true );
-			auto retrieved = instance.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
-			DummyMain;
+			BeginMain
+			{
+				auto instance = st.getInstance( "stArray4" + sdw::debug::getName( sdw::typeEnum< T > ), true );
+				auto retrieved = instance.template getMemberArray< T >( name );
+				check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+				check( getArraySize( retrieved.getType() ) == 4u );
+				check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+			}
+			EndMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();

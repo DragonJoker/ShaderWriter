@@ -125,33 +125,13 @@ namespace spirv
 		checkType( expr, m_config );
 		expr->getOuterExpr()->accept( this );
 
-		if ( expr->isShaderInput() )
+		if ( expr->isBuiltin() )
 		{
-			auto outer = expr->getOuterExpr();
-			bool processed = false;
-
-			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
-			{
-				outer = static_cast< ast::expr::ArrayAccess const & >( *outer ).getLHS();
-			}
-
-			if ( outer->getKind() == ast::expr::Kind::eIdentifier )
-			{
-				auto outerVar = static_cast< ast::expr::Identifier const & >( *outer ).getVariable();
-				processed = m_config.inputs.end () != m_config.inputs.find( outerVar );
-			}
-
-			if ( !processed
-				&& outer->getType()->getKind() == ast::type::Kind::eGeometryInput )
-			{
-				auto outerType = expr->getOuterType();
-				auto mbr = outerType->getMember( expr->getMemberIndex() );
-				m_config.addShaderInput( "sdwIn_" + mbr.name
-					, mbr.builtin
-					, mbr.type
-					, outerType->getFlag()
-					, getArraySize( static_cast< ast::type::GeometryInput const & >( *outer->getType() ).layout ) );
-			}
+			m_config.addMbrBuiltin( expr->getOuterExpr()
+				, expr->getMemberIndex()
+				, *expr
+				, 0u
+				, ast::type::NotArray );
 		}
 	}
 
@@ -296,20 +276,6 @@ namespace spirv
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		checkType( expr, m_config );
-
-		if ( expr->getVariable()->isShaderInput()
-			&& expr->getType()->getKind() != ast::type::Kind::eGeometryInput
-			&& !m_config.isInput( expr->getVariable() ) )
-		{
-			m_config.inputs.insert( expr->getVariable() );
-		}
-
-		if ( expr->getVariable()->isShaderOutput() 
-			&& !expr->getVariable()->isMember()
-			&& !m_config.isOutput( expr->getVariable() ) )
-		{
-			m_config.outputs.insert( expr->getVariable() );
-		}
 	}
 
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )

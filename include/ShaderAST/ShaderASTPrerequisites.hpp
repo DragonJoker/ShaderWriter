@@ -124,7 +124,8 @@ namespace ast
 		eViewportMaskPerViewNV,
 	};
 	SDAST_API std::string getName( Builtin value );
-	SDAST_API bool isPerVertex( Builtin value );
+	SDAST_API bool isPerVertex( Builtin value
+		, ShaderStage stage );
 
 	struct EntityName
 	{

@@ -15,10 +15,15 @@ namespace spirv
 {
 	struct AdaptationData
 	{
+		AdaptationData( PreprocContext & pcontext
+			, ModuleConfig pconfig )
+			: context{ pcontext }
+			, config{ std::move( pconfig ) }
+		{
+		}
+
 		PreprocContext & context;
-		ModuleConfig const & config;
-		std::vector< ast::var::VariablePtr > outputs{};
-		std::vector< ast::var::VariablePtr > inputs{};
+		ModuleConfig config;
 	};
 
 	class StmtAdapter
@@ -39,6 +44,7 @@ namespace spirv
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
@@ -66,10 +72,10 @@ namespace spirv
 			, ast::type::TessellationControlInput const & tessType
 			, bool isEntryPoint );
 		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType
+			, ast::type::IOStructPtr ioType
 			, bool isEntryPoint );
 		void doProcessInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType
+			, ast::type::IOStructPtr ioType
 			, bool isEntryPoint );
 		void doProcessOutputPatch( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType

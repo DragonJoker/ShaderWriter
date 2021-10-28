@@ -97,7 +97,7 @@ namespace hlsl
 				m_current = save;
 
 				// Write SDW_main function
-				m_current->addStmt( m_adaptationData.currentEntryPoint->declare() );
+				m_current->addStmt( m_adaptationData.currentEntryPoint->writeGlobals() );
 				auto sdwMainCont = ast::stmt::makeFunctionDecl( cache.getFunction( stmt->getType()->getReturnType()
 					, ast::var::VariableList{} )
 					, "SDW_" + stmt->getName() );
@@ -109,37 +109,21 @@ namespace hlsl
 			}
 			else
 			{
+				// Write function content into a temporary container, registering I/O.
 				auto cont = ast::stmt::makeContainer();
 				auto save = m_current;
 				m_current = cont.get();
+				m_current->addStmt( m_adaptationData.currentEntryPoint->writeLocalesBegin() );
 				visitContainerStmt( stmt );
+				m_current->addStmt( m_adaptationData.currentEntryPoint->writeLocalesEnd() );
 				m_current = save;
+
+				// Write main function, with only used parameters.
+				m_current->addStmt( m_adaptationData.currentEntryPoint->writeGlobals() );
 				ast::var::VariableList parameters;
-
-				if ( m_adaptationData.currentEntryPoint->inputs.paramVar )
-				{
-					if ( !m_adaptationData.currentEntryPoint->inputs.paramStruct->empty() )
-					{
-						parameters.push_back( m_adaptationData.currentEntryPoint->inputs.paramVar );
-					}
-					else if ( m_adaptationData.currentEntryPoint->inputs.paramVar->getType()->getKind() == ast::type::Kind::eComputeInput )
-					{
-						auto & compType = static_cast< ast::type::ComputeInput const & >( *m_adaptationData.currentEntryPoint->inputs.paramVar->getType() );
-						m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
-							, compType.getLocalSizeX()
-							, compType.getLocalSizeY()
-							, compType.getLocalSizeZ() ) );
-					}
-				}
-
-				if ( m_adaptationData.currentEntryPoint->outputs.paramVar
-					&& !m_adaptationData.currentEntryPoint->outputs.paramStruct->empty() )
-				{
-					parameters.push_back( m_adaptationData.currentEntryPoint->outputs.paramVar );
-				}
-
-				m_current->addStmt( m_adaptationData.currentEntryPoint->declare() );
-				auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( stmt->getType()->getReturnType()
+				auto retType = m_adaptationData.currentEntryPoint->fillParameters( parameters, *m_current );
+				assert( retType == nullptr );
+				auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
 					, parameters )
 					, stmt->getName()
 					, stmt->getFlags() );
@@ -317,38 +301,20 @@ namespace hlsl
 	void StmtAdapter::writeMain( ast::stmt::FunctionDecl * stmt )
 	{
 		auto & entryPoint = *m_adaptationData.currentEntryPoint;
-		auto & inputs = entryPoint.inputs;
-		auto & outputs = entryPoint.outputs;
-		bool hasGlobalInput = inputs.globalVar
-			&& !inputs.globalStruct->empty();
-		bool hasGlobalOutput = outputs.globalVar
-			&& !outputs.globalStruct->empty();
-
 		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
 		ast::var::VariableList mainParameters;
 		ast::type::TypePtr mainRetType = m_cache.getVoid();
+		auto retType = entryPoint.fillParameters( mainParameters, *m_current );
 
-		if ( !inputs.paramStruct->empty() )
+		if ( retType )
 		{
-			mainParameters.push_back( inputs.paramVar );
-		}
-
-		if ( hasGlobalOutput )
-		{
-			mainRetType = outputs.paramStruct;
+			mainRetType = retType;
 		}
 
 		auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( mainRetType, mainParameters )
 			, stmt->getName()
 			, stmt->getFlags() );
-
-		// Assign main inputs to global inputs, if needed
-		if ( hasGlobalInput )
-		{
-			cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( inputs.globalStruct
-				, ast::expr::makeIdentifier( m_cache, inputs.globalVar )
-				, ast::expr::makeIdentifier( m_cache, inputs.paramVar ) ) ) );
-		}
+		cont->addStmt( entryPoint.writeLocalesBegin() );
 
 		// Call SDW_main function.
 		cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
@@ -358,87 +324,7 @@ namespace hlsl
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
-		if ( hasGlobalOutput )
-		{
-			// Declare output.
-			cont->addStmt( ast::stmt::makeVariableDecl( outputs.paramVar ) );
-
-			if ( m_shader.getType() == ast::ShaderStage::eVertex )
-			{
-				// Assign global outputs to main outputs, member wise
-				auto inIndex = 0u;
-				auto outIndex = 0u;
-				assert( outputs.paramStruct->size() == outputs.globalStruct->size() );
-				auto size = outputs.paramStruct->size();
-
-				for ( auto j = 0u; j < size; ++j )
-				{
-					auto ioMbr = outputs.paramStruct->getMember( j );
-					auto baseMbr = outputs.globalStruct->getMember( j );
-
-					if ( ioMbr.builtin == ast::Builtin::eClipDistance )
-					{
-						for ( uint32_t i = 0u; i < 4u; ++i )
-						{
-							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( baseMbr.type
-								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, outputs.paramVar )
-										, inIndex
-										, 0u )
-									, ast::expr::SwizzleKind::fromOffset( i ) )
-								, ast::expr::makeArrayAccess( m_cache.getFloat()
-									, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, outputs.globalVar )
-										, outIndex
-										, 0u )
-									, ast::expr::makeLiteral( m_cache, i ) ) ) ) );
-						}
-
-						++inIndex;
-
-						for ( uint32_t i = 0u; i < 4u; ++i )
-						{
-							cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( baseMbr.type
-								, ast::expr::makeSwizzle( ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, outputs.paramVar )
-										, inIndex
-										, 0u )
-									, ast::expr::SwizzleKind::fromOffset( i ) )
-								, ast::expr::makeArrayAccess( m_cache.getFloat()
-									, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, outputs.globalVar )
-										, outIndex
-										, 0u )
-									, ast::expr::makeLiteral( m_cache, i + 4u ) ) ) ) );
-						}
-
-						++inIndex;
-						++outIndex;
-					}
-					else if ( ioMbr.builtin == ast::Builtin::eCullDistance )
-					{
-					}
-					else
-					{
-						cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( baseMbr.type
-							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, outputs.paramVar )
-								, inIndex
-								, uint32_t( ast::var::Flag::eImplicit ) )
-							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, outputs.globalVar )
-								, outIndex
-								, uint32_t( ast::var::Flag::eImplicit ) ) ) ) );
-						++inIndex;
-						++outIndex;
-					}
-				}
-			}
-			else
-			{
-				// Assign global outputs to main outputs
-				cont->addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( outputs.paramStruct
-					, ast::expr::makeIdentifier( m_cache, outputs.paramVar )
-					, ast::expr::makeIdentifier( m_cache, outputs.globalVar ) ) ) );
-			}
-
-			// Return output.
-			cont->addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( m_cache, outputs.paramVar ) ) );
-		}
+		cont->addStmt( entryPoint.writeLocalesEnd() );
 
 		m_current->addStmt( std::move( cont ) );
 	}

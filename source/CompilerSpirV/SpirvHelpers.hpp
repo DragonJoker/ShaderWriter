@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprList.hpp>
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
+#include <ShaderAST/Stmt/StmtFunctionDecl.hpp>
 
 #include <set>
 #include <string>
@@ -17,36 +18,270 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	class ExprAdapter;
+
+	struct PendingResult
+	{
+		ast::var::VariablePtr var;
+	};
+
+	struct PendingIO
+	{
+		ast::var::VariablePtr var;
+		uint32_t location;
+		uint32_t arraySize;
+		uint32_t flags;
+		PendingResult result;
+	};
+
+	struct PendingMbrIO
+	{
+		uint32_t mbrIndex;
+		uint32_t location;
+		uint32_t arraySize;
+		uint32_t flags;
+		PendingResult result;
+	};
+
+	struct IOMapping
+	{
+		IOMapping( ast::type::TypesCache & pcache
+			, ast::ShaderStage pstage
+			, bool pisInput
+			, uint32_t & pnextVarId );
+
+		ast::type::TypesCache & cache;
+		ast::ShaderStage stage;
+		bool isInput;
+		uint32_t * nextVarId;
+
+		void declare( ast::stmt::Container & stmt );
+
+		void addPending( ast::var::VariablePtr pendingVar
+			, uint32_t location );
+		void addPendingMbr( ast::var::VariablePtr outerVar
+			, uint32_t mbrIndex
+			, uint32_t flags
+			, uint32_t location
+			, uint32_t arraySize );
+		void addPendingMbr( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t location
+			, uint32_t arraySize );
+		ast::expr::ExprPtr processPending( std::string const & name
+			, ast::stmt::Container * cont );
+		ast::expr::ExprPtr processPending( ast::var::VariablePtr var
+			, ast::stmt::Container * cont );
+		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter
+			, ast::stmt::Container * cont );
+		bool isValid( ast::Builtin builtin );
+
+		ast::var::VariableList const & getVars()const
+		{
+			return m_processed;
+		}
+
+	private:
+		PendingResult processPendingType( ast::type::TypePtr type
+			, std::string const & name
+			, ast::Builtin builtin
+			, uint32_t flags
+			, uint32_t location
+			, uint32_t arraySize
+			, ast::stmt::Container * cont );
+		PendingResult processPendingType( ast::type::Struct const & structType
+			, uint32_t mbrIndex
+			, uint32_t mbrFlags
+			, uint32_t mbrLocation
+			, uint32_t mbrArraySize
+			, ast::stmt::Container * cont );
+
+	private:
+		std::map< std::string, PendingIO > m_pending;
+		struct PendingMbrIO
+		{
+			ast::var::VariablePtr outer;
+			uint32_t index;
+			PendingIO io;
+		};
+		std::vector< PendingMbrIO > m_pendingMbr;
+		std::map< ast::Builtin, ast::var::VariablePtr > m_processedBuiltins;
+		std::map< std::string, ast::var::VariablePtr > m_processedIOs;
+		ast::var::VariableList m_processed;
+	};
+
 	struct ModuleConfig
 	{
-		std::set< spv::Capability > requiredCapabilities;
-		ast::var::VariablePtr input;
-		std::map< ast::var::VariablePtr, std::string > inputMapping;
-		std::set< ast::var::VariablePtr > inputs;
-		ast::var::VariablePtr output;
-		std::map< ast::var::VariablePtr, std::string > outputMapping;
-		std::set< ast::var::VariablePtr > outputs;
-		mutable uint32_t nextVarId{ 0u };
-		mutable uint32_t aliasId{ 0u };
+		ModuleConfig( ast::type::TypesCache & cache
+			, ast::ShaderStage stage
+			, uint32_t pnextVarId
+			, uint32_t paliasId )
+			: nextVarId{ pnextVarId }
+			, aliasId{ paliasId }
+			, inputs{ cache, stage, true, nextVarId }
+			, outputs{ cache, stage, false, nextVarId }
+		{
+		}
 
-		bool isInput( ast::var::VariablePtr var )const;
-		bool isOutput( ast::var::VariablePtr var )const;
-		void addShaderInput( std::string const & name
-			, ast::Builtin builtin
-			, ast::type::TypePtr type
-			, uint32_t flags
+		uint32_t nextVarId;
+		uint32_t aliasId;
+		std::set< spv::Capability > requiredCapabilities;
+
+		void initialise( ast::stmt::FunctionDecl const & stmt );
+		ast::stmt::ContainerPtr declare();
+		void addInputVar( ast::var::VariablePtr var
+			, uint32_t location );
+		void addOutputVar( ast::var::VariablePtr var
+			, uint32_t location );
+		ast::expr::ExprPtr processPending( ast::var::VariablePtr var
+			, ast::stmt::Container * cont );
+		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter
+			, ast::stmt::Container * cont );
+		bool isInput( ast::Builtin builtin );
+		bool isOutput( ast::Builtin builtin );
+		void addMbrBuiltin( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t location
 			, uint32_t arraySize );
-		void addShaderOutput( std::string const & name
-			, ast::Builtin builtin
-			, ast::type::TypePtr type
-			, uint32_t flags
-			, uint32_t arraySize );
-		void addPatchInput( std::string const & name
-			, ast::type::TypePtr type
-			, uint32_t flags );
-		void addPatchOutput( std::string const & name
-			, ast::type::TypePtr type
-			, uint32_t flags );
+
+		ast::var::VariableList const & getInputs()const
+		{
+			return inputs.getVars();
+		}
+
+		void addPendingInput( ast::var::VariablePtr var
+			, uint32_t location )
+		{
+			return inputs.addPending( var, location );
+		}
+
+		void addPendingMbrInput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t location
+			, uint32_t arraySize )
+		{
+			inputs.addPendingMbr( outer
+				, mbrIndex
+				, flags
+				, location
+				, arraySize );
+		}
+
+		ast::expr::ExprPtr processPendingInput( std::string const & name
+			, ast::stmt::Container * cont )
+		{
+			return inputs.processPending( name
+				, cont );
+		}
+
+		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var
+			, ast::stmt::Container * cont )
+		{
+			return inputs.processPending( var
+				, cont );
+		}
+
+		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter
+			, ast::stmt::Container * cont )
+		{
+			return inputs.processPendingMbr( outer
+				, mbrIndex
+				, flags
+				, adapter
+				, cont );
+		}
+
+		ast::var::VariableList const & getOutputs()const
+		{
+			return outputs.getVars();
+		}
+
+		void addPendingOutput( ast::var::VariablePtr var
+			, uint32_t location )
+		{
+			return outputs.addPending( var, location );
+		}
+
+		void addPendingMbrOutput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t location
+			, uint32_t arraySize )
+		{
+			outputs.addPendingMbr( outer
+				, mbrIndex
+				, flags
+				, location
+				, arraySize );
+		}
+
+		ast::expr::ExprPtr processPendingOutput( std::string const & name
+			, ast::stmt::Container * cont )
+		{
+			return outputs.processPending( name
+				, cont );
+		}
+
+		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var
+			, ast::stmt::Container * cont )
+		{
+			return outputs.processPending( var
+				, cont );
+		}
+
+		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter
+			, ast::stmt::Container * cont )
+		{
+			return outputs.processPendingMbr( outer
+				, mbrIndex
+				, flags
+				, adapter
+				, cont );
+		}
+
+	private:
+		void registerComputeInput( ast::var::VariablePtr var
+			, ast::type::ComputeInput const & compType );
+		void registerGeometryInput( ast::var::VariablePtr var
+			, ast::type::GeometryInput const & geomType );
+		void registerGeometryOutput( ast::var::VariablePtr var
+			, ast::type::GeometryOutput const & geomType );
+		void registerTessellationControlInput( ast::var::VariablePtr var
+			, ast::type::TessellationControlInput const & tessType
+			, bool isEntryPoint );
+		void registerTessellationControlOutput( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & tessType
+			, bool isEntryPoint );
+		void registerInput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & structType
+			, uint32_t arraySize
+			, bool isEntryPoint );
+		void registerOutput( ast::var::VariablePtr var
+			, ast::type::IOStruct const & structType
+			, uint32_t arraySize
+			, bool isEntryPoint );
+		void registerOutputPatch( ast::var::VariablePtr var
+			, ast::type::TessellationOutputPatch const & patchType
+			, bool isEntryPoint );
+
+	private:
+		IOMapping inputs;
+		IOMapping outputs;
 	};
 
 	struct IntrinsicConfig

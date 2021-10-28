@@ -361,20 +361,12 @@ namespace test
 						, shader.getType()
 						, errors
 						, testCounts );
-					check( isCompiled
-						|| errors.find( "not completely initialized" ) != std::string::npos );
+					check( isCompiled );
 
 					if ( !isCompiled )
 					{
-						if ( errors.find( "not completely initialized" ) == std::string::npos )
-						{
-							displayShader( "HLSL", hlsl, testCounts, true );
-							testCounts.streams.cout << errors << std::endl;
-						}
-						else
-						{
-							testCounts.streams.cout << errors << std::endl;
-						}
+						displayShader( "HLSL", hlsl, testCounts, true );
+						testCounts.streams.cout << errors << std::endl;
 					}
 					else
 					{
@@ -443,6 +435,7 @@ namespace test
 							if ( text.find( "not supported in HLSL" ) == std::string::npos
 								&& text.find( "not supported on HLSL" ) == std::string::npos
 								&& text.find( "exist in HLSL" ) == std::string::npos
+								&& text.find( "Unsupported builtin in HLSL: 7" ) == std::string::npos // geometry shaders
 								&& text.find( "Unsupported builtin in HLSL: 11" ) == std::string::npos // Tessellation shaders
 								&& text.find( "No function currently in scope" ) == std::string::npos
 								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos )

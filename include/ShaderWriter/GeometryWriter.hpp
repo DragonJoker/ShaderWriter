@@ -29,40 +29,54 @@ namespace sdw
 
 		PerVertex vtx;
 	};
-	
 	/**
-	*	Holds input data for a geometry shader.
+	*	Holds global input data for a geometry shader.
+	*/
+	struct GeometryIn
+		: StructInstance
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
+		SDW_API GeometryIn( ShaderWriter & writer );
+		SDW_API GeometryIn( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
+
+		//in int gl_PrimitiveIDIn;
+		Int const primitiveID;
+		//in int gl_InvocationID;
+		Int const invocationID;
+	};
+	/**
+	*	Holds vertex input data for a geometry shader.
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	struct GeometryInT
+	struct GeometryListT
 		: Array< GeometryDataT< DataT > >
 	{
 		static constexpr ast::var::Flag FlagT = GeometryDataT< DataT >::FlagT;
 
-		GeometryInT( ShaderWriter & writer );
-		GeometryInT( ShaderWriter & writer
+		GeometryListT( ShaderWriter & writer );
+		GeometryListT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
-
-		//in int gl_PrimitiveIDIn;
-		Int const primitiveIDIn;
-		//in int gl_InvocationID;
-		Int const invocationID;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using PointListT = GeometryInT< DataT, ast::type::InputLayout::ePointList >;
+	using PointListT = GeometryListT< DataT, ast::type::InputLayout::ePointList >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using LineListT = GeometryInT< DataT, ast::type::InputLayout::eLineList >;
+	using LineListT = GeometryListT< DataT, ast::type::InputLayout::eLineList >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using TriangleListT = GeometryInT< DataT, ast::type::InputLayout::eTriangleList >;
+	using TriangleListT = GeometryListT< DataT, ast::type::InputLayout::eTriangleList >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using LineListWithAdjT = GeometryInT< DataT, ast::type::InputLayout::eLineListWithAdjacency >;
+	using LineListWithAdjT = GeometryListT< DataT, ast::type::InputLayout::eLineListWithAdjacency >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using TriangleListWithAdjT = GeometryInT< DataT, ast::type::InputLayout::eTriangleListWithAdjacency >;
+	using TriangleListWithAdjT = GeometryListT< DataT, ast::type::InputLayout::eTriangleListWithAdjacency >;
 
 	using PointList = PointListT< VoidT >;
 	using LineList = LineListT< VoidT >;
@@ -112,7 +126,7 @@ namespace sdw
 	using TriangleStream = TriangleStreamT< VoidT >;
 
 	template< typename InputArrT, typename OutStreamT >
-	using GeometryMainFuncT = std::function< void( InputArrT, OutStreamT ) >;
+	using GeometryMainFuncT = std::function< void( GeometryIn, InputArrT, OutStreamT ) >;
 
 	class GeometryWriter
 		: public ShaderWriter

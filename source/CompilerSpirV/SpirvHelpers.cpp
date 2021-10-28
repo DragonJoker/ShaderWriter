@@ -3,13 +3,19 @@ See LICENSE file in root folder
 */
 #include "SpirvHelpers.hpp"
 
+#include "SpirvExprAdapter.hpp"
+
 #include <ShaderAST/Expr/ExprCompositeConstruct.hpp>
 #include <ShaderAST/Expr/ExprNotEqual.hpp>
 #include <ShaderAST/Expr/ExprQuestion.hpp>
 #include <ShaderAST/Expr/ExprSwizzle.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
+#include <ShaderAST/Stmt/StmtStructureDecl.hpp>
+#include <ShaderAST/Stmt/StmtVariableDecl.hpp>
+#include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 namespace spirv
 {
@@ -222,144 +228,658 @@ namespace spirv
 
 			return nullptr;
 		}
+
+		bool isShaderInput( ast::Builtin builtin
+			, ast::ShaderStage type )
+		{
+			return
+				( type == ast::ShaderStage::eCompute
+					&& ( builtin == ast::Builtin::eNumWorkGroups
+						|| builtin == ast::Builtin::eWorkGroupID
+						|| builtin == ast::Builtin::eLocalInvocationID
+						|| builtin == ast::Builtin::eGlobalInvocationID
+						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
+				|| ( type == ast::ShaderStage::eFragment
+					&& ( builtin == ast::Builtin::eFragCoord
+						|| builtin == ast::Builtin::eFrontFacing
+						|| builtin == ast::Builtin::ePointCoord
+						|| builtin == ast::Builtin::eSampleID
+						|| builtin == ast::Builtin::eSamplePosition
+						|| builtin == ast::Builtin::eSampleMaskIn
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eLayer
+						|| builtin == ast::Builtin::eViewportIndex ) )
+				|| ( type == ast::ShaderStage::eGeometry
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::ePrimitiveIDIn
+						|| builtin == ast::Builtin::eInvocationID ) )
+				|| ( type == ast::ShaderStage::eTessellationControl
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::ePatchVerticesIn
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eInvocationID ) )
+				|| ( type == ast::ShaderStage::eTessellationEvaluation
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eTessCoord
+						|| builtin == ast::Builtin::ePatchVerticesIn
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eTessLevelInner
+						|| builtin == ast::Builtin::eTessLevelOuter ) )
+				|| ( type == ast::ShaderStage::eVertex
+					&& ( builtin == ast::Builtin::eVertexIndex
+						|| builtin == ast::Builtin::eInstanceIndex
+						|| builtin == ast::Builtin::eDrawIndex
+						|| builtin == ast::Builtin::eBaseVertex
+						|| builtin == ast::Builtin::eBaseInstance
+						|| builtin == ast::Builtin::eTessLevelOuter ) );
+		}
+
+		bool isShaderOutput( ast::Builtin builtin
+			, ast::ShaderStage type )
+		{
+			return
+				( type == ast::ShaderStage::eFragment
+					&& ( builtin == ast::Builtin::eFragDepth
+						|| builtin == ast::Builtin::eSampleMask
+						|| builtin == ast::Builtin::eFragStencilRefEXT ) )
+				|| ( type == ast::ShaderStage::eGeometry
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eLayer
+						|| builtin == ast::Builtin::eViewportIndex ) )
+				|| ( type == ast::ShaderStage::eTessellationControl
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance
+						|| builtin == ast::Builtin::eTessLevelInner
+						|| builtin == ast::Builtin::eTessLevelOuter ) )
+				|| ( type == ast::ShaderStage::eTessellationEvaluation
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance ) )
+				|| ( type == ast::ShaderStage::eVertex
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance ) );
+		}
+	}
+
+	//*********************************************************************************************
+
+	static uint32_t constexpr BuiltinIndex = 128u;
+
+	IOMapping::IOMapping( ast::type::TypesCache & pcache
+		, ast::ShaderStage pstage
+		, bool pisInput
+		, uint32_t & pnextVarId )
+		: cache{ pcache }
+		, stage{ pstage }
+		, isInput{ pisInput }
+		, nextVarId{ &pnextVarId }
+	{
+	}
+
+	void IOMapping::declare( ast::stmt::Container & stmt )
+	{
+	}
+
+	void IOMapping::addPending( ast::var::VariablePtr pendingVar
+		, uint32_t location )
+	{
+		auto ires = m_pending.emplace( pendingVar->getName(), PendingIO{} );
+
+		if ( ires.second )
+		{
+			auto it = ires.first;
+			it->second.location = location;
+			it->second.arraySize = ast::type::NotArray;
+			it->second.flags = pendingVar->getFlags();
+			it->second.var = pendingVar;
+		}
+	}
+
+	void IOMapping::addPendingMbr( ast::var::VariablePtr outerVar
+		, uint32_t mbrIndex
+		, uint32_t flags
+		, uint32_t location
+		, uint32_t arraySize )
+	{
+		auto it = std::find_if( m_pendingMbr.begin()
+			, m_pendingMbr.end()
+			, [&outerVar, &mbrIndex]( PendingMbrIO const & lookup )
+			{
+				return lookup.index == mbrIndex
+					&& lookup.outer == outerVar;
+			} );
+
+		if ( it == m_pendingMbr.end() )
+		{
+			PendingIO io{};
+			io.location = location;
+			io.arraySize = arraySize;
+			io.flags = flags;
+			m_pendingMbr.push_back( { outerVar, mbrIndex, io } );
+		}
+	}
+
+	void IOMapping::addPendingMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & flags
+		, uint32_t location
+		, uint32_t arraySize )
+	{
+		auto ident = ast::findIdentifier( outer );
+		assert( ident );
+		addPendingMbr( ident->getVariable()
+			, mbrIndex
+			, flags.getFlags()
+			, location
+			, arraySize );
+	}
+
+	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & pflags
+		, ExprAdapter & adapter
+		, ast::stmt::Container * cont )
+	{
+		if ( !pflags.isShaderInput() && !pflags.isShaderOutput() )
+		{
+			return nullptr;
+		}
+
+		auto ident = ast::findIdentifier( outer );
+
+		if ( !ident )
+		{
+			return nullptr;
+		}
+
+		auto outerVar = ident->getVariable();
+		auto it = std::find_if( m_pendingMbr.begin()
+			, m_pendingMbr.end()
+			, [&outerVar, &mbrIndex]( PendingMbrIO const & lookup )
+			{
+				return lookup.index == mbrIndex
+					&& lookup.outer == outerVar;
+			} );
+
+		if ( m_pendingMbr.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto & mbr = *it;
+
+		if ( !mbr.io.result.var )
+		{
+			auto structType = getStructType( mbr.outer->getType() );
+			mbr.io.result = processPendingType( *structType
+				, mbr.index
+				, mbr.io.flags
+				, mbr.io.location
+				, mbr.io.arraySize
+				, cont );
+		}
+
+		ast::expr::ExprPtr result = ast::expr::makeIdentifier( cache, mbr.io.result.var );
+
+		if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+		{
+			auto type = result->getType();
+			assert( type->getKind() == ast::type::Kind::eArray );
+			auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+			result = ast::expr::makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
+				, std::move( result )
+				, adapter.doSubmit( arrayAccess.getRHS() ) );
+		}
+
+		return result;
+	}
+
+	ast::expr::ExprPtr IOMapping::processPending( std::string const & name
+		, ast::stmt::Container * cont )
+	{
+		auto it = m_pending.find( name );
+
+		if ( m_pending.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto & mbr = *it;
+		auto pendingVar = mbr.second.var;
+		auto type = pendingVar->getType();
+		auto location = it->second.location;
+
+		if ( !mbr.second.result.var )
+		{
+			mbr.second.result = processPendingType( type
+				, pendingVar->getName()
+				, pendingVar->isBuiltin() ? pendingVar->getBuiltin() : ast::Builtin::eNone
+				, mbr.second.flags
+				, location
+				, mbr.second.arraySize
+				, cont );
+		}
+
+		return ast::expr::makeIdentifier( cache, mbr.second.result.var );
+	}
+
+	ast::expr::ExprPtr IOMapping::processPending( ast::var::VariablePtr srcVar
+		, ast::stmt::Container * cont )
+	{
+		auto result = processPending( srcVar->getName()
+			, cont );
+
+		if ( result )
+		{
+			return result;
+		}
+
+		return ast::expr::makeIdentifier( srcVar->getType()->getCache()
+				, srcVar );
+	}
+
+	bool IOMapping::isValid( ast::Builtin builtin )
+	{
+		if ( isInput )
+		{
+			return isShaderInput( builtin, stage );
+		}
+
+		return isShaderOutput( builtin, stage );
+	}
+
+	PendingResult IOMapping::processPendingType( ast::type::TypePtr type
+		, std::string const & name
+		, ast::Builtin builtin
+		, uint32_t flags
+		, uint32_t location
+		, uint32_t arraySize
+		, ast::stmt::Container * cont )
+	{
+		if ( arraySize != ast::type::NotArray )
+		{
+			type = type->getCache().getArray( type, arraySize );
+		}
+
+		if ( builtin != ast::Builtin::eNone )
+		{
+			auto ires = m_processedBuiltins.emplace( builtin, nullptr );
+			auto it = ires.first;
+
+			if ( ires.second )
+			{
+				it->second = ast::var::makeBuiltin( ++( *nextVarId )
+					, builtin
+					, type
+					, flags );
+				m_processed.push_back( it->second );
+				cont->addStmt( ast::stmt::makeInOutVariableDecl( it->second
+					, location ) );
+			}
+
+			return { it->second };
+		}
+
+		auto ires = m_processedIOs.emplace( name, nullptr );
+		auto it = ires.first;
+
+		if ( ires.second )
+		{
+			auto prefix = isInput ? std::string{ "sdwIn_" } : std::string{ "sdwOut_" };
+			it->second = ast::var::makeVariable( { ++( *nextVarId ), prefix + name }
+				, type
+				, flags );
+			m_processed.push_back( it->second );
+			cont->addStmt( ast::stmt::makeInOutVariableDecl( it->second
+				, location ) );
+		}
+
+		return { it->second };
+	}
+
+	PendingResult IOMapping::processPendingType( ast::type::Struct const & structType
+		, uint32_t mbrIndex
+		, uint32_t mbrFlags
+		, uint32_t mbrLocation
+		, uint32_t mbrArraySize
+		, ast::stmt::Container * cont )
+	{
+		auto & mbr = *std::next( structType.begin(), ptrdiff_t( mbrIndex ) );
+		return processPendingType( mbr.type
+			, mbr.name
+			, mbr.builtin
+			, mbrFlags
+			, mbrLocation
+			, mbrArraySize
+			, cont );
 	}
 
 	//*************************************************************************
 
-	bool ModuleConfig::isInput( ast::var::VariablePtr var )const
+	void ModuleConfig::initialise( ast::stmt::FunctionDecl const & stmt )
 	{
-		if ( var == input )
+		auto funcType = stmt.getType();
+		auto isEntryPoint = stmt.isEntryPoint();
+
+		for ( auto & param : *funcType )
 		{
-			return true;
-		}
+			auto type = param->getType();
 
-		auto it = inputMapping.find( var );
-		return it != inputMapping.end();
-	}
-
-	bool ModuleConfig::isOutput( ast::var::VariablePtr var )const
-	{
-		if ( var == output )
-		{
-			return true;
-		}
-
-		auto it = outputMapping.find( var );
-		return it != outputMapping.end();
-	}
-
-	void ModuleConfig::addShaderInput( std::string const & name
-		, ast::Builtin builtin
-		, ast::type::TypePtr type
-		, uint32_t flags
-		, uint32_t arraySize )
-	{
-		auto it = std::find_if( inputs.begin()
-			, inputs.end()
-			, [&name]( ast::var::VariablePtr const & lookup )
+			if ( type->getKind() == ast::type::Kind::eComputeInput )
 			{
-				return name == lookup->getName();
-			} );
-
-		if ( it == inputs.end() )
-		{
-			auto & cache = type->getCache();
-
-			if ( builtin == ast::Builtin::eNone )
+				registerComputeInput( param
+					, static_cast< ast::type::ComputeInput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eGeometryInput )
 			{
-				inputs.emplace( ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-					, ( arraySize == ast::type::NotArray
-						? type
-						: cache.getArray( type, arraySize ) )
-					, flags ) );
+				registerGeometryInput( param
+					, static_cast< ast::type::GeometryInput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+			{
+				registerGeometryOutput( param
+					, static_cast< ast::type::GeometryOutput const & >( *type ) );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
+			{
+				registerTessellationControlInput( param
+					, static_cast< ast::type::TessellationControlInput const & >( *type )
+					, isEntryPoint );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+			{
+				registerTessellationControlOutput( param
+					, static_cast< ast::type::TessellationControlOutput const & >( *type )
+					, isEntryPoint );
+			}
+			else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+			{
+				registerOutputPatch( param
+					, static_cast< ast::type::TessellationOutputPatch const & >( *type )
+					, isEntryPoint );
 			}
 			else
 			{
-				inputs.emplace( ast::var::makeBuiltin( ++nextVarId
-					, builtin
-					, ( arraySize == ast::type::NotArray
-						? type
-						: cache.getArray( type, arraySize ) )
-					, flags ) );
+				uint32_t arraySize = ast::type::NotArray;
+
+				if ( type->getKind() == ast::type::Kind::eArray )
+				{
+					auto & arrayType = static_cast< ast::type::Array const & >( *type );
+					type = arrayType.getType();
+					arraySize = arrayType.getArraySize();
+				}
+
+				if ( type->getKind() == ast::type::Kind::eStruct )
+				{
+					auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+					if ( structType->isShaderInput() )
+					{
+						registerInput( param
+							, static_cast< ast::type::IOStruct const & >( *structType )
+							, arraySize
+							, isEntryPoint );
+					}
+					else if ( structType->isShaderOutput() )
+					{
+						registerOutput( param
+							, static_cast< ast::type::IOStruct const & >( *structType )
+							, arraySize
+							, isEntryPoint );
+					}
+				}
 			}
 		}
 	}
 
-	void ModuleConfig::addShaderOutput( std::string const & name
-		, ast::Builtin builtin
-		, ast::type::TypePtr type
-		, uint32_t flags
+	ast::stmt::ContainerPtr ModuleConfig::declare()
+	{
+		auto cont = ast::stmt::makeContainer();
+		inputs.declare( *cont );
+		outputs.declare( *cont );
+		return cont;
+	}
+
+	void ModuleConfig::addInputVar( ast::var::VariablePtr var
+		, uint32_t location )
+	{
+		inputs.addPending( var, location );
+	}
+
+	void ModuleConfig::addOutputVar( ast::var::VariablePtr var
+		, uint32_t location )
+	{
+		outputs.addPending( var, location );
+	}
+
+	ast::expr::ExprPtr ModuleConfig::processPendingMbr( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & flags
+		, ExprAdapter & adapter
+		, ast::stmt::Container * cont )
+	{
+		if ( flags.isShaderInput() )
+		{
+			return processPendingMbrInput( outer
+				, mbrIndex
+				, flags
+				, adapter
+				, cont );
+		}
+
+		return processPendingMbrOutput( outer
+			, mbrIndex
+			, flags
+			, adapter
+			, cont );
+	}
+
+	ast::expr::ExprPtr ModuleConfig::processPending( ast::var::VariablePtr var
+		, ast::stmt::Container * cont )
+	{
+		if ( var->isShaderInput() )
+		{
+			return processPendingInput( var
+				, cont );
+		}
+
+		return processPendingOutput( var
+			, cont );
+	}
+
+	bool ModuleConfig::isInput( ast::Builtin builtin )
+	{
+		return inputs.isValid( builtin );
+	}
+
+	bool ModuleConfig::isOutput( ast::Builtin builtin )
+	{
+		return outputs.isValid( builtin );
+	}
+
+	void ModuleConfig::addMbrBuiltin( ast::expr::Expr * outer
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & flags
+		, uint32_t location
 		, uint32_t arraySize )
 	{
-		auto it = std::find_if( outputs.begin()
-			, outputs.end()
-			, [&name]( ast::var::VariablePtr const & lookup )
-			{
-				return name == lookup->getName();
-			} );
-
-		if ( it == outputs.end() )
+		if ( flags.isShaderOutput() )
 		{
-			auto & cache = type->getCache();
-
-			if ( builtin == ast::Builtin::eNone )
-			{
-				outputs.emplace( ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-					, ( arraySize == ast::type::NotArray
-						? type
-						: cache.getArray( type, arraySize ) )
-					, flags ) );
-			}
-			else
-			{
-				outputs.emplace( ast::var::makeBuiltin( ++nextVarId
-					, builtin
-					, ( arraySize == ast::type::NotArray
-						? type
-						: cache.getArray( type, arraySize ) )
-					, flags ) );
-			}
+			addPendingMbrOutput( outer
+				, mbrIndex
+				, flags
+				, location
+				, arraySize );
+		}
+		else
+		{
+			addPendingMbrInput( outer
+				, mbrIndex
+				, flags
+				, location
+				, arraySize );
 		}
 	}
 
-	void ModuleConfig::addPatchInput( std::string const & name
-		, ast::type::TypePtr type
-		, uint32_t flags )
+	void ModuleConfig::registerComputeInput( ast::var::VariablePtr var
+		, ast::type::ComputeInput const & compType )
 	{
-		auto it = std::find_if( inputs.begin()
-			, inputs.end()
-			, [&name]( ast::var::VariablePtr const & lookup )
-			{
-				return name == lookup->getName();
-			} );
+		auto type = compType.getType();
 
-		if ( it == inputs.end() )
+		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-				, type
-				, flags );
-			inputs.emplace( var );
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, ast::type::NotArray
+				, true );
 		}
 	}
 
-	void ModuleConfig::addPatchOutput( std::string const & name
-		, ast::type::TypePtr type
-		, uint32_t flags )
+	void ModuleConfig::registerGeometryInput( ast::var::VariablePtr var
+		, ast::type::GeometryInput const & geomType )
 	{
-		auto it = std::find_if( outputs.begin()
-			, outputs.end()
-			, [&name]( ast::var::VariablePtr const & lookup )
-			{
-				return name == lookup->getName();
-			} );
+		auto type = geomType.type;
 
-		if ( it == outputs.end() )
+		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto var = ast::var::makeVariable( ast::EntityName{ ++nextVarId, name }
-				, type
-				, flags );
-			outputs.emplace( var );
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, getArraySize( geomType.layout )
+				, true );
 		}
+	}
+
+	void ModuleConfig::registerGeometryOutput( ast::var::VariablePtr var
+		, ast::type::GeometryOutput const & geomType )
+	{
+		auto type = geomType.type;
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, ast::type::NotArray
+				, true );
+		}
+	}
+
+	void ModuleConfig::registerTessellationControlInput( ast::var::VariablePtr var
+		, ast::type::TessellationControlInput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, tessType.getInputVertices()
+				, isEntryPoint );
+		}
+	}
+
+	void ModuleConfig::registerTessellationControlOutput( ast::var::VariablePtr var
+		, ast::type::TessellationControlOutput const & tessType
+		, bool isEntryPoint )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, tessType.getOutputVertices()
+				, isEntryPoint );
+		}
+	}
+
+	void ModuleConfig::registerInput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & structType
+		, uint32_t arraySize
+		, bool isEntryPoint )
+	{
+		uint32_t index = 0u;
+		auto flags = structType.getFlag();
+
+		for ( auto & mbr : structType )
+		{
+			inputs.addPendingMbr( var
+				, index++
+				, ( flags
+					| ( ( mbr.builtin == ast::Builtin::eNone )
+						? ast::var::Flag::eNone
+						: ast::var::Flag::eBuiltin ) )
+				, ( ( mbr.builtin == ast::Builtin::eNone )
+					? mbr.location
+					: ast::type::Struct::InvalidLocation )
+				, arraySize );
+		}
+	}
+
+	void ModuleConfig::registerOutput( ast::var::VariablePtr var
+		, ast::type::IOStruct const & structType
+		, uint32_t arraySize
+		, bool isEntryPoint )
+	{
+		uint32_t index = 0u;
+		auto flags = structType.getFlag();
+
+		for ( auto & mbr : structType )
+		{
+			outputs.addPendingMbr( var
+				, index++
+				, ( flags
+					| ( ( mbr.builtin == ast::Builtin::eNone )
+						? ast::var::Flag::eNone
+						: ast::var::Flag::eBuiltin ) )
+				, ( ( mbr.builtin == ast::Builtin::eNone )
+					? mbr.location
+					: ast::type::Struct::InvalidLocation )
+				, arraySize );
+		}
+	}
+
+	void ModuleConfig::registerOutputPatch( ast::var::VariablePtr var
+		, ast::type::TessellationOutputPatch const & patchType
+		, bool isEntryPoint )
+	{
+		//auto type = patchType.getType();
+
+		//if ( type->getKind() == ast::type::Kind::eStruct )
+		//{
+		//	parent->declareStruct( std::static_pointer_cast< ast::type::Struct >( type )
+		//		, inOutDeclarations );
+		//}
 	}
 
 	//*************************************************************************
