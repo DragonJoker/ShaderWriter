@@ -28,31 +28,19 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	GeometryInT< DataT, LayoutT >::GeometryInT( ShaderWriter & writer
+	GeometryListT< DataT, LayoutT >::GeometryListT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: Array< GeometryDataT< DataT > >{ writer, std::move( expr ), enabled }
-		, primitiveIDIn{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveIDIn
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
-		, invocationID{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eInvocationID
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	GeometryInT< DataT, LayoutT >::GeometryInT( ShaderWriter & writer )
-		: GeometryInT{ writer
+	GeometryListT< DataT, LayoutT >::GeometryListT( ShaderWriter & writer )
+		: GeometryListT{ writer
 			, makeExpr( writer
-				, getShader( writer ).registerName( "geomIn"
+				, sdw::getShader( writer ).registerName( "geomIn"
 					, ast::type::makeGeometryInputType( makeType( getTypesCache( writer ) )
 						, LayoutT )
 					, FlagT ) ) }
@@ -61,7 +49,7 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	ast::type::IOStructPtr GeometryInT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr GeometryListT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
 	{
 		return GeometryDataT< DataT >::makeType( cache );
 	}
@@ -75,24 +63,9 @@ namespace sdw
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
-		, primitiveID{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveID
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
-		, layer{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( ast::Builtin::eLayer
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
-		, viewportIndex{ writer
-			, makeIdent( getTypesCache( writer )
-				, sdw::getShader( writer ).registerBuiltin( ast::Builtin::eViewportIndex
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
+		, primitiveID{ this->getMember< Int >( ast::Builtin::ePrimitiveID ) }
+		, layer{ this->getMember< Int >( ast::Builtin::eLayer ) }
+		, viewportIndex{ this->getMember< Int >( ast::Builtin::eViewportIndex ) }
 	{
 	}
 
@@ -132,8 +105,22 @@ namespace sdw
 		, type::OutputLayout LayoutT >
 	ast::type::IOStructPtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
+		auto result = OutputT< DataT >::makeType( cache );
 		PerVertex::fillType( *result );
+
+		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
+		{
+			result->declMember( ast::Builtin::ePrimitiveID
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eLayer
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eViewportIndex
+				, type::Kind::eInt
+				, ast::type::NotArray );
+		}
+
 		return result;
 	}
 
@@ -145,11 +132,12 @@ namespace sdw
 	*/
 	/**@{*/
 	template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
-	inline void GeometryWriter::implementMainT( std::function< void( InputArrT, OutStreamT ) > const & function )
+	inline void GeometryWriter::implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
+			, makeInParam( GeometryIn{ *this } )
 			, makeInParam( InputArrT{ *this } )
 			, makeInOutParam( OutStreamT{ *this, MaxPrimCountT } ) );
 	}

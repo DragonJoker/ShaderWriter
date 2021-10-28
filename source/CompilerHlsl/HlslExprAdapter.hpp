@@ -43,6 +43,7 @@ namespace hlsl
 			, ast::stmt::Container * intrinsics );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;
 		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;

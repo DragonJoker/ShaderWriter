@@ -25,42 +25,38 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Position"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, 0u );
+			}
+
+			return result;
+		}
+
 		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			if constexpr ( FlagT == sdw::var::Flag::eShaderInput
-				|| FlagT == sdw::var::Flag::eShaderOutput )
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Position" );
+
+			if ( result->empty() )
 			{
-				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-					, ( FlagT == sdw::var::Flag::eShaderOutput
-						? std::string{ "Output" }
-						: std::string{ "Input" } ) + "Position"
-					, FlagT );
-
-				if ( result->empty() )
-				{
-					result->declMember( "position"
-						, sdw::type::Kind::eVec3F
-						, sdw::type::NotArray
-						, 0u );
-				}
-
-				return result;
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
 			}
-			else
-			{
-				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-					, "Position"
-					, FlagT );
 
-				if ( result->empty() )
-				{
-					result->declMember( "position"
-						, sdw::type::Kind::eVec3F
-						, sdw::type::NotArray );
-				}
-
-				return result;
-			}
+			return result;
 		}
 
 		sdw::Vec3 position;
@@ -98,66 +94,63 @@ namespace
 			return *this;
 		}
 
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Surface"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				uint32_t index = 0u;
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "tangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "bitangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "texture"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "instance"
+					, sdw::type::Kind::eInt
+					, ast::type::NotArray
+					, index++ );
+			}
+
+			return result;
+		}
+
 		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			if constexpr ( FlagT == sdw::var::Flag::eShaderInput
-				|| FlagT == sdw::var::Flag::eShaderOutput )
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Surface" );
+
+			if ( result->empty() )
 			{
-				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-					, ( FlagT == sdw::var::Flag::eShaderOutput
-						? std::string{ "Output" }
-						: std::string{ "Input" } ) + "Surface"
-					, FlagT );
-
-				if ( result->empty() )
-				{
-					uint32_t index = 0u;
-					result->declMember( "position"
-						, sdw::type::Kind::eVec3F
-						, ast::type::NotArray
-						, index++ );
-					result->declMember( "normal"
-						, sdw::type::Kind::eVec3F
-						, ast::type::NotArray
-						, index++ );
-					result->declMember( "tangent"
-						, sdw::type::Kind::eVec3F
-						, ast::type::NotArray
-						, index++ );
-					result->declMember( "bitangent"
-						, sdw::type::Kind::eVec3F
-						, ast::type::NotArray
-						, index++ );
-					result->declMember( "texture"
-						, sdw::type::Kind::eVec3F
-						, ast::type::NotArray
-						, index++ );
-					result->declMember( "instance"
-						, sdw::type::Kind::eInt
-						, ast::type::NotArray
-						, index++ );
-				}
-
-				return result;
+				result->declMember( "position", sdw::type::Kind::eVec3F );
+				result->declMember( "normal", sdw::type::Kind::eVec3F );
+				result->declMember( "tangent", sdw::type::Kind::eVec3F );
+				result->declMember( "bitangent", sdw::type::Kind::eVec3F );
+				result->declMember( "texture", sdw::type::Kind::eVec3F );
+				result->declMember( "instance", sdw::type::Kind::eInt );
+				result->end();
 			}
-			else
-			{
-				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-					, "Surface" );
 
-				if ( result->empty() )
-				{
-					result->declMember( "position", sdw::type::Kind::eVec3F );
-					result->declMember( "normal", sdw::type::Kind::eVec3F );
-					result->declMember( "tangent", sdw::type::Kind::eVec3F );
-					result->declMember( "bitangent", sdw::type::Kind::eVec3F );
-					result->declMember( "texture", sdw::type::Kind::eVec3F );
-					result->declMember( "instance", sdw::type::Kind::eInt );
-					result->end();
-				}
-
-				return result;
-			}
+			return result;
 		}
 
 		sdw::Vec3 position;
@@ -167,8 +160,6 @@ namespace
 		sdw::Vec3 texture;
 		sdw::Int instance;
 	};
-	using Surface = SurfaceT < sdw::var::Flag{} > ;
-	using InSurface = SurfaceT < sdw::var::Flag::eShaderInput > ;
 
 	template< sdw::var::Flag FlagT >
 	struct SimplePatchT
@@ -190,14 +181,20 @@ namespace
 			control = rhs.control;
 		}
 
-		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
 		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-				, "SimplePatch" );
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "SimplePatch"
+				, FlagT );
 
 			if ( result->empty() )
 			{
-				result->declMember( "control", sdw::type::Kind::eVec3F );
+				result->declMember( "control"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, 0u );
 			}
 
 			return result;
@@ -246,57 +243,31 @@ namespace
 			return *this;
 		}
 
-		static sdw::type::StructPtr makeType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
 		{
-			if constexpr ( FlagT == sdw::var::Flag::eShaderInput
-				|| FlagT == sdw::var::Flag::eShaderOutput )
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "BezierPatch"
+				, FlagT );
+
+			if ( result->empty() )
 			{
-				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-					, ( FlagT == sdw::var::Flag::eShaderOutput
-						? std::string{ "Output" }
-						: std::string{ "Input" } ) + "BezierPatch"
-					, FlagT );
-
-				if ( result->empty() )
-				{
-					uint32_t index = 0u;
-					result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-					result->end();
-				}
-
-				return result;
+				uint32_t index = 0u;
+				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->end();
 			}
-			else
-			{
-				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-					, "BezierPatch" );
 
-				if ( result->empty() )
-				{
-					result->declMember( "wpB030", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB021", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB012", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB003", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB102", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB201", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB300", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB210", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB120", sdw::type::Kind::eVec3F );
-					result->declMember( "wpB111", sdw::type::Kind::eVec3F );
-					result->end();
-				}
-
-				return result;
-			}
+			return result;
 		}
 
 		sdw::Vec3 wpB030;
@@ -310,7 +281,6 @@ namespace
 		sdw::Vec3 wpB120;
 		sdw::Vec3 wpB111;
 	};
-	using BezierPatchOut = BezierPatchT < sdw::var::Flag::ePatchOutput >;
 
 	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
 	{
@@ -323,16 +293,19 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< VoidT, 32u > in
-					, TrianglesTessControlOutT< VoidT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< VoidT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< VoidT > listOut )
 				{
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
 					out.tessLevelOuter[1] = 2.0_f;
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< VoidT, 32u, VoidT >( 6u
-				, [&]( TessControlInT< VoidT, 32u > in
+				, [&]( TessControlListInT< VoidT, 32u > listIn
 					, TrianglesTessPatchOutT< VoidT > patch )
 				{
 				} );
@@ -354,17 +327,20 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< VoidT, 32u > in
-				, TrianglesTessControlOutT< PositionT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< VoidT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< PositionT > listOut )
 				{
-					out[0].position = in.vtx[0].position.xyz();
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					listOut[0].position = listIn[0].vtx.position.xyz();
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
 					out.tessLevelOuter[1] = 2.0_f;
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< VoidT, 32u, VoidT >( 6u
-				, [&]( TessControlInT< VoidT, 32u > in
+				, [&]( TessControlListInT< VoidT, 32u > listIn
 					, TrianglesTessPatchOutT< VoidT > patch )
 				{
 				} );
@@ -386,16 +362,19 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< PositionT, 32u > in
-				, TrianglesTessControlOutT< VoidT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< PositionT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< VoidT > listOut )
 				{
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
-					out.tessLevelOuter[1] = in[0].position.y();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
+					out.tessLevelOuter[1] = listIn[0].position.y();
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< PositionT, 32u, VoidT >( 6u
-				, [&]( TessControlInT< PositionT, 32u > in
+				, [&]( TessControlListInT< PositionT, 32u > listIn
 					, TrianglesTessPatchOutT< VoidT > patch )
 				{
 				} );
@@ -417,17 +396,20 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< PositionT, 32u > in
-				, TrianglesTessControlOutT< PositionT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< PositionT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< PositionT > listOut )
 				{
-					out[0].position = in[0].position;
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
-					out.tessLevelOuter[1] = in[0].position.y();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					listOut[0].position = listIn[0].position;
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
+					out.tessLevelOuter[1] = listIn[0].position.y();
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< PositionT, 32u, VoidT >( 6u
-				, [&]( TessControlInT< PositionT, 32u > in
+				, [&]( TessControlListInT< PositionT, 32u > listIn
 					, TrianglesTessPatchOutT< VoidT > patch )
 				{
 				} );
@@ -449,16 +431,19 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< VoidT, 32u > in
-				, TrianglesTessControlOutT< VoidT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< VoidT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< VoidT > listOut )
 				{
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
 					out.tessLevelOuter[1] = 2.0_f;
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< VoidT, 32u, SimplePatchT >( 6u
-				, [&]( TessControlInT< VoidT, 32u > in
+				, [&]( TessControlListInT< VoidT, 32u > listIn
 					, TrianglesTessPatchOutT< SimplePatchT > patch )
 				{
 					patch.control = vec3( 1.0_f );
@@ -481,17 +466,20 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< VoidT, 32u > in
-				, TrianglesTessControlOutT< PositionT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< VoidT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< PositionT > listOut )
 				{
-					out[0].position = in.vtx[0].position.xyz();
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					listOut[0].position = listIn[0].vtx.position.xyz();
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
 					out.tessLevelOuter[1] = 2.0_f;
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< VoidT, 32u, SimplePatchT >( 6u
-				, [&]( TessControlInT< VoidT, 32u > in
+				, [&]( TessControlListInT< VoidT, 32u > listIn
 					, TrianglesTessPatchOutT< SimplePatchT > patch )
 				{
 					patch.control = vec3( 1.0_f );
@@ -514,19 +502,22 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< PositionT, 32u > in
-				, TrianglesTessControlOutT< VoidT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< PositionT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< VoidT > listOut )
 				{
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
-					out.tessLevelOuter[1] = in[0].position.y();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
+					out.tessLevelOuter[1] = listIn[0].position.y();
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< PositionT, 32u, SimplePatchT >( 6u
-				, [&]( TessControlInT< PositionT, 32u > in
+				, [&]( TessControlListInT< PositionT, 32u > listIn
 					, TrianglesTessPatchOutT< SimplePatchT > patch )
 				{
-					patch.control = in[0].position;
+					patch.control = listIn[0].position;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -546,20 +537,23 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< PositionT, 32u > in
-				, TrianglesTessControlOutT< PositionT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< PositionT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< PositionT > listOut )
 				{
-					out[0].position = in[0].position;
-					out.tessLevelOuter[0] = in.vtx[0].position.w();
-					out.tessLevelOuter[1] = in[0].position.y();
+					listOut[0].vtx.position = listIn[0].vtx.position;
+					listOut[0].position = listIn[0].position;
+					out.tessLevelOuter[0] = listIn[0].vtx.position.w();
+					out.tessLevelOuter[1] = listIn[0].position.y();
 					out.tessLevelInner[0] = out.tessLevelOuter[1];
 				} );
 
 			writer.implementMainT< PositionT, 32u, SimplePatchT >( 6u
-				, [&]( TessControlInT< PositionT, 32u > in
+				, [&]( TessControlListInT< PositionT, 32u > listIn
 					, TrianglesTessPatchOutT< SimplePatchT > patch )
 				{
-					patch.control = in[0].position;
+					patch.control = listIn[0].position;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -627,34 +621,36 @@ namespace
 				, ast::type::OutputTopology::ePoint
 				, ast::type::OutputVertexOrder::eCCW
 				, 1u
-				, [&]( TessControlInT< SurfaceT, 32u > in
-				, TrianglesTessControlOutT< SurfaceT > out )
+				, [&]( TessControlIn in
+					, TessControlListInT< SurfaceT, 32u > listIn
+					, TrianglesTessControlOut out
+					, TrianglesTessControlListOutT< SurfaceT > listOut )
 				{
 					// Set the control points of the output patch
 					FOR( writer, Int, i, 0, i < 3_i, i++ )
 					{
 						auto tbn = writer.declLocale( "tbn"
-							, mat3( normalize( in[i].tangent )
-								, normalize( in[i].bitangent )
-								, normalize( in[i].normal ) ) );
+							, mat3( normalize( listIn[i].tangent )
+								, normalize( listIn[i].bitangent )
+								, normalize( listIn[i].normal ) ) );
 						auto v3MapNormal = writer.declLocale( "v3MapNormal"
-							, c3d_mapNormal.lod( in[i].texture.xy(), 0.0_f ).xyz() );
+							, c3d_mapNormal.lod( listIn[i].texture.xy(), 0.0_f ).xyz() );
 						v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0, 1.0 ) );
-						out[i].normal = normalize( tbn * v3MapNormal );
-						out[i].tangent = in[i].tangent;
-						out[i].bitangent = in[i].bitangent;
-						out[i].texture = in[i].texture;
-						out[i].instance = in[i].instance;
+						listOut[i].normal = normalize( tbn * v3MapNormal );
+						listOut[i].tangent = listIn[i].tangent;
+						listOut[i].bitangent = listIn[i].bitangent;
+						listOut[i].texture = listIn[i].texture;
+						listOut[i].instance = listIn[i].instance;
 					}
 					ROF;
 
 					// Calculate the distance from the camera to the three control points
 					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
-						, distance( pos, in[0].position ) );
+						, distance( pos, listIn[0].position ) );
 					auto eyeToVertexDistance1 = writer.declLocale( "eyeToVertexDistance1"
-						, distance( pos, in[1].position ) );
+						, distance( pos, listIn[1].position ) );
 					auto eyeToVertexDistance2 = writer.declLocale( "eyeToVertexDistance2"
-						, distance( pos, in[2].position ) );
+						, distance( pos, listIn[2].position ) );
 
 					// Calculate the tessellation levels
 					out.tessLevelOuter[0] = getTessLevel( eyeToVertexDistance1, eyeToVertexDistance2 );
@@ -664,13 +660,13 @@ namespace
 				} );
 
 			writer.implementMainT< SurfaceT, 32u, BezierPatchT >( 6u
-				, [&]( TessControlInT< SurfaceT, 32u > in
+				, [&]( TessControlListInT< SurfaceT, 32u > listIn
 					, TrianglesTessPatchOutT< BezierPatchT > patch )
 				{
 					// The original vertices stay the same
-					patch.wpB030 = in[0].position;
-					patch.wpB003 = in[1].position;
-					patch.wpB300 = in[2].position;
+					patch.wpB030 = listIn[0].position;
+					patch.wpB003 = listIn[1].position;
+					patch.wpB300 = listIn[2].position;
 
 					// Edges are names according to the opposing vertex
 					auto edgeB300 = writer.declLocale( "edgeB300"
@@ -691,22 +687,22 @@ namespace
 					// Project each midpoint on the plane defined by the nearest vertex and its normal
 					patch.wpB021 = projectToPlane( patch.wpB021
 						, patch.wpB030
-						, in[0].normal );
+						, listIn[0].normal );
 					patch.wpB012 = projectToPlane( patch.wpB012
 						, patch.wpB003
-						, in[1].normal );
+						, listIn[1].normal );
 					patch.wpB102 = projectToPlane( patch.wpB102
 						, patch.wpB003
-						, in[1].normal );
+						, listIn[1].normal );
 					patch.wpB201 = projectToPlane( patch.wpB201
 						, patch.wpB300
-						, in[2].normal );
+						, listIn[2].normal );
 					patch.wpB210 = projectToPlane( patch.wpB210
 						, patch.wpB300
-						, in[2].normal );
+						, listIn[2].normal );
 					patch.wpB120 = projectToPlane( patch.wpB120
 						, patch.wpB030
-						, in[0].normal );
+						, listIn[0].normal );
 
 					// Handle the center
 					auto center = writer.declLocale( "center"

@@ -30,17 +30,19 @@ namespace spirv
 				, ssaData );
 			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 				, ssaStatements.get() );
-			ModuleConfig moduleConfig = spirv::StmtConfigFiller::submit( simplified.get() );
-			moduleConfig.aliasId = ssaData.aliasId;
-			moduleConfig.nextVarId = ssaData.nextVarId;
+			ModuleConfig moduleConfig{ shader.getTypesCache()
+				, shader.getType()
+				, ssaData.nextVarId
+				, ssaData.aliasId };
+			spirv::StmtConfigFiller::submit( simplified.get(), moduleConfig );
 			spirv::PreprocContext context{};
-			AdaptationData adaptationData{ context, moduleConfig };
+			AdaptationData adaptationData{ context, std::move( moduleConfig ) };
 			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), adaptationData );
 			auto actions = listActions( simplified.get() );
 			return spirv::StmtVisitor::submit( shader.getTypesCache()
 				, spirvStatements.get()
 				, shader.getType()
-				, moduleConfig
+				, adaptationData.config
 				, std::move( context )
 				, config
 				, std::move( actions ) );

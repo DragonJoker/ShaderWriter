@@ -18,12 +18,141 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	ModuleConfig StmtConfigFiller::submit( ast::stmt::Container * cont )
+	namespace
 	{
-		ModuleConfig result;
-		StmtConfigFiller vis{ result };
+		void checkBuiltin( ast::Builtin builtin
+			, ModuleConfig & config )
+		{
+			switch ( builtin )
+			{
+			case ast::Builtin::ePosition:
+			case ast::Builtin::ePointSize:
+				config.requiredCapabilities.insert( spv::CapabilityShader );
+				break;
+			case ast::Builtin::eClipDistance:
+				config.requiredCapabilities.insert( spv::CapabilityClipDistance );
+				break;
+			case ast::Builtin::eCullDistance:
+				config.requiredCapabilities.insert( spv::CapabilityCullDistance );
+				break;
+			case ast::Builtin::ePrimitiveID:
+			case ast::Builtin::ePrimitiveIDIn:
+			case ast::Builtin::eInvocationID:
+				// Tessellation or Geometry
+				break;
+			case ast::Builtin::eLayer:
+				config.requiredCapabilities.insert( spv::CapabilityGeometry );
+				break;
+			case ast::Builtin::eViewportIndex:
+				config.requiredCapabilities.insert( spv::CapabilityMultiViewport );
+				break;
+			case ast::Builtin::eTessLevelOuter:
+			case ast::Builtin::eTessLevelInner:
+			case ast::Builtin::eTessCoord:
+			case ast::Builtin::ePatchVertices:
+			case ast::Builtin::ePatchVerticesIn:
+				config.requiredCapabilities.insert( spv::CapabilityTessellation );
+				break;
+			case ast::Builtin::eFragCoord:
+			case ast::Builtin::ePointCoord:
+			case ast::Builtin::eFrontFacing:
+				config.requiredCapabilities.insert( spv::CapabilityShader );
+				break;
+			case ast::Builtin::eSampleID:
+			case ast::Builtin::eSamplePosition:
+				config.requiredCapabilities.insert( spv::CapabilitySampleRateShading );
+				break;
+			case ast::Builtin::eSampleMask:
+			case ast::Builtin::eSampleMaskIn:
+			case ast::Builtin::eFragDepth:
+			case ast::Builtin::eHelperInvocation:
+				config.requiredCapabilities.insert( spv::CapabilityShader );
+				break;
+			case ast::Builtin::eNumWorkGroups:
+				break;
+			case ast::Builtin::eWorkGroupSize:
+				break;
+			case ast::Builtin::eWorkGroupID:
+				break;
+			case ast::Builtin::eLocalInvocationID:
+				break;
+			case ast::Builtin::eGlobalInvocationID:
+				break;
+			case ast::Builtin::eLocalInvocationIndex:
+				break;
+			case ast::Builtin::eWorkDim:
+			case ast::Builtin::eGlobalSize:
+			case ast::Builtin::eEnqueuedWorkgroupSize:
+			case ast::Builtin::eGlobalLinearID:
+			case ast::Builtin::eSubgroupSize:
+			case ast::Builtin::eSubgroupMaxSize:
+			case ast::Builtin::eNumSubgroups:
+			case ast::Builtin::eNumEnqueuedSubgroups:
+			case ast::Builtin::eSubgroupID:
+			case ast::Builtin::eSubgroupLocalInvocationID:
+				config.requiredCapabilities.insert( spv::CapabilityKernel );
+				break;
+			case ast::Builtin::eVertexIndex:
+			case ast::Builtin::eInstanceIndex:
+				config.requiredCapabilities.insert( spv::CapabilityShader );
+				break;
+			case ast::Builtin::eSubgroupEqMaskKHR:
+			case ast::Builtin::eSubgroupGeMaskKHR:
+			case ast::Builtin::eSubgroupGtMaskKHR:
+			case ast::Builtin::eSubgroupLeMaskKHR:
+			case ast::Builtin::eSubgroupLtMaskKHR:
+				config.requiredCapabilities.insert( spv::CapabilitySubgroupBallotKHR );
+				break;
+			case ast::Builtin::eBaseVertex:
+			case ast::Builtin::eBaseInstance:
+			case ast::Builtin::eDrawIndex:
+				config.requiredCapabilities.insert( spv::CapabilityDrawParameters );
+				break;
+			case ast::Builtin::eDeviceIndex:
+				config.requiredCapabilities.insert( spv::CapabilityDeviceGroup );
+				break;
+			case ast::Builtin::eViewIndex:
+				config.requiredCapabilities.insert( spv::CapabilityMultiView );
+				break;
+			case ast::Builtin::eBaryCoordNoPerspAMD:
+				break;
+			case ast::Builtin::eBaryCoordNoPerspCentroidAMD:
+				break;
+			case ast::Builtin::eBaryCoordNoPerspSampleAMD:
+				break;
+			case ast::Builtin::eBaryCoordSmoothAMD:
+				break;
+			case ast::Builtin::eBaryCoordSmoothCentroidAMD:
+				break;
+			case ast::Builtin::eBaryCoordSmoothSampleAMD:
+				break;
+			case ast::Builtin::eBaryCoordPullModelAMD:
+				break;
+			case ast::Builtin::eFragStencilRefEXT:
+				config.requiredCapabilities.insert( spv::CapabilityStencilExportEXT );
+				break;
+			case ast::Builtin::eViewportMaskNV:
+				config.requiredCapabilities.insert( spv::CapabilityShaderViewportMaskNV );
+				break;
+			case ast::Builtin::eSecondaryPositionNV:
+			case ast::Builtin::eSecondaryViewportMaskNV:
+				config.requiredCapabilities.insert( spv::CapabilityShaderStereoViewNV );
+				break;
+			case ast::Builtin::ePositionPerViewNV:
+			case ast::Builtin::eViewportMaskPerViewNV:
+				config.requiredCapabilities.insert( spv::CapabilityPerViewAttributesNV );
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	void StmtConfigFiller::submit( ast::stmt::Container * cont
+		, ModuleConfig & moduleConfig )
+	{
+		StmtConfigFiller vis{ moduleConfig };
 		cont->accept( &vis );
-		return result;
 	}
 
 	StmtConfigFiller::StmtConfigFiller( ModuleConfig & result )
@@ -103,88 +232,7 @@ namespace spirv
 	{
 		if ( stmt->getFlags() )
 		{
-			bool isEntryPoint = stmt->isEntryPoint();
-			auto funcType = stmt->getType();
-
-			for ( auto & param : *funcType )
-			{
-				auto type = param->getType();
-
-				if ( type->getKind() == ast::type::Kind::eComputeInput )
-				{
-					doProcessComputeInput( param
-						, static_cast< ast::type::ComputeInput const & >( *type )
-						, stmt->getName() );
-				}
-				else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
-				{
-					doProcessGeometryOutput( param
-						, static_cast< ast::type::GeometryOutput const & >( *type )
-						, stmt->getName() );
-				}
-				else if ( type->getKind() == ast::type::Kind::eGeometryInput )
-				{
-					doProcessGeometryInput( param
-						, static_cast< ast::type::GeometryInput const & >( *type )
-						, stmt->getName() );
-				}
-				else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
-				{
-					doProcessTessellationControlInput( param
-						, static_cast< ast::type::TessellationControlInput const & >( *type )
-						, stmt->getName()
-						, isEntryPoint );
-				}
-				else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
-				{
-					doProcessTessellationControlOutput( param
-						, static_cast< ast::type::TessellationControlOutput const & >( *type )
-						, stmt->getName()
-						, isEntryPoint );
-				}
-				else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
-				{
-					doProcessOutputPatch( param
-						, std::static_pointer_cast< ast::type::Struct >( type ) );
-				}
-				else
-				{
-					uint32_t arraySize = ast::type::NotArray;
-
-					if ( type->getKind() == ast::type::Kind::eArray )
-					{
-						auto & arrayType = static_cast< ast::type::Array const & >( *type );
-						type = arrayType.getType();
-						arraySize = arrayType.getArraySize();
-					}
-
-					if ( type->getKind() == ast::type::Kind::eStruct )
-					{
-						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-
-						if ( structType->isShaderInput() )
-						{
-							doProcessInput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize
-								, stmt->getName()
-								, isEntryPoint );
-						}
-						else if ( structType->isShaderOutput() )
-						{
-							doProcessOutput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize
-								, stmt->getName()
-								, isEntryPoint );
-						}
-						else if ( param->isPatchInput() )
-						{
-							doProcessInputPatch( param, structType );
-						}
-					}
-				}
-			}
+			m_result.initialise( *stmt );
 		}
 
 		visitContainerStmt( stmt );
@@ -263,12 +311,14 @@ namespace spirv
 		{
 			if ( var->isShaderInput() )
 			{
-				m_result.inputs.insert( var );
+				m_result.addPendingInput( var
+					, stmt->getLocation() );
 			}
 
 			if ( var->isShaderOutput() )
 			{
-				m_result.outputs.insert( var );
+				m_result.addPendingOutput( var
+					, stmt->getLocation() );
 			}
 		}
 
@@ -476,163 +526,5 @@ namespace spirv
 		{
 			doTraverseType( member.type );
 		}
-	}
-
-	void StmtConfigFiller::doProcessComputeInput( ast::var::VariablePtr var
-		, ast::type::ComputeInput const & compType
-		, std::string const & name )
-	{
-		auto type = compType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
-			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, ast::type::NotArray
-				, name
-				, true );
-		}
-	}
-
-	void StmtConfigFiller::doProcessGeometryOutput( ast::var::VariablePtr var
-		, ast::type::GeometryOutput const & geomType
-		, std::string const & name )
-	{
-		auto type = geomType.type;
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderOutput() );
-			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, ast::type::NotArray
-				, name
-				, true );
-		}
-	}
-
-	void StmtConfigFiller::doProcessGeometryInput( ast::var::VariablePtr var
-		, ast::type::GeometryInput const & geomType
-		, std::string const & name )
-	{
-		auto type = geomType.type;
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
-			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, getArraySize( geomType.layout )
-				, name
-				, true );
-		}
-	}
-
-	void StmtConfigFiller::doProcessTessellationControlOutput( ast::var::VariablePtr var
-		, ast::type::TessellationControlOutput const & tessType
-		, std::string const & name
-		, bool isEntryPoint )
-	{
-		auto type = tessType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderOutput() );
-			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, tessType.getOutputVertices()
-				, name
-				, isEntryPoint );
-		}
-	}
-
-	void StmtConfigFiller::doProcessTessellationControlInput( ast::var::VariablePtr var
-		, ast::type::TessellationControlInput const & geomType
-		, std::string const & name
-		, bool isEntryPoint )
-	{
-		auto type = geomType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
-			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, geomType.getInputVertices()
-				, name
-				, isEntryPoint );
-		}
-	}
-
-	void StmtConfigFiller::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType
-		, uint32_t arraySize
-		, std::string const & name
-		, bool isEntryPoint )
-	{
-		if ( isEntryPoint )
-		{
-			m_result.output = var;
-		}
-		else
-		{
-			m_result.outputMapping.emplace( var, name );
-		}
-
-		for ( auto & mbr : ioType )
-		{
-			m_result.addShaderOutput( "sdwOut_" + mbr.name
-				, mbr.builtin
-				, mbr.type
-				, ioType.getFlag()
-				, arraySize );
-		}
-	}
-
-	void StmtConfigFiller::doProcessInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType
-		, uint32_t arraySize
-		, std::string const & name
-		, bool isEntryPoint )
-	{
-		if ( isEntryPoint )
-		{
-			m_result.input = var;
-		}
-		else
-		{
-			m_result.inputMapping.emplace( var, name );
-		}
-
-		for ( auto & mbr : ioType )
-		{
-			m_result.addShaderInput( "sdwIn_" + mbr.name
-				, mbr.builtin
-				, mbr.type
-				, ioType.getFlag()
-				, arraySize );
-		}
-	}
-
-	void StmtConfigFiller::doProcessOutputPatch( ast::var::VariablePtr var
-		, ast::type::StructPtr const & structType )
-	{
-		m_result.addPatchOutput( var->getName()
-			, var->getType()
-			, var->getFlags() );
-	}
-
-	void StmtConfigFiller::doProcessInputPatch( ast::var::VariablePtr var
-		, ast::type::StructPtr const & structType )
-	{
-		m_result.addPatchInput( var->getName()
-			, var->getType()
-			, var->getFlags() );
 	}
 }

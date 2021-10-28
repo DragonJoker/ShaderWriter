@@ -37,7 +37,7 @@ namespace sdw
 		//in vec2 gl_SamplePosition;
 		Vec2 const samplePosition;
 		//in int gl_SampleMaskIn[];
-		Array< Int > const sampleMaskIn;
+		Array< Int > const sampleMask;
 		//in float gl_ClipDistance[];
 		Array < Float > const clipDistance;
 		//in int gl_PrimitiveID;

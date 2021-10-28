@@ -101,7 +101,7 @@ namespace spirv
 
 		VariableInfo info;
 
-		for ( auto & input : moduleConfig.inputs )
+		for ( auto & input : moduleConfig.getInputs() )
 		{
 			if ( input->getBuiltin() != ast::Builtin::eWorkGroupSize )
 			{
@@ -115,8 +115,7 @@ namespace spirv
 					, info ).id );
 			}
 		}
-
-		for ( auto & output : moduleConfig.outputs )
+		for ( auto & output : moduleConfig.getOutputs() )
 		{
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() )
 				, output->getBuiltin()

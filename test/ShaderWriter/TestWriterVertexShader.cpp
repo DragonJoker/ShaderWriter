@@ -41,6 +41,90 @@ namespace
 		sdw::Vec3 position;
 	};
 
+	template< ast::var::Flag FlagT >
+	struct SmaaVertexInT
+		: sdw::StructInstance
+	{
+		SmaaVertexInT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, position{ getMember< sdw::Vec2 >( "position" ) }
+			, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , SmaaVertexInT );
+
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
+				, ( FlagT == ast::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "SmaaVertex"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, ast::type::Kind::eVec2F
+					, ast::type::NotArray
+					, 0u );
+				result->declMember( "texcoord"
+					, ast::type::Kind::eVec2F
+					, ast::type::NotArray
+					, 1u );
+			}
+
+			return result;
+		}
+
+		sdw::Vec2 position;
+		sdw::Vec2 texcoord;
+	};
+
+	template< ast::var::Flag FlagT >
+	struct SmaaVertexOutT
+		: sdw::StructInstance
+	{
+		SmaaVertexOutT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+			, offset{ getMemberArray< sdw::Vec4 >( "offset" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , SmaaVertexOutT );
+
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
+				, ( FlagT == ast::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "SmaaVertex"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "texcoord"
+					, ast::type::Kind::eVec2F
+					, ast::type::NotArray
+					, 0u );
+				result->declMember( "offset"
+					, ast::type::Kind::eVec4F
+					, 3u
+					, 1u );
+			}
+
+			return result;
+		}
+
+		sdw::Vec2 texcoord;
+		sdw::Array< sdw::Vec4 > offset;
+	};
+
 	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "noSpecificIO" );
@@ -312,60 +396,6 @@ namespace
 		using OutputPosition = PositionT< sdw::var::Flag::eShaderOutput >;
 	}
 
-	void smaaEdgeDetectionVS( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "smaaEdgeDetectionVS" );
-		using namespace sdw;
-		using namespace posOff;
-		{
-			VertexWriter writer;
-
-			float w = 300;
-			float h = 200;
-			std::array< float, 4u > renderTargetMetrics{ 1.0f / w, 1.0f / h, w, h };
-
-			// Shader constants
-			auto c3d_rtMetrics = writer.declConstant( "SMAA_RT_METRICS"
-				, vec4( Float( renderTargetMetrics[0] ), renderTargetMetrics[1], renderTargetMetrics[2], renderTargetMetrics[3] ) );
-
-			// Shader inputs
-			auto position = writer.declInput< Vec2 >( "position", 0u );
-			auto uv = writer.declInput< Vec2 >( "uv", 1u );
-
-			// Shader outputs
-			auto vtx_texture = writer.declOutput< Vec2 >( "vtx_texture", 0u );
-			auto vtx_offset = writer.declOutputArray< Vec4 >( "vtx_offset", 1u, 3u );
-
-			/**
-			 * Edge Detection Vertex Shader
-			 */
-			auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
-				, [&]( Vec2 const & texCoord
-					, Array< Vec4 > offset )
-				{
-					offset[0] = fma( c3d_rtMetrics.xyxy(), vec4( Float{ -1.0f }, 0.0_f, 0.0_f, Float{ -1.0f } ), vec4( texCoord.xy(), texCoord.xy() ) );
-					offset[1] = fma( c3d_rtMetrics.xyxy(), vec4( 1.0_f, 0.0_f, 0.0_f, 1.0_f ), vec4( texCoord.xy(), texCoord.xy() ) );
-					offset[2] = fma( c3d_rtMetrics.xyxy(), vec4( Float{ -2.0f }, 0.0_f, 0.0_f, Float{ -2.0f } ), vec4( texCoord.xy(), texCoord.xy() ) );
-				}
-				, InVec2{ writer, "texCoord" }
-				, OutVec4Array{ writer, "offset", 3u } );
-
-			writer.implementMainT< VoidT, VoidT >( [&]( sdw::VertexInT< VoidT > in
-				, sdw::VertexOutT< VoidT > out )
-				{
-					out.vtx.position = vec4( position, 0.0_f, 1.0_f );
-					vtx_texture = uv;
-					vtx_offset[0] = vec4( 0.0_f );
-					vtx_offset[1] = vec4( 0.0_f );
-					vtx_offset[2] = vec4( 0.0_f );
-					SMAAEdgeDetectionVS( vtx_texture, vtx_offset );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
 	void constVectorShuffle( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "constVectorShuffle" );
@@ -383,6 +413,55 @@ namespace
 				{
 					auto loc = writer.declLocale( "loc"
 						, length( constVec.xyxy() ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void smaaEdgeDetectionVS( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "smaaEdgeDetectionVS" );
+		using namespace sdw;
+		using namespace posOff;
+		{
+			VertexWriter writer;
+
+			float w = 300;
+			float h = 200;
+			std::array< float, 4u > renderTargetMetrics{ 1.0f / w, 1.0f / h, w, h };
+
+			auto outTexcoord = writer.declOutput< Vec2 >( "outTexcoord", 0u );
+			auto outOffset = writer.declOutputArray< Vec4 >( "outOffset", 1u, 3u );
+
+			// Shader constants
+			auto c3d_rtMetrics = writer.declConstant( "SMAA_RT_METRICS"
+				, vec4( Float( renderTargetMetrics[0] ), renderTargetMetrics[1], renderTargetMetrics[2], renderTargetMetrics[3] ) );
+
+			/**
+			 * Edge Detection Vertex Shader
+			 */
+			auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
+				, [&]( Vec2 const & texCoord
+					, Array< Vec4 > offset )
+				{
+					offset[0] = fma( c3d_rtMetrics.xyxy(), vec4( Float{ -1.0f }, 0.0_f, 0.0_f, Float{ -1.0f } ), vec4( texCoord.xy(), texCoord.xy() ) );
+					offset[1] = fma( c3d_rtMetrics.xyxy(), vec4( 1.0_f, 0.0_f, 0.0_f, 1.0_f ), vec4( texCoord.xy(), texCoord.xy() ) );
+					offset[2] = fma( c3d_rtMetrics.xyxy(), vec4( Float{ -2.0f }, 0.0_f, 0.0_f, Float{ -2.0f } ), vec4( texCoord.xy(), texCoord.xy() ) );
+				}
+				, InVec2{ writer, "texCoord" }
+				, OutVec4Array{ writer, "offset", 3u } );
+
+			writer.implementMainT< SmaaVertexInT, VoidT >( [&]( sdw::VertexInT< SmaaVertexInT > in
+				, sdw::VertexOutT< VoidT > out )
+				{
+					out.vtx.position = vec4( in.position, 0.0_f, 1.0_f );
+					outTexcoord = in.texcoord;
+					outOffset[0] = vec4( 0.0_f );
+					outOffset[1] = vec4( 0.0_f );
+					outOffset[2] = vec4( 0.0_f );
+					SMAAEdgeDetectionVS( outTexcoord, outOffset );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );

@@ -21,8 +21,6 @@ namespace hlsl
 {
 	class HlslShader;
 
-	bool needsSeparateMain( ast::ShaderStage stage
-		, bool isMain );
 	std::string getTypeName( ast::type::Kind kind );
 	std::string getTypeName( ast::type::TypePtr type );
 	std::string getTypeArraySize( ast::type::TypePtr type );
@@ -82,6 +80,7 @@ namespace hlsl
 	{
 		uint32_t mbrIndex{ ast::type::Struct::NotFound };
 		uint32_t flags{};
+		ast::expr::ExprPtr expr;
 	};
 
 	struct PendingIO
@@ -100,25 +99,40 @@ namespace hlsl
 		PendingResult result;
 	};
 
+	enum class IOMappingMode
+	{
+		eNoSeparate,
+		eNoSeparateDistinctParams,
+		eGlobalSeparateVar,
+		eLocalSeparateVar
+	};
+
 	struct IOMapping
 	{
 		IOMapping( HlslShader & pshader
-			, bool needsSeparateFunc
-			, bool pisInput );
+			, IOMappingMode pmode
+			, bool pisInput
+			, std::string const & infix );
 
 		HlslShader * shader;
 		ast::ShaderStage stage;
 		bool isInput;
+		IOMappingMode mode;
 		// The entry point final param.
 		ast::type::IOStructPtr paramStruct{};
 		ast::var::VariablePtr paramVar{};
-		// Global var, if a separate function is needed.
-		ast::type::BaseStructPtr globalStruct{};
-		ast::var::VariablePtr globalVar{};
-		// The effectively write/read var.
+		// Separate var, if a separate variable (global or local) is needed.
+		ast::type::BaseStructPtr separateStruct{};
+		ast::var::VariablePtr separateVar{};
+		// The effectively written/read var.
 		ast::var::VariablePtr mainVar{};
+		// The distinct param vars.
+		ast::var::VariableList distinctParams;
 
-		void declare( bool needsSeparateFunc
+		void writeGlobals( ast::stmt::Container & stmt );
+		void writeLocalesBegin( ast::stmt::Container & stmt );
+		void writeLocalesEnd( ast::stmt::Container & stmt );
+		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
 			, ast::stmt::Container & stmt );
 		ast::var::VariablePtr initialiseMainVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
@@ -141,7 +155,8 @@ namespace hlsl
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
-		bool isValid( ast::Builtin builtin );
+		bool isValid( ast::Builtin builtin )const;
+		bool hasSeparate()const;
 
 	private:
 		PendingResult processPendingType( ast::type::TypePtr type
@@ -155,14 +170,14 @@ namespace hlsl
 			, uint32_t mbrLocation );
 
 	private:
-		std::map< std::string, PendingIO > pending;
+		std::map< std::string, PendingIO > m_pending;
 		struct PendingMbrIO
 		{
 			ast::var::VariablePtr outer;
 			uint32_t index;
 			PendingIO io;
 		};
-		std::vector< PendingMbrIO > pendingMbr;
+		std::vector< PendingMbrIO > m_pendingMbr;
 	};
 
 	struct EntryPoint
@@ -176,105 +191,64 @@ namespace hlsl
 		HlslShader * shader;
 		AdaptationData * parent;
 		bool isMain;
-		IOMapping inputs;
-		IOMapping outputs;
+		bool needsSeparateFunc;
 		VarVarMap paramToEntryPoint{};
-		bool needsSeparateFunc{};
-		ast::stmt::Container * inOutDeclarations{};
+		ast::stmt::Container * globalDeclarations{};
 
-		ast::stmt::ContainerPtr declare();
-		void addInputVar( ast::var::VariablePtr var
-			, uint32_t location );
-		void addOutputVar( ast::var::VariablePtr var
-			, uint32_t location );
+		ast::stmt::ContainerPtr writeGlobals();
+		ast::stmt::ContainerPtr writeLocalesBegin();
+		ast::stmt::ContainerPtr writeLocalesEnd();
+		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
+			, ast::stmt::Container & stmt );
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );
 		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
-		bool isInput( ast::Builtin builtin );
-		bool isOutput( ast::Builtin builtin );
-		void addBuiltin( ast::var::VariablePtr var );
 		void addMbrBuiltin( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t index );
 
+		IOMapping & getHFInputs();
+		IOMapping & getLFInputs();
+		void addInputVar( ast::var::VariablePtr var
+			, uint32_t location );
+		bool isInput( ast::Builtin builtin );
+		bool hasSeparateHFInput()const;
+		bool hasSeparateLFInput()const;
 		void addPendingInput( ast::var::VariablePtr var
-			, uint32_t location )
-		{
-			return inputs.addPending( var, location );
-		}
-
+			, uint32_t location );
 		void addPendingMbrInput( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
-			, uint32_t location )
-		{
-			inputs.addPendingMbr( outer
-				, mbrIndex
-				, flags
-				, location );
-		}
-
-		ast::expr::ExprPtr processPendingInput( std::string const & name )
-		{
-			return inputs.processPending( name );
-		}
-
-		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var )
-		{
-			return inputs.processPending( var );
-		}
-
+			, uint32_t location );
+		ast::expr::ExprPtr processPendingInput( std::string const & name );
+		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var );
 		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
-			, ExprAdapter & adapter )
-		{
-			return inputs.processPendingMbr( outer
-				, mbrIndex
-				, flags
-				, adapter );
-		}
+			, ExprAdapter & adapter );
 
+		IOMapping & getHFOutputs();
+		IOMapping & getLFOutputs();
+		void addOutputVar( ast::var::VariablePtr var
+			, uint32_t location );
+		bool isOutput( ast::Builtin builtin );
+		bool hasSeparateHFOutput()const;
+		bool hasSeparateLFOutput()const;
 		void addPendingOutput( ast::var::VariablePtr var
-			, uint32_t location )
-		{
-			return outputs.addPending( var, location );
-		}
-
+			, uint32_t location );
 		void addPendingMbrOutput( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
-			, uint32_t location )
-		{
-			outputs.addPendingMbr( outer
-				, mbrIndex
-				, flags
-				, location );
-		}
-
-		ast::expr::ExprPtr processPendingOutput( std::string const & name )
-		{
-			return outputs.processPending( name );
-		}
-
-		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var )
-		{
-			return outputs.processPending( var );
-		}
-
+			, uint32_t location );
+		ast::expr::ExprPtr processPendingOutput( std::string const & name );
+		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var );
 		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
-			, ExprAdapter & adapter )
-		{
-			return outputs.processPendingMbr( outer
-				, mbrIndex
-				, flags
-				, adapter );
-		}
+			, ExprAdapter & adapter );
 
 	private:
 		void registerComputeInput( ast::var::VariablePtr var
@@ -295,13 +269,29 @@ namespace hlsl
 		void registerOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, bool isEntryPoint );
-		void registerInputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType
-			, bool isEntryPoint );
 		void registerOutputPatch( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType
 			, bool isEntryPoint );
+		void registerInputMbr( ast::var::VariablePtr var
+			, uint32_t outerFlags
+			, ast::Builtin mbrBuiltin
+			, uint32_t mbrIndex
+			, uint32_t mbrLocation );
+		void registerOutputMbr( ast::var::VariablePtr var
+			, uint32_t outerFlags
+			, ast::Builtin mbrBuiltin
+			, uint32_t mbrIndex
+			, uint32_t mbrLocation );
+		IOMapping & getInputMapping();
+		IOMapping & getOutputMapping();
+
+		private:
+			IOMapping m_highFreqInputs;
+			IOMapping m_highFreqOutputs;
+			IOMapping m_lowFreqInputs;
+			IOMapping m_lowFreqOutputs;
 	};
+
 	using EntryPointPtr = std::unique_ptr< EntryPoint >;
 	using EntryPointMap = std::map< std::string, EntryPointPtr >;
 

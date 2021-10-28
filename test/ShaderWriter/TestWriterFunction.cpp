@@ -543,6 +543,7 @@ namespace
 		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
 			, FragmentOutT< VoidT > out )
 			{
+				outa = test::getDefault< ValueT >( writer );
 				test( outa );
 			} );
 		test::writeShader( writer

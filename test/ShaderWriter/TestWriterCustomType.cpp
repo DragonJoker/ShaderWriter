@@ -21,7 +21,7 @@ namespace
 
 		SDW_DeclStructInstance( , ColourT );
 
-		static sdw::type::IOStructPtr makeType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
 		{
 			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
 				, ( FlagT == sdw::var::Flag::eShaderOutput

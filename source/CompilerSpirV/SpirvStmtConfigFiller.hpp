@@ -15,7 +15,8 @@ namespace spirv
 		: public ast::stmt::Visitor
 	{
 	public:
-		static ModuleConfig submit( ast::stmt::Container * cont );
+		static void submit( ast::stmt::Container * cont
+			, ModuleConfig & moduleConfig );
 
 	private:
 		StmtConfigFiller( ModuleConfig & result );
@@ -65,39 +66,6 @@ namespace spirv
 
 		void doTraverseType( ast::type::TypePtr type );
 		void doTraverseType( ast::type::StructPtr type );
-
-	private:
-		void doProcessComputeInput( ast::var::VariablePtr var
-			, ast::type::ComputeInput const & compType
-			, std::string const & name );
-		void doProcessGeometryOutput( ast::var::VariablePtr var
-			, ast::type::GeometryOutput const & geomType
-			, std::string const & name );
-		void doProcessGeometryInput( ast::var::VariablePtr var
-			, ast::type::GeometryInput const & geomType
-			, std::string const & name );
-		void doProcessTessellationControlOutput( ast::var::VariablePtr var
-			, ast::type::TessellationControlOutput const & tessType
-			, std::string const & name
-			, bool isEntryPoint );
-		void doProcessTessellationControlInput( ast::var::VariablePtr var
-			, ast::type::TessellationControlInput const & tessType
-			, std::string const & name
-			, bool isEntryPoint );
-		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType
-			, uint32_t arraySize
-			, std::string const & name
-			, bool isEntryPoint );
-		void doProcessInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & ioType
-			, uint32_t arraySize
-			, std::string const & name
-			, bool isEntryPoint );
-		void doProcessOutputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType );
-		void doProcessInputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType );
 
 	private:
 		ModuleConfig & m_result;

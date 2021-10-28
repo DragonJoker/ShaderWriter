@@ -17,6 +17,8 @@ namespace hlsl
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
 	{
+		auto config = writerConfig;
+		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
 		auto ssaStatements = ast::transformSSA( shader.getTypesCache()
@@ -34,12 +36,12 @@ namespace hlsl
 		auto dxStatements = hlsl::StmtAdapter::submit( hlslShader
 			, ssaStatements.get()
 			, intrinsicsConfig
-			, writerConfig
+			, config
 			, adaptationData );
 		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 			, shader.getStatements() );
 		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return hlsl::StmtVisitor::submit( writerConfig, adaptationData.entryPoints, aliases, dxStatements.get() );
+		return hlsl::StmtVisitor::submit( config, adaptationData.entryPoints, aliases, dxStatements.get() );
 	}
 }

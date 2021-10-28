@@ -324,14 +324,14 @@ namespace glsl
 						if ( structType->isShaderInput() )
 						{
 							doProcessInput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
+								, std::static_pointer_cast< ast::type::IOStruct >( structType )
 								, arraySize
 								, isEntryPoint );
 						}
 						else if ( structType->isShaderOutput() )
 						{
 							doProcessOutput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
+								, std::static_pointer_cast< ast::type::IOStruct >( structType )
 								, arraySize
 								, isEntryPoint );
 						}
@@ -481,10 +481,10 @@ namespace glsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderOutput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, ast::type::NotArray
 				, true );
 		}
@@ -502,10 +502,10 @@ namespace glsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, getArraySize( geomType.layout )
 				, true );
 		}
@@ -522,10 +522,10 @@ namespace glsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderOutput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, arraySize
 				, true );
 		}
@@ -545,10 +545,10 @@ namespace glsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, ast::type::NotArray
 				, true );
 		}
@@ -567,17 +567,17 @@ namespace glsl
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, tessType.getInputVertices()
 				, true );
 		}
 	}
 
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & structType
+		, ast::type::IOStructPtr structType
 		, uint32_t arraySize
 		, bool entryPoint )
 	{
@@ -590,7 +590,7 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & structType
+		, ast::type::IOStructPtr structType
 		, uint32_t arraySize
 		, bool entryPoint )
 	{
@@ -603,7 +603,7 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcessIO( ast::var::VariablePtr var
-		, ast::type::IOStruct const & structType
+		, ast::type::IOStructPtr structType
 		, uint32_t arraySize
 		, bool entryPoint
 		, bool isInput
@@ -611,9 +611,10 @@ namespace glsl
 	{
 		io.var = var;
 
-		for ( auto & mbr : structType )
+		for ( auto & mbr : *structType )
 		{
-			if ( isPerVertex( mbr.builtin ) )
+			if ( isPerVertex( mbr.builtin
+				, m_adaptationData.writerConfig.shaderStage ) )
 			{
 				auto type = doDeclarePerVertex( isInput, io );
 				std::string outerName;
@@ -640,21 +641,25 @@ namespace glsl
 				auto name = ( mbr.builtin != ast::Builtin::eNone
 					? "gl_" + getName( mbr.builtin )
 					: "sdw" + ( isInput ? std::string{ "In" } : std::string{ "Out" } ) + "_" + mbr.name );
-				auto it = std::find_if( io.vars.begin()
-					, io.vars.end()
+				auto typeIt = io.vars.emplace( structType, ast::var::VariableList{} ).first;
+				auto it = std::find_if( typeIt->second.begin()
+					, typeIt->second.end()
 					, [&name]( ast::var::VariablePtr const & lookup )
 					{
 						return name == lookup->getName();
 					} );
 
-				if ( it == io.vars.end() )
+				if ( it == typeIt->second.end() )
 				{
 					auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
 						, ( arraySize == ast::type::NotArray
 							? mbr.type
 							: m_cache.getArray( mbr.type, arraySize ) )
-						, structType.getFlag() );
-					io.vars.emplace_back( mbrVar );
+						, ( structType->getFlag()
+							| ( mbr.builtin != ast::Builtin::eNone
+								? ast::var::Flag::eBuiltin
+								: ast::var::Flag::eNone ) ) );
+					typeIt->second.emplace_back( mbrVar );
 
 					if ( entryPoint && mbr.builtin == ast::Builtin::eNone )
 					{

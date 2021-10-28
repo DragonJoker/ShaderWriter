@@ -86,6 +86,10 @@ namespace spirv
 		}
 	}
 
+	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
+	{
+	}
+
 	void StmtAdapter::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
 		StmtCloner::visitImageDeclStmt( stmt );
@@ -246,10 +250,10 @@ namespace spirv
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, true );
 		}
 
@@ -266,10 +270,10 @@ namespace spirv
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderOutput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, true );
 		}
 
@@ -285,10 +289,10 @@ namespace spirv
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, true );
 		}
 
@@ -304,10 +308,10 @@ namespace spirv
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderOutput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderOutput() );
 			doProcessOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, true );
 		}
 
@@ -327,62 +331,62 @@ namespace spirv
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
-			assert( structType.isShaderInput() );
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
 			doProcessInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
 				, isEntryPoint );
 		}
 	}
 
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType
+		, ast::type::IOStructPtr ioType
 		, bool isEntryPoint )
 	{
-		for ( auto & mbr : ioType )
-		{
-			auto it = std::find_if( m_adaptationData.config.outputs.begin()
-				, m_adaptationData.config.outputs.end()
-				, [&mbr]( ast::var::VariablePtr const & lookup )
-				{
-					return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
-						|| lookup->getName() == "sdwOut_" + mbr.name;
-				} );
-			assert( it != m_adaptationData.config.outputs.end() );
-			auto mbrVar = *it;
-			m_adaptationData.outputs.emplace_back( mbrVar );
+		//for ( auto & mbr : *ioType )
+		//{
+		//	auto it = std::find_if( m_adaptationData.config.outputs.begin()
+		//		, m_adaptationData.config.outputs.end()
+		//		, [&mbr]( ast::var::VariablePtr const & lookup )
+		//		{
+		//			return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
+		//				|| lookup->getName() == "sdwOut_" + mbr.name;
+		//		} );
+		//	assert( it != m_adaptationData.config.outputs.end() );
+		//	auto mbrVar = *it;
+		//	m_adaptationData.outputs[ioType].emplace_back( mbrVar );
 
-			if ( isEntryPoint )
-			{
-				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-					, mbr.location ) );
-			}
-		}
+		//	if ( isEntryPoint )
+		//	{
+		//		m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+		//			, mbr.location ) );
+		//	}
+		//}
 	}
 
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & ioType
+		, ast::type::IOStructPtr ioType
 		, bool isEntryPoint )
 	{
-		for ( auto & mbr : ioType )
-		{
-			auto it = std::find_if( m_adaptationData.config.inputs.begin()
-				, m_adaptationData.config.inputs.end()
-				, [&mbr]( ast::var::VariablePtr const & lookup )
-				{
-					return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
-						|| lookup->getName() == "sdwIn_" + mbr.name;
-				} );
-			assert( it != m_adaptationData.config.inputs.end() );
-			auto mbrVar = *it;
-			m_adaptationData.inputs.emplace_back( mbrVar );
+		//for ( auto & mbr : *ioType )
+		//{
+		//	auto it = std::find_if( m_adaptationData.config.inputs.begin()
+		//		, m_adaptationData.config.inputs.end()
+		//		, [&mbr]( ast::var::VariablePtr const & lookup )
+		//		{
+		//			return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
+		//				|| lookup->getName() == "sdwIn_" + mbr.name;
+		//		} );
+		//	assert( it != m_adaptationData.config.inputs.end() );
+		//	auto mbrVar = *it;
+		//	m_adaptationData.inputs[ioType].emplace_back( mbrVar );
 
-			if ( isEntryPoint && mbr.builtin != ast::Builtin::eWorkGroupSize )
-			{
-				m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-					, mbr.location ) );
-			}
-		}
+		//	if ( isEntryPoint && mbr.builtin != ast::Builtin::eWorkGroupSize )
+		//	{
+		//		m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+		//			, mbr.location ) );
+		//	}
+		//}
 	}
 
 	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
@@ -512,13 +516,13 @@ namespace spirv
 					if ( structType->isShaderInput() )
 					{
 						doProcessInput( param
-							, static_cast< ast::type::IOStruct const & >( *structType )
+							, std::static_pointer_cast< ast::type::IOStruct >( structType )
 							, isEntryPoint );
 					}
 					else if ( structType->isShaderOutput() )
 					{
 						doProcessOutput( param
-							, static_cast< ast::type::IOStruct const & >( *structType )
+							, std::static_pointer_cast< ast::type::IOStruct >( structType )
 							, isEntryPoint );
 					}
 					else if ( param->isPatchInput() )

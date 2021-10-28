@@ -22,73 +22,59 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, fragCoord{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eFragCoord
-					, getTypesCache( writer ).getVec4F()
-					, FlagT ) )
-			, true }
-		, frontFacing{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eFrontFacing
-					, getTypesCache( writer ).getBool()
-					, FlagT ) )
-			, true }
-		, pointCoord{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::ePointCoord
-					, getTypesCache( writer ).getVec2F()
-					, FlagT ) )
-			, true }
-		, sampleID{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eSampleID
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
-		, samplePosition{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eSamplePosition
-					, getTypesCache( writer ).getVec2F()
-					, FlagT ) )
-			, true }
-		, sampleMaskIn{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eSampleMask
-					, getTypesCache( writer ).getArray( getTypesCache( writer ).getInt() )
-					, FlagT ) )
-			, true }
-		, clipDistance{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eClipDistance
-					, getTypesCache( writer ).getArray( getTypesCache( writer ).getFloat() )
-					, FlagT ) )
-			, true }
-		, primitiveID{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::ePrimitiveID
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
-		, layer{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eLayer
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
-		, viewportIndex{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eViewportIndex
-					, getTypesCache( writer ).getInt()
-					, FlagT ) )
-			, true }
+		, fragCoord{ this->getMember< Vec4 >( ast::Builtin::eFragCoord ) }
+		, frontFacing{ this->getMember< Boolean >( ast::Builtin::eFrontFacing ) }
+		, pointCoord{ this->getMember< Vec2 >( ast::Builtin::ePointCoord ) }
+		, sampleID{ this->getMember< Int >( ast::Builtin::eSampleID ) }
+		, samplePosition{ this->getMember< Vec2 >( ast::Builtin::eSamplePosition ) }
+		, sampleMask{ this->getMemberArray< Int >( ast::Builtin::eSampleMaskIn ) }
+		, clipDistance{ this->getMemberArray< Float >( ast::Builtin::eClipDistance ) }
+		, primitiveID{ this->getMember< Int >( ast::Builtin::ePrimitiveID ) }
+		, layer{ this->getMember< Int >( ast::Builtin::eLayer ) }
+		, viewportIndex{ this->getMember< Int >( ast::Builtin::eViewportIndex ) }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	ast::type::IOStructPtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return InputT< DataT >::makeType( cache );
+		auto result = InputT< DataT >::makeType( cache );
+
+		if ( !result->hasMember( ast::Builtin::eFragCoord ) )
+		{
+			result->declMember( ast::Builtin::eFragCoord
+				, type::Kind::eVec4F
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eFrontFacing
+				, type::Kind::eBoolean
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::ePointCoord
+				, type::Kind::eVec2F
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSampleID
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSamplePosition
+				, type::Kind::eVec2F
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSampleMaskIn
+				, type::Kind::eInt
+				, 8u );
+			result->declMember( ast::Builtin::eClipDistance
+				, type::Kind::eFloat
+				, 8u );
+			result->declMember( ast::Builtin::ePrimitiveID
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eLayer
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eViewportIndex
+				, type::Kind::eInt
+				, ast::type::NotArray );
+		}
+
+		return result;
 	}
 
 	//*************************************************************************
@@ -108,25 +94,27 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
-		, fragDepth{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eFragDepth
-					, getTypesCache( writer ).getFloat()
-					, FlagT ) )
-			, true }
-		, sampleMask{ writer
-			, makeIdent( getTypesCache( writer )
-				, getShader( writer ).registerBuiltin( ast::Builtin::eSampleMask
-					, getTypesCache( writer ).getArray( getTypesCache( writer ).getInt() )
-					, FlagT ) )
-			, true }
+		, fragDepth{ this->getMember< Float >( ast::Builtin::eFragDepth ) }
+		, sampleMask{ this->getMemberArray< Int >( ast::Builtin::eSampleMask ) }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	ast::type::IOStructPtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache )
 	{
-		return OutputT< DataT >::makeType( cache );
+		auto result = OutputT< DataT >::makeType( cache );
+
+		if ( !result->hasMember( ast::Builtin::eFragDepth ) )
+		{
+			result->declMember( ast::Builtin::eFragDepth
+				, type::Kind::eFloat
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSampleMask
+				, type::Kind::eInt
+				, 8u );
+		}
+
+		return result;
 	}
 
 	//*************************************************************************

@@ -705,6 +705,65 @@ namespace hlsl
 		return result;
 	}
 
+	void ExprAdapter::visitArrayAccessExpr( ast::expr::ArrayAccess * expr )
+	{
+		auto arrayIndex = doSubmit( expr->getRHS() );
+		auto arrayOuter = doSubmit( expr->getLHS() );
+
+		if ( arrayOuter->getKind() == ast::expr::Kind::eMbrSelect
+			&& getArraySize( arrayOuter->getType() ) == ast::type::NotArray )
+		{
+			auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *arrayOuter );
+			auto mbr = mbrSelect.getOuterType()->getMember( mbrSelect.getMemberIndex() );
+			auto selectOuter = mbrSelect.getOuterExpr();
+
+			if ( mbr.builtin == ast::Builtin::eClipDistance )
+			{
+				assert( arrayIndex->getKind() == ast::expr::Kind::eLiteral );
+				auto & lit = static_cast< ast::expr::Literal const & >( *arrayIndex );
+				auto index = ( lit.getLiteralType() == ast::expr::LiteralType::eInt
+					? uint32_t( lit.getValue< ast::expr::LiteralType::eInt >() )
+					: lit.getValue< ast::expr::LiteralType::eUInt >() );
+				auto mbrIndex = mbrSelect.getMemberIndex();
+
+				if ( index > 3 )
+				{
+					index -= 4;
+					++mbrIndex;
+				}
+
+				m_result = ast::expr::makeMbrSelect( ast::ExprCloner::submit( selectOuter )
+					, mbrIndex
+					, mbrSelect.getMemberFlags() );
+				m_result = ast::expr::makeArrayAccess( expr->getType()
+					, std::move( m_result )
+					, ast::expr::makeLiteral( m_cache, index ) );
+			}
+			else if ( expr->getLHS()->getKind() != ast::expr::Kind::eMbrSelect )
+			{
+				m_result = ast::ExprCloner::submit( selectOuter );
+				m_result = ast::expr::makeArrayAccess( mbrSelect.getOuterType()
+					, std::move( m_result )
+					, std::move( arrayIndex ) );
+				m_result = ast::expr::makeMbrSelect( std::move( m_result )
+					, mbrSelect.getMemberIndex()
+					, mbrSelect.getMemberFlags() );
+			}
+			else
+			{
+				m_result = std::make_unique< ast::expr::ArrayAccess >( expr->getType()
+					, std::move( arrayOuter )
+					, std::move( arrayIndex ) );
+			}
+		}
+		else
+		{
+			m_result = std::make_unique< ast::expr::ArrayAccess >( expr->getType()
+				, std::move( arrayOuter )
+				, std::move( arrayIndex ) );
+		}
+	}
+
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		auto entryPoint = m_adaptationData.currentEntryPoint;
@@ -1012,13 +1071,13 @@ namespace hlsl
 
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitVertex )
 			{
-				m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, entryPoint.outputs.mainVar )
-					, ast::expr::makeIdentifier( m_cache, entryPoint.outputs.paramVar ) ) );
+				m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar )
+					, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().separateVar ) ) );
 			}
 			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex )
 			{
 				args.insert( args.begin()
-					, ast::expr::makeIdentifier( m_cache, entryPoint.outputs.paramVar ) );
+					, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar ) );
 			}
 
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEndPrimitive
@@ -1026,7 +1085,7 @@ namespace hlsl
 				|| expr->getIntrinsic() == ast::expr::Intrinsic::eEndStreamPrimitive )
 			{
 				args.insert( args.begin()
-					, ast::expr::makeIdentifier( m_cache, entryPoint.outputs.mainVar ) );
+					, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar ) );
 			}
 
 			m_result = ast::expr::makeIntrinsicCall( expr->getType()
@@ -1038,8 +1097,8 @@ namespace hlsl
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
 		auto & entryPoint = *m_adaptationData.currentEntryPoint;
-		m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, entryPoint.outputs.paramVar )
-			, ast::expr::makeIdentifier( m_cache, entryPoint.outputs.globalVar ) ) );
+		m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar )
+			, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().separateVar ) ) );
 	}
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )

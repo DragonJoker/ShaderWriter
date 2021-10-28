@@ -255,7 +255,16 @@ namespace glsl
 			m_result += ".";
 		}
 
-		m_result += expr->getOuterType()->getMember( expr->getMemberIndex() ).name;
+		auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
+
+		if ( mbr.builtin != ast::Builtin::eNone )
+		{
+			m_result += "gl_" + getName( mbr.builtin );
+		}
+		else
+		{
+			m_result += mbr.name;
+		}
 	}
 
 	void ExprVisitor::visitFnCallExpr( ast::expr::FnCall * expr )

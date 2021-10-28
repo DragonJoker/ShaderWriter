@@ -18,7 +18,7 @@ namespace glsl
 	struct IOVars
 	{
 		ast::var::VariablePtr var{};
-		std::vector< ast::var::VariablePtr > vars{};
+		std::map< ast::type::StructPtr, ast::var::VariableList > vars{};
 		ast::var::VariablePtr perVertex{};
 		std::map< ast::Builtin, ast::expr::ExprPtr > perVertexMbrs;
 	};
@@ -68,15 +68,15 @@ namespace glsl
 		void doProcessComputeInput( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
+			, ast::type::IOStructPtr structType
 			, uint32_t arraySize
 			, bool entryPoint );
 		void doProcessInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
+			, ast::type::IOStructPtr structType
 			, uint32_t arraySize
 			, bool entryPoint );
 		void doProcessIO( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
+			, ast::type::IOStructPtr structType
 			, uint32_t arraySize
 			, bool entryPoint
 			, bool isInput

@@ -14,6 +14,8 @@ namespace spirv
 	class ExprAdapter
 		: public ast::ExprCloner
 	{
+		friend struct IOMapping;
+
 	public:
 		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
 			, ast::stmt::Container * container

@@ -2,15 +2,17 @@
 
 namespace ast
 {
-	bool isPerVertex( Builtin value )
+	bool isPerVertex( Builtin value
+		, ShaderStage stage )
 	{
 		switch ( value )
 		{
 		case ast::Builtin::ePosition:
 		case ast::Builtin::ePointSize:
-		case ast::Builtin::eClipDistance:
 		case ast::Builtin::eCullDistance:
 			return true;
+		case ast::Builtin::eClipDistance:
+			return stage != ShaderStage::eFragment;
 		default:
 			return false;
 		}

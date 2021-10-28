@@ -257,24 +257,7 @@ namespace hlsl
 		}
 		else
 		{
-			//if ( expr->getVariable()->isMember() 
-			//	&& getOutermost( expr->getVariable() )->isUniform() )
-			//{
-			//	auto result = expr->getVariable()->getName();
-			//	auto outer = expr->getVariable()->getOuter();
-
-			//	while ( outer )
-			//	{
-			//		result = outer->getName() + "." + result;
-			//		outer = outer->getOuter();
-			//	}
-
-			//	m_result += result;
-			//}
-			//else
-			{
-				m_result += expr->getVariable()->getName();
-			}
+			m_result += expr->getVariable()->getName();
 		}
 	}
 
