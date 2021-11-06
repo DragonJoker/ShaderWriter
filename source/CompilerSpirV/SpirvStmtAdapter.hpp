@@ -71,17 +71,8 @@ namespace spirv
 		void doProcessTessellationControlInput( ast::var::VariablePtr var
 			, ast::type::TessellationControlInput const & tessType
 			, bool isEntryPoint );
-		void doProcessOutput( ast::var::VariablePtr var
-			, ast::type::IOStructPtr ioType
-			, bool isEntryPoint );
-		void doProcessInput( ast::var::VariablePtr var
-			, ast::type::IOStructPtr ioType
-			, bool isEntryPoint );
 		void doProcessOutputPatch( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType
-			, bool isEntryPoint );
-		void doProcessInputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType
 			, bool isEntryPoint );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
@@ -91,6 +82,7 @@ namespace spirv
 
 	private:
 		AdaptationData & m_adaptationData;
+		ast::stmt::Container * m_ioDeclarations;
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 		struct PendingFunction
 		{

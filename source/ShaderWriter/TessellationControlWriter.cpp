@@ -44,18 +44,16 @@ namespace sdw
 
 	//*************************************************************************
 
-	TessControlIn::TessControlIn( ShaderWriter & writer
+	TessControlPatchRoutineIn::TessControlPatchRoutineIn( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, patchVerticesIn{ getMember< Int >( ast::Builtin::ePatchVerticesIn ) }
 		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
-		, invocationID{ getMember< Int >( ast::Builtin::eInvocationID ) }
 	{
 	}
 
-	TessControlIn::TessControlIn( ShaderWriter & writer )
-		: TessControlIn{ writer
+	TessControlPatchRoutineIn::TessControlPatchRoutineIn( ShaderWriter & writer )
+		: TessControlPatchRoutineIn{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "tesscGlobIn"
 					, makeType( getTypesCache( writer ) )
@@ -63,17 +61,50 @@ namespace sdw
 	{
 	}
 
-	ast::type::StructPtr TessControlIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr TessControlPatchRoutineIn::makeType( ast::type::TypesCache & cache )
 	{
 		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "TessControlIn"
+			, "TessControlPatchRoutineIn"
 			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::ePatchVerticesIn ) )
 		{
-			result->declMember( ast::Builtin::ePatchVerticesIn
+			result->declMember( ast::Builtin::ePrimitiveID
 				, type::Kind::eInt
 				, ast::type::NotArray );
+		}
+
+		return result;
+	}
+
+	//*************************************************************************
+
+	TessControlMainIn::TessControlMainIn( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: StructInstance{ writer, std::move( expr ), enabled }
+		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
+		, invocationID{ getMember< Int >( ast::Builtin::eInvocationID ) }
+	{
+	}
+
+	TessControlMainIn::TessControlMainIn( ShaderWriter & writer )
+		: TessControlMainIn{ writer
+			, makeExpr( writer
+				, sdw::getShader( writer ).registerName( "tesscGlobIn"
+					, makeType( getTypesCache( writer ) )
+					, FlagT ) ) }
+	{
+	}
+
+	ast::type::StructPtr TessControlMainIn::makeType( ast::type::TypesCache & cache )
+	{
+		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
+			, "TessControlMainIn"
+			, FlagT );
+
+		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
+		{
 			result->declMember( ast::Builtin::ePrimitiveID
 				, type::Kind::eInt
 				, ast::type::NotArray );

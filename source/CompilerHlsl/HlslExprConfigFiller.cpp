@@ -74,7 +74,7 @@ namespace hlsl
 
 		if ( expr->isBuiltin() )
 		{
-			m_adaptationData.currentEntryPoint->addMbrBuiltin( expr->getOuterExpr()
+			m_adaptationData.addMbrBuiltin( expr->getOuterExpr()
 				, expr->getMemberIndex()
 				, *expr
 				, 0u );
@@ -83,10 +83,21 @@ namespace hlsl
 		{
 			auto type = expr->getOuterType();
 			auto mbr = type->getMember( expr->getMemberIndex() );
-			m_adaptationData.currentEntryPoint->addPendingMbrInput( expr->getOuterExpr()
-				, expr->getMemberIndex()
-				, *expr
-				, mbr.location );
+
+			if ( expr->isShaderInput() )
+			{
+				m_adaptationData.addPendingMbrInput( expr->getOuterExpr()
+					, expr->getMemberIndex()
+					, *expr
+					, mbr.location );
+			}
+			else
+			{
+				m_adaptationData.addPendingMbrOutput( expr->getOuterExpr()
+					, expr->getMemberIndex()
+					, *expr
+					, mbr.location );
+			}
 		}
 	}
 

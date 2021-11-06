@@ -21,6 +21,8 @@ namespace glsl
 		std::map< ast::type::StructPtr, ast::var::VariableList > vars{};
 		ast::var::VariablePtr perVertex{};
 		std::map< ast::Builtin, ast::expr::ExprPtr > perVertexMbrs;
+		std::map< ast::type::StructPtr, std::pair< ast::type::StructPtr, uint32_t > > builtinsStructs;
+		std::map< ast::type::StructPtr, ast::var::VariablePtr > othersStructs;
 	};
 
 	struct AdaptationData
@@ -70,23 +72,19 @@ namespace glsl
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStructPtr structType
 			, uint32_t arraySize
-			, bool entryPoint );
+			, bool declVar );
 		void doProcessInput( ast::var::VariablePtr var
 			, ast::type::IOStructPtr structType
 			, uint32_t arraySize
-			, bool entryPoint );
+			, bool declVar );
 		void doProcessIO( ast::var::VariablePtr var
 			, ast::type::IOStructPtr structType
 			, uint32_t arraySize
-			, bool entryPoint
+			, bool declVar
 			, bool isInput
 			, IOVars & io );
 		void doProcessOutputPatch( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType
-			, bool entryPoint );
-		void doProcessInputPatch( ast::var::VariablePtr var
-			, ast::type::StructPtr const & structType
-			, bool entryPoint );
+			, ast::type::TessellationOutputPatch const & patchType );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		void doDeclareStruct( ast::type::StructPtr const & structType );

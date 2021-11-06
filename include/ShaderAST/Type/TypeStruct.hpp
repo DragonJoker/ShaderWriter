@@ -175,6 +175,11 @@ namespace ast::type
 			return m_flag == var::Flag::eShaderOutput;
 		}
 
+		bool isPatchOutput()const
+		{
+			return m_flag == var::Flag::ePatchOutput;
+		}
+
 	protected:
 		std::pair< uint32_t, uint32_t > doLookupMember( std::string const & name
 			, TypePtr type );

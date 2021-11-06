@@ -115,6 +115,7 @@ namespace spirv
 					, info ).id );
 			}
 		}
+
 		for ( auto & output : moduleConfig.getOutputs() )
 		{
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() )

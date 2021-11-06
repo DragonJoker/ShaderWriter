@@ -54,9 +54,15 @@ namespace spirv
 		ast::ShaderStage stage;
 		bool isInput;
 		uint32_t * nextVarId;
+		using VarMbrsIndex = std::pair< ast::var::VariablePtr, uint32_t >;
+		std::map< ast::var::VariablePtr, VarMbrsIndex > splitVarsBuiltins{};
+		std::map< ast::var::VariablePtr, VarMbrsIndex > splitVarsOthers{};
 
 		void declare( ast::stmt::Container & stmt );
 
+		void addOutputPatch( ast::var::VariablePtr patchVar
+			, uint32_t location );
+		ast::var::VariablePtr getOutputPatch( ast::var::VariablePtr patchVar );
 		void addPending( ast::var::VariablePtr pendingVar
 			, uint32_t location );
 		void addPendingMbr( ast::var::VariablePtr outerVar
@@ -70,6 +76,9 @@ namespace spirv
 			, uint32_t location
 			, uint32_t arraySize );
 		ast::expr::ExprPtr processPending( std::string const & name
+			, ast::stmt::Container * cont );
+		ast::expr::ExprPtr processPending( ast::Builtin builtin
+			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var
 			, ast::stmt::Container * cont );
@@ -99,6 +108,11 @@ namespace spirv
 			, uint32_t mbrLocation
 			, uint32_t mbrArraySize
 			, ast::stmt::Container * cont );
+		ast::expr::ExprPtr processPendingMbr( ast::var::VariablePtr outerVar
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter
+			, ast::stmt::Container * cont );
 
 	private:
 		std::map< std::string, PendingIO > m_pending;
@@ -117,11 +131,12 @@ namespace spirv
 	struct ModuleConfig
 	{
 		ModuleConfig( ast::type::TypesCache & cache
-			, ast::ShaderStage stage
+			, ast::ShaderStage pstage
 			, uint32_t pnextVarId
 			, uint32_t paliasId )
 			: nextVarId{ pnextVarId }
 			, aliasId{ paliasId }
+			, stage{ pstage }
 			, inputs{ cache, stage, true, nextVarId }
 			, outputs{ cache, stage, false, nextVarId }
 		{
@@ -129,6 +144,7 @@ namespace spirv
 
 		uint32_t nextVarId;
 		uint32_t aliasId;
+		ast::ShaderStage stage;
 		std::set< spv::Capability > requiredCapabilities;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
@@ -137,6 +153,9 @@ namespace spirv
 			, uint32_t location );
 		void addOutputVar( ast::var::VariablePtr var
 			, uint32_t location );
+		ast::expr::ExprPtr processPending( ast::Builtin builtin
+			, ExprAdapter & adapter
+			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
@@ -252,6 +271,11 @@ namespace spirv
 				, flags
 				, adapter
 				, cont );
+		}
+
+		ast::var::VariablePtr getOutputPatch( ast::var::VariablePtr patchVar )
+		{
+			return outputs.getOutputPatch( patchVar );
 		}
 
 	private:

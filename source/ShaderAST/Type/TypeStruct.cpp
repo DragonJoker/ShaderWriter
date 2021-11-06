@@ -1006,8 +1006,6 @@ namespace ast::type
 				{
 					return isStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
-
-				return false;
 			}
 			else
 			{
@@ -1129,8 +1127,6 @@ namespace ast::type
 				{
 					return getStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
-
-				return nullptr;
 			}
 			else
 			{

@@ -140,6 +140,7 @@
 		<Expand>
 			<Item Name="nameId">m_nameId</Item>
 			<Item Name="flags">m_flags</Item>
+			<Item Name="builtin">m_builtin</Item>
 			<Item Name="type">m_type</Item>
 			<Item Name="outer">m_outer</Item>
 		</Expand>

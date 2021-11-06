@@ -52,49 +52,46 @@ namespace sdw
 
 	using TessControlListIn = TessControlListInT< VoidT, 0u >;
 
-	struct TessControlIn
+	struct TessControlPatchRoutineIn
 		: StructInstance
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API TessControlIn( ShaderWriter & writer );
-		SDW_API TessControlIn( ShaderWriter & writer
+		SDW_API TessControlPatchRoutineIn( ShaderWriter & writer );
+		SDW_API TessControlPatchRoutineIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in int gl_PatchVerticesIn;
-		Int patchVerticesIn;
+		//in int gl_PrimitiveID;
+		Int primitiveID;
+	};
+
+	struct TessControlMainIn
+		: StructInstance
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
+		SDW_API TessControlMainIn( ShaderWriter & writer );
+		SDW_API TessControlMainIn( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
+
 		//in int gl_PrimitiveID;
 		Int primitiveID;
 		//in int gl_InvocationID;
 		Int invocationID;
 	};
 
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct TessControlDataOutT
-		: OutputT< DataT >
-	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
-
-		TessControlDataOutT( ShaderWriter & writer );
-		TessControlDataOutT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
-
-		//out gl_PerVertex gl_out[];
-		PerVertex vtx;
-	};
-
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputDomain DomainT >
 	struct TessControlListOutT
-		: Array< TessControlDataOutT< DataT > >
+		: OutputT< DataT >
 	{
-		static constexpr ast::var::Flag FlagT = TessControlDataOutT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
 		TessControlListOutT( ShaderWriter & writer
 			, ast::type::OutputPartitioning partitioning
@@ -106,6 +103,9 @@ namespace sdw
 			, bool enabled = true );
 
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+
+		//out gl_PerVertex gl_out[];
+		PerVertex vtx;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -118,29 +118,6 @@ namespace sdw
 	using IsolinesTessControlListOut = IsolinesTessControlListOutT< VoidT >;
 	using TrianglesTessControlListOut = TrianglesTessControlListOutT< VoidT >;
 	using QuadsTessControlListOut = QuadsTessControlListOutT< VoidT >;
-
-	template< ast::type::OutputDomain DomainT >
-	struct TessControlOutT
-		: StructInstance
-	{
-		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderOutput;
-
-		TessControlOutT( ShaderWriter & writer );
-		TessControlOutT( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
-
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
-
-		//patch out float gl_TessLevelOuter[];
-		Array< Float > tessLevelOuter;
-		//patch out float gl_TessLevelInner[];
-		Array< Float > tessLevelInner;
-	};
-
-	using IsolinesTessControlOut = TessControlOutT< ast::type::OutputDomain::eIsolines >;
-	using TrianglesTessControlOut = TessControlOutT< ast::type::OutputDomain::eTriangles >;
-	using QuadsTessControlOut = TessControlOutT< ast::type::OutputDomain::eQuads >;
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputDomain DomainT >
@@ -156,6 +133,11 @@ namespace sdw
 			, bool enabled = true );
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+		//patch out float gl_TessLevelOuter[];
+		Array< Float > tessLevelOuter;
+		//patch out float gl_TessLevelInner[];
+		Array< Float > tessLevelInner;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -171,55 +153,55 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
-		, template< ast::var::Flag FlagT > typename OutT
-		, ast::type::OutputDomain DomainT >
-	using TessControlPatchRoutineT = std::function< void( TessControlIn
-		, TessControlListInT< InT, MaxPointsT >
-		, TessControlOutT< DomainT >
-		, TessControlListOutT< OutT, DomainT > ) >;
-	template< template< ast::var::Flag FlagT > typename InT
-		, uint32_t MaxPointsT
-		, template< ast::var::Flag FlagT > typename OutT >
-	using IsolinesTessControlPatchRoutineT = std::function< void( TessControlIn
-		, TessControlListInT< InT, MaxPointsT >
-		, IsolinesTessControlOut
-		, IsolinesTessControlListOutT< OutT > ) >;
-	template< template< ast::var::Flag FlagT > typename InT
-		, uint32_t MaxPointsT
-		, template< ast::var::Flag FlagT > typename OutT >
-	using TrianglesTessControlPatchRoutineT = std::function< void( TessControlIn
-		, TessControlListInT< InT, MaxPointsT >
-		, TrianglesTessControlOut
-		, TrianglesTessControlListOutT< OutT > ) >;
-	template< template< ast::var::Flag FlagT > typename InT
-		, uint32_t MaxPointsT
-		, template< ast::var::Flag FlagT > typename OutT >
-	using QuadsTessControlPatchRoutineT = std::function< void( TessControlIn
-		, TessControlListInT< InT, MaxPointsT >
-		, QuadsTessControlOut
-		, QuadsTessControlListOutT< OutT > ) >;
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT
 		, ast::type::OutputDomain DomainT >
-	using TessControlMainFuncT = std::function< void( TessControlListInT< InT, MaxPointsT >
+	using TessControlPatchRoutineT = std::function< void( TessControlPatchRoutineIn
+		, TessControlListInT< InT, MaxPointsT >
 		, TessPatchOutT< PatchT, DomainT > ) >;
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT >
-	using IsolinesTessControlMainFuncT = std::function< void( TessControlListInT< InT, MaxPointsT >
+	using IsolinesTessControlPatchRoutineT = std::function< void( TessControlPatchRoutineIn
+		, TessControlListInT< InT, MaxPointsT >
 		, IsolinesTessPatchOutT< PatchT > ) >;
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT >
-	using TrianglesTessControlMainFuncT = std::function< void( TessControlListInT< InT, MaxPointsT >
+	using TrianglesTessControlPatchRoutineT = std::function< void( TessControlPatchRoutineIn
+		, TessControlListInT< InT, MaxPointsT >
 		, TrianglesTessPatchOutT< PatchT > ) >;
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT >
-	using QuadsTessControlMainFuncT = std::function< void( TessControlListInT< InT, MaxPointsT >
+	using QuadsTessControlPatchRoutineT = std::function< void( TessControlPatchRoutineIn
+		, TessControlListInT< InT, MaxPointsT >
 		, QuadsTessPatchOutT< PatchT > ) >;
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT
+		, ast::type::OutputDomain DomainT >
+	using TessControlMainFuncT = std::function< void( TessControlMainIn
+		, TessControlListInT< InT, MaxPointsT >
+		, TessControlListOutT< OutT, DomainT > ) >;
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT >
+	using IsolinesTessControlMainFuncT = std::function< void( TessControlMainIn
+		, TessControlListInT< InT, MaxPointsT >
+		, IsolinesTessControlListOutT< OutT > ) >;
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT >
+	using TrianglesTessControlMainFuncT = std::function< void( TessControlMainIn
+		, TessControlListInT< InT, MaxPointsT >
+		, TrianglesTessControlListOutT< OutT > ) >;
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT >
+	using QuadsTessControlMainFuncT = std::function< void( TessControlMainIn
+		, TessControlListInT< InT, MaxPointsT >
+		, QuadsTessControlListOutT< OutT > ) >;
 
 	class TessellationControlWriter
 		: public ShaderWriter
@@ -235,56 +217,56 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, ast::type::OutputDomain DomainT >
-		inline void implementPatchRoutineT( ast::type::OutputPartitioning partitioning
-			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
-			, uint32_t outputVertices
+		inline void implementPatchRoutineT( uint32_t patchLocation
 			, TessControlPatchRoutineT< InT, MaxPointsT, PatchT, DomainT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( ast::type::OutputPartitioning partitioning
-			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
-			, uint32_t outputVertices
+		inline void implementPatchRoutineT( uint32_t patchLocation
 			, IsolinesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( ast::type::OutputPartitioning partitioning
-			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
-			, uint32_t outputVertices
+		inline void implementPatchRoutineT( uint32_t patchLocation
 			, TrianglesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( ast::type::OutputPartitioning partitioning
-			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
-			, uint32_t outputVertices
+		inline void implementPatchRoutineT( uint32_t patchLocation
 			, QuadsTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, ast::type::OutputDomain DomainT >
-		inline void implementMainT( uint32_t patchLocation
+		inline void implementMainT( ast::type::OutputPartitioning partitioning
+			, ast::type::OutputTopology topology
+			, ast::type::OutputVertexOrder vertexOrder
+			, uint32_t outputVertices
 			, TessControlMainFuncT< InT, MaxPointsT, PatchT, DomainT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( uint32_t patchLocation
+		inline void implementMainT( ast::type::OutputPartitioning partitioning
+			, ast::type::OutputTopology topology
+			, ast::type::OutputVertexOrder vertexOrder
+			, uint32_t outputVertices
 			, IsolinesTessControlMainFuncT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( uint32_t patchLocation
+		inline void implementMainT( ast::type::OutputPartitioning partitioning
+			, ast::type::OutputTopology topology
+			, ast::type::OutputVertexOrder vertexOrder
+			, uint32_t outputVertices
 			, TrianglesTessControlMainFuncT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( uint32_t patchLocation
+		inline void implementMainT( ast::type::OutputPartitioning partitioning
+			, ast::type::OutputTopology topology
+			, ast::type::OutputVertexOrder vertexOrder
+			, uint32_t outputVertices
 			, QuadsTessControlMainFuncT< InT, MaxPointsT, PatchT > const & function );
 	};
 	/**@}*/

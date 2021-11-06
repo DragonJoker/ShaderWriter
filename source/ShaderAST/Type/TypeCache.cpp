@@ -673,7 +673,8 @@ namespace ast::type
 		, var::Flag flag )
 	{
 		if ( flag != var::Flag::eShaderInput
-			&& flag != var::Flag::eShaderOutput )
+			&& flag != var::Flag::eShaderOutput
+			&& flag != var::Flag::ePatchOutput )
 		{
 			throw std::runtime_error{ "Non I/O structure." };
 		}

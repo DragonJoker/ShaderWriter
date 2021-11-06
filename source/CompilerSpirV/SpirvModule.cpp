@@ -307,11 +307,11 @@ namespace spirv
 	}
 
 	void Module::decorate( ValueId id
-		, IdList const & decoration )
+		, IdList const & pdecorations )
 	{
 		ValueIdList operands;
 		operands.push_back( id );
-		auto decos = convert( decoration );
+		auto decos = convert( pdecorations );
 		operands.insert( operands.end(), decos.begin(), decos.end() );
 		decorations.push_back( makeInstruction< DecorateInstruction >( operands ) );
 	}
@@ -325,12 +325,12 @@ namespace spirv
 
 	void Module::decorateMember( ValueId id
 		, uint32_t index
-		, IdList const & decoration )
+		, IdList const & pdecorations )
 	{
 		ValueIdList operands;
 		operands.push_back( id );
 		operands.push_back( { index } );
-		auto decos = convert( decoration );
+		auto decos = convert( pdecorations );
 		operands.insert( operands.end(), decos.begin(), decos.end() );
 		decorations.push_back( makeInstruction< MemberDecorateInstruction >( operands ) );
 	}

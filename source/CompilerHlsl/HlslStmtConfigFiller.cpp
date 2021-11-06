@@ -124,21 +124,16 @@ namespace hlsl
 		{
 			if ( !stmt->isEntryPoint() )
 			{
-				m_adaptationData.entryPoints.emplace( stmt->getName()
-					, std::make_unique< EntryPoint >( m_shader
-						, &m_adaptationData
-						, stmt->isEntryPoint() ) );
-				m_adaptationData.currentEntryPoint = m_adaptationData.entryPoints[stmt->getName()].get();
+				m_adaptationData.addEntryPoint( *stmt );
 			}
-			else
-			{
-				m_adaptationData.currentEntryPoint = m_adaptationData.mainEntryPoint;
-			}
-
-			m_adaptationData.currentEntryPoint->initialise( *stmt );
+			
+			m_adaptationData.updateCurrentEntryPoint( stmt );
+			m_adaptationData.initialiseEntryPoint( *stmt );
 		}
 
 		visitContainerStmt( stmt );
+
+		m_adaptationData.updateCurrentEntryPoint( nullptr );
 	}
 
 	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )
@@ -167,13 +162,13 @@ namespace hlsl
 
 		if ( var->isShaderInput() )
 		{
-			m_adaptationData.mainEntryPoint->addInputVar( var
+			m_adaptationData.addInputVar( var
 				, stmt->getLocation() );
 		}
 
 		if ( var->isShaderOutput() )
 		{
-			m_adaptationData.mainEntryPoint->addOutputVar( var
+			m_adaptationData.addOutputVar( var
 				, stmt->getLocation() );
 		}
 	}
@@ -213,11 +208,11 @@ namespace hlsl
 
 			if ( isOutput( stmt->getSource() ) )
 			{
-				m_adaptationData.mainEntryPoint->addPendingOutput( var, index++ );
+				m_adaptationData.addPendingOutput( var, index++ );
 			}
 			else
 			{
-				m_adaptationData.mainEntryPoint->addPendingInput( var, index++ );
+				m_adaptationData.addPendingInput( var, index++ );
 			}
 		}
 	}

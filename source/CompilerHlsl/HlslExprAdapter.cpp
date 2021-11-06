@@ -766,9 +766,8 @@ namespace hlsl
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		auto entryPoint = m_adaptationData.currentEntryPoint;
 		auto var = expr->getVariable();
-		m_result = entryPoint->processPending( expr->getVariable() );
+		m_result = m_adaptationData.processPending( expr->getVariable() );
 
 		if ( !m_result )
 		{
@@ -970,7 +969,6 @@ namespace hlsl
 
 	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
-		auto & entryPoint = *m_adaptationData.currentEntryPoint;
 		auto adaptationInfo = getAdaptationInfo( expr->getIntrinsic() );
 
 		if ( adaptationInfo.operatorChange.toOperator )
@@ -1071,13 +1069,13 @@ namespace hlsl
 
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitVertex )
 			{
-				m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar )
-					, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().separateVar ) ) );
+				m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().paramVar )
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().separateVar ) ) );
 			}
 			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex )
 			{
 				args.insert( args.begin()
-					, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar ) );
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().paramVar ) );
 			}
 
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEndPrimitive
@@ -1085,7 +1083,7 @@ namespace hlsl
 				|| expr->getIntrinsic() == ast::expr::Intrinsic::eEndStreamPrimitive )
 			{
 				args.insert( args.begin()
-					, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar ) );
+					, ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().paramVar ) );
 			}
 
 			m_result = ast::expr::makeIntrinsicCall( expr->getType()
@@ -1096,9 +1094,8 @@ namespace hlsl
 
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
-		auto & entryPoint = *m_adaptationData.currentEntryPoint;
-		m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().paramVar )
-			, ast::expr::makeIdentifier( m_cache, entryPoint.getHFOutputs().separateVar ) ) );
+		m_result = ast::expr::makeStreamAppend( ast::expr::makeComma( ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().paramVar )
+			, ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().separateVar ) ) );
 	}
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
@@ -1137,7 +1134,7 @@ namespace hlsl
 
 		if ( !m_result )
 		{
-			m_result = m_adaptationData.currentEntryPoint->processPendingMbr( expr->getOuterExpr()
+			m_result = m_adaptationData.processPendingMbr( expr->getOuterExpr()
 				, expr->getMemberIndex()
 				, *expr
 				, *this );

@@ -67,9 +67,11 @@ namespace hlsl
 			}
 		}
 
-		std::string writeIOMember( ast::type::TypePtr type
+		std::string writeIOMember( ast::ShaderStage stage
+			, ast::type::TypePtr type
 			, std::string name
 			, ast::Builtin builtin
+			, bool isInput
 			, uint32_t builtinIndex
 			, uint32_t location
 			, Semantic & intSem
@@ -92,11 +94,11 @@ namespace hlsl
 				if ( isSignedIntType( type->getKind() )
 					|| isUnsignedIntType( type->getKind() ) )
 				{
-					semantic = ": " + getSemantic( builtin, location, type, intSem );
+					semantic = ": " + getSemantic( stage, builtin, isInput, location, type, intSem );
 				}
 				else
 				{
-					semantic = ": " + getSemantic( builtin, location, type, fltSem );
+					semantic = ": " + getSemantic( stage, builtin, isInput, location, type, fltSem );
 				}
 			}
 
@@ -106,45 +108,54 @@ namespace hlsl
 			}
 
 			std::string result = getTypeName( type ) + " ";
-			result += name;
+			result += adaptName( name );
 			result += getTypeArraySize( type );
 			result += semantic;
 			return result;
 		}
 
-		std::string writeIOMember( ast::type::Struct::Member const & member
+		std::string writeIOMember( ast::ShaderStage stage
+			, ast::type::Struct::Member const & member
+			, bool isInput
 			, Semantic & intSem
 			, Semantic & fltSem )
 		{
-			return writeIOMember( member.type
+			return writeIOMember( stage
+				, member.type
 				, member.name
 				, member.builtin
+				, isInput
 				, member.builtinIndex
 				, member.location
 				, intSem
 				, fltSem ) + ";\n";
 		}
 
-		std::string writeIOMembers( std::string indent
-			, ast::type::Struct const & structType
-			, ast::ShaderStage stage )
+		std::string writeIOMembers( ast::ShaderStage stage
+			, std::string const & indent
+			, ast::type::Struct const & structType )
 		{
 			Semantic rintSem = { "BLENDINDICES", 0u };
 			Semantic rfltSem = { "TEXCOORD", 0u };
 			Semantic * pintSem = &rintSem;
 			Semantic * pfltSem = &rfltSem;
 			std::string result;
+			bool isInput = true;
 
-			if ( stage == ast::ShaderStage::eFragment
-				&& structType.isShaderOutput() )
+			if ( structType.isShaderOutput() )
 			{
-				rintSem.name = "SV_Target";
-				pfltSem = &rintSem;
+				isInput = false;
+
+				if ( stage == ast::ShaderStage::eFragment )
+				{
+					rintSem.name = "SV_Target";
+					pfltSem = &rintSem;
+				}
 			}
 
 			for ( auto & mbr : structType )
 			{
-				result += indent + writeIOMember( mbr, *pintSem, *pfltSem );
+				result += indent + writeIOMember( stage, mbr, isInput, *pintSem, *pfltSem );
 			}
 
 			return result;
@@ -185,29 +196,33 @@ namespace hlsl
 			return result;
 		}
 
-		std::string writeMembers( std::string indent
-			, ast::type::Struct const & structType
-			, ast::ShaderStage stage )
+		std::string writeMembers( ast::ShaderStage stage
+			, std::string indent
+			, ast::type::Struct const & structType )
 		{
 			if ( structType.isShaderInput()
 				|| structType.isShaderOutput() )
 			{
-				return writeIOMembers( indent
-					, static_cast< ast::type::IOStruct const & >( structType )
-					, stage );
+				return writeIOMembers( stage
+					, indent
+					, static_cast< ast::type::IOStruct const & >( structType ) );
 			}
 
 			return writeBaseMembers( indent, structType );
 		}
 
-		std::string writeMember( ast::type::Struct::Member const & member
+		std::string writeMember( ast::ShaderStage stage
+			, ast::type::Struct::Member const & member
+			, bool isInput
 			, Semantic & intSem
 			, Semantic & fltSem )
 		{
 			if ( member.builtin != ast::Builtin::eNone
 				|| member.location != ast::type::Struct::InvalidLocation )
 			{
-				return writeIOMember( member
+				return writeIOMember( stage
+					, member
+					, isInput
 					, intSem
 					, fltSem );
 			}
@@ -379,6 +394,37 @@ namespace hlsl
 		// Unsupported in HLSL :/
 	}
 
+	std::string writeTessCtrlOut( ast::type::TessellationControlOutput const & tesscType
+		, EntryPointMap const & patchRoutines
+		, std::string const & indent )
+	{
+		std::string result;
+		result += indent + "[domain(\"" + getName( tesscType.getDomain() ) + "\")]\n";
+		result += indent + "[partitioning(\"" + getName( tesscType.getPartitioning() ) + "\")]\n";
+		result += indent + "[outputtopology(\"" + getName( tesscType.getTopology(), tesscType.getOrder() ) + "\")]\n";
+		result += indent + "[outputcontrolpoints(" + std::to_string( tesscType.getOutputVertices() ) + ")]\n";
+
+		if ( !patchRoutines.empty() )
+		{
+			auto rit = std::find_if( patchRoutines.begin()
+				, patchRoutines.end()
+				, []( auto & lookup )
+				{
+					return !lookup.second->isMain;
+				} );
+
+			if ( rit != patchRoutines.end() )
+			{
+				result += indent + "[patchconstantfunc(\"" + ( rit->first ) + "\")]\n";
+			}
+			else
+			{
+			}
+		}
+
+		return result;
+	}
+
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		m_appendLineEnd = true;
@@ -441,29 +487,9 @@ namespace hlsl
 					else if ( argType->getKind() == ast::type::Kind::eTessellationControlOutput )
 					{
 						auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *argType );
-						m_result += m_indent + "[domain(\"" + getName( tesscoType.getDomain() ) + "\")]\n";
-						m_result += m_indent + "[partitioning(\"" + getName( tesscoType.getPartitioning() ) + "\")]\n";
-						m_result += m_indent + "[outputtopology(\"" + getName( tesscoType.getTopology(), tesscoType.getOrder() ) + "\")]\n";
-						m_result += m_indent + "[outputcontrolpoints(" + std::to_string( tesscoType.getOutputVertices() ) + ")]\n";
-
-						if ( !m_patchRoutines.empty() )
-						{
-							auto rit = std::find_if( m_patchRoutines.begin()
-								, m_patchRoutines.end()
-								, []( auto & lookup )
-								{
-									return !lookup.second->isMain;
-								} );
-
-							if ( rit != m_patchRoutines.end() )
-							{
-								m_result += m_indent + "[patchconstantfunc(\"" + ( rit->first ) + "\")]\n";
-							}
-							else
-							{
-							}
-						}
-
+						m_result += writeTessCtrlOut( tesscoType
+							, m_patchRoutines
+							, m_indent );
 						argType = tesscoType.getType();
 
 						if ( argType->getKind() != ast::type::Kind::eVoid
@@ -485,7 +511,17 @@ namespace hlsl
 			}
 		}
 
-		m_result += m_indent + getTypeName( type->getReturnType() );
+		auto retType = type->getReturnType();
+
+		if ( retType->getKind() == ast::type::Kind::eTessellationControlOutput )
+		{
+			auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *retType );
+			m_result += writeTessCtrlOut( tesscoType
+				, m_patchRoutines
+				, m_indent );
+		}
+
+		m_result += m_indent + getTypeName( retType );
 		m_result += " " + stmt->getName() + "(";
 		std::string sep;
 		Semantic sem{ "", 0u };
@@ -495,9 +531,11 @@ namespace hlsl
 			if ( param->isBuiltin() )
 			{
 				m_result += sep + getDirectionName( *param )
-					+ writeIOMember( param->getType()
+					+ writeIOMember( m_writerConfig.shaderStage
+						, param->getType()
 						, param->getName()
 						, param->getBuiltin()
+						, true
 						, ast::type::Struct::InvalidLocation
 						, ast::type::Struct::InvalidLocation
 						, sem
@@ -507,7 +545,7 @@ namespace hlsl
 			{
 				m_result += sep + getDirectionName( *param )
 					+ getTypeName( param->getType() ) + " "
-					+ param->getName()
+					+ adaptName( param->getName() )
 					+ getTypeArraySize( param->getType() );
 			}
 
@@ -705,9 +743,9 @@ namespace hlsl
 			auto save = m_indent;
 			m_indent += "\t";
 
-			m_result += writeMembers( m_indent
-				, *stmt->getType()
-				, m_writerConfig.shaderStage );
+			m_result += writeMembers( m_writerConfig.shaderStage
+				, m_indent
+				, *stmt->getType() );
 
 			m_indent = save;
 			m_result += m_indent + "};\n";

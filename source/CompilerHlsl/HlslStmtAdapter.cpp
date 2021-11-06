@@ -76,28 +76,21 @@ namespace hlsl
 	{
 		if ( stmt->getFlags() )
 		{
-			if ( !stmt->isEntryPoint() )
-			{
-				m_adaptationData.currentEntryPoint = m_adaptationData.entryPoints[stmt->getName()].get();
-			}
-			else
-			{
-				m_adaptationData.currentEntryPoint = m_adaptationData.mainEntryPoint;
-			}
+			m_adaptationData.updateCurrentEntryPoint( stmt );
 
 			auto & cache = stmt->getType()->getCache();
+			// Write function content into a temporary container, registering I/O.
+			auto cont = ast::stmt::makeContainer();
+			auto save = m_current;
+			m_current = cont.get();
+			visitContainerStmt( stmt );
+			m_current = save;
 
-			if ( m_adaptationData.currentEntryPoint->needsSeparateFunc )
+
+			if ( m_adaptationData.needsSeparateFunc() )
 			{
-				// Write function content into a temporary container
-				auto save = m_current;
-				auto cont = ast::stmt::makeContainer();
-				m_current = cont.get();
-				visitContainerStmt( stmt );
-				m_current = save;
-
 				// Write SDW_main function
-				m_current->addStmt( m_adaptationData.currentEntryPoint->writeGlobals() );
+				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
 				auto sdwMainCont = ast::stmt::makeFunctionDecl( cache.getFunction( stmt->getType()->getReturnType()
 					, ast::var::VariableList{} )
 					, "SDW_" + stmt->getName() );
@@ -109,29 +102,21 @@ namespace hlsl
 			}
 			else
 			{
-				// Write function content into a temporary container, registering I/O.
-				auto cont = ast::stmt::makeContainer();
-				auto save = m_current;
-				m_current = cont.get();
-				m_current->addStmt( m_adaptationData.currentEntryPoint->writeLocalesBegin() );
-				visitContainerStmt( stmt );
-				m_current->addStmt( m_adaptationData.currentEntryPoint->writeLocalesEnd() );
-				m_current = save;
-
 				// Write main function, with only used parameters.
-				m_current->addStmt( m_adaptationData.currentEntryPoint->writeGlobals() );
+				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
 				ast::var::VariableList parameters;
-				auto retType = m_adaptationData.currentEntryPoint->fillParameters( parameters, *m_current );
-				assert( retType == nullptr );
+				auto retType = m_adaptationData.fillParameters( parameters, *m_current );
 				auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
 					, parameters )
 					, stmt->getName()
 					, stmt->getFlags() );
+				mainCont->addStmt( m_adaptationData.writeLocalesBegin() );
 				mainCont->addStmt( std::move( cont ) );
+				mainCont->addStmt( m_adaptationData.writeLocalesEnd() );
 				m_current->addStmt( std::move( mainCont ) );
 			}
 
-			m_adaptationData.currentEntryPoint = nullptr;
+			m_adaptationData.updateCurrentEntryPoint( nullptr );
 		}
 		else
 		{
@@ -300,11 +285,10 @@ namespace hlsl
 
 	void StmtAdapter::writeMain( ast::stmt::FunctionDecl * stmt )
 	{
-		auto & entryPoint = *m_adaptationData.currentEntryPoint;
 		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
 		ast::var::VariableList mainParameters;
 		ast::type::TypePtr mainRetType = m_cache.getVoid();
-		auto retType = entryPoint.fillParameters( mainParameters, *m_current );
+		auto retType = m_adaptationData.fillParameters( mainParameters, *m_current );
 
 		if ( retType )
 		{
@@ -314,7 +298,7 @@ namespace hlsl
 		auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( mainRetType, mainParameters )
 			, stmt->getName()
 			, stmt->getFlags() );
-		cont->addStmt( entryPoint.writeLocalesBegin() );
+		cont->addStmt( m_adaptationData.writeLocalesBegin() );
 
 		// Call SDW_main function.
 		cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
@@ -324,7 +308,7 @@ namespace hlsl
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
-		cont->addStmt( entryPoint.writeLocalesEnd() );
+		cont->addStmt( m_adaptationData.writeLocalesEnd() );
 
 		m_current->addStmt( std::move( cont ) );
 	}
