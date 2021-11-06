@@ -2121,6 +2121,11 @@ namespace ast
 				m_inputGeometryLayoutStmt = stmt;
 			}
 
+			void visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout * stmt )override
+			{
+				m_outputTessCtrlLayoutStmt = stmt;
+			}
+
 			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
 				if ( stmt->isEntryPoint() )
@@ -2186,6 +2191,7 @@ namespace ast
 			type::TypesCache & m_cache;
 			stmt::OutputGeometryLayout * m_outputGeometryLayoutStmt{};
 			stmt::InputGeometryLayout * m_inputGeometryLayoutStmt{};
+			stmt::OutputTessellationControlLayout * m_outputTessCtrlLayoutStmt{};
 		};
 	}
 

@@ -349,7 +349,8 @@ namespace glsl
 			result = "constant_id";
 		}
 		else if ( var.isShaderInput()
-			|| var.isShaderOutput() )
+			|| var.isShaderOutput()
+			|| var.isPatchOutput() )
 		{
 			result = "location";
 		}

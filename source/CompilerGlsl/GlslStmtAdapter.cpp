@@ -115,7 +115,7 @@ namespace glsl
 		ast::type::TypePtr getPerVertexType( ast::type::TypesCache & cache
 			, ast::ShaderStage stage
 			, bool isInput
-			, uint32_t m_maxPoint
+			, uint32_t maxPoint
 			, ast::type::InputLayout inputLayout )
 		{
 			switch ( stage )
@@ -128,7 +128,7 @@ namespace glsl
 				if ( isInput )
 				{
 					return getPerVertexArrayType( cache
-						, m_maxPoint
+						, maxPoint
 						, isInput );
 				}
 				return  getPerVertexArrayType( cache
@@ -303,8 +303,7 @@ namespace glsl
 				else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
 				{
 					doProcessOutputPatch( param
-						, static_cast< ast::type::TessellationOutputPatch const & >( *type )
-						, isEntryPoint );
+						, static_cast< ast::type::TessellationOutputPatch const & >( *type ) );
 				}
 				else 
 				{
@@ -333,12 +332,6 @@ namespace glsl
 							doProcessOutput( param
 								, std::static_pointer_cast< ast::type::IOStruct >( structType )
 								, arraySize
-								, isEntryPoint );
-						}
-						else if ( param->isPatchInput() )
-						{
-							doProcessInputPatch( param
-								, structType
 								, isEntryPoint );
 						}
 					}
@@ -538,6 +531,99 @@ namespace glsl
 			, tessType.getOutputVertices() ) );
 	}
 
+	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
+		, ast::type::TessellationOutputPatch const & patchType )
+	{
+		if ( isStructType( patchType.getType() ) )
+		{
+			auto structType = getStructType( patchType.getType() );
+			auto flags = structType->getFlag();
+			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType->getMemoryLayout()
+				, structType->getName() + "Repl"
+				, ast::var::Flag( flags ) );
+			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType->getMemoryLayout()
+				, structType->getName() + "Builtins"
+				, ast::var::Flag::eShaderOutput );
+			auto othersVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Others" }
+				, ast::type::makeTessellationOutputPatchType( outStructType
+					, patchType.getLocation() )
+				, var->getFlags() );
+			auto builtinsVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Builtins" }
+				, outBuiltinsType );
+			auto & io = m_adaptationData.outputs;
+
+			for ( auto & mbr : *structType )
+			{
+				auto name = ( mbr.builtin != ast::Builtin::eNone
+					? "gl_" + getName( mbr.builtin )
+					: mbr.name );
+
+				if ( mbr.builtin == ast::Builtin::eNone )
+				{
+					outStructType->declMember( mbr.name
+						, mbr.type
+						, mbr.location );
+				}
+				else
+				{
+					outBuiltinsType->declMember( mbr.builtin
+						, getNonArrayType( mbr.type )->getKind()
+						, getArraySize( mbr.type )
+						, ast::type::Struct::InvalidLocation );
+					auto typeIt = io.vars.emplace( outBuiltinsType, ast::var::VariableList{} ).first;
+					auto it = std::find_if( typeIt->second.begin()
+						, typeIt->second.end()
+						, [&name]( ast::var::VariablePtr const & lookup )
+						{
+							return name == lookup->getName();
+						} );
+
+					if ( it == typeIt->second.end() )
+					{
+						auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
+							, mbr.type
+							, ( outBuiltinsType->getFlag()
+								| ast::var::Flag::eBuiltin ) );
+						typeIt->second.emplace_back( mbrVar );
+					}
+				}
+			}
+
+			if ( !outStructType->empty() )
+			{
+				m_adaptationData.outputs.othersStructs.emplace( structType, othersVar );
+				m_current->addStmt( ast::stmt::makeStructureDecl( outStructType ) );
+				m_current->addStmt( ast::stmt::makeInOutVariableDecl( othersVar
+					, patchType.getLocation() ) );
+				m_adaptationData.outputs.var = var;
+			}
+
+			if ( !outBuiltinsType->empty() )
+			{
+				m_adaptationData.outputs.builtinsStructs.emplace( structType, std::make_pair( outBuiltinsType, uint32_t( outStructType->size() ) ) );
+			}
+		}
+	}
+
+	void StmtAdapter::doProcessTessellationControlInput( ast::var::VariablePtr var
+		, ast::type::TessellationControlInput const & tessType )
+	{
+		auto type = tessType.getType();
+		m_maxPoint = tessType.getInputVertices();
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			assert( structType->isShaderInput() );
+			doProcessInput( var
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
+				, 32u
+				, true );
+		}
+	}
+
 	void StmtAdapter::doProcessComputeInput( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
@@ -559,32 +645,15 @@ namespace glsl
 			, compType.getLocalSizeZ() ) );
 	}
 
-	void StmtAdapter::doProcessTessellationControlInput( ast::var::VariablePtr var
-		, ast::type::TessellationControlInput const & tessType )
-	{
-		auto type = tessType.getType();
-		m_maxPoint = tessType.getInputVertices();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-			assert( structType->isShaderInput() );
-			doProcessInput( var
-				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, tessType.getInputVertices()
-				, true );
-		}
-	}
-
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
 		, ast::type::IOStructPtr structType
 		, uint32_t arraySize
-		, bool entryPoint )
+		, bool declVar )
 	{
 		doProcessIO( var
 			, structType
 			, arraySize
-			, entryPoint
+			, declVar
 			, false
 			, m_adaptationData.outputs );
 	}
@@ -592,12 +661,12 @@ namespace glsl
 	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
 		, ast::type::IOStructPtr structType
 		, uint32_t arraySize
-		, bool entryPoint )
+		, bool declVar )
 	{
 		doProcessIO( var
 			, structType
 			, arraySize
-			, entryPoint
+			, declVar
 			, true
 			, m_adaptationData.inputs );
 	}
@@ -605,7 +674,7 @@ namespace glsl
 	void StmtAdapter::doProcessIO( ast::var::VariablePtr var
 		, ast::type::IOStructPtr structType
 		, uint32_t arraySize
-		, bool entryPoint
+		, bool declVar
 		, bool isInput
 		, IOVars & io )
 	{
@@ -661,40 +730,13 @@ namespace glsl
 								: ast::var::Flag::eNone ) ) );
 					typeIt->second.emplace_back( mbrVar );
 
-					if ( entryPoint && mbr.builtin == ast::Builtin::eNone )
+					if ( declVar && mbr.builtin == ast::Builtin::eNone )
 					{
 						m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
 							, mbr.location ) );
 					}
 				}
 			}
-		}
-	}
-
-	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
-		, ast::type::TessellationOutputPatch const & patchType
-		, bool entryPoint )
-	{
-		auto type = patchType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			if ( entryPoint )
-			{
-				doDeclareStruct( std::static_pointer_cast< ast::type::Struct >( type ) );
-				m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
-			}
-		}
-	}
-
-	void StmtAdapter::doProcessInputPatch( ast::var::VariablePtr var
-		, ast::type::StructPtr const & structType
-		, bool entryPoint )
-	{
-		if ( entryPoint )
-		{
-			doDeclareStruct( structType );
-			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 		}
 	}
 

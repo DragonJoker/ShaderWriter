@@ -19,11 +19,13 @@ namespace spirv
 	public:
 		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
 			, ast::stmt::Container * container
+			, ast::stmt::Container * ioDeclarations
 			, AdaptationData & adaptationData );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
 			, ast::stmt::Container * container
+			, ast::stmt::Container * ioDeclarations
 			, AdaptationData & adaptationData
 			, ast::expr::ExprPtr & result );
 
@@ -36,6 +38,7 @@ namespace spirv
 	private:
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_container;
+		ast::stmt::Container * m_ioDeclarations;
 		AdaptationData & m_adaptationData;
 	};
 }

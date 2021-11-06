@@ -424,6 +424,27 @@ namespace glsl
 			, std::move( args ) );
 	}
 
+	ast::expr::ExprPtr registerPerVertexBuiltin( ast::type::TypesCache & cache
+		, ast::Builtin builtin
+		, ast::type::TypePtr type
+		, uint32_t flags
+		, uint32_t & nextVarId
+		, IOVars & io )
+	{
+		auto ires = io.perVertexMbrs.emplace( builtin, nullptr );
+
+		if ( ires.second )
+		{
+			ires.first->second = ast::expr::makeIdentifier( cache
+				, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
+					, type
+					, flags | ast::var::Flag::eBuiltin ) );
+		}
+
+		auto it = ires.first;
+		return ast::ExprCloner::submit( it->second.get() );
+	}
+
 	ast::expr::ExprPtr ExprAdapter::doProcessIOMbr( ast::expr::Expr * outer
 		, uint32_t mbrIndex
 		, uint32_t mbrFlags
@@ -469,24 +490,29 @@ namespace glsl
 				}
 				else
 				{
-					auto ires = io.perVertexMbrs.emplace( mbr.builtin, nullptr );
-
-					if ( ires.second )
-					{
-						ires.first->second = ast::expr::makeIdentifier( m_cache
-							, ast::var::makeVariable( { ++m_adaptationData.nextVarId, "gl_" + getName( mbr.builtin ) }
-								, mbr.type
-								, mbrFlags | ast::var::Flag::eBuiltin ) );
-					}
-
-					auto it = ires.first;
-					result = ExprCloner::submit( it->second.get() );
+					result = registerPerVertexBuiltin( m_cache
+						, mbr.builtin
+						, mbr.type
+						, mbrFlags
+						, m_adaptationData.nextVarId
+						, io );
 				}
 			}
 		}
 		else if ( mbr.builtin != ast::Builtin::eNone )
 		{
 			auto it = io.vars.find( structType );
+
+			if ( it == io.vars.end() )
+			{
+				auto structIt = io.builtinsStructs.find( structType );
+
+				if ( structIt != io.builtinsStructs.end() )
+				{
+					it = io.vars.find( structIt->second.first );
+					mbrIndex -= structIt->second.second;
+				}
+			}
 
 			if ( it != io.vars.end() )
 			{
@@ -517,11 +543,33 @@ namespace glsl
 					indexExpr = doSubmit( arrayAccess.getRHS() );
 				}
 			}
+			else if ( outer->getType()->getKind() == ast::type::Kind::eTessellationControlOutput )
+			{
+				indexExpr = registerPerVertexBuiltin( m_cache
+					, ast::Builtin::eInvocationID
+					, m_cache.getUInt()
+					, uint32_t( ast::var::Flag::eShaderInput )
+					, m_adaptationData.nextVarId
+					, io );
+			}
 
 			if ( outer->getKind() == ast::expr::Kind::eIdentifier
 				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
 			{
 				auto it = io.vars.find( structType );
+
+				if ( it == io.vars.end() )
+				{
+					auto structIt = io.othersStructs.find( structType );
+
+					if ( structIt != io.othersStructs.end() )
+					{
+						return ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, structIt->second )
+							, mbrIndex
+							, mbrFlags );
+					}
+				}
+
 				assert( it != io.vars.end() );
 				auto mbrIt = std::find_if( it->second.begin()
 					, it->second.end()

@@ -34,6 +34,8 @@ namespace hlsl
 	std::string getSampledName( ast::type::ImageFormat value );
 	std::string getName( ast::type::ImageDim value );
 	bool isUnaryPre( ast::expr::Kind kind );
+	std::string adaptName( std::string const & name );
+
 	struct Semantic
 	{
 		std::string name;
@@ -41,7 +43,9 @@ namespace hlsl
 	};
 	ast::type::Kind getBuiltinHlslKind( ast::Builtin builtin
 		, ast::type::Kind input );
-	std::string getSemantic( ast::Builtin builtin
+	std::string getSemantic( ast::ShaderStage stage
+		, ast::Builtin builtin
+		, bool isInput
 		, uint32_t location
 		, ast::type::TypePtr type
 		, Semantic & defaultSemantic );
@@ -103,8 +107,9 @@ namespace hlsl
 	{
 		eNoSeparate,
 		eNoSeparateDistinctParams,
+		eLocalReturn,
 		eGlobalSeparateVar,
-		eLocalSeparateVar
+		eLocalSeparateVar,
 	};
 
 	struct IOMapping
@@ -129,12 +134,14 @@ namespace hlsl
 		// The distinct param vars.
 		ast::var::VariableList distinctParams;
 
-		void writeGlobals( ast::stmt::Container & stmt );
-		void writeLocalesBegin( ast::stmt::Container & stmt );
-		void writeLocalesEnd( ast::stmt::Container & stmt );
+		void writeGlobals( ast::stmt::Container & stmt
+			, std::unordered_set< ast::type::StructPtr > & declaredStructs )const;
+		void writeLocalesBegin( ast::stmt::Container & stmt )const;
+		void writeLocalesEnd( ast::stmt::Container & stmt )const;
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
-			, ast::stmt::Container & stmt );
-		ast::var::VariablePtr initialiseMainVar( ast::var::VariablePtr srcVar
+			, ast::stmt::Container & stmt )const;
+
+		void initialiseMainVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
 			, uint32_t flags
 			, VarVarMap & paramToEntryPoint );
@@ -182,11 +189,19 @@ namespace hlsl
 
 	struct EntryPoint
 	{
+		friend struct AdaptationData;
+
 		EntryPoint( HlslShader & pshader
 			, AdaptationData * pparent
-			, bool pisMain );
+			, bool pisMain
+			, std::string const & name );
 
-		void initialise( ast::stmt::FunctionDecl const & stmt );
+		void initialiseHFOutput( ast::var::VariablePtr srcVar
+			, ast::type::GeometryOutput const & geomType );
+		void initialiseHFOutput( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & tessType );
+		void initialiseHFOutput( ast::var::VariablePtr var
+			, ast::type::TessellationOutputPatch const & patchType );
 
 		HlslShader * shader;
 		AdaptationData * parent;
@@ -195,7 +210,93 @@ namespace hlsl
 		VarVarMap paramToEntryPoint{};
 		ast::stmt::Container * globalDeclarations{};
 
-		ast::stmt::ContainerPtr writeGlobals();
+		void writeGlobals( ast::stmt::Container & cont
+			, std::unordered_set< ast::type::StructPtr > & declaredStructs );
+		void writeLocalesBegin( ast::stmt::Container & cont )const;
+		void writeLocalesEnd( ast::stmt::Container & cont )const;
+		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
+			, ast::stmt::Container & stmt )const;
+
+		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );
+		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter );
+		void addMbrBuiltin( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t index );
+
+		IOMapping & getLFInputs();
+		void addInputVar( ast::var::VariablePtr var
+			, uint32_t location );
+		bool hasSeparateLFInput()const;
+		void addPendingInput( ast::var::VariablePtr var
+			, uint32_t location );
+		void addPendingMbrInput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t location );
+		ast::expr::ExprPtr processPendingInput( std::string const & name );
+		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var );
+		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter );
+
+		IOMapping & getHFOutputs();
+		IOMapping & getLFOutputs();
+		bool isOutput( ast::Builtin builtin );
+		bool hasSeparateHFOutput()const;
+		void addOutputVar( ast::var::VariablePtr var
+			, uint32_t location );
+		bool hasSeparateLFOutput()const;
+		void addPendingOutput( ast::var::VariablePtr var
+			, uint32_t location );
+		void addPendingMbrOutput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, uint32_t location );
+		ast::expr::ExprPtr processPendingOutput( std::string const & name );
+		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var );
+		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr * outer
+			, uint32_t mbrIndex
+			, ast::var::FlagHolder const & flags
+			, ExprAdapter & adapter );
+
+	private:
+		void registerInputMbr( ast::var::VariablePtr var
+			, uint32_t outerFlags
+			, ast::Builtin mbrBuiltin
+			, uint32_t mbrIndex
+			, uint32_t mbrLocation );
+		void registerOutputMbr( ast::var::VariablePtr var
+			, uint32_t outerFlags
+			, ast::Builtin mbrBuiltin
+			, uint32_t mbrIndex
+			, uint32_t mbrLocation );
+		IOMapping & getInputMapping();
+		IOMapping & getOutputMapping();
+
+		private:
+			IOMapping m_highFreqOutputs;
+			IOMapping m_lowFreqInputs;
+			IOMapping m_lowFreqOutputs;
+	};
+
+	using EntryPointPtr = std::unique_ptr< EntryPoint >;
+	using EntryPointMap = std::map< std::string, EntryPointPtr >;
+
+	struct AdaptationData
+	{
+		AdaptationData( HlslShader & shader );
+
+		void addEntryPoint( ast::stmt::FunctionDecl const & stmt );
+		void updateCurrentEntryPoint( ast::stmt::FunctionDecl const * stmt );
+		bool needsSeparateFunc()const;
+		void initialiseEntryPoint( ast::stmt::FunctionDecl const & stmt );
+
+		ast::stmt::ContainerPtr writeGlobals( std::unordered_set< ast::type::StructPtr > & declaredStructs );
 		ast::stmt::ContainerPtr writeLocalesBegin();
 		ast::stmt::ContainerPtr writeLocalesEnd();
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
@@ -250,7 +351,14 @@ namespace hlsl
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
 
+		EntryPointMap const & getEntryPoints()const
+		{
+			return m_entryPoints;
+		}
+
 	private:
+		void declareStruct( ast::type::StructPtr const & structType
+			, ast::stmt::Container * stmt );
 		void registerComputeInput( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void registerGeometryInput( ast::var::VariablePtr var
@@ -282,27 +390,16 @@ namespace hlsl
 			, ast::Builtin mbrBuiltin
 			, uint32_t mbrIndex
 			, uint32_t mbrLocation );
-		IOMapping & getInputMapping();
-		IOMapping & getOutputMapping();
 
-		private:
-			IOMapping m_highFreqInputs;
-			IOMapping m_highFreqOutputs;
-			IOMapping m_lowFreqInputs;
-			IOMapping m_lowFreqOutputs;
-	};
+	private:
+		IOMapping m_highFreqInputs;
+		EntryPointMap m_entryPoints;
+		EntryPoint * m_mainEntryPoint{};
+		EntryPoint * m_currentEntryPoint{};
+		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 
-	using EntryPointPtr = std::unique_ptr< EntryPoint >;
-	using EntryPointMap = std::map< std::string, EntryPointPtr >;
-
-	struct AdaptationData
-	{
-		AdaptationData( HlslShader & shader );
-
-		EntryPointMap entryPoints;
-		EntryPoint * mainEntryPoint{};
-		EntryPoint * currentEntryPoint{};
-
+	public:
+		HlslShader * shader;
 		ast::var::VariableList ssboList;
 		LinkedVars linkedVars;
 		FuncNames funcs;
@@ -310,12 +407,6 @@ namespace hlsl
 
 		uint32_t aliasId{ 0u };
 		uint32_t nextVarId{ 0u };
-
-		void declareStruct( ast::type::StructPtr const & structType
-			, ast::stmt::Container * stmt );
-
-	private:
-		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 	};
 
 	struct IntrinsicsConfig

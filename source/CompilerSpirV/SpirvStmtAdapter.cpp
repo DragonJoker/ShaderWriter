@@ -26,11 +26,14 @@ namespace spirv
 		: StmtCloner{ result }
 		, m_adaptationData{ adaptationData }
 	{
+		auto cont = ast::stmt::makeContainer();
+		m_ioDeclarations = cont.get();
+		m_current->addStmt( std::move( cont ) );
 	}
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_current, m_adaptationData );
+		return ExprAdapter::submit( expr, m_current, m_ioDeclarations, m_adaptationData );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -68,9 +71,6 @@ namespace spirv
 	{
 		if ( stmt->getFlags() )
 		{
-			doProcessInOut( stmt->getType()
-				, stmt->isEntryPoint() );
-
 			if ( stmt->isEntryPoint() )
 			{
 				doProcessEntryPoint( stmt );
@@ -247,16 +247,6 @@ namespace spirv
 		, ast::type::ComputeInput const & compType )
 	{
 		auto type = compType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-			assert( structType->isShaderInput() );
-			doProcessInput( var
-				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, true );
-		}
-
 		m_current->addStmt( ast::stmt::makeInputComputeLayout( type
 			, compType.getLocalSizeX()
 			, compType.getLocalSizeY()
@@ -267,16 +257,6 @@ namespace spirv
 		, ast::type::GeometryOutput const & geomType )
 	{
 		auto type = geomType.type;
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-			assert( structType->isShaderOutput() );
-			doProcessOutput( var
-				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, true );
-		}
-
 		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
 			, geomType.layout
 			, geomType.count ) );
@@ -286,16 +266,6 @@ namespace spirv
 		, ast::type::GeometryInput const & geomType )
 	{
 		auto type = geomType.type;
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-			assert( structType->isShaderInput() );
-			doProcessInput( var
-				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, true );
-		}
-
 		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
 			, geomType.layout ) );
 	}
@@ -305,16 +275,6 @@ namespace spirv
 		, bool isEntryPoint )
 	{
 		auto type = tessType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-			assert( structType->isShaderOutput() );
-			doProcessOutput( var
-				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, true );
-		}
-
 		m_current->addStmt( ast::stmt::makeOutputTessellationControlLayout( type
 			, tessType.getDomain()
 			, tessType.getPartitioning()
@@ -327,100 +287,17 @@ namespace spirv
 		, ast::type::TessellationControlInput const & geomType
 		, bool isEntryPoint )
 	{
-		auto type = geomType.getType();
-
-		if ( type->getKind() == ast::type::Kind::eStruct )
-		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-			assert( structType->isShaderInput() );
-			doProcessInput( var
-				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, isEntryPoint );
-		}
-	}
-
-	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
-		, ast::type::IOStructPtr ioType
-		, bool isEntryPoint )
-	{
-		//for ( auto & mbr : *ioType )
-		//{
-		//	auto it = std::find_if( m_adaptationData.config.outputs.begin()
-		//		, m_adaptationData.config.outputs.end()
-		//		, [&mbr]( ast::var::VariablePtr const & lookup )
-		//		{
-		//			return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
-		//				|| lookup->getName() == "sdwOut_" + mbr.name;
-		//		} );
-		//	assert( it != m_adaptationData.config.outputs.end() );
-		//	auto mbrVar = *it;
-		//	m_adaptationData.outputs[ioType].emplace_back( mbrVar );
-
-		//	if ( isEntryPoint )
-		//	{
-		//		m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-		//			, mbr.location ) );
-		//	}
-		//}
-	}
-
-	void StmtAdapter::doProcessInput( ast::var::VariablePtr var
-		, ast::type::IOStructPtr ioType
-		, bool isEntryPoint )
-	{
-		//for ( auto & mbr : *ioType )
-		//{
-		//	auto it = std::find_if( m_adaptationData.config.inputs.begin()
-		//		, m_adaptationData.config.inputs.end()
-		//		, [&mbr]( ast::var::VariablePtr const & lookup )
-		//		{
-		//			return ( lookup->isBuiltin() && lookup->getBuiltin() == mbr.builtin )
-		//				|| lookup->getName() == "sdwIn_" + mbr.name;
-		//		} );
-		//	assert( it != m_adaptationData.config.inputs.end() );
-		//	auto mbrVar = *it;
-		//	m_adaptationData.inputs[ioType].emplace_back( mbrVar );
-
-		//	if ( isEntryPoint && mbr.builtin != ast::Builtin::eWorkGroupSize )
-		//	{
-		//		m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
-		//			, mbr.location ) );
-		//	}
-		//}
 	}
 
 	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
 		, ast::type::TessellationOutputPatch const & patchType
 		, bool isEntryPoint )
 	{
-		if ( isEntryPoint )
+		var = m_adaptationData.config.getOutputPatch( var );
+
+		if ( !getStructType( var->getType() )->empty() )
 		{
-			auto type = patchType.getType();
-
-			if ( type->getKind() == ast::type::Kind::eStruct )
-			{
-				doDeclareStruct( std::static_pointer_cast< ast::type::Struct >( type ) );
-			}
-
-			if ( isEntryPoint )
-			{
-				m_current->addStmt( ast::stmt::makeInOutVariableDecl( var, patchType.getLocation() ) );
-			}
-			else
-			{
-				m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
-			}
-		}
-	}
-
-	void StmtAdapter::doProcessInputPatch( ast::var::VariablePtr var
-		, ast::type::StructPtr const & structType
-		, bool isEntryPoint )
-	{
-		if ( isEntryPoint )
-		{
-			doDeclareStruct( structType );
-			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+			m_current->addStmt( ast::stmt::makeInOutVariableDecl( var, patchType.getLocation() ) );
 		}
 	}
 
@@ -433,14 +310,11 @@ namespace spirv
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 
-		if ( stmt->isEntryPoint() )
+		for ( auto & pending : m_pending )
 		{
-			for ( auto & pending : m_pending )
-			{
-				doProcessInOut( pending.second.funcType
-					, false );
-				visitContainerStmt( pending.second.statements.get() );
-			}
+			doProcessInOut( pending.second.funcType
+				, false );
+			visitContainerStmt( pending.second.statements.get() );
 		}
 
 		m_current = save;
@@ -497,41 +371,6 @@ namespace spirv
 				doProcessOutputPatch( param
 					, static_cast< ast::type::TessellationOutputPatch const & >( *type )
 					, isEntryPoint );
-			}
-			else
-			{
-				uint32_t arraySize = ast::type::NotArray;
-
-				if ( type->getKind() == ast::type::Kind::eArray )
-				{
-					auto & arrayType = static_cast< ast::type::Array const & >( *type );
-					type = arrayType.getType();
-					arraySize = arrayType.getArraySize();
-				}
-
-				if ( type->getKind() == ast::type::Kind::eStruct )
-				{
-					auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-
-					if ( structType->isShaderInput() )
-					{
-						doProcessInput( param
-							, std::static_pointer_cast< ast::type::IOStruct >( structType )
-							, isEntryPoint );
-					}
-					else if ( structType->isShaderOutput() )
-					{
-						doProcessOutput( param
-							, std::static_pointer_cast< ast::type::IOStruct >( structType )
-							, isEntryPoint );
-					}
-					else if ( param->isPatchInput() )
-					{
-						doProcessInputPatch( param
-							, structType
-							, isEntryPoint );
-					}
-				}
 			}
 		}
 	}

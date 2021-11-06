@@ -9,6 +9,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
+#include <set>
 #include <unordered_set>
 
 namespace spirv
@@ -227,6 +228,8 @@ namespace spirv
 		std::unordered_map< spv::Id, ValueId > m_busyIntermediates;
 		spv::ExecutionModel m_model;
 		InstructionList m_pendingExecutionModes;
+		std::map< spv::Id, IdSet > m_varDecorations;
+		std::map< spv::Id, IdSet > m_mbrDecorations;
 	};
 }
 

@@ -20,11 +20,13 @@ namespace spirv
 {
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
 		, ast::stmt::Container * container
+		, ast::stmt::Container * ioDeclarations
 		, AdaptationData & adaptationData )
 	{
 		ast::expr::ExprPtr result;
 		ExprAdapter vis{ expr->getCache()
 			, container
+			, ioDeclarations
 			, adaptationData
 			, result };
 		expr->accept( &vis );
@@ -33,11 +35,13 @@ namespace spirv
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
 		, ast::stmt::Container * container
+		, ast::stmt::Container * ioDeclarations
 		, AdaptationData & adaptationData
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_cache{ cache }
 		, m_container{ container }
+		, m_ioDeclarations{ ioDeclarations }
 		, m_adaptationData{ adaptationData }
 	{
 	}
@@ -45,7 +49,7 @@ namespace spirv
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_container, m_adaptationData, result };
+		ExprAdapter vis{ m_cache, m_container, m_ioDeclarations, m_adaptationData, result };
 		expr->accept( &vis );
 		return result;
 	}
@@ -84,7 +88,7 @@ namespace spirv
 			}
 
 			m_result = m_adaptationData.config.processPending( expr->getVariable()
-				, m_container );
+				, m_ioDeclarations );
 
 			if ( !m_result )
 			{
@@ -93,19 +97,44 @@ namespace spirv
 		}
 	}
 
+	ast::Builtin getBuiltin( ast::expr::MbrSelect * expr )
+	{
+		auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
+		return mbr.builtin;
+	}
+
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		m_result = m_adaptationData.config.processPendingMbr( expr->getOuterExpr()
 			, expr->getMemberIndex()
 			, *expr
 			, *this
-			, m_container );
+			, m_ioDeclarations );
 
 		if ( !m_result )
 		{
 			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
 				, expr->getMemberIndex()
 				, expr->getMemberFlags() );
+		}
+		else
+		{
+			auto arraySize = getArraySize( m_result->getType() );
+
+			if ( arraySize != ast::type::NotArray
+				&& arraySize != getArraySize( expr->getType() )
+				&& expr->isShaderOutput()
+				&& ( !expr->isBuiltin()
+					|| isPerVertex( getBuiltin( expr ), m_adaptationData.config.stage ) ) )
+			{
+				auto type = m_result->getType();
+				assert( type->getKind() == ast::type::Kind::eArray );
+				m_result = ast::expr::makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
+					, std::move( m_result )
+					, m_adaptationData.config.processPending( ast::Builtin::eInvocationID
+						, *this
+						, m_ioDeclarations ) );
+			}
 		}
 	}
 
@@ -125,7 +154,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( submit( arg.get(), m_container, m_adaptationData ) );
+			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
 		if ( getBias( kind ) == spv::ImageOperandsBiasMask )

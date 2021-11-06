@@ -1568,15 +1568,15 @@ namespace spirv
 
 				if ( width <= 16u )
 				{
-					result = "half";
+					result = "f16";
 				}
 				else if ( width <= 32 )
 				{
-					result = "float";
+					result = "f32";
 				}
 				else
 				{
-					result = "double";
+					result = "f64";
 				}
 
 				return result;
@@ -1591,15 +1591,15 @@ namespace spirv
 
 				if ( width <= 16u )
 				{
-					result = "short";
+					result = "i16";
 				}
 				else if ( width <= 32 )
 				{
-					result = "int";
+					result = "i32";
 				}
 				else
 				{
-					result = "int64";
+					result = "i64";
 				}
 
 				if ( signedness == 0u )
@@ -1640,86 +1640,56 @@ namespace spirv
 				return result;
 			}
 
+			std::string getStructTypeName( Instruction const & instruction )const
+			{
+				assert( instruction.op.opData.opCode == spv::OpTypeStruct );
+				assert( instruction.resultId.has_value() );
+				auto resultId = instruction.resultId.value();
+				auto it = names.find( resultId );
+				assert( it != names.end() );
+				return it->second;
+			}
+
+			std::string getArrayTypeName( Instruction const & instruction )const
+			{
+				assert( instruction.op.opData.opCode == spv::OpTypeArray );
+				auto componentType = instruction.operands[0];
+				auto arraySize = getRaw( instruction.operands[1] );
+				auto it = types.find( componentType );
+				assert( it != types.end() );
+				auto result = it->second;
+				result += "[" + arraySize + "]";
+				return result;
+			}
+
 			std::string getPtrTypeName( Instruction const & instruction )const
 			{
 				assert( instruction.op.opData.opCode == spv::OpTypePointer );
 				auto storageClass = spv::StorageClass( instruction.operands[0] );
 				auto pointedType = instruction.operands[1];
 				auto it = types.find( pointedType );
-				std::string result{ "unknown" };
+				std::string result = getName( storageClass ) + "Ptr";
 
 				if ( it != types.end() )
 				{
-					result = it->second;
+					result += "<" + it->second + ">";
+				}
+				else
+				{
+					result += "<unknown>";
 				}
 
-				switch ( storageClass )
+				return result;
+			}
+
+			std::string getRaw( spv::Id id )const
+			{
+				std::string result;
+				auto it = names.find( id );
+
+				if ( it != names.end() )
 				{
-				case spv::StorageClassUniformConstant:
-					result += "UniformConstPtr";
-					break;
-				case spv::StorageClassInput:
-					result += "InputPtr";
-					break;
-				case spv::StorageClassUniform:
-					result += "UniformPtr";
-					break;
-				case spv::StorageClassOutput:
-					result += "OutputPtr";
-					break;
-				case spv::StorageClassWorkgroup:
-					result += "WorkgroupPtr";
-					break;
-				case spv::StorageClassCrossWorkgroup:
-					result += "CrossWorkgroupPtr";
-					break;
-				case spv::StorageClassPrivate:
-					result += "PrivatePtr";
-					break;
-				case spv::StorageClassFunction:
-					result += "FunctionPtr";
-					break;
-				case spv::StorageClassGeneric:
-					result += "GenericPtr";
-					break;
-				case spv::StorageClassPushConstant:
-					result += "PushConstantPtr";
-					break;
-				case spv::StorageClassAtomicCounter:
-					result += "AtomicCounterPtr";
-					break;
-				case spv::StorageClassImage:
-					result += "ImagePtr";
-					break;
-				case spv::StorageClassStorageBuffer:
-					result += "StorageBufferPtr";
-					break;
-				case spv::StorageClassCallableDataKHR:
-					result += "CallableDataPtr";
-					break;
-				case spv::StorageClassIncomingCallableDataKHR:
-					result += "IncomingCallableDataPtr";
-					break;
-				case spv::StorageClassRayPayloadKHR:
-					result += "RayPayloadPtr";
-					break;
-				case spv::StorageClassHitAttributeKHR:
-					result += "HitAttributePtr";
-					break;
-				case spv::StorageClassIncomingRayPayloadKHR:
-					result += "IncomingRayPayloadPtr";
-					break;
-				case spv::StorageClassShaderRecordBufferKHR:
-					result += "ShaderRecordBufferPtr";
-					break;
-				case spv::StorageClassPhysicalStorageBuffer:
-					result += "PhysicalStorageBufferPtr";
-					break;
-				case spv::StorageClassCodeSectionINTEL:
-					result += "CodeSectionINTELPtr";
-					break;
-				default:
-					break;
+					result = it->second;
 				}
 
 				return result;
@@ -1727,12 +1697,11 @@ namespace spirv
 
 			std::string get( spv::Id id )const
 			{
-				std::string result;
-				auto it = names.find( id );
+				std::string result = getRaw( id );
 
-				if ( it != names.end() )
+				if ( !result.empty() )
 				{
-					result = "(" + it->second + ")";
+					result = "(" + result + ")";
 				}
 
 				return result;
@@ -1985,7 +1954,7 @@ namespace spirv
 			else if ( opCode == spv::OpTypeStruct )
 			{
 				checkType< StructTypeInstruction >( *instruction );
-				names.addType( instruction->resultId.value(), "struct" );
+				names.addType( instruction->resultId.value(), names.getStructTypeName( *instruction ) );
 				// Members IDs.
 				for ( auto & operand : instruction->operands )
 				{
@@ -2031,7 +2000,7 @@ namespace spirv
 			else if ( opCode == spv::OpTypeArray )
 			{
 				checkType< ArrayTypeInstruction >( *instruction );
-				names.addType( instruction->resultId.value(), "array" );
+				names.addType( instruction->resultId.value(), names.getArrayTypeName( *instruction ) );
 				// Component type and components count.
 				writeStream( instruction->operands[0], names, stream );
 				writeStream( instruction->operands[1], names, stream );

@@ -222,7 +222,7 @@ namespace hlsl
 			it = m_result.find( ".." );
 		}
 
-		m_result += removeSemantics( expr->getOuterType()->getMember( expr->getMemberIndex() ).name );
+		m_result += adaptName( removeSemantics( expr->getOuterType()->getMember( expr->getMemberIndex() ).name ) );
 	}
 
 	void ExprVisitor::visitFnCallExpr( ast::expr::FnCall * expr )
@@ -257,7 +257,7 @@ namespace hlsl
 		}
 		else
 		{
-			m_result += expr->getVariable()->getName();
+			m_result += adaptName( expr->getVariable()->getName() );
 		}
 	}
 

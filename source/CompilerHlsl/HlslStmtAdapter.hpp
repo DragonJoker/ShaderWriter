@@ -62,6 +62,7 @@ namespace hlsl
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_intrinsics;
 		ast::stmt::Container * m_inOutDeclarations;
+		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 	};
 }
 

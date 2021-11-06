@@ -335,6 +335,24 @@ namespace spirv
 	{
 	}
 
+	void IOMapping::addOutputPatch( ast::var::VariablePtr patchVar
+		, uint32_t location )
+	{
+		m_processed.push_back( patchVar );
+	}
+
+	ast::var::VariablePtr IOMapping::getOutputPatch( ast::var::VariablePtr patchVar )
+	{
+		auto splitIt = splitVarsOthers.find( patchVar );
+
+		if ( splitIt != splitVarsOthers.end() )
+		{
+			patchVar = splitIt->second.first;
+		}
+
+		return patchVar;
+	}
+
 	void IOMapping::addPending( ast::var::VariablePtr pendingVar
 		, uint32_t location )
 	{
@@ -389,6 +407,76 @@ namespace spirv
 			, arraySize );
 	}
 
+	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::var::VariablePtr outerVar
+		, uint32_t mbrIndex
+		, ast::var::FlagHolder const & pflags
+		, ExprAdapter & adapter
+		, ast::stmt::Container * cont )
+	{
+		if ( !pflags.isShaderInput() && !pflags.isShaderOutput() )
+		{
+			return nullptr;
+		}
+
+		if ( !pflags.isBuiltin() )
+		{
+			auto splitIt = splitVarsOthers.find( outerVar );
+
+			if ( splitIt != splitVarsOthers.end() )
+			{
+				return ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, splitIt->second.first )
+					, mbrIndex
+					, pflags.getFlags() );
+			}
+		}
+
+		auto it = std::find_if( m_pendingMbr.begin()
+			, m_pendingMbr.end()
+			, [&outerVar, &mbrIndex]( PendingMbrIO const & lookup )
+			{
+				return lookup.index == mbrIndex
+					&& lookup.outer == outerVar;
+			} );
+
+		if ( m_pendingMbr.end() == it )
+		{
+			return nullptr;
+		}
+
+		auto & mbr = *it;
+
+		if ( !mbr.io.result.var )
+		{
+			ast::type::StructPtr structType;
+			mbrIndex = mbr.index;
+
+			if ( mbr.io.flags & uint32_t( ast::var::Flag::eBuiltin ) )
+			{
+				auto splitIt = splitVarsBuiltins.find( mbr.outer );
+
+				if ( splitIt != splitVarsBuiltins.end() )
+				{
+					structType = getStructType( splitIt->second.first->getType() );
+					mbrIndex -= splitIt->second.second;
+				}
+			}
+
+			if ( !structType )
+			{
+				structType = getStructType( mbr.outer->getType() );
+			}
+
+			mbr.io.result = processPendingType( *structType
+				, mbrIndex
+				, mbr.io.flags
+				, mbr.io.location
+				, mbr.io.arraySize
+				, cont );
+		}
+
+		return ast::expr::makeIdentifier( cache, mbr.io.result.var );
+	}
+
 	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::Expr * outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & pflags
@@ -407,36 +495,14 @@ namespace spirv
 			return nullptr;
 		}
 
-		auto outerVar = ident->getVariable();
-		auto it = std::find_if( m_pendingMbr.begin()
-			, m_pendingMbr.end()
-			, [&outerVar, &mbrIndex]( PendingMbrIO const & lookup )
-			{
-				return lookup.index == mbrIndex
-					&& lookup.outer == outerVar;
-			} );
+		auto result = processPendingMbr( ident->getVariable()
+			, mbrIndex
+			, pflags
+			, adapter
+			, cont );
 
-		if ( m_pendingMbr.end() == it )
-		{
-			return nullptr;
-		}
-
-		auto & mbr = *it;
-
-		if ( !mbr.io.result.var )
-		{
-			auto structType = getStructType( mbr.outer->getType() );
-			mbr.io.result = processPendingType( *structType
-				, mbr.index
-				, mbr.io.flags
-				, mbr.io.location
-				, mbr.io.arraySize
-				, cont );
-		}
-
-		ast::expr::ExprPtr result = ast::expr::makeIdentifier( cache, mbr.io.result.var );
-
-		if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+		if ( result
+			&& outer->getKind() == ast::expr::Kind::eArrayAccess )
 		{
 			auto type = result->getType();
 			assert( type->getKind() == ast::type::Kind::eArray );
@@ -447,6 +513,31 @@ namespace spirv
 		}
 
 		return result;
+	}
+
+	ast::expr::ExprPtr IOMapping::processPending( ast::Builtin builtin
+		, ExprAdapter & adapter
+		, ast::stmt::Container * cont )
+	{
+		for ( auto & pending : m_pendingMbr )
+		{
+			if ( isStructType( pending.outer->getType() ) )
+			{
+				auto structType = getStructType( pending.outer->getType() );
+				auto mbrIndex = structType->findMember( builtin );
+
+				if ( mbrIndex != ast::type::Struct::NotFound )
+				{
+					return processPendingMbr( pending.outer
+						, mbrIndex
+						, pending.io.flags
+						, adapter
+						, cont );
+				}
+			}
+		}
+
+		return nullptr;
 	}
 
 	ast::expr::ExprPtr IOMapping::processPending( std::string const & name
@@ -514,6 +605,15 @@ namespace spirv
 		if ( arraySize != ast::type::NotArray )
 		{
 			type = type->getCache().getArray( type, arraySize );
+		}
+
+		if ( builtin == ast::Builtin::eTessLevelOuter )
+		{
+			type = cache.getArray( cache.getFloat(), 4u );
+		}
+		else if ( builtin == ast::Builtin::eTessLevelInner )
+		{
+			type = cache.getArray( cache.getFloat(), 2u );
 		}
 
 		if ( builtin != ast::Builtin::eNone )
@@ -687,6 +787,18 @@ namespace spirv
 			, flags
 			, adapter
 			, cont );
+	}
+
+	ast::expr::ExprPtr ModuleConfig::processPending( ast::Builtin builtin
+		, ExprAdapter & adapter
+		, ast::stmt::Container * cont )
+	{
+		if ( isShaderInput( builtin, inputs.stage ) )
+		{
+			return inputs.processPending( builtin, adapter, cont );
+		}
+
+		return outputs.processPending( builtin, adapter, cont );
 	}
 
 	ast::expr::ExprPtr ModuleConfig::processPending( ast::var::VariablePtr var
@@ -873,13 +985,57 @@ namespace spirv
 		, ast::type::TessellationOutputPatch const & patchType
 		, bool isEntryPoint )
 	{
-		//auto type = patchType.getType();
+		if ( isStructType( patchType.getType() ) )
+		{
+			auto & structType = *getStructType( patchType.getType() );
+			uint32_t indexBuiltins = 0u;
+			auto flags = structType.getFlag();
+			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType.getMemoryLayout()
+				, structType.getName() + "Repl"
+				, ast::var::Flag( flags ) );
+			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType.getMemoryLayout()
+				, structType.getName() + "Builtins"
+				, ast::var::Flag::eShaderOutput );
+			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
+				, ast::type::makeTessellationOutputPatchType( outStructType
+					, patchType.getLocation() )
+					, var->getFlags() );
+			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
+				, outBuiltinsType );
+			outputs.splitVarsOthers.emplace( var, std::make_pair( othersVar, 0u ) );
+			auto it = outputs.splitVarsBuiltins.emplace( var, std::make_pair( builtinsVar, 0u ) ).first;
 
-		//if ( type->getKind() == ast::type::Kind::eStruct )
-		//{
-		//	parent->declareStruct( std::static_pointer_cast< ast::type::Struct >( type )
-		//		, inOutDeclarations );
-		//}
+			for ( auto & mbr : structType )
+			{
+				if ( mbr.builtin == ast::Builtin::eNone )
+				{
+					it->second.second++;
+					outStructType->declMember( mbr.name
+						, mbr.type
+						, mbr.location );
+				}
+				else
+				{
+					outBuiltinsType->declMember( mbr.builtin
+						, getNonArrayType( mbr.type )->getKind()
+						, getArraySize( mbr.type )
+						, ast::type::Struct::InvalidLocation );
+					outputs.addPendingMbr( builtinsVar
+						, indexBuiltins++
+						, ( ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin )
+						, ast::type::Struct::InvalidLocation
+						, ast::type::NotArray );
+				}
+			}
+
+			if ( !outStructType->empty() )
+			{
+				outputs.addOutputPatch( othersVar
+					, patchType.getLocation() );
+			}
+		}
 	}
 
 	//*************************************************************************
@@ -917,10 +1073,8 @@ namespace spirv
 		case ast::Builtin::eViewportIndex:
 			return spv::BuiltInViewportIndex;
 		case ast::Builtin::eTessLevelOuter:
-			additionalDecorations.push_back( spv::DecorationPatch );
 			return spv::BuiltInTessLevelOuter;
 		case ast::Builtin::eTessLevelInner:
-			additionalDecorations.push_back( spv::DecorationPatch );
 			return spv::BuiltInTessLevelInner;
 		case ast::Builtin::eTessCoord:
 			return spv::BuiltInTessCoord;
