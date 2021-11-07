@@ -3,6 +3,9 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef ForceDisplayShaders
+#define ForceDisplayShaders true
+
 namespace
 {
 	template< ast::var::Flag FlagT >
@@ -39,6 +42,48 @@ namespace
 		}
 
 		sdw::Vec3 position;
+	};
+
+	template< sdw::var::Flag FlagT >
+	struct PosTexT
+		: sdw::StructInstance
+	{
+		PosTexT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, position{ getMember< sdw::Vec2 >( "position" ) }
+			, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , PosTexT );
+
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Out" }
+					: std::string{ "In" } ) + "PosTex"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray
+					, 0u );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray
+					, 1u );
+			}
+
+			return result;
+		}
+
+		sdw::Vec2 position;
+		sdw::Vec2 texcoord;
 	};
 
 	template< ast::var::Flag FlagT >
@@ -337,11 +382,12 @@ namespace
 		using namespace sdw;
 		VertexWriter writer;
 
-		writer.implementMainT< PositionT, PositionT >( [&]( sdw::VertexInT< PositionT > in
-			, sdw::VertexOutT< PositionT > out )
+		writer.implementMainT< PosTexT, PosTexT >( [&]( sdw::VertexInT< PosTexT > in
+			, sdw::VertexOutT< PosTexT > out )
 			{
+				out.texcoord = in.texcoord;
 				out.position = in.position;
-				out.vtx.position = vec4( in.position.x(), in.position.y(), 0.0, 1.0 );
+				out.vtx.position = vec4( in.position.xy(), 0.0, 1.0 );
 			} );
 
 		test::writeShader( writer

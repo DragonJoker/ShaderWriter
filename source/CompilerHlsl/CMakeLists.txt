@@ -1,7 +1,3 @@
-if ( NOT DEFINED SDW_BUILD_EXPORTER_HLSL_STATIC )
-	option( SDW_BUILD_EXPORTER_HLSL_STATIC "Build HLSL exporter as a static library" OFF )
-endif ()
-
 set( _FOLDER_NAME CompilerHlsl )
 project( ${_FOLDER_NAME} )
 
@@ -29,7 +25,7 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.cpp
 )
 
-if ( SDW_BUILD_EXPORTER_HLSL_STATIC )
+if ( SDW_BUILD_STATIC )
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
