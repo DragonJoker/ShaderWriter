@@ -4,11 +4,7 @@ if ( ${CMAKE_VERSION} VERSION_GREATER "3.10.2" )
 	cmake_policy( SET CMP0072 NEW )
 endif()
 
-if ( APPLE )
-	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
-else ()
-	option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" ON )
-endif ()
+option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
 
 if ( SDW_TESTS_ENABLE_VALIDATION )
 	set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
