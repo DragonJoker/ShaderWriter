@@ -67,7 +67,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	TessControlListOutT< DataT, DomainT >::TessControlListOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
@@ -77,7 +77,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	TessControlListOutT< DataT, DomainT >::TessControlListOutT( ShaderWriter & writer
 		, ast::type::OutputPartitioning partitioning
 		, ast::type::OutputTopology topology
@@ -97,7 +97,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	ast::type::IOStructPtr TessControlListOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
 	{
 		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
@@ -108,7 +108,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	TessPatchOutT< DataT, DomainT >::TessPatchOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
@@ -119,7 +119,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	TessPatchOutT< DataT, DomainT >::TessPatchOutT( ShaderWriter & writer
 		, uint32_t patchLocation )
 		: TessPatchOutT{ writer
@@ -132,7 +132,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	ast::type::TypePtr TessPatchOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
 	{
 		auto result = PatchOutT< DataT >::makeType( cache );
@@ -155,7 +155,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	void TessellationControlWriter::implementPatchRoutineT( uint32_t patchLocation
 		, TessControlPatchRoutineT< InT, MaxPointsT, PatchT, DomainT > const & function )
 	{
@@ -212,7 +212,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	void TessellationControlWriter::implementMainT( ast::type::OutputPartitioning partitioning
 		, ast::type::OutputTopology topology
 		, ast::type::OutputVertexOrder vertexOrder

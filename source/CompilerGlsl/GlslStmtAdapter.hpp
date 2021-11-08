@@ -17,7 +17,28 @@ namespace glsl
 {
 	struct IOVars
 	{
-		ast::var::VariablePtr var{};
+	private:
+		ast::var::VariablePtr m_var{};
+		ast::var::VariablePtr m_patch{};
+
+	public:
+		void setMainVar( ast::var::VariablePtr const & rhs )
+		{
+			if ( rhs->isPatch() )
+			{
+				m_patch = rhs;
+			}
+			else
+			{
+				m_var = rhs;
+			}
+		}
+
+		bool isMainVar( ast::var::VariablePtr const & rhs )
+		{
+			return rhs == m_var || rhs == m_patch;
+		}
+
 		std::map< ast::type::StructPtr, ast::var::VariableList > vars{};
 		ast::var::VariablePtr perVertex{};
 		std::map< ast::Builtin, ast::expr::ExprPtr > perVertexMbrs;
@@ -59,15 +80,21 @@ namespace glsl
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 	private:
-		void doProcessGeometryOutput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
-		void doProcessGeometryInput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
-		void doProcessTessellationControlInput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationInputPatch const & patchType );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationOutputPatch const & patchType );
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::TessellationControlInput const & geomType );
-		void doProcessTessellationControlOutput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::TessellationControlOutput const & geomType );
-		void doProcessComputeInput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationEvaluationInput const & geomType );
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStructPtr structType
@@ -83,8 +110,6 @@ namespace glsl
 			, bool declVar
 			, bool isInput
 			, IOVars & io );
-		void doProcessOutputPatch( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		void doDeclareStruct( ast::type::StructPtr const & structType );

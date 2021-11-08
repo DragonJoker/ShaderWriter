@@ -953,7 +953,7 @@ namespace spirv
 		registerExecutionMode( spv::ExecutionModeInvocations, { ValueId{ 1u } } );
 	}
 
-	void Module::registerExecutionMode( ast::type::OutputDomain domain
+	void Module::registerExecutionMode( ast::type::PatchDomain domain
 		, ast::type::OutputPartitioning partitioning
 		, ast::type::OutputTopology topology
 		, ast::type::OutputVertexOrder order
@@ -1253,6 +1253,14 @@ namespace spirv
 				, arrayStride );
 			registerExecutionMode( inputType.layout );
 		}
+		else if ( type->getKind() == ast::type::Kind::eTessellationInputPatch )
+		{
+			auto & outputType = static_cast< ast::type::TessellationInputPatch const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
 		{
 			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
@@ -1277,6 +1285,14 @@ namespace spirv
 		else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
 		{
 			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
+			result = registerType( inputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getKind() == ast::type::Kind::eTessellationEvaluationInput )
+		{
+			auto & inputType = static_cast< ast::type::TessellationEvaluationInput const & >( *type );
 			result = registerType( inputType.getType()
 				, mbrIndex
 				, parentId

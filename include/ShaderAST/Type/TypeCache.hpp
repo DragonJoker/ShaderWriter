@@ -16,6 +16,7 @@ See LICENSE file in root folder
 #include "TypeSampler.hpp"
 #include "TypeStruct.hpp"
 #include "TypeTessellationControlIO.hpp"
+#include "TypeTessellationEvaluationIO.hpp"
 
 #include <array>
 #include <functional>

@@ -7,9 +7,9 @@ See LICENSE file in root folder
 #include "ShaderWriter/Writer.hpp"
 namespace sdw
 {
-	SDW_API uint32_t getOuterArraySize( ast::type::OutputDomain domain );
-	SDW_API uint32_t getInnerArraySize( ast::type::OutputDomain domain );
-	SDW_API bool hasInnerLevel( ast::type::OutputDomain domain );
+	SDW_API uint32_t getOuterArraySize( ast::type::PatchDomain domain );
+	SDW_API uint32_t getInnerArraySize( ast::type::PatchDomain domain );
+	SDW_API bool hasInnerLevel( ast::type::PatchDomain domain );
 	/**
 	*name
 	*	Tessellation Control.
@@ -87,7 +87,7 @@ namespace sdw
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	struct TessControlListOutT
 		: OutputT< DataT >
 	{
@@ -109,18 +109,18 @@ namespace sdw
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using IsolinesTessControlListOutT = TessControlListOutT< DataT, ast::type::OutputDomain::eIsolines >;
+	using IsolinesTessControlListOutT = TessControlListOutT< DataT, ast::type::PatchDomain::eIsolines >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using TrianglesTessControlListOutT = TessControlListOutT< DataT, ast::type::OutputDomain::eTriangles >;
+	using TrianglesTessControlListOutT = TessControlListOutT< DataT, ast::type::PatchDomain::eTriangles >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using QuadsTessControlListOutT = TessControlListOutT< DataT, ast::type::OutputDomain::eQuads >;
+	using QuadsTessControlListOutT = TessControlListOutT< DataT, ast::type::PatchDomain::eQuads >;
 
 	using IsolinesTessControlListOut = IsolinesTessControlListOutT< VoidT >;
 	using TrianglesTessControlListOut = TrianglesTessControlListOutT< VoidT >;
 	using QuadsTessControlListOut = QuadsTessControlListOutT< VoidT >;
 
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	struct TessPatchOutT
 		: PatchOutT< DataT >
 	{
@@ -141,11 +141,11 @@ namespace sdw
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using IsolinesTessPatchOutT = TessPatchOutT< DataT, ast::type::OutputDomain::eIsolines >;
+	using IsolinesTessPatchOutT = TessPatchOutT< DataT, ast::type::PatchDomain::eIsolines >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using TrianglesTessPatchOutT = TessPatchOutT< DataT, ast::type::OutputDomain::eTriangles >;
+	using TrianglesTessPatchOutT = TessPatchOutT< DataT, ast::type::PatchDomain::eTriangles >;
 	template< template< ast::var::Flag FlagT > typename DataT >
-	using QuadsTessPatchOutT = TessPatchOutT< DataT, ast::type::OutputDomain::eQuads >;
+	using QuadsTessPatchOutT = TessPatchOutT< DataT, ast::type::PatchDomain::eQuads >;
 
 	using IsolinesTessPatchOut = IsolinesTessPatchOutT< VoidT >;
 	using TrianglesTessPatchOut = TrianglesTessPatchOutT< VoidT >;
@@ -154,7 +154,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	using TessControlPatchRoutineT = std::function< void( TessControlPatchRoutineIn
 		, TessControlListInT< InT, MaxPointsT >
 		, TessPatchOutT< PatchT, DomainT > ) >;
@@ -180,7 +180,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT
-		, ast::type::OutputDomain DomainT >
+		, ast::type::PatchDomain DomainT >
 	using TessControlMainFuncT = std::function< void( TessControlMainIn
 		, TessControlListInT< InT, MaxPointsT >
 		, TessControlListOutT< OutT, DomainT > ) >;
@@ -216,7 +216,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
-			, ast::type::OutputDomain DomainT >
+			, ast::type::PatchDomain DomainT >
 		inline void implementPatchRoutineT( uint32_t patchLocation
 			, TessControlPatchRoutineT< InT, MaxPointsT, PatchT, DomainT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
@@ -238,7 +238,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
-			, ast::type::OutputDomain DomainT >
+			, ast::type::PatchDomain DomainT >
 		inline void implementMainT( ast::type::OutputPartitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::OutputVertexOrder vertexOrder

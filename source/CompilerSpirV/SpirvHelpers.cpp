@@ -335,13 +335,13 @@ namespace spirv
 	{
 	}
 
-	void IOMapping::addOutputPatch( ast::var::VariablePtr patchVar
+	void IOMapping::addPatch( ast::var::VariablePtr patchVar
 		, uint32_t location )
 	{
 		m_processed.push_back( patchVar );
 	}
 
-	ast::var::VariablePtr IOMapping::getOutputPatch( ast::var::VariablePtr patchVar )
+	ast::var::VariablePtr IOMapping::getPatch( ast::var::VariablePtr patchVar )
 	{
 		auto splitIt = splitVarsOthers.find( patchVar );
 
@@ -680,69 +680,64 @@ namespace spirv
 		{
 			auto type = param->getType();
 
-			if ( type->getKind() == ast::type::Kind::eComputeInput )
+			switch ( type->getKind() )
 			{
-				registerComputeInput( param
-					, static_cast< ast::type::ComputeInput const & >( *type ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eGeometryInput )
-			{
-				registerGeometryInput( param
-					, static_cast< ast::type::GeometryInput const & >( *type ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
-			{
-				registerGeometryOutput( param
-					, static_cast< ast::type::GeometryOutput const & >( *type ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
-			{
-				registerTessellationControlInput( param
-					, static_cast< ast::type::TessellationControlInput const & >( *type )
-					, isEntryPoint );
-			}
-			else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
-			{
-				registerTessellationControlOutput( param
-					, static_cast< ast::type::TessellationControlOutput const & >( *type )
-					, isEntryPoint );
-			}
-			else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
-			{
-				registerOutputPatch( param
-					, static_cast< ast::type::TessellationOutputPatch const & >( *type )
-					, isEntryPoint );
-			}
-			else
-			{
-				uint32_t arraySize = ast::type::NotArray;
-
-				if ( type->getKind() == ast::type::Kind::eArray )
+			case ast::type::Kind::eGeometryOutput:
+				registerParam( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
+				break;
+			case ast::type::Kind::eGeometryInput:
+				registerParam( param, static_cast< ast::type::GeometryInput const & >( *type ) );
+				break;
+			case ast::type::Kind::eTessellationInputPatch:
+				registerParam( param, static_cast< ast::type::TessellationInputPatch const & >( *type ) );
+				break;
+			case ast::type::Kind::eTessellationControlInput:
+				registerParam( param, static_cast< ast::type::TessellationControlInput const & >( *type ), isEntryPoint );
+				break;
+			case ast::type::Kind::eTessellationEvaluationInput:
+				registerParam( param, static_cast< ast::type::TessellationEvaluationInput const & >( *type ) );
+				break;
+			case ast::type::Kind::eComputeInput:
+				registerParam( param, static_cast< ast::type::ComputeInput const & >( *type ) );
+				break;
+			case ast::type::Kind::eTessellationOutputPatch:
+				registerParam( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ), isEntryPoint );
+				break;
+			case ast::type::Kind::eTessellationControlOutput:
+				registerParam( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+				break;
+			default:
 				{
-					auto & arrayType = static_cast< ast::type::Array const & >( *type );
-					type = arrayType.getType();
-					arraySize = arrayType.getArraySize();
-				}
+					uint32_t arraySize = ast::type::NotArray;
 
-				if ( type->getKind() == ast::type::Kind::eStruct )
-				{
-					auto structType = std::static_pointer_cast< ast::type::Struct >( type );
-
-					if ( structType->isShaderInput() )
+					if ( type->getKind() == ast::type::Kind::eArray )
 					{
-						registerInput( param
-							, static_cast< ast::type::IOStruct const & >( *structType )
-							, arraySize
-							, isEntryPoint );
+						auto & arrayType = static_cast< ast::type::Array const & >( *type );
+						type = arrayType.getType();
+						arraySize = arrayType.getArraySize();
 					}
-					else if ( structType->isShaderOutput() )
+
+					if ( type->getKind() == ast::type::Kind::eStruct )
 					{
-						registerOutput( param
-							, static_cast< ast::type::IOStruct const & >( *structType )
-							, arraySize
-							, isEntryPoint );
+						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+
+						if ( structType->isShaderInput() )
+						{
+							registerInput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, arraySize
+								, isEntryPoint );
+						}
+						else if ( structType->isShaderOutput() )
+						{
+							registerOutput( param
+								, static_cast< ast::type::IOStruct const & >( *structType )
+								, arraySize
+								, isEntryPoint );
+						}
 					}
 				}
+				break;
 			}
 		}
 	}
@@ -848,7 +843,7 @@ namespace spirv
 		}
 	}
 
-	void ModuleConfig::registerComputeInput( ast::var::VariablePtr var
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
 		auto type = compType.getType();
@@ -864,7 +859,7 @@ namespace spirv
 		}
 	}
 
-	void ModuleConfig::registerGeometryInput( ast::var::VariablePtr var
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::GeometryInput const & geomType )
 	{
 		auto type = geomType.type;
@@ -880,7 +875,7 @@ namespace spirv
 		}
 	}
 
-	void ModuleConfig::registerGeometryOutput( ast::var::VariablePtr var
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
 		auto type = geomType.type;
@@ -896,7 +891,120 @@ namespace spirv
 		}
 	}
 
-	void ModuleConfig::registerTessellationControlInput( ast::var::VariablePtr var
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TessellationInputPatch const & patchType )
+	{
+		if ( isStructType( patchType.getType() ) )
+		{
+			auto & structType = *getStructType( patchType.getType() );
+			uint32_t indexBuiltins = 0u;
+			auto inStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType.getMemoryLayout()
+				, structType.getName() + "Repl"
+				, ast::var::Flag::ePatchInput );
+			auto inBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType.getMemoryLayout()
+				, structType.getName() + "Builtins"
+				, ast::var::Flag::eShaderInput );
+			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
+				, ast::type::makeTessellationInputPatchType( inStructType
+					, patchType.getDomain()
+					, patchType.getLocation() )
+				, var->getFlags() );
+			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
+				, inBuiltinsType );
+			inputs.splitVarsOthers.emplace( var, std::make_pair( othersVar, 0u ) );
+			auto it = inputs.splitVarsBuiltins.emplace( var, std::make_pair( builtinsVar, 0u ) ).first;
+
+			for ( auto & mbr : structType )
+			{
+				if ( mbr.builtin == ast::Builtin::eNone )
+				{
+					it->second.second++;
+					inStructType->declMember( mbr.name
+						, mbr.type
+						, mbr.location );
+				}
+				else
+				{
+					inBuiltinsType->declMember( mbr.builtin
+						, getNonArrayType( mbr.type )->getKind()
+						, getArraySize( mbr.type )
+						, ast::type::Struct::InvalidLocation );
+					inputs.addPendingMbr( builtinsVar
+						, indexBuiltins++
+						, ( ast::var::Flag::eShaderInput | ast::var::Flag::eBuiltin )
+						, ast::type::Struct::InvalidLocation
+						, ast::type::NotArray );
+				}
+			}
+
+			if ( !inStructType->empty() )
+			{
+				inputs.addPatch( othersVar
+					, patchType.getLocation() );
+			}
+		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TessellationOutputPatch const & patchType
+		, bool isEntryPoint )
+	{
+		if ( isStructType( patchType.getType() ) )
+		{
+			auto & structType = *getStructType( patchType.getType() );
+			uint32_t indexBuiltins = 0u;
+			auto flags = structType.getFlag();
+			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType.getMemoryLayout()
+				, structType.getName() + "Repl"
+				, ast::var::Flag( flags ) );
+			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+				, structType.getMemoryLayout()
+				, structType.getName() + "Builtins"
+				, ast::var::Flag::eShaderOutput );
+			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
+				, ast::type::makeTessellationOutputPatchType( outStructType
+					, patchType.getLocation() )
+				, var->getFlags() );
+			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
+			, outBuiltinsType );
+			outputs.splitVarsOthers.emplace( var, std::make_pair( othersVar, 0u ) );
+			auto it = outputs.splitVarsBuiltins.emplace( var, std::make_pair( builtinsVar, 0u ) ).first;
+
+			for ( auto & mbr : structType )
+			{
+				if ( mbr.builtin == ast::Builtin::eNone )
+				{
+					it->second.second++;
+					outStructType->declMember( mbr.name
+						, mbr.type
+						, mbr.location );
+				}
+				else
+				{
+					outBuiltinsType->declMember( mbr.builtin
+						, getNonArrayType( mbr.type )->getKind()
+						, getArraySize( mbr.type )
+						, ast::type::Struct::InvalidLocation );
+					outputs.addPendingMbr( builtinsVar
+						, indexBuiltins++
+						, ( ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin )
+						, ast::type::Struct::InvalidLocation
+						, ast::type::NotArray );
+				}
+			}
+
+			if ( !outStructType->empty() )
+			{
+				outputs.addPatch( othersVar
+					, patchType.getLocation() );
+			}
+		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationControlInput const & tessType
 		, bool isEntryPoint )
 	{
@@ -918,7 +1026,7 @@ namespace spirv
 		}
 	}
 
-	void ModuleConfig::registerTessellationControlOutput( ast::var::VariablePtr var
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationControlOutput const & tessType
 		, bool isEntryPoint )
 	{
@@ -932,6 +1040,27 @@ namespace spirv
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getOutputVertices()
 				, isEntryPoint );
+		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TessellationEvaluationInput const & tessType )
+	{
+		auto type = tessType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( type->getKind() == ast::type::Kind::eStruct )
+		{
+			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, tessType.getInputVertices()
+				, true );
 		}
 	}
 
@@ -978,63 +1107,6 @@ namespace spirv
 					? mbr.location
 					: ast::type::Struct::InvalidLocation )
 				, arraySize );
-		}
-	}
-
-	void ModuleConfig::registerOutputPatch( ast::var::VariablePtr var
-		, ast::type::TessellationOutputPatch const & patchType
-		, bool isEntryPoint )
-	{
-		if ( isStructType( patchType.getType() ) )
-		{
-			auto & structType = *getStructType( patchType.getType() );
-			uint32_t indexBuiltins = 0u;
-			auto flags = structType.getFlag();
-			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
-				, structType.getMemoryLayout()
-				, structType.getName() + "Repl"
-				, ast::var::Flag( flags ) );
-			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
-				, structType.getMemoryLayout()
-				, structType.getName() + "Builtins"
-				, ast::var::Flag::eShaderOutput );
-			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
-				, ast::type::makeTessellationOutputPatchType( outStructType
-					, patchType.getLocation() )
-					, var->getFlags() );
-			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
-				, outBuiltinsType );
-			outputs.splitVarsOthers.emplace( var, std::make_pair( othersVar, 0u ) );
-			auto it = outputs.splitVarsBuiltins.emplace( var, std::make_pair( builtinsVar, 0u ) ).first;
-
-			for ( auto & mbr : structType )
-			{
-				if ( mbr.builtin == ast::Builtin::eNone )
-				{
-					it->second.second++;
-					outStructType->declMember( mbr.name
-						, mbr.type
-						, mbr.location );
-				}
-				else
-				{
-					outBuiltinsType->declMember( mbr.builtin
-						, getNonArrayType( mbr.type )->getKind()
-						, getArraySize( mbr.type )
-						, ast::type::Struct::InvalidLocation );
-					outputs.addPendingMbr( builtinsVar
-						, indexBuiltins++
-						, ( ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin )
-						, ast::type::Struct::InvalidLocation
-						, ast::type::NotArray );
-				}
-			}
-
-			if ( !outStructType->empty() )
-			{
-				outputs.addOutputPatch( othersVar
-					, patchType.getLocation() );
-			}
 		}
 	}
 

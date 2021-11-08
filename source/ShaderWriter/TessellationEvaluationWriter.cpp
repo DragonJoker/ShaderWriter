@@ -7,83 +7,52 @@ namespace sdw
 {
 	//*************************************************************************
 
-	Builtin::Builtin( ShaderWriter & writer )
-		: m_writer{ &writer }
-		, m_shader{ &writer.getShader() }
+	TessEvalMainIn::TessEvalMainIn( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: StructInstance{ writer, std::move( expr ), enabled }
+		, patchVerticesIn{ getMember< Int >( ast::Builtin::ePatchVerticesIn ) }
+		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
+		, tessCoord{ getMember< Vec3 >( ast::Builtin::eTessCoord ) }
 	{
 	}
 
-	//*************************************************************************
-
-	InTessellationEvaluation::InTessellationEvaluation( ShaderWriter & writer )
-		: Builtin{ writer }
-		, tessCoord{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( ast::Builtin::eTessCoord
-					, writer.getTypesCache().getVec3F()
-					, var::Flag::eShaderInput ) )
-			, true }
-		, patchVerticesIn{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( ast::Builtin::ePatchVertices
-					, writer.getTypesCache().getInt()
-					, var::Flag::eShaderInput ) )
-			, true }
-		, primitiveID{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( ast::Builtin::ePrimitiveID
-					, writer.getTypesCache().getInt()
-					, var::Flag::eShaderInput ) )
-			, true }
-		, tessLevelOuter{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( ast::Builtin::eTessLevelOuter
-					, writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 4u )
-					, var::Flag::eShaderInput ) )
-			, true }
-		, tessLevelInner{ writer
-			, makeIdent( writer.getTypesCache()
-				, writer.getShader().registerBuiltin( ast::Builtin::eTessLevelInner
-					, writer.getTypesCache().getArray( writer.getTypesCache().getFloat(), 2u )
-					, var::Flag::eShaderInput ) )
-			, true }
-		//, vtx{ writer, *this, true }
+	TessEvalMainIn::TessEvalMainIn( ShaderWriter & writer )
+		: TessEvalMainIn{ writer
+			, makeExpr( writer
+				, sdw::getShader( writer ).registerName( "tesseGlobIn"
+					, makeType( getTypesCache( writer ) )
+					, FlagT ) ) }
 	{
-		//addStmt( findWriterMandat( *this )
-		//	, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationInput
-		//		, vtx.getType() ) );
 	}
 
-	//*************************************************************************
-
-	OutTessellationEvaluation::OutTessellationEvaluation( ShaderWriter & writer )
-		: Builtin{ writer }
-		//, vtx{ writer
-		//	, makeIdent( writer.getTypesCache()
-		//		, writer.getShader().registerName( "gl_out"
-		//			, PerVertex::getBaseType( writer.getTypesCache() )
-		//			, var::Flag::eShaderOutput ) ) }
+	ast::type::StructPtr TessEvalMainIn::makeType( ast::type::TypesCache & cache )
 	{
-		//addStmt( findWriterMandat( *this )
-		//	, sdw::makePerVertexDecl( ast::stmt::PerVertexDecl::eTessellationEvaluationOutput
-		//		, vtx.getType() ) );
+		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
+			, "TessEvalMainIn"
+			, FlagT );
+
+		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
+		{
+			result->declMember( ast::Builtin::ePatchVerticesIn
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::ePrimitiveID
+				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eTessCoord
+				, type::Kind::eVec3F
+				, ast::type::NotArray );
+		}
+
+		return result;
 	}
 
 	//*************************************************************************
 
 	TessellationEvaluationWriter::TessellationEvaluationWriter()
-		: ShaderWriter{ ast::ShaderStage::eTessellationControl }
+		: ShaderWriter{ ast::ShaderStage::eTessellationEvaluation }
 	{
-	}
-
-	InTessellationEvaluation TessellationEvaluationWriter::getIn()
-	{
-		return InTessellationEvaluation{ *this };
-	}
-
-	OutTessellationEvaluation TessellationEvaluationWriter::getOut()
-	{
-		return OutTessellationEvaluation{ *this };
 	}
 
 	//*************************************************************************

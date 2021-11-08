@@ -581,8 +581,9 @@ namespace glsl
 		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
 		join( m_result, stmt->getVariable()->getName(), " " );
 
-		if ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
-			&& stmt->getVariable()->getType()->getKind() == ast::type::Kind::eArray )
+		if ( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eArray
+			&& ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
+				|| m_writerConfig.shaderStage == ast::ShaderStage::eTessellationEvaluation ) )
 		{
 			m_result += "[]";
 		}
@@ -795,7 +796,8 @@ namespace glsl
 				m_result += m_indent;
 
 				if ( mbr.location != ast::type::Struct::InvalidLocation
-					&& structType.getFlag() != uint32_t( ast::var::Flag::ePatchOutput ) )
+					&& structType.getFlag() != uint32_t( ast::var::Flag::ePatchOutput )
+					&& structType.getFlag() != uint32_t( ast::var::Flag::ePatchInput ) )
 				{
 					m_result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
 					m_result += ( structType.isShaderInput()

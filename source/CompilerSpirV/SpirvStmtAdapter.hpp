@@ -59,21 +59,25 @@ namespace spirv
 		void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override;
 
 	private:
-		void doProcessComputeInput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
-		void doProcessGeometryOutput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
-		void doProcessGeometryInput( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
-		void doProcessTessellationControlOutput( ast::var::VariablePtr var
-			, ast::type::TessellationControlOutput const & tessType
-			, bool isEntryPoint );
-		void doProcessTessellationControlInput( ast::var::VariablePtr var
-			, ast::type::TessellationControlInput const & tessType
-			, bool isEntryPoint );
-		void doProcessOutputPatch( ast::var::VariablePtr var
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationInputPatch const & patchType );
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType
 			, bool isEntryPoint );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationControlOutput const & tessType
+			, bool isEntryPoint );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationControlInput const & tessType
+			, bool isEntryPoint );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TessellationEvaluationInput const & tessType );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		void doProcessInOut( ast::type::FunctionPtr funcType

@@ -436,6 +436,7 @@ namespace test
 								&& text.find( "not supported on HLSL" ) == std::string::npos
 								&& text.find( "exist in HLSL" ) == std::string::npos
 								&& text.find( "Unsupported builtin in HLSL" ) == std::string::npos
+								&& text.find( "Unsupported execution model" ) == std::string::npos
 								&& text.find( "No function currently in scope" ) == std::string::npos
 								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos )
 							{

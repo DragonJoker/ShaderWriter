@@ -16,7 +16,7 @@ namespace ast::stmt
 	{
 	public:
 		SDAST_API OutputTessellationControlLayout( type::TypePtr type
-			, type::OutputDomain domain
+			, type::PatchDomain domain
 			, type::OutputPartitioning partitioning
 			, type::OutputTopology topology
 			, type::OutputVertexOrder order
@@ -29,7 +29,7 @@ namespace ast::stmt
 			return m_type;
 		}
 
-		type::OutputDomain getDomain()const
+		type::PatchDomain getDomain()const
 		{
 			return m_domain;
 		}
@@ -56,7 +56,7 @@ namespace ast::stmt
 
 	private:
 		type::TypePtr m_type;
-		type::OutputDomain m_domain;
+		type::PatchDomain m_domain;
 		type::OutputPartitioning m_partitioning;
 		type::OutputTopology m_topology;
 		type::OutputVertexOrder m_order;
@@ -65,7 +65,7 @@ namespace ast::stmt
 	using OutputTessellationControlLayoutPtr = std::unique_ptr< OutputTessellationControlLayout >;
 
 	inline OutputTessellationControlLayoutPtr makeOutputTessellationControlLayout( type::TypePtr type
-		, type::OutputDomain domain
+		, type::PatchDomain domain
 		, type::OutputPartitioning partitioning
 		, type::OutputTopology topology
 		, type::OutputVertexOrder order

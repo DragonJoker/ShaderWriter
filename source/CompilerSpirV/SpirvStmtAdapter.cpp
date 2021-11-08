@@ -243,7 +243,7 @@ namespace spirv
 		}
 	}
 
-	void StmtAdapter::doProcessComputeInput( ast::var::VariablePtr var
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
 		auto type = compType.getType();
@@ -253,7 +253,7 @@ namespace spirv
 			, compType.getLocalSizeZ() ) );
 	}
 
-	void StmtAdapter::doProcessGeometryOutput( ast::var::VariablePtr var
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
 		auto type = geomType.type;
@@ -262,7 +262,7 @@ namespace spirv
 			, geomType.count ) );
 	}
 
-	void StmtAdapter::doProcessGeometryInput( ast::var::VariablePtr var
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryInput const & geomType )
 	{
 		auto type = geomType.type;
@@ -270,7 +270,7 @@ namespace spirv
 			, geomType.layout ) );
 	}
 
-	void StmtAdapter::doProcessTessellationControlOutput( ast::var::VariablePtr var
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationControlOutput const & tessType
 		, bool isEntryPoint )
 	{
@@ -283,13 +283,29 @@ namespace spirv
 			, tessType.getOutputVertices() ) );
 	}
 
-	void StmtAdapter::doProcessTessellationControlInput( ast::var::VariablePtr var
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationControlInput const & geomType
 		, bool isEntryPoint )
 	{
 	}
 
-	void StmtAdapter::doProcessOutputPatch( ast::var::VariablePtr var
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TessellationEvaluationInput const & geomType )
+	{
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TessellationInputPatch const & patchType )
+	{
+		var = m_adaptationData.config.getInputPatch( var );
+
+		if ( !getStructType( var->getType() )->empty() )
+		{
+			m_current->addStmt( ast::stmt::makeInOutVariableDecl( var, patchType.getLocation() ) );
+		}
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationOutputPatch const & patchType
 		, bool isEntryPoint )
 	{
@@ -305,6 +321,7 @@ namespace spirv
 	{
 		auto & cache = stmt->getType()->getCache();
 		auto funcType = cache.getFunction( cache.getVoid(), {} );
+		doProcessInOut( stmt->getType(), true );
 		auto save = m_current;
 		auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
 		m_current = cont.get();
@@ -339,38 +356,34 @@ namespace spirv
 		{
 			auto type = param->getType();
 
-			if ( type->getKind() == ast::type::Kind::eComputeInput )
+			switch ( type->getKind() )
 			{
-				doProcessComputeInput( param
-					, static_cast< ast::type::ComputeInput const & >( *type ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
-			{
-				doProcessGeometryOutput( param
-					, static_cast< ast::type::GeometryOutput const & >( *type ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eGeometryInput )
-			{
-				doProcessGeometryInput( param
-					, static_cast< ast::type::GeometryInput const & >( *type ) );
-			}
-			else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
-			{
-				doProcessTessellationControlInput( param
-					, static_cast< ast::type::TessellationControlInput const & >( *type )
-					, isEntryPoint );
-			}
-			else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
-			{
-				doProcessTessellationControlOutput( param
-					, static_cast< ast::type::TessellationControlOutput const & >( *type )
-					, isEntryPoint );
-			}
-			else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
-			{
-				doProcessOutputPatch( param
-					, static_cast< ast::type::TessellationOutputPatch const & >( *type )
-					, isEntryPoint );
+			case ast::type::Kind::eGeometryOutput:
+				doProcess( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
+				break;
+			case ast::type::Kind::eGeometryInput:
+				doProcess( param, static_cast< ast::type::GeometryInput const & >( *type ) );
+				break;
+			case ast::type::Kind::eTessellationInputPatch:
+				doProcess( param, static_cast< ast::type::TessellationInputPatch const & >( *type ) );
+				break;
+			case ast::type::Kind::eTessellationControlInput:
+				doProcess( param, static_cast< ast::type::TessellationControlInput const & >( *type ), isEntryPoint );
+				break;
+			case ast::type::Kind::eTessellationEvaluationInput:
+				doProcess( param, static_cast< ast::type::TessellationEvaluationInput const & >( *type ) );
+				break;
+			case ast::type::Kind::eComputeInput:
+				doProcess( param, static_cast< ast::type::ComputeInput const & >( *type ) );
+				break;
+			case ast::type::Kind::eTessellationOutputPatch:
+				doProcess( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ), isEntryPoint );
+				break;
+			case ast::type::Kind::eTessellationControlOutput:
+				doProcess( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+				break;
+			default:
+				break;
 			}
 		}
 	}

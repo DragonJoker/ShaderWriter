@@ -8,7 +8,7 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	OutputTessellationControlLayout::OutputTessellationControlLayout( type::TypePtr type
-		, type::OutputDomain domain
+		, type::PatchDomain domain
 		, type::OutputPartitioning partitioning
 		, type::OutputTopology topology
 		, type::OutputVertexOrder order
