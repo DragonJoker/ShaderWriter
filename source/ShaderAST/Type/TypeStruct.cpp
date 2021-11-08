@@ -975,7 +975,7 @@ namespace ast::type
 			}
 			else if ( type->getKind() == type::Kind::eGeometryInput )
 			{
-				type = static_cast< type::GeometryInput const & >( *type ).type.get();
+				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
 
 				if ( type->getKind() == type::Kind::eArray )
 				{
@@ -984,7 +984,7 @@ namespace ast::type
 			}
 			else if ( type->getKind() == type::Kind::eGeometryOutput )
 			{
-				type = static_cast< type::GeometryOutput const & >( *type ).type.get();
+				type = static_cast< type::GeometryOutput const & >( *type ).getType().get();
 			}
 			else if ( type->getKind() == type::Kind::eComputeInput )
 			{
@@ -1046,7 +1046,7 @@ namespace ast::type
 			}
 			else if ( type->getKind() == type::Kind::eGeometryInput )
 			{
-				type = static_cast< type::GeometryInput const & >( *type ).type.get();
+				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
 
 				if ( type->getKind() == type::Kind::eArray )
 				{
@@ -1055,7 +1055,7 @@ namespace ast::type
 			}
 			else if ( type->getKind() == type::Kind::eGeometryOutput )
 			{
-				type = static_cast< type::GeometryOutput const & >( *type ).type.get();
+				type = static_cast< type::GeometryOutput const & >( *type ).getType().get();
 			}
 			else if ( type->getKind() == type::Kind::eComputeInput )
 			{
@@ -1112,7 +1112,7 @@ namespace ast::type
 			}
 			else if ( type->getKind() == type::Kind::eGeometryInput )
 			{
-				type = static_cast< type::GeometryInput const & >( *type ).type;
+				type = static_cast< type::GeometryInput const & >( *type ).getType();
 
 				if ( type->getKind() == type::Kind::eArray )
 				{
@@ -1121,7 +1121,7 @@ namespace ast::type
 			}
 			else if ( type->getKind() == type::Kind::eGeometryOutput )
 			{
-				type = static_cast< type::GeometryOutput const & >( *type ).type;
+				type = static_cast< type::GeometryOutput const & >( *type ).getType();
 			}
 			else if ( type->getKind() == type::Kind::eComputeInput )
 			{

@@ -53,8 +53,19 @@ namespace ast::type
 		SDAST_API GeometryInput( TypePtr ptype
 			, InputLayout playout );
 
-		TypePtr type;
-		InputLayout layout;
+		TypePtr getType()const
+		{
+			return m_type;
+		}
+
+		InputLayout getLayout()const
+		{
+			return m_layout;
+		}
+
+	private:
+		TypePtr m_type;
+		InputLayout m_layout;
 	};
 	using GeometryInputPtr = std::shared_ptr< GeometryInput >;
 
@@ -78,9 +89,25 @@ namespace ast::type
 			, OutputLayout playout
 			, uint32_t pcount );
 
-		TypePtr type;
-		OutputLayout layout;
-		uint32_t count;
+		TypePtr getType()const
+		{
+			return m_type;
+		}
+
+		OutputLayout getLayout()const
+		{
+			return m_layout;
+		}
+
+		uint32_t getCount()const
+		{
+			return m_count;
+		}
+
+	private:
+		TypePtr m_type;
+		OutputLayout m_layout;
+		uint32_t m_count;
 	};
 	using GeometryOutputPtr = std::shared_ptr< GeometryOutput >;
 

@@ -450,7 +450,7 @@ namespace hlsl
 
 				if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
+					auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).getCount();
 					m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
 					params.push_back( mbr );
 				}

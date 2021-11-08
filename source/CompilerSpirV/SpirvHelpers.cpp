@@ -862,7 +862,7 @@ namespace spirv
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::GeometryInput const & geomType )
 	{
-		auto type = geomType.type;
+		auto type = geomType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
@@ -870,7 +870,7 @@ namespace spirv
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, getArraySize( geomType.layout )
+				, getArraySize( geomType.getLayout() )
 				, true );
 		}
 	}
@@ -878,7 +878,7 @@ namespace spirv
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
-		auto type = geomType.type;
+		auto type = geomType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{

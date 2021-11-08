@@ -463,13 +463,13 @@ namespace ast::debug
 			break;
 		case type::Kind::eGeometryInput:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::GeometryInput const & >( type ).layout );
+			result += "(" + getName( static_cast< type::GeometryInput const & >( type ).getLayout() );
 			result += ")";
 			break;
 		case type::Kind::eGeometryOutput:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::GeometryOutput const & >( type ).layout );
-			result += ", " + std::to_string( static_cast< type::GeometryOutput const & >( type ).count );
+			result += "(" + getName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
+			result += ", " + std::to_string( static_cast< type::GeometryOutput const & >( type ).getCount() );
 			result += ")";
 			break;
 		default:

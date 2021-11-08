@@ -781,12 +781,12 @@ namespace hlsl
 			result = getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
 			break;
 		case ast::type::Kind::eGeometryInput:
-			result = getLayoutName( static_cast< ast::type::GeometryInput const & >( *type ).layout )
-				+ " " + getTypeName( static_cast< ast::type::GeometryInput const & >( *type ).type );
+			result = getLayoutName( static_cast< ast::type::GeometryInput const & >( *type ).getLayout() )
+				+ " " + getTypeName( static_cast< ast::type::GeometryInput const & >( *type ).getType() );
 			break;
 		case ast::type::Kind::eGeometryOutput:
-			result = getLayoutName( static_cast< ast::type::GeometryOutput const & >( *type ).layout )
-				+ "<" + getTypeName( static_cast< ast::type::GeometryOutput const & >( *type ).type ) + ">";
+			result = getLayoutName( static_cast< ast::type::GeometryOutput const & >( *type ).getLayout() )
+				+ "<" + getTypeName( static_cast< ast::type::GeometryOutput const & >( *type ).getType() ) + ">";
 			break;
 		case ast::type::Kind::eTessellationControlInput:
 			result = std::string{ "InputPatch" }
@@ -822,7 +822,7 @@ namespace hlsl
 	{
 		if ( type->getKind() == ast::type::Kind::eGeometryInput )
 		{
-			return "[" + std::to_string( ast::type::getArraySize( static_cast< ast::type::GeometryInput const & >( *type ).layout ) ) + "]";
+			return "[" + std::to_string( ast::type::getArraySize( static_cast< ast::type::GeometryInput const & >( *type ).getLayout() ) ) + "]";
 		}
 
 		std::string result;
@@ -1931,8 +1931,8 @@ namespace hlsl
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
 			, ast::type::makeGeometryOutputType( m_highFreqOutputs.paramStruct
-				, geomType.layout
-				, geomType.count )
+				, geomType.getLayout()
+				, geomType.getCount() )
 			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput
 			, paramToEntryPoint );
 	}
@@ -2902,7 +2902,7 @@ namespace hlsl
 		, ast::type::GeometryInput const & geomType )
 	{
 		assert( m_currentRoutine );
-		auto type = geomType.type;
+		auto type = geomType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
@@ -2915,7 +2915,7 @@ namespace hlsl
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeGeometryInputType( m_highFreqInputs.paramStruct
-				, geomType.layout )
+				, geomType.getLayout() )
 			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
@@ -2924,7 +2924,7 @@ namespace hlsl
 		, ast::type::GeometryOutput const & geomType )
 	{
 		assert( m_currentRoutine );
-		auto type = geomType.type;
+		auto type = geomType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{

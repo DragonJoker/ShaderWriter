@@ -10,8 +10,8 @@ namespace ast::type
 	GeometryInput::GeometryInput( TypePtr ptype
 		, InputLayout playout )
 		: Type{ ptype->getCache(), Kind::eGeometryInput }
-		, type{ ptype }
-		, layout{ playout }
+		, m_type{ ptype }
+		, m_layout{ playout }
 	{
 	}
 
@@ -21,9 +21,9 @@ namespace ast::type
 		, OutputLayout playout
 		, uint32_t pcount )
 		: Type{ ptype->getCache(), Kind::eGeometryOutput }
-		, type{ ptype }
-		, layout{ playout }
-		, count{ pcount }
+		, m_type{ ptype }
+		, m_layout{ playout }
+		, m_count{ pcount }
 	{
 	}
 
