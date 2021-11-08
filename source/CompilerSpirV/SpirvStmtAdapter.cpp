@@ -290,8 +290,12 @@ namespace spirv
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
-		, ast::type::TessellationEvaluationInput const & geomType )
+		, ast::type::TessellationEvaluationInput const & tessType )
 	{
+		m_current->addStmt( ast::stmt::makeInputTessellationEvaluationLayout( tessType.getType()
+			, tessType.getDomain()
+			, tessType.getPartitioning()
+			, tessType.getPrimitiveOrdering() ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var

@@ -954,12 +954,59 @@ namespace spirv
 	}
 
 	void Module::registerExecutionMode( ast::type::PatchDomain domain
-		, ast::type::OutputPartitioning partitioning
+		, ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
-		, ast::type::OutputVertexOrder order
+		, ast::type::PrimitiveOrdering order
 		, uint32_t outputVertices )
 	{
 		registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ outputVertices } } );
+	}
+
+	void Module::registerExecutionMode( ast::type::PatchDomain domain
+		, ast::type::Partitioning partitioning
+		, ast::type::PrimitiveOrdering order )
+	{
+		switch ( partitioning )
+		{
+		case ast::type::Partitioning::eEqual:
+			registerExecutionMode( spv::ExecutionModeSpacingEqual );
+			break;
+		case ast::type::Partitioning::eFractionalEven:
+			registerExecutionMode( spv::ExecutionModeSpacingFractionalEven );
+			break;
+		case ast::type::Partitioning::eFractionalOdd:
+			registerExecutionMode( spv::ExecutionModeSpacingFractionalOdd );
+			break;
+		default:
+			break;
+		}
+
+		switch ( order )
+		{
+		case ast::type::PrimitiveOrdering::eCW:
+			registerExecutionMode( spv::ExecutionModeVertexOrderCw );
+			break;
+		case ast::type::PrimitiveOrdering::eCCW:
+			registerExecutionMode( spv::ExecutionModeVertexOrderCcw );
+			break;
+		default:
+			break;
+		}
+
+		switch ( domain )
+		{
+		case ast::type::PatchDomain::eIsolines:
+			registerExecutionMode( spv::ExecutionModeIsolines );
+			break;
+		case ast::type::PatchDomain::eTriangles:
+			registerExecutionMode( spv::ExecutionModeTriangles );
+			break;
+		case ast::type::PatchDomain::eQuads:
+			registerExecutionMode( spv::ExecutionModeQuads );
+			break;
+		default:
+			break;
+		}
 	}
 
 	void Module::registerExecutionMode( ast::type::InputLayout layout )

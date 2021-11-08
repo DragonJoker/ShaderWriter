@@ -31,6 +31,7 @@ See LICENSE file in root folder
 #include "StmtInOutVariableDecl.hpp"
 #include "StmtInputComputeLayout.hpp"
 #include "StmtInputGeometryLayout.hpp"
+#include "StmtInputTessellationEvaluationLayout.hpp"
 #include "StmtOutputGeometryLayout.hpp"
 #include "StmtOutputTessellationControlLayout.hpp"
 #include "StmtPerVertexDecl.hpp"
@@ -78,6 +79,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
 		SDAST_API virtual void visitInputComputeLayoutStmt( InputComputeLayout * ) = 0;
 		SDAST_API virtual void visitInputGeometryLayoutStmt( InputGeometryLayout * ) = 0;
+		SDAST_API virtual void visitInputTessellationEvaluationLayoutStmt( InputTessellationEvaluationLayout * ) = 0;
 		SDAST_API virtual void visitOutputGeometryLayoutStmt( OutputGeometryLayout * ) = 0;
 		SDAST_API virtual void visitOutputTessellationControlLayoutStmt( OutputTessellationControlLayout * ) = 0;
 		SDAST_API virtual void visitPerVertexDeclStmt( PerVertexDecl * ) = 0;

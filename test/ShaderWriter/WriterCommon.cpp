@@ -571,30 +571,31 @@ namespace test
 
 			if ( !isValidated )
 			{
-				auto validate = [&]()
+				auto validate = [&]( ast::Shader const & shader )
 				{
-					for ( auto & shader : shaders )
-					{
-						spirv::SpirVConfig config{};
-						config.specVersion = testCounts.getSpirVVersion();
-						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-							, shader.getType()
-							, testCounts );
-						auto textSpirv = spirv::writeSpirv( shader, config );
-						displayShader( "SPIR-V", textSpirv, testCounts, true );
-						displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
-						auto glslangSpirv = compileGlslToSpv( shader.getType()
-							, glsl::compileGlsl( shader
-								, ast::SpecialisationInfo{}
+					spirv::SpirVConfig config{};
+					config.specVersion = testCounts.getSpirVVersion();
+					auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+					auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+						, shader.getType()
+						, testCounts );
+					auto textSpirv = spirv::writeSpirv( shader, config );
+					displayShader( "SPIR-V", textSpirv, testCounts, true );
+					displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
+					auto glslangSpirv = compileGlslToSpv( shader.getType()
+						, glsl::compileGlsl( shader
+							, ast::SpecialisationInfo{}
 						, getDefaultGlslConfig() ) );
-						displayShader( "glslang SPIR-V"
-							, spirv::displaySpirv( glslangSpirv )
-							, testCounts
-							, true );
-					}
+					displayShader( "glslang SPIR-V"
+						, spirv::displaySpirv( glslangSpirv )
+						, testCounts
+						, true );
 				};
-				checkNoThrow( validate() );
+
+				for ( auto & shader : shaders )
+				{
+					checkNoThrow( validate( shader ) );
+				}
 			}
 		}
 #endif

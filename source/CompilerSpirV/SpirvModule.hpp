@@ -96,10 +96,13 @@ namespace spirv
 		SDWSPIRV_API void registerExecutionMode( ast::type::OutputLayout layout
 			, uint32_t primCount );
 		SDWSPIRV_API void registerExecutionMode( ast::type::PatchDomain domain
-			, ast::type::OutputPartitioning partitioning
+			, ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder order
+			, ast::type::PrimitiveOrdering order
 			, uint32_t outputVertices );
+		SDWSPIRV_API void registerExecutionMode( ast::type::PatchDomain domain
+			, ast::type::Partitioning partitioning
+			, ast::type::PrimitiveOrdering order );
 		SDWSPIRV_API spv::Id getIntermediateResult();
 		SDWSPIRV_API void lnkIntermediateResult( ValueId intermediate, ValueId var );
 		SDWSPIRV_API void putIntermediateResult( ValueId id );

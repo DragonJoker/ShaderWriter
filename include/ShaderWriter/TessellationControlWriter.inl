@@ -79,9 +79,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
 	TessControlListOutT< DataT, DomainT >::TessControlListOutT( ShaderWriter & writer
-		, ast::type::OutputPartitioning partitioning
+		, ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
-		, ast::type::OutputVertexOrder vertexOrder
+		, ast::type::PrimitiveOrdering vertexOrder
 		, uint32_t outputVertex )
 		: TessControlListOutT{ writer
 			, makeExpr( writer
@@ -213,9 +213,9 @@ namespace sdw
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT
 		, ast::type::PatchDomain DomainT >
-	void TessellationControlWriter::implementMainT( ast::type::OutputPartitioning partitioning
+	void TessellationControlWriter::implementMainT( ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
-		, ast::type::OutputVertexOrder vertexOrder
+		, ast::type::PrimitiveOrdering vertexOrder
 		, uint32_t outputVertices
 		, TessControlMainFuncT< InT, MaxPointsT, OutT, DomainT > const & function )
 	{
@@ -230,9 +230,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT >
-	void TessellationControlWriter::implementMainT( ast::type::OutputPartitioning partitioning
+	void TessellationControlWriter::implementMainT( ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
-		, ast::type::OutputVertexOrder vertexOrder
+		, ast::type::PrimitiveOrdering vertexOrder
 		, uint32_t outputVertices
 		, IsolinesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
@@ -247,9 +247,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT >
-	void TessellationControlWriter::implementMainT( ast::type::OutputPartitioning partitioning
+	void TessellationControlWriter::implementMainT( ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
-		, ast::type::OutputVertexOrder vertexOrder
+		, ast::type::PrimitiveOrdering vertexOrder
 		, uint32_t outputVertices
 		, TrianglesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
@@ -264,9 +264,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT >
-	void TessellationControlWriter::implementMainT( ast::type::OutputPartitioning partitioning
+	void TessellationControlWriter::implementMainT( ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
-		, ast::type::OutputVertexOrder vertexOrder
+		, ast::type::PrimitiveOrdering vertexOrder
 		, uint32_t outputVertices
 		, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{

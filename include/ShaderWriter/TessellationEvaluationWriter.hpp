@@ -37,7 +37,10 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = TessEvalDataInT< DataT >::FlagT;
 
 		TessEvalListInT( ShaderWriter & writer
-			, uint32_t maxPoints );
+			, ast::type::PatchDomain domain
+			, ast::type::Partitioning partitioning
+			, ast::type::PrimitiveOrdering ordering
+			, uint32_t inputVertices );
 		TessEvalListInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -156,24 +159,32 @@ namespace sdw
 			, ast::type::PatchDomain DomainT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( uint32_t patchLocation
+			, ast::type::Partitioning partitioning
+			, ast::type::PrimitiveOrdering ordering
 			, TessEvalMainFuncT< InT, MaxPointsT, PatchT, DomainT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( uint32_t patchLocation
+			, ast::type::Partitioning partitioning
+			, ast::type::PrimitiveOrdering ordering
 			, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( uint32_t patchLocation
+			, ast::type::Partitioning partitioning
+			, ast::type::PrimitiveOrdering ordering
 			, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( uint32_t patchLocation
+			, ast::type::Partitioning partitioning
+			, ast::type::PrimitiveOrdering ordering
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
 
 	};

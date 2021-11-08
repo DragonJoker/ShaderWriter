@@ -209,7 +209,7 @@ namespace test
 
 		if ( !glshader.parse( &resources, 100, false, messages ) )
 		{
-			throw std::runtime_error{ "Shader compilation failed." };
+			throw std::runtime_error{ std::string{ "Shader compilation failed.\n" } + glshader.getInfoLog() };
 		}
 
 		glslang::TProgram glprogram;
@@ -217,7 +217,10 @@ namespace test
 
 		if ( !glprogram.link( messages ) )
 		{
-			throw std::runtime_error{ "Shader linkage failed." };
+			if ( glprogram.getInfoLog() )
+			{
+				throw std::runtime_error{ std::string{ "Program linkage failed.\n" } + glprogram.getInfoLog() };
+			}
 		}
 
 		glslang::GlslangToSpv( *glprogram.getIntermediate( glstage ), spirv );

@@ -25,24 +25,24 @@ namespace hlsl
 			}
 		}
 
-		std::string getName( ast::type::OutputPartitioning value )
+		std::string getName( ast::type::Partitioning value )
 		{
 			switch ( value )
 			{
-			case ast::type::OutputPartitioning::eEqual:
+			case ast::type::Partitioning::eEqual:
 				return "integer";
-			case ast::type::OutputPartitioning::eFractionalEven:
+			case ast::type::Partitioning::eFractionalEven:
 				return "fractionaleven";
-			case ast::type::OutputPartitioning::eFractionalOdd:
+			case ast::type::Partitioning::eFractionalOdd:
 				return "fractionalodd";
 			default:
-				AST_Failure( "Unsupported type::OutputPartitioning." );
+				AST_Failure( "Unsupported type::Partitioning." );
 				return "undefined";
 			}
 		}
 
 		std::string getName( ast::type::OutputTopology domain
-			, ast::type::OutputVertexOrder order )
+			, ast::type::PrimitiveOrdering order )
 		{
 			switch ( domain )
 			{
@@ -53,12 +53,12 @@ namespace hlsl
 			case ast::type::OutputTopology::eTriangle:
 				switch ( order )
 				{
-				case ast::type::OutputVertexOrder::eCW:
+				case ast::type::PrimitiveOrdering::eCW:
 					return "triangle_cw";
-				case ast::type::OutputVertexOrder::eCCW:
+				case ast::type::PrimitiveOrdering::eCCW:
 					return "triangle_ccw";
 				default:
-					AST_Failure( "Unsupported type::OutputVertexOrder." );
+					AST_Failure( "Unsupported type::PrimitiveOrdering." );
 					return "UNDEFINED";
 				}
 			default:
@@ -672,6 +672,11 @@ namespace hlsl
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
 		AST_Failure( "ast::stmt::InputGeometryLayout unexpected at that point" );
+	}
+
+	void StmtVisitor::visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )
+	{
+		AST_Failure( "ast::stmt::InputTessellationEvaluationLayout unexpected at that point" );
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )

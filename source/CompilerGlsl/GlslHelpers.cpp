@@ -649,6 +649,49 @@ namespace glsl
 		return result;
 	}
 
+	std::string getLayoutName( ast::type::PatchDomain value )
+	{
+		switch ( value )
+		{
+		case ast::type::PatchDomain::eIsolines:
+			return "isolines";
+		case ast::type::PatchDomain::eTriangles:
+			return "triangles";
+		case ast::type::PatchDomain::eQuads:
+			return "quads";
+		default:
+			throw std::runtime_error{ "Unsupported ast::type::PatchDomain." };
+		}
+	}
+
+	std::string getLayoutName( ast::type::PrimitiveOrdering value )
+	{
+		switch ( value )
+		{
+		case ast::type::PrimitiveOrdering::eCW:
+			return "cw";
+		case ast::type::PrimitiveOrdering::eCCW:
+			return "ccw";
+		default:
+			throw std::runtime_error{ "Unsupported ast::type::PatchDomain." };
+		}
+	}
+
+	std::string getLayoutName( ast::type::Partitioning value )
+	{
+		switch ( value )
+		{
+		case ast::type::Partitioning::eEqual:
+			return "equal_spacing";
+		case ast::type::Partitioning::eFractionalEven:
+			return "fractional_even_spacing";
+		case ast::type::Partitioning::eFractionalOdd:
+			return "fractional_odd_spacing";
+		default:
+			throw std::runtime_error{ "Unsupported ast::type::Partitioning." };
+		}
+	}
+
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component )
 	{

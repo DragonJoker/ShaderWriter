@@ -56,6 +56,7 @@ namespace ast::stmt
 		ePreprocVersion,
 		eFragmentLayout,
 		eOutputTessellationControlLayout,
+		eInputTessellationEvaluationLayout,
 	};
 
 	class Stmt

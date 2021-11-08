@@ -602,6 +602,14 @@ namespace spirv
 		, uint32_t arraySize
 		, ast::stmt::Container * cont )
 	{
+		auto compType = getComponentType( type );
+
+		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
+		{
+			flags = flags | ast::var::Flag::eFlat;
+		}
+
 		if ( arraySize != ast::type::NotArray )
 		{
 			type = type->getCache().getArray( type, arraySize );

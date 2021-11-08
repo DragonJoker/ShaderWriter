@@ -37,9 +37,9 @@ namespace ast::debug
 	SDAST_API std::string getName( type::InputLayout value );
 	SDAST_API std::string getName( type::OutputLayout value );
 	SDAST_API std::string getName( type::PatchDomain value );
-	SDAST_API std::string getName( type::OutputPartitioning value );
+	SDAST_API std::string getName( type::Partitioning value );
 	SDAST_API std::string getName( type::OutputTopology value );
-	SDAST_API std::string getName( type::OutputVertexOrder value );
+	SDAST_API std::string getName( type::PrimitiveOrdering value );
 	SDAST_API std::string getName( FragmentOrigin value );
 	SDAST_API std::string getName( FragmentCenter value );
 	SDAST_API std::string displayVar( var::Variable const & var );

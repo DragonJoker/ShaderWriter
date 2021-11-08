@@ -42,6 +42,7 @@ namespace glsl
 		ast::expr::ExprPtr doProcessIOMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, uint32_t mbrFlags
+			, bool isInput
 			, IOVars & io );
 		ast::expr::ExprPtr doProcessMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex

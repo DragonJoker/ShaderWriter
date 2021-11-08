@@ -255,6 +255,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtInOutVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtInputComputeLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtInputGeometryLayout.hpp
+	${INCLUDE_DIR}/Stmt/StmtInputTessellationEvaluationLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtList.hpp
 	${INCLUDE_DIR}/Stmt/StmtLoop.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputGeometryLayout.hpp
@@ -303,6 +304,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtInOutVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtInputComputeLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtInputGeometryLayout.cpp
+	${SOURCE_DIR}/Stmt/StmtInputTessellationEvaluationLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtLoop.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputGeometryLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputTessellationControlLayout.cpp
