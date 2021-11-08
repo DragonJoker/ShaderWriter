@@ -1238,20 +1238,20 @@ namespace spirv
 		else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 		{
 			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
-			result = registerType( outputType.type
+			result = registerType( outputType.getType()
 				, mbrIndex
 				, parentId
 				, arrayStride );
-			registerExecutionMode( outputType.layout, outputType.count );
+			registerExecutionMode( outputType.getLayout(), outputType.getCount() );
 		}
 		else if ( type->getKind() == ast::type::Kind::eGeometryInput )
 		{
 			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
-			result = registerType( inputType.type
+			result = registerType( inputType.getType()
 				, mbrIndex
 				, parentId
 				, arrayStride );
-			registerExecutionMode( inputType.layout );
+			registerExecutionMode( inputType.getLayout() );
 		}
 		else if ( type->getKind() == ast::type::Kind::eTessellationInputPatch )
 		{

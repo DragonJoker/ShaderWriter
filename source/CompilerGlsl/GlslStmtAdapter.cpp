@@ -468,7 +468,7 @@ namespace glsl
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
-		auto type = geomType.type;
+		auto type = geomType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
@@ -481,15 +481,15 @@ namespace glsl
 		}
 
 		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
-			, geomType.layout
-			, geomType.count ) );
+			, geomType.getLayout()
+			, geomType.getCount() ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryInput const & geomType )
 	{
-		auto type = geomType.type;
-		m_inputLayout = geomType.layout;
+		auto type = geomType.getType();
+		m_inputLayout = geomType.getLayout();
 
 		if ( type->getKind() == ast::type::Kind::eStruct )
 		{
@@ -497,12 +497,12 @@ namespace glsl
 			assert( structType->isShaderInput() );
 			doProcessInput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )
-				, getArraySize( geomType.layout )
+				, getArraySize( geomType.getLayout() )
 				, true );
 		}
 
 		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
-			, geomType.layout ) );
+			, geomType.getLayout() ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var

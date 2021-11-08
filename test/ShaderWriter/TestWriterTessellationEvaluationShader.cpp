@@ -983,27 +983,27 @@ sdwTestSuiteMain( TestWriterTessellationEvaluationShader )
 {
 	sdwTestSuiteBegin();
 
-	//noSpecificIO( testCounts );
-	//specificMemberInputOnly( testCounts );
-	//specificGlobalInputOnly( testCounts );
-	//specificMixedInputOnly( testCounts );
-	//specificMemberOutputOnly( testCounts );
-	//specificGlobalOutputOnly( testCounts );
-	//specificMixedOutputOnly( testCounts );
-	//specificMemberInAndOut( testCounts );
-	//specificGlobalInAndOut( testCounts );
-	//specificMixedInAndOut( testCounts );
+	noSpecificIO( testCounts );
+	specificMemberInputOnly( testCounts );
+	specificGlobalInputOnly( testCounts );
+	specificMixedInputOnly( testCounts );
+	specificMemberOutputOnly( testCounts );
+	specificGlobalOutputOnly( testCounts );
+	specificMixedOutputOnly( testCounts );
+	specificMemberInAndOut( testCounts );
+	specificGlobalInAndOut( testCounts );
+	specificMixedInAndOut( testCounts );
 
-	//noSpecificIOPatch( testCounts );
-	//specificMemberInputOnlyPatch( testCounts );
-	//specificGlobalInputOnlyPatch( testCounts );
-	//specificMixedInputOnlyPatch( testCounts );
-	//specificMemberOutputOnlyPatch( testCounts );
-	//specificGlobalOutputOnlyPatch( testCounts );
-	//specificMixedOutputOnlyPatch( testCounts );
-	//specificMemberInAndOutPatch( testCounts );
-	//specificGlobalInAndOutPatch( testCounts );
-	//specificMixedInAndOutPatch( testCounts );
+	noSpecificIOPatch( testCounts );
+	specificMemberInputOnlyPatch( testCounts );
+	specificGlobalInputOnlyPatch( testCounts );
+	specificMixedInputOnlyPatch( testCounts );
+	specificMemberOutputOnlyPatch( testCounts );
+	specificGlobalOutputOnlyPatch( testCounts );
+	specificMixedOutputOnlyPatch( testCounts );
+	specificMemberInAndOutPatch( testCounts );
+	specificGlobalInAndOutPatch( testCounts );
+	specificMixedInAndOutPatch( testCounts );
 
 	tessellationEvaluation( testCounts );
 
