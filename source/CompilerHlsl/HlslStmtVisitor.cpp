@@ -9,18 +9,18 @@ namespace hlsl
 {
 	namespace
 	{
-		std::string getName( ast::type::OutputDomain value )
+		std::string getName( ast::type::PatchDomain value )
 		{
 			switch ( value )
 			{
-			case ast::type::OutputDomain::eIsolines:
+			case ast::type::PatchDomain::eIsolines:
 				return "isoline";
-			case ast::type::OutputDomain::eTriangles:
+			case ast::type::PatchDomain::eTriangles:
 				return "tri";
-			case ast::type::OutputDomain::eQuads:
+			case ast::type::PatchDomain::eQuads:
 				return "quad";
 			default:
-				AST_Failure( "Unsupported type::OutputDomain." );
+				AST_Failure( "Unsupported type::PatchDomain." );
 				return "undefined";
 			}
 		}
@@ -62,7 +62,7 @@ namespace hlsl
 					return "UNDEFINED";
 				}
 			default:
-				AST_Failure( "Unsupported type::OutputDomain." );
+				AST_Failure( "Unsupported type::OutputTopology." );
 				return "UNDEFINED";
 			}
 		}
@@ -201,7 +201,8 @@ namespace hlsl
 			, ast::type::Struct const & structType )
 		{
 			if ( structType.isShaderInput()
-				|| structType.isShaderOutput() )
+				|| structType.isShaderOutput()
+				|| structType.isPatchInput() )
 			{
 				return writeIOMembers( stage
 					, indent
@@ -232,24 +233,24 @@ namespace hlsl
 	}
 
 	std::string StmtVisitor::submit( HlslConfig const & writerConfig
-		, EntryPointMap const & patchRoutines
+		, RoutineMap const & routines
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
 		std::string result;
-		StmtVisitor vis{ writerConfig, patchRoutines, aliases, std::move( indent ), result };
+		StmtVisitor vis{ writerConfig, routines, aliases, std::move( indent ), result };
 		stmt->accept( &vis );
 		return result;
 	}
 
 	StmtVisitor::StmtVisitor( HlslConfig const & writerConfig
-		, EntryPointMap const & patchRoutines
+		, RoutineMap const & routines
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, std::string indent
 		, std::string & result )
 		: m_writerConfig{ writerConfig }
-		, m_patchRoutines{ patchRoutines }
+		, m_routines{ routines }
 		, m_aliases{ aliases }
 		, m_indent{ std::move( indent ) }
 		, m_result{ result }
@@ -394,8 +395,17 @@ namespace hlsl
 		// Unsupported in HLSL :/
 	}
 
+	std::string writeTessEvalIn( ast::type::TessellationInputPatch const & tesscType
+		, RoutineMap const & patchRoutines
+		, std::string const & indent )
+	{
+		std::string result;
+		result += indent + "[domain(\"" + getName( tesscType.getDomain() ) + "\")]\n";
+		return result;
+	}
+
 	std::string writeTessCtrlOut( ast::type::TessellationControlOutput const & tesscType
-		, EntryPointMap const & patchRoutines
+		, RoutineMap const & patchRoutines
 		, std::string const & indent )
 	{
 		std::string result;
@@ -432,83 +442,94 @@ namespace hlsl
 		auto type = stmt->getType();
 		ast::var::VariableList params;
 
-		if ( !type->empty() )
+		if ( stmt->isEntryPoint() )
 		{
-			if ( stmt->isEntryPoint() )
+			for ( auto & mbr : *type )
 			{
-				for ( auto & mbr : *type )
+				auto argType = mbr->getType();
+
+				if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
 				{
-					auto argType = mbr->getType();
+					auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
+					m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
+					params.push_back( mbr );
+				}
+				else if ( argType->getKind() == ast::type::Kind::eComputeInput )
+				{
+					auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
 
-					if ( argType->getKind() == ast::type::Kind::eGeometryOutput )
+					if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
 					{
-						auto maxVertexCount = static_cast< ast::type::GeometryOutput const & >( *argType ).count;
-						m_result += m_indent + "[maxvertexcount(" + std::to_string( maxVertexCount ) + ")]\n";
-						params.push_back( mbr );
-					}
-					else if ( argType->getKind() == ast::type::Kind::eComputeInput )
-					{
-						auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
-
-						if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
+						if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
 						{
-							if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
-							{
-								m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
-							}
-							else
-							{
-								m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
-									+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
-							}
+							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
 						}
 						else
 						{
 							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
-								+ ", " + std::to_string( compType.getLocalSizeY() )
-								+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
-						}
-
-						params.push_back( mbr );
-					}
-					else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
-					{
-						auto & tessciType = static_cast< ast::type::TessellationControlInput const & >( *argType );
-						argType = tessciType.getType();
-
-						if ( argType->getKind() != ast::type::Kind::eVoid
-							&& ( argType->getKind() != ast::type::Kind::eStruct
-								|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
-						{
-							params.push_back( mbr );
-						}
-
-					}
-					else if ( argType->getKind() == ast::type::Kind::eTessellationControlOutput )
-					{
-						auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *argType );
-						m_result += writeTessCtrlOut( tesscoType
-							, m_patchRoutines
-							, m_indent );
-						argType = tesscoType.getType();
-
-						if ( argType->getKind() != ast::type::Kind::eVoid
-							&& ( argType->getKind() != ast::type::Kind::eStruct
-								|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
-						{
-							params.push_back( mbr );
+								+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
 						}
 					}
 					else
 					{
+						m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
+							+ ", " + std::to_string( compType.getLocalSizeY() )
+							+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
+					}
+
+					params.push_back( mbr );
+				}
+				else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
+				{
+					auto & tessciType = static_cast< ast::type::TessellationControlInput const & >( *argType );
+					argType = tessciType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
 						params.push_back( mbr );
 					}
 				}
+				else if ( argType->getKind() == ast::type::Kind::eTessellationControlOutput )
+				{
+					auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *argType );
+					m_result += writeTessCtrlOut( tesscoType
+						, m_routines
+						, m_indent );
+					argType = tesscoType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( mbr );
+					}
+				}
+				else if ( argType->getKind() == ast::type::Kind::eTessellationInputPatch )
+				{
+					auto & tesseiType = static_cast< ast::type::TessellationInputPatch const & >( *argType );
+					m_result += writeTessEvalIn( tesseiType
+						, m_routines
+						, m_indent );
+					argType = tesseiType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( mbr );
+					}
+				}
+				else
+				{
+					params.push_back( mbr );
+				}
 			}
-			else
-			{
-				params.insert( params.end(), type->begin(), type->end() );
-			}
+		}
+		else
+		{
+			params.insert( params.end(), type->begin(), type->end() );
 		}
 
 		auto retType = type->getReturnType();
@@ -517,7 +538,7 @@ namespace hlsl
 		{
 			auto & tesscoType = static_cast< ast::type::TessellationControlOutput const & >( *retType );
 			m_result += writeTessCtrlOut( tesscoType
-				, m_patchRoutines
+				, m_routines
 				, m_indent );
 		}
 

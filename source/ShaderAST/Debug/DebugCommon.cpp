@@ -316,6 +316,12 @@ namespace ast::debug
 		case type::Kind::eTessellationControlOutput:
 			result = "TESSCOUT";
 			break;
+		case type::Kind::eTessellationEvaluationInput:
+			result = "TESSEIN";
+			break;
+		case type::Kind::eTessellationInputPatch:
+			result = "INPATCH";
+			break;
 		case type::Kind::eTessellationOutputPatch:
 			result = "OUTPATCH";
 			break;
@@ -520,18 +526,18 @@ namespace ast::debug
 		}
 	}
 
-	std::string getName( type::OutputDomain value )
+	std::string getName( type::PatchDomain value )
 	{
 		switch ( value )
 		{
-		case type::OutputDomain::eIsolines:
+		case type::PatchDomain::eIsolines:
 			return "ISOLINES";
-		case type::OutputDomain::eTriangles:
+		case type::PatchDomain::eTriangles:
 			return "TRIANGLES";
-		case type::OutputDomain::eQuads:
+		case type::PatchDomain::eQuads:
 			return "QUADS";
 		default:
-			AST_Failure( "Unsupported type::OutputDomain." );
+			AST_Failure( "Unsupported type::PatchDomain." );
 			return "UNDEFINED";
 		}
 	}

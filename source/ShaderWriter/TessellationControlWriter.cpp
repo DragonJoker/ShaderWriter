@@ -7,39 +7,39 @@ namespace sdw
 {
 	//*************************************************************************
 
-	uint32_t getOuterArraySize( ast::type::OutputDomain domain )
+	uint32_t getOuterArraySize( ast::type::PatchDomain domain )
 	{
 		switch ( domain )
 		{
-		case ast::type::OutputDomain::eIsolines:
+		case ast::type::PatchDomain::eIsolines:
 			return 2u;
-		case ast::type::OutputDomain::eTriangles:
+		case ast::type::PatchDomain::eTriangles:
 			return 3u;
-		case ast::type::OutputDomain::eQuads:
+		case ast::type::PatchDomain::eQuads:
 			return 4u;
 		default:
 			return 1u;
 		}
 	}
 
-	uint32_t getInnerArraySize( ast::type::OutputDomain domain )
+	uint32_t getInnerArraySize( ast::type::PatchDomain domain )
 	{
 		switch ( domain )
 		{
-		case ast::type::OutputDomain::eIsolines:
+		case ast::type::PatchDomain::eIsolines:
 			return 0u;
-		case ast::type::OutputDomain::eTriangles:
+		case ast::type::PatchDomain::eTriangles:
 			return 1u;
-		case ast::type::OutputDomain::eQuads:
+		case ast::type::PatchDomain::eQuads:
 			return 2u;
 		default:
 			return 0u;
 		}
 	}
 
-	bool hasInnerLevel( ast::type::OutputDomain domain )
+	bool hasInnerLevel( ast::type::PatchDomain domain )
 	{
-		return domain != ast::type::OutputDomain::eIsolines;
+		return domain != ast::type::PatchDomain::eIsolines;
 	}
 
 	//*************************************************************************

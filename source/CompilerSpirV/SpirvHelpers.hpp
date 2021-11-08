@@ -60,9 +60,9 @@ namespace spirv
 
 		void declare( ast::stmt::Container & stmt );
 
-		void addOutputPatch( ast::var::VariablePtr patchVar
+		void addPatch( ast::var::VariablePtr patchVar
 			, uint32_t location );
-		ast::var::VariablePtr getOutputPatch( ast::var::VariablePtr patchVar );
+		ast::var::VariablePtr getPatch( ast::var::VariablePtr patchVar );
 		void addPending( ast::var::VariablePtr pendingVar
 			, uint32_t location );
 		void addPendingMbr( ast::var::VariablePtr outerVar
@@ -275,22 +275,34 @@ namespace spirv
 
 		ast::var::VariablePtr getOutputPatch( ast::var::VariablePtr patchVar )
 		{
-			return outputs.getOutputPatch( patchVar );
+			return outputs.getPatch( patchVar );
+		}
+
+		ast::var::VariablePtr getInputPatch( ast::var::VariablePtr patchVar )
+		{
+			return inputs.getPatch( patchVar );
 		}
 
 	private:
-		void registerComputeInput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
-		void registerGeometryInput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
-		void registerGeometryOutput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
-		void registerTessellationControlInput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TessellationInputPatch const & patchType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TessellationOutputPatch const & patchType
+			, bool isEntryPoint );
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationControlInput const & tessType
 			, bool isEntryPoint );
-		void registerTessellationControlOutput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationControlOutput const & tessType
 			, bool isEntryPoint );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TessellationEvaluationInput const & tessType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
@@ -298,9 +310,6 @@ namespace spirv
 		void registerOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
-			, bool isEntryPoint );
-		void registerOutputPatch( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType
 			, bool isEntryPoint );
 
 	private:

@@ -97,6 +97,27 @@ namespace glsl
 			return std::make_unique< ast::expr::Swizzle >( std::move( expr )
 				, swizzle );
 		}
+
+		ast::expr::ExprPtr registerPerVertexBuiltin( ast::type::TypesCache & cache
+			, ast::Builtin builtin
+			, ast::type::TypePtr type
+			, uint32_t flags
+			, uint32_t & nextVarId
+			, IOVars & io )
+		{
+			auto ires = io.perVertexMbrs.emplace( builtin, nullptr );
+
+			if ( ires.second )
+			{
+				ires.first->second = ast::expr::makeIdentifier( cache
+					, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
+						, type
+						, flags | ast::var::Flag::eBuiltin ) );
+			}
+
+			auto it = ires.first;
+			return ast::ExprCloner::submit( it->second.get() );
+		}
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
@@ -424,27 +445,6 @@ namespace glsl
 			, std::move( args ) );
 	}
 
-	ast::expr::ExprPtr registerPerVertexBuiltin( ast::type::TypesCache & cache
-		, ast::Builtin builtin
-		, ast::type::TypePtr type
-		, uint32_t flags
-		, uint32_t & nextVarId
-		, IOVars & io )
-	{
-		auto ires = io.perVertexMbrs.emplace( builtin, nullptr );
-
-		if ( ires.second )
-		{
-			ires.first->second = ast::expr::makeIdentifier( cache
-				, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
-					, type
-					, flags | ast::var::Flag::eBuiltin ) );
-		}
-
-		auto it = ires.first;
-		return ast::ExprCloner::submit( it->second.get() );
-	}
-
 	ast::expr::ExprPtr ExprAdapter::doProcessIOMbr( ast::expr::Expr * outer
 		, uint32_t mbrIndex
 		, uint32_t mbrFlags
@@ -465,14 +465,14 @@ namespace glsl
 				outer = arrayAccess.getLHS();
 
 				if ( outer->getKind() == ast::expr::Kind::eIdentifier
-					&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+					&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 				{
 					indexExpr = doSubmit( arrayAccess.getRHS() );
 				}
 			}
 
 			if ( outer->getKind() == ast::expr::Kind::eIdentifier
-				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+				&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 			{
 				if ( indexExpr )
 				{
@@ -538,7 +538,7 @@ namespace glsl
 				outer = arrayAccess.getLHS();
 
 				if ( outer->getKind() == ast::expr::Kind::eIdentifier
-					&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+					&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 				{
 					indexExpr = doSubmit( arrayAccess.getRHS() );
 				}
@@ -554,7 +554,7 @@ namespace glsl
 			}
 
 			if ( outer->getKind() == ast::expr::Kind::eIdentifier
-				&& static_cast< ast::expr::Identifier const & >( *outer ).getVariable() == io.var )
+				&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 			{
 				auto it = io.vars.find( structType );
 

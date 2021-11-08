@@ -3,9 +3,6 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
-#undef ForceDisplayShaders
-#define ForceDisplayShaders true
-
 namespace
 {
 	template< ast::var::Flag FlagT >

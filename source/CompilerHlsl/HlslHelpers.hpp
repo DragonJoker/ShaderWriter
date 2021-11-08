@@ -117,13 +117,15 @@ namespace hlsl
 		IOMapping( HlslShader & pshader
 			, IOMappingMode pmode
 			, bool pisInput
+			, bool pisPatch
 			, std::string const & infix );
 
 		HlslShader * shader;
 		ast::ShaderStage stage;
 		bool isInput;
+		bool isPatch;
 		IOMappingMode mode;
-		// The entry point final param.
+		// The final param.
 		ast::type::IOStructPtr paramStruct{};
 		ast::var::VariablePtr paramVar{};
 		// Separate var, if a separate variable (global or local) is needed.
@@ -142,6 +144,10 @@ namespace hlsl
 			, ast::stmt::Container & stmt )const;
 
 		void initialiseMainVar( ast::var::VariablePtr srcVar
+			, ast::type::TypePtr type
+			, uint32_t flags
+			, VarVarMap & paramToEntryPoint );
+		void initialisePatchVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
 			, uint32_t flags
 			, VarVarMap & paramToEntryPoint );
@@ -166,6 +172,20 @@ namespace hlsl
 		bool hasSeparate()const;
 
 	private:
+		struct PendingMbrIO
+		{
+			ast::var::VariablePtr outer;
+			uint32_t index;
+			PendingIO io;
+		};
+
+		PendingResult processPendingType( ast::type::TypePtr type
+			, std::string const & name
+			, ast::Builtin builtin
+			, uint32_t flags
+			, uint32_t location
+			, uint32_t arraySize
+			, ast::type::IOStruct & structType );
 		PendingResult processPendingType( ast::type::TypePtr type
 			, std::string const & name
 			, ast::Builtin builtin
@@ -175,23 +195,20 @@ namespace hlsl
 			, uint32_t mbrIndex
 			, uint32_t mbrFlags
 			, uint32_t mbrLocation );
+		ast::expr::ExprPtr processPendingMbrOuter( ast::var::VariablePtr outerVar
+			, uint32_t mbrIndex
+			, std::vector< PendingMbrIO >::iterator & it );
 
 	private:
 		std::map< std::string, PendingIO > m_pending;
-		struct PendingMbrIO
-		{
-			ast::var::VariablePtr outer;
-			uint32_t index;
-			PendingIO io;
-		};
 		std::vector< PendingMbrIO > m_pendingMbr;
 	};
 
-	struct EntryPoint
+	struct Routine
 	{
 		friend struct AdaptationData;
 
-		EntryPoint( HlslShader & pshader
+		Routine( HlslShader & pshader
 			, AdaptationData * pparent
 			, bool pisMain
 			, std::string const & name );
@@ -284,8 +301,8 @@ namespace hlsl
 			IOMapping m_lowFreqOutputs;
 	};
 
-	using EntryPointPtr = std::unique_ptr< EntryPoint >;
-	using EntryPointMap = std::map< std::string, EntryPointPtr >;
+	using RoutinePtr = std::unique_ptr< Routine >;
+	using RoutineMap = std::map< std::string, RoutinePtr >;
 
 	struct AdaptationData
 	{
@@ -351,34 +368,38 @@ namespace hlsl
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
 
-		EntryPointMap const & getEntryPoints()const
+		RoutineMap const & getRoutines()const
 		{
-			return m_entryPoints;
+			return m_routines;
 		}
 
 	private:
 		void declareStruct( ast::type::StructPtr const & structType
 			, ast::stmt::Container * stmt );
-		void registerComputeInput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
-		void registerGeometryInput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
-		void registerGeometryOutput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
-		void registerTessellationControlInput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TessellationInputPatch const & patchType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TessellationOutputPatch const & patchType
+			, bool isEntryPoint );
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationControlInput const & tessType
 			, bool isEntryPoint );
-		void registerTessellationControlOutput( ast::var::VariablePtr var
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationControlOutput const & tessType
 			, bool isEntryPoint );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TessellationEvaluationInput const & tessType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, bool isEntryPoint );
 		void registerOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
-			, bool isEntryPoint );
-		void registerOutputPatch( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType
 			, bool isEntryPoint );
 		void registerInputMbr( ast::var::VariablePtr var
 			, uint32_t outerFlags
@@ -393,9 +414,10 @@ namespace hlsl
 
 	private:
 		IOMapping m_highFreqInputs;
-		EntryPointMap m_entryPoints;
-		EntryPoint * m_mainEntryPoint{};
-		EntryPoint * m_currentEntryPoint{};
+		std::unique_ptr< IOMapping > m_patchInputs;
+		RoutineMap m_routines;
+		Routine * m_mainEntryPoint{};
+		Routine * m_currentRoutine{};
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 
 	public:

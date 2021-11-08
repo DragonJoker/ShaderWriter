@@ -235,6 +235,15 @@ namespace ast::var
 	{
 		return uint32_t( lhs ) | uint32_t( rhs );
 	}
+
+
+	template< typename T, typename U >
+	inline constexpr bool checkFlag( T const & value, U const & flag )noexcept
+	{
+		static_assert( sizeof( T ) == sizeof( U )
+			, "Can't check flags for different size parameters" );
+		return U( value & T( flag ) ) == flag;
+	}
 }
 
 #endif

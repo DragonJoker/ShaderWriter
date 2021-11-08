@@ -175,6 +175,11 @@ namespace ast::type
 			return m_flag == var::Flag::eShaderOutput;
 		}
 
+		bool isPatchInput()const
+		{
+			return m_flag == var::Flag::ePatchInput;
+		}
+
 		bool isPatchOutput()const
 		{
 			return m_flag == var::Flag::ePatchOutput;

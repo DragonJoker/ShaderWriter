@@ -990,6 +990,10 @@ namespace ast::type
 			{
 				type = static_cast< type::ComputeInput const & >( *type ).getType().get();
 			}
+			else if ( type->getKind() == type::Kind::eTessellationInputPatch )
+			{
+				type = static_cast< type::TessellationInputPatch const & >( *type ).getType().get();
+			}
 			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
 			{
 				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType().get();
@@ -1006,6 +1010,10 @@ namespace ast::type
 				{
 					return isStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
+			}
+			else if ( type->getKind() == type::Kind::eTessellationEvaluationInput )
+			{
+				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
 			}
 			else
 			{
@@ -1053,6 +1061,10 @@ namespace ast::type
 			{
 				type = static_cast< type::ComputeInput const & >( *type ).getType().get();
 			}
+			else if ( type->getKind() == type::Kind::eTessellationInputPatch )
+			{
+				type = static_cast< type::TessellationInputPatch const & >( *type ).getType().get();
+			}
 			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
 			{
 				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType().get();
@@ -1071,6 +1083,10 @@ namespace ast::type
 				}
 
 				return nullptr;
+			}
+			else if ( type->getKind() == type::Kind::eTessellationEvaluationInput )
+			{
+				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
 			}
 			else
 			{
@@ -1111,6 +1127,10 @@ namespace ast::type
 			{
 				type = static_cast< type::ComputeInput const & >( *type ).getType();
 			}
+			else if ( type->getKind() == type::Kind::eTessellationInputPatch )
+			{
+				type = static_cast< type::TessellationInputPatch const & >( *type ).getType();
+			}
 			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
 			{
 				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType();
@@ -1127,6 +1147,10 @@ namespace ast::type
 				{
 					return getStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
+			}
+			else if ( type->getKind() == type::Kind::eTessellationEvaluationInput )
+			{
+				type = static_cast< type::TessellationControlInput const & >( *type ).getType();
 			}
 			else
 			{

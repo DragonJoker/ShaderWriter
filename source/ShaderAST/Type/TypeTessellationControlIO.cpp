@@ -28,7 +28,7 @@ namespace ast::type
 	//*************************************************************************
 
 	TessellationControlOutput::TessellationControlOutput( TypePtr type
-		, OutputDomain domain
+		, PatchDomain domain
 		, OutputPartitioning partitioning
 		, OutputTopology topology
 		, OutputVertexOrder order

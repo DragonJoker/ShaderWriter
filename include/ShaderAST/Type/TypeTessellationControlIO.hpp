@@ -9,6 +9,13 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
+	enum class PatchDomain
+	{
+		eIsolines,
+		eTriangles,
+		eQuads,
+	};
+
 	class TessellationOutputPatch
 		: public Type
 	{
@@ -82,13 +89,6 @@ namespace ast::type
 		eCCW,
 	};
 
-	enum class OutputDomain
-	{
-		eIsolines,
-		eTriangles,
-		eQuads,
-	};
-
 	enum class OutputTopology
 	{
 		ePoint,
@@ -102,7 +102,7 @@ namespace ast::type
 	{
 	public:
 		SDAST_API TessellationControlOutput( TypePtr type
-			, OutputDomain domain
+			, PatchDomain domain
 			, OutputPartitioning partitioning
 			, OutputTopology topology
 			, OutputVertexOrder order
@@ -113,7 +113,7 @@ namespace ast::type
 			return m_type;
 		}
 
-		OutputDomain getDomain()const
+		PatchDomain getDomain()const
 		{
 			return m_domain;
 		}
@@ -140,7 +140,7 @@ namespace ast::type
 
 	private:
 		TypePtr m_type;
-		OutputDomain m_domain;
+		PatchDomain m_domain;
 		OutputPartitioning m_partitioning;
 		OutputTopology m_topology;
 		OutputVertexOrder m_order;
@@ -149,7 +149,7 @@ namespace ast::type
 	using TessellationControlOutputPtr = std::shared_ptr< TessellationControlOutput >;
 
 	inline TessellationControlOutputPtr makeTessellationControlOutputType( TypePtr type
-		, OutputDomain domain
+		, PatchDomain domain
 		, OutputPartitioning partitioning
 		, OutputTopology topology
 		, OutputVertexOrder order

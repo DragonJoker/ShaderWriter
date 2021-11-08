@@ -95,7 +95,7 @@ namespace spirv
 		SDWSPIRV_API void registerExecutionMode( ast::type::InputLayout layout );
 		SDWSPIRV_API void registerExecutionMode( ast::type::OutputLayout layout
 			, uint32_t primCount );
-		SDWSPIRV_API void registerExecutionMode( ast::type::OutputDomain domain
+		SDWSPIRV_API void registerExecutionMode( ast::type::PatchDomain domain
 			, ast::type::OutputPartitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::OutputVertexOrder order

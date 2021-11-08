@@ -282,6 +282,9 @@ namespace glsl
 		case ast::type::Kind::eArray:
 			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
 			break;
+		case ast::type::Kind::eTessellationInputPatch:
+			result = getTypeName( std::static_pointer_cast< ast::type::TessellationInputPatch >( type )->getType() );
+			break;
 		case ast::type::Kind::eTessellationOutputPatch:
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationOutputPatch >( type )->getType() );
 			break;
@@ -289,6 +292,9 @@ namespace glsl
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlInput >( type )->getType() );
 			break;
 		case ast::type::Kind::eTessellationControlOutput:
+			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
+			break;
+		case ast::type::Kind::eTessellationEvaluationInput:
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
 			break;
 		default:
@@ -350,7 +356,8 @@ namespace glsl
 		}
 		else if ( var.isShaderInput()
 			|| var.isShaderOutput()
-			|| var.isPatchOutput() )
+			|| var.isPatchOutput()
+			|| var.isPatchInput() )
 		{
 			result = "location";
 		}

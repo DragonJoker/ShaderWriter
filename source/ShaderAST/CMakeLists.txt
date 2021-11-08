@@ -353,6 +353,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationControlIO.hpp
+	${INCLUDE_DIR}/Type/TypeTessellationEvaluationIO.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/ImageConfiguration.cpp
@@ -368,6 +369,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
 	${SOURCE_DIR}/Type/TypeTessellationControlIO.cpp
+	${SOURCE_DIR}/Type/TypeTessellationEvaluationIO.cpp
 )
 source_group( "Header Files\\Type"
 	FILES
