@@ -514,8 +514,15 @@ namespace spirv
 		m_result.registerExecutionMode( stmt->getDomain()
 			, stmt->getPartitioning()
 			, stmt->getTopology()
-			, stmt->getVertexOrder()
+			, stmt->getPrimitiveOrdering()
 			, stmt->getOutputVertices() );
+	}
+
+	void StmtVisitor::visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )
+	{
+		m_result.registerExecutionMode( stmt->getDomain()
+			, stmt->getPartitioning()
+			, stmt->getPrimitiveOrdering() );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )

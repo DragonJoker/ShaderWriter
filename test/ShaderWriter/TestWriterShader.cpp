@@ -3,6 +3,12 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef ForceDisplayShaders
+#define ForceDisplayShaders false
+
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_SPIRV
+
 namespace
 {
 	template< sdw::var::Flag FlagT >
@@ -279,6 +285,165 @@ namespace
 		sdw::Vec3 position;
 		sdw::Vec3 normal;
 		sdw::Vec3 texcoord;
+	};
+
+	template< sdw::var::Flag FlagT >
+	struct SurfaceT
+		: sdw::StructInstance
+	{
+		SurfaceT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, position{ getMember< sdw::Vec3 >( "position" ) }
+			, normal{ getMember< sdw::Vec3 >( "normal" ) }
+			, tangent{ getMember< sdw::Vec3 >( "tangent" ) }
+			, bitangent{ getMember< sdw::Vec3 >( "bitangent" ) }
+			, texture{ getMember< sdw::Vec3 >( "texture" ) }
+			, instance{ getMember< sdw::Int >( "instance" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , SurfaceT );
+
+		template< sdw::var::Flag FlagU >
+		SurfaceT operator=( SurfaceT< FlagU > const & rhs )
+		{
+			position = rhs.position;
+			normal = rhs.normal;
+			tangent = rhs.tangent;
+			bitangent = rhs.bitangent;
+			texture = rhs.texture;
+			instance = rhs.instance;
+
+			return *this;
+		}
+
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Surface"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				uint32_t index = 0u;
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "tangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "bitangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "texture"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray
+					, index++ );
+				result->declMember( "instance"
+					, sdw::type::Kind::eInt
+					, ast::type::NotArray
+					, index++ );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 position;
+		sdw::Vec3 normal;
+		sdw::Vec3 tangent;
+		sdw::Vec3 bitangent;
+		sdw::Vec3 texture;
+		sdw::Int instance;
+	};
+
+	template< sdw::var::Flag FlagT >
+	struct PNTriPatchT
+		: sdw::StructInstance
+	{
+		PNTriPatchT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, wpB030{ getMember< sdw::Vec3 >( "wpB030" ) }
+			, wpB021{ getMember< sdw::Vec3 >( "wpB021" ) }
+			, wpB012{ getMember< sdw::Vec3 >( "wpB012" ) }
+			, wpB003{ getMember< sdw::Vec3 >( "wpB003" ) }
+			, wpB102{ getMember< sdw::Vec3 >( "wpB102" ) }
+			, wpB201{ getMember< sdw::Vec3 >( "wpB201" ) }
+			, wpB300{ getMember< sdw::Vec3 >( "wpB300" ) }
+			, wpB210{ getMember< sdw::Vec3 >( "wpB210" ) }
+			, wpB120{ getMember< sdw::Vec3 >( "wpB120" ) }
+			, wpB111{ getMember< sdw::Vec3 >( "wpB111" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , PNTriPatchT );
+
+		template< sdw::var::Flag FlagU >
+		PNTriPatchT operator=( PNTriPatchT< FlagU > const & rhs )
+		{
+			wpB030 = rhs.wpB030;
+			wpB021 = rhs.wpB021;
+			wpB012 = rhs.wpB012;
+			wpB003 = rhs.wpB003;
+			wpB102 = rhs.wpB102;
+			wpB201 = rhs.wpB201;
+			wpB300 = rhs.wpB300;
+			wpB210 = rhs.wpB210;
+			wpB120 = rhs.wpB120;
+			wpB111 = rhs.wpB111;
+
+			return *this;
+		}
+
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "PNTriPatch"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				uint32_t index = 0u;
+				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->end();
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 wpB030;
+		sdw::Vec3 wpB021;
+		sdw::Vec3 wpB012;
+		sdw::Vec3 wpB003;
+		sdw::Vec3 wpB102;
+		sdw::Vec3 wpB201;
+		sdw::Vec3 wpB300;
+		sdw::Vec3 wpB210;
+		sdw::Vec3 wpB120;
+		sdw::Vec3 wpB111;
 	};
 
 	void vtx_frag( test::sdw_test::TestCounts & testCounts )
@@ -1036,23 +1201,342 @@ namespace
 		}
 		testEnd();
 	}
+
+	void tessellationPipeline( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "tessellationPipeline" );
+		using namespace sdw;
+		static uint32_t constexpr maxPoints = 3u;
+		sdw::ShaderArray shaders;
+		{
+			VertexWriter writer;
+
+			writer.implementMainT< SurfaceT, SurfaceT >( [&]( VertexInT< SurfaceT > in
+				, sdw::VertexOutT< SurfaceT > out )
+				{
+					out.position = in.position;
+					out.normal = in.normal;
+					out.tangent = in.tangent;
+					out.bitangent = in.bitangent;
+					out.texture = in.texture;
+					out.instance = in.instance;
+					out.vtx.position = vec4( in.position, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			TessellationControlWriter writer;
+
+			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
+			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
+			ubo.end();
+
+			auto c3d_mapNormal = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapNormal", 0u, 0u );
+
+			auto getTessLevel = writer.implementFunction< Float >( "getTessLevel"
+				, [&]( Float const & a
+					, Float const & b )
+				{
+					auto avgDistance = writer.declLocale( "avgDistance"
+						, ( a + b ) / 2.0 );
+
+					IF( writer, avgDistance <= 20.0 )
+					{
+						writer.returnStmt( 256.0_f );
+					}
+					ELSEIF( avgDistance <= 50.0 )
+					{
+						writer.returnStmt( 128.0_f );
+					}
+					ELSEIF( avgDistance <= 100.0_f )
+					{
+						writer.returnStmt( 64.0_f );
+					}
+					FI;
+
+					writer.returnStmt( 16.0_f );
+				}
+				, InFloat{ writer, "a" }
+				, InFloat{ writer, "b" } );
+
+			auto projectToPlane = writer.implementFunction< Vec3 >( "projectToPlane"
+				, [&]( Vec3 const & point
+					, Vec3 const & planePoint
+					, Vec3 const & planeNormal )
+				{
+					auto v = writer.declLocale( "v"
+						, point - planePoint );
+					writer.returnStmt( point - dot( v, planeNormal ) * planeNormal );
+				}
+				, InVec3{ writer, "point" }
+				, InVec3{ writer, "planePoint" }
+				, InVec3{ writer, "planeNormal " } );
+
+			writer.implementPatchRoutineT< SurfaceT, maxPoints, PNTriPatchT >( 6u
+				, [&]( TessControlPatchRoutineIn in
+					, TessControlListInT< SurfaceT, maxPoints > listIn
+					, TrianglesTessPatchOutT< PNTriPatchT > patchOut )
+				{
+					// The original vertices stay the same
+					patchOut.wpB030 = listIn[0].position;
+					patchOut.wpB003 = listIn[1].position;
+					patchOut.wpB300 = listIn[2].position;
+
+					// Edges are names according to the opposing vertex
+					auto edgeB300 = writer.declLocale( "edgeB300"
+						, patchOut.wpB003 - patchOut.wpB030 );
+					auto edgeB030 = writer.declLocale( "edgeB030"
+						, patchOut.wpB300 - patchOut.wpB003 );
+					auto edgeB003 = writer.declLocale( "edgeB003"
+						, patchOut.wpB030 - patchOut.wpB300 );
+
+					// Generate two midpoints on each edge
+					patchOut.wpB021 = patchOut.wpB030 + edgeB300 / 3.0;
+					patchOut.wpB012 = patchOut.wpB030 + edgeB300 * 2.0 / 3.0;
+					patchOut.wpB102 = patchOut.wpB003 + edgeB030 / 3.0;
+					patchOut.wpB201 = patchOut.wpB003 + edgeB030 * 2.0 / 3.0;
+					patchOut.wpB210 = patchOut.wpB300 + edgeB003 / 3.0;
+					patchOut.wpB120 = patchOut.wpB300 + edgeB003 * 2.0 / 3.0;
+
+					// Project each midpoint on the plane defined by the nearest vertex and its normal
+					patchOut.wpB021 = projectToPlane( patchOut.wpB021
+						, patchOut.wpB030
+						, listIn[0].normal );
+					patchOut.wpB012 = projectToPlane( patchOut.wpB012
+						, patchOut.wpB003
+						, listIn[1].normal );
+					patchOut.wpB102 = projectToPlane( patchOut.wpB102
+						, patchOut.wpB003
+						, listIn[1].normal );
+					patchOut.wpB201 = projectToPlane( patchOut.wpB201
+						, patchOut.wpB300
+						, listIn[2].normal );
+					patchOut.wpB210 = projectToPlane( patchOut.wpB210
+						, patchOut.wpB300
+						, listIn[2].normal );
+					patchOut.wpB120 = projectToPlane( patchOut.wpB120
+						, patchOut.wpB030
+						, listIn[0].normal );
+
+					// Handle the center
+					auto center = writer.declLocale( "center"
+						, ( patchOut.wpB003
+							+ patchOut.wpB030
+							+ patchOut.wpB300 ) / 3.0 );
+					patchOut.wpB111 = ( patchOut.wpB021
+						+ patchOut.wpB012
+						+ patchOut.wpB102
+						+ patchOut.wpB201
+						+ patchOut.wpB210
+						+ patchOut.wpB120 ) / 6.0;
+					patchOut.wpB111 += ( patchOut.wpB111 - center ) / 2.0;
+
+					// Calculate the distance from the camera to the three control points
+					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
+						, distance( pos, listIn[0].position ) );
+					auto eyeToVertexDistance1 = writer.declLocale( "eyeToVertexDistance1"
+						, distance( pos, listIn[1].position ) );
+					auto eyeToVertexDistance2 = writer.declLocale( "eyeToVertexDistance2"
+						, distance( pos, listIn[2].position ) );
+
+					// Calculate the tessellation levels
+					patchOut.tessLevelOuter[0] = getTessLevel( eyeToVertexDistance1, eyeToVertexDistance2 );
+					patchOut.tessLevelOuter[1] = getTessLevel( eyeToVertexDistance2, eyeToVertexDistance0 );
+					patchOut.tessLevelOuter[2] = getTessLevel( eyeToVertexDistance0, eyeToVertexDistance1 );
+					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[2];
+				} );
+
+			writer.implementMainT< SurfaceT, maxPoints, SurfaceT >( ast::type::Partitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::PrimitiveOrdering::eCCW
+				, 3u
+				, [&]( TessControlMainIn in
+					, TessControlListInT< SurfaceT, maxPoints > listIn
+					, TrianglesTessControlListOutT< SurfaceT > listOut )
+				{
+					// Set the control points of the output patch
+					auto tbn = writer.declLocale( "tbn"
+						, mat3( normalize( listIn[in.invocationID].tangent )
+							, normalize( listIn[in.invocationID].bitangent )
+							, normalize( listIn[in.invocationID].normal ) ) );
+					auto v3MapNormal = writer.declLocale( "v3MapNormal"
+						, c3d_mapNormal.lod( listIn[in.invocationID].texture.xy(), 0.0_f ).xyz() );
+					v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0, 1.0 ) );
+					listOut.normal = normalize( tbn * v3MapNormal );
+					listOut.tangent = listIn[in.invocationID].tangent;
+					listOut.bitangent = listIn[in.invocationID].bitangent;
+					listOut.texture = listIn[in.invocationID].texture;
+					listOut.instance = listIn[in.invocationID].instance;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			TessellationEvaluationWriter writer;
+
+			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
+			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
+			ubo.end();
+
+			auto interpolate1D = writer.implementFunction< Float >( "interpolate1D"
+				, [&]( Vec3 const & tessCoord
+					, Int const & v0
+					, Int const & v1
+					, Int const & v2 )
+				{
+					writer.returnStmt( tessCoord.x() * writer.cast< Float >( v0 )
+						+ tessCoord.y() * writer.cast< Float >( v1 )
+						+ tessCoord.z() * writer.cast< Float >( v2 ) );
+				}
+				, InVec3{ writer, "tessCoord" }
+				, InInt{ writer, "v0" }
+				, InInt{ writer, "v1" }
+				, InInt{ writer, "v2" } );
+
+			auto interpolate2D = writer.implementFunction< Vec2 >( "interpolate2D"
+				, [&]( Vec3 const & tessCoord
+					, Vec2 const & v0
+					, Vec2 const & v1
+					, Vec2 const & v2 )
+				{
+					writer.returnStmt( vec2( tessCoord.x() ) * v0
+						+ vec2( tessCoord.y() ) * v1
+						+ vec2( tessCoord.z() ) * v2 );
+				}
+				, InVec3{ writer, "tessCoord" }
+				, InVec2{ writer, "v0" }
+				, InVec2{ writer, "v1" }
+				, InVec2{ writer, "v2" } );
+
+			auto interpolate3D = writer.implementFunction< Vec3 >( "interpolate3D"
+				, [&]( Vec3 const & tessCoord
+					, Vec3 const & v0
+					, Vec3 const & v1
+					, Vec3 const & v2 )
+				{
+					writer.returnStmt( vec3( tessCoord.x() ) * v0
+						+ vec3( tessCoord.y() ) * v1
+						+ vec3( tessCoord.z() ) * v2 );
+				}
+				, InVec3{ writer, "tessCoord" }
+				, InVec3{ writer, "v0" }
+				, InVec3{ writer, "v1" }
+				, InVec3{ writer, "v2" } );
+
+			writer.implementMainT< SurfaceT, maxPoints, PNTriPatchT, SurfaceT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
+				, [&]( TessEvalMainIn mainIn
+					, TessEvalListInT< SurfaceT > listIn
+					, TrianglesTessPatchInT< PNTriPatchT > patchIn
+					, TessEvalDataOutT< SurfaceT > out )
+				{
+					// Interpolate the attributes of the output vertex using the barycentric coordinates
+					out.normal = interpolate3D( mainIn.tessCoord
+						, listIn[0].normal
+						, listIn[1].normal
+						, listIn[2].normal );
+					out.tangent = interpolate3D( mainIn.tessCoord
+						, listIn[0].tangent
+						, listIn[1].tangent
+						, listIn[2].tangent );
+					out.bitangent = interpolate3D( mainIn.tessCoord
+						, listIn[0].bitangent
+						, listIn[1].bitangent
+						, listIn[2].bitangent );
+					out.texture = interpolate3D( mainIn.tessCoord
+						, listIn[0].texture
+						, listIn[1].texture
+						, listIn[2].texture );
+					out.instance = writer.cast< Int >( interpolate1D( mainIn.tessCoord
+						, listIn[0].instance
+						, listIn[1].instance
+						, listIn[2].instance ) );
+					out.normal = normalize( out.normal );
+					out.tangent = normalize( out.tangent );
+					out.bitangent = normalize( out.bitangent );
+
+					auto u = writer.declLocale( "u"
+						, mainIn.tessCoord.x() );
+					auto v = writer.declLocale( "v"
+						, mainIn.tessCoord.y() );
+					auto w = writer.declLocale( "w"
+						, mainIn.tessCoord.z() );
+
+					auto uPow3 = writer.declLocale( "uPow3"
+						, pow( u, 3.0_f ) );
+					auto vPow3 = writer.declLocale( "vPow3"
+						, pow( v, 3.0_f ) );
+					auto wPow3 = writer.declLocale( "wPow3"
+						, pow( w, 3.0_f ) );
+					auto uPow2 = writer.declLocale( "uPow2"
+						, pow( u, 2.0_f ) );
+					auto vPow2 = writer.declLocale( "vPow2"
+						, pow( v, 2.0_f ) );
+					auto wPow2 = writer.declLocale( "wPow2"
+						, pow( w, 2.0_f ) );
+
+					out.position = patchIn.wpB300 * wPow3
+						+ patchIn.wpB030 * uPow3
+						+ patchIn.wpB003 * vPow3
+						+ patchIn.wpB210 * 3.0 * wPow2 * u
+						+ patchIn.wpB120 * 3.0 * w * uPow2
+						+ patchIn.wpB201 * 3.0 * wPow2 * v
+						+ patchIn.wpB021 * 3.0 * uPow2 * v
+						+ patchIn.wpB102 * 3.0 * w * vPow2
+						+ patchIn.wpB012 * 3.0 * u * vPow2
+						+ patchIn.wpB111 * 6.0 * w * u * v;
+
+					out.vtx.position = mtx * vec4( out.position, 1.0 );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			FragmentWriter writer;
+
+			writer.implementMainT< SurfaceT, ColourT >( [&]( FragmentInT< SurfaceT > in
+				, FragmentOutT< ColourT > out )
+				{
+					out.colour = vec4( vec3( in.normal ), 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
 {
 	sdwTestSuiteBegin();
-	vtx_frag( testCounts );
-	charles( testCounts );
-	charles_approx( testCounts );
-	charles_latest( testCounts );
-	arthapzMin( testCounts );
-	arthapz( testCounts, false, false );
-	arthapz( testCounts, false, true );
-	arthapz( testCounts, true, false );
-	arthapz( testCounts, true, true );
-	clipDistance( testCounts );
-	basicPipeline( testCounts );
-	voxelPipeline( testCounts );
+	//vtx_frag( testCounts );
+	//charles( testCounts );
+	//charles_approx( testCounts );
+	//charles_latest( testCounts );
+	//arthapzMin( testCounts );
+	//arthapz( testCounts, false, false );
+	//arthapz( testCounts, false, true );
+	//arthapz( testCounts, true, false );
+	//arthapz( testCounts, true, true );
+	//clipDistance( testCounts );
+	//basicPipeline( testCounts );
+	//voxelPipeline( testCounts );
+	tessellationPipeline( testCounts );
 	sdwTestSuiteEnd();
 }
 

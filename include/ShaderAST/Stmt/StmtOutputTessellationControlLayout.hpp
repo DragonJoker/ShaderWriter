@@ -17,9 +17,9 @@ namespace ast::stmt
 	public:
 		SDAST_API OutputTessellationControlLayout( type::TypePtr type
 			, type::PatchDomain domain
-			, type::OutputPartitioning partitioning
+			, type::Partitioning partitioning
 			, type::OutputTopology topology
-			, type::OutputVertexOrder order
+			, type::PrimitiveOrdering order
 			, uint32_t outputVertices );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -34,7 +34,7 @@ namespace ast::stmt
 			return m_domain;
 		}
 
-		type::OutputPartitioning getPartitioning()const
+		type::Partitioning getPartitioning()const
 		{
 			return m_partitioning;
 		}
@@ -44,7 +44,7 @@ namespace ast::stmt
 			return m_topology;
 		}
 
-		type::OutputVertexOrder getVertexOrder()const
+		type::PrimitiveOrdering getPrimitiveOrdering()const
 		{
 			return m_order;
 		}
@@ -57,18 +57,18 @@ namespace ast::stmt
 	private:
 		type::TypePtr m_type;
 		type::PatchDomain m_domain;
-		type::OutputPartitioning m_partitioning;
+		type::Partitioning m_partitioning;
 		type::OutputTopology m_topology;
-		type::OutputVertexOrder m_order;
+		type::PrimitiveOrdering m_order;
 		uint32_t m_outputVertices;
 	};
 	using OutputTessellationControlLayoutPtr = std::unique_ptr< OutputTessellationControlLayout >;
 
 	inline OutputTessellationControlLayoutPtr makeOutputTessellationControlLayout( type::TypePtr type
 		, type::PatchDomain domain
-		, type::OutputPartitioning partitioning
+		, type::Partitioning partitioning
 		, type::OutputTopology topology
-		, type::OutputVertexOrder order
+		, type::PrimitiveOrdering order
 		, uint32_t outputVertices )
 	{
 		return std::make_unique< OutputTessellationControlLayout >( std::move( type )

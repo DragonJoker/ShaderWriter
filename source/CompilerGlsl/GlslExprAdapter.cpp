@@ -448,11 +448,22 @@ namespace glsl
 	ast::expr::ExprPtr ExprAdapter::doProcessIOMbr( ast::expr::Expr * outer
 		, uint32_t mbrIndex
 		, uint32_t mbrFlags
+		, bool isInput
 		, IOVars & io )
 	{
 		assert( isStructType( outer->getType() ) );
 		auto structType = getStructType( outer->getType() );
 		auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
+		auto compType = getComponentType( mbr.type );
+
+		if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex
+				|| !isInput )
+			&& ( isUnsignedIntType( compType )
+				|| isSignedIntType( compType ) ) )
+		{
+			mbrFlags = mbrFlags | ast::var::Flag::eFlat;
+		}
+
 		ast::expr::ExprPtr result;
 
 		if ( isPerVertex( mbr.builtin, m_adaptationData.writerConfig.shaderStage ) )
@@ -602,11 +613,11 @@ namespace glsl
 		, uint32_t mbrIndex
 		, uint32_t mbrFlags )
 	{
-		auto result = doProcessIOMbr( outer, mbrIndex, mbrFlags, m_adaptationData.inputs );
+		auto result = doProcessIOMbr( outer, mbrIndex, mbrFlags, true, m_adaptationData.inputs );
 
 		if ( !result )
 		{
-			result = doProcessIOMbr( outer, mbrIndex, mbrFlags, m_adaptationData.outputs );
+			result = doProcessIOMbr( outer, mbrIndex, mbrFlags, false, m_adaptationData.outputs );
 		}
 
 		return result;

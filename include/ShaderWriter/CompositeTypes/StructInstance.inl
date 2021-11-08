@@ -9,12 +9,12 @@ namespace sdw
 		assert( m_type->getKind() == type::Kind::eStruct );
 		auto mbrFlags = m_type->getFlag();
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchOutput ) ) == ast::var::Flag::ePatchOutput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
 		}
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchInput ) ) == ast::var::Flag::ePatchInput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
 		}
@@ -34,15 +34,16 @@ namespace sdw
 		assert( m_type->getKind() == type::Kind::eStruct );
 		auto mbrFlags = m_type->getFlag();
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchOutput ) ) == ast::var::Flag::ePatchOutput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
 		}
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchInput ) ) == ast::var::Flag::ePatchInput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
 		}
+
 		auto member = m_type->getMember( name );
 		auto & writer = findWriterMandat( *this );
 		return Array< T >{ writer
@@ -58,12 +59,12 @@ namespace sdw
 		assert( m_type->getKind() == type::Kind::eStruct );
 		auto mbrFlags = m_type->getFlag() | ast::var::Flag::eBuiltin;
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchOutput ) ) == ast::var::Flag::ePatchOutput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
 		}
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchInput ) ) == ast::var::Flag::ePatchInput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
 		}
@@ -83,12 +84,12 @@ namespace sdw
 		assert( m_type->getKind() == type::Kind::eStruct );
 		auto mbrFlags = m_type->getFlag() | ast::var::Flag::eBuiltin;
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchOutput ) ) == ast::var::Flag::ePatchOutput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
 		}
 
-		if ( ast::var::Flag( m_type->getFlag() & uint32_t( ast::var::Flag::ePatchInput ) ) == ast::var::Flag::ePatchInput )
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
 		}

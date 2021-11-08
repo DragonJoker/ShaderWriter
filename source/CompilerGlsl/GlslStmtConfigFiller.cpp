@@ -137,6 +137,10 @@ namespace glsl
 	{
 	}
 
+	void StmtConfigFiller::visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 	}

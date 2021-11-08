@@ -169,6 +169,12 @@ namespace ast::debug
 			case ast::stmt::Kind::eFragmentLayout:
 				result = "STFRAGLAYOUT";
 				break;
+			case ast::stmt::Kind::eOutputTessellationControlLayout:
+				result = "STOUTTESSCLAYOUT";
+				break;
+			case ast::stmt::Kind::eInputTessellationEvaluationLayout:
+				result = "STINTESSELAYOUT";
+				break;
 			default:
 				AST_Failure( "Unknown statement kind ?" );
 				break;
@@ -400,6 +406,15 @@ namespace ast::debug
 		m_result += "L(" + getName( stmt->getLayout() ) + ")\n";
 	}
 
+	void StmtVisitor::visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "L(" + getName( stmt->getDomain() );
+		m_result += "," + getName( stmt->getPartitioning() );
+		m_result += "," + getName( stmt->getPrimitiveOrdering() );
+		m_result += ")\n";
+	}
+
 	void StmtVisitor::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
 	{
 		displayStmtName( stmt, false );
@@ -413,7 +428,7 @@ namespace ast::debug
 		m_result += "L(" + getName( stmt->getDomain() );
 		m_result += "," + getName( stmt->getPartitioning() );
 		m_result += "," + getName( stmt->getTopology() );
-		m_result += "," + getName( stmt->getVertexOrder() );
+		m_result += "," + getName( stmt->getPrimitiveOrdering() );
 		m_result += ") C(" + std::to_string( stmt->getOutputVertices() ) + ")\n";
 	}
 

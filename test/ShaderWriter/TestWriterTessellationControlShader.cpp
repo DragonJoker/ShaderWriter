@@ -263,9 +263,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -298,9 +298,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -334,9 +334,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -370,9 +370,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -405,9 +405,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -442,9 +442,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -479,9 +479,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -516,9 +516,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -554,9 +554,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -592,9 +592,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -631,9 +631,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -668,9 +668,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -706,9 +706,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -744,9 +744,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -781,9 +781,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -820,9 +820,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -859,9 +859,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -898,9 +898,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -938,9 +938,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< VoidT, MaxPoints > listIn
@@ -978,9 +978,9 @@ namespace
 					patchOut.control = vec3( 1.0_f );
 				} );
 
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 1u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< PositionT, MaxPoints > listIn
@@ -1127,9 +1127,9 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[2];
 				} );
 
-			writer.implementMainT< SurfaceT, maxPoints, SurfaceT >( ast::type::OutputPartitioning::eEqual
+			writer.implementMainT< SurfaceT, maxPoints, SurfaceT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
-				, ast::type::OutputVertexOrder::eCCW
+				, ast::type::PrimitiveOrdering::eCCW
 				, 3u
 				, [&]( TessControlMainIn in
 					, TessControlListInT< SurfaceT, maxPoints > listIn

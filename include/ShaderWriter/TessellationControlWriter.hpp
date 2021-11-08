@@ -94,9 +94,9 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
 		TessControlListOutT( ShaderWriter & writer
-			, ast::type::OutputPartitioning partitioning
+			, ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
+			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices );
 		TessControlListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -239,33 +239,33 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, ast::type::PatchDomain DomainT >
-		inline void implementMainT( ast::type::OutputPartitioning partitioning
+		inline void implementMainT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
+			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
 			, TessControlMainFuncT< InT, MaxPointsT, PatchT, DomainT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( ast::type::OutputPartitioning partitioning
+		inline void implementMainT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
+			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
 			, IsolinesTessControlMainFuncT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( ast::type::OutputPartitioning partitioning
+		inline void implementMainT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
+			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
 			, TrianglesTessControlMainFuncT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementMainT( ast::type::OutputPartitioning partitioning
+		inline void implementMainT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
-			, ast::type::OutputVertexOrder vertexOrder
+			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
 			, QuadsTessControlMainFuncT< InT, MaxPointsT, PatchT > const & function );
 	};

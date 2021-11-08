@@ -542,18 +542,18 @@ namespace ast::debug
 		}
 	}
 
-	std::string getName( type::OutputPartitioning value )
+	std::string getName( type::Partitioning value )
 	{
 		switch ( value )
 		{
-		case type::OutputPartitioning::eEqual:
+		case type::Partitioning::eEqual:
 			return "EQUAL";
-		case type::OutputPartitioning::eFractionalEven:
+		case type::Partitioning::eFractionalEven:
 			return "FRACTIONALEVEN";
-		case type::OutputPartitioning::eFractionalOdd:
+		case type::Partitioning::eFractionalOdd:
 			return "FRACTIONALODD";
 		default:
-			AST_Failure( "Unsupported type::OutputPartitioning." );
+			AST_Failure( "Unsupported type::Partitioning." );
 			return "UNDEFINED";
 		}
 	}
@@ -569,21 +569,21 @@ namespace ast::debug
 		case type::OutputTopology::eTriangle:
 			return "TRIANGLE";
 		default:
-			AST_Failure( "Unsupported type::OutputPartitioning." );
+			AST_Failure( "Unsupported type::Partitioning." );
 			return "UNDEFINED";
 		}
 	}
 
-	std::string getName( type::OutputVertexOrder value )
+	std::string getName( type::PrimitiveOrdering value )
 	{
 		switch ( value )
 		{
-		case type::OutputVertexOrder::eCW:
+		case type::PrimitiveOrdering::eCW:
 			return "CW";
-		case type::OutputVertexOrder::eCCW:
+		case type::PrimitiveOrdering::eCCW:
 			return "CCW";
 		default:
-			AST_Failure( "Unsupported type::OutputVertexOrder." );
+			AST_Failure( "Unsupported type::PrimitiveOrdering." );
 			return "UNDEFINED";
 		}
 	}

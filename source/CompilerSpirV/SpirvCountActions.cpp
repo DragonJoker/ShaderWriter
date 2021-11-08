@@ -350,6 +350,10 @@ namespace spirv
 			{
 			}
 
+			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override
+			{
+			}
+
 			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
 			{
 			}

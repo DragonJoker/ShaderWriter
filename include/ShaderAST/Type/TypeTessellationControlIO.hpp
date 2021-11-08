@@ -16,6 +16,27 @@ namespace ast::type
 		eQuads,
 	};
 
+	enum class Partitioning
+	{
+		eEqual,
+		eFractionalEven,
+		eFractionalOdd,
+	};
+
+	enum class PrimitiveOrdering
+	{
+		eCW,
+		eCCW,
+	};
+
+	enum class OutputTopology
+	{
+		ePoint,
+		eLine,
+		eTriangle,
+		eQuad,
+	};
+
 	class TessellationOutputPatch
 		: public Type
 	{
@@ -76,36 +97,15 @@ namespace ast::type
 			, inputVertices );
 	}
 
-	enum class OutputPartitioning
-	{
-		eEqual,
-		eFractionalEven,
-		eFractionalOdd,
-	};
-
-	enum class OutputVertexOrder
-	{
-		eCW,
-		eCCW,
-	};
-
-	enum class OutputTopology
-	{
-		ePoint,
-		eLine,
-		eTriangle,
-		eQuad,
-	};
-
 	class TessellationControlOutput
 		: public Type
 	{
 	public:
 		SDAST_API TessellationControlOutput( TypePtr type
 			, PatchDomain domain
-			, OutputPartitioning partitioning
+			, Partitioning partitioning
 			, OutputTopology topology
-			, OutputVertexOrder order
+			, PrimitiveOrdering order
 			, uint32_t outputVertices );
 
 		type::TypePtr getType()const
@@ -118,7 +118,7 @@ namespace ast::type
 			return m_domain;
 		}
 
-		OutputPartitioning getPartitioning()const
+		Partitioning getPartitioning()const
 		{
 			return m_partitioning;
 		}
@@ -128,7 +128,7 @@ namespace ast::type
 			return m_topology;
 		}
 
-		OutputVertexOrder getOrder()const
+		PrimitiveOrdering getOrder()const
 		{
 			return m_order;
 		}
@@ -141,18 +141,18 @@ namespace ast::type
 	private:
 		TypePtr m_type;
 		PatchDomain m_domain;
-		OutputPartitioning m_partitioning;
+		Partitioning m_partitioning;
 		OutputTopology m_topology;
-		OutputVertexOrder m_order;
+		PrimitiveOrdering m_order;
 		uint32_t m_outputVertices;
 	};
 	using TessellationControlOutputPtr = std::shared_ptr< TessellationControlOutput >;
 
 	inline TessellationControlOutputPtr makeTessellationControlOutputType( TypePtr type
 		, PatchDomain domain
-		, OutputPartitioning partitioning
+		, Partitioning partitioning
 		, OutputTopology topology
-		, OutputVertexOrder order
+		, PrimitiveOrdering order
 		, uint32_t outputVertices )
 	{
 		return std::make_shared< TessellationControlOutput >( type

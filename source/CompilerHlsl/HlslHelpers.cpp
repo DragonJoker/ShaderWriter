@@ -1795,6 +1795,13 @@ namespace hlsl
 	{
 		auto arraySize = getArraySize( type );
 		type = getNonArrayType( type );
+		auto compType = getComponentType( type );
+
+		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
+		{
+			flags = flags | ast::var::Flag::eFlat;
+		}
 
 		if ( builtin != ast::Builtin::eNone )
 		{
@@ -3050,6 +3057,9 @@ namespace hlsl
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeTessellationEvaluationInputType( m_highFreqInputs.paramStruct
+				, tessType.getDomain()
+				, tessType.getPartitioning()
+				, tessType.getPrimitiveOrdering()
 				, tessType.getInputVertices() )
 			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );

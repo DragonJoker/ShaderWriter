@@ -252,6 +252,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -278,6 +280,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -306,6 +310,8 @@ namespace
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -334,6 +340,8 @@ namespace
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -362,6 +370,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -390,6 +400,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -418,6 +430,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -446,6 +460,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -476,6 +492,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -507,6 +525,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
@@ -539,6 +559,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -569,6 +591,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -600,6 +624,8 @@ namespace
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -631,6 +657,8 @@ namespace
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -662,6 +690,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -693,6 +723,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -724,6 +756,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -755,6 +789,8 @@ namespace
 			TessellationEvaluationWriter writer;
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -788,6 +824,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< VoidT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -822,6 +860,8 @@ namespace
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, PositionT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< PositionT > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
@@ -908,6 +948,8 @@ namespace
 				, InVec3{ writer, "v2" } );
 
 			writer.implementMainT< SurfaceT, maxPoints, PNTriPatchT, SurfaceT >( 6u
+				, type::Partitioning::eEqual
+				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
 					, TessEvalListInT< SurfaceT > listIn
 					, TrianglesTessPatchInT< PNTriPatchT > patchIn

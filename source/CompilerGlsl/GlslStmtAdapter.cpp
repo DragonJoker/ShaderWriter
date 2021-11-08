@@ -714,6 +714,11 @@ namespace glsl
 				, 32u
 				, true );
 		}
+
+		m_current->addStmt( ast::stmt::makeInputTessellationEvaluationLayout( tessType.getType()
+			, tessType.getDomain()
+			, tessType.getPartitioning()
+			, tessType.getPrimitiveOrdering() ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
@@ -812,14 +817,25 @@ namespace glsl
 
 				if ( it == typeIt->second.end() )
 				{
+					auto mbrFlags = structType->getFlag()
+						| ( mbr.builtin != ast::Builtin::eNone
+							? ast::var::Flag::eBuiltin
+							: ast::var::Flag::eNone );
+					auto compType = getComponentType( mbr.type );
+
+					if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex
+							|| !isInput )
+						&& ( isUnsignedIntType( compType )
+							|| isSignedIntType( compType ) ) )
+					{
+						mbrFlags = mbrFlags | ast::var::Flag::eFlat;
+					}
+
 					auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
 						, ( arraySize == ast::type::NotArray
 							? mbr.type
 							: m_cache.getArray( mbr.type, arraySize ) )
-						, ( structType->getFlag()
-							| ( mbr.builtin != ast::Builtin::eNone
-								? ast::var::Flag::eBuiltin
-								: ast::var::Flag::eNone ) ) );
+						, mbrFlags );
 					typeIt->second.emplace_back( mbrVar );
 
 					if ( declVar && mbr.builtin == ast::Builtin::eNone )

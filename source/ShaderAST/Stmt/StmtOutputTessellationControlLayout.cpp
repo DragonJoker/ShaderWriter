@@ -9,9 +9,9 @@ namespace ast::stmt
 {
 	OutputTessellationControlLayout::OutputTessellationControlLayout( type::TypePtr type
 		, type::PatchDomain domain
-		, type::OutputPartitioning partitioning
+		, type::Partitioning partitioning
 		, type::OutputTopology topology
-		, type::OutputVertexOrder order
+		, type::PrimitiveOrdering order
 		, uint32_t outputVertices )
 		: Stmt{ Kind::eOutputTessellationControlLayout }
 		, m_type{ std::move( type ) }

@@ -630,6 +630,15 @@ namespace glsl
 		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ") in;\n";
 	}
 
+	void StmtVisitor::visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "layout(" + getLayoutName( stmt->getDomain() );
+		m_result += ", " + getLayoutName( stmt->getPartitioning() );
+		m_result += ", " + getLayoutName( stmt->getPrimitiveOrdering() );
+		m_result += ") in;\n";
+	}
+
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 		doAppendLineEnd();

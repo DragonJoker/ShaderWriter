@@ -29,9 +29,9 @@ namespace ast::type
 
 	TessellationControlOutput::TessellationControlOutput( TypePtr type
 		, PatchDomain domain
-		, OutputPartitioning partitioning
+		, Partitioning partitioning
 		, OutputTopology topology
-		, OutputVertexOrder order
+		, PrimitiveOrdering order
 		, uint32_t outputVertices )
 		: Type{ type->getCache(), Kind::eTessellationControlOutput }
 		, m_type{ type }

@@ -50,6 +50,7 @@ namespace hlsl
 		void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override;
 		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
+		void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * )override;
 		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
 		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;

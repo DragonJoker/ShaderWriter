@@ -26,6 +26,9 @@ namespace glsl
 	std::string getOperatorName( ast::expr::Kind kind );
 	std::string getLayoutName( ast::type::InputLayout layout );
 	std::string getLayoutName( ast::type::OutputLayout layout );
+	std::string getLayoutName( ast::type::PatchDomain value );
+	std::string getLayoutName( ast::type::PrimitiveOrdering value );
+	std::string getLayoutName( ast::type::Partitioning value );
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component );
 	bool isUnaryPre( ast::expr::Kind kind );

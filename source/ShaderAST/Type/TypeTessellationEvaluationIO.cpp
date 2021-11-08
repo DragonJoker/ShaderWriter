@@ -20,9 +20,15 @@ namespace ast::type
 	//*************************************************************************
 
 	TessellationEvaluationInput::TessellationEvaluationInput( TypePtr type
+		, PatchDomain domain
+		, Partitioning partitioning
+		, PrimitiveOrdering order
 		, uint32_t inputVertices )
 		: Type{ type->getCache(), Kind::eTessellationEvaluationInput }
 		, m_type{ std::move( type ) }
+		, m_domain{ domain }
+		, m_partitioning{ partitioning }
+		, m_order{ order }
 		, m_inputVertices{ inputVertices }
 	{
 	}
