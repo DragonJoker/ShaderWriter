@@ -43,7 +43,7 @@ namespace test
 	struct TestCounts
 	{
 		TestCounts( TestSuite & suite );
-		~TestCounts()noexcept;
+		virtual ~TestCounts()noexcept;
 
 		void initialise();
 		TestResults cleanup();
@@ -63,8 +63,14 @@ namespace test
 		uint32_t nextVarId{};
 
 	private:
+		virtual void doInitialise(){}
+		virtual void doCleanup(){}
+
+	private:
 		TestSuite & suite;
 		TestResults result{};
+		std::atomic_bool m_initialised{ false };
+		std::atomic_bool m_cleaned{ true };
 	};
 
 	using TestCountsPtr = std::unique_ptr< TestCounts >;

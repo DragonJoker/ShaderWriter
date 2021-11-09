@@ -1,6 +1,7 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
 #undef ForceDisplayShaders

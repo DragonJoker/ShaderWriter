@@ -84,23 +84,23 @@ namespace hlsl
 	{
 		uint32_t mbrIndex{ ast::type::Struct::NotFound };
 		uint32_t flags{};
-		ast::expr::ExprPtr expr;
+		ast::expr::ExprPtr expr{};
 	};
 
 	struct PendingIO
 	{
-		ast::var::VariablePtr var;
-		uint32_t location;
-		uint32_t flags;
-		PendingResult result;
+		ast::var::VariablePtr var{};
+		uint32_t location{ ast::type::Struct::InvalidLocation };
+		uint32_t flags{};
+		PendingResult result{};
 	};
 
 	struct PendingMbrIO
 	{
-		uint32_t mbrIndex;
-		uint32_t location;
-		uint32_t flags;
-		PendingResult result;
+		uint32_t mbrIndex{ ast::type::Struct::NotFound };
+		uint32_t location{ ast::type::Struct::InvalidLocation };
+		uint32_t flags{};
+		PendingResult result{};
 	};
 
 	enum class IOMappingMode

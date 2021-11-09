@@ -212,23 +212,44 @@ namespace hlsl
 			return writeBaseMembers( indent, structType );
 		}
 
-		std::string writeMember( ast::ShaderStage stage
-			, ast::type::Struct::Member const & member
-			, bool isInput
-			, Semantic & intSem
-			, Semantic & fltSem )
+		std::string writeTessEvalIn( ast::type::TessellationInputPatch const & tesscType
+			, RoutineMap const & patchRoutines
+			, std::string const & indent )
 		{
-			if ( member.builtin != ast::Builtin::eNone
-				|| member.location != ast::type::Struct::InvalidLocation )
+			std::string result;
+			result += indent + "[domain(\"" + getName( tesscType.getDomain() ) + "\")]\n";
+			return result;
+		}
+
+		std::string writeTessCtrlOut( ast::type::TessellationControlOutput const & tesscType
+			, RoutineMap const & patchRoutines
+			, std::string const & indent )
+		{
+			std::string result;
+			result += indent + "[domain(\"" + getName( tesscType.getDomain() ) + "\")]\n";
+			result += indent + "[partitioning(\"" + getName( tesscType.getPartitioning() ) + "\")]\n";
+			result += indent + "[outputtopology(\"" + getName( tesscType.getTopology(), tesscType.getOrder() ) + "\")]\n";
+			result += indent + "[outputcontrolpoints(" + std::to_string( tesscType.getOutputVertices() ) + ")]\n";
+
+			if ( !patchRoutines.empty() )
 			{
-				return writeIOMember( stage
-					, member
-					, isInput
-					, intSem
-					, fltSem );
+				auto rit = std::find_if( patchRoutines.begin()
+					, patchRoutines.end()
+					, []( auto & lookup )
+					{
+						return !lookup.second->isMain;
+					} );
+
+				if ( rit != patchRoutines.end() )
+				{
+					result += indent + "[patchconstantfunc(\"" + ( rit->first ) + "\")]\n";
+				}
+				else
+				{
+				}
 			}
 
-			return writeBaseMember( member );
+			return result;
 		}
 	}
 
@@ -393,46 +414,6 @@ namespace hlsl
 	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
 	{
 		// Unsupported in HLSL :/
-	}
-
-	std::string writeTessEvalIn( ast::type::TessellationInputPatch const & tesscType
-		, RoutineMap const & patchRoutines
-		, std::string const & indent )
-	{
-		std::string result;
-		result += indent + "[domain(\"" + getName( tesscType.getDomain() ) + "\")]\n";
-		return result;
-	}
-
-	std::string writeTessCtrlOut( ast::type::TessellationControlOutput const & tesscType
-		, RoutineMap const & patchRoutines
-		, std::string const & indent )
-	{
-		std::string result;
-		result += indent + "[domain(\"" + getName( tesscType.getDomain() ) + "\")]\n";
-		result += indent + "[partitioning(\"" + getName( tesscType.getPartitioning() ) + "\")]\n";
-		result += indent + "[outputtopology(\"" + getName( tesscType.getTopology(), tesscType.getOrder() ) + "\")]\n";
-		result += indent + "[outputcontrolpoints(" + std::to_string( tesscType.getOutputVertices() ) + ")]\n";
-
-		if ( !patchRoutines.empty() )
-		{
-			auto rit = std::find_if( patchRoutines.begin()
-				, patchRoutines.end()
-				, []( auto & lookup )
-				{
-					return !lookup.second->isMain;
-				} );
-
-			if ( rit != patchRoutines.end() )
-			{
-				result += indent + "[patchconstantfunc(\"" + ( rit->first ) + "\")]\n";
-			}
-			else
-			{
-			}
-		}
-
-		return result;
 	}
 
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )

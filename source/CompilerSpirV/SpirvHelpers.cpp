@@ -318,8 +318,6 @@ namespace spirv
 
 	//*********************************************************************************************
 
-	static uint32_t constexpr BuiltinIndex = 128u;
-
 	IOMapping::IOMapping( ast::type::TypesCache & pcache
 		, ast::ShaderStage pstage
 		, bool pisInput

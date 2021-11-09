@@ -51,8 +51,8 @@ namespace glsl
 		GlslConfig const & writerConfig;
 		IntrinsicsConfig intrinsicsConfig;
 		uint32_t nextVarId;
-		IOVars inputs;
-		IOVars outputs;
+		IOVars inputs{};
+		IOVars outputs{};
 	};
 
 	class StmtAdapter

@@ -267,7 +267,7 @@ namespace ast::var
 		return std::make_shared< Variable >( id
 			, builtin
 			, type
-			, uint32_t( flags ) | uint32_t( Flag::eBuiltin ) );
+			, flags | uint32_t( Flag::eBuiltin ) );
 	}
 
 	inline VariablePtr makeFunction( uint32_t id

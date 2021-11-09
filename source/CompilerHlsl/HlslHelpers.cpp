@@ -1221,8 +1221,6 @@ namespace hlsl
 
 	//*********************************************************************************************
 
-	static uint32_t constexpr BuiltinIndex = 128u;
-
 	IOMapping::IOMapping( HlslShader & pshader
 		, IOMappingMode pmode
 		, bool pisInput
@@ -2393,13 +2391,10 @@ namespace hlsl
 				break;
 			default:
 				{
-					uint32_t arraySize = ast::type::NotArray;
-
 					if ( type->getKind() == ast::type::Kind::eArray )
 					{
 						auto & arrayType = static_cast< ast::type::Array const & >( *type );
 						type = arrayType.getType();
-						arraySize = arrayType.getArraySize();
 					}
 
 					if ( type->getKind() == ast::type::Kind::eStruct )

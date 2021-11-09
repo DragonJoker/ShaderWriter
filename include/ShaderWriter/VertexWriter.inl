@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "VertexWriter.hpp"
 
+#include "BaseTypes/Int.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
@@ -12,11 +14,11 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, vertexIndex{ this->getMember< Int >( ast::Builtin::eVertexIndex ) }
-		, instanceIndex{ this->getMember< Int >( ast::Builtin::eInstanceIndex ) }
-		, drawID{ this->getMember< Int >( ast::Builtin::eDrawIndex ) }
-		, baseVertex{ this->getMember< Int >( ast::Builtin::eBaseVertex ) }
-		, baseInstance{ this->getMember< Int >( ast::Builtin::eBaseInstance ) }
+		, vertexIndex{ getIntMember( *this, ast::Builtin::eVertexIndex ) }
+		, instanceIndex{ getIntMember( *this, ast::Builtin::eInstanceIndex ) }
+		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
+		, baseVertex{ getIntMember( *this, ast::Builtin::eBaseVertex ) }
+		, baseInstance{ getIntMember( *this, ast::Builtin::eBaseInstance ) }
 	{
 	}
 

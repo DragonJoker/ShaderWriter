@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "GeometryWriter.hpp"
 
+#include "BaseTypes/Int.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
@@ -63,9 +65,9 @@ namespace sdw
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
-		, primitiveID{ this->getMember< Int >( ast::Builtin::ePrimitiveID ) }
-		, layer{ this->getMember< Int >( ast::Builtin::eLayer ) }
-		, viewportIndex{ this->getMember< Int >( ast::Builtin::eViewportIndex ) }
+		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
+		, layer{ getIntMember( *this, ast::Builtin::eLayer ) }
+		, viewportIndex{ getIntMember( *this, ast::Builtin::eViewportIndex ) }
 	{
 	}
 

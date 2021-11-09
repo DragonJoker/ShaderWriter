@@ -39,15 +39,16 @@ namespace test
 		{
 			TestCounts( test::TestSuite & suite );
 
-			void initialise();
-			TestResults cleanup();
-
 			uint32_t getSpirVVersion()const;
 
 			std::shared_ptr< GLSLContext > glsl;
 			std::shared_ptr< HLSLContext > hlsl;
 			std::shared_ptr< SPIRVContext > spirv;
 			std::string expectedError;
+
+		private:
+			void doInitialise()override;
+			void doCleanup()override;
 		};
 
 		struct TestSuite

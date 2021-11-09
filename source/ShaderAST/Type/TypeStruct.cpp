@@ -732,7 +732,7 @@ namespace ast::type
 		, Builtin builtin
 		, uint32_t index )
 	{
-		auto [size, offset] = doLookupMember( getRealName( builtin, index ), type );
+		doLookupMember( getRealName( builtin, index ), type );
 		Member result{ std::move( type )
 			, builtin
 			, index };
@@ -901,7 +901,7 @@ namespace ast::type
 		, Builtin builtin
 		, uint32_t index )
 	{
-		auto [size, offset] = doLookupMember( getRealName( builtin, index ), type );
+		doLookupMember( getRealName( builtin, index ), type );
 		Member result{ std::move( type )
 			, builtin
 			, index };

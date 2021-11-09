@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "ComputeWriter.hpp"
 
+#include "BaseTypes/UInt.hpp"
+#include "VecTypes/Vec3.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
@@ -28,11 +31,11 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, numWorkGroups{ this->getMember< UVec3 >( ast::Builtin::eNumWorkGroups ) }
-		, workGroupID{ this->getMember< UVec3 >( ast::Builtin::eWorkGroupID ) }
-		, localInvocationID{ this->getMember< UVec3 >( ast::Builtin::eLocalInvocationID ) }
-		, globalInvocationID{ this->getMember< UVec3 >( ast::Builtin::eGlobalInvocationID ) }
-		, localInvocationIndex{ this->getMember< UInt >( ast::Builtin::eLocalInvocationIndex ) }
+		, numWorkGroups{ getUVec3Member( *this, ast::Builtin::eNumWorkGroups ) }
+		, workGroupID{ getUVec3Member( *this, ast::Builtin::eWorkGroupID ) }
+		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ) }
+		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ) }
+		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
 		, workGroupSize{ getWorkGroupSize( this->getType() ) }
 	{
 	}

@@ -22,16 +22,16 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, fragCoord{ this->getMember< Vec4 >( ast::Builtin::eFragCoord ) }
-		, frontFacing{ this->getMember< Boolean >( ast::Builtin::eFrontFacing ) }
-		, pointCoord{ this->getMember< Vec2 >( ast::Builtin::ePointCoord ) }
-		, sampleID{ this->getMember< Int >( ast::Builtin::eSampleID ) }
-		, samplePosition{ this->getMember< Vec2 >( ast::Builtin::eSamplePosition ) }
-		, sampleMask{ this->getMemberArray< Int >( ast::Builtin::eSampleMaskIn ) }
-		, clipDistance{ this->getMemberArray< Float >( ast::Builtin::eClipDistance ) }
-		, primitiveID{ this->getMember< Int >( ast::Builtin::ePrimitiveID ) }
-		, layer{ this->getMember< Int >( ast::Builtin::eLayer ) }
-		, viewportIndex{ this->getMember< Int >( ast::Builtin::eViewportIndex ) }
+		, fragCoord{ getVec4Member( *this, ast::Builtin::eFragCoord ) }
+		, frontFacing{ getBoolMember( *this, ast::Builtin::eFrontFacing ) }
+		, pointCoord{ getVec2Member( *this, ast::Builtin::ePointCoord ) }
+		, sampleID{ getIntMember( *this, ast::Builtin::eSampleID ) }
+		, samplePosition{ getVec2Member( *this, ast::Builtin::eSamplePosition ) }
+		, sampleMask{ getIntMemberArray( *this, ast::Builtin::eSampleMaskIn ) }
+		, clipDistance{ getFloatMemberArray( *this, ast::Builtin::eClipDistance ) }
+		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
+		, layer{ getIntMember( *this, ast::Builtin::eLayer ) }
+		, viewportIndex{ getIntMember( *this, ast::Builtin::eViewportIndex ) }
 	{
 	}
 
@@ -94,8 +94,8 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
-		, fragDepth{ this->getMember< Float >( ast::Builtin::eFragDepth ) }
-		, sampleMask{ this->getMemberArray< Int >( ast::Builtin::eSampleMask ) }
+		, fragDepth{ getFloatMember( *this, ast::Builtin::eFragDepth ) }
+		, sampleMask{ getIntMemberArray( *this, ast::Builtin::eSampleMask ) }
 	{
 	}
 
@@ -141,7 +141,7 @@ namespace sdw
 		, ast::FragmentCenter center
 		, FragmentMainFuncT< InT, OutT > const & function )
 	{
-		addStmt( stmt::makeFragmentLayout( origin, center ) );
+		addStmt( sdw::makeFragmentLayout( origin, center ) );
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function

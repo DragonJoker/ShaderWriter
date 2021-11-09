@@ -411,6 +411,7 @@ namespace test
 
 				current.second = std::thread{ [this, run]()
 					{
+						run->testCount->initialise();
 						auto result = run->launch( *this, *run->testCount );
 
 						if ( run->name != this->suiteName )
@@ -460,10 +461,21 @@ namespace test
 
 	void TestCounts::initialise()
 	{
+		if ( !m_initialised.exchange( true ) )
+		{
+			doInitialise();
+			m_cleaned = false;
+		}
 	}
 
 	TestResults TestCounts::cleanup()
 	{
+		if ( !m_cleaned.exchange( true ) )
+		{
+			doCleanup();
+			m_initialised = false;
+		}
+
 		return result;
 	}
 

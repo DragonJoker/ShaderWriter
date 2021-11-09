@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "TessellationControlWriter.hpp"
 
+#include "BaseTypes/Float.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
@@ -113,8 +115,8 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: PatchOutT< DataT >{ writer, std::move( expr ), enabled }
-		, tessLevelOuter{ this->getMemberArray< Float >( ast::Builtin::eTessLevelOuter ) }
-		, tessLevelInner{ this->getMemberArray< Float >( ast::Builtin::eTessLevelInner ) }
+		, tessLevelOuter{ getFloatMemberArray( *this, ast::Builtin::eTessLevelOuter ) }
+		, tessLevelInner{ getFloatMemberArray( *this, ast::Builtin::eTessLevelInner ) }
 	{
 	}
 
