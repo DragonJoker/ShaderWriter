@@ -18,6 +18,15 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	namespace
+	{
+		ast::Builtin getBuiltin( ast::expr::MbrSelect * expr )
+		{
+			auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
+			return mbr.builtin;
+		}
+	}
+
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
 		, ast::stmt::Container * container
 		, ast::stmt::Container * ioDeclarations
@@ -95,12 +104,6 @@ namespace spirv
 				m_result = ExprCloner::submit( expr );
 			}
 		}
-	}
-
-	ast::Builtin getBuiltin( ast::expr::MbrSelect * expr )
-	{
-		auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
-		return mbr.builtin;
 	}
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )

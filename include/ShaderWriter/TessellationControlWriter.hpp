@@ -7,9 +7,6 @@ See LICENSE file in root folder
 #include "ShaderWriter/Writer.hpp"
 namespace sdw
 {
-	SDW_API uint32_t getOuterArraySize( ast::type::PatchDomain domain );
-	SDW_API uint32_t getInnerArraySize( ast::type::PatchDomain domain );
-	SDW_API bool hasInnerLevel( ast::type::PatchDomain domain );
 	/**
 	*name
 	*	Tessellation Control.

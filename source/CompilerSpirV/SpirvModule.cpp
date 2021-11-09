@@ -172,24 +172,6 @@ namespace spirv
 				, initialiser ) );
 			return result;
 		}
-
-		std::string adaptName( std::string const & name )
-		{
-			static std::map< std::string, std::string > const names
-			{
-				{ "gl_InstanceID", "gl_InstanceIndex" },
-				{ "gl_VertexID", "gl_VertexIndex" },
-			};
-
-			auto it = names.find( name );
-
-			if ( it != names.end() )
-			{
-				return it->second;
-			}
-
-			return name;
-		}
 	}
 
 	//*************************************************************************

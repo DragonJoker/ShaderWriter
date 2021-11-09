@@ -53,7 +53,6 @@ namespace glsl
 					return ast::stmt::PerVertexDecl::eTessellationControlInput;
 				}
 				return ast::stmt::PerVertexDecl::eTessellationControlOutput;
-				break;
 			case ast::ShaderStage::eTessellationEvaluation:
 				if ( isInput )
 				{
@@ -134,7 +133,6 @@ namespace glsl
 				return  getPerVertexArrayType( cache
 					, 32u
 					, isInput );
-				break;
 			case ast::ShaderStage::eTessellationEvaluation:
 				if ( isInput )
 				{

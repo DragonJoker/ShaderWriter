@@ -22,3 +22,9 @@ See LICENSE file in root folder
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 #include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/VertexWriter.hpp"
+#include "ShaderWriter/TessellationControlWriter.hpp"
+#include "ShaderWriter/TessellationEvaluationWriter.hpp"
+#include "ShaderWriter/GeometryWriter.hpp"
+#include "ShaderWriter/FragmentWriter.hpp"
+#include "ShaderWriter/ComputeWriter.hpp"

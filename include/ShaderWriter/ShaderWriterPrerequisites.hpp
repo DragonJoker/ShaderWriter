@@ -1111,6 +1111,10 @@ namespace sdw
 	static bool constexpr areCompatible = AreCompatibleT< LhsT, RhsT >::value;
 	/**@}*/
 #pragma endregion
+
+	SDW_API uint32_t getOuterArraySize( ast::type::PatchDomain domain );
+	SDW_API uint32_t getInnerArraySize( ast::type::PatchDomain domain );
+	SDW_API bool hasInnerLevel( ast::type::PatchDomain domain );
 }
 
 #include "ShaderWriterPrerequisites.inl"

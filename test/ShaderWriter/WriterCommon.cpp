@@ -503,20 +503,18 @@ namespace test
 		{
 		}
 
-		void TestCounts::initialise()
+		void TestCounts::doInitialise()
 		{
-			test::TestCounts::initialise();
 			createGLSLContext( *this );
 			createHLSLContext( *this );
 			createSPIRVContext( *this );
 		}
 
-		TestResults TestCounts::cleanup()
+		void TestCounts::doCleanup()
 		{
 			destroySPIRVContext( *this );
 			destroyHLSLContext( *this );
 			destroyGLSLContext( *this );
-			return test::TestCounts::cleanup();
 		}
 
 		uint32_t TestCounts::getSpirVVersion()const

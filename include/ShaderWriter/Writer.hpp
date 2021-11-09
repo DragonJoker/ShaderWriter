@@ -683,13 +683,6 @@ namespace sdw
  ).endSwitch();\
 	}
 
-#include "VertexWriter.hpp"
-#include "TessellationControlWriter.hpp"
-#include "TessellationEvaluationWriter.hpp"
-#include "GeometryWriter.hpp"
-#include "FragmentWriter.hpp"
-#include "ComputeWriter.hpp"
-
 #include "Writer.inl"
 
 #endif

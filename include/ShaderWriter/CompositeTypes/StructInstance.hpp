@@ -10,6 +10,31 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	SDW_API Boolean getBoolMember( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Int getIntMember( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API UInt getUIntMember( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Float getFloatMember( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Int > getIntMemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Float > getFloatMemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Vec2 getVec2Member( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Vec3 getVec3Member( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Vec4 getVec4Member( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API UVec2 getUVec2Member( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API UVec3 getUVec3Member( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API UVec4 getUVec4Member( StructInstance const & instance
+		, ast::Builtin builtin );
+
 	class StructInstance
 		: public Value
 	{
