@@ -72,6 +72,8 @@ namespace sdw
 	public:
 		SDW_API VertexWriter();
 
+		SDW_API void implementMain( VertexMainFuncT< VoidT, VoidT > const & function );
+
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( VertexMainFuncT< InT, OutT > const & function );

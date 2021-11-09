@@ -92,13 +92,6 @@ namespace sdw
 		addFuncStmt( std::move( decl ) );
 		return Function< ReturnT, ParamsT... >{ *this, functionType, name };
 	}
-
-	inline void ShaderWriter::implementMain( std::function< void() > const & function )
-	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function );
-	}
 	/**@}*/
 #pragma endregion
 #pragma region Cast

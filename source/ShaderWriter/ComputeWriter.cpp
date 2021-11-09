@@ -20,4 +20,25 @@ namespace sdw
 		: ShaderWriter{ ast::ShaderStage::eCompute }
 	{
 	}
+
+	void ComputeWriter::implementMain( uint32_t localSizeX
+		, ComputeMainFuncT< VoidT > const & function )
+	{
+		implementMainT( localSizeX, function );
+	}
+
+	void ComputeWriter::implementMain( uint32_t localSizeX
+		, uint32_t localSizeY
+		, ComputeMainFuncT< VoidT > const & function )
+	{
+		implementMainT( localSizeX, localSizeX, function );
+	}
+
+	void ComputeWriter::implementMain( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
+		, ComputeMainFuncT< VoidT > const & function )
+	{
+		implementMainT( localSizeX, localSizeX, localSizeZ, function );
+	}
 }

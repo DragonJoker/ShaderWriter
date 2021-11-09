@@ -9,4 +9,16 @@ namespace sdw
 		: ShaderWriter{ ast::ShaderStage::eFragment }
 	{
 	}
+
+	void FragmentWriter::implementMain( FragmentMainFuncT< VoidT, VoidT > const & function )
+	{
+		implementMainT( function );
+	}
+
+	void FragmentWriter::implementMain( ast::FragmentOrigin origin
+		, ast::FragmentCenter center
+		, FragmentMainFuncT< VoidT, VoidT > const & function )
+	{
+		implementMainT( origin, center, function );
+	}
 }

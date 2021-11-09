@@ -3,8 +3,9 @@
 
 namespace
 {
-#define DummyMain writer.implementMain( [](){} )
-#define DummyMainT writer.implementMainT< 1u, sdw::PointList, sdw::PointStream >( [&]( sdw::GeometryIn in, sdw::PointList list, sdw::PointStream out ){ out.vtx.position = list[0].vtx.position;out.append(); } )
+#define DummyMainV writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out ){} )
+#define DummyMainF writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
+#define DummyMainG writer.implementMainT< 1u, sdw::PointList, sdw::PointStream >( [&]( sdw::GeometryIn in, sdw::PointList list, sdw::PointStream out ){ out.vtx.position = list[0].vtx.position;out.append(); } )
 
 	template< typename T >
 	void testShaderOutput( test::sdw_test::TestCounts & testCounts )
@@ -23,7 +24,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			DummyMain;
+			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -39,7 +40,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
-			DummyMain;
+			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -54,7 +55,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
-			DummyMain;
+			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -69,7 +70,7 @@ namespace
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			check( shader.getStatements()->size() == count );
-			DummyMain;
+			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -86,7 +87,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			DummyMain;
+			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -103,7 +104,7 @@ namespace
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
-			DummyMain;
+			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -121,7 +122,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
-			DummyMain;
+			DummyMainF;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
@@ -139,7 +140,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
-			DummyMainT;
+			DummyMainG;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();

@@ -81,9 +81,14 @@ namespace sdw
 		SDW_API FragmentWriter();
 		/**
 		*name
-		*	I/O layout declaration.
+		*	Entry point declaration.
 		*/
 		/**@{*/
+		SDW_API void implementMain( FragmentMainFuncT< VoidT, VoidT > const & function );
+		SDW_API void implementMain( ast::FragmentOrigin origin
+			, ast::FragmentCenter center
+			, FragmentMainFuncT< VoidT, VoidT > const & function );
+
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( FragmentMainFuncT< InT, OutT > const & function );

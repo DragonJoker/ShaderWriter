@@ -56,6 +56,16 @@ namespace sdw
 	public:
 		SDW_API ComputeWriter();
 
+		SDW_API void implementMain( uint32_t localSizeX
+			, ComputeMainFuncT< VoidT > const & function );
+		SDW_API void implementMain( uint32_t localSizeX
+			, uint32_t localSizeY
+			, ComputeMainFuncT< VoidT > const & function );
+		SDW_API void implementMain( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
+			, ComputeMainFuncT< VoidT > const & function );
+
 		template< template< ast::var::Flag FlagT > typename DataT >
 		inline void implementMainT( uint32_t localSizeX
 			, ComputeMainFuncT< DataT > const & function );

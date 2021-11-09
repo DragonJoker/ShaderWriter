@@ -131,9 +131,6 @@ namespace sdw
 	class GeometryWriter
 		: public ShaderWriter
 	{
-	private:
-		using ShaderWriter::implementMain;
-
 	public:
 		SDW_API GeometryWriter();
 		/**

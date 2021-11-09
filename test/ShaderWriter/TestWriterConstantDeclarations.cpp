@@ -3,34 +3,34 @@
 
 namespace
 {
-	void dummyMain( sdw::ShaderWriter & writer )
+	void dummyMain( sdw::FragmentWriter & writer )
 	{
-		writer.implementMain( []()
+		writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 			{
 			} );
 	}
 
 	template< typename T >
-	void simpleMain( sdw::ShaderWriter & writer
+	void simpleMain( sdw::FragmentWriter & writer
 		, T const & value )
 	{
-		writer.implementMain( [&]()
+		writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 			{
-				auto out = writer.declLocale< T >( "outValue", value );
+				auto outValue = writer.declLocale< T >( "outValue", value );
 			} );
 	}
 
 	template< typename T >
-	void arrayMain( sdw::ShaderWriter & writer
+	void arrayMain( sdw::FragmentWriter & writer
 		, sdw::Array< T > const & value
 		, uint32_t size )
 	{
-		writer.implementMain( [&]()
+		writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 			{
-				auto out = writer.declLocaleArray< T >( "outValue", size );
+				auto outValue = writer.declLocaleArray< T >( "outValue", size );
 				for ( uint32_t i = 0u; i < size; ++i )
 				{
-					out[i] = value[i];
+					outValue[i] = value[i];
 				}
 			} );
 	}
