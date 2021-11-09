@@ -1247,8 +1247,8 @@ namespace spirv
 		// Arg 4 is lsb.
 		assert( expr->getArgList().size() == 4u );
 		ValueIdList params;
-		params.push_back( doSubmit( expr->getArgList()[0].get() ) );
-		params.push_back( doSubmit( expr->getArgList()[1].get() ) );
+		params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
+		params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ) ) );
 		ValueId resultStructTypeId;
 		auto paramType = expr->getArgList()[0]->getType()->getKind();
 
