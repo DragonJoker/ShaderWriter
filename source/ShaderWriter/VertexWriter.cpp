@@ -9,4 +9,9 @@ namespace sdw
 		: ShaderWriter{ ast::ShaderStage::eVertex }
 	{
 	}
+
+	void VertexWriter::implementMain( VertexMainFuncT< VoidT, VoidT > const & function )
+	{
+		implementMainT( function );
+	}
 }

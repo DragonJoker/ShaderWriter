@@ -3,7 +3,7 @@
 
 namespace
 {
-#define DummyMain writer.implementMain( [](){} )
+#define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT

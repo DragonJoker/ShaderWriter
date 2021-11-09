@@ -3,8 +3,7 @@
 
 namespace
 {
-#define DummyMain( value ) \
-	writer.implementMain( [&]()\
+#define DummyMain( value ) writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )\
 		{\
 			auto v = writer.declLocale( "v", value );\
 		} )

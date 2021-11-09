@@ -93,7 +93,6 @@ namespace sdw
 			, ast::stmt::FunctionFlag flag
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
-		inline void implementMain( std::function< void() > const & function );
 		/**@}*/
 #pragma endregion
 #pragma region Cast

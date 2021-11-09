@@ -26,7 +26,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			writer.implementMain( [&]()
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved = test::getDefault< T >( writer );
 				} );
@@ -51,7 +51,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			writer.implementMain( [&]()
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
@@ -76,7 +76,7 @@ namespace
 			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
-			writer.implementMain( [&]()
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );

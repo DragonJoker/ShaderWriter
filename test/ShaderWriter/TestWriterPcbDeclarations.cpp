@@ -3,7 +3,7 @@
 
 namespace
 {
-#define DummyMain writer.implementMain( [](){} )
+#define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
 	template< typename T >
 	void testPcb( test::sdw_test::TestCounts & testCounts )

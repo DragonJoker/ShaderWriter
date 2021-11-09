@@ -121,7 +121,7 @@ namespace
 			}
 			, sdw::InParam< ValueT >{ writer, "p" } );
 
-		writer.implementMain( [&]()
+		writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 			{
 				auto v = writer.declConstant< ValueT >( "v", test::getDefault< ValueT >( writer ) );
 				test( test::getDefault< ValueT >( writer ) );
