@@ -78,6 +78,10 @@ namespace sdw
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, ComputeMainFuncT< DataT > const & function );
+
+		template< template< ast::var::Flag FlagT > typename DataT >
+		inline void implementMainT( ComputeInT< DataT > in
+			, ComputeMainFuncT< DataT > const & function );
 	};
 	/**@}*/
 }

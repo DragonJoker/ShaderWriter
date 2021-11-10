@@ -62,6 +62,8 @@ namespace spirv
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void doProcess( ast::var::VariablePtr var
+			, ast::type::FragmentInput const & fragType );
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );

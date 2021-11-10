@@ -7,9 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	FragmentLayout::FragmentLayout( FragmentOrigin origin
+	FragmentLayout::FragmentLayout( type::TypePtr type
+		, FragmentOrigin origin
 		, FragmentCenter center )
 		: Stmt{ Kind::eFragmentLayout }
+		, m_type{ type }
 		, m_origin{ origin }
 		, m_center{ center }
 	{
@@ -17,6 +19,6 @@ namespace ast::stmt
 
 	void FragmentLayout::accept( VisitorPtr vis )
 	{
-		vis->visitFragmentLayout( this );
+		vis->visitFragmentLayoutStmt( this );
 	}
 }

@@ -94,7 +94,7 @@ namespace spirv
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	void StmtConfigFiller::visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )
 	{
 	}
 

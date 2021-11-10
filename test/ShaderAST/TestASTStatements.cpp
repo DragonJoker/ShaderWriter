@@ -834,7 +834,9 @@ namespace
 	void testFragmentLayoutStatement( test::TestCounts & testCounts )
 	{
 		testBegin( "testFragmentLayoutStatement" );
-		auto stmt = ast::stmt::makeFragmentLayout( ast::FragmentOrigin::eLowerLeft
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeFragmentLayout( cache.getVoid()
+				, ast::FragmentOrigin::eLowerLeft
 			, ast::FragmentCenter::eCenterInteger );
 		testCounts.streams.cout << "StmtFragmentLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << std::endl;
 

@@ -688,6 +688,9 @@ namespace spirv
 
 			switch ( type->getKind() )
 			{
+			case ast::type::Kind::eFragmentInput:
+				registerParam( param, static_cast< ast::type::FragmentInput const & >( *type ) );
+				break;
 			case ast::type::Kind::eGeometryOutput:
 				registerParam( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
 				break;
@@ -723,9 +726,9 @@ namespace spirv
 						arraySize = arrayType.getArraySize();
 					}
 
-					if ( type->getKind() == ast::type::Kind::eStruct )
+					if ( isStructType( type ) )
 					{
-						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+						auto structType = getStructType( type );
 
 						if ( structType->isShaderInput() )
 						{
@@ -854,9 +857,25 @@ namespace spirv
 	{
 		auto type = compType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, ast::type::NotArray
+				, true );
+		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::FragmentInput const & fragType )
+	{
+		auto type = fragType.getType();
+
+		if ( isStructType( type ) )
+		{
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -870,9 +889,9 @@ namespace spirv
 	{
 		auto type = geomType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -886,9 +905,9 @@ namespace spirv
 	{
 		auto type = geomType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -1021,9 +1040,9 @@ namespace spirv
 			type = static_cast< ast::type::Array const & >( *type ).getType();
 		}
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -1038,9 +1057,9 @@ namespace spirv
 	{
 		auto type = tessType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -1059,9 +1078,9 @@ namespace spirv
 			type = static_cast< ast::type::Array const & >( *type ).getType();
 		}
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )

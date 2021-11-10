@@ -94,11 +94,22 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename OutT >
 	inline void VertexWriter::implementMainT( VertexMainFuncT< InT, OutT > const & function )
 	{
+		this->implementMainT( VertexInT< InT >{ *this }
+			, VertexOutT< OutT >{ *this }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, template< ast::var::Flag FlagT > typename OutT >
+	inline void VertexWriter::implementMainT( VertexInT< InT > in
+		, VertexOutT< OutT > out
+		, VertexMainFuncT< InT, OutT > const & function )
+	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( VertexInT< InT >{ *this } )
-			, makeOutParam( VertexOutT< OutT >{ *this } ) );
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
 	}
 
 	//*************************************************************************

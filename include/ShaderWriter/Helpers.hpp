@@ -251,8 +251,6 @@ namespace sdw
 	SDW_API stmt::StmtPtr makePreprocDefine( Shader & shader
 		, std::string name
 		, expr::ExprPtr expr );
-	SDW_API stmt::StmtPtr makeFragmentLayout( ast::FragmentOrigin origin
-		, ast::FragmentCenter center );
 	SDW_API stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location );

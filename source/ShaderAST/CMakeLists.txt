@@ -347,6 +347,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeArray.hpp
 	${INCLUDE_DIR}/Type/TypeCache.hpp
 	${INCLUDE_DIR}/Type/TypeComputeIO.hpp
+	${INCLUDE_DIR}/Type/TypeFragmentIO.hpp
 	${INCLUDE_DIR}/Type/TypeFunction.hpp
 	${INCLUDE_DIR}/Type/TypeGeometryIO.hpp
 	${INCLUDE_DIR}/Type/TypeImage.hpp
@@ -363,6 +364,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeArray.cpp
 	${SOURCE_DIR}/Type/TypeCache.cpp
 	${SOURCE_DIR}/Type/TypeComputeIO.cpp
+	${SOURCE_DIR}/Type/TypeFragmentIO.cpp
 	${SOURCE_DIR}/Type/TypeFunction.cpp
 	${SOURCE_DIR}/Type/TypeGeometryIO.cpp
 	${SOURCE_DIR}/Type/TypeImage.cpp

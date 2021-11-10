@@ -15,31 +15,40 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API FragmentLayout( FragmentOrigin origin
+		SDAST_API FragmentLayout( type::TypePtr type
+			, FragmentOrigin origin
 			, FragmentCenter center );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
-		inline FragmentOrigin getFragmentOrigin()const
+		type::TypePtr getType()const
+		{
+			return m_type;
+		}
+
+		FragmentOrigin getFragmentOrigin()const
 		{
 			return m_origin;
 		}
 
-		inline FragmentCenter getFragmentCenter()const
+		FragmentCenter getFragmentCenter()const
 		{
 			return m_center;
 		}
 
 	private:
+		type::TypePtr m_type;
 		FragmentOrigin m_origin{ FragmentOrigin::eUpperLeft };
 		FragmentCenter m_center{ FragmentCenter::eHalfPixel };
 	};
 	using FragmentLayoutPtr = std::unique_ptr< FragmentLayout >;
 
-	inline FragmentLayoutPtr makeFragmentLayout( FragmentOrigin origin
+	inline FragmentLayoutPtr makeFragmentLayout( type::TypePtr type
+		, FragmentOrigin origin
 		, FragmentCenter center )
 	{
-		return std::make_unique< FragmentLayout >( origin
+		return std::make_unique< FragmentLayout >( type
+			, origin
 			, center );
 	}
 }

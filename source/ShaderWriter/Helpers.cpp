@@ -772,12 +772,6 @@ namespace sdw
 			, std::move( expr ) );
 	}
 
-	stmt::StmtPtr makeFragmentLayout( ast::FragmentOrigin origin
-		, ast::FragmentCenter center )
-	{
-		return stmt::makeFragmentLayout( origin, center );
-	}
-
 	stmt::StmtPtr makeVariableDecl( var::VariablePtr var )
 	{
 		return stmt::makeVariableDecl( std::move( var ) );

@@ -293,7 +293,7 @@ namespace ast::debug
 		visitCompoundStmt( stmt );
 	}
 
-	void StmtVisitor::visitFragmentLayout( stmt::FragmentLayout * stmt )
+	void StmtVisitor::visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )
 	{
 		displayStmtName( stmt, false );
 		m_result += "O(" + getName( stmt->getFragmentOrigin() ) + "), ";

@@ -807,6 +807,9 @@ namespace hlsl
 		case ast::type::Kind::eTessellationOutputPatch:
 			result = getTypeName( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType() );
 			break;
+		case ast::type::Kind::eFragmentInput:
+			result = getTypeName( static_cast< ast::type::FragmentInput const & >( *type ).getType() );
+			break;
 		case ast::type::Kind::eComputeInput:
 			result = getTypeName( static_cast< ast::type::ComputeInput const & >( *type ).getType() );
 			break;
@@ -2365,6 +2368,9 @@ namespace hlsl
 
 			switch ( type->getKind() )
 			{
+			case ast::type::Kind::eFragmentInput:
+				registerParam( param, static_cast< ast::type::FragmentInput const & >( *type ) );
+				break;
 			case ast::type::Kind::eGeometryOutput:
 				registerParam( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
 				break;
@@ -2397,9 +2403,9 @@ namespace hlsl
 						type = arrayType.getType();
 					}
 
-					if ( type->getKind() == ast::type::Kind::eStruct )
+					if ( isStructType( type ) )
 					{
-						auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+						auto structType = getStructType( type );
 
 						if ( structType->isShaderInput() )
 						{
@@ -2877,14 +2883,37 @@ namespace hlsl
 	}
 
 	void AdaptationData::registerParam( ast::var::VariablePtr var
+		, ast::type::FragmentInput const & fragType )
+	{
+		assert( m_currentRoutine );
+		auto type = fragType.getType();
+
+		if ( isStructType( type ) )
+		{
+			auto & structType = *getStructType( type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
+		}
+
+		m_highFreqInputs.initialiseMainVar( var
+			, ast::type::makeFragmentInputType( m_highFreqInputs.paramStruct
+				, fragType.getOrigin()
+				, fragType.getCenter() )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
+			, m_currentRoutine->paramToEntryPoint );
+	}
+
+	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
 		assert( m_currentRoutine );
 		auto type = compType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -2906,9 +2935,9 @@ namespace hlsl
 		assert( m_currentRoutine );
 		auto type = geomType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -2928,9 +2957,9 @@ namespace hlsl
 		assert( m_currentRoutine );
 		auto type = geomType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -2969,9 +2998,9 @@ namespace hlsl
 		assert( m_currentRoutine );
 		auto type = patchType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			declareStruct( std::static_pointer_cast< ast::type::Struct >( type )
+			declareStruct( getStructType( type )
 				, m_currentRoutine->globalDeclarations );
 		}
 
@@ -2990,9 +3019,9 @@ namespace hlsl
 			type = static_cast< ast::type::Array const & >( *type ).getType();
 		}
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -3018,9 +3047,9 @@ namespace hlsl
 			type = static_cast< ast::type::Array const & >( *type ).getType();
 		}
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
@@ -3041,9 +3070,9 @@ namespace hlsl
 			type = static_cast< ast::type::Array const & >( *type ).getType();
 		}
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto & structType = static_cast< ast::type::Struct const & >( *type );
+			auto & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )

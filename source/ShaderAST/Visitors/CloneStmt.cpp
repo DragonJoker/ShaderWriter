@@ -127,9 +127,10 @@ namespace ast
 		m_current->addStmt( std::move( cont ) );
 	}
 
-	void StmtCloner::visitFragmentLayout( stmt::FragmentLayout * stmt )
+	void StmtCloner::visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )
 	{
-		m_current->addStmt( stmt::makeFragmentLayout( stmt->getFragmentOrigin()
+		m_current->addStmt( stmt::makeFragmentLayout( stmt->getType()
+			, stmt->getFragmentOrigin()
 			, stmt->getFragmentCenter() ) );
 	}
 

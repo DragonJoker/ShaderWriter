@@ -973,6 +973,10 @@ namespace ast::type
 			{
 				type = static_cast< type::Pointer const & >( *type ).getPointerType().get();
 			}
+			else if ( type->getKind() == type::Kind::eFragmentInput )
+			{
+				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
+			}
 			else if ( type->getKind() == type::Kind::eGeometryInput )
 			{
 				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
@@ -1044,6 +1048,10 @@ namespace ast::type
 			{
 				type = static_cast< type::Pointer const & >( *type ).getPointerType().get();
 			}
+			else if ( type->getKind() == type::Kind::eFragmentInput )
+			{
+				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
+			}
 			else if ( type->getKind() == type::Kind::eGeometryInput )
 			{
 				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
@@ -1109,6 +1117,10 @@ namespace ast::type
 			if ( type->getKind() == type::Kind::ePointer )
 			{
 				type = static_cast< type::Pointer const & >( *type ).getPointerType();
+			}
+			else if ( type->getKind() == type::Kind::eFragmentInput )
+			{
+				type = static_cast< type::FragmentInput const & >( *type ).getType();
 			}
 			else if ( type->getKind() == type::Kind::eGeometryInput )
 			{
