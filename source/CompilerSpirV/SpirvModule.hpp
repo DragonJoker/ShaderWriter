@@ -118,9 +118,17 @@ namespace spirv
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
 			, Block & currentBlock );
+		SDWSPIRV_API void storePromoted( ValueId variable
+			, VariableInfo const & sourceInfo
+			, Block & currentBlock );
+		SDWSPIRV_API void storeVariable( ValueId variable
+			, ValueId value
+			, InstructionList & instructions );
 		SDWSPIRV_API void storeVariable( ValueId variable
 			, ValueId value
 			, Block & currentBlock );
+		SDWSPIRV_API ValueId loadVariable( ValueId variable
+			, InstructionList & instructions );
 		SDWSPIRV_API ValueId loadVariable( ValueId variable
 			, Block & currentBlock );
 		SDWSPIRV_API void bindVariable( ValueId varId

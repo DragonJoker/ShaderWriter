@@ -1611,8 +1611,8 @@ namespace spirv
 			}
 			else if ( sourceInfo.needsStoreOnPromote() )
 			{
-				m_module.storeVariable( m_result
-					, sourceInfo.id
+				m_module.storePromoted( m_result
+					, sourceInfo
 					, m_currentBlock );
 			}
 		}

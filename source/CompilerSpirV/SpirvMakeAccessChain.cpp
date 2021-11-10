@@ -400,7 +400,9 @@ namespace spirv
 
 					if ( sourceInfo.needsStoreOnPromote() )
 					{
-						m_module.storeVariable( m_result, sourceInfo.id, m_currentBlock );
+						m_module.storePromoted( m_result
+							, sourceInfo
+							, m_currentBlock );
 					}
 
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
