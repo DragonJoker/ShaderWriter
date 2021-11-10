@@ -381,30 +381,57 @@ namespace spirv
 		return varId;
 	}
 
+	void Module::storePromoted( ValueId variable
+		, VariableInfo const & sourceInfo
+		, Block & currentBlock )
+	{
+		if ( sourceInfo.isParam )
+		{
+			storeVariable( variable
+				, sourceInfo.id
+				, m_currentFunction->promotedParams );
+		}
+		else
+		{
+			storeVariable( variable
+				, sourceInfo.id
+				, currentBlock.instructions );
+		}
+	}
+
 	void Module::storeVariable( ValueId variable
 		, ValueId value
-		, Block & currentBlock )
+		, InstructionList & instructions )
 	{
 		assert( variable.isPointer() );
 
 		if ( value.isPointer() )
 		{
-			value = loadVariable( value, currentBlock );
+			value = loadVariable( value, instructions );
 		}
 
-		currentBlock.instructions.push_back( makeInstruction< StoreInstruction >( variable
+		instructions.push_back( makeInstruction< StoreInstruction >( variable
 			, value ) );
 	}
 
-	ValueId Module::loadVariable( ValueId variable
+	void Module::storeVariable( ValueId variable
+		, ValueId value
 		, Block & currentBlock )
+	{
+		storeVariable( variable
+			, value
+			, currentBlock.instructions );
+	}
+
+	ValueId Module::loadVariable( ValueId variable
+		, InstructionList & instructions )
 	{
 		if ( variable.isPointer() )
 		{
 			auto type = static_cast< ast::type::Pointer const & >( *variable.type ).getPointerType();
 			auto typeId = registerType( type );
 			ValueId result{ getIntermediateResult(), typeId.type };
-			currentBlock.instructions.push_back( makeInstruction< LoadInstruction >( typeId
+			instructions.push_back( makeInstruction< LoadInstruction >( typeId
 				, result
 				, variable ) );
 			lnkIntermediateResult( result, variable );
@@ -412,6 +439,13 @@ namespace spirv
 		}
 
 		return variable;
+	}
+
+	ValueId Module::loadVariable( ValueId variable
+		, Block & currentBlock )
+	{
+		return loadVariable( variable
+			, currentBlock.instructions );
 	}
 
 	void Module::bindVariable( ValueId varId
@@ -551,6 +585,7 @@ namespace spirv
 		result.isOutParam = isOutParam;
 		result.isAlias = isAlias;
 		result.id = it->second.id;
+
 		return result;
 	}
 
@@ -1166,16 +1201,30 @@ namespace spirv
 			&& !m_currentFunction->variables.empty() )
 		{
 			auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
-			auto vars = std::move( m_currentFunction->variables );
-			std::reverse( vars.begin(), vars.end() );
-
-			for ( auto & variable : vars )
 			{
-				instructions.emplace( instructions.begin() + 1u
-					, std::move( variable ) );
-			}
+				auto params = std::move( m_currentFunction->promotedParams );
+				std::reverse( params.begin(), params.end() );
 
-			m_currentFunction->variables.clear();
+				for ( auto & param : params )
+				{
+					instructions.emplace( instructions.begin() + 1u
+						, std::move( param ) );
+				}
+
+				m_currentFunction->promotedParams.clear();
+			}
+			{
+				auto vars = std::move( m_currentFunction->variables );
+				std::reverse( vars.begin(), vars.end() );
+
+				for ( auto & variable : vars )
+				{
+					instructions.emplace( instructions.begin() + 1u
+						, std::move( variable ) );
+				}
+
+				m_currentFunction->variables.clear();
+			}
 		}
 
 		variables = &globalDeclarations;

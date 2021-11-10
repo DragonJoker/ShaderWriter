@@ -105,6 +105,7 @@ namespace spirv
 		ControlFlowGraph cfg;
 		// Used during construction.
 		InstructionList variables;
+		InstructionList promotedParams;
 		std::map< std::string, VariableInfo > registeredVariables;
 	};
 }

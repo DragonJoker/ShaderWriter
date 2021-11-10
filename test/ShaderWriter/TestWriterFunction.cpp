@@ -3,7 +3,14 @@
 
 #include <ShaderWriter/CompositeTypes/Ubo.hpp>
 
+#pragma warning( disable:5245 )
 #pragma clang diagnostic ignored "-Wunused-member-function"
+
+#undef ForceDisplayShaders
+#define ForceDisplayShaders true
+
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_SPIRV
 
 namespace
 {
@@ -1823,6 +1830,49 @@ namespace
 		testEnd();
 	}
 
+	void paramIfElseIf( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "fog" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
+			, [&]( Vec4 const & colour
+				, UInt type
+				, Float factor )
+			{
+				auto bgColour = writer.declLocale( "bgColour", colour );
+				auto result = writer.declLocale( "result", colour );
+
+				IF( writer, type == 0_u )
+				{
+					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
+				}
+				ELSEIF( type == 1_u )
+				{
+					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
+				}
+				FI;
+
+				writer.returnStmt( result );
+			}
+			, InVec4{ writer, "colour" }
+			, InUInt{ writer, "type" }
+			, InFloat{ writer, "factor" } );
+
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+			{
+				auto v = writer.declLocale< Vec4 >( "v" );
+				auto t = writer.declLocale< UInt >( "t" );
+				auto f = writer.declLocale< Float >( "f" );
+				v = foo01( v, t, f );
+			} );
+
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
 	void nestedFunctionDecl( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "nestedFunctionDecl" );
@@ -1955,6 +2005,7 @@ sdwTestSuiteMain( TestWriterFunction )
 	returnAfterWhile( testCounts );
 	paramInWhile( testCounts );
 	paramMbrAccessInWhile( testCounts );
+	paramIfElseIf( testCounts );
 	nestedFunctionDecl( testCounts );
 	sdwTestSuiteEnd();
 }
