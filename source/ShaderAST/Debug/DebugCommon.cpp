@@ -320,13 +320,16 @@ namespace ast::debug
 			result = "TESSEIN";
 			break;
 		case type::Kind::eTessellationInputPatch:
-			result = "INPATCH";
+			result = "PATCHIN";
 			break;
 		case type::Kind::eTessellationOutputPatch:
-			result = "OUTPATCH";
+			result = "PATCHOUT";
 			break;
 		case type::Kind::eComputeInput:
 			result = "COMPIN";
+			break;
+		case type::Kind::eFragmentInput:
+			result = "FRAGIN";
 			break;
 		default:
 			assert( false );
@@ -461,6 +464,12 @@ namespace ast::debug
 			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() );
 			result += ")";
 			break;
+		case type::Kind::eFragmentInput:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( static_cast< type::FragmentInput const & >( type ).getCenter() );
+			result += ", " + getName( static_cast< type::FragmentInput const & >( type ).getOrigin() );
+			result += ")";
+			break;
 		case type::Kind::eGeometryInput:
 			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::GeometryInput const & >( type ).getLayout() );
@@ -468,8 +477,41 @@ namespace ast::debug
 			break;
 		case type::Kind::eGeometryOutput:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
-			result += ", " + std::to_string( static_cast< type::GeometryOutput const & >( type ).getCount() );
+			result += "<" + std::to_string( static_cast< type::GeometryOutput const & >( type ).getCount() );
+			result += ">(" + getName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
+			result += ")";
+			break;
+		case type::Kind::eTessellationControlInput:
+			result = getName( getNonArrayKind( type ) );
+			result += "<" + std::to_string( static_cast< type::TessellationControlInput const & >( type ).getInputVertices() );
+			result += ">";
+			break;
+		case type::Kind::eTessellationControlOutput:
+			result = getName( getNonArrayKind( type ) );
+			result += "<" + std::to_string( static_cast< type::TessellationControlOutput const & >( type ).getOutputVertices() );
+			result += ">(" + getName( static_cast< type::TessellationControlOutput const & >( type ).getDomain() );
+			result += ", " + getName( static_cast< type::TessellationControlOutput const & >( type ).getPartitioning() );
+			result += ", " + getName( static_cast< type::TessellationControlOutput const & >( type ).getOrder() );
+			result += ", " + getName( static_cast< type::TessellationControlOutput const & >( type ).getTopology() );
+			result += ")";
+			break;
+		case type::Kind::eTessellationOutputPatch:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + std::to_string( static_cast< type::TessellationOutputPatch const & >( type ).getLocation() );
+			result += ")";
+			break;
+		case type::Kind::eTessellationEvaluationInput:
+			result = getName( getNonArrayKind( type ) );
+			result += "<" + std::to_string( static_cast< type::TessellationEvaluationInput const & >( type ).getInputVertices() );
+			result += ">(" + getName( static_cast< type::TessellationEvaluationInput const & >( type ).getDomain() );
+			result += ", " + getName( static_cast< type::TessellationEvaluationInput const & >( type ).getPartitioning() );
+			result += ", " + getName( static_cast< type::TessellationEvaluationInput const & >( type ).getPrimitiveOrdering() );
+			result += ")";
+			break;
+		case type::Kind::eTessellationInputPatch:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( static_cast< type::TessellationInputPatch const & >( type ).getDomain() );
+			result += ", " + std::to_string( static_cast< type::TessellationInputPatch const & >( type ).getLocation() );
 			result += ")";
 			break;
 		default:

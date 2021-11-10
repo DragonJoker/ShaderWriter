@@ -135,11 +135,16 @@ namespace sdw
 		SDW_API GeometryWriter();
 		/**
 		*name
-		*	I/O layout declaration.
+		*	Entry point declaration.
 		*/
 		/**@{*/
 		template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
 		inline void implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
+
+		template< typename InputArrT, typename OutStreamT >
+		inline void implementMainT( InputArrT in
+			, OutStreamT out
+			, GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 		/**@}*/
 		/**
 		*name

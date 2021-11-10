@@ -443,7 +443,7 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	void StmtVisitor::visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )
 	{
 		std::string origin = getName( stmt->getFragmentOrigin() );
 		std::string center = getName( stmt->getFragmentCenter() );

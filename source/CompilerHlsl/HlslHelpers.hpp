@@ -377,6 +377,8 @@ namespace hlsl
 		void declareStruct( ast::type::StructPtr const & structType
 			, ast::stmt::Container * stmt );
 		void registerParam( ast::var::VariablePtr var
+			, ast::type::FragmentInput const & fragType );
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );

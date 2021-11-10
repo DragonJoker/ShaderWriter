@@ -77,6 +77,12 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( VertexMainFuncT< InT, OutT > const & function );
+
+		template< template< ast::var::Flag FlagT > typename InT
+			, template< ast::var::Flag FlagT > typename OutT >
+		inline void implementMainT( VertexInT< InT > in
+			, VertexOutT< OutT > out
+			, VertexMainFuncT< InT, OutT > const & function );
 	};
 	/**@}*/
 }

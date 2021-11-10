@@ -38,20 +38,21 @@ namespace sdw
 
 	//*************************************************************************
 
-	template< template< ast::var::Flag FlagT > typename DataT >
-	TessEvalListInT< DataT >::TessEvalListInT( ShaderWriter & writer
+	template< template< ast::var::Flag FlagT > typename DataT
+		, uint32_t InputVerticesT >
+	TessEvalListInT< DataT, InputVerticesT >::TessEvalListInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled )
 		: Array< TessEvalDataInT< DataT > >{ writer, std::move( expr ), enabled }
 	{
 	}
 
-	template< template< ast::var::Flag FlagT > typename DataT >
-	TessEvalListInT< DataT >::TessEvalListInT( ShaderWriter & writer
+	template< template< ast::var::Flag FlagT > typename DataT
+		, uint32_t InputVerticesT >
+	TessEvalListInT< DataT, InputVerticesT >::TessEvalListInT( ShaderWriter & writer
 		, ast::type::PatchDomain domain
 		, ast::type::Partitioning partitioning
-		, ast::type::PrimitiveOrdering ordering
-		, uint32_t inputVertices )
+		, ast::type::PrimitiveOrdering ordering )
 		: TessEvalListInT{ writer
 		, makeExpr( writer
 			, getShader( writer ).registerName( "tesseListIn"
@@ -59,13 +60,14 @@ namespace sdw
 					, domain
 					, partitioning
 					, ordering
-					, inputVertices )
+					, InputVerticesT )
 				, FlagT ) ) }
 	{
 	}
 
-	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr TessEvalListInT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< template< ast::var::Flag FlagT > typename DataT
+		, uint32_t InputVerticesT >
+	ast::type::IOStructPtr TessEvalListInT< DataT, InputVerticesT >::makeType( ast::type::TypesCache & cache )
 	{
 		return TessEvalDataInT< DataT >::makeType( cache );
 	}
@@ -161,7 +163,7 @@ namespace sdw
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
-			, makeInParam( TessEvalListInT< InT >{ *this, DomainT, partitioning, ordering, MaxPointsT } )
+			, makeInParam( TessEvalListInT< InT, MaxPointsT >{ *this, DomainT, partitioning, ordering } )
 			, makeInParam( TessPatchInT< PatchT, DomainT >{ *this, patchLocation } )
 			, makeOutParam( TessEvalDataOutT< OutT >{ *this } ) );
 	}
@@ -175,13 +177,10 @@ namespace sdw
 		, ast::type::PrimitiveOrdering ordering
 		, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( TessEvalMainIn{ *this } )
-			, makeInParam( TessEvalListInT< InT >{ *this, ast::type::PatchDomain::eIsolines, partitioning, ordering, MaxPointsT } )
-			, makeInParam( IsolinesTessPatchInT< PatchT >{ *this, patchLocation } )
-			, makeOutParam( TessEvalDataOutT< OutT >{ *this } ) );
+		this->implementMainT( TessEvalListInT< InT, MaxPointsT >{ *this, ast::type::PatchDomain::eIsolines, partitioning, ordering }
+			, IsolinesTessPatchInT< PatchT >{ *this, patchLocation }
+			, TessEvalDataOutT< OutT >{ *this }
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -193,13 +192,10 @@ namespace sdw
 		, ast::type::PrimitiveOrdering ordering
 		, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( TessEvalMainIn{ *this } )
-			, makeInParam( TessEvalListInT< InT >{ *this, ast::type::PatchDomain::eTriangles, partitioning, ordering, MaxPointsT } )
-			, makeInParam( TrianglesTessPatchInT< PatchT >{ *this, patchLocation } )
-			, makeOutParam( TessEvalDataOutT< OutT >{ *this } ) );
+		this->implementMainT( TessEvalListInT< InT, MaxPointsT >{ *this, ast::type::PatchDomain::eTriangles, partitioning, ordering }
+			, TrianglesTessPatchInT< PatchT >{ *this, patchLocation }
+			, TessEvalDataOutT< OutT >{ *this }
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -211,13 +207,64 @@ namespace sdw
 		, ast::type::PrimitiveOrdering ordering
 		, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
+		this->implementMainT( TessEvalListInT< InT, MaxPointsT >{ *this, ast::type::PatchDomain::eQuads, partitioning, ordering }
+			, QuadsTessPatchInT< PatchT >{ *this, patchLocation }
+			, TessEvalDataOutT< OutT >{ *this }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT
+		, template< ast::var::Flag FlagT > typename OutT >
+	void TessellationEvaluationWriter::implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
+		, IsolinesTessPatchInT< PatchT > patchIn
+		, TessEvalDataOutT< OutT > out
+		, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
+	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
-			, makeInParam( TessEvalListInT< InT >{ *this, ast::type::PatchDomain::eQuads, partitioning, ordering, MaxPointsT } )
-			, makeInParam( QuadsTessPatchInT< PatchT >{ *this, patchLocation } )
-			, makeOutParam( TessEvalDataOutT< OutT >{ *this } ) );
+			, makeInParam( std::move( listIn ) )
+			, makeInParam( std::move( patchIn ) )
+			, makeOutParam( std::move( out ) ) );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT
+		, template< ast::var::Flag FlagT > typename OutT >
+	void TessellationEvaluationWriter::implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
+		, TrianglesTessPatchInT< PatchT > patchIn
+		, TessEvalDataOutT< OutT > out
+		, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function
+			, makeInParam( TessEvalMainIn{ *this } )
+			, makeInParam( std::move( listIn ) )
+			, makeInParam( std::move( patchIn ) )
+			, makeOutParam( std::move( out ) ) );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT
+		, template< ast::var::Flag FlagT > typename OutT >
+	void TessellationEvaluationWriter::implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
+		, QuadsTessPatchInT< PatchT > patchIn
+		, TessEvalDataOutT< OutT > out
+		, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function
+			, makeInParam( TessEvalMainIn{ *this } )
+			, makeInParam( std::move( listIn ) )
+			, makeInParam( std::move( patchIn ) )
+			, makeOutParam( std::move( out ) ) );
 	}
 
 	//*************************************************************************

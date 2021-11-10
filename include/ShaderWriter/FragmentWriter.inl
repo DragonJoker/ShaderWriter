@@ -8,11 +8,15 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer )
+	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
+		, ast::FragmentOrigin origin
+		, ast::FragmentCenter center )
 		: FragmentInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "fragIn"
-					, makeType( getTypesCache( writer ) )
+					, makeFragmentInputType( makeType( getTypesCache( writer ) )
+						, origin
+						, center )
 					, FlagT ) ) }
 	{
 	}
@@ -128,11 +132,9 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename OutT >
 	inline void FragmentWriter::implementMainT( FragmentMainFuncT< InT, OutT > const & function )
 	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( FragmentInT< InT >{ *this } )
-			, makeOutParam( FragmentOutT< OutT >{ *this } ) );
+		this->implementMainT( ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -141,12 +143,22 @@ namespace sdw
 		, ast::FragmentCenter center
 		, FragmentMainFuncT< InT, OutT > const & function )
 	{
-		addStmt( sdw::makeFragmentLayout( origin, center ) );
+		this->implementMainT( FragmentInT< InT >{ *this, origin, center }
+			, FragmentOutT< OutT >{ *this }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, template< ast::var::Flag FlagT > typename OutT >
+	inline void FragmentWriter::implementMainT( FragmentInT< InT > in
+		, FragmentOutT< OutT > out
+		, FragmentMainFuncT< InT, OutT > const & function )
+	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( FragmentInT< InT >{ *this } )
-			, makeOutParam( FragmentOutT< OutT >{ *this } ) );
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
 	}
 	/**@}*/
 	/**

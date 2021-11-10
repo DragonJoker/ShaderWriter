@@ -130,18 +130,28 @@ namespace sdw
 
 	/**
 	*name
-	*	I/O layout declaration.
+	*	Entry point declaration.
 	*/
 	/**@{*/
 	template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
 	inline void GeometryWriter::implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function )
 	{
+		this->implementMainT( InputArrT{ *this }
+			, OutStreamT{ *this, MaxPrimCountT }
+			, function );
+	}
+
+	template< typename InputArrT, typename OutStreamT >
+	inline void GeometryWriter::implementMainT( InputArrT in
+		, OutStreamT out
+		, GeometryMainFuncT< InputArrT, OutStreamT > const & function )
+	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( GeometryIn{ *this } )
-			, makeInParam( InputArrT{ *this } )
-			, makeInOutParam( OutStreamT{ *this, MaxPrimCountT } ) );
+			, makeInParam( std::move( in ) )
+			, makeInOutParam( std::move( out ) ) );
 	}
 	/**@}*/
 	/**

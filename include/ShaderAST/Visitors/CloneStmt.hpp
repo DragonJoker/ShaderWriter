@@ -33,7 +33,7 @@ namespace ast
 		SDAST_API void visitElseIfStmt( stmt::ElseIf * stmt )override;
 		SDAST_API void visitElseStmt( stmt::Else * stmt )override;
 		SDAST_API void visitForStmt( stmt::For * stmt )override;
-		SDAST_API void visitFragmentLayout( stmt::FragmentLayout * stmt )override;
+		SDAST_API void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override;
 		SDAST_API void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override;
 		SDAST_API void visitIfStmt( stmt::If * stmt )override;
 		SDAST_API void visitImageDeclStmt( stmt::ImageDecl * stmt )override;

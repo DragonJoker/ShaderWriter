@@ -71,6 +71,7 @@ namespace ast::type
 		eTessellationControlInput,
 		eTessellationControlOutput,
 		eTessellationEvaluationInput,
+		eFragmentInput,
 		eComputeInput,
 		eCount,
 		eMin = eUndefined,

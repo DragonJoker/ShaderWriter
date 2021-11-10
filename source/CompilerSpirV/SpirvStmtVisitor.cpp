@@ -275,7 +275,7 @@ namespace spirv
 		AST_Failure( "Unexpected For statement." );
 	}
 
-	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	void StmtVisitor::visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )
 	{
 		switch ( stmt->getFragmentCenter() )
 		{

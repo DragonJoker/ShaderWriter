@@ -275,6 +275,9 @@ namespace glsl
 
 				switch ( type->getKind() )
 				{
+				case ast::type::Kind::eFragmentInput:
+					doProcess( param, static_cast< ast::type::FragmentInput const & >( *type ) );
+					break;
 				case ast::type::Kind::eGeometryOutput:
 					doProcess( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
 					break;
@@ -310,9 +313,9 @@ namespace glsl
 							arraySize = arrayType.getArraySize();
 						}
 
-						if ( type->getKind() == ast::type::Kind::eStruct )
+						if ( isStructType( type ) )
 						{
-							auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+							auto structType = getStructType( type );
 
 							if ( structType->isShaderInput() )
 							{
@@ -464,13 +467,33 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::FragmentInput const & fragType )
+	{
+		auto type = fragType.getType();
+
+		if ( isStructType( type ) )
+		{
+			auto structType = getStructType( type );
+			assert( structType->isShaderInput() );
+			doProcessInput( var
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
+				, ast::type::NotArray
+				, true );
+		}
+
+		m_current->addStmt( ast::stmt::makeFragmentLayout( type
+			, fragType.getOrigin()
+			, fragType.getCenter() ) );
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
 		auto type = geomType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			auto structType = getStructType( type );
 			assert( structType->isShaderOutput() );
 			doProcessOutput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )
@@ -489,9 +512,9 @@ namespace glsl
 		auto type = geomType.getType();
 		m_inputLayout = geomType.getLayout();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			auto structType = getStructType( type );
 			assert( structType->isShaderInput() );
 			doProcessInput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )
@@ -509,9 +532,9 @@ namespace glsl
 		auto type = tessType.getType();
 		uint32_t arraySize = tessType.getOutputVertices();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			auto structType = getStructType( type );
 			assert( structType->isShaderOutput() );
 			doProcessOutput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )
@@ -686,9 +709,9 @@ namespace glsl
 		auto type = tessType.getType();
 		m_maxPoint = tessType.getInputVertices();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			auto structType = getStructType( type );
 			assert( structType->isShaderInput() );
 			doProcessInput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )
@@ -703,9 +726,9 @@ namespace glsl
 		auto type = tessType.getType();
 		m_maxPoint = tessType.getInputVertices();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			auto structType = getStructType( type );
 			assert( structType->isShaderInput() );
 			doProcessInput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )
@@ -724,9 +747,9 @@ namespace glsl
 	{
 		auto type = compType.getType();
 
-		if ( type->getKind() == ast::type::Kind::eStruct )
+		if ( isStructType( type ) )
 		{
-			auto structType = std::static_pointer_cast< ast::type::Struct >( type );
+			auto structType = getStructType( type );
 			assert( structType->isShaderInput() );
 			doProcessInput( var
 				, std::static_pointer_cast< ast::type::IOStruct >( structType )

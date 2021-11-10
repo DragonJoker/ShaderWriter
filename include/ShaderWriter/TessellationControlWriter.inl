@@ -154,6 +154,11 @@ namespace sdw
 
 	//*************************************************************************
 
+	/**
+	*name
+	*	Patch routine declaration.
+	*/
+	/**@{*/
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename PatchT
@@ -175,12 +180,9 @@ namespace sdw
 	void TessellationControlWriter::implementPatchRoutineT( uint32_t patchLocation
 		, IsolinesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
 	{
-		( void )implementFunction< Void >( "sdwPatchRoutine"
-			, ast::stmt::FunctionFlag::ePatchRoutine
-			, function
-			, makeInParam( TessControlPatchRoutineIn{ *this } )
-			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, true } )
-			, makeOutParam( IsolinesTessPatchOutT< PatchT >{ *this, patchLocation } ) );
+		this->implementPatchRoutineT( TessControlListInT< InT, MaxPointsT >{ *this, true }
+			, IsolinesTessPatchOutT< PatchT >{ *this, patchLocation }
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -189,12 +191,9 @@ namespace sdw
 	void TessellationControlWriter::implementPatchRoutineT( uint32_t patchLocation
 		, TrianglesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
 	{
-		( void )implementFunction< Void >( "sdwPatchRoutine"
-			, ast::stmt::FunctionFlag::ePatchRoutine
-			, function
-			, makeInParam( TessControlPatchRoutineIn{ *this } )
-			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, true } )
-			, makeOutParam( TrianglesTessPatchOutT< PatchT >{ *this, patchLocation } ) );
+		this->implementPatchRoutineT( TessControlListInT< InT, MaxPointsT >{ *this, true }
+			, TrianglesTessPatchOutT< PatchT >{ *this, patchLocation }
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -203,14 +202,61 @@ namespace sdw
 	void TessellationControlWriter::implementPatchRoutineT( uint32_t patchLocation
 		, QuadsTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
 	{
+		this->implementPatchRoutineT( TessControlListInT< InT, MaxPointsT >{ *this, true }
+			, QuadsTessPatchOutT< PatchT >{ *this, patchLocation }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	void TessellationControlWriter::implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
+		, IsolinesTessPatchOutT< PatchT > out
+		, IsolinesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
+	{
 		( void )implementFunction< Void >( "sdwPatchRoutine"
 			, ast::stmt::FunctionFlag::ePatchRoutine
 			, function
 			, makeInParam( TessControlPatchRoutineIn{ *this } )
-			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, true } )
-			, makeOutParam( QuadsTessPatchOutT< PatchT >{ *this, patchLocation } ) );
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
 	}
 
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	void TessellationControlWriter::implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
+		, TrianglesTessPatchOutT< PatchT > out
+		, TrianglesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
+	{
+		( void )implementFunction< Void >( "sdwPatchRoutine"
+			, ast::stmt::FunctionFlag::ePatchRoutine
+			, function
+			, makeInParam( TessControlPatchRoutineIn{ *this } )
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename PatchT >
+	void TessellationControlWriter::implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
+		, QuadsTessPatchOutT< PatchT > out
+		, QuadsTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function )
+	{
+		( void )implementFunction< Void >( "sdwPatchRoutine"
+			, ast::stmt::FunctionFlag::ePatchRoutine
+			, function
+			, makeInParam( TessControlPatchRoutineIn{ *this } )
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
+	}
+	/**@}*/
+	/**
+	*name
+	*	Entry point declaration.
+	*/
+	/**@{*/
 	template< template< ast::var::Flag FlagT > typename InT
 		, uint32_t MaxPointsT
 		, template< ast::var::Flag FlagT > typename OutT
@@ -238,12 +284,9 @@ namespace sdw
 		, uint32_t outputVertices
 		, IsolinesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( TessControlMainIn{ *this } )
-			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, false } )
-			, makeOutParam( IsolinesTessControlListOutT< OutT >{ *this, partitioning, topology, vertexOrder, outputVertices } ) );
+		this->implementMainT( TessControlListInT< InT, MaxPointsT >{ *this, false }
+			, IsolinesTessControlListOutT< OutT >{ *this, partitioning, topology, vertexOrder, outputVertices }
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -255,12 +298,9 @@ namespace sdw
 		, uint32_t outputVertices
 		, TrianglesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( TessControlMainIn{ *this } )
-			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, false } )
-			, makeOutParam( TrianglesTessControlListOutT< OutT >{ *this, partitioning, topology, vertexOrder, outputVertices } ) );
+		this->implementMainT( TessControlListInT< InT, MaxPointsT >{ *this, false }
+			, TrianglesTessControlListOutT< OutT >{ *this, partitioning, topology, vertexOrder, outputVertices }
+			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename InT
@@ -272,13 +312,56 @@ namespace sdw
 		, uint32_t outputVertices
 		, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
+		this->implementMainT( TessControlListInT< InT, MaxPointsT >{ *this, false }
+			, QuadsTessControlListOutT< OutT >{ *this, partitioning, topology, vertexOrder, outputVertices }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT >
+	void TessellationControlWriter::implementMainT( TessControlListInT< InT, MaxPointsT > in
+		, IsolinesTessControlListOutT< OutT > out
+		, IsolinesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
+	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
-			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, false } )
-			, makeOutParam( QuadsTessControlListOutT< OutT >{ *this, partitioning, topology, vertexOrder, outputVertices } ) );
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
 	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT >
+	void TessellationControlWriter::implementMainT( TessControlListInT< InT, MaxPointsT > in
+		, TrianglesTessControlListOutT< OutT > out
+		, TrianglesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function
+			, makeInParam( TessControlMainIn{ *this } )
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
+	}
+
+	template< template< ast::var::Flag FlagT > typename InT
+		, uint32_t MaxPointsT
+		, template< ast::var::Flag FlagT > typename OutT >
+	void TessellationControlWriter::implementMainT( TessControlListInT< InT, MaxPointsT > in
+		, QuadsTessControlListOutT< OutT > out
+		, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function
+			, makeInParam( TessControlMainIn{ *this } )
+			, makeInParam( std::move( in ) )
+			, makeOutParam( std::move( out ) ) );
+	}
+	/**@}*/
 
 	//*************************************************************************
 }

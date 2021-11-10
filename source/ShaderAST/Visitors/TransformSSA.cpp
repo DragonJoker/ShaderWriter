@@ -2111,6 +2111,11 @@ namespace ast
 				m_current->addStmt( std::move( ifStmt ) );
 			}
 
+			void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override
+			{
+				m_fragmentLayoutStmt = stmt;
+			}
+
 			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
 			{
 				m_outputGeometryLayoutStmt = stmt;
@@ -2194,6 +2199,7 @@ namespace ast
 		private:
 			SSAData & m_data;
 			type::TypesCache & m_cache;
+			stmt::FragmentLayout * m_fragmentLayoutStmt{};
 			stmt::OutputGeometryLayout * m_outputGeometryLayoutStmt{};
 			stmt::InputGeometryLayout * m_inputGeometryLayoutStmt{};
 			stmt::OutputTessellationControlLayout * m_outputTessCtrlLayoutStmt{};

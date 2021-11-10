@@ -19,7 +19,9 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
-		FragmentInT( ShaderWriter & writer );
+		FragmentInT( ShaderWriter & writer
+			, ast::FragmentOrigin origin
+			, ast::FragmentCenter center );
 		FragmentInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -96,6 +98,12 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename OutT >
 		inline void implementMainT( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
+			, FragmentMainFuncT< InT, OutT > const & function );
+
+		template< template< ast::var::Flag FlagT > typename InT
+			, template< ast::var::Flag FlagT > typename OutT >
+		inline void implementMainT( FragmentInT< InT > in
+			, FragmentOutT< OutT > out
 			, FragmentMainFuncT< InT, OutT > const & function );
 		/**@}*/
 		/**

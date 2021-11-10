@@ -255,7 +255,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -283,7 +283,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -313,7 +313,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -343,7 +343,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -373,7 +373,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -403,7 +403,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -433,7 +433,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -463,7 +463,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -495,7 +495,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -528,7 +528,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -562,7 +562,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -594,7 +594,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -627,7 +627,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -660,7 +660,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -693,7 +693,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -726,7 +726,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -759,7 +759,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -792,7 +792,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -827,7 +827,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< VoidT > listIn
+					, TessEvalListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
@@ -863,7 +863,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< PositionT > listIn
+					, TessEvalListInT< PositionT, MaxPoints > listIn
 					, TrianglesTessPatchInT< SimplePatchT > patchIn
 					, TessEvalDataOutT< PositionT > out )
 				{
@@ -951,7 +951,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< SurfaceT > listIn
+					, TessEvalListInT< SurfaceT, maxPoints > listIn
 					, TrianglesTessPatchInT< PNTriPatchT > patchIn
 					, TessEvalDataOutT< SurfaceT > out )
 				{

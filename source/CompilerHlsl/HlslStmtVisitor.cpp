@@ -411,9 +411,9 @@ namespace hlsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitFragmentLayout( ast::stmt::FragmentLayout * stmt )
+	void StmtVisitor::visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )
 	{
-		// Unsupported in HLSL :/
+		AST_Failure( "ast::stmt::FragmentLayout unexpected at that point" );
 	}
 
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
@@ -459,6 +459,19 @@ namespace hlsl
 					}
 
 					params.push_back( mbr );
+				}
+				else if ( argType->getKind() == ast::type::Kind::eFragmentInput )
+				{
+					// Fragment layouts unsupported in HLSL :/
+					auto & fragType = static_cast< ast::type::FragmentInput const & >( *argType );
+					argType = fragType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( mbr );
+					}
 				}
 				else if ( argType->getKind() == ast::type::Kind::eTessellationControlInput )
 				{

@@ -1435,7 +1435,7 @@ namespace
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< SurfaceT > listIn
+					, TessEvalListInT< SurfaceT, maxPoints > listIn
 					, TrianglesTessPatchInT< PNTriPatchT > patchIn
 					, TessEvalDataOutT< SurfaceT > out )
 				{
@@ -1525,19 +1525,19 @@ namespace
 sdwTestSuiteMain( TestWriterShader )
 {
 	sdwTestSuiteBegin();
-	//vtx_frag( testCounts );
-	//charles( testCounts );
-	//charles_approx( testCounts );
-	//charles_latest( testCounts );
-	//arthapzMin( testCounts );
-	//arthapz( testCounts, false, false );
-	//arthapz( testCounts, false, true );
-	//arthapz( testCounts, true, false );
-	//arthapz( testCounts, true, true );
-	//clipDistance( testCounts );
-	//basicPipeline( testCounts );
-	//voxelPipeline( testCounts );
-	tessellationPipeline( testCounts );
+	vtx_frag( testCounts );
+	charles( testCounts );
+	charles_approx( testCounts );
+	charles_latest( testCounts );
+	arthapzMin( testCounts );
+	arthapz( testCounts, false, false );
+	arthapz( testCounts, false, true );
+	arthapz( testCounts, true, false );
+	arthapz( testCounts, true, true );
+	clipDistance( testCounts );
+	basicPipeline( testCounts );
+	voxelPipeline( testCounts );
+	//tessellationPipeline( testCounts );
 	sdwTestSuiteEnd();
 }
 

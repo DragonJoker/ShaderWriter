@@ -72,7 +72,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitElseIfStmt( ElseIf * ) = 0;
 		SDAST_API virtual void visitElseStmt( Else * ) = 0;
 		SDAST_API virtual void visitForStmt( For * ) = 0;
-		SDAST_API virtual void visitFragmentLayout( FragmentLayout * ) = 0;
+		SDAST_API virtual void visitFragmentLayoutStmt( FragmentLayout * ) = 0;
 		SDAST_API virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
 		SDAST_API virtual void visitIfStmt( If * ) = 0;
 		SDAST_API virtual void visitImageDeclStmt( ImageDecl * ) = 0;

@@ -287,6 +287,8 @@ namespace spirv
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void registerParam( ast::var::VariablePtr var
+			, ast::type::FragmentInput const & fragType );
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryInput const & geomType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::GeometryOutput const & geomType );

@@ -326,7 +326,7 @@ namespace spirv
 			{
 			}
 
-			void visitFragmentLayout( ast::stmt::FragmentLayout * stmt )override
+			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )override
 			{
 			}
 

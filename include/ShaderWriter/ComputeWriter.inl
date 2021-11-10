@@ -90,13 +90,18 @@ namespace sdw
 		, uint32_t localSizeZ
 		, ComputeMainFuncT< DataT > const & function )
 	{
+		this->implementMainT( ComputeInT< DataT >{ *this, localSizeX, localSizeY, localSizeZ }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void ComputeWriter::implementMainT( ComputeInT< DataT > in
+		, ComputeMainFuncT< DataT > const & function )
+	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( ComputeInT< DataT >{ *this
-				, localSizeX
-				, localSizeY
-				, localSizeZ} ) );
+			, makeInParam( std::move( in ) ) );
 	}
 
 	//*************************************************************************
