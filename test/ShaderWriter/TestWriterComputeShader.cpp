@@ -21,7 +21,30 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
-	
+
+	void builtins( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "builtins" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+			{
+				writer.declLocale( "globalInvocationID", in.globalInvocationID );
+				writer.declLocale( "localInvocationID", in.localInvocationID );
+				writer.declLocale( "localInvocationIndex", in.localInvocationIndex );
+				writer.declLocale( "numWorkGroups", in.numWorkGroups );
+				writer.declLocale( "workGroupID", in.workGroupID );
+				writer.declLocale( "workGroupSize", in.workGroupSize );
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
 	void readWorkGroupSize( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "readWorkGroupSize" );
@@ -406,6 +429,7 @@ sdwTestSuiteMain( TestWriterComputeShader )
 {
 	sdwTestSuiteBegin();
 	emptyMain( testCounts );
+	builtins( testCounts );
 	readWorkGroupSize( testCounts );
 	compute( testCounts );
 	swizzles( testCounts );

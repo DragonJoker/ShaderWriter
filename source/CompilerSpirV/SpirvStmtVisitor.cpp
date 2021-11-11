@@ -127,6 +127,11 @@ namespace spirv
 				, output->getType()
 				, info ).id );
 		}
+
+		for ( auto & mode : moduleConfig.executionModes )
+		{
+			m_result.registerExecutionMode( mode );
+		}
 	}
 
 	void StmtVisitor::visitContainerStmt( ast::stmt::Container * cont )

@@ -5,12 +5,6 @@
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
-#undef ForceDisplayShaders
-#define ForceDisplayShaders false
-
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_SPIRV
-
 namespace
 {
 	template< sdw::var::Flag FlagT >

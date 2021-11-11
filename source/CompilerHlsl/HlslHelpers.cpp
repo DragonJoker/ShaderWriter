@@ -105,6 +105,8 @@ namespace hlsl
 			case ast::Builtin::eTessLevelInner:
 			case ast::Builtin::eTessLevelOuter:
 				return true;
+			case ast::Builtin::eLayer:
+			case ast::Builtin::eViewportIndex:
 			case ast::Builtin::ePrimitiveID:
 				return !isInput;
 			default:
@@ -271,6 +273,50 @@ namespace hlsl
 			return ( isMain
 				? std::string{ "Main" }
 			: std::string{ "" } );
+		}
+
+		bool isSupported( ast::Builtin builtin
+			, ast::ShaderStage stage
+			, bool isInput )
+		{
+			switch ( builtin )
+			{
+			case ast::Builtin::eLocalInvocationID:
+			case ast::Builtin::eLocalInvocationIndex:
+			case ast::Builtin::eWorkGroupID:
+			case ast::Builtin::eTessCoord:
+			case ast::Builtin::eGlobalInvocationID:
+			case ast::Builtin::eFragDepth:
+			case ast::Builtin::eSampleMask:
+			case ast::Builtin::eSampleMaskIn:
+			case ast::Builtin::eCullDistance:
+			case ast::Builtin::eClipDistance:
+			case ast::Builtin::eTessLevelInner:
+			case ast::Builtin::eInstanceIndex:
+			case ast::Builtin::eFrontFacing:
+			case ast::Builtin::ePosition:
+			case ast::Builtin::eFragCoord:
+			case ast::Builtin::eSampleID:
+			case ast::Builtin::eFragStencilRefEXT:
+			case ast::Builtin::eTessLevelOuter:
+			case ast::Builtin::eVertexIndex:
+				return true;
+			case ast::Builtin::eViewportIndex:
+				return stage == ast::ShaderStage::eGeometry;
+			case ast::Builtin::ePrimitiveID:
+				return ( isInput
+						&& ( stage == ast::ShaderStage::eTessellationControl
+							|| stage == ast::ShaderStage::eTessellationEvaluation ) )
+					|| ( !isInput
+						&& stage == ast::ShaderStage::eGeometry );
+			case ast::Builtin::ePrimitiveIDIn:
+				return isInput
+					&& stage == ast::ShaderStage::eGeometry;
+			case ast::Builtin::eLayer:
+				return stage == ast::ShaderStage::eGeometry;
+			default:
+				return false;
+			}
 		}
 	}
 
@@ -1094,7 +1140,6 @@ namespace hlsl
 			{ ast::Builtin::eClipDistance, "SV_ClipDistance" },
 			{ ast::Builtin::eTessLevelInner, "SV_InsideTessFactor" },
 			{ ast::Builtin::eInstanceIndex, "SV_InstanceID" },
-			{ ast::Builtin::eInstanceIndex, "SV_InstanceID" },
 			{ ast::Builtin::eFrontFacing, "SV_IsFrontFace" },
 			{ ast::Builtin::ePosition, "SV_Position" },
 			{ ast::Builtin::eFragCoord, "SV_Position" },
@@ -1104,7 +1149,6 @@ namespace hlsl
 			{ ast::Builtin::eSampleID, "SV_SampleIndex" },
 			{ ast::Builtin::eFragStencilRefEXT, "SV_StencilRef" },
 			{ ast::Builtin::eTessLevelOuter, "SV_TessFactor" },
-			{ ast::Builtin::eVertexIndex, "SV_VertexID" },
 			{ ast::Builtin::eVertexIndex, "SV_VertexID" },
 			{ ast::Builtin::eViewportIndex, "SV_ViewportArrayIndex" },
 		};
@@ -1287,6 +1331,15 @@ namespace hlsl
 			}
 			break;
 		case hlsl::IOMappingMode::eNoSeparateDistinctParams:
+			if ( !unsupportedBuiltins.empty() )
+			{
+				for ( auto & builtin : unsupportedBuiltins )
+				{
+					stmt.addStmt( ast::stmt::makeVariableDecl( ast::var::makeVariable( builtin->getEntityName()
+						, builtin->getType()
+						, builtin->getFlags() | ast::var::Flag::eStatic ) ) );
+				}
+			}
 			break;
 		case hlsl::IOMappingMode::eLocalReturn:
 			if ( !paramStruct->empty() )
@@ -1828,14 +1881,23 @@ namespace hlsl
 			{
 				if ( builtin != ast::Builtin::eNone )
 				{
-					distinctParams.push_back( shader->registerBuiltin( builtin, type, flags ) );
+					if ( isSupported( builtin, stage, isInput ) )
+					{
+						distinctParams.push_back( shader->registerBuiltin( builtin, type, flags ) );
+						it = std::next( distinctParams.begin(), ptrdiff_t( distinctParams.size() ) - 1 );
+					}
+					else
+					{
+						unsupportedBuiltins.push_back( shader->registerBuiltin( builtin, type, flags ) );
+						it = std::next( unsupportedBuiltins.begin(), ptrdiff_t( unsupportedBuiltins.size() ) - 1 );
+					}
 				}
 				else
 				{
 					distinctParams.push_back( shader->registerName( name, type, flags ) );
+					it = std::next( distinctParams.begin(), ptrdiff_t( distinctParams.size() ) - 1 );
 				}
 
-				it = std::next( distinctParams.begin(), ptrdiff_t( distinctParams.size() ) - 1 );
 			}
 
 			return { 0u, 0u, ast::expr::makeIdentifier( shader->getTypesCache(), *it ) };

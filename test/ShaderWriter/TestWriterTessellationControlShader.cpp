@@ -271,6 +271,9 @@ namespace
 					, TessControlListInT< VoidT, MaxPoints > listIn
 					, TrianglesTessControlListOutT< VoidT > listOut )
 				{
+					writer.declLocale( "invocationID", in.invocationID );
+					writer.declLocale( "primitiveID", in.primitiveID );
+
 					listOut.vtx.position = listIn[in.invocationID].vtx.position * 2.0_f;
 				} );
 			test::writeShader( writer

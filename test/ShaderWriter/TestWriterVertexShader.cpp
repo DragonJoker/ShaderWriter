@@ -1,6 +1,8 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#pragma warning( disable:5245 )
+#pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
 namespace
@@ -177,6 +179,11 @@ namespace
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
 				, VertexOutT< VoidT > out )
 				{
+					writer.declLocale( "drawID", in.drawID );
+					writer.declLocale( "baseInstance", in.baseInstance );
+					writer.declLocale( "baseVertex", in.baseVertex );
+					writer.declLocale( "instanceIndex", in.instanceIndex );
+					writer.declLocale( "vertexIndex", in.vertexIndex );
 					out.vtx.position = vec4( 1.0_f );
 				} );
 			test::writeShader( writer

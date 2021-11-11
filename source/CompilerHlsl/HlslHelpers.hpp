@@ -134,7 +134,8 @@ namespace hlsl
 		// The effectively written/read var.
 		ast::var::VariablePtr mainVar{};
 		// The distinct param vars.
-		ast::var::VariableList distinctParams;
+		ast::var::VariableList distinctParams{};
+		ast::var::VariableList unsupportedBuiltins{};
 
 		void writeGlobals( ast::stmt::Container & stmt
 			, std::unordered_set< ast::type::StructPtr > & declaredStructs )const;
