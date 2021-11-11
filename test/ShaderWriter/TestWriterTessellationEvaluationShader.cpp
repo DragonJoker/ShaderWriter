@@ -259,6 +259,13 @@ namespace
 					, TrianglesTessPatchInT< VoidT > patchIn
 					, TessEvalDataOutT< VoidT > out )
 				{
+					writer.declLocale( "patchVerticesIn", mainIn.patchVerticesIn );
+					writer.declLocale( "primitiveID", mainIn.primitiveID );
+					writer.declLocale( "tessCoord", mainIn.tessCoord );
+
+					writer.declLocale( "tessLevelInner", patchIn.tessLevelInner[0] );
+					writer.declLocale( "tessLevelOuter", patchIn.tessLevelOuter[0] );
+
 					auto loc = writer.declLocale( "loc"
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc

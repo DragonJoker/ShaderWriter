@@ -141,6 +141,26 @@ namespace test
 			int minor{};
 		};
 
+		Version checkGLVersion()
+		{
+			Version result;
+			char const* const cversion = ( char const* )glGetString( GL_VERSION );
+
+			if ( cversion )
+			{
+				std::string sversion = cversion;
+				std::stringstream stream( sversion );
+				float fversion;
+				stream >> fversion;
+				auto version = int( fversion * 10 );
+				result.major = version / 10;
+				result.minor = version % 10;
+			}
+
+			return result;
+		}
+
+#if !defined( NDEBUG )
 		std::string getErrorName( uint32_t code, uint32_t category )
 		{
 			static uint32_t constexpr InvalidEnum = 0x0500;
@@ -178,25 +198,6 @@ namespace test
 			{
 				return std::string{};
 			}
-		}
-
-		Version checkGLVersion()
-		{
-			Version result;
-			char const * const cversion = ( char const * )glGetString( GL_VERSION );
-
-			if ( cversion )
-			{
-				std::string sversion = cversion;
-				std::stringstream stream( sversion );
-				float fversion;
-				stream >> fversion;
-				auto version = int( fversion * 10 );
-				result.major = version / 10;
-				result.minor = version % 10;
-			}
-
-			return result;
 		}
 
 		void GLAPIENTRY callbackDebugLog( uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int length, const char * message, void * userParam )
@@ -239,6 +240,7 @@ namespace test
 			stream << "    Message: " << message;
 			std::cout << stream.str() << std::endl;
 		}
+#endif
 	}
 
 #if defined( _WIN32 )

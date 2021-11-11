@@ -39,7 +39,7 @@ namespace test
 			static glsl::GlslConfig const result
 			{
 				ast::ShaderStage::eCompute, // shaderStage;
-				450, // shaderLanguageVersion{ 430 };
+				460, // shaderLanguageVersion{ 430 };
 				false, // vulkanGlsl{ false };
 				false, // flipVertY{ false };
 				false, // fixupClipDepth{ false };
@@ -438,7 +438,8 @@ namespace test
 								&& text.find( "Unsupported builtin in HLSL" ) == std::string::npos
 								&& text.find( "Unsupported execution model" ) == std::string::npos
 								&& text.find( "No function currently in scope" ) == std::string::npos
-								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos )
+								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
+								&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos )
 							{
 								failure( "testWriteSpirV" );
 								displayShader( "SPIR-V", textSpirv, testCounts, true );

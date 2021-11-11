@@ -24,7 +24,7 @@ namespace sdw
 		ComputeInT( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
-			, uint32_t localSizeZ  );
+			, uint32_t localSizeZ );
 		ComputeInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

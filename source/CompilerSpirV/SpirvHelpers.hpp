@@ -18,6 +18,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct ModuleConfig;
 	class ExprAdapter;
 
 	struct PendingResult
@@ -42,6 +43,10 @@ namespace spirv
 		uint32_t flags;
 		PendingResult result;
 	};
+
+	void checkBuiltin( ast::Builtin builtin
+		, ast::ShaderStage stage
+		, ModuleConfig & config );
 
 	struct IOMapping
 	{
@@ -146,6 +151,7 @@ namespace spirv
 		uint32_t aliasId;
 		ast::ShaderStage stage;
 		std::set< spv::Capability > requiredCapabilities;
+		std::set< spv::ExecutionMode > executionModes;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
 		ast::stmt::ContainerPtr declare();
@@ -205,6 +211,11 @@ namespace spirv
 		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var
 			, ast::stmt::Container * cont )
 		{
+			if ( var->isBuiltin() )
+			{
+				checkBuiltin( var->getBuiltin(), stage, *this );
+			}
+
 			return inputs.processPending( var
 				, cont );
 		}
@@ -215,6 +226,16 @@ namespace spirv
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont )
 		{
+			if ( isStructType( outer->getType() ) )
+			{
+				auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+
+				if ( mbr.builtin != ast::Builtin::eNone )
+				{
+					checkBuiltin( mbr.builtin, stage, *this );
+				}
+			}
+
 			return inputs.processPendingMbr( outer
 				, mbrIndex
 				, flags
@@ -256,6 +277,11 @@ namespace spirv
 		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var
 			, ast::stmt::Container * cont )
 		{
+			if ( var->isBuiltin() )
+			{
+				checkBuiltin( var->getBuiltin(), stage, *this );
+			}
+
 			return outputs.processPending( var
 				, cont );
 		}
@@ -266,6 +292,16 @@ namespace spirv
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont )
 		{
+			if ( isStructType( outer->getType() ) )
+			{
+				auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+
+				if ( mbr.builtin != ast::Builtin::eNone )
+				{
+					checkBuiltin( mbr.builtin, stage, *this );
+				}
+			}
+
 			return outputs.processPendingMbr( outer
 				, mbrIndex
 				, flags

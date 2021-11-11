@@ -171,7 +171,19 @@ namespace
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
 				, FragmentOutT< VoidT > out )
 				{
-					auto uv = writer.declLocale( "uv", in.fragCoord );
+					writer.declLocale( "clipDistance", in.clipDistance[0]);
+					writer.declLocale( "fragCoord", in.fragCoord );
+					writer.declLocale( "frontFacing", in.frontFacing );
+					//writer.declLocale( "layer", in.layer );
+					writer.declLocale( "pointCoord", in.pointCoord );
+					writer.declLocale( "primitiveID", in.primitiveID );
+					writer.declLocale( "sampleID", in.sampleID );
+					//writer.declLocale( "sampleMask", in.sampleMask[0]);
+					writer.declLocale( "samplePosition", in.samplePosition );
+					writer.declLocale( "viewportIndex", in.viewportIndex );
+
+					out.fragDepth = 0.0_f;
+					//out.sampleMask = in.sampleMask;
 				} );
 			test::writeShader( writer
 				, testCounts

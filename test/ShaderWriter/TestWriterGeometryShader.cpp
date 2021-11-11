@@ -53,7 +53,13 @@ namespace
 				, PointList list
 				, PointStream out )
 				{
+					writer.declLocale( "invocationID", in.invocationID );
+					writer.declLocale( "primitiveID", in.primitiveID );
+
+					out.layer = 0_i;
+					out.viewportIndex = 0_i;
 					out.primitiveID = in.primitiveID;
+
 					out.vtx.position = list[0].vtx.position;
 					out.append();
 					out.restartStrip();

@@ -318,6 +318,146 @@ namespace spirv
 
 	//*********************************************************************************************
 
+	void checkBuiltin( ast::Builtin builtin
+		, ast::ShaderStage stage
+		, ModuleConfig & config )
+	{
+		switch ( builtin )
+		{
+		case ast::Builtin::ePosition:
+		case ast::Builtin::ePointSize:
+			config.requiredCapabilities.insert( spv::CapabilityShader );
+			break;
+		case ast::Builtin::eClipDistance:
+			config.requiredCapabilities.insert( spv::CapabilityClipDistance );
+			break;
+		case ast::Builtin::eCullDistance:
+			config.requiredCapabilities.insert( spv::CapabilityCullDistance );
+			break;
+		case ast::Builtin::ePrimitiveID:
+		case ast::Builtin::ePrimitiveIDIn:
+		case ast::Builtin::eInvocationID:
+			// Tessellation or Geometry
+			break;
+		case ast::Builtin::eLayer:
+			if ( stage == ast::ShaderStage::eGeometry )
+			{
+				config.requiredCapabilities.insert( spv::CapabilityGeometry );
+			}
+			else
+			{
+				config.requiredCapabilities.insert( spv::CapabilityShaderLayer );
+			}
+			break;
+		case ast::Builtin::eViewportIndex:
+			config.requiredCapabilities.insert( spv::CapabilityMultiViewport );
+			break;
+		case ast::Builtin::eTessLevelOuter:
+		case ast::Builtin::eTessLevelInner:
+		case ast::Builtin::eTessCoord:
+		case ast::Builtin::ePatchVertices:
+		case ast::Builtin::ePatchVerticesIn:
+			config.requiredCapabilities.insert( spv::CapabilityTessellation );
+			break;
+		case ast::Builtin::eFragCoord:
+		case ast::Builtin::ePointCoord:
+		case ast::Builtin::eFrontFacing:
+			config.requiredCapabilities.insert( spv::CapabilityShader );
+			break;
+		case ast::Builtin::eSampleID:
+		case ast::Builtin::eSamplePosition:
+			config.requiredCapabilities.insert( spv::CapabilitySampleRateShading );
+			break;
+		case ast::Builtin::eSampleMask:
+		case ast::Builtin::eSampleMaskIn:
+		case ast::Builtin::eHelperInvocation:
+			config.requiredCapabilities.insert( spv::CapabilityShader );
+			break;
+		case ast::Builtin::eFragDepth:
+			config.requiredCapabilities.insert( spv::CapabilityShader );
+			config.executionModes.insert( spv::ExecutionModeDepthReplacing );
+			break;
+		case ast::Builtin::eNumWorkGroups:
+			break;
+		case ast::Builtin::eWorkGroupSize:
+			break;
+		case ast::Builtin::eWorkGroupID:
+			break;
+		case ast::Builtin::eLocalInvocationID:
+			break;
+		case ast::Builtin::eGlobalInvocationID:
+			break;
+		case ast::Builtin::eLocalInvocationIndex:
+			break;
+		case ast::Builtin::eWorkDim:
+		case ast::Builtin::eGlobalSize:
+		case ast::Builtin::eEnqueuedWorkgroupSize:
+		case ast::Builtin::eGlobalLinearID:
+		case ast::Builtin::eSubgroupSize:
+		case ast::Builtin::eSubgroupMaxSize:
+		case ast::Builtin::eNumSubgroups:
+		case ast::Builtin::eNumEnqueuedSubgroups:
+		case ast::Builtin::eSubgroupID:
+		case ast::Builtin::eSubgroupLocalInvocationID:
+			config.requiredCapabilities.insert( spv::CapabilityKernel );
+			break;
+		case ast::Builtin::eVertexIndex:
+		case ast::Builtin::eInstanceIndex:
+			config.requiredCapabilities.insert( spv::CapabilityShader );
+			break;
+		case ast::Builtin::eSubgroupEqMaskKHR:
+		case ast::Builtin::eSubgroupGeMaskKHR:
+		case ast::Builtin::eSubgroupGtMaskKHR:
+		case ast::Builtin::eSubgroupLeMaskKHR:
+		case ast::Builtin::eSubgroupLtMaskKHR:
+			config.requiredCapabilities.insert( spv::CapabilitySubgroupBallotKHR );
+			break;
+		case ast::Builtin::eBaseVertex:
+		case ast::Builtin::eBaseInstance:
+		case ast::Builtin::eDrawIndex:
+			config.requiredCapabilities.insert( spv::CapabilityDrawParameters );
+			break;
+		case ast::Builtin::eDeviceIndex:
+			config.requiredCapabilities.insert( spv::CapabilityDeviceGroup );
+			break;
+		case ast::Builtin::eViewIndex:
+			config.requiredCapabilities.insert( spv::CapabilityMultiView );
+			break;
+		case ast::Builtin::eBaryCoordNoPerspAMD:
+			break;
+		case ast::Builtin::eBaryCoordNoPerspCentroidAMD:
+			break;
+		case ast::Builtin::eBaryCoordNoPerspSampleAMD:
+			break;
+		case ast::Builtin::eBaryCoordSmoothAMD:
+			break;
+		case ast::Builtin::eBaryCoordSmoothCentroidAMD:
+			break;
+		case ast::Builtin::eBaryCoordSmoothSampleAMD:
+			break;
+		case ast::Builtin::eBaryCoordPullModelAMD:
+			break;
+		case ast::Builtin::eFragStencilRefEXT:
+			config.requiredCapabilities.insert( spv::CapabilityStencilExportEXT );
+			break;
+		case ast::Builtin::eViewportMaskNV:
+			config.requiredCapabilities.insert( spv::CapabilityShaderViewportMaskNV );
+			break;
+		case ast::Builtin::eSecondaryPositionNV:
+		case ast::Builtin::eSecondaryViewportMaskNV:
+			config.requiredCapabilities.insert( spv::CapabilityShaderStereoViewNV );
+			break;
+		case ast::Builtin::ePositionPerViewNV:
+		case ast::Builtin::eViewportMaskPerViewNV:
+			config.requiredCapabilities.insert( spv::CapabilityPerViewAttributesNV );
+			break;
+		default:
+			break;
+		}
+	}
+
+	//*********************************************************************************************
+
 	IOMapping::IOMapping( ast::type::TypesCache & pcache
 		, ast::ShaderStage pstage
 		, bool pisInput
@@ -1536,6 +1676,8 @@ namespace spirv
 			return "AtomicFloat32AddEXT";
 		case spv::CapabilityAtomicFloat64AddEXT:
 			return "AtomicFloat64AddEXT";
+		case spv::CapabilityShaderLayer:
+			return "ShaderLayer";
 		default:
 			AST_Failure( "Unsupported Capability" );
 			return "Undefined";

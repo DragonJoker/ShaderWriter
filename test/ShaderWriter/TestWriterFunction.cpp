@@ -6,12 +6,6 @@
 #pragma warning( disable:5245 )
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
-#undef ForceDisplayShaders
-#define ForceDisplayShaders true
-
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_SPIRV
-
 namespace
 {
 	struct St
