@@ -99,6 +99,11 @@ namespace spirv
 			m_result.capabilities.emplace_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( capability ) } ) );
 		}
 
+		for ( auto & extension : moduleConfig.requiredExtensions )
+		{
+			m_result.registerExtension( extension );
+		}
+
 		VariableInfo info;
 
 		for ( auto & input : moduleConfig.getInputs() )

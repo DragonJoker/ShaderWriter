@@ -151,6 +151,7 @@ namespace spirv
 		uint32_t aliasId;
 		ast::ShaderStage stage;
 		std::set< spv::Capability > requiredCapabilities;
+		std::set< std::string > requiredExtensions;
 		std::set< spv::ExecutionMode > executionModes;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
