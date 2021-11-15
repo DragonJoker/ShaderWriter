@@ -1872,9 +1872,8 @@ namespace
 		testBegin( "nestedFunctionDecl" );
 		using namespace sdw;
 		ComputeWriter writer;
-		writer.inputLayout( 16 );
 
-		writer.implementMain( [&]()
+		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
 					, [&]( Float const & gamma
@@ -1897,7 +1896,7 @@ namespace
 			} );
 
 		test::writeShader( writer
-			, testCounts );
+			, testCounts, CurrentCompilers );
 		testEnd();
 	}
 
