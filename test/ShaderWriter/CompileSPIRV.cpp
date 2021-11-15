@@ -251,9 +251,7 @@ namespace test
 		bool createInstance( Info & info )
 		{
 			initGlobalLayerProperties( info );
-	#ifndef NDEBUG
 			info.instance_layer_names.push_back( "VK_LAYER_KHRONOS_validation" );
-	#endif
 			info.instance_extension_names.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
 
 			if ( isLayerSupported( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME

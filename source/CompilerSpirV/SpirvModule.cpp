@@ -1596,7 +1596,7 @@ namespace spirv
 	void Module::initialiseExtensions()
 	{
 		ValueId id{ getIntermediateResult() };
-		extensions.push_back( makeInstruction< ExtInstImportInstruction >( id
+		imports.push_back( makeInstruction< ExtInstImportInstruction >( id
 			, "GLSL.std.450" ) );
 		debug.push_back( makeInstruction< SourceInstruction >( ValueId{ spv::Id( spv::SourceLanguageGLSL ) }, ValueId{ 460u } ) );
 	}
