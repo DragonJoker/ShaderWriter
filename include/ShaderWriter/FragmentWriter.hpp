@@ -19,14 +19,21 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		FragmentInT( ShaderWriter & writer
 			, ast::FragmentOrigin origin
-			, ast::FragmentCenter center );
+			, ast::FragmentCenter center
+			, ParamsT ... params );
+		template< typename ... ParamsT >
+		FragmentInT( ShaderWriter & writer
+			, ParamsT ... params );
 		FragmentInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//in vec4 gl_FragCoord;
 		Vec4 const fragCoord;
@@ -56,12 +63,16 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
-		FragmentOutT( ShaderWriter & writer );
+		template< typename ... ParamsT >
+		FragmentOutT( ShaderWriter & writer
+			, ParamsT ... params );
 		FragmentOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//out float gl_FragDepth;
 		Float fragDepth;

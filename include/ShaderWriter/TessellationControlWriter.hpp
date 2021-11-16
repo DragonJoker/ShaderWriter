@@ -18,12 +18,13 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
-		TessControlDataInT( ShaderWriter & writer );
 		TessControlDataInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		PerVertex vtx;
@@ -36,13 +37,17 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = TessControlDataInT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		TessControlListInT( ShaderWriter & writer
-			, bool fromEntryPoint );
+			, bool fromEntryPoint
+			, ParamsT ... params );
 		TessControlListInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		static constexpr uint32_t MaxPoints = MaxPointsT;
 	};

@@ -11,6 +11,9 @@ See LICENSE file in root folder
 #include <variant>
 #include <vector>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+
 namespace ast::vk
 {
 	template< typename ValueT >
@@ -207,5 +210,7 @@ namespace ast::vk
 		}
 	};
 }
+
+#pragma GCC diagnostic pop
 
 #endif

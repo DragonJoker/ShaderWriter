@@ -46,9 +46,11 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		inline T getMember( std::string const & name )const;
+		inline T getMember( std::string const & name
+			, bool optional = false )const;
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name )const;
+		inline Array< T > getMemberArray( std::string const & name
+			, bool optional = false )const;
 		template< typename T >
 		inline T getMember( ast::Builtin builtin )const;
 		template< typename T >

@@ -19,9 +19,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr GeometryDataT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr GeometryDataT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
 	}
@@ -39,11 +42,13 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	GeometryListT< DataT, LayoutT >::GeometryListT( ShaderWriter & writer )
+	template< typename ... ParamsT >
+	GeometryListT< DataT, LayoutT >::GeometryListT( ShaderWriter & writer
+		, ParamsT ... params )
 		: GeometryListT{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "geomIn"
-					, ast::type::makeGeometryInputType( makeType( getTypesCache( writer ) )
+					, ast::type::makeGeometryInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, LayoutT )
 					, FlagT ) ) }
 	{
@@ -51,9 +56,11 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::InputLayout LayoutT >
-	ast::type::IOStructPtr GeometryListT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr GeometryListT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return GeometryDataT< DataT >::makeType( cache );
+		return GeometryDataT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
@@ -73,12 +80,14 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::OutputLayout LayoutT >
+	template< typename ... ParamsT >
 	GeometryOutT< DataT, LayoutT >::GeometryOutT( ShaderWriter & writer
-		, uint32_t count )
+		, uint32_t count
+		, ParamsT ... params )
 		: GeometryOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "geomOut"
-					, ast::type::makeGeometryOutputType( makeType( getTypesCache( writer ) )
+					, ast::type::makeGeometryOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, LayoutT
 						, count )
 					, FlagT ) ) }
@@ -105,9 +114,12 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::OutputLayout LayoutT >
-	ast::type::IOStructPtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = OutputT< DataT >::makeType( cache );
+		auto result = OutputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 
 		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )

@@ -257,7 +257,7 @@ namespace sdw
 		auto type = details::findType( values... );
 		assert( type );
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "->null-dereference"
+#pragma GCC diagnostic ignored "-Wnull-dereference"
 		return type->getCache();
 #pragma GCC diagnostic pop
 	}

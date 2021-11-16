@@ -11,14 +11,16 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
+	template< typename ... ParamsT >
 	ComputeInT< DataT >::ComputeInT( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
-		, uint32_t localSizeZ )
+		, uint32_t localSizeZ
+		, ParamsT ... params )
 		: ComputeInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "compIn"
-					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
+					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, localSizeX
 						, localSizeY
 						, localSizeZ )
@@ -41,9 +43,11 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr ComputeInT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr ComputeInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = InputT< DataT >::makeType( cache );
+		auto result = InputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eNumWorkGroups ) )
 		{

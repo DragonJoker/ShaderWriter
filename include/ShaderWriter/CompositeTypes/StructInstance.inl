@@ -1,10 +1,18 @@
 /*
 See LICENSE file in root folder
 */
+#include <stdexcept>
+
+#pragma warning( push )
+#pragma warning( disable:4365 )
+#include <iostream>
+#pragma warning( pop )
+
 namespace sdw
 {
 	template< typename T >
-	inline T StructInstance::getMember( std::string const & name )const
+	inline T StructInstance::getMember( std::string const & name
+		, bool optional )const
 	{
 		assert( m_type->getKind() == type::Kind::eStruct );
 		auto mbrFlags = m_type->getFlag();
@@ -19,17 +27,38 @@ namespace sdw
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
 		}
 
-		auto member = m_type->getMember( name );
+		auto mbrIndex = m_type->findMember( name );
 		auto & writer = findWriterMandat( *this );
+
+		if ( mbrIndex == ast::type::Struct::NotFound )
+		{
+			if ( mbrFlags )
+			{
+				std::clog << "Struct member [" << name << "] was not found, creating dummy one." << std::endl;
+			}
+			else if ( !optional )
+			{
+				throw std::runtime_error{ "Struct member [" + name + "] was not found." };
+			}
+
+			return T{ writer
+				, std::make_unique< expr::Expr >( m_type->getCache()
+					, T::makeType( m_type->getCache() )
+					, expr::Kind::eIdentifier
+					, expr::Flag::eDummy )
+				, false };
+		}
+
 		return T{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
-				, member.type->getIndex()
+				, m_type->getMember( mbrIndex ).type->getIndex()
 				, mbrFlags )
 			, true};
 	}
 
 	template< typename T >
-	inline Array< T > StructInstance::getMemberArray( std::string const & name )const
+	inline Array< T > StructInstance::getMemberArray( std::string const & name
+		, bool optional )const
 	{
 		assert( m_type->getKind() == type::Kind::eStruct );
 		auto mbrFlags = m_type->getFlag();
@@ -44,11 +73,31 @@ namespace sdw
 			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
 		}
 
-		auto member = m_type->getMember( name );
+		auto mbrIndex = m_type->findMember( name );
 		auto & writer = findWriterMandat( *this );
+
+		if ( mbrIndex == ast::type::Struct::NotFound )
+		{
+			if ( mbrFlags )
+			{
+				std::clog << "Struct member [" << name << "] was not found, creating dummy one." << std::endl;
+			}
+			else if ( !optional )
+			{
+				throw std::runtime_error{ "Struct member [" + name + "] was not found." };
+			}
+
+			return Array< T >{ writer
+				, std::make_unique< expr::Expr >( m_type->getCache()
+					, m_type->getCache().getArray( T::makeType( m_type->getCache() ) )
+					, expr::Kind::eIdentifier
+					, expr::Flag::eDummy )
+				, false };
+		}
+
 		return Array< T >{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
-				, member.type->getIndex()
+				, m_type->getMember( mbrIndex ).type->getIndex()
 				, mbrFlags )
 			, true };
 	}

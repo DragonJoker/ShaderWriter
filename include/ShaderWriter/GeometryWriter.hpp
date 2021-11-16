@@ -25,7 +25,9 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		PerVertex vtx;
 	};
@@ -59,12 +61,16 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = GeometryDataT< DataT >::FlagT;
 
-		GeometryListT( ShaderWriter & writer );
+		template< typename ... ParamsT >
+		GeometryListT( ShaderWriter & writer
+			, ParamsT ... params );
 		GeometryListT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -94,8 +100,10 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		GeometryOutT( ShaderWriter & writer
-			, uint32_t count );
+			, uint32_t count
+			, ParamsT ... params );
 		GeometryOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -103,7 +111,9 @@ namespace sdw
 		void append();
 		void restartStrip();
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		PerVertex vtx;
 		//out int gl_PrimitiveID;

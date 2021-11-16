@@ -23,19 +23,26 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	VertexInT< DataT >::VertexInT( ShaderWriter & writer )
-		: VertexInT{ writer
+	template< typename ... ParamsT >
+	VertexInT< DataT >::VertexInT( ShaderWriter & writer
+		, ParamsT ... params )
+		: VertexInT< DataT >{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "vertIn"
-					, makeType( getTypesCache( writer ) )
-					, FlagT ) ) }
+					, makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
+					, FlagT ) )
+			, true }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr VertexInT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr VertexInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = InputT< DataT >::makeType( cache );
+		auto result = InputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eVertexIndex ) )
 		{
@@ -71,19 +78,26 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	VertexOutT< DataT >::VertexOutT( ShaderWriter & writer )
-		: VertexOutT{ writer
+	template< typename ... ParamsT >
+	VertexOutT< DataT >::VertexOutT( ShaderWriter & writer
+		, ParamsT ... params )
+		: VertexOutT< DataT >{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "vertOut"
-					, makeType( getTypesCache( writer ) )
-					, FlagT ) ) }
+					, makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
+					, FlagT ) )
+			, true }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr VertexOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr VertexOutT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
 	}
