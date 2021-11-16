@@ -21,15 +21,19 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		ComputeInT( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
-			, uint32_t localSizeZ );
+			, uint32_t localSizeZ
+			, ParamsT ... params );
 		ComputeInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//in uvec3 gl_NumWorkGroups;
 		UVec3 const numWorkGroups;

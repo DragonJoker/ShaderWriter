@@ -251,29 +251,35 @@ namespace ast::type
 			, std::string name
 			, var::Flag flag );
 
-		SDAST_API Member declMember( Builtin builtin
+		SDAST_API void declMember( Builtin builtin
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t index = InvalidLocation );
-		SDAST_API Member declMember( std::string name
+		SDAST_API void declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize
-			, uint32_t location );
-		SDAST_API Member declMember( std::string name
+			, uint32_t location
+			, bool enabled = true );
+		SDAST_API void declMember( std::string name
 			, TypePtr type
-			, uint32_t location );
-		SDAST_API Member declMember( std::string name
+			, uint32_t location
+			, bool enabled = true );
+		SDAST_API void declMember( std::string name
 			, ArrayPtr type
 			, uint32_t arraySize
-			, uint32_t location );
-		SDAST_API Member declMember( std::string name
+			, uint32_t location
+			, bool enabled = true );
+		SDAST_API void declMember( std::string name
 			, ArrayPtr type
-			, uint32_t location );
-		SDAST_API Member declMember( std::string name
+			, uint32_t location
+			, bool enabled = true );
+		SDAST_API void declMember( std::string name
 			, StructPtr type
-			, uint32_t arraySize );
-		SDAST_API Member declMember( std::string name
-			, StructPtr type );
+			, uint32_t arraySize
+			, bool enabled = true );
+		SDAST_API void declMember( std::string name
+			, StructPtr type
+			, bool enabled = true );
 
 	private:
 		Member doCreateMember( TypePtr type

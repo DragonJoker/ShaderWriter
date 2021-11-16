@@ -22,12 +22,16 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
-		VertexInT( ShaderWriter & writer );
+		template< typename ... ParamsT >
+		VertexInT( ShaderWriter & writer
+			, ParamsT ... params );
 		VertexInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//in int gl_VertexIndex;
 		Int const vertexIndex;
@@ -49,12 +53,16 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
-		VertexOutT( ShaderWriter & writer );
+		template< typename ... ParamsT >
+		VertexOutT( ShaderWriter & writer
+			, ParamsT ... params );
 		VertexOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		PerVertex vtx;
 	};

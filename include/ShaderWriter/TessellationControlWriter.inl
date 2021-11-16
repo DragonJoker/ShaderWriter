@@ -19,19 +19,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	TessControlDataInT< DataT >::TessControlDataInT( ShaderWriter & writer )
-		: TessControlDataInT{ writer
-			, makeExpr( writer
-				, getShader( writer ).registerName( "tesscIn"
-					, makeType( getTypesCache( writer ) )
-					, FlagT ) ) }
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr TessControlDataInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-	}
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr TessControlDataInT< DataT >::makeType( ast::type::TypesCache & cache )
-	{
-		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
 	}
@@ -49,21 +42,26 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, uint32_t MaxPointsT >
+	template< typename ... ParamsT >
 	TessControlListInT< DataT, MaxPointsT >::TessControlListInT( ShaderWriter & writer
-		, bool fromEntryPoint )
+		, bool fromEntryPoint
+		, ParamsT ... params )
 		: TessControlListInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesscIn"
-					, ast::type::makeTessellationControlInputType( makeType( getTypesCache( writer ) ), MaxPointsT )
+					, ast::type::makeTessellationControlInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ), MaxPointsT )
 					, FlagT ) ) }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, uint32_t MaxPointsT >
-	ast::type::IOStructPtr TessControlListInT< DataT, MaxPointsT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr TessControlListInT< DataT, MaxPointsT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return TessControlDataInT< DataT >::makeType( cache );
+		return TessControlDataInT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************

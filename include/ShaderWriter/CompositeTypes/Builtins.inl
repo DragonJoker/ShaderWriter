@@ -44,9 +44,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr PatchInT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr PatchInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache );
+		return DataT< FlagT >::makeIOType( cache
+			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
@@ -60,9 +63,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr PatchOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr PatchOutT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache );
+		return DataT< FlagT >::makeIOType( cache
+			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
@@ -76,9 +82,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr InputT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr InputT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache );
+		return DataT< FlagT >::makeIOType( cache
+			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
@@ -92,9 +101,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr OutputT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr OutputT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache );
+		return DataT< FlagT >::makeIOType( cache
+			, std::forward< ParamsT >( params )... );
 	}
 	/**@}*/
 #pragma endregion

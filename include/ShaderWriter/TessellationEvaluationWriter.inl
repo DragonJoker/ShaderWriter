@@ -19,19 +19,12 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	TessEvalDataInT< DataT >::TessEvalDataInT( ShaderWriter & writer )
-		: TessEvalDataInT{ writer
-		, makeExpr( writer
-			, getShader( writer ).registerName( "tesseIn"
-				, makeType( getTypesCache( writer ) )
-				, FlagT ) ) }
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr TessEvalDataInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-	}
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr TessEvalDataInT< DataT >::makeType( ast::type::TypesCache & cache )
-	{
-		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
 	}
@@ -49,14 +42,17 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, uint32_t InputVerticesT >
+	template< typename ... ParamsT >
 	TessEvalListInT< DataT, InputVerticesT >::TessEvalListInT( ShaderWriter & writer
 		, ast::type::PatchDomain domain
 		, ast::type::Partitioning partitioning
-		, ast::type::PrimitiveOrdering ordering )
+		, ast::type::PrimitiveOrdering ordering
+		, ParamsT ... params )
 		: TessEvalListInT{ writer
 		, makeExpr( writer
 			, getShader( writer ).registerName( "tesseListIn"
-				, ast::type::makeTessellationEvaluationInputType( makeType( getTypesCache( writer ) )
+				, ast::type::makeTessellationEvaluationInputType( makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
 					, domain
 					, partitioning
 					, ordering
@@ -67,9 +63,12 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, uint32_t InputVerticesT >
-	ast::type::IOStructPtr TessEvalListInT< DataT, InputVerticesT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr TessEvalListInT< DataT, InputVerticesT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		return TessEvalDataInT< DataT >::makeType( cache );
+		return TessEvalDataInT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 	}
 	
 	//*************************************************************************
@@ -87,12 +86,15 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
+	template< typename ... ParamsT >
 	TessPatchInT< DataT, DomainT >::TessPatchInT( ShaderWriter & writer
-		, uint32_t patchLocation )
+		, uint32_t patchLocation
+		, ParamsT ... params )
 		: TessPatchInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tessePatch"
-					, ast::type::makeTessellationInputPatchType( makeType( getTypesCache( writer ) )
+					, ast::type::makeTessellationInputPatchType( makeType( getTypesCache( writer )
+							, std::forward< ParamsT >( params )... )
 						, DomainT
 						, patchLocation )
 					, FlagT ) ) }
@@ -101,9 +103,12 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
-	ast::type::TypePtr TessPatchInT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::TypePtr TessPatchInT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = PatchInT< DataT >::makeType( cache );
+		auto result = PatchInT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eTessLevelOuter ) )
 		{
@@ -130,19 +135,24 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	TessEvalDataOutT< DataT >::TessEvalDataOutT( ShaderWriter & writer )
+	template< typename ... ParamsT >
+	TessEvalDataOutT< DataT >::TessEvalDataOutT( ShaderWriter & writer
+		, ParamsT ... params )
 		: TessEvalDataOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesseOut"
-					, makeType( getTypesCache( writer ) )
+					, makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 					, FlagT ) ) }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr TessEvalDataOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr TessEvalDataOutT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
 	}

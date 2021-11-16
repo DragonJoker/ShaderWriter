@@ -8,16 +8,29 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
+	template< typename ... ParamsT >
 	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
 		, ast::FragmentOrigin origin
-		, ast::FragmentCenter center )
+		, ast::FragmentCenter center
+		, ParamsT ... params )
 		: FragmentInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "fragIn"
-					, makeFragmentInputType( makeType( getTypesCache( writer ) )
+					, makeFragmentInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, origin
 						, center )
 					, FlagT ) ) }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	template< typename ... ParamsT >
+	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
+		, ParamsT ... params )
+		: FragmentInT{ writer
+			, ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, std::forward< ParamsT >( params )... }
 	{
 	}
 
@@ -40,9 +53,11 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = InputT< DataT >::makeType( cache );
+		auto result = InputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eFragCoord ) )
 		{
@@ -84,11 +99,13 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	FragmentOutT< DataT >::FragmentOutT( ShaderWriter & writer )
+	template< typename ... ParamsT >
+	FragmentOutT< DataT >::FragmentOutT( ShaderWriter & writer
+		, ParamsT ... params )
 		: FragmentOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "fragOut"
-					, makeType( getTypesCache( writer ) )
+					, makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 					, FlagT ) ) }
 	{
 	}
@@ -104,9 +121,11 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	ast::type::IOStructPtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = OutputT< DataT >::makeType( cache );
+		auto result = OutputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eFragDepth ) )
 		{

@@ -19,12 +19,13 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
-		TessEvalDataInT( ShaderWriter & writer );
 		TessEvalDataInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		// patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		PerVertex vtx;
@@ -37,15 +38,19 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = TessEvalDataInT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		TessEvalListInT( ShaderWriter & writer
 			, ast::type::PatchDomain domain
 			, ast::type::Partitioning partitioning
-			, ast::type::PrimitiveOrdering ordering );
+			, ast::type::PrimitiveOrdering ordering
+			, ParamsT ... params );
 		TessEvalListInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 	};
 
 	struct TessEvalMainIn
@@ -75,13 +80,17 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = PatchInT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		TessPatchInT( ShaderWriter & writer
-			, uint32_t patchLocation );
+			, uint32_t patchLocation
+			, ParamsT ... params );
 		TessPatchInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//patch out float gl_TessLevelOuter[];
 		Array< Float > tessLevelOuter;
@@ -102,12 +111,16 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
-		TessEvalDataOutT( ShaderWriter & writer );
+		template< typename ... ParamsT >
+		TessEvalDataOutT( ShaderWriter & writer
+			, ParamsT ... params );
 		TessEvalDataOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//out gl_PerVertex;
 		PerVertex vtx;
