@@ -130,22 +130,22 @@ namespace spirv
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampled1D );
+			m_result.registerCapability( spv::CapabilitySampled1D );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eRect )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampledRect );
+			m_result.registerCapability( spv::CapabilitySampledRect );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampledBuffer );
+			m_result.registerCapability( spv::CapabilitySampledBuffer );
 		}
 
 		if ( imgType->getConfig().isMS )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageMultisample );
+			m_result.registerCapability( spv::CapabilityStorageImageMultisample );
 		}
 
 		switch ( imgType->getConfig().format )
@@ -166,7 +166,7 @@ namespace spirv
 		case ast::type::ImageFormat::eR32u:
 		case ast::type::ImageFormat::eR16u:
 		case ast::type::ImageFormat::eR8u:
-			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageExtendedFormats );
+			m_result.registerCapability( spv::CapabilityStorageImageExtendedFormats );
 			break;
 		default:
 			break;
@@ -194,17 +194,17 @@ namespace spirv
 
 		if ( var->isPatch() )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilityTessellation );
+			m_result.registerCapability( spv::CapabilityTessellation );
 		}
 
 		if ( var->isPerSample() )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampleRateShading );
+			m_result.registerCapability( spv::CapabilitySampleRateShading );
 		}
 
 		if ( var->isGeometryStream() )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilityGeometryStreams );
+			m_result.registerCapability( spv::CapabilityGeometryStreams );
 		}
 	}
 
@@ -250,17 +250,17 @@ namespace spirv
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampled1D );
+			m_result.registerCapability( spv::CapabilitySampled1D );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eRect )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampledRect );
+			m_result.registerCapability( spv::CapabilitySampledRect );
 		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )
 		{
-			m_result.requiredCapabilities.insert( spv::CapabilitySampledBuffer );
+			m_result.registerCapability( spv::CapabilitySampledBuffer );
 		}
 
 		switch ( imgType->getConfig().format )
@@ -281,7 +281,7 @@ namespace spirv
 		case ast::type::ImageFormat::eR32u:
 		case ast::type::ImageFormat::eR16u:
 		case ast::type::ImageFormat::eR8u:
-			m_result.requiredCapabilities.insert( spv::CapabilityStorageImageExtendedFormats );
+			m_result.registerCapability( spv::CapabilityStorageImageExtendedFormats );
 			break;
 		default:
 			break;
@@ -389,7 +389,7 @@ namespace spirv
 
 			if ( kind == ast::type::Kind::eDouble )
 			{
-				m_result.requiredCapabilities.insert( spv::CapabilityFloat64 );
+				m_result.registerCapability( spv::CapabilityFloat64 );
 			}
 		}
 	}

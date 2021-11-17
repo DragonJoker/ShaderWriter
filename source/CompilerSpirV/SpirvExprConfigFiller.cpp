@@ -17,11 +17,11 @@ namespace spirv
 		{
 			if ( isDoubleType( kind ) )
 			{
-				config.requiredCapabilities.insert( spv::CapabilityFloat64 );
+				config.registerCapability( spv::CapabilityFloat64 );
 			}
 			else if ( isHalfType( kind ) )
 			{
-				config.requiredCapabilities.insert( spv::CapabilityFloat16 );
+				config.registerCapability( spv::CapabilityFloat16 );
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace spirv
 				|| ( kind >= ast::expr::Intrinsic::eDFdyCoarse1
 					&& kind <= ast::expr::Intrinsic::eDFdyFine4 ) )
 			{
-				config.requiredCapabilities.insert( spv::CapabilityDerivativeControl );
+				config.registerCapability( spv::CapabilityDerivativeControl );
 			}
 			else if ( kind == ast::expr::Intrinsic::eAtomicAddF
 				|| kind == ast::expr::Intrinsic::eAtomicAdd2H
@@ -52,13 +52,11 @@ namespace spirv
 			{
 				if ( isDoubleType( expr->getType()->getKind() ) )
 				{
-					config.requiredCapabilities.insert( spv::CapabilityAtomicFloat64AddEXT );
-					config.requiredExtensions.insert( EXT_shader_atomic_float_add );
+					config.registerCapability( spv::CapabilityAtomicFloat64AddEXT );
 				}
 				else
 				{
-					config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
-					config.requiredExtensions.insert( EXT_shader_atomic_float_add );
+					config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 				}
 			}
 		}
@@ -162,26 +160,26 @@ namespace spirv
 
 		if ( config.dimension == ast::type::ImageDim::e1D )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImage1D );
+			m_config.registerCapability( spv::CapabilityImage1D );
 		}
 		else if ( config.dimension == ast::type::ImageDim::eRect )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImageRect );
+			m_config.registerCapability( spv::CapabilityImageRect );
 		}
 		else if ( config.dimension == ast::type::ImageDim::eBuffer )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImageBuffer );
+			m_config.registerCapability( spv::CapabilityImageBuffer );
 		}
 
 		if ( config.isArrayed )
 		{
 			if ( config.dimension == ast::type::ImageDim::eCube )
 			{
-				m_config.requiredCapabilities.insert( spv::CapabilityImageCubeArray );
+				m_config.registerCapability( spv::CapabilityImageCubeArray );
 			}
 			else if ( config.isMS )
 			{
-				m_config.requiredCapabilities.insert( spv::CapabilityImageMSArray );
+				m_config.registerCapability( spv::CapabilityImageMSArray );
 			}
 		}
 
@@ -190,22 +188,14 @@ namespace spirv
 			|| ( kind >= ast::expr::ImageAccess::eImageSamples2DMSF
 				&& kind <= ast::expr::ImageAccess::eImageSamples2DMSArrayU ) )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
+			m_config.registerCapability( spv::CapabilityImageQuery );
 		}
 		else if ( ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicAdd1DF
 			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF )
 			|| ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicExchange1DF
 				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF ) )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
-			m_config.requiredExtensions.insert( EXT_shader_atomic_float_add );
-
-			for ( auto & arg : expr->getArgList() )
-			{
-				if ( ast::type::getComponentType( arg->getType() ) == ast::type::Kind::eHalf )
-				{
-				}
-			}
+			m_config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 		}
 	}
 
@@ -225,8 +215,7 @@ namespace spirv
 			|| ( kind >= ast::expr::Intrinsic::eAtomicExchangeF
 				&& kind <= ast::expr::Intrinsic::eAtomicExchange4H ) )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
-			m_config.requiredExtensions.insert( EXT_shader_atomic_float_add );
+			m_config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 		}
 	}
 
@@ -248,18 +237,18 @@ namespace spirv
 			|| ( kind >= ast::expr::TextureAccess::eTextureQueryLevels1DF
 				&& kind <= ast::expr::TextureAccess::eTextureQueryLevelsCubeArrayU ) )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImageQuery );
+			m_config.registerCapability( spv::CapabilityImageQuery );
 		}
 		
 		if ( ( kind >= ast::expr::TextureAccess::eTextureGather2DShadowF
 			&& kind <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF ) )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
+			m_config.registerCapability( spv::CapabilityImageGatherExtended );
 		}
 
 		if ( getConstOffsets( kind ) == spv::ImageOperandsConstOffsetsMask )
 		{
-			m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
+			m_config.registerCapability( spv::CapabilityImageGatherExtended );
 		}
 
 		IntrinsicConfig config;
@@ -272,7 +261,7 @@ namespace spirv
 
 			if ( getOffset( kind, constOffset ) == spv::ImageOperandsOffsetMask )
 			{
-				m_config.requiredCapabilities.insert( spv::CapabilityImageGatherExtended );
+				m_config.registerCapability( spv::CapabilityImageGatherExtended );
 			}
 		}
 	}
