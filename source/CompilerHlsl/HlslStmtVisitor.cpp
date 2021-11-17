@@ -5,6 +5,9 @@ See LICENSE file in root folder
 
 #include "HlslExprVisitor.hpp"
 
+#pragma warning( disable:4365 )
+#include <sstream>
+
 namespace hlsl
 {
 	namespace
@@ -251,6 +254,16 @@ namespace hlsl
 
 			return result;
 		}
+
+		std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
+			, uint32_t minor = MAIN_VERSION_MINOR
+			, uint32_t build = MAIN_VERSION_BUILD
+			, uint32_t year = MAIN_VERSION_YEAR )
+		{
+			std::stringstream stream;
+			stream << major << "." << minor << "." << build << "-" << year;
+			return stream.str();
+		}
 	}
 
 	std::string StmtVisitor::submit( HlslConfig const & writerConfig
@@ -260,6 +273,7 @@ namespace hlsl
 		, std::string indent )
 	{
 		std::string result;
+		result += "// This shader was generated using ShaderWriter version " + printVersion() + "\n";
 		StmtVisitor vis{ writerConfig, routines, aliases, std::move( indent ), result };
 		stmt->accept( &vis );
 		return result;

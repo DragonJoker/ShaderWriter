@@ -17,39 +17,50 @@
 #include <sstream>
 #include <iterator>
 
+#define SDW_Test_ForceVkVersion 1
+
 namespace test
 {
 	namespace
 	{
+		// Used when SDW_Test_ForceVkVersion is non zero
+		static constexpr uint32_t wantedVulkanVersion = VK_MAKE_API_VERSION( 0, 1, 1, 0 );
+
 		struct LayerProperties
 		{
 			VkLayerProperties properties;
 			std::vector<VkExtensionProperties> instance_extensions;
-			std::vector<VkExtensionProperties> device_extensions;
 		};
 
 		struct Info
 		{
-			std::vector< const char * > instance_layer_names;
-			std::vector< const char * > instance_extension_names;
-			std::vector< LayerProperties > instance_layer_properties;
-			VkInstance inst;
+			Info( uint32_t papiVersion )
+				: apiVersion{ papiVersion }
+			{
+			}
+
 			uint32_t apiVersion;
+			std::vector< const char * > instance_layer_names{};
+			std::vector< const char * > instance_extension_names{};
+			std::vector< LayerProperties > instance_layer_properties{};
+			VkInstance inst{};
 
-			std::vector< const char *> device_extension_names;
-			std::vector< VkPhysicalDevice > gpus;
-			VkDevice device;
-			uint32_t queue_family_count;
-			std::vector< VkQueueFamilyProperties > queue_props;
+			std::vector< const char *> device_extension_names{};
+			std::vector< VkPhysicalDevice > gpus{};
+			VkDevice device{};
+			uint32_t queue_family_count{};
+			std::vector< VkQueueFamilyProperties > queue_props{};
 
-			PFN_vkCreateDebugReportCallbackEXT dbgCreateDebugReportCallback;
-			PFN_vkDestroyDebugReportCallbackEXT dbgDestroyDebugReportCallback;
-			PFN_vkDebugReportMessageEXT dbgBreakCallback;
-			std::vector< VkDebugReportCallbackEXT > debug_report_callbacks;
+			PFN_vkCreateDebugReportCallbackEXT dbgCreateDebugReportCallback{};
+			PFN_vkDestroyDebugReportCallbackEXT dbgDestroyDebugReportCallback{};
+			PFN_vkDebugReportMessageEXT dbgBreakCallback{};
+			std::vector< VkDebugReportCallbackEXT > debug_report_callbacks{};
 
-			bool compiling{ false };
-			std::vector< std::string > errors;
+			bool compiling{};
+			std::vector< std::string > errors{};
 		};
+
+		using InfoPtr = std::unique_ptr< Info >;
 
 		class StringDelimitedByPipes : public std::string
 		{
@@ -71,9 +82,12 @@ namespace test
 			, void *pUserData )
 		{
 			std::ostringstream message;
+			message.imbue( std::locale{ "C" } );
+			bool isError{ false };
 
 			if ( msgFlags & VK_DEBUG_REPORT_ERROR_BIT_EXT )
 			{
+				isError = true;
 				message << "ERROR: ";
 			}
 			else if ( msgFlags & VK_DEBUG_REPORT_WARNING_BIT_EXT )
@@ -108,7 +122,7 @@ namespace test
 
 			auto info = reinterpret_cast< Info * >( pUserData );
 
-			if ( info->compiling )
+			if ( info->compiling && isError )
 			{
 				info->errors.push_back( message.str() );
 			}
@@ -156,10 +170,10 @@ namespace test
 		}
 
 		VkResult initDeviceExtensionProperties( VkPhysicalDevice physicalDevice
-			, LayerProperties & layer_props )
+			, std::vector<VkExtensionProperties> & device_extensions )
 		{
 			VkResult res;
-			char * layerName = layer_props.properties.layerName;
+			char const * layerName = "";
 
 			do
 			{
@@ -179,8 +193,8 @@ namespace test
 					return VK_SUCCESS;
 				}
 
-				layer_props.instance_extensions.resize( count );
-				auto extensions = layer_props.instance_extensions.data();
+				device_extensions.resize( count );
+				auto extensions = device_extensions.data();
 				res = vkEnumerateDeviceExtensionProperties( physicalDevice
 					, layerName
 					, &count
@@ -194,21 +208,24 @@ namespace test
 		VkResult initGlobalLayerProperties( Info & info )
 		{
 			uint32_t instance_layer_count;
-			VkLayerProperties *vk_props = nullptr;
+			std::vector< VkLayerProperties > vk_props;
 			VkResult res;
 			do
 			{
 				res = vkEnumerateInstanceLayerProperties( &instance_layer_count, nullptr );
-				if ( res ) return res;
+
+				if ( res )
+				{
+					return res;
+				}
 
 				if ( instance_layer_count == 0 )
 				{
 					return VK_SUCCESS;
 				}
 
-				vk_props = ( VkLayerProperties * )realloc( vk_props, instance_layer_count * sizeof( VkLayerProperties ) );
-
-				res = vkEnumerateInstanceLayerProperties( &instance_layer_count, vk_props );
+				vk_props.resize( instance_layer_count );
+				res = vkEnumerateInstanceLayerProperties( &instance_layer_count, vk_props.data() );
 			}
 			while ( res == VK_INCOMPLETE );
 
@@ -217,11 +234,14 @@ namespace test
 				LayerProperties layer_props;
 				layer_props.properties = vk_props[i];
 				res = initInstanceExtensionProperties( layer_props );
-				if ( res ) return res;
+
+				if ( res )
+				{
+					return res;
+				}
+
 				info.instance_layer_properties.push_back( layer_props );
 			}
-
-			free( vk_props );
 
 			return res;
 		}
@@ -260,15 +280,21 @@ namespace test
 				info.instance_extension_names.push_back( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME );
 			}
 
+			uint32_t apiVersion{};
+			vkEnumerateInstanceVersion( &apiVersion );
 
-			vkEnumerateInstanceVersion( &info.apiVersion );
+			if ( apiVersion < info.apiVersion )
+			{
+				std::cout << "Required version not supported by Vulkan instance\n";
+				return false;
+			}
 
 			// initialize the VkApplicationInfo structure
 			VkApplicationInfo appInfo = {};
 			appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 			appInfo.pNext = nullptr;
 			appInfo.pApplicationName = "Test";
-			appInfo.applicationVersion = 1;
+			appInfo.applicationVersion = VK_MAKE_API_VERSION( 0, MAIN_VERSION_MAJOR, MAIN_VERSION_MINOR, MAIN_VERSION_BUILD );
 			appInfo.pEngineName = "Test";
 			appInfo.engineVersion = 1;
 			appInfo.apiVersion = info.apiVersion;
@@ -377,14 +403,15 @@ namespace test
 					}
 
 					--gpuIndex;
+					auto gpu = info.gpus[gpuIndex];
 					VkDeviceQueueCreateInfo queue_info = {};
 					queue_info.queueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 
-					vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, nullptr );
+					vkGetPhysicalDeviceQueueFamilyProperties( gpu, &info.queue_family_count, nullptr );
 					assert( info.queue_family_count >= 1 );
 
 					info.queue_props.resize( info.queue_family_count );
-					vkGetPhysicalDeviceQueueFamilyProperties( info.gpus[gpuIndex], &info.queue_family_count, info.queue_props.data() );
+					vkGetPhysicalDeviceQueueFamilyProperties( gpu, &info.queue_family_count, info.queue_props.data() );
 					assert( info.queue_family_count >= 1 );
 
 					for ( unsigned int i = 0; i < info.queue_family_count; i++ )
@@ -404,26 +431,70 @@ namespace test
 					queue_info.queueCount = 1;
 					queue_info.pQueuePriorities = queue_priorities;
 
-					initDeviceExtensionProperties( info.gpus[0], info.instance_layer_properties[0] );
-
-					if ( isExtensionSupported( "VK_EXT_shader_atomic_float"
-						, info.instance_layer_properties[0].device_extensions ) )
+					std::vector<VkExtensionProperties> device_extensions;
+					initDeviceExtensionProperties( info.gpus[0], device_extensions );
+					VkPhysicalDeviceFeatures features{};
+					VkPhysicalDeviceVulkan12Features features12{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES
+						, nullptr
+						, {} };
+					VkPhysicalDeviceVulkan11Features features11{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES
+						, &features12
+						, {} };
+					VkPhysicalDeviceShaderDrawParametersFeatures drawParamsFeatures{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES
+						, nullptr };
+					VkPhysicalDeviceFeatures2 features2{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2
+						, nullptr
+						, {} };
+					
+					if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 2, 0 ) )
 					{
-						info.device_extension_names.push_back( "VK_EXT_shader_atomic_float" );
+						features2.pNext = &features11;
+					}
+					else if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
+					{
+						features2.pNext = &drawParamsFeatures;
+					}
+					else if ( isExtensionSupported( "VK_KHR_shader_draw_parameters"
+						, device_extensions ) )
+					{
+						info.device_extension_names.push_back( "VK_KHR_shader_draw_parameters" );
+					}
+
+					if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
+					{
+						vkGetPhysicalDeviceFeatures2( gpu, &features2 );
+						features = features2.features;
+
+						if ( isExtensionSupported( "VK_EXT_shader_atomic_float"
+							, device_extensions ) )
+						{
+							info.device_extension_names.push_back( "VK_EXT_shader_atomic_float" );
+						}
+					}
+					else
+					{
+						vkGetPhysicalDeviceFeatures( gpu, &features );
 					}
 
 					VkDeviceCreateInfo device_info = {};
 					device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-					device_info.pNext = nullptr;
 					device_info.queueCreateInfoCount = 1;
 					device_info.pQueueCreateInfos = &queue_info;
 					device_info.enabledExtensionCount = uint32_t( info.device_extension_names.size() );
 					device_info.ppEnabledExtensionNames = info.device_extension_names.data();
 					device_info.enabledLayerCount = 0;
 					device_info.ppEnabledLayerNames = nullptr;
-					device_info.pEnabledFeatures = nullptr;
 
-					res = vkCreateDevice( info.gpus[gpuIndex], &device_info, nullptr, &info.device );
+					if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
+					{
+						device_info.pNext = &features2;
+					}
+					else
+					{
+						device_info.pEnabledFeatures = &features;
+					}
+
+					res = vkCreateDevice( gpu, &device_info, nullptr, &info.device );
 				}
 			}
 
@@ -480,50 +551,90 @@ namespace test
 		{
 			SPIRVContext()
 			{
-				if ( !createInstance( info ) )
-				{
-					throw std::runtime_error{ "Can't initialise Vulkan instance" };
-				}
-
-				if ( !createDevice( info ) )
-				{
-					info.dbgDestroyDebugReportCallback( info.inst, *info.debug_report_callbacks.data(), nullptr );
-					vkDestroyInstance( info.inst, nullptr );
-					throw std::runtime_error{ "Can't initialise Vulkan device" };
-				}
+				infos[0] = initialiseInfo( VK_MAKE_API_VERSION( 0, 1, 0, 0 ) );
+				infos[1] = initialiseInfo( VK_MAKE_API_VERSION( 0, 1, 1, 0 ) );
+				infos[2] = initialiseInfo( VK_MAKE_API_VERSION( 0, 1, 2, 0 ) );
 			}
 
 			~SPIRVContext()
 			{
-				vkDestroyDevice( info.device, nullptr );
+				for ( auto & info : infos )
+				{
+					vkDestroyDevice( info->device, nullptr );
+				}
 			}
 
-			Info info{};
+			static InfoPtr initialiseInfo( uint32_t apiVersion )
+			{
+				auto result = std::make_unique< Info >( apiVersion );
+
+				if ( createInstance( *result ) )
+				{
+					if ( !createDevice( *result ) )
+					{
+						result->dbgDestroyDebugReportCallback( result->inst
+							, *result->debug_report_callbacks.data()
+							, nullptr );
+						vkDestroyInstance( result->inst, nullptr );
+						throw std::runtime_error{ "Can't initialise Vulkan device" };
+					}
+				}
+
+				return result;
+			}
+
+			std::array< InfoPtr, 3u > infos;
 		};
 	}
 
-	uint32_t retrieveSPIRVVersion( sdw_test::SPIRVContext const & context )
+	bool retrieveIsInitialised( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
 	{
+		return testCounts.spirv->infos[infoIndex]->inst
+			&& testCounts.spirv->infos[infoIndex]->device;
+	}
+
+	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		auto & info = testCounts.spirv->infos[infoIndex];
+		return info->apiVersion;
+	}
+
+	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		if ( !retrieveIsInitialised( testCounts, infoIndex ) )
+		{
+			return 0u;
+		}
+
 		uint32_t constexpr version1_0 = VK_MAKE_VERSION( 1, 0, 0 );
 		uint32_t constexpr version1_1 = VK_MAKE_VERSION( 1, 1, 0 );
 		//uint32_t constexpr version1_2 = VK_MAKE_VERSION( 1, 2, 0 );
 
+		auto & info = testCounts.spirv->infos[infoIndex];
 		uint32_t result{ 0x00010300 };
 
 		/*if ( context.info.apiVersion >= version1_2 )
 		{
 			result = 0x00010500;
 		}
-		else */if ( context.info.apiVersion >= version1_1 )
+		else */if ( info->apiVersion >= version1_1 )
 		{
 			result = 0x00010300;
 		}
-		else if ( context.info.apiVersion >= version1_0 )
+		else if ( info->apiVersion >= version1_0 )
 		{
 			result = 0x00010000;
 		}
 
 		return result;
+	}
+
+	uint32_t retrieveSpirvInfosSize( sdw_test::TestCounts const & testCounts )
+	{
+		return uint32_t( testCounts.spirv->infos.size() );
 	}
 
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
@@ -548,40 +659,69 @@ namespace test
 		testCounts.spirv.reset();
 	}
 
+	template< typename FuncT >
+	bool wrapCall( std::string & errors
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex
+		, FuncT func )
+	{
+		auto & info = *testCounts.spirv->infos[infoIndex];
+		info.compiling = true;
+		bool result = func();
+		info.compiling = false;
+
+		if ( !info.errors.empty() )
+		{
+			auto errorsList = std::move( info.errors );
+
+			if ( errorsList.size() == 1u )
+			{
+				auto it = errorsList.front().find( testCounts.expectedError );
+
+				if ( it == std::string::npos
+					|| testCounts.expectedError.empty() )
+				{
+					result = false;
+					errors += errorsList.front() + "\n";
+				}
+			}
+			else
+			{
+				result = false;
+
+				for ( auto & error : errorsList )
+				{
+					errors += error + "\n";
+				}
+			}
+		}
+
+		return result;
+	}
+
 	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
-		, sdw_test::TestCounts & testCounts )
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
-		bool result{ true };
-		auto & info = testCounts.spirv->info;
-		info.compiling = true;
-		info.errors.clear();
-		errors = std::string{};
-		result = createShaderModule( info, spirv );
-
-		if ( info.errors.size() == 1u )
-		{
-			auto it = info.errors.front().find( testCounts.expectedError );
-
-			if ( it == std::string::npos
-				|| testCounts.expectedError.empty() )
+		auto result = wrapCall( errors
+			, testCounts
+			, infoIndex
+			, [&]()
 			{
-				errors += info.errors.front() + "\n";
-				std::stringstream stream;
-				stream.imbue( std::locale{ "C" } );
-				stream << "SPIR-V size: " << spirv.size() << "\n"
-					<< "SPIR-V:\n"
-					<< spirv << std::endl;
-				errors += stream.str();
-			}
-		}
-		else
+				auto & info = testCounts.spirv->infos[infoIndex];
+				return createShaderModule( *info, spirv );
+			} );
+
+		if ( !result )
 		{
-			for ( auto & error : info.errors )
-			{
-				errors += error + "\n";
-			}
+			std::stringstream stream;
+			stream.imbue( std::locale{ "C" } );
+			stream << "SPIR-V size: " << spirv.size() << "\n"
+				<< "SPIR-V:\n"
+				<< spirv << std::endl;
+			errors += stream.str();
 		}
 
 		return result;
@@ -636,7 +776,9 @@ namespace test
 
 		VkRenderPass createRenderPass( ast::vk::ProgramPipeline program
 			, ast::vk::BuilderContext const & context
-			, sdw_test::TestCounts & testCounts )
+			, std::string & errors
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
 		{
 			auto attachmentsMap = program.getAttachmentDescriptions();
 			std::vector< VkAttachmentDescription > attachments;
@@ -679,19 +821,19 @@ namespace test
 				{
 					VK_SUBPASS_EXTERNAL,
 					0u,
-					VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-					VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+					VK_PIPELINE_STAGE_HOST_BIT,
+					VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
 					VK_ACCESS_HOST_READ_BIT,
-					VK_ACCESS_HOST_READ_BIT,
+					VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
 					VK_DEPENDENCY_BY_REGION_BIT,
 				} );
 			dependencies.push_back( VkSubpassDependency
 				{
 					0u,
 					VK_SUBPASS_EXTERNAL,
-					VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-					VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-					VK_ACCESS_HOST_READ_BIT,
+					VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+					VK_PIPELINE_STAGE_HOST_BIT,
+					VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
 					VK_ACCESS_HOST_READ_BIT,
 					VK_DEPENDENCY_BY_REGION_BIT,
 				} );
@@ -710,11 +852,24 @@ namespace test
 			};
 			VkRenderPass renderPass{ nullptr };
 
-			if ( !ast::vk::checkError( vkCreateRenderPass( context.device
-				, &renderPassCreate
-				, context.allocator
-				, &renderPass ) ) )
+			if ( !wrapCall( errors
+				, testCounts
+				, infoIndex
+				, [&]()
+				{
+					return ast::vk::checkError( vkCreateRenderPass( context.device
+						, &renderPassCreate
+						, context.allocator
+						, &renderPass ) );
+				} ) )
 			{
+				if ( renderPass )
+				{
+					vkDestroyRenderPass( context.device
+						, renderPass
+						, context.allocator );
+				}
+
 				failure( "VkRenderPass creation." );
 				renderPass = nullptr;
 			}
@@ -726,7 +881,9 @@ namespace test
 			, ast::vk::PipelineBuilder const & builder
 			, ast::vk::PipelineShaderStageCreateInfo const & shaderStage
 			, VkPipelineLayout pipelineLayout
-			, sdw_test::TestCounts & testCounts )
+			, std::string & errors
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
 		{
 			VkComputePipelineCreateInfo createInfos
 			{
@@ -740,9 +897,22 @@ namespace test
 			};
 			VkPipeline pipeline{ nullptr };
 
-			if ( !ast::vk::checkError( builder.createComputePipeline( createInfos, &pipeline ) ) )
+			if ( !wrapCall( errors
+				, testCounts
+				, infoIndex
+				, [&]()
+				{
+					return ast::vk::checkError( builder.createComputePipeline( createInfos, &pipeline ) );
+				} ) )
 			{
-				failure( "Pipeline creation." );
+				if ( pipeline )
+				{
+					vkDestroyPipeline( builder.getDevice()
+						, pipeline
+						, builder.getAllocator() );
+				}
+
+				failure( "Pipeline creation" );
 				pipeline = nullptr;
 			}
 
@@ -754,7 +924,9 @@ namespace test
 			, ast::vk::PipelineShaderStageArray const & shaderStages
 			, VkPipelineLayout pipelineLayout
 			, VkRenderPass renderPass
-			, sdw_test::TestCounts & testCounts )
+			, std::string & errors
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
 		{
 			auto attachmentsMap = program.getAttachmentDescriptions();
 
@@ -890,9 +1062,22 @@ namespace test
 			};
 			VkPipeline pipeline{ nullptr };
 
-			if ( !ast::vk::checkError( builder.createGraphicsPipeline( createInfos, &pipeline ) ) )
+			if ( !wrapCall( errors
+				, testCounts
+				, infoIndex
+				, [&]()
+				{
+					return ast::vk::checkError( builder.createGraphicsPipeline( createInfos, &pipeline ) );
+				} ) )
 			{
-				failure( "VkPipeline creation." );
+				if ( pipeline )
+				{
+					vkDestroyPipeline( builder.getDevice()
+						, pipeline
+						, builder.getAllocator() );
+				}
+
+				failure( "VkPipeline creation" );
 				pipeline = nullptr;
 			}
 
@@ -900,11 +1085,12 @@ namespace test
 		}
 	}
 
-	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts )
+	ast::vk::BuilderContext createBuilderContext( sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
 		ast::vk::BuilderContext result
 		{
-			testCounts.spirv->info.device,
+			testCounts.spirv->infos[infoIndex]->device,
 			nullptr,
 			nullptr,
 			vkCreateGraphicsPipelines,
@@ -917,7 +1103,9 @@ namespace test
 	}
 
 	bool validateProgram( ast::vk::ProgramPipeline const & program
-		, sdw_test::TestCounts & testCounts )
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
 		if ( program.getStageCount() == 0u )
 		{
@@ -925,7 +1113,7 @@ namespace test
 			return false;
 		}
 
-		auto context = createBuilderContext( testCounts );
+		auto context = createBuilderContext( testCounts, infoIndex );
 		ast::vk::PipelineBuilder builder{ context, program };
 		ast::vk::ShaderModuleArray modules;
 		checkNoThrow( modules = builder.createShaderModules() );
@@ -963,7 +1151,9 @@ namespace test
 						, builder
 						, shaderStages.front()
 						, pipelineLayout
-						, testCounts ) )
+						, errors
+						, testCounts
+						, infoIndex ) )
 					{
 						result = true;
 						vkDestroyPipeline( context.device, pipeline, context.allocator );
@@ -973,14 +1163,20 @@ namespace test
 			else
 			{
 				// Render pass and subpass
-				if ( VkRenderPass renderPass = createRenderPass( program, context, testCounts ) )
+				if ( VkRenderPass renderPass = createRenderPass( program
+					, context
+					, errors
+					, testCounts
+					, infoIndex ) )
 				{
 					if ( VkPipeline pipeline = createGraphicsPipeline( program
 						, builder
 						, shaderStages
 						, pipelineLayout
 						, renderPass
-						, testCounts ) )
+						, errors
+						, testCounts
+						, infoIndex ) )
 					{
 						result = true;
 						vkDestroyPipeline( context.device, pipeline, context.allocator );
@@ -1013,7 +1209,19 @@ namespace test
 
 namespace test
 {
-	uint32_t retrieveSPIRVVersion( sdw_test::SPIRVContext const & context )
+	bool retrieveIsInitialised( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return false;
+	}
+
+	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return 0u;
+	}
+
+	uint32_t retrieveSpirvInfosSize( sdw_test::TestCounts const & testCounts )
 	{
 		return 0u;
 	}
@@ -1030,14 +1238,17 @@ namespace test
 	bool compileSpirV( ast::Shader const & shader
 		, std::vector< uint32_t > const & spirv
 		, std::string & errors
-		, sdw_test::TestCounts & testCounts )
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
 		return true;
 	}
 
 #if SDW_HasVulkanLayer
 	bool validateProgram( ast::vk::ProgramPipeline const & program
-		, sdw_test::TestCounts & testCounts )
+		, std::string & errors
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
 	}
 #endif

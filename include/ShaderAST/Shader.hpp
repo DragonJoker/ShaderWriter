@@ -23,6 +23,8 @@ namespace ast
 		eStorageBuffer,
 		eCombinedSamplerImage,
 		eStorageImage,
+		eUniformTexelBuffer,
+		eStorageTexelBuffer,
 		eCount,
 	};
 
@@ -44,7 +46,9 @@ namespace ast
 		ConstantsMap constants;
 		SpecConstantsMap specConstants;
 		SamplerMap samplers;
+		SamplerMap uniformTexels;
 		ImageMap images;
+		ImageMap storageTexels;
 		InputMap inputs;
 		OutputMap outputs;
 		mutable uint32_t nextVarId{};
@@ -135,90 +139,102 @@ namespace ast
 			, SsboInfo const & info );
 		SDAST_API void registerUbo( std::string const & name
 			, UboInfo const & info );
+		SDAST_API void registerPcb( std::string const & name
+			, InterfaceBlock const & info );
 		SDAST_API expr::ExprPtr getDummyExpr( type::TypePtr type )const;
 		/**@}*/
 
-		inline SsboInfo const & getSsboInfo( std::string const & name )const
+		SsboInfo const & getSsboInfo( std::string const & name )const
 		{
 			return m_data.ssbos.at( name );
 		}
 
-		inline UboInfo const & getUboInfo( std::string const & name )const
+		UboInfo const & getUboInfo( std::string const & name )const
 		{
 			return m_data.ubos.at( name );
 		}
 
-		inline type::TypePtr getInput( std::string const & name )const
+		type::TypePtr getInput( std::string const & name )const
 		{
 			return m_data.inputs.at( name ).type;
 		}
 
-		inline type::TypePtr getOutput( std::string const & name )const
+		type::TypePtr getOutput( std::string const & name )const
 		{
 			return m_data.outputs.at( name ).type;
 		}
 
-		inline std::map< std::string, SpecConstantInfo > const & getSpecConstants()const
+		std::map< std::string, SpecConstantInfo > const & getSpecConstants()const
 		{
 			return m_data.specConstants;
 		}
 
-		inline std::map< std::string, UboInfo > const & getUbos()const
+		std::map< std::string, UboInfo > const & getUbos()const
 		{
 			return m_data.ubos;
 		}
 
-		inline std::map< std::string, SsboInfo > const & getSsbos()const
+		std::map< std::string, SsboInfo > const & getSsbos()const
 		{
 			return m_data.ssbos;
 		}
 
-		inline std::map< std::string, PcbInfo > const & getPcbs()const
+		std::map< std::string, PcbInfo > const & getPcbs()const
 		{
 			return m_data.pcbs;
 		}
 
-		inline std::map< std::string, SamplerInfo > const & getSamplers()const
+		std::map< std::string, SamplerInfo > const & getSamplers()const
 		{
 			return m_data.samplers;
 		}
 
-		inline std::map< std::string, InputInfo > const & getInputs()const
+		std::map< std::string, SamplerInfo > const & getUniformTexelBuffers()const
+		{
+			return m_data.uniformTexels;
+		}
+
+		std::map< std::string, ImageInfo > const & getStorageTexelBuffers()const
+		{
+			return m_data.storageTexels;
+		}
+
+		std::map< std::string, InputInfo > const & getInputs()const
 		{
 			return m_data.inputs;
 		}
 
-		inline std::map< std::string, OutputInfo > const & getOutputs()const
+		std::map< std::string, OutputInfo > const & getOutputs()const
 		{
 			return m_data.outputs;
 		}
 
-		inline stmt::Container * getStatements()const
+		stmt::Container * getStatements()const
 		{
 			return m_container.get();
 		}
 
-		inline stmt::Container * getContainer()
+		stmt::Container * getContainer()
 		{
 			return m_blocks.back().container;
 		}
 
-		inline stmt::Container * getFuncContainer()
+		stmt::Container * getFuncContainer()
 		{
 			return m_blocks.front().container;
 		}
 
-		inline ast::ShaderStage getType()const
+		ast::ShaderStage getType()const
 		{
 			return m_type;
 		}
 
-		inline ast::type::TypesCache & getTypesCache()const
+		ast::type::TypesCache & getTypesCache()const
 		{
 			return *m_typesCache;
 		}
 
-		inline ShaderData const & getData()const
+		ShaderData const & getData()const
 		{
 			return m_data;
 		}

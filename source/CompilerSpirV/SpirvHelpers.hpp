@@ -147,11 +147,19 @@ namespace spirv
 		{
 		}
 
+		struct CompSpirVExtension
+		{
+			bool operator()( SpirVExtension const & lhs, SpirVExtension const & rhs )const
+			{
+				return lhs.name < rhs.name;
+			}
+		};
+
 		uint32_t nextVarId;
 		uint32_t aliasId;
 		ast::ShaderStage stage;
 		std::set< spv::Capability > requiredCapabilities;
-		std::set< std::string > requiredExtensions;
+		std::set< SpirVExtension, CompSpirVExtension > requiredExtensions;
 		std::set< spv::ExecutionMode > executionModes;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );

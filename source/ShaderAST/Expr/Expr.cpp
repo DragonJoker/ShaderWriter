@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Expr/Expr.hpp"
 
+#include "ShaderAST/Visitors/CloneExpr.hpp"
+
 namespace ast::expr
 {
 	Expr::Expr( type::TypesCache & cache
@@ -14,5 +16,10 @@ namespace ast::expr
 		, m_type{ std::move( type ) }
 		, m_flags{ uint32_t( flag ) }
 	{
+	}
+
+	ExprPtr Expr::clone()
+	{
+		return ExprCloner::submit( this );
 	}
 }

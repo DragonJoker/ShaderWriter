@@ -53,10 +53,12 @@ namespace spirv
 				if ( isDoubleType( expr->getType()->getKind() ) )
 				{
 					config.requiredCapabilities.insert( spv::CapabilityAtomicFloat64AddEXT );
+					config.requiredExtensions.insert( EXT_shader_atomic_float_add );
 				}
 				else
 				{
 					config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
+					config.requiredExtensions.insert( EXT_shader_atomic_float_add );
 				}
 			}
 		}
@@ -196,6 +198,7 @@ namespace spirv
 				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF ) )
 		{
 			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
+			m_config.requiredExtensions.insert( EXT_shader_atomic_float_add );
 
 			for ( auto & arg : expr->getArgList() )
 			{
@@ -223,6 +226,7 @@ namespace spirv
 				&& kind <= ast::expr::Intrinsic::eAtomicExchange4H ) )
 		{
 			m_config.requiredCapabilities.insert( spv::CapabilityAtomicFloat32AddEXT );
+			m_config.requiredExtensions.insert( EXT_shader_atomic_float_add );
 		}
 	}
 

@@ -169,6 +169,7 @@ namespace glsl
 			switch ( layout )
 			{
 			case ast::type::MemoryLayout::eStd140:
+			case ast::type::MemoryLayout::eC:
 				return "std140";
 			case ast::type::MemoryLayout::eStd430:
 				return "std430";
@@ -245,6 +246,16 @@ namespace glsl
 
 			lhs = lhs + sep + rhs;
 		}
+
+		std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
+			, uint32_t minor = MAIN_VERSION_MINOR
+			, uint32_t build = MAIN_VERSION_BUILD
+			, uint32_t year = MAIN_VERSION_YEAR )
+		{
+			std::stringstream stream;
+			stream << major << "." << minor << "." << build << "-" << year;
+			return stream.str();
+		}
 	}
 
 	//*************************************************************************
@@ -255,6 +266,7 @@ namespace glsl
 		, std::string indent )
 	{
 		std::string result;
+		result += "// This shader was generated using ShaderWriter version " + printVersion() + "\n";
 		StmtVisitor vis{ writerConfig, aliases, result, std::move( indent ) };
 		stmt->accept( &vis );
 		return result;
@@ -350,7 +362,7 @@ namespace glsl
 	void StmtVisitor::visitCommentStmt( ast::stmt::Comment * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + stmt->getText() + "\n";
+		m_result += m_indent + "//" + stmt->getText() + "\n";
 	}
 
 	void StmtVisitor::visitCompoundStmt( ast::stmt::Compound * stmt )

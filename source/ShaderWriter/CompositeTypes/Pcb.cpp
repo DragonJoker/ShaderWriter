@@ -28,6 +28,7 @@ namespace sdw
 		if ( isEnabled() )
 		{
 			addStmt( m_shader, std::move( m_stmt ) );
+			m_shader.registerPcb( m_name, m_info );
 		}
 	}
 

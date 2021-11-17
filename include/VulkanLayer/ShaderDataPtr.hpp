@@ -18,6 +18,7 @@ namespace ast::vk
 		struct DescriptorData
 		{
 			DescriptorType type;
+			uint32_t count;
 			ShaderStageFlags stages;
 		};
 		using DescriptorMap = std::map< DescriptorBinding, DescriptorData >;
@@ -39,7 +40,9 @@ namespace ast::vk
 		SsboMap ssbos;
 		UboMap ubos;
 		SamplerMap samplers;
+		SamplerMap uniformTexels;
 		ImageMap images;
+		ImageMap storageTexels;
 		DescriptorsMap descriptors;
 		PcbMap pcbs;
 		SpecConstantsMap specConstants;

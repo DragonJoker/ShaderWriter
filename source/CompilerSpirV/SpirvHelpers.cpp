@@ -347,7 +347,7 @@ namespace spirv
 			else
 			{
 				config.requiredCapabilities.insert( spv::CapabilityShaderLayer );
-				config.requiredExtensions.insert( "SPV_EXT_shader_viewport_index_layer" );
+				config.requiredExtensions.insert( EXT_shader_viewport_index_layer );
 			}
 			break;
 		case ast::Builtin::eViewportIndex:
@@ -412,21 +412,21 @@ namespace spirv
 		case ast::Builtin::eSubgroupLeMaskKHR:
 		case ast::Builtin::eSubgroupLtMaskKHR:
 			config.requiredCapabilities.insert( spv::CapabilitySubgroupBallotKHR );
-			config.requiredExtensions.insert( "SPV_KHR_shader_ballot" );
+			config.requiredExtensions.insert( KHR_shader_ballot );
 			break;
 		case ast::Builtin::eBaseVertex:
 		case ast::Builtin::eBaseInstance:
 		case ast::Builtin::eDrawIndex:
 			config.requiredCapabilities.insert( spv::CapabilityDrawParameters );
-			config.requiredExtensions.insert( "SPV_KHR_shader_draw_parameters" );
+			config.requiredExtensions.insert( KHR_shader_draw_parameters );
 			break;
 		case ast::Builtin::eDeviceIndex:
 			config.requiredCapabilities.insert( spv::CapabilityDeviceGroup );
-			config.requiredExtensions.insert( "SPV_KHR_device_group" );
+			config.requiredExtensions.insert( KHR_device_group );
 			break;
 		case ast::Builtin::eViewIndex:
 			config.requiredCapabilities.insert( spv::CapabilityMultiView );
-			config.requiredExtensions.insert( "SPV_KHR_multiview" );
+			config.requiredExtensions.insert( KHR_multiview );
 			break;
 		case ast::Builtin::eBaryCoordNoPerspAMD:
 			break;
@@ -444,21 +444,21 @@ namespace spirv
 			break;
 		case ast::Builtin::eFragStencilRefEXT:
 			config.requiredCapabilities.insert( spv::CapabilityStencilExportEXT );
-			config.requiredExtensions.insert( "SPV_EXT_shader_stencil_export" );
+			config.requiredExtensions.insert( EXT_shader_stencil_export );
 			break;
 		case ast::Builtin::eViewportMaskNV:
 			config.requiredCapabilities.insert( spv::CapabilityShaderViewportMaskNV );
-			config.requiredExtensions.insert( "SPV_NV_viewport_array2" );
+			config.requiredExtensions.insert( NV_viewport_array2 );
 			break;
 		case ast::Builtin::eSecondaryPositionNV:
 		case ast::Builtin::eSecondaryViewportMaskNV:
 			config.requiredCapabilities.insert( spv::CapabilityShaderStereoViewNV );
-			config.requiredExtensions.insert( "SPV_NV_stereo_view_rendering" );
+			config.requiredExtensions.insert( NV_stereo_view_rendering );
 			break;
 		case ast::Builtin::ePositionPerViewNV:
 		case ast::Builtin::eViewportMaskPerViewNV:
 			config.requiredCapabilities.insert( spv::CapabilityPerViewAttributesNV );
-			config.requiredExtensions.insert( "SPV_NVX_multiview_per_view_attributes" );
+			config.requiredExtensions.insert( NVX_multiview_per_view_attributes );
 			break;
 		default:
 			break;

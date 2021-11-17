@@ -187,11 +187,12 @@ namespace test
 			, std::vector< uint32_t > spirv
 			, std::string const & text
 			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex
 			, bool checkRef )
 		{
 			//auto parsedShader = spirv::parseSpirv( shader.getType(), spirv );
 			std::string errors;
-			auto result = test::compileSpirV( shader, spirv, errors, testCounts );
+			auto result = test::compileSpirV( shader, spirv, errors, testCounts, infoIndex );
 			check( errors.empty() || !checkRef );
 
 			if ( !errors.empty() )
@@ -236,7 +237,7 @@ namespace test
 						}
 
 						fclose( fileIn );
-						validateSpirV( shader, spirv, errors, testCounts, false );
+						validateSpirV( shader, spirv, errors, testCounts, infoIndex, false );
 					}
 				}
 			}
@@ -249,9 +250,10 @@ namespace test
 			, std::string const & text
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts )
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
 		{
-			auto isValidated = validateSpirV( shader, spirv, text, testCounts, true );
+			auto isValidated = validateSpirV( shader, spirv, text, testCounts, infoIndex, true );
 			check( isValidated );
 
 			if ( !isValidated )
@@ -267,7 +269,7 @@ namespace test
 							, specialisation
 							, getDefaultGlslConfig() ) );
 					std::string errors;
-					test::compileSpirV( shader, glslangSpirv, errors, testCounts );
+					test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 
 					if ( !errors.empty() )
 					{
@@ -379,21 +381,23 @@ namespace test
 #endif
 		}
 
-		void testWriteSpirV( ::ast::Shader const & shader
+		void testWriteSpirVOnIndex( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts )
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
 		{
 #if SDW_HasCompilerSpirV
 
-			if ( compilers.spirV )
+			if ( compilers.spirV
+				&& testCounts.isInitialised( infoIndex ) )
 			{
 				auto validate = [&]()
 				{
 					try
 					{
 						spirv::SpirVConfig config{};
-						config.specVersion = testCounts.getSpirVVersion();
+						config.specVersion = testCounts.getSpirVVersion( infoIndex );
 
 						auto textSpirv = spirv::writeSpirv( shader, config );
 
@@ -425,7 +429,8 @@ namespace test
 								, textSpirv
 								, specialisation
 								, compilers
-								, testCounts );
+								, testCounts
+								, infoIndex );
 							success();
 						}
 						catch ( spirv_cross::CompilerError & exc )
@@ -465,6 +470,76 @@ namespace test
 #endif
 		}
 
+		constexpr uint32_t makeVersion( uint8_t major, uint8_t minor )
+		{
+			return ( uint32_t( major ) << 16u )
+				| ( uint32_t( minor ) << 8u );
+		}
+
+		uint32_t getMajor( uint32_t spvVersion )
+		{
+			return ( spvVersion >> 16u );
+		}
+
+		uint32_t getMinor( uint32_t spvVersion )
+		{
+			return ( ( spvVersion >> 8u ) & 0xFF );
+		}
+
+		std::string printVkVersion( uint32_t spvVersion )
+		{
+			std::stringstream stream;
+			stream << VK_VERSION_MAJOR( spvVersion ) << "." << VK_VERSION_MINOR( spvVersion );
+			return stream.str();
+		}
+
+		std::string printSpvVersion( uint32_t spvVersion )
+		{
+			std::stringstream stream;
+			stream << getMajor( spvVersion ) << "." << getMinor( spvVersion );
+			return stream.str();
+		}
+
+		std::string printStage( ast::ShaderStage stage )
+		{
+			switch ( stage )
+			{
+			case ast::ShaderStage::eVertex:
+				return "Vertex";
+			case ast::ShaderStage::eTessellationControl:
+				return "Tessellation Control";
+			case ast::ShaderStage::eTessellationEvaluation:
+				return "Tessellation Evaluation";
+			case ast::ShaderStage::eGeometry:
+				return "Geometry";
+			case ast::ShaderStage::eFragment:
+				return "Fragment";
+			case ast::ShaderStage::eCompute:
+				return "Compute";
+			default:
+				return "Unknown???"; 
+			}
+		}
+
+		void testWriteSpirV( ::ast::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts )
+		{
+			testCounts.streams.cout << "  " << printStage( shader.getType() ) << " stage" << std::endl;
+
+			for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
+			{
+				testCounts.streams.cout << "    Vulkan " << printVkVersion( retrieveVulkanVersion( testCounts, infoIndex ) ) << " - ";
+				testCounts.streams.cout << "SPIR-V " << printSpvVersion( retrieveSPIRVVersion( testCounts, infoIndex ) ) << std::endl;
+				testWriteSpirVOnIndex( shader
+					, specialisation
+					, compilers
+					, testCounts
+					, infoIndex );
+			}
+		}
+
 		std::vector< uint8_t > getSpecData( ::sdw::SpecConstantInfo const & info )
 		{
 			return std::vector< uint8_t >( size_t( getSize( info.type
@@ -483,6 +558,114 @@ namespace test
 			}
 
 			return result;
+		}
+
+		void validateShadersOnIndex( ast::ShaderArray const & shaders
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex
+			, Compilers const & compilers )
+		{
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
+			if ( compilers.spirV
+				&& testCounts.isInitialised( infoIndex ) )
+			{
+				ast::vk::ProgramPipeline program{ shaders };
+				std::string errors;
+				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+				check( isValidated );
+				check( errors.empty() );
+
+				if ( !isValidated
+					|| !errors.empty() )
+				{
+					if ( !errors.empty() )
+					{
+						testCounts.streams.cout << errors << std::endl;
+					}
+
+					auto validate = [&]( ast::Shader const & shader )
+					{
+						spirv::SpirVConfig config{};
+						config.specVersion = testCounts.getSpirVVersion( infoIndex );
+						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+							, shader.getType()
+							, testCounts );
+						auto textSpirv = spirv::writeSpirv( shader, config );
+						displayShader( "SPIR-V", textSpirv, testCounts, true );
+						displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
+						auto glslangSpirv = compileGlslToSpv( shader.getType()
+							, glsl::compileGlsl( shader
+								, ast::SpecialisationInfo{}
+								, getDefaultGlslConfig() ) );
+						displayShader( "glslang SPIR-V"
+							, spirv::displaySpirv( glslangSpirv )
+							, testCounts
+							, true );
+					};
+
+					for ( auto & shader : shaders )
+					{
+						checkNoThrow( validate( shader ) );
+					}
+				}
+			}
+#endif
+		}
+
+		void validateShaderOnIndex( ::ast::Shader const & shader
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex
+			, Compilers const & compilers )
+		{
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
+			if ( compilers.spirV
+				&& testCounts.isInitialised( infoIndex ) )
+			{
+				ast::vk::ProgramPipeline program{ shader };
+				std::string errors;
+				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+				check( isValidated );
+				check( errors.empty() );
+
+				if ( !isValidated
+					|| !errors.empty() )
+				{
+					if ( !errors.empty() )
+					{
+						testCounts.streams.cout << errors << std::endl;
+					}
+
+					auto validate = [&]()
+					{
+						spirv::SpirVConfig config{};
+						config.specVersion = testCounts.getSpirVVersion( infoIndex );
+						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+							, shader.getType()
+							, testCounts );
+						auto textSpirv = spirv::writeSpirv( shader, config );
+						displayShader( "SPIR-V"
+							, textSpirv
+							, testCounts
+							, true );
+						displayShader( "SpirV-Cross GLSL"
+							, crossGlsl
+							, testCounts
+							, true );
+						auto glslangSpirv = compileGlslToSpv( shader.getType()
+							, glsl::compileGlsl( shader
+								, ast::SpecialisationInfo{}
+						, getDefaultGlslConfig() ) );
+						displayShader( "glslang SPIR-V"
+							, spirv::displaySpirv( glslangSpirv )
+							, testCounts
+							, true );
+					};
+					checkNoThrow( validate() );
+				}
+			}
+#endif
 		}
 	}
 
@@ -518,16 +701,28 @@ namespace test
 			destroyGLSLContext( *this );
 		}
 
-		uint32_t TestCounts::getSpirVVersion()const
+		bool TestCounts::isInitialised( uint32_t infoIndex )const
+		{
+			return retrieveIsInitialised( *this, infoIndex );
+		}
+
+		uint32_t TestCounts::getSpirVVersion( uint32_t infoIndex )const
 		{
 			uint32_t ret{ 0x00010300 };
 
 			if ( spirv )
 			{
-				ret = retrieveSPIRVVersion( *spirv );
+				ret = retrieveSPIRVVersion( *this, infoIndex );
 			}
 
 			return ret;
+		}
+
+		uint32_t TestCounts::getSpirvInfosSize()const
+		{
+			return spirv
+				? retrieveSpirvInfosSize( *this )
+				: 0u;
 		}
 	}
 
@@ -561,87 +756,25 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
-		if ( compilers.spirV )
+		for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
 		{
-			ast::vk::ProgramPipeline program{ shaders };
-			auto isValidated = validateProgram( program, testCounts );
-			check( isValidated );
-
-			if ( !isValidated )
-			{
-				auto validate = [&]( ast::Shader const & shader )
-				{
-					spirv::SpirVConfig config{};
-					config.specVersion = testCounts.getSpirVVersion();
-					auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-					auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-						, shader.getType()
-						, testCounts );
-					auto textSpirv = spirv::writeSpirv( shader, config );
-					displayShader( "SPIR-V", textSpirv, testCounts, true );
-					displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
-					auto glslangSpirv = compileGlslToSpv( shader.getType()
-						, glsl::compileGlsl( shader
-							, ast::SpecialisationInfo{}
-						, getDefaultGlslConfig() ) );
-					displayShader( "glslang SPIR-V"
-						, spirv::displaySpirv( glslangSpirv )
-						, testCounts
-						, true );
-				};
-
-				for ( auto & shader : shaders )
-				{
-					checkNoThrow( validate( shader ) );
-				}
-			}
+			validateShadersOnIndex( shaders
+				, testCounts
+				, infoIndex
+				, compilers );
 		}
-#endif
 	}
 
-	void validateShader( ::ast::Shader const & shader
+	void validateShader( ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
-		if ( compilers.spirV )
+		for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
 		{
-			ast::vk::ProgramPipeline program{ shader };
-			auto isValidated = validateProgram( program, testCounts );
-			check( isValidated );
-
-			if ( !isValidated )
-			{
-				auto validate = [&]()
-				{
-					spirv::SpirVConfig config{};
-					config.specVersion = testCounts.getSpirVVersion();
-					auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-					auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-						, shader.getType()
-						, testCounts );
-					auto textSpirv = spirv::writeSpirv( shader, config );
-					displayShader( "SPIR-V"
-						, textSpirv
-						, testCounts
-						, true );
-					displayShader( "SpirV-Cross GLSL"
-						, crossGlsl
-						, testCounts
-						, true );
-					auto glslangSpirv = compileGlslToSpv( shader.getType()
-						, glsl::compileGlsl( shader
-							, ast::SpecialisationInfo{}
-							, getDefaultGlslConfig() ) );
-					displayShader( "glslang SPIR-V"
-						, spirv::displaySpirv( glslangSpirv )
-						, testCounts
-						, true );
-				};
-				checkNoThrow( validate() );
-			}
+			validateShaderOnIndex( shader
+				, testCounts
+				, infoIndex
+				, compilers );
 		}
-#endif
 	}
 }

@@ -673,6 +673,116 @@ namespace
 		testEnd();
 	}
 
+	void drawID( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "drawID" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			{
+				sdw::VertexWriter writer;
+				auto drawID = writer.declOutput<UInt>( "drawID", 0 );
+				writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
+					{
+						drawID = writer.cast<UInt>( in.drawID );
+					} );
+				test::writeShader( writer
+					, testCounts, CurrentCompilers );
+				shaders.emplace_back( std::move( writer.getShader() ) );
+			}
+			{
+				sdw::FragmentWriter writer;
+				auto drawID = writer.declInput<UInt>( "drawID", 0 );
+				auto fragOutput = writer.declOutput<UInt>( "fragOutput", 0 );
+				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+					{
+						fragOutput = drawID;
+					} );
+				test::writeShader( writer
+					, testCounts, CurrentCompilers );
+				shaders.emplace_back( std::move( writer.getShader() ) );
+			}
+		}
+
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void charles_drawID( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "charles_drawID" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			{
+				sdw::VertexWriter writer;
+
+				auto pos = writer.declInput<Vec2>( "pos", 0 );
+				auto uvs = writer.declInput<Vec2>( "uvs", 1 );
+				auto col = writer.declInput<Vec4>( "col", 2 );
+
+				auto fragUv = writer.declOutput<Vec2>( "fragUv", 0 );
+				auto fragCol = writer.declOutput<Vec4>( "fragCol", 1 );
+
+				ArraySsboT<Mat4> ssbo{ writer, "ssbo", Mat4::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd430, 1, 0, true };
+
+				Pcb pcb = writer.declPushConstantsBuffer( "pcb" );
+				pcb.declMember<Int>( "firstMatrix" );
+				pcb.end();
+
+				writer.implementMain(
+					[&]( sdw::VertexIn in, sdw::VertexOut out )
+					{
+						auto matrix = ssbo[writer.cast<UInt>( in.drawID + pcb.getMember<Int>( "firstMatrix" ) )];
+						out.vtx.position =
+							matrix * vec4( pos.x(), pos.y(), 0.0_f, 1.0_f );
+						fragUv = uvs;
+						fragCol = col;
+					} );
+				test::writeShader( writer
+					, testCounts
+					, CurrentCompilers );
+				shaders.emplace_back( std::move( writer.getShader() ) );
+			}
+			{
+				using TextureType =
+					sdw::SampledImageT<ast::type::ImageFormat::eR32f,
+					ast::type::ImageDim::e2D, false, false, false>;
+
+				sdw::FragmentWriter writer;
+
+				auto fragUv = writer.declInput<Vec2>( "fragUv", 0 );
+				auto fragCol = writer.declInput<Vec4>( "fragCol", 1 );
+
+				auto color = writer.declOutput<Vec4>( "color", 0 );
+
+				TextureType fontTexture =
+					writer.declSampledImage<TextureType>( "fontTexture", 0, 0 );
+
+				writer.implementMain(
+					[&]( sdw::FragmentIn in, sdw::FragmentOut out )
+					{
+						auto i = writer.declLocale( "i", fontTexture.sample(fragUv));
+						auto s = writer.declLocale( "s", writer.cast<Float>(i) / 255.0_f);
+
+						color = vec4( fragCol.r(), fragCol.g(), fragCol.b(),
+							fragCol.a() * s );
+					} );
+				test::writeShader( writer
+					, testCounts
+					, CurrentCompilers );
+				shaders.emplace_back( std::move( writer.getShader() ) );
+			}
+		}
+
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
 	void arthapzMin( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "arthapzMin" );
@@ -1524,6 +1634,8 @@ sdwTestSuiteMain( TestWriterShader )
 	charles( testCounts );
 	charles_approx( testCounts );
 	charles_latest( testCounts );
+	drawID( testCounts );
+	charles_drawID( testCounts );
 	arthapzMin( testCounts );
 	arthapz( testCounts, false, false );
 	arthapz( testCounts, false, true );

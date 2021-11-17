@@ -39,7 +39,9 @@ namespace test
 		{
 			TestCounts( test::TestSuite & suite );
 
-			uint32_t getSpirVVersion()const;
+			bool isInitialised( uint32_t infoIndex )const;
+			uint32_t getSpirVVersion( uint32_t infoIndex )const;
+			uint32_t getSpirvInfosSize()const;
 
 			std::shared_ptr< GLSLContext > glsl;
 			std::shared_ptr< HLSLContext > hlsl;
