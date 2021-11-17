@@ -11,6 +11,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/VecTypes/Vec3.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
+#include <ShaderAST/Shader.hpp>
+
 namespace sdw
 {
 	//*********************************************************************************************

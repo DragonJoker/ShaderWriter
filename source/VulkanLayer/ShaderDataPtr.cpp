@@ -138,7 +138,8 @@ namespace ast::vk
 
 			for ( size_t i = lhs.size(); i < rhs.size(); ++i )
 			{
-				result.push_back( *rit );
+				*lit = *rit;
+				++lit;
 				++rit;
 			}
 
@@ -346,7 +347,9 @@ namespace ast::vk
 		: ssbos{ getPtr( rhs.ssbos ) }
 		, ubos{ getPtr( rhs.ubos ) }
 		, samplers{ getPtr( rhs.samplers ) }
+		, uniformTexels{ getPtr( rhs.uniformTexels ) }
 		, images{ getPtr( rhs.images ) }
+		, storageTexels{ getPtr( rhs.storageTexels ) }
 		, descriptors{ gatherDescriptors( stages ) }
 		, pcbs{ getPtr( rhs.pcbs ) }
 		, inputs{ getPtr( rhs.inputs ) }
@@ -358,6 +361,8 @@ namespace ast::vk
 	{
 		images = mergeDescriptors( images, rhs.images );
 		samplers = mergeDescriptors( samplers, rhs.samplers );
+		storageTexels = mergeDescriptors( storageTexels, rhs.storageTexels );
+		uniformTexels = mergeDescriptors( uniformTexels, rhs.uniformTexels );
 		ssbos = mergeDescriptors( ssbos, rhs.ssbos );
 		ubos = mergeDescriptors( ubos, rhs.ubos );
 		descriptors = mergeDescriptors( descriptors, rhs.descriptors );
@@ -386,22 +391,56 @@ namespace ast::vk
 
 		for ( auto & desc : ssbos )
 		{
-			all.emplace( desc.first, DescriptorData{ DescriptorType::eStorageBuffer, stages } );
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eStorageBuffer
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
 		}
 
 		for ( auto & desc : ubos )
 		{
-			all.emplace( desc.first, DescriptorData{ DescriptorType::eUniformBuffer, stages } );
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eUniformBuffer
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
 		}
 
 		for ( auto & desc : samplers )
 		{
-			all.emplace( desc.first, DescriptorData{ DescriptorType::eCombinedSamplerImage, stages } );
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eCombinedSamplerImage
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
+		}
+
+		for ( auto & desc : uniformTexels )
+		{
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eUniformTexelBuffer
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
 		}
 
 		for ( auto & desc : images )
 		{
-			all.emplace( desc.first, DescriptorData{ DescriptorType::eStorageImage, stages } );
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eStorageImage
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
+		}
+
+		for ( auto & desc : storageTexels )
+		{
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eStorageTexelBuffer
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
 		}
 
 		if ( !all.empty() )

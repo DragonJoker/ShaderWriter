@@ -1,6 +1,8 @@
 /*
 See LICENSE file in root folder
 */
+#include <ShaderAST/Shader.hpp>
+
 #include <stdexcept>
 
 #pragma warning( push )
@@ -49,9 +51,37 @@ namespace sdw
 				, false };
 		}
 
+		auto member = m_type->getMember( mbrIndex );
+
+		if ( mbrFlags )
+		{
+			auto & shader = *getShader();
+
+			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
+			{
+				if ( member.builtin == ast::Builtin::eNone )
+				{
+					shader.registerInput( "in::" + member.name
+						, member.location
+						, mbrFlags
+						, member.type );
+				}
+			}
+			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput ) )
+			{
+				if ( member.builtin == ast::Builtin::eNone )
+				{
+					shader.registerOutput( "out::" + member.name
+						, member.location
+						, mbrFlags
+						, member.type );
+				}
+			}
+		}
+
 		return T{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
-				, m_type->getMember( mbrIndex ).type->getIndex()
+				, member.type->getIndex()
 				, mbrFlags )
 			, true};
 	}
@@ -94,10 +124,37 @@ namespace sdw
 					, expr::Flag::eDummy )
 				, false };
 		}
+		auto member = m_type->getMember( mbrIndex );
+
+		if ( mbrFlags )
+		{
+			auto & shader = *getShader();
+
+			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
+			{
+				if ( member.builtin == ast::Builtin::eNone )
+				{
+					shader.registerInput( "in::" + member.name
+						, member.location
+						, mbrFlags
+						, member.type );
+				}
+			}
+			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput ) )
+			{
+				if ( member.builtin == ast::Builtin::eNone )
+				{
+					shader.registerOutput( "out::" + member.name
+						, member.location
+						, mbrFlags
+						, member.type );
+				}
+			}
+		}
 
 		return Array< T >{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
-				, m_type->getMember( mbrIndex ).type->getIndex()
+				, member.type->getIndex()
 				, mbrFlags )
 			, true };
 	}
@@ -119,7 +176,7 @@ namespace sdw
 		}
 
 		auto member = m_type->getMember( builtin );
-		auto & writer = findWriterMandat( *this );
+		ShaderWriter & writer = findWriterMandat( *this );
 		return T{ writer
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
 				, member.type->getIndex()

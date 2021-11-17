@@ -22,7 +22,7 @@ namespace spirv
 			, ast::ShaderStage type
 			, ModuleConfig const & moduleConfig
 			, spirv::PreprocContext context
-			, SpirVConfig const & spirvConfig
+			, SpirVConfig & spirvConfig
 			, ShaderActions actions );
 
 	private:
@@ -30,7 +30,7 @@ namespace spirv
 			, ast::ShaderStage type
 			, ModuleConfig const & moduleConfig
 			, spirv::PreprocContext context
-			, SpirVConfig const & spirvConfig
+			, SpirVConfig & spirvConfig
 			, ShaderActions actions );
 		void visitContainerStmt( ast::stmt::Container * stmt )override;
 		void visitBreakStmt( ast::stmt::Break * stmt )override;

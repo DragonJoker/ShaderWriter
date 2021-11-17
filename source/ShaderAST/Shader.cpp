@@ -209,7 +209,17 @@ namespace ast
 
 		if ( enabled )
 		{
-			m_data.samplers.emplace( name, SamplerInfo{ { type, { binding, set } } } );
+			auto imgType = getNonArrayType( type );
+			assert( img->getKind() == ast::type::Kind::eSampledImage );
+
+			if ( static_cast< ast::type::SampledImage const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
+			{
+				m_data.uniformTexels.emplace( name, SamplerInfo{ { type, { binding, set } } } );
+			}
+			else
+			{
+				m_data.samplers.emplace( name, SamplerInfo{ { type, { binding, set } } } );
+			}
 		}
 
 		return result;
@@ -227,7 +237,17 @@ namespace ast
 
 		if ( enabled )
 		{
-			m_data.images.emplace( name, ImageInfo{ { type, { binding, set } } } );
+			auto imgType = getNonArrayType( type );
+			assert( img->getKind() == ast::type::Kind::eImage );
+
+			if ( static_cast< ast::type::Image const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
+			{
+				m_data.storageTexels.emplace( name, ImageInfo{ { type, { binding, set } } } );
+			}
+			else
+			{
+				m_data.images.emplace( name, ImageInfo{ { type, { binding, set } } } );
+			}
 		}
 
 		return result;
@@ -238,6 +258,23 @@ namespace ast
 		, uint32_t attributes
 		, type::TypePtr type )
 	{
+		auto it = std::find_if( m_data.inputs.begin()
+			, m_data.inputs.end()
+			, [&location]( std::map< std::string, InputInfo >::value_type const & lookup )
+			{
+				return lookup.second.location == location;
+			} );
+
+		if ( m_data.inputs.end() == it )
+		{
+			m_data.inputs.emplace( name, InputInfo{ { type, location } } );
+		}
+
+		if ( hasVar( name ) )
+		{
+			return getVar( name );
+		}
+
 		auto kind = getNonArrayType( type )->getKind();
 		auto flags = attributes;
 
@@ -251,7 +288,6 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderInput );
-		m_data.inputs.emplace( name, InputInfo{ { type, location } } );
 		return result;
 	}
 
@@ -260,13 +296,23 @@ namespace ast
 		, uint32_t attributes
 		, type::TypePtr type )
 	{
-		assert( m_data.outputs.end() == std::find_if( m_data.outputs.begin()
+		auto it = std::find_if( m_data.outputs.begin()
 			, m_data.outputs.end()
 			, [&location]( std::map< std::string, OutputInfo >::value_type const & lookup )
 			{
 				return lookup.second.location == location;
-			} )
-			&& "Output already existing at given location" );
+			} );
+
+		if ( m_data.outputs.end() == it )
+		{
+			m_data.outputs.emplace( name, OutputInfo{ { type, location } } );
+		}
+
+		if ( hasVar( name ) )
+		{
+			return getVar( name );
+		}
+
 		auto kind = getNonArrayType( type )->getKind();
 		auto flags = attributes;
 
@@ -280,7 +326,6 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderOutput );
-		m_data.outputs.emplace( name, OutputInfo{ { type, location } } );
 		return result;
 	}
 
@@ -434,6 +479,12 @@ namespace ast
 		, UboInfo const & info )
 	{
 		m_data.ubos.emplace( name, info );
+	}
+
+	void Shader::registerPcb( std::string const & name
+		, InterfaceBlock const & info )
+	{
+		m_data.pcbs.emplace( name, info );
 	}
 
 	expr::ExprPtr Shader::getDummyExpr( type::TypePtr type )const

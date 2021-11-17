@@ -66,6 +66,16 @@ namespace ast::vk
 		VkResult createComputePipeline( VkComputePipelineCreateInfo createInfos
 			, VkPipeline * result )const;
 
+		VkDevice getDevice()const
+		{
+			return m_context.device;
+		}
+
+		VkAllocationCallbacks const * getAllocator()const
+		{
+			return m_context.allocator;
+		}
+
 	private:
 		BuilderContext m_context;
 		ProgramPipeline m_program;

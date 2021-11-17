@@ -53,15 +53,325 @@ namespace spirv
 		}
 
 		void checkCapabilitySupport( spv::Capability capability
-			, SpirVConfig const & spirvConfig )
+			, SpirVConfig & spirvConfig )
 		{
-			if ( capability == spv::CapabilityAtomicFloat32AddEXT
-				|| capability == spv::CapabilityAtomicFloat64AddEXT )
+			switch ( capability )
 			{
+			case spv::CapabilityMatrix:
+				break;
+			case spv::CapabilityShader:
+				break;
+			case spv::CapabilityGeometry:
+				break;
+			case spv::CapabilityTessellation:
+				break;
+			case spv::CapabilityAddresses:
+				break;
+			case spv::CapabilityLinkage:
+				break;
+			case spv::CapabilityKernel:
+				break;
+			case spv::CapabilityVector16:
+				break;
+			case spv::CapabilityFloat16Buffer:
+				break;
+			case spv::CapabilityFloat16:
+				break;
+			case spv::CapabilityFloat64:
+				break;
+			case spv::CapabilityInt64:
+				break;
+			case spv::CapabilityInt64Atomics:
+				break;
+			case spv::CapabilityImageBasic:
+				break;
+			case spv::CapabilityImageReadWrite:
+				break;
+			case spv::CapabilityImageMipmap:
+				break;
+			case spv::CapabilityPipes:
+				break;
+			case spv::CapabilityGroups:
+				break;
+			case spv::CapabilityDeviceEnqueue:
+				break;
+			case spv::CapabilityLiteralSampler:
+				break;
+			case spv::CapabilityAtomicStorage:
+				break;
+			case spv::CapabilityInt16:
+				break;
+			case spv::CapabilityTessellationPointSize:
+				break;
+			case spv::CapabilityGeometryPointSize:
+				break;
+			case spv::CapabilityImageGatherExtended:
+				break;
+			case spv::CapabilityStorageImageMultisample:
+				break;
+			case spv::CapabilityUniformBufferArrayDynamicIndexing:
+				break;
+			case spv::CapabilitySampledImageArrayDynamicIndexing:
+				break;
+			case spv::CapabilityStorageBufferArrayDynamicIndexing:
+				break;
+			case spv::CapabilityStorageImageArrayDynamicIndexing:
+				break;
+			case spv::CapabilityClipDistance:
+				break;
+			case spv::CapabilityCullDistance:
+				break;
+			case spv::CapabilityImageCubeArray:
+				break;
+			case spv::CapabilitySampleRateShading:
+				break;
+			case spv::CapabilityImageRect:
+				break;
+			case spv::CapabilitySampledRect:
+				break;
+			case spv::CapabilityGenericPointer:
+				break;
+			case spv::CapabilityInt8:
+				break;
+			case spv::CapabilityInputAttachment:
+				break;
+			case spv::CapabilitySparseResidency:
+				break;
+			case spv::CapabilityMinLod:
+				break;
+			case spv::CapabilitySampled1D:
+				break;
+			case spv::CapabilityImage1D:
+				break;
+			case spv::CapabilitySampledCubeArray:
+				break;
+			case spv::CapabilitySampledBuffer:
+				break;
+			case spv::CapabilityImageBuffer:
+				break;
+			case spv::CapabilityImageMSArray:
+				break;
+			case spv::CapabilityStorageImageExtendedFormats:
+				break;
+			case spv::CapabilityImageQuery:
+				break;
+			case spv::CapabilityDerivativeControl:
+				break;
+			case spv::CapabilityInterpolationFunction:
+				break;
+			case spv::CapabilityTransformFeedback:
+				break;
+			case spv::CapabilityGeometryStreams:
+				break;
+			case spv::CapabilityStorageImageReadWithoutFormat:
+				break;
+			case spv::CapabilityStorageImageWriteWithoutFormat:
+				break;
+			case spv::CapabilityMultiViewport:
+				break;
+			case spv::CapabilitySubgroupDispatch:
+				break;
+			case spv::CapabilityNamedBarrier:
+				break;
+			case spv::CapabilityPipeStorage:
+				break;
+			case spv::CapabilityGroupNonUniform:
+				break;
+			case spv::CapabilityGroupNonUniformVote:
+				break;
+			case spv::CapabilityGroupNonUniformArithmetic:
+				break;
+			case spv::CapabilityGroupNonUniformBallot:
+				break;
+			case spv::CapabilityGroupNonUniformShuffle:
+				break;
+			case spv::CapabilityGroupNonUniformShuffleRelative:
+				break;
+			case spv::CapabilityGroupNonUniformClustered:
+				break;
+			case spv::CapabilityGroupNonUniformQuad:
+				break;
+			case spv::CapabilityShaderLayer:
+				break;
+			case spv::CapabilityShaderViewportIndex:
+				break;
+			case spv::CapabilitySubgroupBallotKHR:
+				break;
+			case spv::CapabilityDrawParameters:
+				break;
+			case spv::CapabilitySubgroupVoteKHR:
+				break;
+			case spv::CapabilityStorageBuffer16BitAccess:
+				break;
+			case spv::CapabilityStorageUniform16:
+				break;
+			case spv::CapabilityStoragePushConstant16:
+				break;
+			case spv::CapabilityStorageInputOutput16:
+				break;
+			case spv::CapabilityDeviceGroup:
+				break;
+			case spv::CapabilityMultiView:
+				break;
+			case spv::CapabilityVariablePointersStorageBuffer:
+				break;
+			case spv::CapabilityVariablePointers:
+				break;
+			case spv::CapabilityAtomicStorageOps:
+				break;
+			case spv::CapabilitySampleMaskPostDepthCoverage:
+				break;
+			case spv::CapabilityStorageBuffer8BitAccess:
+				break;
+			case spv::CapabilityUniformAndStorageBuffer8BitAccess:
+				break;
+			case spv::CapabilityStoragePushConstant8:
+				break;
+			case spv::CapabilityDenormPreserve:
+				break;
+			case spv::CapabilityDenormFlushToZero:
+				break;
+			case spv::CapabilitySignedZeroInfNanPreserve:
+				break;
+			case spv::CapabilityRoundingModeRTE:
+				break;
+			case spv::CapabilityRoundingModeRTZ:
+				break;
+			case spv::CapabilityRayQueryProvisionalKHR:
+				break;
+			case spv::CapabilityRayTraversalPrimitiveCullingProvisionalKHR:
+				break;
+			case spv::CapabilityFloat16ImageAMD:
+				break;
+			case spv::CapabilityImageGatherBiasLodAMD:
+				break;
+			case spv::CapabilityFragmentMaskAMD:
+				break;
+			case spv::CapabilityStencilExportEXT:
+				break;
+			case spv::CapabilityImageReadWriteLodAMD:
+				break;
+			case spv::CapabilityShaderClockKHR:
+				break;
+			case spv::CapabilitySampleMaskOverrideCoverageNV:
+				break;
+			case spv::CapabilityGeometryShaderPassthroughNV:
+				break;
+			case spv::CapabilityShaderViewportIndexLayerEXT:
+				break;
+			case spv::CapabilityShaderViewportMaskNV:
+				break;
+			case spv::CapabilityShaderStereoViewNV:
+				break;
+			case spv::CapabilityPerViewAttributesNV:
+				break;
+			case spv::CapabilityFragmentFullyCoveredEXT:
+				break;
+			case spv::CapabilityMeshShadingNV:
+				break;
+			case spv::CapabilityImageFootprintNV:
+				break;
+			case spv::CapabilityFragmentBarycentricNV:
+				break;
+			case spv::CapabilityComputeDerivativeGroupQuadsNV:
+				break;
+			case spv::CapabilityFragmentDensityEXT:
+				break;
+			case spv::CapabilityGroupNonUniformPartitionedNV:
+				break;
+			case spv::CapabilityShaderNonUniform:
+				break;
+			case spv::CapabilityRuntimeDescriptorArray:
+				break;
+			case spv::CapabilityInputAttachmentArrayDynamicIndexing:
+				break;
+			case spv::CapabilityUniformTexelBufferArrayDynamicIndexing:
+				break;
+			case spv::CapabilityStorageTexelBufferArrayDynamicIndexing:
+				break;
+			case spv::CapabilityUniformBufferArrayNonUniformIndexing:
+				break;
+			case spv::CapabilitySampledImageArrayNonUniformIndexing:
+				break;
+			case spv::CapabilityStorageBufferArrayNonUniformIndexing:
+				break;
+			case spv::CapabilityStorageImageArrayNonUniformIndexing:
+				break;
+			case spv::CapabilityInputAttachmentArrayNonUniformIndexing:
+				break;
+			case spv::CapabilityUniformTexelBufferArrayNonUniformIndexing:
+				break;
+			case spv::CapabilityStorageTexelBufferArrayNonUniformIndexing:
+				break;
+			case spv::CapabilityRayTracingNV:
+				break;
+			case spv::CapabilityVulkanMemoryModel:
+				break;
+			case spv::CapabilityVulkanMemoryModelDeviceScope:
+				break;
+			case spv::CapabilityPhysicalStorageBufferAddresses:
+				break;
+			case spv::CapabilityComputeDerivativeGroupLinearNV:
+				break;
+			case spv::CapabilityRayTracingProvisionalKHR:
+				break;
+			case spv::CapabilityCooperativeMatrixNV:
+				break;
+			case spv::CapabilityFragmentShaderSampleInterlockEXT:
+				break;
+			case spv::CapabilityFragmentShaderShadingRateInterlockEXT:
+				break;
+			case spv::CapabilityShaderSMBuiltinsNV:
+				break;
+			case spv::CapabilityFragmentShaderPixelInterlockEXT:
+				break;
+			case spv::CapabilityDemoteToHelperInvocationEXT:
+				break;
+			case spv::CapabilitySubgroupShuffleINTEL:
+				break;
+			case spv::CapabilitySubgroupBufferBlockIOINTEL:
+				break;
+			case spv::CapabilitySubgroupImageBlockIOINTEL:
+				break;
+			case spv::CapabilitySubgroupImageMediaBlockIOINTEL:
+				break;
+			case spv::CapabilityIntegerFunctions2INTEL:
+				break;
+			case spv::CapabilityFunctionPointersINTEL:
+				break;
+			case spv::CapabilityIndirectReferencesINTEL:
+				break;
+			case spv::CapabilitySubgroupAvcMotionEstimationINTEL:
+				break;
+			case spv::CapabilitySubgroupAvcMotionEstimationIntraINTEL:
+				break;
+			case spv::CapabilitySubgroupAvcMotionEstimationChromaINTEL:
+				break;
+			case spv::CapabilityFPGAMemoryAttributesINTEL:
+				break;
+			case spv::CapabilityUnstructuredLoopControlsINTEL:
+				break;
+			case spv::CapabilityFPGALoopControlsINTEL:
+				break;
+			case spv::CapabilityKernelAttributesINTEL:
+				break;
+			case spv::CapabilityFPGAKernelAttributesINTEL:
+				break;
+			case spv::CapabilityBlockingPipesINTEL:
+				break;
+			case spv::CapabilityFPGARegINTEL:
+				break;
+			case spv::CapabilityAtomicFloat32AddEXT:
+			case spv::CapabilityAtomicFloat64AddEXT:
 				if ( spirvConfig.specVersion < 0x00010500 )
 				{
 					throw std::runtime_error{ "Current SPIR-V specification version doesn't support " + getName( capability ) };
 				}
+				break;
+			case spv::CapabilityMax:
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -71,7 +381,7 @@ namespace spirv
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
-		, SpirVConfig const & spirvConfig
+		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
 	{
 		Module result{ cache
@@ -87,12 +397,16 @@ namespace spirv
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
-		, SpirVConfig const & spirvConfig
+		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
 		: m_context{ std::move( context ) }
 		, m_actions{ std::move( actions ) }
 		, m_result{ result }
 	{
+		spirvConfig.requiredExtensions.insert( spirvConfig.requiredExtensions.end()
+			, moduleConfig.requiredExtensions.begin()
+			, moduleConfig.requiredExtensions.end() );
+
 		for ( auto & capability : moduleConfig.requiredCapabilities )
 		{
 			checkCapabilitySupport( capability, spirvConfig );
@@ -101,7 +415,10 @@ namespace spirv
 
 		for ( auto & extension : moduleConfig.requiredExtensions )
 		{
-			m_result.registerExtension( extension );
+			if ( spirvConfig.specVersion < extension.coreInVersion )
+			{
+				m_result.registerExtension( extension.name );
+			}
 		}
 
 		VariableInfo info;

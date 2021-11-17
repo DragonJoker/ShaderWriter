@@ -21,7 +21,7 @@ namespace spirv
 	namespace
 	{
 		spirv::Module compileSpirV( ast::Shader const & shader
-			, SpirVConfig config )
+			, SpirVConfig & config )
 		{
 			ast::SSAData ssaData;
 			ssaData.nextVarId = shader.getData().nextVarId;
@@ -50,14 +50,14 @@ namespace spirv
 	}
 
 	std::string writeSpirv( ast::Shader const & shader
-		, SpirVConfig config
+		, SpirVConfig & config
 		, bool writeHeader )
 	{
 		std::string result;
 
 		try
 		{
-			auto module = compileSpirV( shader, std::move( config ) );
+			auto module = compileSpirV( shader, config );
 			result = Module::write( module, writeHeader );
 		}
 		catch ( std::exception & exc )
@@ -69,13 +69,13 @@ namespace spirv
 	}
 
 	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
-		, SpirVConfig config )
+		, SpirVConfig & config )
 	{
 		std::vector< uint32_t > result;
 
 		try
 		{
-			auto module = compileSpirV( shader, std::move( config ) );
+			auto module = compileSpirV( shader, config );
 			result = Module::serialize( module );
 		}
 		catch ( std::exception & exc )

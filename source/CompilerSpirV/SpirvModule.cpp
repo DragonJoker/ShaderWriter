@@ -186,14 +186,11 @@ namespace spirv
 		, m_currentScopeVariables{ &m_registeredVariables }
 		, m_model{ pexecutionModel }
 	{
-		initialiseHeader(
-			{
-				spv::MagicNumber,
-				spirvConfig.specVersion,
-				0x00100001,
-				1u,	// Bound IDs.
-				0u	// Schema.
-			} );
+		initialiseHeader( { spv::MagicNumber
+			, spirvConfig.specVersion
+			, 0x00100001
+			, 1u	/* Bound IDs. */
+			, 0u	/* Schema. */ } );
 		initialiseExtensions();
 		initialiseCapacities();
 	}

@@ -289,6 +289,102 @@ namespace ast::vk
 			return getVkFormat( in.getKind() );
 		}
 
+		VkFormat getAttachVkFormat( type::Kind kind )
+		{
+			switch ( kind )
+			{
+			case ast::type::Kind::eBoolean:
+				return VK_FORMAT_R8_UNORM;
+			case ast::type::Kind::eInt:
+				return VK_FORMAT_R32_SINT;
+			case ast::type::Kind::eUInt:
+				return VK_FORMAT_R32_UINT;
+			case ast::type::Kind::eHalf:
+				return VK_FORMAT_R16_SFLOAT;
+			case ast::type::Kind::eFloat:
+				return VK_FORMAT_R32_SFLOAT;
+			case ast::type::Kind::eDouble:
+				return VK_FORMAT_R64_SFLOAT;
+			case ast::type::Kind::eVec2B:
+				return VK_FORMAT_R8G8_UNORM;
+			case ast::type::Kind::eVec3B:
+				return VK_FORMAT_R8G8B8A8_UNORM;
+			case ast::type::Kind::eVec4B:
+				return VK_FORMAT_R8G8B8A8_UNORM;
+			case ast::type::Kind::eVec2I:
+				return VK_FORMAT_R32G32_SINT;
+			case ast::type::Kind::eVec3I:
+				return VK_FORMAT_R32G32B32A32_SINT;
+			case ast::type::Kind::eVec4I:
+				return VK_FORMAT_R32G32B32A32_SINT;
+			case ast::type::Kind::eVec2U:
+				return VK_FORMAT_R32G32_UINT;
+			case ast::type::Kind::eVec3U:
+				return VK_FORMAT_R32G32B32A32_UINT;
+			case ast::type::Kind::eVec4U:
+				return VK_FORMAT_R32G32B32A32_UINT;
+			case ast::type::Kind::eVec2H:
+				return VK_FORMAT_R16G16B16A16_SFLOAT;
+			case ast::type::Kind::eVec4H:
+				return VK_FORMAT_R16G16B16A16_SFLOAT;
+			case ast::type::Kind::eVec2F:
+				return VK_FORMAT_R32G32_SFLOAT;
+			case ast::type::Kind::eVec3F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eVec4F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eVec2D:
+				return VK_FORMAT_R64G64_SFLOAT;
+			case ast::type::Kind::eVec3D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eVec4D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eMat2x2F:
+				return VK_FORMAT_R32G32_SFLOAT;
+			case ast::type::Kind::eMat2x3F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eMat2x4F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eMat3x2F:
+				return VK_FORMAT_R32G32_SFLOAT;
+			case ast::type::Kind::eMat3x3F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eMat3x4F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eMat4x2F:
+				return VK_FORMAT_R32G32_SFLOAT;
+			case ast::type::Kind::eMat4x3F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eMat4x4F:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			case ast::type::Kind::eMat2x2D:
+				return VK_FORMAT_R64G64_SFLOAT;
+			case ast::type::Kind::eMat2x3D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eMat2x4D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eMat3x2D:
+				return VK_FORMAT_R64G64_SFLOAT;
+			case ast::type::Kind::eMat3x3D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eMat3x4D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eMat4x2D:
+				return VK_FORMAT_R64G64_SFLOAT;
+			case ast::type::Kind::eMat4x3D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			case ast::type::Kind::eMat4x4D:
+				return VK_FORMAT_R64G64B64A64_SFLOAT;
+			default:
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
+			}
+		}
+
+		VkFormat getAttachVkFormat( type::Type const & in )
+		{
+			return getAttachVkFormat( in.getKind() );
+		}
+
 		VkShaderStageFlags getVkShaderStages( uint32_t in )
 		{
 			VkShaderStageFlags result{ 0u };
@@ -338,6 +434,10 @@ namespace ast::vk
 				return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 			case ast::DescriptorType::eStorageImage:
 				return VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+			case ast::DescriptorType::eUniformTexelBuffer:
+				return VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER;
+			case ast::DescriptorType::eStorageTexelBuffer:
+				return VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;
 			default:
 				AST_Failure( "Unsupported DescriptorType." );
 				return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
@@ -595,7 +695,8 @@ namespace ast::vk
 		m_stageFlags |= getShaderStage( shader.getType() );
 		m_indices[shader.getType()] = size;
 		m_revIndices[size] = shader.getType();
-		return spirv::serialiseSpirv( shader, spirv::SpirVConfig{  } );
+		spirv::SpirVConfig config;
+		return spirv::serialiseSpirv( shader, config );
 	}
 
 	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )
@@ -701,34 +802,31 @@ namespace ast::vk
 
 		for ( auto & set : m_data.descriptors )
 		{
-			if ( !set.empty() )
+			std::vector< VkDescriptorSetLayoutBinding > bindings;
+
+			for ( auto & desc : set )
 			{
-				std::vector< VkDescriptorSetLayoutBinding > bindings;
-
-				for ( auto & desc : set )
-				{
-					bindings.push_back( VkDescriptorSetLayoutBinding
-						{
-							desc.first.binding,
-							getVkDescriptorType( desc.second.type ),
-							1u,
-							getVkShaderStages( desc.second.stages ),
-							nullptr,
-						} );
-				}
-
-				result.push_back( DescriptorSetLayoutCreateInfo
+				bindings.push_back( VkDescriptorSetLayoutBinding
 					{
-						VkDescriptorSetLayoutCreateInfo
-						{
-							VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-							nullptr,
-							0u,
-							uint32_t( bindings.size() ),
-							bindings.data(),
-						}
+						desc.first.binding,
+						getVkDescriptorType( desc.second.type ),
+						desc.second.count,
+						getVkShaderStages( desc.second.stages ),
+						nullptr,
 					} );
 			}
+
+			result.push_back( DescriptorSetLayoutCreateInfo
+				{
+					VkDescriptorSetLayoutCreateInfo
+					{
+						VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+						nullptr,
+						0u,
+						uint32_t( bindings.size() ),
+						bindings.data(),
+					}
+				} );
 		}
 
 		return result;
@@ -933,7 +1031,8 @@ namespace ast::vk
 			for ( auto & output : m_data.outputs )
 			{
 				VkAttachmentDescription desc{};
-				desc.format = getVkFormat( *output.first.type );
+				desc.format = getAttachVkFormat( *output.first.type );
+				desc.samples = VK_SAMPLE_COUNT_1_BIT;
 				result.emplace( output.first.location, std::move( desc ) );
 			}
 		}

@@ -102,6 +102,11 @@ if( MSVC )
 	add_definitions( -D_CRT_SECURE_NO_WARNINGS )
 endif()
 
+add_compile_definitions( MAIN_VERSION_MAJOR=${VERSION_MAJOR} )
+add_compile_definitions( MAIN_VERSION_MINOR=${VERSION_MINOR} )
+add_compile_definitions( MAIN_VERSION_BUILD=${VERSION_BUILD} )
+add_compile_definitions( MAIN_VERSION_YEAR=${VERSION_YEAR} )
+
 # Small macro to add subdirectory files to current target source and header files
 macro( parse_subdir_files _BASE_DIR _FOLDER _GROUP )
 	file( GLOB _FOLDER_HEADER_FILES
