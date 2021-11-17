@@ -309,7 +309,7 @@ namespace spirv
 
 		if ( var->isStorageBuffer() )
 		{
-			if ( version >= v1_5 )
+			if ( version > v1_3 )
 			{
 				result = spv::StorageClassStorageBuffer;
 			}

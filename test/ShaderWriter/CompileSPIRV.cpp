@@ -550,26 +550,57 @@ namespace test
 
 	namespace sdw_test
 	{
+		static constexpr uint32_t spv1_0 = 0x00010000u;
+		static constexpr uint32_t spv1_1 = 0x00010100u;
+		static constexpr uint32_t spv1_2 = 0x00010200u;
+		static constexpr uint32_t spv1_3 = 0x00010300u;
+		static constexpr uint32_t spv1_4 = 0x00010400u;
+		static constexpr uint32_t spv1_5 = 0x00010500u;
+
+		static constexpr uint32_t vk1_0 = VK_MAKE_API_VERSION( 0, 1, 0, 0 );
+		static constexpr uint32_t vk1_1 = VK_MAKE_API_VERSION( 0, 1, 1, 0 );
+		static constexpr uint32_t vk1_2 = VK_MAKE_API_VERSION( 0, 1, 2, 0 );
+
+		uint32_t getMaxSpvVersion( uint32_t vkVersion )
+		{
+			uint32_t result{ spv1_0 };
+
+			if ( vkVersion >= vk1_2 )
+			{
+				result = spv1_5;
+			}
+			else if ( vkVersion >= vk1_1 )
+			{
+				result = spv1_3;
+			}
+			else if ( vkVersion >= vk1_0 )
+			{
+				result = spv1_0;
+			}
+
+			return result;
+		}
+
 		struct SPIRVContext
 		{
 			SPIRVContext()
 			{
-				static constexpr uint32_t spv1_0 = 0x00010000u;
-				static constexpr uint32_t spv1_3 = 0x00010300u;
-				static constexpr uint32_t spv1_5 = 0x00010500u;
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5 };
+				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2 };
 
-				static constexpr uint32_t vk1_0 = VK_MAKE_API_VERSION( 0, 1, 0, 0 );
-				static constexpr uint32_t vk1_1 = VK_MAKE_API_VERSION( 0, 1, 1, 0 );
-				static constexpr uint32_t vk1_2 = VK_MAKE_API_VERSION( 0, 1, 2, 0 );
+				for ( auto vkV : vkVersions )
+				{
+					auto maxSpvV = getMaxSpvVersion( vkV );
+					auto end = std::find( spvVersions.begin()
+						, spvVersions.end()
+						, maxSpvV );
+					end = std::next( end );
 
-				infos.push_back( initialiseInfo( vk1_0, spv1_0 ) );
-
-				infos.push_back( initialiseInfo( vk1_1, spv1_0 ) );
-				infos.push_back( initialiseInfo( vk1_1, spv1_3 ) );
-
-				infos.push_back( initialiseInfo( vk1_2, spv1_0 ) );
-				infos.push_back( initialiseInfo( vk1_2, spv1_3 ) );
-				infos.push_back( initialiseInfo( vk1_2, spv1_5 ) );
+					for ( auto it = spvVersions.begin(); it != end; ++it )
+					{
+						infos.push_back( initialiseInfo( vkV, *it ) );
+					}
+				}
 			}
 
 			~SPIRVContext()

@@ -909,7 +909,7 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getSsboName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, ( m_result.getVersion() >= v1_5
+			, ( m_result.getVersion() > v1_3
 				? spv::DecorationBlock
 				: spv::DecorationBufferBlock ) );
 	}
@@ -920,7 +920,7 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, ( m_result.getVersion() >= v1_5
+			, ( m_result.getVersion() > v1_3
 				? spv::DecorationBlock
 				: spv::DecorationBufferBlock ) );
 	}

@@ -47,16 +47,16 @@ namespace spirv
 #define makeSpirVExtension( reqVersion, specVersion, coreInVersion, name )\
 	static SpirVExtension const name{ reqVersion, specVersion, coreInVersion, "SPV_"#name }
 
-	makeSpirVExtension( v1_0, v1_2, v1_5, EXT_shader_viewport_index_layer );
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_device_group );
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_shader_draw_parameters );
-	makeSpirVExtension( v1_0, v1_1, v1_5, KHR_shader_ballot );
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_multiview );
-	makeSpirVExtension( v1_0, v1_5, vUnk, EXT_shader_atomic_float_add );
+	makeSpirVExtension( v1_0, v1_1, v1_5, KHR_shader_ballot );
+	makeSpirVExtension( v1_0, v1_2, v1_5, EXT_shader_viewport_index_layer );
 	makeSpirVExtension( v1_0, v1_1, vUnk, EXT_shader_stencil_export );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_viewport_array2 );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_stereo_view_rendering );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NVX_multiview_per_view_attributes );
+	makeSpirVExtension( v1_0, v1_5, vUnk, EXT_shader_atomic_float_add );
 
 #undef makeSpirVExtension
 

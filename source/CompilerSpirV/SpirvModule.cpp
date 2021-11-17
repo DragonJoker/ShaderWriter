@@ -558,7 +558,7 @@ namespace spirv
 			addVariable( name, id, it, initialiser );
 			sourceInfo = it->second;
 
-			if ( m_version >= makeVersion( 1, 5 ) )
+			if ( m_version >= v1_4 )
 			{
 				if ( storage != spv::StorageClassFunction )
 				{
@@ -584,7 +584,7 @@ namespace spirv
 				addDebug( "ptr_" + name, id );
 				addVariable( name, id, it, {} );
 
-				if ( m_version >= makeVersion( 1, 5 ) )
+				if ( m_version >= v1_4 )
 				{
 					if ( storage != spv::StorageClassFunction )
 					{
