@@ -38,6 +38,7 @@ namespace ast::var
 		eLoopVar = 1 << 24,
 		eTemp = 1 << 25,
 		eAlias = 1 << 26,
+		eStorageBuffer = 1 << 27,
 	};
 
 	class FlagHolder
@@ -212,6 +213,11 @@ namespace ast::var
 			return flag == Flag::eNone
 				? false
 				: Flag( m_flags & uint32_t( flag ) ) == flag;
+		}
+
+		bool isStorageBuffer()const
+		{
+			return hasFlag( Flag::eStorageBuffer );
 		}
 
 	private:

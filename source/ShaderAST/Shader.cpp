@@ -210,7 +210,7 @@ namespace ast
 		if ( enabled )
 		{
 			auto imgType = getNonArrayType( type );
-			assert( img->getKind() == ast::type::Kind::eSampledImage );
+			assert( imgType->getKind() == ast::type::Kind::eSampledImage );
 
 			if ( static_cast< ast::type::SampledImage const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
 			{
@@ -238,7 +238,7 @@ namespace ast
 		if ( enabled )
 		{
 			auto imgType = getNonArrayType( type );
-			assert( img->getKind() == ast::type::Kind::eImage );
+			assert( imgType->getKind() == ast::type::Kind::eImage );
 
 			if ( static_cast< ast::type::Image const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
 			{

@@ -15,7 +15,8 @@ namespace spirv
 {
 	struct PreprocContext;
 
-	spv::StorageClass getStorageClass( ast::var::VariablePtr var );
+	spv::StorageClass getStorageClass( uint32_t version
+		, ast::var::VariablePtr var );
 
 	class ExprVisitor
 		: public ast::expr::SimpleVisitor

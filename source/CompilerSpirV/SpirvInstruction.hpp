@@ -106,12 +106,18 @@ namespace spirv
 	};
 #pragma GCC diagnostic pop
 
-	using ValueIdList = std::vector< ValueId >;
-
 	inline bool operator==( ValueId const & lhs, ValueId const & rhs )
 	{
 		return lhs.id == rhs.id;
 	}
+	
+	inline bool operator<( ValueId const & lhs, ValueId const & rhs )
+	{
+		return lhs.id < rhs.id;
+	}
+
+	using ValueIdList = std::vector< ValueId >;
+	using ValueIdSet = std::set< ValueId >;
 
 	struct ValueIdHasher
 	{

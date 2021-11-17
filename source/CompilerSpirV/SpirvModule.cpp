@@ -182,12 +182,13 @@ namespace spirv
 		, spv::ExecutionModel pexecutionModel )
 		: memoryModel{ makeInstruction< MemoryModelInstruction >( ValueId{ spv::Id( spv::AddressingModelLogical ) }, ValueId{ spv::Id( pmemoryModel ) } ) }
 		, variables{ &globalDeclarations }
+		, m_version{ spirvConfig.specVersion }
 		, m_cache{ &pcache }
 		, m_currentScopeVariables{ &m_registeredVariables }
 		, m_model{ pexecutionModel }
 	{
 		initialiseHeader( { spv::MagicNumber
-			, spirvConfig.specVersion
+			, m_version
 			, 0x00100001
 			, 1u	/* Bound IDs. */
 			, 0u	/* Schema. */ } );
@@ -556,6 +557,14 @@ namespace spirv
 
 			addVariable( name, id, it, initialiser );
 			sourceInfo = it->second;
+
+			if ( m_version >= makeVersion( 1, 5 ) )
+			{
+				if ( storage != spv::StorageClassFunction )
+				{
+					m_entryPointIO.insert( id );
+				}
+			}
 		}
 		else
 		{
@@ -574,6 +583,14 @@ namespace spirv
 				it->second.isOutParam = false;
 				addDebug( "ptr_" + name, id );
 				addVariable( name, id, it, {} );
+
+				if ( m_version >= makeVersion( 1, 5 ) )
+				{
+					if ( storage != spv::StorageClassFunction )
+					{
+						m_entryPointIO.insert( id );
+					}
+				}
 			}
 		}
 
@@ -878,9 +895,25 @@ namespace spirv
 		, ValueIdList const & inputs
 		, ValueIdList const & outputs )
 	{
+		ValueIdSet ios;
 		ValueIdList operands;
-		operands.insert( operands.end(), inputs.begin(), inputs.end() );
-		operands.insert( operands.end(), outputs.begin(), outputs.end() );
+
+		for ( auto id : inputs )
+		{
+			ios.insert( id );
+		}
+
+		for ( auto id : outputs )
+		{
+			ios.insert( id );
+		}
+
+		for ( auto id : m_entryPointIO )
+		{
+			ios.insert( id );
+		}
+
+		operands.insert( operands.end(), ios.begin(), ios.end() );
 		entryPoint = makeInstruction< EntryPointInstruction >( ValueId{ spv::Id( m_model ) }
 			, functionId
 			, operands
@@ -897,7 +930,6 @@ namespace spirv
 		case spv::ExecutionModelGeometry:
 			break;
 		case spv::ExecutionModelFragment:
-			//registerExecutionMode( spv::ExecutionModeOriginLowerLeft );
 			registerExecutionMode( spv::ExecutionModeOriginUpperLeft );
 			break;
 		case spv::ExecutionModelGLCompute:

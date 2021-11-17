@@ -58,11 +58,11 @@ namespace sdw
 		, m_dataVar{ var::makeVariable( getNextVarId( writer )
 			, m_ssboType->getMember( m_name + "Data" ).type
 			, m_name + "Data"
-			, var::Flag::eUniform ) }
+			, var::Flag::eStorageBuffer ) }
 		, m_ssboVar{ var::makeVariable( getNextVarId( writer )
 			, m_ssboType
 			, m_name + "Inst"
-			, var::Flag::eUniform ) }
+			, var::Flag::eStorageBuffer ) }
 		, m_enabled{ enabled }
 	{
 		if ( isEnabled() )
@@ -93,11 +93,11 @@ namespace sdw
 		, m_dataVar{ var::makeVariable( getNextVarId( writer )
 			, m_ssboType->getMember( m_name + "Data" ).type
 			, m_name + "Data"
-			, var::Flag::eUniform ) }
+			, var::Flag::eStorageBuffer ) }
 		, m_ssboVar{ var::makeVariable( getNextVarId( writer )
 			, m_ssboType
 			, m_name + "Inst"
-			, var::Flag::eUniform ) }
+			, var::Flag::eStorageBuffer ) }
 		, m_enabled{ enabled }
 	{
 		if ( isEnabled() )

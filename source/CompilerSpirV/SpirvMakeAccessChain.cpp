@@ -378,7 +378,7 @@ namespace spirv
 						m_result = m_module.loadVariable( ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock );
 						m_result = m_module.registerVariable( var->getName()
 							, var->getBuiltin()
-							, getStorageClass( var )
+							, getStorageClass( m_module.getVersion(), var )
 							, false
 							, false
 							, false
@@ -390,7 +390,7 @@ namespace spirv
 					{
 						m_result = m_module.registerVariable( var->getName()
 							, var->getBuiltin()
-							, getStorageClass( var )
+							, getStorageClass( m_module.getVersion(), var )
 							, false
 							, false
 							, var->isOutputParam()
@@ -556,7 +556,7 @@ namespace spirv
 			// Register the type pointed to.
 			auto rawTypeId = module.registerType( expr->getType() );
 			// Register the pointer to the type.
-			auto storageClass = getStorageClass( var );
+			auto storageClass = getStorageClass( module.getVersion(), var );
 
 			auto pointerTypeId = module.registerPointerType( rawTypeId
 				, storageClass );
