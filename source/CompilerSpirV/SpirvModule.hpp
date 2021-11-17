@@ -35,6 +35,11 @@ namespace spirv
 		SDWSPIRV_API Module( Header const & header
 			, InstructionList instructions );
 
+		uint32_t getVersion()const
+		{
+			return m_version;
+		}
+
 		SDWSPIRV_API static Module deserialize( UInt32List const & spirv );
 		SDWSPIRV_API static std::vector< uint32_t > serialize( spirv::Module const & module );
 		SDWSPIRV_API static std::string write( spirv::Module const & module
@@ -216,6 +221,7 @@ namespace spirv
 			, ValueId initialiser );
 
 	private:
+		uint32_t m_version;
 		ast::type::TypesCache * m_cache;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
@@ -241,6 +247,7 @@ namespace spirv
 		InstructionList m_pendingExecutionModes;
 		std::map< spv::Id, IdSet > m_varDecorations;
 		std::map< spv::Id, IdSet > m_mbrDecorations;
+		ValueIdSet m_entryPointIO;
 	};
 }
 

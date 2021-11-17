@@ -296,7 +296,8 @@ namespace spirv
 		}
 	}
 
-	spv::StorageClass getStorageClass( ast::var::VariablePtr var )
+	spv::StorageClass getStorageClass( uint32_t version
+		 , ast::var::VariablePtr var )
 	{
 		var = getOutermost( var );
 		spv::StorageClass result = spv::StorageClassFunction;
@@ -305,7 +306,26 @@ namespace spirv
 		{
 			result = spv::StorageClassFunction;
 		}
-		if ( var->isUniform() )
+
+		if ( var->isStorageBuffer() )
+		{
+			if ( version >= v1_5 )
+			{
+				result = spv::StorageClassStorageBuffer;
+			}
+			else
+			{
+				if ( var->isConstant() )
+				{
+					result = spv::StorageClassUniformConstant;
+				}
+				else
+				{
+					result = spv::StorageClassUniform;
+				}
+			}
+		}
+		else if ( var->isUniform() )
 		{
 			if ( var->isConstant() )
 			{
@@ -599,7 +619,7 @@ namespace spirv
 				auto lhsOutermost = ast::getOutermostExpr( lhsOuter );
 				assert( lhsOutermost->getKind() == ast::expr::Kind::eIdentifier );
 				auto pointerTypeId = m_module.registerPointerType( typeId
-					, getStorageClass( static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
+					, getStorageClass( m_module.getVersion(), static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
 				//   Create the access chain.
 				auto intermediateId = ValueId{ m_module.getIntermediateResult(), pointerTypeId.type };
 				m_currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
@@ -1458,7 +1478,7 @@ namespace spirv
 				auto name = adaptName( var->getName() );
 				auto varInfo = m_module.registerVariable( name
 					, var->getBuiltin()
-					, getStorageClass( var )
+					, getStorageClass( m_module.getVersion(), var )
 					, false
 					, false
 					, var->isOutputParam()
@@ -1563,7 +1583,7 @@ namespace spirv
 		, ast::type::TypePtr type )
 	{
 		bool result{};
-		spv::StorageClass storageClass{ getStorageClass( var ) };
+		spv::StorageClass storageClass{ getStorageClass( m_module.getVersion(), var ) };
 
 		if ( allLiterals
 			&& !var->isLoopVar()

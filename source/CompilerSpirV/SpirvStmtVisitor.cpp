@@ -638,14 +638,6 @@ namespace spirv
 			, ast::var::VariableList{ type->begin(), type->end() } );
 		m_currentBlock = m_result.newBlock();
 
-		if ( stmt->isEntryPoint() )
-		{
-			m_result.registerEntryPoint( ValueId{ m_function->declaration.front()->resultId.value() }
-				, stmt->getName()
-				, m_inputs
-				, m_outputs );
-		}
-
 		auto itFunction = m_actions.find( stmt->getName() );
 
 		for ( auto & param : *stmt->getType() )
@@ -685,6 +677,14 @@ namespace spirv
 		}
 
 		visitContainerStmt( stmt );
+
+		if ( stmt->isEntryPoint() )
+		{
+			m_result.registerEntryPoint( ValueId{ m_function->declaration.front()->resultId.value() }
+				, stmt->getName()
+				, m_inputs
+				, m_outputs );
+		}
 
 		if ( !m_currentBlock.blockEnd )
 		{
@@ -909,7 +909,9 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getSsboName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, spv::DecorationBufferBlock );
+			, ( m_result.getVersion() >= v1_5
+				? spv::DecorationBlock
+				: spv::DecorationBufferBlock ) );
 	}
 
 	void StmtVisitor::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
@@ -918,7 +920,9 @@ namespace spirv
 		m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
-			, spv::DecorationBufferBlock );
+			, ( m_result.getVersion() >= v1_5
+				? spv::DecorationBlock
+				: spv::DecorationBufferBlock ) );
 	}
 
 	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
@@ -1086,7 +1090,7 @@ namespace spirv
 		{
 			auto outer = m_result.registerVariable( var->getOuter()->getName()
 				, var->getOuter()->getBuiltin()
-				, getStorageClass( var )
+				, getStorageClass( m_result.getVersion(), var )
 				, var->isAlias()
 				, var->isParam()
 				, var->isOutputParam()
@@ -1099,7 +1103,7 @@ namespace spirv
 
 		return m_result.registerVariable( var->getName()
 			, var->getBuiltin()
-			, getStorageClass( var )
+			, getStorageClass( m_result.getVersion(), var )
 			, var->isAlias()
 			, var->isParam()
 			, var->isOutputParam()
