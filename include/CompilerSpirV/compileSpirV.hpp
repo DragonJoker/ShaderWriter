@@ -6,6 +6,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
 
+#include <set>
 #include <vector>
 
 #if defined( CompilerSpirV_Static )
@@ -44,6 +45,16 @@ namespace spirv
 		std::string name{};
 	};
 
+	struct CompSpirVExtension
+	{
+		bool operator()( SpirVExtension const & lhs, SpirVExtension const & rhs )const
+		{
+			return lhs.name < rhs.name;
+		}
+	};
+
+	using SpirVExtensionSet = std::set< SpirVExtension, CompSpirVExtension >;
+
 #define makeSpirVExtension( reqVersion, specVersion, coreInVersion, name )\
 	static SpirVExtension const name{ reqVersion, specVersion, coreInVersion, "SPV_"#name }
 
@@ -63,10 +74,10 @@ namespace spirv
 	struct SpirVConfig
 	{
 		uint32_t specVersion{ v1_1 };
-		std::vector< SpirVExtension > availableExtensions{};
+		SpirVExtensionSet * availableExtensions{};
 		// Filled by writeSpirv/serialiseSpirv
 		uint32_t requiredVersion{ vUnk };
-		std::vector< SpirVExtension > requiredExtensions{};
+		SpirVExtensionSet requiredExtensions{};
 	};
 
 	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader

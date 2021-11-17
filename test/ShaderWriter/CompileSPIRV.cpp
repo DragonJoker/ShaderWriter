@@ -1250,6 +1250,12 @@ namespace test
 		return false;
 	}
 
+	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return 0u;
+	}
+
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{

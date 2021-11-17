@@ -133,34 +133,33 @@ namespace spirv
 		ast::var::VariableList m_processed;
 	};
 
+	class Module;
+
 	struct ModuleConfig
 	{
-		ModuleConfig( ast::type::TypesCache & cache
+		ModuleConfig( SpirVConfig & pspirvConfig
+			, ast::type::TypesCache & cache
 			, ast::ShaderStage pstage
 			, uint32_t pnextVarId
 			, uint32_t paliasId )
 			: nextVarId{ pnextVarId }
 			, aliasId{ paliasId }
 			, stage{ pstage }
+			, spirvConfig{ pspirvConfig }
 			, inputs{ cache, stage, true, nextVarId }
 			, outputs{ cache, stage, false, nextVarId }
 		{
 		}
 
-		struct CompSpirVExtension
-		{
-			bool operator()( SpirVExtension const & lhs, SpirVExtension const & rhs )const
-			{
-				return lhs.name < rhs.name;
-			}
-		};
-
 		uint32_t nextVarId;
 		uint32_t aliasId;
 		ast::ShaderStage stage;
-		std::set< spv::Capability > requiredCapabilities;
-		std::set< SpirVExtension, CompSpirVExtension > requiredExtensions;
+		
 		std::set< spv::ExecutionMode > executionModes;
+
+		void registerCapability( spv::Capability capability );
+		void registerExtension( SpirVExtension extension );
+		void fillModule( Module & module )const;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
 		ast::stmt::ContainerPtr declare();
@@ -360,8 +359,11 @@ namespace spirv
 			, bool isEntryPoint );
 
 	private:
+		SpirVConfig & spirvConfig;
 		IOMapping inputs;
 		IOMapping outputs;
+		std::set< spv::Capability > requiredCapabilities;
+		SpirVExtensionSet requiredExtensions;
 	};
 
 	struct IntrinsicConfig

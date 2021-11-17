@@ -30,7 +30,8 @@ namespace spirv
 				, ssaData );
 			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 				, ssaStatements.get() );
-			ModuleConfig moduleConfig{ shader.getTypesCache()
+			ModuleConfig moduleConfig{ config
+				, shader.getTypesCache()
 				, shader.getType()
 				, ssaData.nextVarId
 				, ssaData.aliasId };

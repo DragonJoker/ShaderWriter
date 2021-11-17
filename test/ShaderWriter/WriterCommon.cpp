@@ -382,33 +382,37 @@ namespace test
 #endif
 		}
 
-		constexpr uint32_t makeVersion( uint8_t major, uint8_t minor )
+		uint32_t getVkMajor( uint32_t vkVersion )
 		{
-			return ( uint32_t( major ) << 16u )
-				| ( uint32_t( minor ) << 8u );
+			return ( ( vkVersion >> 22u ) & 0x7FU );
 		}
 
-		uint32_t getMajor( uint32_t spvVersion )
+		uint32_t getVkMinor( uint32_t vkVersion )
+		{
+			return ( ( vkVersion >> 12u ) & 0x3FFU );
+		}
+
+		std::string printVkVersion( uint32_t vkVersion )
+		{
+			std::stringstream stream;
+			stream << getVkMajor( vkVersion ) << "." << getVkMinor( vkVersion );
+			return stream.str();
+		}
+
+		uint32_t getSpvMajor( uint32_t spvVersion )
 		{
 			return ( spvVersion >> 16u );
 		}
 
-		uint32_t getMinor( uint32_t spvVersion )
+		uint32_t getSpvMinor( uint32_t spvVersion )
 		{
 			return ( ( spvVersion >> 8u ) & 0xFF );
-		}
-
-		std::string printVkVersion( uint32_t spvVersion )
-		{
-			std::stringstream stream;
-			stream << VK_VERSION_MAJOR( spvVersion ) << "." << VK_VERSION_MINOR( spvVersion );
-			return stream.str();
 		}
 
 		std::string printSpvVersion( uint32_t spvVersion )
 		{
 			std::stringstream stream;
-			stream << getMajor( spvVersion ) << "." << getMinor( spvVersion );
+			stream << getSpvMajor( spvVersion ) << "." << getSpvMinor( spvVersion );
 			return stream.str();
 		}
 
@@ -423,12 +427,18 @@ namespace test
 			if ( compilers.spirV
 				&& testCounts.isInitialised( infoIndex ) )
 			{
-				auto validate = [&]()
+				auto validate = [&]( bool availableExtensions )
 				{
 					try
 					{
+						spirv::SpirVExtensionSet extensions;
 						spirv::SpirVConfig config{};
 						config.specVersion = testCounts.getSpirVVersion( infoIndex );
+
+						if ( availableExtensions )
+						{
+							config.availableExtensions = &extensions;
+						}
 
 						auto textSpirv = spirv::writeSpirv( shader, config );
 
@@ -499,7 +509,8 @@ namespace test
 				testCounts.incIndent();
 				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-				checkNoThrow( validate() );
+				checkNoThrow( validate( false ) );
+				checkNoThrow( validate( true ) );
 				testCounts.decIndent();
 			}
 
@@ -532,7 +543,7 @@ namespace test
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
-			for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
+			for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
 			{
 				testWriteSpirVOnIndex( shader
 					, specialisation
@@ -787,7 +798,7 @@ namespace test
 		testCounts.incIndent();
 		testCounts << "Validate shaders" << endl;
 
-		for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
+		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
 		{
 			validateShadersOnIndex( shaders
 				, testCounts
@@ -805,7 +816,7 @@ namespace test
 		testCounts.incIndent();
 		testCounts << "Validate shader" << endl;
 
-		for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
+		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
 		{
 			validateShaderOnIndex( shader
 				, testCounts
