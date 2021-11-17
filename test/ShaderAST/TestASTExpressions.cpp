@@ -16,7 +16,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eBool );
 			check( expr->getValue< ast::expr::LiteralType::eBool >() == false );
-			testCounts.streams.cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
@@ -26,7 +26,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eFloat );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eFloat );
 			check( expr->getValue< ast::expr::LiteralType::eFloat >() == 1.0f );
-			testCounts.streams.cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
@@ -36,7 +36,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eInt );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eInt );
 			check( expr->getValue< ast::expr::LiteralType::eInt >() == 10 );
-			testCounts.streams.cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
@@ -46,7 +46,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eUInt );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eUInt );
 			check( expr->getValue< ast::expr::LiteralType::eUInt >() == 10u );
-			testCounts.streams.cout << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -61,7 +61,7 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eInt );
 		check( expr->getVariable()->getName() == "var0" );
 		check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprIdentifier: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprIdentifier: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -85,7 +85,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprAdd: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprAdd: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -109,7 +109,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -133,7 +133,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprTimes: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprTimes: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -157,7 +157,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprDivide: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprDivide: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -181,7 +181,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprBitAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprBitAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -199,7 +199,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprBitNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprBitNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -223,7 +223,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprBitOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprBitOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -247,7 +247,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprBitXor: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprBitXor: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -271,7 +271,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprLogAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLogAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -290,7 +290,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprLogNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLogNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -314,7 +314,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprLogOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLogOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -338,7 +338,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprModulo: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprModulo: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -362,7 +362,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprLShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -386,7 +386,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprRShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprRShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -410,7 +410,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprComma: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprComma: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -434,7 +434,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprArrayAccess: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprArrayAccess: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -458,7 +458,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -482,7 +482,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprAddAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprAddAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -506,7 +506,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprDivideAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprDivideAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -530,7 +530,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprMinusAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprMinusAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -554,7 +554,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprTimesAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprTimesAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -578,7 +578,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprModuloAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprModuloAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -602,7 +602,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprLShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -626,7 +626,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprRShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprRShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -650,7 +650,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprAndAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprAndAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -674,7 +674,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprOrAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprOrAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -698,7 +698,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprXorAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprXorAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -722,7 +722,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -746,7 +746,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprGreater: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprGreater: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -770,7 +770,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprGreaterEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprGreaterEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -794,7 +794,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprLess: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLess: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -818,7 +818,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprLessEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprLessEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -842,7 +842,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprNotEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprNotEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -860,7 +860,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprPostDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprPostDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -878,7 +878,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprPostIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprPostIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -896,7 +896,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprPreDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprPreDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -914,7 +914,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprPreIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprPreIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -932,7 +932,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprUnaryMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprUnaryMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -950,7 +950,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprUnaryPlus: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprUnaryPlus: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -968,7 +968,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
-		testCounts.streams.cout << "ExprCast: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprCast: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -989,7 +989,7 @@ namespace
 		check( expr->getComponent() == ast::type::Kind::eFloat );
 
 		check( expr->getArgList().size() == 2u );
-		testCounts.streams.cout << "ExprCompositeConstruct: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprCompositeConstruct: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -1011,7 +1011,7 @@ namespace
 			check( expr->getFn()->getVariable()->getName() == "func" );
 
 			check( expr->getArgList().empty() );
-			testCounts.streams.cout << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
@@ -1037,7 +1037,7 @@ namespace
 			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt );
 			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt );
 			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-			testCounts.streams.cout << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
@@ -1070,7 +1070,7 @@ namespace
 			check( expr->getArgList()[1]->getType()->getKind() == ast::type::Kind::eFloat );
 			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getLiteralType() == ast::expr::LiteralType::eFloat );
 			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getValue< ast::expr::LiteralType::eFloat >() == 1.0f );
-			testCounts.streams.cout << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1092,7 +1092,7 @@ namespace
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
 			check( expr->getArgList().back()->getType()->getKind() == ast::type::Kind::eInt );
-			testCounts.streams.cout << "ExprIntrinsicCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprIntrinsicCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1115,7 +1115,7 @@ namespace
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
 			check( expr->getArgList().back()->getType() == cache.getImage( config ) );
-			testCounts.streams.cout << "ExprImageAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprImageAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1138,7 +1138,7 @@ namespace
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
 			check( expr->getArgList().back()->getType() == cache.getSampledImage( config ) );
-			testCounts.streams.cout << "ExprTextureAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprTextureAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1163,7 +1163,7 @@ namespace
 			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt );
 
 			check( expr->getInitialisers().empty() );
-			testCounts.streams.cout << "ExprAggrInit (empty): " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprAggrInit (empty): " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
@@ -1197,7 +1197,7 @@ namespace
 				v += 10;
 			}
 
-			testCounts.streams.cout << "ExprAggrInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+			testCounts << "ExprAggrInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1221,7 +1221,7 @@ namespace
 		check( expr->getInitialiser()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -1243,7 +1243,7 @@ namespace
 
 		check( expr->getMemberIndex() == 0u );
 		check( expr->getMemberFlags() == uint32_t( ast::var::Flag::eShaderInput ) );
-		testCounts.streams.cout << "ExprMbrSelect: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprMbrSelect: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -1273,7 +1273,7 @@ namespace
 		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprQuestion: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprQuestion: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -1291,7 +1291,7 @@ namespace
 		check( expr->getLabel()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getLiteralType() == ast::expr::LiteralType::eInt );
 		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
-		testCounts.streams.cout << "ExprSwitchCase: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprSwitchCase: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 
@@ -1309,7 +1309,7 @@ namespace
 		check( expr->getValue()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getName() == "lhs" );
-		testCounts.streams.cout << "ExprSwitchTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << std::endl;
+		testCounts << "ExprSwitchTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
 }

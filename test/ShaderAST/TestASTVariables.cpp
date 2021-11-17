@@ -44,7 +44,7 @@ namespace
 		}
 
 		ast::var::Variable dummyVar{ ast::EntityName{ ++testCounts.nextVarId, "dummyVar" }, type };
-		testCounts.streams.cout << printVariable( dummyVar ) << std::endl;
+		testCounts << printVariable( dummyVar ) << test::endl;
 		check( getNonArrayKind( dummyVar.getType() ) == kind );
 		check( getArraySize( dummyVar.getType() ) == arraySize );
 		check( dummyVar.getName() == "dummyVar" );

@@ -418,16 +418,16 @@ namespace test
 						{
 							if ( errorCount )
 							{
-								run->testCount->streams.cout << "********************************************************************************" << std::endl;
-								run->testCount->streams.cout << run->name << " ended with some failures." << std::endl;
-								run->testCount->streams.cout << "Total Checks count: " << result.totalCount << std::endl;
-								run->testCount->streams.cout << "Failed checks count: " << result.errorCount << std::endl;
+								( *run->testCount ) << "********************************************************************************" << endl;
+								( *run->testCount ) << run->name << " ended with some failures." << endl;
+								( *run->testCount ) << "Total Checks count: " << result.totalCount << endl;
+								( *run->testCount ) << "Failed checks count: " << result.errorCount << endl;
 							}
 							else
 							{
-								run->testCount->streams.cout << "********************************************************************************" << std::endl;
-								run->testCount->streams.cout << run->name << " ended cleanly." << std::endl;
-								run->testCount->streams.cout << "Total Checks count: " << result.totalCount << std::endl;
+								( *run->testCount ) << "********************************************************************************" << endl;
+								( *run->testCount ) << run->name << " ended cleanly." << endl;
+								( *run->testCount ) << "Total Checks count: " << result.totalCount << endl;
 							}
 						}
 
@@ -499,14 +499,14 @@ namespace test
 	{
 		testCounts.testName = name;
 		testCounts.curTestErrors = 0u;
-		testCounts.streams.cout << "TEST: " << testCounts.testName << std::endl;
+		testCounts << "TEST: " << testCounts.testName << endl;
 	}
 
 	void endTest( TestCounts & testCounts )
 	{
 		if ( testCounts.curTestErrors )
 		{
-			testCounts.streams.cout << "********************************************************************************" << std::endl;
+			testCounts << "********************************************************************************" << endl;
 		}
 	}
 
@@ -517,11 +517,11 @@ namespace test
 	{
 		if ( !testCounts.curTestErrors )
 		{
-			testCounts.streams.cout << "********************************************************************************" << std::endl;
+			testCounts << "********************************************************************************" << endl;
 		}
 
 		testCounts.incErr();
-		testCounts.streams.cout << function << ":" << line << " - " << error << std::endl;
+		testCounts << function << ":" << line << " - " << error << endl;
 	}
 
 	//*********************************************************************************************

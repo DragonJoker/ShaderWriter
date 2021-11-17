@@ -40,6 +40,7 @@ namespace test
 			TestCounts( test::TestSuite & suite );
 
 			bool isInitialised( uint32_t infoIndex )const;
+			uint32_t getVulkanVersion( uint32_t infoIndex )const;
 			uint32_t getSpirVVersion( uint32_t infoIndex )const;
 			uint32_t getSpirvInfosSize()const;
 
