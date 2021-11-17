@@ -62,16 +62,82 @@ namespace test
 		TestStringStreams streams;
 		uint32_t nextVarId{};
 
+		void incIndent()
+		{
+			indent += 2;
+		}
+
+		void decIndent()
+		{
+			if ( indent >= 2 )
+			{
+				indent -= 2;
+			}
+			else
+			{
+				indent = 0;
+			}
+		}
+
 	private:
 		virtual void doInitialise(){}
 		virtual void doCleanup(){}
 
+		void print( std::string const & text )
+		{
+			std::stringstream stream{ text };
+			std::string sep;
+
+			for ( std::string line; std::getline( stream, line ); )
+			{
+				if ( line.empty() )
+				{
+					streams.cout << std::endl;
+					newLine = true;
+				}
+				else
+				{
+					if ( newLine )
+					{
+						streams.cout << getIndent();
+					}
+
+					streams.cout << sep << line;
+					newLine = false;
+				}
+
+				sep = "\n" + getIndent();
+			}
+		}
+
+		std::string getIndent()const
+		{
+			return std::string( size_t( indent ), ' ' );
+		}
+
 	private:
+		template< typename T >
+		friend TestCounts & operator<<( TestCounts & counts, T const & rhs );
+
+		uint32_t indent{};
+		bool newLine{ true };
 		TestSuite & suite;
 		TestResults result{};
 		std::atomic_bool m_initialised{ false };
 		std::atomic_bool m_cleaned{ true };
 	};
+
+	static std::string_view endl{ "\n" };
+
+	template< typename T >
+	TestCounts & operator<<( TestCounts & counts, T const & rhs )
+	{
+		std::stringstream stream;
+		stream.imbue( std::locale{ "C" } );
+		stream << rhs;
+		counts.print( stream.str() );
+		return counts;
+	}
 
 	using TestCountsPtr = std::unique_ptr< TestCounts >;
 
@@ -212,11 +278,11 @@ namespace test
 	}\
 	catch ( std::exception & exc )\
 	{\
-		testCounts.streams.cout << testCounts.testName << " Failed: " << exc.what() << std::endl;\
+		testCounts << testCounts.testName << " Failed: " << exc.what() << test::endl;\
 	}\
 	catch ( ... )\
 	{\
-		testCounts.streams.cout << testCounts.testName << " Failed: Unknown unhandled exception" << std::endl;\
+		testCounts << testCounts.testName << " Failed: Unknown unhandled exception" << test::endl;\
 	}\
 	test::endTest( testCounts );
 

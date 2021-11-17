@@ -131,17 +131,17 @@ namespace test
 			}
 			catch ( spirv_cross::CompilerError & exc )
 			{
-				testCounts.streams.cout << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << std::endl;
+				testCounts << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << endl;
 				throw;
 			}
 			catch ( std::exception & exc )
 			{
-				testCounts.streams.cout << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << std::endl;
+				testCounts << "SPIRV-Cross(" << language << "), shader compilation failed: " << exc.what() << endl;
 				throw;
 			}
 			catch ( ... )
 			{
-				testCounts.streams.cout << "SPIRV-Cross(" << language << "), shader compilation failed: Unknown error" << std::endl;
+				testCounts << "SPIRV-Cross(" << language << "), shader compilation failed: Unknown error" << endl;
 				throw;
 			}
 
@@ -176,10 +176,10 @@ namespace test
 		{
 			if ( force )
 			{
-				testCounts.streams.cout << "////////////////////////////////////////////////////////////" << std::endl;
-				testCounts.streams.cout << "// " << name << std::endl;
-				testCounts.streams.cout << "////////////////////////////////////////////////////////////" << std::endl;
-				testCounts.streams.cout << std::endl << shader << std::endl;
+				testCounts << "////////////////////////////////////////////////////////////" << endl;
+				testCounts << "// " << name << endl;
+				testCounts << "////////////////////////////////////////////////////////////" << endl;
+				testCounts << endl << shader << endl;
 			}
 		}
 
@@ -197,8 +197,8 @@ namespace test
 
 			if ( !errors.empty() )
 			{
-				testCounts.streams.cout << "VkShaderModule creation raised messages, for CompilerSpv output:" << std::endl;
-				testCounts.streams.cout << errors << std::endl;
+				testCounts << "VkShaderModule creation raised messages, for CompilerSpv output:" << endl;
+				testCounts << errors << endl;
 				result = false;
 
 				if ( checkRef )
@@ -273,13 +273,14 @@ namespace test
 
 					if ( !errors.empty() )
 					{
-						testCounts.streams.cout << "VkShaderModule creation raised messages, for glslang output:" << std::endl;
-						testCounts.streams.cout << errors << std::endl;
+						testCounts << "VkShaderModule creation raised messages, for glslang output:" << endl;
+						testCounts << errors << endl;
 					}
 				}
 				catch ( std::exception & exc )
 				{
-					testCounts.streams.cout << exc.what() << std::endl;
+					testCounts << exc.what() << endl;
+					throw;
 				}
 
 #endif
@@ -331,7 +332,7 @@ namespace test
 					if ( !isCompiled )
 					{
 						displayShader( "GLSL", glsl, testCounts, true );
-						testCounts.streams.cout << errors << std::endl;
+						testCounts << errors << endl;
 					}
 					else
 					{
@@ -368,7 +369,7 @@ namespace test
 					if ( !isCompiled )
 					{
 						displayShader( "HLSL", hlsl, testCounts, true );
-						testCounts.streams.cout << errors << std::endl;
+						testCounts << errors << endl;
 					}
 					else
 					{
@@ -379,6 +380,36 @@ namespace test
 			}
 
 #endif
+		}
+
+		constexpr uint32_t makeVersion( uint8_t major, uint8_t minor )
+		{
+			return ( uint32_t( major ) << 16u )
+				| ( uint32_t( minor ) << 8u );
+		}
+
+		uint32_t getMajor( uint32_t spvVersion )
+		{
+			return ( spvVersion >> 16u );
+		}
+
+		uint32_t getMinor( uint32_t spvVersion )
+		{
+			return ( ( spvVersion >> 8u ) & 0xFF );
+		}
+
+		std::string printVkVersion( uint32_t spvVersion )
+		{
+			std::stringstream stream;
+			stream << VK_VERSION_MAJOR( spvVersion ) << "." << VK_VERSION_MINOR( spvVersion );
+			return stream.str();
+		}
+
+		std::string printSpvVersion( uint32_t spvVersion )
+		{
+			std::stringstream stream;
+			stream << getMajor( spvVersion ) << "." << getMinor( spvVersion );
+			return stream.str();
 		}
 
 		void testWriteSpirVOnIndex( ::ast::Shader const & shader
@@ -403,7 +434,7 @@ namespace test
 
 						if ( textSpirv.empty() )
 						{
-							testCounts.streams.cout << "Empty shader" << std::endl;
+							testCounts << "Empty shader" << endl;
 							return;
 						}
 
@@ -444,11 +475,12 @@ namespace test
 								&& text.find( "Unsupported execution model" ) == std::string::npos
 								&& text.find( "No function currently in scope" ) == std::string::npos
 								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
-								&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos )
+								&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos
+								&& text.find( "Cannot resolve expression type" ) == std::string::npos )
 							{
 								failure( "testWriteSpirV" );
 								displayShader( "SPIR-V", textSpirv, testCounts, true );
-								testCounts.streams.cout << "spirv_cross exception: " << exc.what() << std::endl;
+								testCounts << "spirv_cross exception: " << text << endl;
 								throw;
 							}
 						}
@@ -456,7 +488,7 @@ namespace test
 						{
 							failure( "testWriteSpirV" );
 							displayShader( "SPIR-V", textSpirv, testCounts, true );
-							testCounts.streams.cout << "std exception: " << exc.what() << std::endl;
+							testCounts << "std exception: " << exc.what() << endl;
 							throw;
 						}
 					}
@@ -464,40 +496,14 @@ namespace test
 					{
 					}
 				};
+				testCounts.incIndent();
+				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
+					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
 				checkNoThrow( validate() );
+				testCounts.decIndent();
 			}
 
 #endif
-		}
-
-		constexpr uint32_t makeVersion( uint8_t major, uint8_t minor )
-		{
-			return ( uint32_t( major ) << 16u )
-				| ( uint32_t( minor ) << 8u );
-		}
-
-		uint32_t getMajor( uint32_t spvVersion )
-		{
-			return ( spvVersion >> 16u );
-		}
-
-		uint32_t getMinor( uint32_t spvVersion )
-		{
-			return ( ( spvVersion >> 8u ) & 0xFF );
-		}
-
-		std::string printVkVersion( uint32_t spvVersion )
-		{
-			std::stringstream stream;
-			stream << VK_VERSION_MAJOR( spvVersion ) << "." << VK_VERSION_MINOR( spvVersion );
-			return stream.str();
-		}
-
-		std::string printSpvVersion( uint32_t spvVersion )
-		{
-			std::stringstream stream;
-			stream << getMajor( spvVersion ) << "." << getMinor( spvVersion );
-			return stream.str();
 		}
 
 		std::string printStage( ast::ShaderStage stage )
@@ -526,12 +532,8 @@ namespace test
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
-			testCounts.streams.cout << "  " << printStage( shader.getType() ) << " stage" << std::endl;
-
 			for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
 			{
-				testCounts.streams.cout << "    Vulkan " << printVkVersion( retrieveVulkanVersion( testCounts, infoIndex ) ) << " - ";
-				testCounts.streams.cout << "SPIR-V " << printSpvVersion( retrieveSPIRVVersion( testCounts, infoIndex ) ) << std::endl;
 				testWriteSpirVOnIndex( shader
 					, specialisation
 					, compilers
@@ -569,6 +571,9 @@ namespace test
 			if ( compilers.spirV
 				&& testCounts.isInitialised( infoIndex ) )
 			{
+				testCounts.incIndent();
+				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
+					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
 				ast::vk::ProgramPipeline program{ shaders };
 				std::string errors;
 				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
@@ -580,7 +585,7 @@ namespace test
 				{
 					if ( !errors.empty() )
 					{
-						testCounts.streams.cout << errors << std::endl;
+						testCounts << errors << endl;
 					}
 
 					auto validate = [&]( ast::Shader const & shader )
@@ -609,6 +614,8 @@ namespace test
 						checkNoThrow( validate( shader ) );
 					}
 				}
+
+				testCounts.decIndent();
 			}
 #endif
 		}
@@ -622,6 +629,9 @@ namespace test
 			if ( compilers.spirV
 				&& testCounts.isInitialised( infoIndex ) )
 			{
+				testCounts.incIndent();
+				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
+					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
 				ast::vk::ProgramPipeline program{ shader };
 				std::string errors;
 				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
@@ -633,7 +643,7 @@ namespace test
 				{
 					if ( !errors.empty() )
 					{
-						testCounts.streams.cout << errors << std::endl;
+						testCounts << errors << endl;
 					}
 
 					auto validate = [&]()
@@ -656,7 +666,7 @@ namespace test
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 								, ast::SpecialisationInfo{}
-						, getDefaultGlslConfig() ) );
+								, getDefaultGlslConfig() ) );
 						displayShader( "glslang SPIR-V"
 							, spirv::displaySpirv( glslangSpirv )
 							, testCounts
@@ -664,6 +674,8 @@ namespace test
 					};
 					checkNoThrow( validate() );
 				}
+
+				testCounts.decIndent();
 			}
 #endif
 		}
@@ -706,6 +718,18 @@ namespace test
 			return retrieveIsInitialised( *this, infoIndex );
 		}
 
+		uint32_t TestCounts::getVulkanVersion( uint32_t infoIndex )const
+		{
+			uint32_t ret{};
+
+			if ( spirv )
+			{
+				ret = retrieveVulkanVersion( *this, infoIndex );
+			}
+
+			return ret;
+		}
+
 		uint32_t TestCounts::getSpirVVersion( uint32_t infoIndex )const
 		{
 			uint32_t ret{ 0x00010300 };
@@ -730,11 +754,15 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
+		testCounts.incIndent();
+		testCounts << "Write shader - " << printStage( shader.getType() ) << " stage" << endl;
+
 		auto specialisation = getSpecialisationInfo( shader );
 		testWriteDebug( shader, specialisation, compilers, testCounts );
 		testWriteSpirV( shader, specialisation, compilers, testCounts );
 		testWriteGlsl( shader, specialisation, compilers, testCounts );
 		testWriteHlsl( shader, specialisation, compilers, testCounts );
+		testCounts.decIndent();
 	}
 
 	void writeShader( sdw::ShaderWriter const & writer
@@ -756,6 +784,9 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
+		testCounts.incIndent();
+		testCounts << "Validate shaders" << endl;
+
 		for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
 		{
 			validateShadersOnIndex( shaders
@@ -763,12 +794,17 @@ namespace test
 				, infoIndex
 				, compilers );
 		}
+
+		testCounts.decIndent();
 	}
 
 	void validateShader( ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
+		testCounts.incIndent();
+		testCounts << "Validate shader" << endl;
+
 		for ( uint32_t infoIndex = 0u; infoIndex < uint32_t( testCounts.getSpirvInfosSize() ); ++infoIndex )
 		{
 			validateShaderOnIndex( shader
@@ -776,5 +812,7 @@ namespace test
 				, infoIndex
 				, compilers );
 		}
+
+		testCounts.decIndent();
 	}
 }

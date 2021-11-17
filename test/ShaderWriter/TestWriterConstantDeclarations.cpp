@@ -1,6 +1,10 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#pragma warning( disable:5245 )
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma clang diagnostic ignored "-Wunused-member-function"
+
 namespace
 {
 	void dummyMain( sdw::FragmentWriter & writer )

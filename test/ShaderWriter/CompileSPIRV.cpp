@@ -34,12 +34,15 @@ namespace test
 
 		struct Info
 		{
-			Info( uint32_t papiVersion )
+			Info( uint32_t papiVersion
+				, uint32_t pspvVersion )
 				: apiVersion{ papiVersion }
+				, spvVersion{ pspvVersion }
 			{
 			}
 
 			uint32_t apiVersion;
+			uint32_t spvVersion;
 			std::vector< const char * > instance_layer_names{};
 			std::vector< const char * > instance_extension_names{};
 			std::vector< LayerProperties > instance_layer_properties{};
@@ -551,22 +554,39 @@ namespace test
 		{
 			SPIRVContext()
 			{
-				infos[0] = initialiseInfo( VK_MAKE_API_VERSION( 0, 1, 0, 0 ) );
-				infos[1] = initialiseInfo( VK_MAKE_API_VERSION( 0, 1, 1, 0 ) );
-				infos[2] = initialiseInfo( VK_MAKE_API_VERSION( 0, 1, 2, 0 ) );
+				static constexpr uint32_t spv1_0 = 0x00010000u;
+				static constexpr uint32_t spv1_3 = 0x00010300u;
+				static constexpr uint32_t spv1_5 = 0x00010500u;
+
+				static constexpr uint32_t vk1_0 = VK_MAKE_API_VERSION( 0, 1, 0, 0 );
+				static constexpr uint32_t vk1_1 = VK_MAKE_API_VERSION( 0, 1, 1, 0 );
+				static constexpr uint32_t vk1_2 = VK_MAKE_API_VERSION( 0, 1, 2, 0 );
+
+				infos.push_back( initialiseInfo( vk1_0, spv1_0 ) );
+
+				infos.push_back( initialiseInfo( vk1_1, spv1_0 ) );
+				infos.push_back( initialiseInfo( vk1_1, spv1_3 ) );
+
+				infos.push_back( initialiseInfo( vk1_2, spv1_0 ) );
+				infos.push_back( initialiseInfo( vk1_2, spv1_3 ) );
+				infos.push_back( initialiseInfo( vk1_2, spv1_5 ) );
 			}
 
 			~SPIRVContext()
 			{
 				for ( auto & info : infos )
 				{
-					vkDestroyDevice( info->device, nullptr );
+					if ( info )
+					{
+						vkDestroyDevice( info->device, nullptr );
+					}
 				}
 			}
 
-			static InfoPtr initialiseInfo( uint32_t apiVersion )
+			static InfoPtr initialiseInfo( uint32_t apiVersion
+				, uint32_t spvVersion )
 			{
-				auto result = std::make_unique< Info >( apiVersion );
+				auto result = std::make_unique< Info >( apiVersion, spvVersion );
 
 				if ( createInstance( *result ) )
 				{
@@ -583,14 +603,15 @@ namespace test
 				return result;
 			}
 
-			std::array< InfoPtr, 3u > infos;
+			std::vector< InfoPtr > infos;
 		};
 	}
 
 	bool retrieveIsInitialised( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return testCounts.spirv->infos[infoIndex]->inst
+		return testCounts.spirv->infos[infoIndex]
+			&& testCounts.spirv->infos[infoIndex]->inst
 			&& testCounts.spirv->infos[infoIndex]->device;
 	}
 
@@ -598,7 +619,9 @@ namespace test
 		, uint32_t infoIndex )
 	{
 		auto & info = testCounts.spirv->infos[infoIndex];
-		return info->apiVersion;
+		return info
+			? info->apiVersion
+			: 0u;
 	}
 
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
@@ -609,27 +632,8 @@ namespace test
 			return 0u;
 		}
 
-		uint32_t constexpr version1_0 = VK_MAKE_VERSION( 1, 0, 0 );
-		uint32_t constexpr version1_1 = VK_MAKE_VERSION( 1, 1, 0 );
-		//uint32_t constexpr version1_2 = VK_MAKE_VERSION( 1, 2, 0 );
-
 		auto & info = testCounts.spirv->infos[infoIndex];
-		uint32_t result{ 0x00010300 };
-
-		/*if ( context.info.apiVersion >= version1_2 )
-		{
-			result = 0x00010500;
-		}
-		else */if ( info->apiVersion >= version1_1 )
-		{
-			result = 0x00010300;
-		}
-		else if ( info->apiVersion >= version1_0 )
-		{
-			result = 0x00010000;
-		}
-
-		return result;
+		return info->spvVersion;
 	}
 
 	uint32_t retrieveSpirvInfosSize( sdw_test::TestCounts const & testCounts )
@@ -648,7 +652,7 @@ namespace test
 		}
 		catch ( std::exception & exc )
 		{
-			testCounts.streams.cout << exc.what() << std::endl;
+			testCounts << exc.what() << endl;
 		}
 
 		return result;
