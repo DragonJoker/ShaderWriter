@@ -883,7 +883,7 @@ namespace sdw
 			, type );
 	}
 
-	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
+	var::VariablePtr registerBlockVariable( ShaderWriter & writer
 		, std::string const & name
 		, type::TypePtr type )
 	{
@@ -895,5 +895,12 @@ namespace sdw
 		, std::string const & name )
 	{
 		return writer.getShader().getVar( name );
+	}
+
+	var::VariablePtr getMemberVar( ShaderWriter & writer
+		, ast::var::VariablePtr outer
+		, std::string const & name )
+	{
+		return writer.getShader().getMemberVar( outer, name );
 	}
 }

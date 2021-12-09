@@ -19,8 +19,23 @@ namespace ast
 				, vars.end()
 				, [name]( var::VariablePtr const & var )
 				{
-					return var->getFullName() == name
-						|| var->getName() == name;
+					return ( var->getFullName() == name
+						|| var->getName() == name );
+				} );
+		}
+
+		auto findMbrVariable( std::set< var::VariablePtr > const & vars
+			, var::VariablePtr outer
+			, std::string const & name )
+		{
+			return std::find_if( vars.begin()
+				, vars.end()
+				, [name, &outer]( var::VariablePtr const & var )
+				{
+					return var->isMember()
+						&& var->getOuter() == outer
+						&& ( var->getFullName() == name
+							|| var->getName() == name );
 				} );
 		}
 	}
@@ -428,6 +443,27 @@ namespace ast
 			{
 				std::string text;
 				text += "No registered variable with the name [" + name + "].";
+				throw std::runtime_error{ text };
+			}
+		}
+
+		return *it;
+	}
+
+	var::VariablePtr Shader::getMemberVar( var::VariablePtr outer
+		, std::string const & name )const
+	{
+		auto & block = m_blocks.back();
+		auto it = findMbrVariable( block.registered, outer, name );
+
+		if ( it == block.registered.end() )
+		{
+			it = findMbrVariable( m_blocks.front().registered, outer, name );
+
+			if ( it == m_blocks.front().registered.end() )
+			{
+				std::string text;
+				text += "No registered member variable with the name [" + name + "].";
 				throw std::runtime_error{ text };
 			}
 		}
