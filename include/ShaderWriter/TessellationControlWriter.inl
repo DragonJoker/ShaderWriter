@@ -78,15 +78,18 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
+	template< typename ... ParamsT >
 	TessControlListOutT< DataT, DomainT >::TessControlListOutT( ShaderWriter & writer
 		, ast::type::Partitioning partitioning
 		, ast::type::OutputTopology topology
 		, ast::type::PrimitiveOrdering vertexOrder
-		, uint32_t outputVertex )
+		, uint32_t outputVertex
+		, ParamsT ... params )
 		: TessControlListOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesscOut"
-					, ast::type::makeTessellationControlOutputType( makeType( getTypesCache( writer ) )
+					, ast::type::makeTessellationControlOutputType( makeType( getTypesCache( writer )
+							, std::forward< ParamsT >( params )... )
 						, DomainT
 						, partitioning
 						, topology
@@ -98,9 +101,12 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
-	ast::type::IOStructPtr TessControlListOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr TessControlListOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache );
+		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
 	}

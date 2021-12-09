@@ -95,16 +95,20 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		TessControlListOutT( ShaderWriter & writer
 			, ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::PrimitiveOrdering vertexOrder
-			, uint32_t outputVertices );
+			, uint32_t outputVertices
+			, ParamsT ... params );
 		TessControlListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//out gl_PerVertex gl_out[];
 		PerVertex vtx;
