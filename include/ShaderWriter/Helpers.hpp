@@ -303,6 +303,9 @@ namespace sdw
 		, type::TypePtr type );
 	SDW_API var::VariablePtr getVar( ShaderWriter & writer
 		, std::string const & name );
+	SDW_API var::VariablePtr getMemberVar( ShaderWriter & writer
+		, ast::var::VariablePtr outer
+		, std::string const & name );
 }
 
 #include "Helpers.inl"

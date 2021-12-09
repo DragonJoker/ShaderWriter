@@ -133,6 +133,8 @@ namespace ast
 			, type::TypePtr type );
 		SDAST_API bool hasVar( std::string const & name )const;
 		SDAST_API var::VariablePtr getVar( std::string const & name )const;
+		SDAST_API var::VariablePtr getMemberVar( var::VariablePtr outer
+			, std::string const & name )const;
 		SDAST_API void addStmt( stmt::StmtPtr stmt );
 		SDAST_API void addFuncStmt( stmt::StmtPtr stmt );
 		SDAST_API void registerSsbo( std::string const & name

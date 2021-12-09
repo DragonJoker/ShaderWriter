@@ -80,7 +80,7 @@ namespace sdw
 	inline T Ubo::getMember( std::string const & name
 		, bool enabled )
 	{
-		auto var = getVar( m_writer, name );
+		auto var = getMemberVar( m_writer, m_var, name );
 		return T{ m_writer
 			, makeExpr( m_writer, var )
 			, isEnabled() && enabled };
@@ -90,7 +90,7 @@ namespace sdw
 	inline Array< T > Ubo::getMemberArray( std::string const & name
 		, bool enabled )
 	{
-		auto var = getVar( m_writer, name );
+		auto var = getMemberVar( m_writer, m_var, name );
 		return Array< T >{ m_writer
 			, makeExpr( m_writer, var )
 			, isEnabled() && enabled };
