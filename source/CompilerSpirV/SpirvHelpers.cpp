@@ -355,6 +355,8 @@ namespace spirv
 			config.registerCapability( spv::CapabilityCullDistance );
 			break;
 		case ast::Builtin::ePrimitiveID:
+			config.registerCapability( spv::CapabilityGeometry );
+			break;
 		case ast::Builtin::ePrimitiveIDIn:
 		case ast::Builtin::eInvocationID:
 			// Tessellation or Geometry
