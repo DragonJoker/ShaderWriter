@@ -1,6 +1,8 @@
 /*
 See LICENSE file in root folder
 */
+#include "ShaderWriter/Helpers.hpp"
+
 namespace sdw
 {
 	//*********************************************************************************************
@@ -17,19 +19,34 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	ValueT Array< ValueT >::operator[]( IntegerValue< KindT > const & offset )const
 	{
-		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
+		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
+		return ValueT{ writer
+			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, offset ) )
+			, sdw::areOptionalEnabled( *this, offset ) };
 	}
 
 	template< typename ValueT >
 	ValueT Array< ValueT >::operator[]( int32_t offset )const
 	{
-		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
+		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
+		return ValueT{ writer
+			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, offset ) )
+			, sdw::areOptionalEnabled( *this, offset ) };
 	}
 
 	template< typename ValueT >
 	ValueT Array< ValueT >::operator[]( uint32_t offset )const
 	{
-		return writeBinOperator< ValueT >( *this, offset, sdw::makeArrayAccess );
+		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
+		return ValueT{ writer
+			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
+				, sdw::makeExpr( writer, *this )
+				, sdw::makeExpr( writer, offset ) )
+			, sdw::areOptionalEnabled( *this, offset ) };
 	}
 
 	template< typename ValueT >
