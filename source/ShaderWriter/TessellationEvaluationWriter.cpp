@@ -13,7 +13,6 @@ namespace sdw
 		: StructInstance{ writer, std::move( expr ), enabled }
 		, patchVerticesIn{ getMember< Int >( ast::Builtin::ePatchVerticesIn ) }
 		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
-		, tessCoord{ getMember< Vec3 >( ast::Builtin::eTessCoord ) }
 	{
 	}
 
@@ -39,9 +38,6 @@ namespace sdw
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::ePrimitiveID
 				, type::Kind::eInt
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eTessCoord
-				, type::Kind::eVec3F
 				, ast::type::NotArray );
 		}
 

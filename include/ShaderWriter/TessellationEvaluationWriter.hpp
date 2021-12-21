@@ -69,8 +69,6 @@ namespace sdw
 		Int patchVerticesIn;
 		//in int gl_PrimitiveID;
 		Int primitiveID;
-		//in vec3 gl_TessCoord;
-		Vec3 tessCoord;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT
@@ -96,6 +94,8 @@ namespace sdw
 		Array< Float > tessLevelOuter;
 		//patch out float gl_TessLevelInner[];
 		Array< Float > tessLevelInner;
+		//in vec3 gl_TessCoord;
+		Vec3 tessCoord;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
