@@ -1545,23 +1545,23 @@ namespace
 					, TessEvalDataOutT< SurfaceT > out )
 				{
 					// Interpolate the attributes of the output vertex using the barycentric coordinates
-					out.normal = interpolate3D( mainIn.tessCoord
+					out.normal = interpolate3D( patchIn.tessCoord
 						, listIn[0].normal
 						, listIn[1].normal
 						, listIn[2].normal );
-					out.tangent = interpolate3D( mainIn.tessCoord
+					out.tangent = interpolate3D( patchIn.tessCoord
 						, listIn[0].tangent
 						, listIn[1].tangent
 						, listIn[2].tangent );
-					out.bitangent = interpolate3D( mainIn.tessCoord
+					out.bitangent = interpolate3D( patchIn.tessCoord
 						, listIn[0].bitangent
 						, listIn[1].bitangent
 						, listIn[2].bitangent );
-					out.texture = interpolate3D( mainIn.tessCoord
+					out.texture = interpolate3D( patchIn.tessCoord
 						, listIn[0].texture
 						, listIn[1].texture
 						, listIn[2].texture );
-					out.instance = writer.cast< Int >( interpolate1D( mainIn.tessCoord
+					out.instance = writer.cast< Int >( interpolate1D( patchIn.tessCoord
 						, listIn[0].instance
 						, listIn[1].instance
 						, listIn[2].instance ) );
@@ -1570,11 +1570,11 @@ namespace
 					out.bitangent = normalize( out.bitangent );
 
 					auto u = writer.declLocale( "u"
-						, mainIn.tessCoord.x() );
+						, patchIn.tessCoord.x() );
 					auto v = writer.declLocale( "v"
-						, mainIn.tessCoord.y() );
+						, patchIn.tessCoord.y() );
 					auto w = writer.declLocale( "w"
-						, mainIn.tessCoord.z() );
+						, patchIn.tessCoord.z() );
 
 					auto uPow3 = writer.declLocale( "uPow3"
 						, pow( u, 3.0_f ) );
