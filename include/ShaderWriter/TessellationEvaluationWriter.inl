@@ -81,6 +81,7 @@ namespace sdw
 		: PatchInT< DataT >{ writer, std::move( expr ), enabled }
 		, tessLevelOuter{ getFloatMemberArray( *this, ast::Builtin::eTessLevelOuter ) }
 		, tessLevelInner{ getFloatMemberArray( *this, ast::Builtin::eTessLevelInner ) }
+		, tessCoord{ getVec3Member( *this, ast::Builtin::eTessCoord ) }
 	{
 	}
 
@@ -118,6 +119,9 @@ namespace sdw
 			result->declMember( ast::Builtin::eTessLevelInner
 				, type::Kind::eFloat
 				, getInnerArraySize( DomainT ) );
+			result->declMember( ast::Builtin::eTessCoord
+				, type::Kind::eVec3F
+				, ast::type::NotArray );
 		}
 
 		return result;

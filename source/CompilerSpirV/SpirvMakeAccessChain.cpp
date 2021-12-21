@@ -353,7 +353,7 @@ namespace spirv
 
 				if ( var->isAlias() )
 				{
-					assert( !m_parentId );
+					assert( !m_parentId || m_parentKind == ast::expr::Kind::eArrayAccess );
 					m_result = m_module.getVariablePointer( var->getName()
 						, spv::StorageClassFunction
 						, var->getType()
