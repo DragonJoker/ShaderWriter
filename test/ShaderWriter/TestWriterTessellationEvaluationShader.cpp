@@ -261,8 +261,8 @@ namespace
 				{
 					writer.declLocale( "patchVerticesIn", mainIn.patchVerticesIn );
 					writer.declLocale( "primitiveID", mainIn.primitiveID );
-					writer.declLocale( "tessCoord", mainIn.tessCoord );
 
+					writer.declLocale( "tessCoord", patchIn.tessCoord );
 					writer.declLocale( "tessLevelInner", patchIn.tessLevelInner[0] );
 					writer.declLocale( "tessLevelOuter", patchIn.tessLevelOuter[0] );
 
@@ -270,7 +270,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -298,7 +298,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += listIn[0].position;
 				} );
 			test::writeShader( writer
@@ -328,7 +328,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += offset[0];
 				} );
 			test::writeShader( writer
@@ -358,7 +358,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += listIn[0].position;
 					out.vtx.position.xyz() += offset[0];
 				} );
@@ -388,7 +388,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.position = listIn[0u].vtx.position.xyz();
 				} );
 			test::writeShader( writer
@@ -418,7 +418,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					posoff[0] = listIn[0].vtx.position.xyz();
 				} );
 			test::writeShader( writer
@@ -448,7 +448,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.position = listIn[0u].vtx.position.xyz();
 					posoff[0] = listIn[0].vtx.position.xyz();
 				} );
@@ -478,7 +478,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += listIn[0].position;
 					out.position = listIn[0u].vtx.position.xyz();
 				} );
@@ -510,7 +510,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += offset[0];
 					posoff[0] = listIn[0].vtx.position.xyz();
 					posoff[0] += offset[0];
@@ -543,7 +543,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += listIn[0].position;
 					out.vtx.position.xyz() += offset[0];
 					out.position = listIn[0u].vtx.position.xyz();
@@ -580,7 +580,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = loc
 						* listIn[0u].vtx.position
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 				} );
 			test::writeShader( writer
@@ -611,7 +611,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.vtx.position.xyz() += listIn[0].position;
 				} );
@@ -644,7 +644,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.vtx.position.xyz() += offset[0];
 				} );
@@ -677,7 +677,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.vtx.position.xyz() += listIn[0].position;
 					out.vtx.position.xyz() += offset[0];
@@ -710,7 +710,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.position = listIn[0u].vtx.position.xyz();
 				} );
@@ -743,7 +743,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					posoff[0] = listIn[0].vtx.position.xyz();
 				} );
@@ -776,7 +776,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.position = listIn[0u].vtx.position.xyz();
 					posoff[0] = listIn[0].vtx.position.xyz();
@@ -809,7 +809,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.vtx.position.xyz() += listIn[0].position;
 					out.position = listIn[0u].vtx.position.xyz();
@@ -844,7 +844,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.vtx.position.xyz() += offset[0];
 					posoff[0] = listIn[0].vtx.position.xyz();
@@ -880,7 +880,7 @@ namespace
 						, patchIn.tessLevelOuter[0] );
 					out.vtx.position = listIn[0u].vtx.position;
 					out.vtx.position += loc
-						* vec4( mainIn.tessCoord, 1.0_f );
+						* vec4( patchIn.tessCoord, 1.0_f );
 					out.vtx.position.xyz() += ctrl;
 					out.vtx.position.xyz() += listIn[0].position;
 					out.vtx.position.xyz() += offset[0];
@@ -963,23 +963,23 @@ namespace
 					, TessEvalDataOutT< SurfaceT > out )
 				{
 					// Interpolate the attributes of the output vertex using the barycentric coordinates
-					out.normal = interpolate3D( mainIn.tessCoord
+					out.normal = interpolate3D( patchIn.tessCoord
 						, listIn[0].normal
 						, listIn[1].normal
 						, listIn[2].normal );
-					out.tangent = interpolate3D( mainIn.tessCoord
+					out.tangent = interpolate3D( patchIn.tessCoord
 						, listIn[0].tangent
 						, listIn[1].tangent
 						, listIn[2].tangent );
-					out.bitangent = interpolate3D( mainIn.tessCoord
+					out.bitangent = interpolate3D( patchIn.tessCoord
 						, listIn[0].bitangent
 						, listIn[1].bitangent
 						, listIn[2].bitangent );
-					out.texture = interpolate3D( mainIn.tessCoord
+					out.texture = interpolate3D( patchIn.tessCoord
 						, listIn[0].texture
 						, listIn[1].texture
 						, listIn[2].texture );
-					out.instance = writer.cast< Int >( interpolate1D( mainIn.tessCoord
+					out.instance = writer.cast< Int >( interpolate1D( patchIn.tessCoord
 						, listIn[0].instance
 						, listIn[1].instance
 						, listIn[2].instance ) );
@@ -988,11 +988,11 @@ namespace
 					out.bitangent = normalize( out.bitangent );
 
 					auto u = writer.declLocale( "u"
-						, mainIn.tessCoord.x() );
+						, patchIn.tessCoord.x() );
 					auto v = writer.declLocale( "v"
-						, mainIn.tessCoord.y() );
+						, patchIn.tessCoord.y() );
 					auto w = writer.declLocale( "w"
-						, mainIn.tessCoord.z() );
+						, patchIn.tessCoord.z() );
 
 					auto uPow3 = writer.declLocale( "uPow3"
 						, pow( u, 3.0_f ) );
