@@ -1446,12 +1446,6 @@ namespace spirv
 				globalDeclarations.push_back( makeInstruction< MatrixTypeInstruction >( result
 					, componentType
 					, ValueId{ getComponentCount( kind ) } ) );
-
-				if ( mbrIndex == ast::type::NotMember )
-				{
-					decorate( result
-						, spv::DecorationColMajor );
-				}
 			}
 			else
 			{
