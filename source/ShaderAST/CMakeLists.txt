@@ -237,7 +237,9 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/PreprocIfDef.hpp
 	${INCLUDE_DIR}/Stmt/PreprocVersion.hpp
 	${INCLUDE_DIR}/Stmt/Stmt.hpp
+	${INCLUDE_DIR}/Stmt/StmtAccelerationStructureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtBreak.hpp
+	${INCLUDE_DIR}/Stmt/StmtBufferReferenceDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtComment.hpp
 	${INCLUDE_DIR}/Stmt/StmtCompound.hpp
 	${INCLUDE_DIR}/Stmt/StmtConstantBufferDecl.hpp
@@ -250,8 +252,11 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtFor.hpp
 	${INCLUDE_DIR}/Stmt/StmtFragmentLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtFunctionDecl.hpp
+	${INCLUDE_DIR}/Stmt/StmtHitAttributeVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtIf.hpp
 	${INCLUDE_DIR}/Stmt/StmtImageDecl.hpp
+	${INCLUDE_DIR}/Stmt/StmtInOutCallableDataVariableDecl.hpp
+	${INCLUDE_DIR}/Stmt/StmtInOutRayPayloadVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtInOutVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtInputComputeLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtInputGeometryLayout.hpp
@@ -286,7 +291,9 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/PreprocIfDef.cpp
 	${SOURCE_DIR}/Stmt/PreprocVersion.cpp
 	${SOURCE_DIR}/Stmt/Stmt.cpp
+	${SOURCE_DIR}/Stmt/StmtAccelerationStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtBreak.cpp
+	${SOURCE_DIR}/Stmt/StmtBufferReferenceDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtComment.cpp
 	${SOURCE_DIR}/Stmt/StmtCompound.cpp
 	${SOURCE_DIR}/Stmt/StmtConstantBufferDecl.cpp
@@ -299,8 +306,11 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtFor.cpp
 	${SOURCE_DIR}/Stmt/StmtFragmentLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtFunctionDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtHitAttributeVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtIf.cpp
 	${SOURCE_DIR}/Stmt/StmtImageDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtInOutCallableDataVariableDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtInOutRayPayloadVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtInOutVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtInputComputeLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtInputGeometryLayout.cpp
@@ -344,6 +354,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/ImageConfiguration.hpp
 	${INCLUDE_DIR}/Type/ImageConfiguration.inl
 	${INCLUDE_DIR}/Type/Type.hpp
+	${INCLUDE_DIR}/Type/TypeAccelerationStructure.hpp
 	${INCLUDE_DIR}/Type/TypeArray.hpp
 	${INCLUDE_DIR}/Type/TypeCache.hpp
 	${INCLUDE_DIR}/Type/TypeComputeIO.hpp
@@ -361,6 +372,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/ImageConfiguration.cpp
 	${SOURCE_DIR}/Type/Type.cpp
+	${SOURCE_DIR}/Type/TypeAccelerationStructure.cpp
 	${SOURCE_DIR}/Type/TypeArray.cpp
 	${SOURCE_DIR}/Type/TypeCache.cpp
 	${SOURCE_DIR}/Type/TypeComputeIO.cpp

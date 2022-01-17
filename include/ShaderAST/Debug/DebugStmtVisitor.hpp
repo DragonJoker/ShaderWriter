@@ -22,7 +22,9 @@ namespace ast::debug
 
 	private:
 		SDAST_API std::string & displayStmtName( stmt::Stmt * stmt, bool newLine );
+		SDAST_API void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override;
 		SDAST_API void visitBreakStmt( stmt::Break * stmt )override;
+		SDAST_API void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )override;
 		SDAST_API void visitCommentStmt( stmt::Comment * stmt )override;
 		SDAST_API void visitCompoundStmt( stmt::Compound * stmt )override;
 		SDAST_API void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
@@ -35,8 +37,11 @@ namespace ast::debug
 		SDAST_API void visitForStmt( stmt::For * stmt )override;
 		SDAST_API void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override;
 		SDAST_API void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override;
+		SDAST_API void visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )override;
 		SDAST_API void visitIfStmt( stmt::If * stmt )override;
 		SDAST_API void visitImageDeclStmt( stmt::ImageDecl * stmt )override;
+		SDAST_API void visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )override;
+		SDAST_API void visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )override;
 		SDAST_API void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
 		SDAST_API void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
 		SDAST_API void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override;

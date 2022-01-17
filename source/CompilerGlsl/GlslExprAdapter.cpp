@@ -101,7 +101,7 @@ namespace glsl
 		ast::expr::ExprPtr registerPerVertexBuiltin( ast::type::TypesCache & cache
 			, ast::Builtin builtin
 			, ast::type::TypePtr type
-			, uint32_t flags
+			, uint64_t flags
 			, uint32_t & nextVarId
 			, IOVars & io )
 		{
@@ -447,7 +447,7 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprAdapter::doProcessIOMbr( ast::expr::Expr * outer
 		, uint32_t mbrIndex
-		, uint32_t mbrFlags
+		, uint64_t mbrFlags
 		, bool isInput
 		, IOVars & io )
 	{
@@ -558,8 +558,8 @@ namespace glsl
 			{
 				indexExpr = registerPerVertexBuiltin( m_cache
 					, ast::Builtin::eInvocationID
-					, m_cache.getUInt()
-					, uint32_t( ast::var::Flag::eShaderInput )
+					, m_cache.getUInt32()
+					, uint64_t( ast::var::Flag::eShaderInput )
 					, m_adaptationData.nextVarId
 					, io );
 			}
@@ -611,7 +611,7 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprAdapter::doProcessMbr( ast::expr::Expr * outer
 		, uint32_t mbrIndex
-		, uint32_t mbrFlags )
+		, uint64_t mbrFlags )
 	{
 		auto result = doProcessIOMbr( outer, mbrIndex, mbrFlags, true, m_adaptationData.inputs );
 

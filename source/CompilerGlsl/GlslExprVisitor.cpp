@@ -28,6 +28,7 @@ namespace glsl
 				{
 					{ "gl_InstanceID", "gl_InstanceIndex" },
 					{ "gl_VertexID", "gl_VertexIndex" },
+					{ "gl_DrawIndex", "gl_DrawID" },
 				};
 				auto it = toVkNames.find( name );
 
@@ -42,6 +43,7 @@ namespace glsl
 				{
 					{ "gl_InstanceIndex", "gl_InstanceID" },
 					{ "gl_VertexIndex", "gl_VertexID" },
+					{ "gl_DrawIndex", "gl_DrawID" },
 				};
 				auto it = toGlNames.find( name );
 
@@ -365,6 +367,9 @@ namespace glsl
 			break;
 		case ast::expr::LiteralType::eUInt:
 			stream << expr->getValue< ast::expr::LiteralType::eUInt >() << "u";
+			break;
+		case ast::expr::LiteralType::eUInt64:
+			stream << expr->getValue< ast::expr::LiteralType::eUInt64 >() << "ul";
 			break;
 		case ast::expr::LiteralType::eFloat:
 			{

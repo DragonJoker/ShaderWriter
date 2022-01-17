@@ -78,6 +78,10 @@ if ( VCPKG_TOOLCHAIN )
 		SPIRV
 		SPVRemapper
 	)
+	find_package( SPIRV-Tools CONFIG )
+	set( SPIRV_TOOLS_LIBRARIES
+		SPIRV-Tools-static
+	)
 elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 	set( glslang_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external )
 	if ( NOT TARGET glslang )
@@ -175,6 +179,7 @@ target_link_libraries( TestWriterCommon
 		sdw::ShaderWriter
 		${BinLibraries}
 		${glslang_LIBRARIES}
+		${SPIRV_TOOLS_LIBRARIES}
 		sdw::test::Common
 		sdw::test::SpirvCross
 		${TargetLinkLibraries}

@@ -25,6 +25,7 @@ namespace ast
 		eStorageImage,
 		eUniformTexelBuffer,
 		eStorageTexelBuffer,
+		eShaderRecordBuffer,
 		eCount,
 	};
 
@@ -33,16 +34,19 @@ namespace ast
 		using SsboMap = std::map< std::string, SsboInfo >;
 		using UboMap = std::map< std::string, UboInfo >;
 		using PcbMap = std::map< std::string, PcbInfo >;
+		using ShaderRecordMap = std::map< std::string, ShaderRecordInfo >;
 		using ConstantsMap = std::map< std::string, type::TypePtr >;
 		using SpecConstantsMap = std::map< std::string, SpecConstantInfo >;
 		using SamplerMap = std::map< std::string, SamplerInfo >;
 		using ImageMap = std::map< std::string, ImageInfo >;
 		using InputMap = std::map< std::string, InputInfo >;
 		using OutputMap = std::map< std::string, OutputInfo >;
+		using InOutMap = std::map< std::string, InOutInfo >;
 
 		SsboMap ssbos;
 		UboMap ubos;
 		PcbMap pcbs;
+		ShaderRecordMap shaderRecords;
 		ConstantsMap constants;
 		SpecConstantsMap specConstants;
 		SamplerMap samplers;
@@ -51,6 +55,8 @@ namespace ast
 		ImageMap storageTexels;
 		InputMap inputs;
 		OutputMap outputs;
+		InOutMap inOuts;
+		AccStructInfo accelerationStruct;
 		mutable uint32_t nextVarId{};
 	};
 
@@ -72,7 +78,7 @@ namespace ast
 		SDAST_API void registerVariable( var::VariablePtr var );
 		SDAST_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		SDAST_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
 			, var::Flag flag );
@@ -81,7 +87,7 @@ namespace ast
 		SDAST_API var::VariablePtr registerMember( var::VariablePtr outer
 			, std::string const & name
 			, type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		SDAST_API var::VariablePtr registerMember( var::VariablePtr outer
 			, std::string const & name
 			, type::TypePtr type
@@ -96,6 +102,11 @@ namespace ast
 		SDAST_API var::VariablePtr registerSpecConstant( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
+		SDAST_API var::VariablePtr registerAccelerationStructure( std::string const & name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
 		SDAST_API var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
@@ -108,11 +119,14 @@ namespace ast
 			, bool enabled = true );
 		SDAST_API var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
+			, type::TypePtr type );
+		SDAST_API var::VariablePtr registerInOut( std::string const & name
+			, uint64_t attributes
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, type::TypePtr type
@@ -143,6 +157,8 @@ namespace ast
 			, UboInfo const & info );
 		SDAST_API void registerPcb( std::string const & name
 			, InterfaceBlock const & info );
+		SDAST_API void registerShaderRecord( std::string const & name
+			, ShaderRecordInfo const & info );
 		SDAST_API expr::ExprPtr getDummyExpr( type::TypePtr type )const;
 		/**@}*/
 
@@ -154,6 +170,11 @@ namespace ast
 		UboInfo const & getUboInfo( std::string const & name )const
 		{
 			return m_data.ubos.at( name );
+		}
+
+		ShaderRecordInfo const & getShaderRecordInfo( std::string const & name )const
+		{
+			return m_data.shaderRecords.at( name );
 		}
 
 		type::TypePtr getInput( std::string const & name )const
@@ -186,6 +207,11 @@ namespace ast
 			return m_data.pcbs;
 		}
 
+		std::map< std::string, ShaderRecordInfo > const & getShaderRecords()const
+		{
+			return m_data.shaderRecords;
+		}
+
 		std::map< std::string, SamplerInfo > const & getSamplers()const
 		{
 			return m_data.samplers;
@@ -209,6 +235,11 @@ namespace ast
 		std::map< std::string, OutputInfo > const & getOutputs()const
 		{
 			return m_data.outputs;
+		}
+
+		std::map< std::string, InOutInfo > const & getInOuts()const
+		{
+			return m_data.inOuts;
 		}
 
 		stmt::Container * getStatements()const

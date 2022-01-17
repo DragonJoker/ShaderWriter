@@ -59,6 +59,9 @@ namespace sdw
 	struct Value;
 	struct Void;
 	struct Boolean;
+	struct AccelerationStructure;
+	template< typename T >
+	struct NonUniformT;
 
 	template< ast::type::Kind KindT >
 	struct ArithmeticValue;
@@ -70,6 +73,7 @@ namespace sdw
 	struct IntegerValue;
 	using Int = IntegerValue< ast::type::Kind::eInt >;
 	using UInt = IntegerValue< ast::type::Kind::eUInt >;
+	using UInt64 = IntegerValue< ast::type::Kind::eUInt64 >;
 
 	template< typename T >
 	struct Array;
@@ -97,6 +101,8 @@ namespace sdw
 	struct Mat4x2T;
 	template< typename TypeT >
 	struct Mat4x3T;
+	template< typename ValueT >
+	struct NonUniformT;
 
 	using Vec2 = Vec2T< Float >;
 	using Vec3 = Vec3T< Float >;
@@ -112,6 +118,9 @@ namespace sdw
 	using UVec2 = Vec2T< UInt >;
 	using UVec3 = Vec3T< UInt >;
 	using UVec4 = Vec4T< UInt >;
+	using U64Vec2 = Vec2T< UInt64 >;
+	using U64Vec3 = Vec3T< UInt64 >;
+	using U64Vec4 = Vec4T< UInt64 >;
 	using BVec2 = Vec2T< Boolean >;
 	using BVec3 = Vec3T< Boolean >;
 	using BVec4 = Vec4T< Boolean >;
@@ -466,6 +475,7 @@ namespace sdw
 	Writer_Parameter( Float );
 	Writer_Parameter( Int );
 	Writer_Parameter( UInt );
+	Writer_Parameter( UInt64 );
 	Writer_Parameter( Boolean );
 	Writer_Parameter( Vec2 );
 	Writer_Parameter( Vec3 );
@@ -505,6 +515,7 @@ namespace sdw
 	Writer_ArrayParameter( Float );
 	Writer_ArrayParameter( Int );
 	Writer_ArrayParameter( UInt );
+	Writer_ArrayParameter( UInt64 );
 	Writer_ArrayParameter( Boolean );
 	Writer_ArrayParameter( Vec2 );
 	Writer_ArrayParameter( Vec3 );

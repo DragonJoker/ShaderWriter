@@ -317,4 +317,12 @@ namespace sdw
 			, value
 			, values... );
 	}
+
+	template< typename ValueT >
+	inline NonUniformT< ValueT > nonuniform( ValueT const & value )
+	{
+		return NonUniformT< ValueT >{ findWriterMandat( value )
+			, makeExpr( value )
+			, value.isEnabled() };
+	}
 }

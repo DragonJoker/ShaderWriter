@@ -39,6 +39,7 @@ namespace ast::type
 			switch ( kind )
 			{
 			case Kind::eDouble:
+			case Kind::eUInt64:
 				return mult * 8u;
 			case Kind::eFloat:
 			case Kind::eInt:
@@ -83,6 +84,7 @@ namespace ast::type
 			switch ( kind )
 			{
 			case Kind::eDouble:
+			case Kind::eUInt64:
 				return 8u;
 			case Kind::eFloat:
 			case Kind::eInt:
@@ -1204,7 +1206,8 @@ namespace ast::type
 	uint32_t getSize( Type const & type
 		, MemoryLayout layout )
 	{
-		if ( layout == MemoryLayout::eC )
+		if ( layout == MemoryLayout::eC
+			|| layout == MemoryLayout::eScalar )
 		{
 			return getNaiveSize( type );
 		}
@@ -1221,7 +1224,8 @@ namespace ast::type
 	uint32_t getAlignment( Type const & type
 		, MemoryLayout layout )
 	{
-		if ( layout == MemoryLayout::eC )
+		if ( layout == MemoryLayout::eC
+			|| layout == MemoryLayout::eScalar )
 		{
 			return 1u;
 		}
@@ -1238,7 +1242,8 @@ namespace ast::type
 	uint32_t getArrayStride( Array const & type
 		, MemoryLayout layout )
 	{
-		if ( layout == MemoryLayout::eC )
+		if ( layout == MemoryLayout::eC
+			|| layout == MemoryLayout::eScalar )
 		{
 			return getNaiveSize( *type.getType() );
 		}

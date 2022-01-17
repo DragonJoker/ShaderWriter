@@ -706,6 +706,13 @@ namespace ast::expr
 		eMemoryBarrierImage,
 		eGroupMemoryBarrier,
 
+	// Ray tracing Shader Functions
+		eTraceRay,
+		eReportIntersection,
+		eIgnoreIntersection,
+		eTerminateRay,
+		eExecuteCallable,
+
 	// Boundaries,
 		eCount,
 		eInvalid = ~( 0u ),

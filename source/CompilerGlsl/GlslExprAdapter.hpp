@@ -41,12 +41,12 @@ namespace glsl
 
 		ast::expr::ExprPtr doProcessIOMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex
-			, uint32_t mbrFlags
+			, uint64_t mbrFlags
 			, bool isInput
 			, IOVars & io );
 		ast::expr::ExprPtr doProcessMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex
-			, uint32_t mbrFlags );
+			, uint64_t mbrFlags );
 
 	private:
 		ast::type::TypesCache & m_cache;

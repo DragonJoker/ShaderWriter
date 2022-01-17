@@ -1051,6 +1051,14 @@ namespace spirv
 			config.isExtension = false;
 			break;
 
+		case ast::expr::Intrinsic::eTraceRay:
+		case ast::expr::Intrinsic::eReportIntersection:
+		case ast::expr::Intrinsic::eIgnoreIntersection:
+		case ast::expr::Intrinsic::eTerminateRay:
+		case ast::expr::Intrinsic::eExecuteCallable:
+			config.isExtension = false;
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___AST_BoInfo_H___
 #pragma once
 
+#include <ShaderAST/Type/TypeAccelerationStructure.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
@@ -104,6 +105,29 @@ namespace ast
 	using PcbInfo = InterfaceBlock;
 	using UboInfo = BoInfo;
 	using SsboInfo = BoInfo;
+	using ShaderRecordInfo = BoInfo;
+
+	struct AccStructInfo
+		: DescriptorInfoT< type::AccelerationStructure >
+	{
+		AccStructInfo()
+			: DescriptorInfoT{ nullptr, { ~0u, ~0u } }
+		{
+		}
+
+		AccStructInfo( type::AccelerationStructurePtr type
+			, uint32_t bind
+			, uint32_t set )
+			: DescriptorInfoT{ type
+				, { bind, set } }
+		{
+		}
+
+		operator bool()const
+		{
+			return type != nullptr;
+		}
+	};
 }
 
 #endif

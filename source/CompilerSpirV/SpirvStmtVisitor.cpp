@@ -45,11 +45,44 @@ namespace spirv
 			case ast::expr::LiteralType::eUInt:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
 				break;
+			case ast::expr::LiteralType::eUInt64:
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt64 >() );
+				break;
 			default:
 				break;
 			}
 
 			return result;
+		}
+
+		void decorateVar( ast::var::VariablePtr var
+			, ValueId varId
+			, Module & module )
+		{
+			if ( var->isFlat() )
+			{
+				module.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
+			}
+
+			if ( var->isNoPerspective() )
+			{
+				module.decorate( varId, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
+			}
+
+			if ( var->isCentroid() )
+			{
+				module.decorate( varId, IdList{ spv::Id( spv::DecorationCentroid ) } );
+			}
+
+			if ( var->isPerSample() )
+			{
+				module.decorate( varId, IdList{ spv::Id( spv::DecorationSample ) } );
+			}
+
+			if ( var->isPatch() )
+			{
+				module.decorate( varId, IdList{ spv::Id( spv::DecorationPatch ) } );
+			}
 		}
 	}
 
@@ -63,6 +96,7 @@ namespace spirv
 	{
 		Module result{ cache
 			, spirvConfig
+			, getAddressingModel( type )
 			, getMemoryModel()
 			, getExecutionModel( type ) };
 		StmtVisitor vis{ result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
@@ -367,6 +401,13 @@ namespace spirv
 		m_function = nullptr;
 	}
 
+	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto varId = visitVariable( var );
+		decorateVar( var, varId, m_result );
+	}
+
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
 	{
 		++m_ifStmts;
@@ -415,10 +456,42 @@ namespace spirv
 			, stmt->getDescriptorSet() );
 	}
 
+	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
+	{
+		m_result.registerType( stmt->getType() );
+	}
+
+	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto varId = visitVariable( var );
+		decorateVar( var, varId, m_result );
+		m_result.bindVariable( visitVariable( stmt->getVariable() )
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
+	}
+
+	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto varId = visitVariable( var );
+		decorateVar( var, varId, m_result );
+		m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+	}
+
+	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto varId = visitVariable( var );
+		decorateVar( var, varId, m_result );
+		m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+	}
+
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
+		decorateVar( var, varId, m_result );
 
 		if ( var->isShaderConstant() )
 		{
@@ -439,30 +512,6 @@ namespace spirv
 			m_result.decorate( varId, { spv::Id( spv::DecorationStream ), stmt->getStreamIndex() } );
 		}
 
-		if ( var->isFlat() )
-		{
-			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
-		}
-
-		if ( var->isNoPerspective() )
-		{
-			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
-		}
-
-		if ( var->isCentroid() )
-		{
-			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationCentroid ) } );
-		}
-
-		if ( var->isPerSample() )
-		{
-			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationSample ) } );
-		}
-
-		if ( var->isPatch() )
-		{
-			m_result.decorate( varId, IdList{ spv::Id( spv::DecorationPatch ) } );
-		}
 	}
 
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
@@ -482,7 +531,7 @@ namespace spirv
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
-		m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getCache().getVec3U() );
+		m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getCache().getVec3U32() );
 		m_result.decorate( m_context.workGroupSizeExpr, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
 	}
 

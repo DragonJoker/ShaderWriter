@@ -7,6 +7,8 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/BaseTypes/Float.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
+#include "ShaderWriter/MatTypes/Mat4x3.hpp"
+#include "ShaderWriter/MatTypes/Mat3x4.hpp"
 #include "ShaderWriter/VecTypes/Vec2.hpp"
 #include "ShaderWriter/VecTypes/Vec3.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
@@ -33,6 +35,12 @@ namespace sdw
 		, ast::Builtin builtin )
 	{
 		return instance.getMember< UInt >( builtin );
+	}
+
+	UInt64 getUInt64Member( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMember< UInt64 >( builtin );
 	}
 
 	Float getFloatMember( StructInstance const & instance
@@ -87,6 +95,18 @@ namespace sdw
 		, ast::Builtin builtin )
 	{
 		return instance.getMember< UVec4 >( builtin );
+	}
+
+	Mat4x3 getMat4x3Member( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMember< Mat4x3 >( builtin );
+	}
+
+	Mat3x4 getMat3x4Member( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMember< Mat3x4 >( builtin );
 	}
 
 	//*********************************************************************************************

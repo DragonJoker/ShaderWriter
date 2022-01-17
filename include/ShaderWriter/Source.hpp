@@ -1,6 +1,8 @@
 /*
 See LICENSE file in root folder
 */
+#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
+
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/Pcb.hpp"
 #include "ShaderWriter/CompositeTypes/Ssbo.hpp"
@@ -28,3 +30,9 @@ See LICENSE file in root folder
 #include "ShaderWriter/GeometryWriter.hpp"
 #include "ShaderWriter/FragmentWriter.hpp"
 #include "ShaderWriter/ComputeWriter.hpp"
+#include "ShaderWriter/RayCallableWriter.hpp"
+#include "ShaderWriter/RayAnyHitWriter.hpp"
+#include "ShaderWriter/RayClosestHitWriter.hpp"
+#include "ShaderWriter/RayGenerationWriter.hpp"
+#include "ShaderWriter/RayIntersectionWriter.hpp"
+#include "ShaderWriter/RayMissWriter.hpp"

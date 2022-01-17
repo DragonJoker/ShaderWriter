@@ -43,7 +43,10 @@ namespace spirv
 		void visitElseStmt( ast::stmt::Else * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
+		void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
+		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
 		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;

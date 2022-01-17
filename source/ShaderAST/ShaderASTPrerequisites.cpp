@@ -22,136 +22,166 @@ namespace ast
 	{
 		switch ( value )
 		{
-		case Builtin::eNone:
+		case ast::Builtin::eNone:
 			return "None";
-		case Builtin::ePosition:
+		case ast::Builtin::ePosition:
 			return "Position";
-		case Builtin::ePointSize:
+		case ast::Builtin::ePointSize:
 			return "PointSize";
-		case Builtin::eClipDistance:
+		case ast::Builtin::eClipDistance:
 			return "ClipDistance";
-		case Builtin::eCullDistance:
+		case ast::Builtin::eCullDistance:
 			return "CullDistance";
-		case Builtin::ePrimitiveID:
+		case ast::Builtin::ePrimitiveID:
 			return "PrimitiveID";
-		case Builtin::ePrimitiveIDIn:
+		case ast::Builtin::ePrimitiveIDIn:
 			return "PrimitiveIDIn";
-		case Builtin::eInvocationID:
+		case ast::Builtin::eInvocationID:
 			return "InvocationID";
-		case Builtin::eLayer:
+		case ast::Builtin::eLayer:
 			return "Layer";
-		case Builtin::eViewportIndex:
+		case ast::Builtin::eViewportIndex:
 			return "ViewportIndex";
-		case Builtin::eTessLevelOuter:
+		case ast::Builtin::eTessLevelOuter:
 			return "TessLevelOuter";
-		case Builtin::eTessLevelInner:
+		case ast::Builtin::eTessLevelInner:
 			return "TessLevelInner";
-		case Builtin::eTessCoord:
+		case ast::Builtin::eTessCoord:
 			return "TessCoord";
-		case Builtin::ePatchVertices:
+		case ast::Builtin::ePatchVertices:
 			return "PatchVertices";
-		case Builtin::ePatchVerticesIn:
+		case ast::Builtin::ePatchVerticesIn:
 			return "PatchVerticesIn";
-		case Builtin::eFragCoord:
+		case ast::Builtin::eFragCoord:
 			return "FragCoord";
-		case Builtin::ePointCoord:
+		case ast::Builtin::ePointCoord:
 			return "PointCoord";
-		case Builtin::eFrontFacing:
+		case ast::Builtin::eFrontFacing:
 			return "FrontFacing";
-		case Builtin::eSampleID:
+		case ast::Builtin::eSampleID:
 			return "SampleID";
-		case Builtin::eSamplePosition:
+		case ast::Builtin::eSamplePosition:
 			return "SamplePosition";
-		case Builtin::eSampleMask:
+		case ast::Builtin::eSampleMask:
 			return "SampleMask";
-		case Builtin::eSampleMaskIn:
+		case ast::Builtin::eSampleMaskIn:
 			return "SampleMaskIn";
-		case Builtin::eFragDepth:
+		case ast::Builtin::eFragDepth:
 			return "FragDepth";
-		case Builtin::eHelperInvocation:
+		case ast::Builtin::eHelperInvocation:
 			return "HelperInvocation";
-		case Builtin::eNumWorkGroups:
+		case ast::Builtin::eNumWorkGroups:
 			return "NumWorkGroups";
-		case Builtin::eWorkGroupSize:
+		case ast::Builtin::eWorkGroupSize:
 			return "WorkGroupSize";
-		case Builtin::eWorkGroupID:
+		case ast::Builtin::eWorkGroupID:
 			return "WorkGroupID";
-		case Builtin::eLocalInvocationID:
+		case ast::Builtin::eLocalInvocationID:
 			return "LocalInvocationID";
-		case Builtin::eGlobalInvocationID:
+		case ast::Builtin::eGlobalInvocationID:
 			return "GlobalInvocationID";
-		case Builtin::eLocalInvocationIndex:
+		case ast::Builtin::eLocalInvocationIndex:
 			return "LocalInvocationIndex";
-		case Builtin::eWorkDim:
+		case ast::Builtin::eWorkDim:
 			return "WorkDim";
-		case Builtin::eGlobalSize:
+		case ast::Builtin::eGlobalSize:
 			return "GlobalSize";
-		case Builtin::eEnqueuedWorkgroupSize:
+		case ast::Builtin::eEnqueuedWorkgroupSize:
 			return "EnqueuedWorkgroupSize";
-		case Builtin::eGlobalLinearID:
+		case ast::Builtin::eGlobalLinearID:
 			return "GlobalLinearID";
-		case Builtin::eSubgroupSize:
+		case ast::Builtin::eSubgroupSize:
 			return "SubgroupSize";
-		case Builtin::eSubgroupMaxSize:
+		case ast::Builtin::eSubgroupMaxSize:
 			return "SubgroupMaxSize";
-		case Builtin::eNumSubgroups:
+		case ast::Builtin::eNumSubgroups:
 			return "NumSubgroups";
-		case Builtin::eNumEnqueuedSubgroups:
+		case ast::Builtin::eNumEnqueuedSubgroups:
 			return "NumEnqueuedSubgroups";
-		case Builtin::eSubgroupID:
+		case ast::Builtin::eSubgroupID:
 			return "SubgroupID";
-		case Builtin::eSubgroupLocalInvocationID:
+		case ast::Builtin::eSubgroupLocalInvocationID:
 			return "SubgroupLocalInvocationID";
-		case Builtin::eVertexIndex:
+		case ast::Builtin::eVertexIndex:
 			return "VertexIndex";
-		case Builtin::eInstanceIndex:
+		case ast::Builtin::eInstanceIndex:
 			return "InstanceIndex";
-		case Builtin::eSubgroupEqMaskKHR:
+		case ast::Builtin::eInstanceID:
+			return "InstanceID";
+		case ast::Builtin::eSubgroupEqMaskKHR:
 			return "SubgroupEqMaskKHR";
-		case Builtin::eSubgroupGeMaskKHR:
+		case ast::Builtin::eSubgroupGeMaskKHR:
 			return "SubgroupGeMaskKHR";
-		case Builtin::eSubgroupGtMaskKHR:
+		case ast::Builtin::eSubgroupGtMaskKHR:
 			return "SubgroupGtMaskKHR";
-		case Builtin::eSubgroupLeMaskKHR:
+		case ast::Builtin::eSubgroupLeMaskKHR:
 			return "SubgroupLeMaskKHR";
-		case Builtin::eSubgroupLtMaskKHR:
+		case ast::Builtin::eSubgroupLtMaskKHR:
 			return "SubgroupLtMaskKHR";
-		case Builtin::eBaseVertex:
+		case ast::Builtin::eBaseVertex:
 			return "BaseVertex";
-		case Builtin::eBaseInstance:
+		case ast::Builtin::eBaseInstance:
 			return "BaseInstance";
-		case Builtin::eDrawIndex:
-			return "DrawID";
-		case Builtin::eDeviceIndex:
+		case ast::Builtin::eDrawIndex:
+			return "DrawIndex";
+		case ast::Builtin::eDeviceIndex:
 			return "DeviceIndex";
-		case Builtin::eViewIndex:
+		case ast::Builtin::eViewIndex:
 			return "ViewIndex";
-		case Builtin::eBaryCoordNoPerspAMD:
+		case ast::Builtin::eBaryCoordNoPerspAMD:
 			return "BaryCoordNoPerspAMD";
-		case Builtin::eBaryCoordNoPerspCentroidAMD:
+		case ast::Builtin::eBaryCoordNoPerspCentroidAMD:
 			return "BaryCoordNoPerspCentroidAMD";
-		case Builtin::eBaryCoordNoPerspSampleAMD:
+		case ast::Builtin::eBaryCoordNoPerspSampleAMD:
 			return "BaryCoordNoPerspSampleAMD";
-		case Builtin::eBaryCoordSmoothAMD:
+		case ast::Builtin::eBaryCoordSmoothAMD:
 			return "BaryCoordSmoothAMD";
-		case Builtin::eBaryCoordSmoothCentroidAMD:
+		case ast::Builtin::eBaryCoordSmoothCentroidAMD:
 			return "BaryCoordSmoothCentroidAMD";
-		case Builtin::eBaryCoordSmoothSampleAMD:
+		case ast::Builtin::eBaryCoordSmoothSampleAMD:
 			return "BaryCoordSmoothSampleAMD";
-		case Builtin::eBaryCoordPullModelAMD:
+		case ast::Builtin::eBaryCoordPullModelAMD:
 			return "BaryCoordPullModelAMD";
-		case Builtin::eFragStencilRefEXT:
-			return "FragStencilRef";
-		case Builtin::eViewportMaskNV:
+		case ast::Builtin::eFragStencilRefEXT:
+			return "FragStencilRefEXT";
+		case ast::Builtin::eViewportMaskNV:
 			return "ViewportMaskNV";
-		case Builtin::eSecondaryPositionNV:
+		case ast::Builtin::eSecondaryPositionNV:
 			return "SecondaryPositionNV";
-		case Builtin::eSecondaryViewportMaskNV:
+		case ast::Builtin::eSecondaryViewportMaskNV:
 			return "SecondaryViewportMaskNV";
-		case Builtin::ePositionPerViewNV:
+		case ast::Builtin::ePositionPerViewNV:
 			return "PositionPerViewNV";
-		case Builtin::eViewportMaskPerViewNV:
+		case ast::Builtin::eViewportMaskPerViewNV:
 			return "ViewportMaskPerViewNV";
+		case ast::Builtin::eLaunchID:
+			return "LaunchID";
+		case ast::Builtin::eLaunchSize:
+			return "LaunchSize";
+		case ast::Builtin::eInstanceCustomIndex:
+			return "InstanceCustomIndex";
+		case ast::Builtin::eGeometryIndex:
+			return "GeometryIndex";
+		case ast::Builtin::eWorldRayOrigin:
+			return "WorldRayOrigin";
+		case ast::Builtin::eWorldRayDirection:
+			return "WorldRayDirection";
+		case ast::Builtin::eObjectRayOrigin:
+			return "ObjectRayOrigin";
+		case ast::Builtin::eObjectRayDirection:
+			return "ObjectRayDirection";
+		case ast::Builtin::eRayTmin:
+			return "RayTmin";
+		case ast::Builtin::eRayTmax:
+			return "RayTmax";
+		case ast::Builtin::eIncomingRayFlags:
+			return "IncomingRayFlags";
+		case ast::Builtin::eHitKind:
+			return "HitKind";
+		case ast::Builtin::eObjectToWorld:
+			return "ObjectToWorld";
+		case ast::Builtin::eWorldToObject:
+			return "WorldToObject";
 		default:
 			AST_Failure( "Unsupported ast::Builtin" );
 			return "Undefined";

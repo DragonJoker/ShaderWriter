@@ -370,7 +370,9 @@ namespace spirv
 	using SampledImageTypeInstruction = InstructionT< spv::OpTypeSampledImage, false, true, 1u, false, false >;
 	using RuntimeArrayTypeInstruction = InstructionT< spv::OpTypeRuntimeArray, false, true, 1u, false, false >;
 	using ArrayTypeInstruction = InstructionT< spv::OpTypeArray, false, true, 2u, false, false >;
+	using ForwardPointerTypeInstruction = InstructionT< spv::OpTypeForwardPointer, false, true, 1u, false, false >;
 	using PointerTypeInstruction = InstructionT< spv::OpTypePointer, false, true, 2u, false, false >;
+	using AccelerationStructureTypeInstruction = InstructionT< spv::OpTypeAccelerationStructureKHR, false, true, 0u, false, false >;
 	using FunctionTypeInstruction = VariadicInstructionT< spv::OpTypeFunction, false, true >;
 	using ImageTypeInstruction = VariadicInstructionT< spv::OpTypeImage, false, true >;
 	using StructTypeInstruction = VariadicInstructionT< spv::OpTypeStruct, false, true >;

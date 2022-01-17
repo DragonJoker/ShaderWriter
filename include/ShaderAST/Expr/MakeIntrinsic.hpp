@@ -11501,6 +11501,128 @@ namespace ast::expr
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eGroupMemoryBarrier );
 	}
+	// Ray tracing Shader Functions
+
+	/**
+	*@return
+	*	void
+	*@param[in] topLevel
+	*	accelerationstructure
+	*@param[in] rayFlags
+	*	uint
+	*@param[in] cullMask
+	*	uint
+	*@param[in] sbtRecordOffset
+	*	uint
+	*@param[in] sbtRecordStride
+	*	uint
+	*@param[in] missIndex
+	*	uint
+	*@param[in] origin
+	*	vec3f
+	*@param[in] Tmin
+	*	float
+	*@param[in] direction
+	*	vec3f
+	*@param[in] Tmax
+	*	float
+	*@param[in] payload
+	*	int
+	*/
+	inline IntrinsicCallPtr makeTraceRay( type::TypesCache & cache
+		, ExprPtr topLevel
+		, ExprPtr rayFlags
+		, ExprPtr cullMask
+		, ExprPtr sbtRecordOffset
+		, ExprPtr sbtRecordStride
+		, ExprPtr missIndex
+		, ExprPtr origin
+		, ExprPtr Tmin
+		, ExprPtr direction
+		, ExprPtr Tmax
+		, ExprPtr payload )
+	{
+		assert( topLevel->getType()->getKind() == type::Kind::eAccelerationStructure );
+		assert( rayFlags->getType()->getKind() == type::Kind::eUInt );
+		assert( cullMask->getType()->getKind() == type::Kind::eUInt );
+		assert( sbtRecordOffset->getType()->getKind() == type::Kind::eUInt );
+		assert( sbtRecordStride->getType()->getKind() == type::Kind::eUInt );
+		assert( missIndex->getType()->getKind() == type::Kind::eUInt );
+		assert( origin->getType()->getKind() == type::Kind::eVec3F );
+		assert( Tmin->getType()->getKind() == type::Kind::eFloat );
+		assert( direction->getType()->getKind() == type::Kind::eVec3F );
+		assert( Tmax->getType()->getKind() == type::Kind::eFloat );
+		assert( payload->getType()->getKind() == type::Kind::eInt );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eTraceRay
+			, std::move( topLevel )
+			, std::move( rayFlags )
+			, std::move( cullMask )
+			, std::move( sbtRecordOffset )
+			, std::move( sbtRecordStride )
+			, std::move( missIndex )
+			, std::move( origin )
+			, std::move( Tmin )
+			, std::move( direction )
+			, std::move( Tmax )
+			, std::move( payload ) );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] hitT
+	*	float
+	*@param[in] hitKind
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReportIntersection( type::TypesCache & cache
+		, ExprPtr hitT
+		, ExprPtr hitKind )
+	{
+		assert( hitT->getType()->getKind() == type::Kind::eFloat );
+		assert( hitKind->getType()->getKind() == type::Kind::eUInt );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eReportIntersection
+			, std::move( hitT )
+			, std::move( hitKind ) );
+	}
+	/**
+	*@return
+	*	void
+	*/
+	inline IntrinsicCallPtr makeIgnoreIntersection( type::TypesCache & cache )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eIgnoreIntersection );
+	}
+	/**
+	*@return
+	*	void
+	*/
+	inline IntrinsicCallPtr makeTerminateRay( type::TypesCache & cache )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eTerminateRay );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] sbtRecordIndex
+	*	uint
+	*@param[in] callable
+	*	int
+	*/
+	inline IntrinsicCallPtr makeExecuteCallable( type::TypesCache & cache
+		, ExprPtr sbtRecordIndex
+		, ExprPtr callable )
+	{
+		assert( sbtRecordIndex->getType()->getKind() == type::Kind::eUInt );
+		assert( callable->getType()->getKind() == type::Kind::eInt );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eExecuteCallable
+			, std::move( sbtRecordIndex )
+			, std::move( callable ) );
+	}
 }
 
 #endif

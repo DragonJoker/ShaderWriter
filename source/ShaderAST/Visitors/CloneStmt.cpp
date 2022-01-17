@@ -34,9 +34,21 @@ namespace ast
 		}
 	}
 
+	void StmtCloner::visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeAccelerationStructureDecl( stmt->getVariable()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() ) );
+	}
+
 	void StmtCloner::visitBreakStmt( stmt::Break * stmt )
 	{
 		m_current->addStmt( stmt::makeBreak( stmt->isSwitchCaseBreak() ) );
+	}
+
+	void StmtCloner::visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeBufferReferenceDecl( stmt->getType() ) );
 	}
 
 	void StmtCloner::visitContinueStmt( stmt::Continue * stmt )
@@ -146,6 +158,11 @@ namespace ast
 		m_current->addStmt( std::move( cont ) );
 	}
 
+	void StmtCloner::visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
+	}
+
 	void StmtCloner::visitIfStmt( stmt::If * stmt )
 	{
 		auto save = m_current;
@@ -174,6 +191,18 @@ namespace ast
 		m_current->addStmt( stmt::makeImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
+	}
+
+	void StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
+			, stmt->getLocation() ) );
+	}
+
+	void StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
+			, stmt->getLocation() ) );
 	}
 
 	void StmtCloner::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )

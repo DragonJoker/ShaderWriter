@@ -17,6 +17,7 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
+	SDAST_API std::string getName( type::MemoryLayout value );
 	SDAST_API std::string getName( type::Type const & type );
 	SDAST_API std::string getName( type::TypePtr type );
 	SDAST_API std::string getName( type::Kind type );

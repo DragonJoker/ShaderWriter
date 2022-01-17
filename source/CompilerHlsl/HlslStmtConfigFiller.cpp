@@ -136,6 +136,26 @@ namespace hlsl
 		m_adaptationData.updateCurrentEntryPoint( nullptr );
 	}
 
+	void StmtConfigFiller::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	{
+	}
+
+	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )
 	{
 		doSubmit( stmt->getCtrlExpr() );

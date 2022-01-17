@@ -232,6 +232,22 @@ namespace spirv
 			return nullptr;
 		}
 
+		bool isRayTracing( ast::ShaderStage stage )
+		{
+			switch ( stage )
+			{
+			case ast::ShaderStage::eRayGeneration:
+			case ast::ShaderStage::eRayClosestHit:
+			case ast::ShaderStage::eRayMiss:
+			case ast::ShaderStage::eRayIntersection:
+			case ast::ShaderStage::eRayAnyHit:
+			case ast::ShaderStage::eRayCallable:
+				return true;
+			default:
+				return false;
+			}
+		}
+
 		bool isShaderInput( ast::Builtin builtin
 			, ast::ShaderStage type )
 		{
@@ -281,7 +297,9 @@ namespace spirv
 						|| builtin == ast::Builtin::eDrawIndex
 						|| builtin == ast::Builtin::eBaseVertex
 						|| builtin == ast::Builtin::eBaseInstance
-						|| builtin == ast::Builtin::eTessLevelOuter ) );
+						|| builtin == ast::Builtin::eTessLevelOuter ) )
+				// Ray tracing stages only have input built-ins
+				|| isRayTracing( type );
 		}
 
 		bool isShaderOutput( ast::Builtin builtin
@@ -355,7 +373,10 @@ namespace spirv
 			config.registerCapability( spv::CapabilityCullDistance );
 			break;
 		case ast::Builtin::ePrimitiveID:
-			config.registerCapability( spv::CapabilityGeometry );
+			if ( !isRayTracing( stage ) )
+			{
+				config.registerCapability( spv::CapabilityGeometry );
+			}
 			break;
 		case ast::Builtin::ePrimitiveIDIn:
 		case ast::Builtin::eInvocationID:
@@ -425,6 +446,7 @@ namespace spirv
 			break;
 		case ast::Builtin::eVertexIndex:
 		case ast::Builtin::eInstanceIndex:
+		case ast::Builtin::eInstanceID:
 			config.registerCapability( spv::CapabilityShader );
 			break;
 		case ast::Builtin::eSubgroupEqMaskKHR:
@@ -472,6 +494,22 @@ namespace spirv
 		case ast::Builtin::ePositionPerViewNV:
 		case ast::Builtin::eViewportMaskPerViewNV:
 			config.registerCapability( spv::CapabilityPerViewAttributesNV );
+			break;
+		case ast::Builtin::eLaunchID:
+		case ast::Builtin::eLaunchSize:
+		case ast::Builtin::eInstanceCustomIndex:
+		case ast::Builtin::eGeometryIndex:
+		case ast::Builtin::eWorldRayOrigin:
+		case ast::Builtin::eWorldRayDirection:
+		case ast::Builtin::eObjectRayOrigin:
+		case ast::Builtin::eObjectRayDirection:
+		case ast::Builtin::eRayTmin:
+		case ast::Builtin::eRayTmax:
+		case ast::Builtin::eIncomingRayFlags:
+		case ast::Builtin::eHitKind:
+		case ast::Builtin::eObjectToWorld:
+		case ast::Builtin::eWorldToObject:
+			config.registerCapability( spv::CapabilityRayTracingKHR );
 			break;
 		default:
 			break;
@@ -530,7 +568,7 @@ namespace spirv
 
 	void IOMapping::addPendingMbr( ast::var::VariablePtr outerVar
 		, uint32_t mbrIndex
-		, uint32_t flags
+		, uint64_t flags
 		, uint32_t location
 		, uint32_t arraySize )
 	{
@@ -610,7 +648,7 @@ namespace spirv
 			ast::type::StructPtr structType;
 			mbrIndex = mbr.index;
 
-			if ( mbr.io.flags & uint32_t( ast::var::Flag::eBuiltin ) )
+			if ( mbr.io.flags & uint64_t( ast::var::Flag::eBuiltin ) )
 			{
 				auto splitIt = splitVarsBuiltins.find( mbr.outer );
 
@@ -757,7 +795,7 @@ namespace spirv
 	PendingResult IOMapping::processPendingType( ast::type::TypePtr type
 		, std::string const & name
 		, ast::Builtin builtin
-		, uint32_t flags
+		, uint64_t flags
 		, uint32_t location
 		, uint32_t arraySize
 		, ast::stmt::Container * cont )
@@ -765,6 +803,7 @@ namespace spirv
 		auto compType = getComponentType( type );
 
 		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+			&& !isRayTracing( stage )
 			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
 			flags = flags | ast::var::Flag::eFlat;
@@ -822,7 +861,7 @@ namespace spirv
 
 	PendingResult IOMapping::processPendingType( ast::type::Struct const & structType
 		, uint32_t mbrIndex
-		, uint32_t mbrFlags
+		, uint64_t mbrFlags
 		, uint32_t mbrLocation
 		, uint32_t mbrArraySize
 		, ast::stmt::Container * cont )
@@ -1031,8 +1070,7 @@ namespace spirv
 		case spv::CapabilityRoundingModeRTZ:
 			break;
 		case spv::CapabilityRayQueryProvisionalKHR:
-			break;
-		case spv::CapabilityRayTraversalPrimitiveCullingProvisionalKHR:
+			registerExtension( KHR_ray_query );
 			break;
 		case spv::CapabilityFloat16ImageAMD:
 			break;
@@ -1107,10 +1145,9 @@ namespace spirv
 		case spv::CapabilityVulkanMemoryModelDeviceScope:
 			break;
 		case spv::CapabilityPhysicalStorageBufferAddresses:
+			registerExtension( EXT_physical_storage_buffer );
 			break;
 		case spv::CapabilityComputeDerivativeGroupLinearNV:
-			break;
-		case spv::CapabilityRayTracingProvisionalKHR:
 			break;
 		case spv::CapabilityCooperativeMatrixNV:
 			break;
@@ -1162,6 +1199,16 @@ namespace spirv
 		case spv::CapabilityAtomicFloat64AddEXT:
 			registerExtension( EXT_shader_atomic_float_add );
 			break;
+		case spv::CapabilityRayTraversalPrimitiveCullingKHR:
+			registerExtension( KHR_ray_query );
+			registerExtension( KHR_ray_tracing );
+			break;
+		case spv::CapabilityRayTracingProvisionalKHR:
+			registerExtension( KHR_ray_tracing );
+			break;
+		case spv::CapabilityRayTracingKHR:
+			registerExtension( KHR_ray_tracing );
+			break;
 		case spv::CapabilityMax:
 			break;
 		default:
@@ -1194,7 +1241,7 @@ namespace spirv
 	{
 		for ( auto & capability : requiredCapabilities )
 		{
-			module.capabilities.emplace_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( capability ) } ) );
+			insertCapability( module.capabilities, capability );
 		}
 
 		for ( auto & extension : requiredExtensions )
@@ -1806,10 +1853,68 @@ namespace spirv
 			return spv::BuiltInPositionPerViewNV;
 		case ast::Builtin::eViewportMaskPerViewNV:
 			return spv::BuiltInViewportMaskPerViewNV;
+		case ast::Builtin::eLaunchID:
+			return spv::BuiltInLaunchIdKHR;
+		case ast::Builtin::eLaunchSize:
+			return spv::BuiltInLaunchSizeKHR;
+		case ast::Builtin::eInstanceCustomIndex:
+			return spv::BuiltInInstanceCustomIndexKHR;
+		case ast::Builtin::eGeometryIndex:
+			return spv::BuiltInRayGeometryIndexKHR;
+		case ast::Builtin::eWorldRayOrigin:
+			return spv::BuiltInWorldRayOriginKHR;
+		case ast::Builtin::eWorldRayDirection:
+			return spv::BuiltInWorldRayDirectionKHR;
+		case ast::Builtin::eObjectRayOrigin:
+			return spv::BuiltInObjectRayOriginKHR;
+		case ast::Builtin::eObjectRayDirection:
+			return spv::BuiltInObjectRayDirectionKHR;
+		case ast::Builtin::eRayTmin:
+			return spv::BuiltInRayTminKHR;
+		case ast::Builtin::eRayTmax:
+			return spv::BuiltInRayTmaxKHR;
+		case ast::Builtin::eIncomingRayFlags:
+			return spv::BuiltInIncomingRayFlagsKHR;
+		case ast::Builtin::eHitKind:
+			return spv::BuiltInHitKindKHR;
+		case ast::Builtin::eObjectToWorld:
+			return spv::BuiltInObjectToWorldKHR;
+		case ast::Builtin::eWorldToObject:
+			return spv::BuiltInWorldToObjectKHR;
 		default:
 			AST_Failure( "Unsupported ast::Builtin" );
 			return spv::BuiltInMax;
 		}
+	}
+
+	spv::AddressingModel getAddressingModel( ast::ShaderStage kind )
+	{
+		spv::AddressingModel result{};
+
+		switch ( kind )
+		{
+		case ast::ShaderStage::eVertex:
+		case ast::ShaderStage::eTessellationControl:
+		case ast::ShaderStage::eTessellationEvaluation:
+		case ast::ShaderStage::eGeometry:
+		case ast::ShaderStage::eCompute:
+		case ast::ShaderStage::eFragment:
+		case ast::ShaderStage::eRayGeneration:
+		case ast::ShaderStage::eRayMiss:
+		case ast::ShaderStage::eRayIntersection:
+		case ast::ShaderStage::eRayCallable:
+			result = spv::AddressingModelLogical;
+			break;
+		case ast::ShaderStage::eRayClosestHit:
+		case ast::ShaderStage::eRayAnyHit:
+			result = spv::AddressingModelPhysicalStorageBuffer64;
+			break;
+		default:
+			AST_Failure( "Unsupported sdw::ShaderStage." );
+			break;
+		}
+
+		return result;
 	}
 
 	spv::MemoryModel getMemoryModel()
@@ -1840,6 +1945,24 @@ namespace spirv
 			break;
 		case ast::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
+			break;
+		case ast::ShaderStage::eRayGeneration:
+			result = spv::ExecutionModelRayGenerationKHR;
+			break;
+		case ast::ShaderStage::eRayClosestHit:
+			result = spv::ExecutionModelClosestHitKHR;
+			break;
+		case ast::ShaderStage::eRayMiss:
+			result = spv::ExecutionModelMissKHR;
+			break;
+		case ast::ShaderStage::eRayIntersection:
+			result = spv::ExecutionModelIntersectionKHR;
+			break;
+		case ast::ShaderStage::eRayAnyHit:
+			result = spv::ExecutionModelAnyHitKHR;
+			break;
+		case ast::ShaderStage::eRayCallable:
+			result = spv::ExecutionModelCallableKHR;
 			break;
 		default:
 			AST_Failure( "Unsupported sdw::ShaderStage." );
@@ -1981,10 +2104,40 @@ namespace spirv
 			return "NamedBarrier";
 		case spv::CapabilityPipeStorage:
 			return "PipeStorage";
+		case spv::CapabilityGroupNonUniform:
+			return "GroupNonUniform";
+		case spv::CapabilityGroupNonUniformVote:
+			return "GroupNonUniformVote";
+		case spv::CapabilityGroupNonUniformArithmetic:
+			return "GroupNonUniformArithmetic";
+		case spv::CapabilityGroupNonUniformBallot:
+			return "GroupNonUniformBallot";
+		case spv::CapabilityGroupNonUniformShuffle:
+			return "GroupNonUniformShuffle";
+		case spv::CapabilityGroupNonUniformShuffleRelative:
+			return "GroupNonUniformShuffleRelative";
+		case spv::CapabilityGroupNonUniformClustered:
+			return "GroupNonUniformClustered";
+		case spv::CapabilityGroupNonUniformQuad:
+			return "GroupNonUniformQuad";
+		case spv::CapabilityShaderLayer:
+			return "ShaderLayer";
+		case spv::CapabilityShaderViewportIndex:
+			return "ShaderViewportIndex";
+		case spv::CapabilityUniformDecoration:
+			return "UniformDecoration";
+		case spv::CapabilityFragmentShadingRateKHR:
+			return "FragmentShadingRateKHR";
 		case spv::CapabilitySubgroupBallotKHR:
 			return "SubgroupBallotKHR";
 		case spv::CapabilityDrawParameters:
 			return "DrawParameters";
+		case spv::CapabilityWorkgroupMemoryExplicitLayoutKHR:
+			return "WorkgroupMemoryExplicitLayoutKHR";
+		case spv::CapabilityWorkgroupMemoryExplicitLayout8BitAccessKHR:
+			return "WorkgroupMemoryExplicitLayout8BitAccessKHR";
+		case spv::CapabilityWorkgroupMemoryExplicitLayout16BitAccessKHR:
+			return "WorkgroupMemoryExplicitLayout16BitAccessKHR";
 		case spv::CapabilitySubgroupVoteKHR:
 			return "SubgroupVoteKHR";
 		case spv::CapabilityStorageBuffer16BitAccess:
@@ -2007,6 +2160,32 @@ namespace spirv
 			return "AtomicStorageOps";
 		case spv::CapabilitySampleMaskPostDepthCoverage:
 			return "SampleMaskPostDepthCoverage";
+		case spv::CapabilityStorageBuffer8BitAccess:
+			return "StorageBuffer8BitAccess";
+		case spv::CapabilityUniformAndStorageBuffer8BitAccess:
+			return "UniformAndStorageBuffer8BitAccess";
+		case spv::CapabilityStoragePushConstant8:
+			return "StoragePushConstant8";
+		case spv::CapabilityDenormPreserve:
+			return "DenormPreserve";
+		case spv::CapabilityDenormFlushToZero:
+			return "DenormFlushToZero";
+		case spv::CapabilitySignedZeroInfNanPreserve:
+			return "SignedZeroInfNanPreserve";
+		case spv::CapabilityRoundingModeRTE:
+			return "RoundingModeRTE";
+		case spv::CapabilityRoundingModeRTZ:
+			return "RoundingModeRTZ";
+		case spv::CapabilityRayQueryProvisionalKHR:
+			return "RayQueryProvisionalKHR";
+		case spv::CapabilityRayQueryKHR:
+			return "RayQueryKHR";
+		case spv::CapabilityRayTraversalPrimitiveCullingKHR:
+			return "RayTraversalPrimitiveCullingKHR";
+		case spv::CapabilityRayTracingKHR:
+			return "RayTracingKHR";
+		case spv::CapabilityFloat16ImageAMD:
+			return "Float16ImageAMD";
 		case spv::CapabilityImageGatherBiasLodAMD:
 			return "ImageGatherBiasLodAMD";
 		case spv::CapabilityFragmentMaskAMD:
@@ -2015,18 +2194,88 @@ namespace spirv
 			return "StencilExportEXT";
 		case spv::CapabilityImageReadWriteLodAMD:
 			return "ImageReadWriteLodAMD";
+		case spv::CapabilityInt64ImageEXT:
+			return "Int64ImageEXT";
+		case spv::CapabilityShaderClockKHR:
+			return "ShaderClockKHR";
 		case spv::CapabilitySampleMaskOverrideCoverageNV:
 			return "SampleMaskOverrideCoverageNV";
 		case spv::CapabilityGeometryShaderPassthroughNV:
 			return "GeometryShaderPassthroughNV";
 		case spv::CapabilityShaderViewportIndexLayerEXT:
-			return "ShaderViewportIndexLayer";
+			return "ShaderViewportIndexLayerEXT";
 		case spv::CapabilityShaderViewportMaskNV:
 			return "ShaderViewportMaskNV";
 		case spv::CapabilityShaderStereoViewNV:
 			return "ShaderStereoViewNV";
 		case spv::CapabilityPerViewAttributesNV:
 			return "PerViewAttributesNV";
+		case spv::CapabilityFragmentFullyCoveredEXT:
+			return "FragmentFullyCoveredEXT";
+		case spv::CapabilityMeshShadingNV:
+			return "MeshShadingNV";
+		case spv::CapabilityImageFootprintNV:
+			return "ImageFootprintNV";
+		case spv::CapabilityFragmentBarycentricKHR:
+			return "FragmentBarycentricKHR";
+		case spv::CapabilityComputeDerivativeGroupQuadsNV:
+			return "ComputeDerivativeGroupQuadsNV";
+		case spv::CapabilityFragmentDensityEXT:
+			return "FragmentDensityEXT";
+		case spv::CapabilityGroupNonUniformPartitionedNV:
+			return "GroupNonUniformPartitionedNV";
+		case spv::CapabilityShaderNonUniform:
+			return "ShaderNonUniform";
+		case spv::CapabilityRuntimeDescriptorArray:
+			return "RuntimeDescriptorArray";
+		case spv::CapabilityInputAttachmentArrayDynamicIndexing:
+			return "InputAttachmentArrayDynamicIndexing";
+		case spv::CapabilityUniformTexelBufferArrayDynamicIndexing:
+			return "UniformTexelBufferArrayDynamicIndexing";
+		case spv::CapabilityStorageTexelBufferArrayDynamicIndexing:
+			return "StorageTexelBufferArrayDynamicIndexing";
+		case spv::CapabilityUniformBufferArrayNonUniformIndexing:
+			return "UniformBufferArrayNonUniformIndexing";
+		case spv::CapabilitySampledImageArrayNonUniformIndexing:
+			return "SampledImageArrayNonUniformIndexing";
+		case spv::CapabilityStorageBufferArrayNonUniformIndexing:
+			return "StorageBufferArrayNonUniformIndexing";
+		case spv::CapabilityStorageImageArrayNonUniformIndexing:
+			return "StorageImageArrayNonUniformIndexing";
+		case spv::CapabilityInputAttachmentArrayNonUniformIndexing:
+			return "InputAttachmentArrayNonUniformIndexing";
+		case spv::CapabilityUniformTexelBufferArrayNonUniformIndexing:
+			return "UniformTexelBufferArrayNonUniformIndexing";
+		case spv::CapabilityStorageTexelBufferArrayNonUniformIndexing:
+			return "StorageTexelBufferArrayNonUniformIndexing";
+		case spv::CapabilityRayTracingNV:
+			return "RayTracingNV";
+		case spv::CapabilityRayTracingMotionBlurNV:
+			return "RayTracingMotionBlurNV";
+		case spv::CapabilityVulkanMemoryModel:
+			return "VulkanMemoryModel";
+		case spv::CapabilityVulkanMemoryModelDeviceScope:
+			return "VulkanMemoryModelDeviceScope";
+		case spv::CapabilityPhysicalStorageBufferAddresses:
+			return "PhysicalStorageBufferAddresses";
+		case spv::CapabilityComputeDerivativeGroupLinearNV:
+			return "ComputeDerivativeGroupLinearNV";
+		case spv::CapabilityRayTracingProvisionalKHR:
+			return "RayTracingProvisionalKHR";
+		case spv::CapabilityCooperativeMatrixNV:
+			return "CooperativeMatrixNV";
+		case spv::CapabilityFragmentShaderSampleInterlockEXT:
+			return "FragmentShaderSampleInterlockEXT";
+		case spv::CapabilityFragmentShaderShadingRateInterlockEXT:
+			return "FragmentShaderShadingRateInterlockEXT";
+		case spv::CapabilityShaderSMBuiltinsNV:
+			return "ShaderSMBuiltinsNV";
+		case spv::CapabilityFragmentShaderPixelInterlockEXT:
+			return "FragmentShaderPixelInterlockEXT";
+		case spv::CapabilityDemoteToHelperInvocation:
+			return "DemoteToHelperInvocation";
+		case spv::CapabilityBindlessTextureNV:
+			return "BindlessTextureNV";
 		case spv::CapabilitySubgroupShuffleINTEL:
 			return "SubgroupShuffleINTEL";
 		case spv::CapabilitySubgroupBufferBlockIOINTEL:
@@ -2035,20 +2284,48 @@ namespace spirv
 			return "SubgroupImageBlockIOINTEL";
 		case spv::CapabilitySubgroupImageMediaBlockIOINTEL:
 			return "SubgroupImageMediaBlockIOINTEL";
+		case spv::CapabilityRoundToInfinityINTEL:
+			return "RoundToInfinityINTEL";
+		case spv::CapabilityFloatingPointModeINTEL:
+			return "FloatingPointModeINTEL";
 		case spv::CapabilityIntegerFunctions2INTEL:
 			return "IntegerFunctions2INTEL";
 		case spv::CapabilityFunctionPointersINTEL:
 			return "FunctionPointersINTEL";
 		case spv::CapabilityIndirectReferencesINTEL:
 			return "IndirectReferencesINTEL";
+		case spv::CapabilityAsmINTEL:
+			return "AsmINTEL";
+		case spv::CapabilityAtomicFloat32MinMaxEXT:
+			return "AtomicFloat32MinMaxEXT";
+		case spv::CapabilityAtomicFloat64MinMaxEXT:
+			return "AtomicFloat64MinMaxEXT";
+		case spv::CapabilityAtomicFloat16MinMaxEXT:
+			return "AtomicFloat16MinMaxEXT";
+		case spv::CapabilityVectorComputeINTEL:
+			return "VectorComputeINTEL";
+		case spv::CapabilityVectorAnyINTEL:
+			return "VectorAnyINTEL";
+		case spv::CapabilityExpectAssumeKHR:
+			return "ExpectAssumeKHR";
 		case spv::CapabilitySubgroupAvcMotionEstimationINTEL:
 			return "SubgroupAvcMotionEstimationINTEL";
 		case spv::CapabilitySubgroupAvcMotionEstimationIntraINTEL:
 			return "SubgroupAvcMotionEstimationIntraINTEL";
 		case spv::CapabilitySubgroupAvcMotionEstimationChromaINTEL:
 			return "SubgroupAvcMotionEstimationChromaINTEL";
+		case spv::CapabilityVariableLengthArrayINTEL:
+			return "VariableLengthArrayINTEL";
+		case spv::CapabilityFunctionFloatControlINTEL:
+			return "FunctionFloatControlINTEL";
 		case spv::CapabilityFPGAMemoryAttributesINTEL:
 			return "FPGAMemoryAttributesINTEL";
+		case spv::CapabilityFPFastMathModeINTEL:
+			return "FPFastMathModeINTEL";
+		case spv::CapabilityArbitraryPrecisionIntegersINTEL:
+			return "ArbitraryPrecisionIntegersINTEL";
+		case spv::CapabilityArbitraryPrecisionFloatingPointINTEL:
+			return "ArbitraryPrecisionFloatingPointINTEL";
 		case spv::CapabilityUnstructuredLoopControlsINTEL:
 			return "UnstructuredLoopControlsINTEL";
 		case spv::CapabilityFPGALoopControlsINTEL:
@@ -2057,16 +2334,46 @@ namespace spirv
 			return "KernelAttributesINTEL";
 		case spv::CapabilityFPGAKernelAttributesINTEL:
 			return "FPGAKernelAttributesINTEL";
+		case spv::CapabilityFPGAMemoryAccessesINTEL:
+			return "FPGAMemoryAccessesINTEL";
+		case spv::CapabilityFPGAClusterAttributesINTEL:
+			return "FPGAClusterAttributesINTEL";
+		case spv::CapabilityLoopFuseINTEL:
+			return "LoopFuseINTEL";
+		case spv::CapabilityFPGABufferLocationINTEL:
+			return "FPGABufferLocationINTEL";
+		case spv::CapabilityArbitraryPrecisionFixedPointINTEL:
+			return "ArbitraryPrecisionFixedPointINTEL";
+		case spv::CapabilityUSMStorageClassesINTEL:
+			return "USMStorageClassesINTEL";
+		case spv::CapabilityIOPipesINTEL:
+			return "IOPipesINTEL";
 		case spv::CapabilityBlockingPipesINTEL:
 			return "BlockingPipesINTEL";
 		case spv::CapabilityFPGARegINTEL:
 			return "FPGARegINTEL";
+		case spv::CapabilityDotProductInputAll:
+			return "DotProductInputAll";
+		case spv::CapabilityDotProductInput4x8Bit:
+			return "DotProductInput4x8Bit";
+		case spv::CapabilityDotProductInput4x8BitPacked:
+			return "DotProductInput4x8BitPacked";
+		case spv::CapabilityDotProduct:
+			return "DotProduct";
+		case spv::CapabilityBitInstructions:
+			return "BitInstructions";
 		case spv::CapabilityAtomicFloat32AddEXT:
 			return "AtomicFloat32AddEXT";
 		case spv::CapabilityAtomicFloat64AddEXT:
 			return "AtomicFloat64AddEXT";
-		case spv::CapabilityShaderLayer:
-			return "ShaderLayer";
+		case spv::CapabilityLongConstantCompositeINTEL:
+			return "LongConstantCompositeINTEL";
+		case spv::CapabilityOptNoneINTEL:
+			return "OptNoneINTEL";
+		case spv::CapabilityAtomicFloat16AddEXT:
+			return "AtomicFloat16AddEXT";
+		case spv::CapabilityDebugInfoModuleINTEL:
+			return "DebugInfoModuleINTEL";
 		default:
 			AST_Failure( "Unsupported Capability" );
 			return "Undefined";
@@ -2114,6 +2421,11 @@ namespace spirv
 			, operands );
 	}
 
+	InstructionPtr makeAccelerationStructureTypeInstruction( ValueId resultId )
+	{
+		return makeInstruction< AccelerationStructureTypeInstruction >( resultId );
+	}
+
 	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
 		, ValueId id )
 	{
@@ -2131,6 +2443,8 @@ namespace spirv
 			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 1u } );
 		case ast::type::Kind::eUInt:
 			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 0u } );
+		case ast::type::Kind::eUInt64:
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 64u }, ValueId{ 0u } );
 		case ast::type::Kind::eFloat:
 			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 32u } );
 		case ast::type::Kind::eDouble:
@@ -2163,6 +2477,12 @@ namespace spirv
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpControlBarrier > >( operands );
 		case spv::OpMemoryBarrier:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpMemoryBarrier > >( operands );
+		case spv::OpTerminateRayKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTerminateRayKHR > >( operands );
+		case spv::OpIgnoreIntersectionKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpIgnoreIntersectionKHR > >( operands );
+		case spv::OpTraceRayKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
@@ -2285,6 +2605,10 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyFine > >( returnTypeId, resultId, operands );
 		case spv::OpFwidth:
 			return makeInstruction< IntrinsicInstructionT< spv::OpFwidth > >( returnTypeId, resultId, operands );
+		case spv::OpExecuteCallableKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpExecuteCallableKHR > >( returnTypeId, resultId, operands );
+		case spv::OpReportIntersectionKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpReportIntersectionKHR > >( returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
@@ -2400,6 +2724,10 @@ namespace spirv
 			return makeInstruction< UnInstructionT< spv::OpConvertUToF > >( returnTypeId, resultId, operandId );
 		case spv::OpBitcast:
 			return makeInstruction< UnInstructionT< spv::OpBitcast > >( returnTypeId, resultId, operandId );
+		case spv::OpConvertUToAccelerationStructureKHR:
+			return makeInstruction< UnInstructionT< spv::OpConvertUToAccelerationStructureKHR > >( returnTypeId, resultId, operandId );
+		case spv::OpConvertUToPtr:
+			return makeInstruction< UnInstructionT< spv::OpConvertUToPtr > >( returnTypeId, resultId, operandId );
 		default:
 			AST_Failure( "Unexpected cast Op" );
 		}
@@ -2469,6 +2797,8 @@ namespace spirv
 			return ast::expr::makeLiteral( cache, 0 );
 		case Kind::eUInt:
 			return ast::expr::makeLiteral( cache, 0u );
+		case Kind::eUInt64:
+			return ast::expr::makeLiteral( cache, 0ull );
 		case Kind::eHalf:
 		case Kind::eFloat:
 			return ast::expr::makeLiteral( cache, 0.0f );
@@ -2490,6 +2820,8 @@ namespace spirv
 			return ast::expr::makeLiteral( cache, 1 );
 		case Kind::eUInt:
 			return ast::expr::makeLiteral( cache, 1u );
+		case Kind::eUInt64:
+			return ast::expr::makeLiteral( cache, 1ull );
 		case Kind::eHalf:
 		case Kind::eFloat:
 			return ast::expr::makeLiteral( cache, 1.0f );
@@ -2582,6 +2914,22 @@ namespace spirv
 	{
 		return isPointerParam( param.getType()
 			, param.isOutputParam() );
+	}
+
+	void insertCapability( InstructionList & capabilities
+		, spv::Capability capa )
+	{
+		auto it = std::find_if( capabilities.begin()
+			, capabilities.end()
+			, [capa]( InstructionPtr const & lookup )
+			{
+				return lookup->operands.front() == spv::Id( capa );
+			} );
+
+		if ( it == capabilities.end() )
+		{
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( capa ) } ) );
+		}
 	}
 
 	//*************************************************************************

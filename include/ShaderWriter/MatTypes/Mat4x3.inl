@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	//*********************************************************************************************
+
 	template< typename ValueT >
 	Mat4x3T< ValueT >::Mat4x3T( ShaderWriter & writer
 		, expr::ExprPtr expr
@@ -44,4 +46,22 @@ namespace sdw
 	{
 		return sdw::makeType< Mat4x3T< ValueT > >( cache );
 	}
+
+	//*********************************************************************************************
+
+	template< typename ValueT >
+	Vec3T< ValueT > operator*( Mat4x3T< ValueT > const & lhs
+		, Vec4T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec3T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< typename ValueT >
+	Vec4T< ValueT > operator*( Vec3T< ValueT > const & lhs
+		, Mat4x3T< ValueT > const & rhs )
+	{
+		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	//*********************************************************************************************
 }

@@ -501,7 +501,7 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
@@ -546,7 +546,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declInputArray( std::string const & name
 		, uint32_t location
 		, uint32_t dimension
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as input type" );
@@ -591,7 +591,7 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declInput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled
 		, T const & defaultValue )
 	{
@@ -647,7 +647,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declInputArray( std::string const & name
 		, uint32_t location
 		, uint32_t dimension
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled
 		, std::vector< T > const & defaultValue )
 	{
@@ -683,6 +683,116 @@ namespace sdw
 		return Array< T >{ *this
 			, makeExpr( *this, var )
 			, true };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Ray payload declaration
+	/**
+	*name
+	*	Ray payload declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	inline T ShaderWriter::declRayPayload( std::string const & name
+		, uint32_t location
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerInOut( name
+			, uint64_t( ast::var::Flag::eRayPayload )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutRayPayloadVariableDecl( var
+				, location ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declIncomingRayPayload( std::string const & name
+		, uint32_t location
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerInOut( name
+			, uint64_t( ast::var::Flag::eIncomingRayPayload )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutRayPayloadVariableDecl( var
+				, location ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declCallableData( std::string const & name
+		, uint32_t location
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerInOut( name
+			, uint64_t( ast::var::Flag::eCallableData )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutCallableDataVariableDecl( var
+				, location ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declIncomingCallableData( std::string const & name
+		, uint32_t location
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerInOut( name
+			, uint64_t( ast::var::Flag::eIncomingCallableData )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeInOutCallableDataVariableDecl( var
+				, location ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declHitAttribute( std::string const & name
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerInOut( name
+			, uint64_t( ast::var::Flag::eHitAttribute )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeHitAttributeVariableDecl( var ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
 	}
 	/**@}*/
 #pragma endregion
@@ -726,6 +836,22 @@ namespace sdw
 		, bool enabled )
 	{
 		return ArraySsboT< T >{ *this, name, binding, set, enabled };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Buffer reference declaration
+	/**
+	*name
+	*	Buffer reference declaration.
+	*/
+	/**@{*/
+	template< typename BufferT >
+	inline BufferReferenceT< BufferT > ShaderWriter::declBufferReference( std::string const & name
+		, ast::type::MemoryLayout layout
+		, ast::type::Storage storage
+		, bool enabled )
+	{
+		return BufferReferenceT< BufferT >{ *this, name, layout, storage, enabled };
 	}
 	/**@}*/
 #pragma endregion
@@ -778,7 +904,7 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declOutput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
@@ -823,7 +949,7 @@ namespace sdw
 	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
 		, uint32_t location
 		, uint32_t dimension
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );

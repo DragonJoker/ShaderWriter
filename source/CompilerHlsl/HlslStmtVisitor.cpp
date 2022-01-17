@@ -601,6 +601,26 @@ namespace hlsl
 		m_appendLineEnd = true;
 	}
 
+	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	{
+	}
+
+	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
+	{
+	}
+
+	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+	}
+
+	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+	}
+
+	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+	}
+
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
 	{
 		m_appendLineEnd = true;

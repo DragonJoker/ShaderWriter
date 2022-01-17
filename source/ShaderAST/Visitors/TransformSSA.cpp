@@ -573,6 +573,8 @@ namespace ast
 				return ast::expr::makeLiteral( cache, 1 );
 			case ast::type::Kind::eUInt:
 				return ast::expr::makeLiteral( cache, 1u );
+			case ast::type::Kind::eUInt64:
+				return ast::expr::makeLiteral( cache, 1ull );
 			case ast::type::Kind::eFloat:
 				return ast::expr::makeLiteral( cache, 1.0f );
 			case ast::type::Kind::eDouble:
@@ -597,6 +599,8 @@ namespace ast
 				return ast::expr::makeLiteral( cache, 0 );
 			case ast::type::Kind::eUInt:
 				return ast::expr::makeLiteral( cache, 0u );
+			case ast::type::Kind::eUInt64:
+				return ast::expr::makeLiteral( cache, 0ull );
 			case ast::type::Kind::eFloat:
 				return ast::expr::makeLiteral( cache, 0.0f );
 			case ast::type::Kind::eDouble:
@@ -1321,7 +1325,7 @@ namespace ast
 		private:
 			var::VariablePtr doCreateVar( type::TypePtr type
 				, expr::ExprPtr aliasedExpr
-				, uint32_t flags )
+				, uint64_t flags )
 			{
 				auto kind = getNonArrayKind( type );
 				auto result = var::makeVariable( ++m_data.nextVarId
@@ -1337,7 +1341,7 @@ namespace ast
 					result->updateFlag( var::Flag::eUniform );
 				}
 
-				if ( flags & uint32_t( var::Flag::eAlias ) )
+				if ( flags & uint64_t( var::Flag::eAlias ) )
 				{
 					doAddStmt( stmt::makeSimple( expr::makeAlias( result->getType()
 						, expr::makeIdentifier( m_cache, result )
@@ -1577,7 +1581,7 @@ namespace ast
 				{
 					if ( forceRhsType )
 					{
-						type = rhsExpr->getType();
+						type = resType;
 					}
 
 					expr::ExprList args;

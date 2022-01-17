@@ -124,6 +124,31 @@ namespace spirv
 		}
 	}
 
+	void StmtConfigFiller::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	{
+		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+	}
+
+	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
+	{
+		m_result.registerCapability( spv::CapabilityPhysicalStorageBufferAddresses );
+	}
+
+	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+	}
+
+	void StmtConfigFiller::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+	}
+
+	void StmtConfigFiller::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+	}
+
 	void StmtConfigFiller::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
 		auto imgType = std::static_pointer_cast< ast::type::Image >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );

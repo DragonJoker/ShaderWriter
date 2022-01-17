@@ -27,17 +27,19 @@ namespace spirv
 			switch ( spv::SourceLanguage( value ) )
 			{
 			case spv::SourceLanguageUnknown:
-				return "Unknown";
+				return "LanguageUnknown";
 			case spv::SourceLanguageESSL:
-				return "ESSL";
+				return "LanguageESSL";
 			case spv::SourceLanguageGLSL:
-				return "GLSL";
+				return "LanguageGLSL";
 			case spv::SourceLanguageOpenCL_C:
-				return "OpenCL_C";
+				return "LanguageOpenCL_C";
 			case spv::SourceLanguageOpenCL_CPP:
-				return "OpenCL_CPP";
+				return "LanguageOpenCL_CPP";
 			case spv::SourceLanguageHLSL:
-				return "HLSL";
+				return "LanguageHLSL";
+			case spv::SourceLanguageCPP_for_OpenCL:
+				return "LanguageCPP_for_OpenCL";
 			default:
 				AST_Failure( "Unsupported SourceLanguage" );
 				return "Undefined";
@@ -125,115 +127,139 @@ namespace spirv
 			switch ( value )
 			{
 			case spv::ExecutionModeInvocations:
-				return "Invocations";
+				return "ModeInvocations";
 			case spv::ExecutionModeSpacingEqual:
-				return "SpacingEqual";
+				return "ModeSpacingEqual";
 			case spv::ExecutionModeSpacingFractionalEven:
-				return "SpacingFractionalEven";
+				return "ModeSpacingFractionalEven";
 			case spv::ExecutionModeSpacingFractionalOdd:
-				return "SpacingFractionalOdd";
+				return "ModeSpacingFractionalOdd";
 			case spv::ExecutionModeVertexOrderCw:
-				return "VertexOrderCw";
+				return "ModeVertexOrderCw";
 			case spv::ExecutionModeVertexOrderCcw:
-				return "VertexOrderCcw";
+				return "ModeVertexOrderCcw";
 			case spv::ExecutionModePixelCenterInteger:
-				return "PixelCenterInteger";
+				return "ModePixelCenterInteger";
 			case spv::ExecutionModeOriginUpperLeft:
-				return "OriginUpperLeft";
+				return "ModeOriginUpperLeft";
 			case spv::ExecutionModeOriginLowerLeft:
-				return "OriginLowerLeft";
+				return "ModeOriginLowerLeft";
 			case spv::ExecutionModeEarlyFragmentTests:
-				return "EarlyFragmentTests";
+				return "ModeEarlyFragmentTests";
 			case spv::ExecutionModePointMode:
-				return "PointMode";
+				return "ModePointMode";
 			case spv::ExecutionModeXfb:
-				return "Xfb";
+				return "ModeXfb";
 			case spv::ExecutionModeDepthReplacing:
-				return "DepthReplacing";
+				return "ModeDepthReplacing";
 			case spv::ExecutionModeDepthGreater:
-				return "DepthGreater";
+				return "ModeDepthGreater";
 			case spv::ExecutionModeDepthLess:
-				return "DepthLess";
+				return "ModeDepthLess";
 			case spv::ExecutionModeDepthUnchanged:
-				return "DepthUnchanged";
+				return "ModeDepthUnchanged";
 			case spv::ExecutionModeLocalSize:
-				return "LocalSize";
+				return "ModeLocalSize";
 			case spv::ExecutionModeLocalSizeHint:
-				return "LocalSizeHint";
+				return "ModeLocalSizeHint";
 			case spv::ExecutionModeInputPoints:
-				return "InputPoints";
+				return "ModeInputPoints";
 			case spv::ExecutionModeInputLines:
-				return "InputLines";
+				return "ModeInputLines";
 			case spv::ExecutionModeInputLinesAdjacency:
-				return "InputLinesAdjacency";
+				return "ModeInputLinesAdjacency";
 			case spv::ExecutionModeTriangles:
-				return "Triangles";
+				return "ModeTriangles";
 			case spv::ExecutionModeInputTrianglesAdjacency:
-				return "InputTrianglesAdjacency";
+				return "ModeInputTrianglesAdjacency";
 			case spv::ExecutionModeQuads:
-				return "Quads";
+				return "ModeQuads";
 			case spv::ExecutionModeIsolines:
-				return "Isolines";
+				return "ModeIsolines";
 			case spv::ExecutionModeOutputVertices:
-				return "OutputVertices";
+				return "ModeOutputVertices";
 			case spv::ExecutionModeOutputPoints:
-				return "OutputPoints";
+				return "ModeOutputPoints";
 			case spv::ExecutionModeOutputLineStrip:
-				return "OutputLineStrip";
+				return "ModeOutputLineStrip";
 			case spv::ExecutionModeOutputTriangleStrip:
-				return "OutputTriangleStrip";
+				return "ModeOutputTriangleStrip";
 			case spv::ExecutionModeVecTypeHint:
-				return "VecTypeHint";
+				return "ModeVecTypeHint";
 			case spv::ExecutionModeContractionOff:
-				return "ContractionOff";
+				return "ModeContractionOff";
 			case spv::ExecutionModeInitializer:
-				return "Initializer";
+				return "ModeInitializer";
 			case spv::ExecutionModeFinalizer:
-				return "Finalizer";
+				return "ModeFinalizer";
 			case spv::ExecutionModeSubgroupSize:
-				return "SubgroupSize";
+				return "ModeSubgroupSize";
 			case spv::ExecutionModeSubgroupsPerWorkgroup:
-				return "SubgroupsPerWorkgroup";
+				return "ModeSubgroupsPerWorkgroup";
 			case spv::ExecutionModeSubgroupsPerWorkgroupId:
-				return "SubgroupsPerWorkgroupId";
+				return "ModeSubgroupsPerWorkgroupId";
 			case spv::ExecutionModeLocalSizeId:
-				return "LocalSizeId";
+				return "ModeLocalSizeId";
 			case spv::ExecutionModeLocalSizeHintId:
-				return "LocalSizeHintId";
+				return "ModeLocalSizeHintId";
+			case spv::ExecutionModeSubgroupUniformControlFlowKHR:
+				return "ModeSubgroupUniformControlFlowKHR";
 			case spv::ExecutionModePostDepthCoverage:
-				return "PostDepthCoverage";
+				return "ModePostDepthCoverage";
+			case spv::ExecutionModeDenormPreserve:
+				return "ModeDenormPreserve";
+			case spv::ExecutionModeDenormFlushToZero:
+				return "ModeDenormFlushToZero";
+			case spv::ExecutionModeSignedZeroInfNanPreserve:
+				return "ModeSignedZeroInfNanPreserve";
+			case spv::ExecutionModeRoundingModeRTE:
+				return "ModeRoundingModeRTE";
+			case spv::ExecutionModeRoundingModeRTZ:
+				return "ModeRoundingModeRTZ";
 			case spv::ExecutionModeStencilRefReplacingEXT:
-				return "StencilRefReplacingEXT";
+				return "ModeStencilRefReplacingEXT";
 			case spv::ExecutionModeOutputLinesNV:
-				return "OutputLinesNV";
+				return "ModeOutputLinesNV";
 			case spv::ExecutionModeOutputPrimitivesNV:
-				return "OutputPrimitivesNV";
+				return "ModeOutputPrimitivesNV";
 			case spv::ExecutionModeDerivativeGroupQuadsNV:
-				return "DerivativeGroupQuadsNV";
+				return "ModeDerivativeGroupQuadsNV";
 			case spv::ExecutionModeDerivativeGroupLinearNV:
-				return "DerivativeGroupLinearNV";
+				return "ModeDerivativeGroupLinearNV";
 			case spv::ExecutionModeOutputTrianglesNV:
-				return "OutputTrianglesNV";
+				return "ModeOutputTrianglesNV";
 			case spv::ExecutionModePixelInterlockOrderedEXT:
-				return "PixelInterlockOrderedEXT";
+				return "ModePixelInterlockOrderedEXT";
 			case spv::ExecutionModePixelInterlockUnorderedEXT:
-				return "PixelInterlockUnorderedEXT";
+				return "ModePixelInterlockUnorderedEXT";
 			case spv::ExecutionModeSampleInterlockOrderedEXT:
-				return "SampleInterlockOrderedEXT";
+				return "ModeSampleInterlockOrderedEXT";
 			case spv::ExecutionModeSampleInterlockUnorderedEXT:
-				return "SampleInterlockUnorderedEXT";
+				return "ModeSampleInterlockUnorderedEXT";
 			case spv::ExecutionModeShadingRateInterlockOrderedEXT:
-				return "ShadingRateInterlockOrderedEXT";
+				return "ModeShadingRateInterlockOrderedEXT";
 			case spv::ExecutionModeShadingRateInterlockUnorderedEXT:
-				return "ShadingRateInterlockUnorderedEXT";
+				return "ModeShadingRateInterlockUnorderedEXT";
+			case spv::ExecutionModeSharedLocalMemorySizeINTEL:
+				return "ModeSharedLocalMemorySizeINTEL";
+			case spv::ExecutionModeRoundingModeRTPINTEL:
+				return "ModeRoundingModeRTPINTEL";
+			case spv::ExecutionModeRoundingModeRTNINTEL:
+				return "ModeRoundingModeRTNINTEL";
+			case spv::ExecutionModeFloatingPointModeALTINTEL:
+				return "ModeFloatingPointModeALTINTEL";
+			case spv::ExecutionModeFloatingPointModeIEEEINTEL:
+				return "ModeFloatingPointModeIEEEINTEL";
 			case spv::ExecutionModeMaxWorkgroupSizeINTEL:
-				return "MaxWorkgroupSizeINTEL";
+				return "ModeMaxWorkgroupSizeINTEL";
 			case spv::ExecutionModeMaxWorkDimINTEL:
-				return "MaxWorkDimINTEL";
+				return "ModeMaxWorkDimINTEL";
 			case spv::ExecutionModeNoGlobalOffsetINTEL:
-				return "NoGlobalOffsetINTEL";
+				return "ModeNoGlobalOffsetINTEL";
 			case spv::ExecutionModeNumSIMDWorkitemsINTEL:
-				return "NumSIMDWorkitemsINTEL";
+				return "ModeNumSIMDWorkitemsINTEL";
+			case spv::ExecutionModeSchedulerTargetFmaxMhzINTEL:
+				return "ModeSchedulerTargetFmaxMhzINTEL";
 			default:
 				AST_Failure( "Unsupported ExecutionMode" );
 				return "Undefined";
@@ -778,8 +804,6 @@ namespace spirv
 				return "ObjectToWorld";
 			case spv::BuiltInWorldToObjectKHR:
 				return "WorldToObject";
-			case spv::BuiltInHitTKHR:
-				return "HitT";
 			case spv::BuiltInHitKindKHR:
 				return "HitKind";
 			case spv::BuiltInIncomingRayFlagsKHR:
@@ -856,6 +880,8 @@ namespace spirv
 				return "NonReadable";
 			case spv::DecorationUniform:
 				return "Uniform";
+			case spv::DecorationUniformId:
+				return "UniformId";
 			case spv::DecorationSaturatedConversion:
 				return "SaturatedConversion";
 			case spv::DecorationStream:
@@ -896,6 +922,10 @@ namespace spirv
 				return "AlignmentId";
 			case spv::DecorationMaxByteOffsetId:
 				return "MaxByteOffsetId";
+			case spv::DecorationNoSignedWrap:
+				return "NoSignedWrap";
+			case spv::DecorationNoUnsignedWrap:
+				return "NoUnsignedWrap";
 			case spv::DecorationExplicitInterpAMD:
 				return "ExplicitInterpAMD";
 			case spv::DecorationOverrideCoverageNV:
@@ -906,12 +936,56 @@ namespace spirv
 				return "ViewportRelativeNV";
 			case spv::DecorationSecondaryViewportRelativeNV:
 				return "SecondaryViewportRelativeNV";
-			case spv::DecorationHlslCounterBufferGOOGLE:
-				return "HlslCounterBufferGOOGLE";
+			case spv::DecorationPerPrimitiveNV:
+				return "PerPrimitiveNV";
+			case spv::DecorationPerViewNV:
+				return "PerViewNV";
+			case spv::DecorationPerTaskNV:
+				return "PerTaskNV";
+			case spv::DecorationPerVertexKHR:
+				return "PerVertexKHR";
+			case spv::DecorationNonUniform:
+				return "NonUniform";
+			case spv::DecorationRestrictPointer:
+				return "RestrictPointer";
+			case spv::DecorationAliasedPointer:
+				return "AliasedPointer";
+			case spv::DecorationBindlessSamplerNV:
+				return "BindlessSamplerNV";
+			case spv::DecorationBindlessImageNV:
+				return "BindlessImageNV";
+			case spv::DecorationBoundSamplerNV:
+				return "BoundSamplerNV";
+			case spv::DecorationBoundImageNV:
+				return "BoundImageNV";
+			case spv::DecorationSIMTCallINTEL:
+				return "SIMTCallINTEL";
+			case spv::DecorationReferencedIndirectlyINTEL:
+				return "ReferencedIndirectlyINTEL";
+			case spv::DecorationClobberINTEL:
+				return "ClobberINTEL";
+			case spv::DecorationSideEffectsINTEL:
+				return "SideEffectsINTEL";
+			case spv::DecorationVectorComputeVariableINTEL:
+				return "VectorComputeVariableINTEL";
+			case spv::DecorationFuncParamIOKindINTEL:
+				return "FuncParamIOKindINTEL";
+			case spv::DecorationVectorComputeFunctionINTEL:
+				return "VectorComputeFunctionINTEL";
+			case spv::DecorationStackCallINTEL:
+				return "StackCallINTEL";
+			case spv::DecorationGlobalVariableOffsetINTEL:
+				return "GlobalVariableOffsetINTEL";
+			case spv::DecorationCounterBuffer:
+				return "CounterBuffer";
 			case spv::DecorationUserSemantic:
 				return "UserSemantic";
 			case spv::DecorationUserTypeGOOGLE:
 				return "UserTypeGOOGLE";
+			case spv::DecorationFunctionRoundingModeINTEL:
+				return "FunctionRoundingModeINTEL";
+			case spv::DecorationFunctionDenormModeINTEL:
+				return "FunctionDenormModeINTEL";
 			case spv::DecorationRegisterINTEL:
 				return "RegisterINTEL";
 			case spv::DecorationMemoryINTEL:
@@ -936,6 +1010,30 @@ namespace spirv
 				return "BankBitsINTEL";
 			case spv::DecorationForcePow2DepthINTEL:
 				return "ForcePow2DepthINTEL";
+			case spv::DecorationBurstCoalesceINTEL:
+				return "BurstCoalesceINTEL";
+			case spv::DecorationCacheSizeINTEL:
+				return "CacheSizeINTEL";
+			case spv::DecorationDontStaticallyCoalesceINTEL:
+				return "DontStaticallyCoalesceINTEL";
+			case spv::DecorationPrefetchINTEL:
+				return "PrefetchINTEL";
+			case spv::DecorationStallEnableINTEL:
+				return "StallEnableINTEL";
+			case spv::DecorationFuseLoopsInFunctionINTEL:
+				return "FuseLoopsInFunctionINTEL";
+			case spv::DecorationBufferLocationINTEL:
+				return "BufferLocationINTEL";
+			case spv::DecorationIOPipeStorageINTEL:
+				return "IOPipeStorageINTEL";
+			case spv::DecorationFunctionFloatingPointModeINTEL:
+				return "FunctionFloatingPointModeINTEL";
+			case spv::DecorationSingleElementVectorINTEL:
+				return "SingleElementVectorINTEL";
+			case spv::DecorationVectorComputeCallableFunctionINTEL:
+				return "VectorComputeCallableFunctionINTEL";
+			case spv::DecorationMediaBlockIOINTEL:
+				return "MediaBlockIOINTEL";
 			default:
 				AST_Failure( "Unsupported Decoration" );
 				return "Undefined";
@@ -994,6 +1092,8 @@ namespace spirv
 				return "Export";
 			case spv::LinkageTypeImport:
 				return "Import";
+			case spv::LinkageTypeLinkOnceODR:
+				return "LinkOnceODR";
 			default:
 				AST_Failure( "Unsupported LinkageType" );
 				return "Undefined";
@@ -1110,15 +1210,9 @@ namespace spirv
 			std::string sep;
 			stream << "[";
 
-			if ( value & uint32_t( spv::LoopControlDependencyInfiniteMask ) )
+			if ( value & uint32_t( spv::LoopControlUnrollMask ) )
 			{
-				stream << sep << "DependencyInfinite";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::LoopControlDependencyLengthMask ) )
-			{
-				stream << sep << "DependencyLength";
+				stream << sep << "Unroll";
 				sep = "|";
 			}
 
@@ -1128,9 +1222,15 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( value & uint32_t( spv::LoopControlUnrollMask ) )
+			if ( value & uint32_t( spv::LoopControlDependencyInfiniteMask ) )
 			{
-				stream << sep << "Unroll";
+				stream << sep << "DependencyInfinite";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::LoopControlDependencyLengthMask ) )
+			{
+				stream << sep << "DependencyLength";
 				sep = "|";
 			}
 
@@ -1206,6 +1306,12 @@ namespace spirv
 				sep = "|";
 			}
 
+			if ( value & uint32_t( spv::LoopControlNoFusionINTELMask ) )
+			{
+				stream << sep << "NoFusionINTEL";
+				sep = "|";
+			}
+
 			if ( value == uint32_t( spv::LoopControlMaskNone ) )
 			{
 				stream << sep << "None";
@@ -1275,21 +1381,9 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( value & uint32_t( spv::ImageOperandsMakeTexelAvailableKHRMask ) )
-			{
-				stream << sep << "MakeTexelAvailableKHR";
-				sep = "|";
-			}
-
 			if ( value & uint32_t( spv::ImageOperandsMakeTexelVisibleMask ) )
 			{
 				stream << sep << "MakeTexelVisible";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::ImageOperandsMakeTexelVisibleKHRMask ) )
-			{
-				stream << sep << "MakeTexelVisibleKHR";
 				sep = "|";
 			}
 
@@ -1299,21 +1393,9 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( value & uint32_t( spv::ImageOperandsNonPrivateTexelKHRMask ) )
-			{
-				stream << sep << "NonPrivateTexelKHR";
-				sep = "|";
-			}
-
 			if ( value & uint32_t( spv::ImageOperandsVolatileTexelMask ) )
 			{
 				stream << sep << "VolatileTexel";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::ImageOperandsVolatileTexelKHRMask ) )
-			{
-				stream << sep << "VolatileTexelKHR";
 				sep = "|";
 			}
 
@@ -1329,7 +1411,13 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( !value )
+			if ( value & uint32_t( spv::ImageOperandsNontemporalMask ) )
+			{
+				stream << sep << "Nontemporal";
+				sep = "|";
+			}
+
+			if ( value == uint32_t( spv::ImageOperandsMaskNone ) )
 			{
 				stream << sep << "None";
 			}
@@ -1410,21 +1498,9 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( value & uint32_t( spv::MemorySemanticsOutputMemoryKHRMask ) )
-			{
-				stream << sep << "OutputMemoryKHR";
-				sep = "|";
-			}
-
 			if ( value & uint32_t( spv::MemorySemanticsMakeAvailableMask ) )
 			{
 				stream << sep << "MakeAvailable";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::MemorySemanticsMakeAvailableKHRMask ) )
-			{
-				stream << sep << "MakeAvailableKHR";
 				sep = "|";
 			}
 
@@ -1434,20 +1510,13 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( value & uint32_t( spv::MemorySemanticsMakeVisibleKHRMask ) )
-			{
-				stream << sep << "MakeVisibleKHR";
-				sep = "|";
-			}
-
 			if ( value & uint32_t( spv::MemorySemanticsVolatileMask ) )
 			{
 				stream << sep << "Volatile";
 				sep = "|";
 			}
 
-
-			if ( !value )
+			if ( value == uint32_t( spv::MemorySemanticsMaskNone ) )
 			{
 				stream << sep << "None";
 			}
@@ -1486,7 +1555,12 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( !value )
+			if ( value == uint32_t( spv::FunctionControlOptNoneINTELMask ) )
+			{
+				stream << sep << "OptNoneINTEL";
+			}
+
+			if ( value == uint32_t( spv::FunctionControlMaskNone ) )
 			{
 				stream << sep << "None";
 			}
@@ -1525,7 +1599,25 @@ namespace spirv
 				sep = "|";
 			}
 
-			if ( !value )
+			if ( value & uint32_t( spv::FPFastMathModeFastMask ) )
+			{
+				stream << sep << "Fast";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::FPFastMathModeAllowContractFastINTELMask ) )
+			{
+				stream << sep << "AllowContractFastINTEL";
+				sep = "|";
+			}
+
+			if ( value & uint32_t( spv::FPFastMathModeAllowReassocINTELMask ) )
+			{
+				stream << sep << "AllowReassocINTEL";
+				sep = "|";
+			}
+
+			if ( value == uint32_t( spv::FPFastMathModeMaskNone ) )
 			{
 				stream << sep << "None";
 			}
@@ -1664,19 +1756,24 @@ namespace spirv
 
 			std::string getPtrTypeName( Instruction const & instruction )const
 			{
-				assert( instruction.op.opData.opCode == spv::OpTypePointer );
+				assert( instruction.op.opData.opCode == spv::OpTypePointer
+					|| instruction.op.opData.opCode == spv::OpTypeForwardPointer );
 				auto storageClass = spv::StorageClass( instruction.operands[0] );
-				auto pointedType = instruction.operands[1];
-				auto it = types.find( pointedType );
 				std::string result = getName( storageClass ) + "Ptr";
 
-				if ( it != types.end() )
+				if ( instruction.op.opData.opCode == spv::OpTypePointer )
 				{
-					result += "<" + it->second + ">";
-				}
-				else
-				{
-					result += "<unknown>";
+					auto pointedType = instruction.operands[1];
+					auto it = types.find( pointedType );
+
+					if ( it != types.end() )
+					{
+						result += "<" + it->second + ">";
+					}
+					else
+					{
+						result += "<unknown>";
+					}
 				}
 
 				return result;
@@ -1894,15 +1991,8 @@ namespace spirv
 				|| decoration == spv::DecorationPerTaskNV
 				|| decoration == spv::DecorationPerVertexNV
 				|| decoration == spv::DecorationNonUniform
-				|| decoration == spv::DecorationNonUniformEXT
-				|| decoration == spv::DecorationRestrictPointer
-				|| decoration == spv::DecorationRestrictPointerEXT
-				|| decoration == spv::DecorationAliasedPointer
-				|| decoration == spv::DecorationAliasedPointerEXT
 				|| decoration == spv::DecorationReferencedIndirectlyINTEL
 				|| decoration == spv::DecorationCounterBuffer
-				|| decoration == spv::DecorationHlslCounterBufferGOOGLE
-				|| decoration == spv::DecorationHlslSemanticGOOGLE
 				|| decoration == spv::DecorationUserSemantic
 				|| decoration == spv::DecorationUserTypeGOOGLE
 				|| decoration == spv::DecorationRegisterINTEL
@@ -1950,6 +2040,13 @@ namespace spirv
 				names.addType( instruction->resultId.value(), names.getPtrTypeName( *instruction ) );
 				stream << " " << getName( spv::StorageClass( instruction->operands[0] ) );
 				writeStream( instruction->operands[1], names, stream );
+			}
+			else if ( opCode == spv::OpTypeForwardPointer )
+			{
+				// Storage class then Type ID.
+				checkType< ForwardPointerTypeInstruction >( *instruction );
+				names.addType( instruction->resultId.value(), names.getPtrTypeName( *instruction ) );
+				stream << " " << getName( spv::StorageClass( instruction->operands[0] ) );
 			}
 			else if ( opCode == spv::OpTypeStruct )
 			{
@@ -2031,6 +2128,11 @@ namespace spirv
 				// Image type.
 				writeStream( instruction->operands[0], names, stream );
 			}
+			else if ( opCode == spv::OpTypeAccelerationStructureKHR )
+			{
+				checkType< AccelerationStructureTypeInstruction >( *instruction );
+				names.addType( instruction->resultId.value(), "accst" );
+			}
 			else if ( opCode == spv::OpTypeRuntimeArray )
 			{
 				checkType< RuntimeArrayTypeInstruction >( *instruction );
@@ -2096,6 +2198,12 @@ namespace spirv
 						break;
 					case ast::type::Kind::eUInt:
 						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eUInt64:
+						names.add( instruction->resultId.value()
+							, std::to_string( ( uint64_t( instruction->operands[0] ) << 32 )
+								+ instruction->operands[1] ) );
 						stream << " " << instruction->operands[0];
 						break;
 					case ast::type::Kind::eFloat:
@@ -2172,6 +2280,12 @@ namespace spirv
 						break;
 					case ast::type::Kind::eUInt:
 						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eUInt64:
+						names.add( instruction->resultId.value()
+							, std::to_string( ( uint64_t( instruction->operands[0] ) << 32 )
+								+ instruction->operands[1] ) );
 						stream << " " << instruction->operands[0];
 						break;
 					case ast::type::Kind::eFloat:

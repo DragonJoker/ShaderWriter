@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Writer_H___
 
 #include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
+#include "ShaderWriter/CompositeTypes/BufferReference.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/Pcb.hpp"
@@ -22,6 +23,58 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	struct RayFlags
+	{
+		static UInt None()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eNone ) };
+		}
+		static UInt Opaque()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eOpaque ) };
+		}
+		static UInt NoOpaque()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eNoOpaque ) };
+		}
+		static UInt TerminateOnFirstHit()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eTerminateOnFirstHit ) };
+		}
+		static UInt SkipClosestHitShader()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eSkipClosestHitShader ) };
+		}
+		static UInt CullBackFacingTriangles()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eCullBackFacingTriangles ) };
+		}
+		static UInt CullFrontFacingTriangles()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eCullFrontFacingTriangles ) };
+		}
+		static UInt CullOpaque()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eCullOpaque ) };
+		}
+		static UInt CullNoOpaque()
+		{
+			return UInt{ uint32_t( ast::RayFlag::eCullNoOpaque ) };
+		}
+	};
+
+	struct RayHitKinds
+	{
+		static UInt FrontFacingTriangle()
+		{
+			return UInt{ uint32_t( ast::RayHitKind::eFrontFacingTriangle ) };
+		}
+		static UInt BackFacingTriangle()
+		{
+			return UInt{ uint32_t( ast::RayHitKind::eBackFacingTriangle ) };
+		}
+	};
+
 	class ShaderWriter
 	{
 	protected:
@@ -48,7 +101,7 @@ namespace sdw
 		SDW_API bool hasVariable( std::string const & name )const;
 		SDW_API var::VariablePtr registerName( std::string const & name
 			, type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		SDW_API var::VariablePtr registerLocale( std::string const & name
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerLoopVar( std::string const & name
@@ -298,7 +351,7 @@ namespace sdw
 		template< typename T >
 		inline T declInput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declInputArray( std::string const & name
@@ -309,7 +362,7 @@ namespace sdw
 		inline Array< T > declInputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
 		inline T declInput( std::string const & name
@@ -319,14 +372,14 @@ namespace sdw
 		template< typename T >
 		inline T declInput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled
 			, T const & defaultValue );
 		template< typename T >
 		inline Array< T > declInputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled
 			, std::vector< T > const & defaultValue );
 		template< typename T >
@@ -335,6 +388,37 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled
 			, std::vector< T > const & defaultValue );
+		/**@}*/
+#pragma endregion
+#pragma region Ray tracing variables declaration
+		/**
+		*name
+		*	Ray payload declaration.
+		*/
+		/**@{*/
+		template< typename T >
+		inline T declRayPayload( std::string const & name
+			, uint32_t location
+			, bool enabled = true );
+		template< typename T >
+		inline T declIncomingRayPayload( std::string const & name
+			, uint32_t location
+			, bool enabled = true );
+		template< typename T >
+		inline T declCallableData( std::string const & name
+			, uint32_t location
+			, bool enabled = true );
+		template< typename T >
+		inline T declIncomingCallableData( std::string const & name
+			, uint32_t location
+			, bool enabled = true );
+		template< typename T >
+		inline T declHitAttribute( std::string const & name
+			, bool enabled = true );
+		SDW_API AccelerationStructure declAccelerationStructure( std::string const & name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Uniform buffer declaration
@@ -367,6 +451,19 @@ namespace sdw
 		inline ArraySsboT< T > declArrayShaderStorageBuffer( std::string const & name
 			, uint32_t binding
 			, uint32_t set
+			, bool enabled = true );
+		/**@}*/
+#pragma endregion
+#pragma region Buffer reference declaration
+		/**
+		*name
+		*	Buffer reference declaration.
+		*/
+		/**@{*/
+		template< typename BufferT >
+		inline BufferReferenceT< BufferT > declBufferReference( std::string const & name
+			, ast::type::MemoryLayout layout
+			, ast::type::Storage storage
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -406,7 +503,7 @@ namespace sdw
 		template< typename T >
 		inline T declOutput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declOutputArray( std::string const & name
@@ -417,7 +514,7 @@ namespace sdw
 		inline Array< T > declOutputArray( std::string const & name
 			, uint32_t location
 			, uint32_t dimension
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -527,6 +624,11 @@ namespace sdw
 		SDW_API var::VariablePtr registerSpecConstant( std::string const & name
 			, uint32_t location
 			, type::TypePtr type );
+		SDW_API var::VariablePtr registerAccelerationStructure( std::string const & name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
 		SDW_API var::VariablePtr registerSampledImage( std::string const & name
 			, type::TypePtr type
 			, uint32_t binding
@@ -539,11 +641,14 @@ namespace sdw
 			, bool enabled = true );
 		SDW_API var::VariablePtr registerInput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerOutput( std::string const & name
 			, uint32_t location
-			, uint32_t attributes
+			, uint64_t attributes
+			, type::TypePtr type );
+		SDW_API var::VariablePtr registerInOut( std::string const & name
+			, uint64_t attributes
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, type::TypePtr type

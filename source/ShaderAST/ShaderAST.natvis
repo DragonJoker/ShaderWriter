@@ -18,7 +18,8 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Array">
-		<DisplayString>{*m_type}[{m_arraySize}]</DisplayString>
+		<DisplayString Condition="m_arraySize==4294967295">{*m_type}[runtime]</DisplayString>
+		<DisplayString Condition="m_arraySize!=4294967295">{*m_type}[{m_arraySize}]</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="parent">m_parent</Item>
@@ -43,6 +44,8 @@
 		</Expand>
 	</Type>
 	<Type Name="ast::type::Pointer">
+		<DisplayString Condition="m_isForward==true">[fwd]{*m_pointerType}*</DisplayString>
+		<DisplayString Condition="m_isForward==false">{*m_pointerType}*</DisplayString>
 		<DisplayString>{*m_pointerType}*</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
@@ -50,6 +53,7 @@
 			<Item Name="index">m_index</Item>
 			<Item Name="pointerType">*m_pointerType</Item>
 			<Item Name="storage">m_storage</Item>
+			<Item Name="isForward">m_isForward</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::type::SampledImage">
@@ -85,6 +89,7 @@
 	<Type Name="ast::type::Struct">
 		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eStd140">{m_name,s8b}[std140] {m_members}</DisplayString>
 		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eStd430">{m_name,s8b}[std430] {m_members}</DisplayString>
+		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eScalar">{m_name,s8b}[scalar] {m_members}</DisplayString>
 		<DisplayString Condition="m_layout==ast::type::MemoryLayout::eC">{m_name,s8b} {m_members}</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>

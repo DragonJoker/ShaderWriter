@@ -1232,7 +1232,7 @@ namespace
 		auto type = cache.getStruct( ast::type::MemoryLayout::eStd140, "outer" );
 		type->declMember( "inner", cache.getInt() );
 		auto outerVar = ast::var::makeVariable( ++testCounts.nextVarId, type, "outerVar" );
-		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outerVar ), 0u, uint32_t( ast::var::Flag::eShaderInput ) );
+		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outerVar ), 0u, uint64_t( ast::var::Flag::eShaderInput ) );
 
 		require( expr->getKind() == ast::expr::Kind::eMbrSelect );
 		check( expr->getOuterExpr()->getType()->getKind() == ast::type::Kind::eStruct );
@@ -1242,7 +1242,7 @@ namespace
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getName() == "outerVar" );
 
 		check( expr->getMemberIndex() == 0u );
-		check( expr->getMemberFlags() == uint32_t( ast::var::Flag::eShaderInput ) );
+		check( expr->getMemberFlags() == uint64_t( ast::var::Flag::eShaderInput ) );
 		testCounts << "ExprMbrSelect: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}

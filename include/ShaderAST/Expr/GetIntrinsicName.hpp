@@ -2719,6 +2719,28 @@ namespace ast::expr
 			result = "GROUPMEMORYBARRIER";
 			break;
 
+
+	// Ray tracing Shader Functions
+		case Intrinsic::eTraceRay:
+			result = "TRACERAY";
+			break;
+
+		case Intrinsic::eReportIntersection:
+			result = "REPORTINTERSECTION";
+			break;
+
+		case Intrinsic::eIgnoreIntersection:
+			result = "IGNOREINTERSECTION";
+			break;
+
+		case Intrinsic::eTerminateRay:
+			result = "TERMINATERAY";
+			break;
+
+		case Intrinsic::eExecuteCallable:
+			result = "EXECUTECALLABLE";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

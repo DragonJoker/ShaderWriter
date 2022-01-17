@@ -1289,7 +1289,7 @@ namespace hlsl
 			parameters.emplace_back( image );
 			auto functionType = m_cache.getFunction( expr->getType(), parameters );
 			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
-			ast::type::TypePtr uintType = m_cache.getUInt();
+			ast::type::TypePtr uintType = m_cache.getUInt32();
 			ast::expr::CompositeType composite{};
 
 			switch ( getComponentCount( expr->getType()->getKind() ) )
@@ -1710,7 +1710,7 @@ namespace hlsl
 
 			auto functionType = m_cache.getFunction( expr->getType(), parameters );
 			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
-			ast::type::TypePtr uintType = m_cache.getUInt();
+			ast::type::TypePtr uintType = m_cache.getUInt32();
 			ast::var::VariableList resVars;
 			ast::expr::CompositeType composite{};
 
@@ -1871,7 +1871,7 @@ namespace hlsl
 
 			auto functionType = m_cache.getFunction( expr->getType(), parameters );
 			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
-			ast::type::TypePtr uintType = m_cache.getUInt();
+			ast::type::TypePtr uintType = m_cache.getUInt32();
 
 			// The call to image.CalculateLevelOfDetail
 			ast::expr::ExprList callArgs;
@@ -1938,7 +1938,7 @@ namespace hlsl
 
 			auto functionType = m_cache.getFunction( expr->getType(), parameters );
 			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
-			ast::type::TypePtr uintType = m_cache.getUInt();
+			ast::type::TypePtr uintType = m_cache.getUInt32();
 			ast::var::VariableList resVars;
 
 			switch ( config.dimension )

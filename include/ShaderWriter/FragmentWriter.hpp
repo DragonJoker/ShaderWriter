@@ -131,7 +131,7 @@ namespace sdw
 		inline T declBlendOutput( std::string const & name
 			, uint32_t location
 			, uint32_t blendIndex
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declBlendOutputArray( std::string const & name
@@ -144,7 +144,7 @@ namespace sdw
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		/**@}*/
 	};

@@ -83,7 +83,7 @@ namespace hlsl
 	struct PendingResult
 	{
 		uint32_t mbrIndex{ ast::type::Struct::NotFound };
-		uint32_t flags{};
+		uint64_t flags{};
 		ast::expr::ExprPtr expr{};
 	};
 
@@ -91,7 +91,7 @@ namespace hlsl
 	{
 		ast::var::VariablePtr var{};
 		uint32_t location{ ast::type::Struct::InvalidLocation };
-		uint32_t flags{};
+		uint64_t flags{};
 		PendingResult result{};
 	};
 
@@ -99,7 +99,7 @@ namespace hlsl
 	{
 		uint32_t mbrIndex{ ast::type::Struct::NotFound };
 		uint32_t location{ ast::type::Struct::InvalidLocation };
-		uint32_t flags{};
+		uint64_t flags{};
 		PendingResult result{};
 	};
 
@@ -146,18 +146,18 @@ namespace hlsl
 
 		void initialiseMainVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
-			, uint32_t flags
+			, uint64_t flags
 			, VarVarMap & paramToEntryPoint );
 		void initialisePatchVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
-			, uint32_t flags
+			, uint64_t flags
 			, VarVarMap & paramToEntryPoint );
 
 		void addPending( ast::var::VariablePtr pendingVar
 			, uint32_t location );
 		void addPendingMbr( ast::var::VariablePtr outerVar
 			, uint32_t mbrIndex
-			, uint32_t flags
+			, uint64_t flags
 			, uint32_t location );
 		void addPendingMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex
@@ -183,18 +183,18 @@ namespace hlsl
 		PendingResult processPendingType( ast::type::TypePtr type
 			, std::string const & name
 			, ast::Builtin builtin
-			, uint32_t flags
+			, uint64_t flags
 			, uint32_t location
 			, uint32_t arraySize
 			, ast::type::IOStruct & structType );
 		PendingResult processPendingType( ast::type::TypePtr type
 			, std::string const & name
 			, ast::Builtin builtin
-			, uint32_t flags
+			, uint64_t flags
 			, uint32_t location );
 		PendingResult processPendingType( ast::type::Struct const & structType
 			, uint32_t mbrIndex
-			, uint32_t mbrFlags
+			, uint64_t mbrFlags
 			, uint32_t mbrLocation );
 		ast::expr::ExprPtr processPendingMbrOuter( ast::var::VariablePtr outerVar
 			, uint32_t mbrIndex
@@ -284,12 +284,12 @@ namespace hlsl
 
 	private:
 		void registerInputMbr( ast::var::VariablePtr var
-			, uint32_t outerFlags
+			, uint64_t outerFlags
 			, ast::Builtin mbrBuiltin
 			, uint32_t mbrIndex
 			, uint32_t mbrLocation );
 		void registerOutputMbr( ast::var::VariablePtr var
-			, uint32_t outerFlags
+			, uint64_t outerFlags
 			, ast::Builtin mbrBuiltin
 			, uint32_t mbrIndex
 			, uint32_t mbrLocation );
@@ -405,12 +405,12 @@ namespace hlsl
 			, ast::type::IOStruct const & structType
 			, bool isEntryPoint );
 		void registerInputMbr( ast::var::VariablePtr var
-			, uint32_t outerFlags
+			, uint64_t outerFlags
 			, ast::Builtin mbrBuiltin
 			, uint32_t mbrIndex
 			, uint32_t mbrLocation );
 		void registerOutputMbr( ast::var::VariablePtr var
-			, uint32_t outerFlags
+			, uint64_t outerFlags
 			, ast::Builtin mbrBuiltin
 			, uint32_t mbrIndex
 			, uint32_t mbrLocation );

@@ -10,20 +10,24 @@ namespace ast::type
 	//*************************************************************************
 
 	Pointer::Pointer( TypePtr pointerType
-		, Storage storage )
+		, Storage storage
+		, bool isForward )
 		: Type{ pointerType->getCache(), Kind::ePointer }
 		, m_pointerType{ std::move( pointerType ) }
 		, m_storage{ storage }
+		, m_isForward{ isForward }
 	{
 	}
 
 	//*************************************************************************
 
 	size_t getHash( TypePtr pointerType
-		, Storage storage )
+		, Storage storage
+		, bool isForward )
 	{
 		size_t result = std::hash< TypePtr >{}( pointerType );
 		result = hashCombine( result, storage );
+		result = hashCombine( result, isForward );
 		return result;
 	}
 

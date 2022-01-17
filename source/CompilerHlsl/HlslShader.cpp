@@ -24,7 +24,7 @@ namespace hlsl
 
 	ast::var::VariablePtr HlslShader::registerBuiltin( ast::Builtin builtin
 		, ast::type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		auto name = ast::getName( builtin );
 		auto ires = m_registered.emplace( name, nullptr );
@@ -42,7 +42,7 @@ namespace hlsl
 
 	ast::var::VariablePtr HlslShader::registerName( std::string const & name
 		, ast::type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		auto ires = m_registered.emplace( name, nullptr );
 
@@ -63,7 +63,7 @@ namespace hlsl
 	{
 		return registerName( name
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	ast::var::VariablePtr HlslShader::registerName( std::string const & name

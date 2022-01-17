@@ -30,6 +30,7 @@ namespace spirv
 	public:
 		SDWSPIRV_API Module( ast::type::TypesCache & cache
 			, SpirVConfig const & spirvConfig
+			, spv::AddressingModel addressingModel
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
 		SDWSPIRV_API Module( Header const & header
@@ -47,7 +48,8 @@ namespace spirv
 
 		SDWSPIRV_API ValueId registerType( ast::type::TypePtr type );
 		SDWSPIRV_API ValueId registerPointerType( ValueId type
-			, spv::StorageClass storage );
+			, spv::StorageClass storage
+			, bool isForward = false );
 		SDWSPIRV_API void decorate( ValueId id
 			, spv::Decoration decoration );
 		SDWSPIRV_API void decorate( ValueId id
@@ -85,6 +87,7 @@ namespace spirv
 		SDWSPIRV_API ValueId registerLiteral( bool value );
 		SDWSPIRV_API ValueId registerLiteral( int32_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint32_t value );
+		SDWSPIRV_API ValueId registerLiteral( uint64_t value );
 		SDWSPIRV_API ValueId registerLiteral( float value );
 		SDWSPIRV_API ValueId registerLiteral( double value );
 		SDWSPIRV_API ValueId registerLiteral( ValueIdList const & initialisers
@@ -191,6 +194,9 @@ namespace spirv
 		ValueId registerBaseType( ast::type::ImagePtr type
 			, uint32_t mbrIndex
 			, ValueId parentId );
+		ValueId registerBaseType( ast::type::AccelerationStructurePtr type
+			, uint32_t mbrIndex
+			, ValueId parentId );
 		ValueId registerBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, ValueId parentId
@@ -232,10 +238,12 @@ namespace spirv
 		std::unordered_map< ValueId, ValueId, ValueIdHasher > m_registeredVariablesTypes;
 		std::map< std::string, std::pair< ValueId, ValueId > > m_registeredMemberVariables;
 		std::map< uint64_t, ValueId > m_registeredPointerTypes;
+		std::map< uint64_t, ValueId > m_registeredForwardPointerTypes;
 		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > m_registeredFunctionTypes;
 		std::map< bool, ValueId > m_registeredBoolConstants;
 		std::map< int32_t, ValueId > m_registeredIntConstants;
 		std::map< uint32_t, ValueId > m_registeredUIntConstants;
+		std::map< uint64_t, ValueId > m_registeredUInt64Constants;
 		std::map< float, ValueId > m_registeredFloatConstants;
 		std::map< double, ValueId > m_registeredDoubleConstants;
 		std::vector< std::pair< ValueIdList, ValueId > > m_registeredCompositeConstants;

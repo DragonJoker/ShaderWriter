@@ -115,7 +115,7 @@ namespace ast
 
 	var::VariablePtr Shader::registerName( std::string const & name
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		auto var = var::makeVariable( ++m_data.nextVarId
 			, type
@@ -131,7 +131,7 @@ namespace ast
 	{
 		return registerName( name
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	var::VariablePtr Shader::registerName( std::string const & name
@@ -145,9 +145,9 @@ namespace ast
 	var::VariablePtr Shader::registerMember( var::VariablePtr outer
 		, std::string const & name
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
-		flags |= uint32_t( var::Flag::eMember );
+		flags |= uint64_t( var::Flag::eMember );
 		auto result = var::makeVariable( ++m_data.nextVarId
 			, outer
 			, type
@@ -165,7 +165,7 @@ namespace ast
 		return registerMember( std::move( outer )
 			, name
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	var::VariablePtr Shader::registerMember( var::VariablePtr outer
@@ -209,6 +209,28 @@ namespace ast
 			, type
 			, var::Flag::eSpecialisationConstant );
 		m_data.specConstants.emplace( name, SpecConstantInfo{ { type, location } } );
+		return result;
+	}
+
+	var::VariablePtr Shader::registerAccelerationStructure( std::string const & name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		auto result = registerName( name
+			, type
+			, var::Flag::eUniform | var::Flag::eConstant );
+
+		if ( enabled )
+		{
+			auto accType = getNonArrayType( type );
+			assert( accType->getKind() == ast::type::Kind::eAccelerationStructure );
+			m_data.accelerationStruct = AccStructInfo{ std::static_pointer_cast< type::AccelerationStructure >( accType )
+				, binding
+				, set };
+		}
+
 		return result;
 	}
 
@@ -270,7 +292,7 @@ namespace ast
 
 	var::VariablePtr Shader::registerInput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, type::TypePtr type )
 	{
 		auto it = std::find_if( m_data.inputs.begin()
@@ -308,7 +330,7 @@ namespace ast
 
 	var::VariablePtr Shader::registerOutput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, type::TypePtr type )
 	{
 		auto it = std::find_if( m_data.outputs.begin()
@@ -341,6 +363,26 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, flags | var::Flag::eShaderOutput );
+		return result;
+	}
+
+	var::VariablePtr Shader::registerInOut( std::string const & name
+		, uint64_t attributes
+		, type::TypePtr type )
+	{
+		if ( m_data.inOuts.empty() )
+		{
+			m_data.inOuts.emplace( name, InOutInfo{ { type } } );
+		}
+
+		if ( hasVar( name ) )
+		{
+			return getVar( name );
+		}
+
+		auto result = registerName( name
+			, type
+			, attributes | var::Flag::eShaderOutput | var::Flag::eShaderInput );
 		return result;
 	}
 
@@ -407,7 +449,7 @@ namespace ast
 	{
 		return registerName( name
 			, type
-			, uint32_t( var::Flag::eInputParam ) | uint32_t( var::Flag::eOutputParam ) );
+			, uint64_t( var::Flag::eInputParam ) | uint64_t( var::Flag::eOutputParam ) );
 	}
 
 	bool Shader::hasVar( std::string const & name )const
@@ -521,6 +563,12 @@ namespace ast
 		, InterfaceBlock const & info )
 	{
 		m_data.pcbs.emplace( name, info );
+	}
+
+	void Shader::registerShaderRecord( std::string const & name
+		, ShaderRecordInfo const & info )
+	{
+		m_data.shaderRecords.emplace( name, info );
 	}
 
 	expr::ExprPtr Shader::getDummyExpr( type::TypePtr type )const

@@ -17,11 +17,11 @@ namespace ast::var
 		SDAST_API Variable( EntityName nameId
 			, VariablePtr outer
 			, type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		SDAST_API Variable( uint32_t id
 			, Builtin builtin
 			, type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		SDAST_API Variable( EntityName nameId
 			, type::FunctionPtr type );
 		SDAST_API Variable( uint32_t id
@@ -31,7 +31,7 @@ namespace ast::var
 		Variable( EntityName nameId
 			, VariablePtr outer
 			, type::TypePtr type )
-			: Variable{ std::move( nameId ), std::move( outer ), std::move( type ), 0u }
+			: Variable{ std::move( nameId ), std::move( outer ), std::move( type ), 0ull }
 		{
 		}
 
@@ -39,26 +39,26 @@ namespace ast::var
 			, VariablePtr outer
 			, type::TypePtr type
 			, Flag flag )
-			: Variable{ std::move( nameId ), std::move( outer ), std::move( type ), uint32_t( flag ) }
+			: Variable{ std::move( nameId ), std::move( outer ), std::move( type ), uint64_t( flag ) }
 		{
 		}
 
 		Variable( EntityName nameId
 			, type::TypePtr type )
-			: Variable{ std::move( nameId ), nullptr, std::move( type ), 0u }
+			: Variable{ std::move( nameId ), nullptr, std::move( type ), 0ull }
 		{
 		}
 
 		Variable( EntityName nameId
 			, type::TypePtr type
 			, Flag flag )
-			: Variable{ std::move( nameId ), nullptr, std::move( type ), uint32_t( flag ) }
+			: Variable{ std::move( nameId ), nullptr, std::move( type ), uint64_t( flag ) }
 		{
 		}
 
 		Variable( EntityName nameId
 			, type::TypePtr type
-			, uint32_t flags )
+			, uint64_t flags )
 			: Variable{ std::move( nameId ), nullptr, std::move( type ), flags }
 		{
 		}
@@ -144,13 +144,13 @@ namespace ast::var
 		return std::make_shared< Variable >( std::move( nameId )
 			, outer
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	inline VariablePtr makeVariable( EntityName nameId
 		, VariablePtr outer
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return std::make_shared< Variable >( std::move( nameId )
 			, outer
@@ -168,7 +168,7 @@ namespace ast::var
 
 	inline VariablePtr makeVariable( EntityName nameId
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return std::make_shared< Variable >( std::move( nameId )
 			, type
@@ -181,7 +181,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( std::move( nameId )
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
@@ -204,14 +204,14 @@ namespace ast::var
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, outer
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	inline VariablePtr makeVariable( uint32_t id
 		, VariablePtr outer
 		, type::TypePtr type
 		, std::string name
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, outer
@@ -231,7 +231,7 @@ namespace ast::var
 	inline VariablePtr makeVariable( uint32_t id
 		, type::TypePtr type
 		, std::string name
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, type
@@ -245,7 +245,7 @@ namespace ast::var
 	{
 		return std::make_shared< Variable >( EntityName{ id, name }
 			, type
-			, uint32_t( flag ) );
+			, uint64_t( flag ) );
 	}
 
 	inline VariablePtr makeBuiltin( uint32_t id
@@ -256,18 +256,18 @@ namespace ast::var
 		return std::make_shared< Variable >( id
 			, builtin
 			, type
-			, uint32_t( flag ) | uint32_t( Flag::eBuiltin ) );
+			, uint64_t( flag ) | uint64_t( Flag::eBuiltin ) );
 	}
 
 	inline VariablePtr makeBuiltin( uint32_t id
 		, Builtin builtin
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return std::make_shared< Variable >( id
 			, builtin
 			, type
-			, flags | uint32_t( Flag::eBuiltin ) );
+			, flags | uint64_t( Flag::eBuiltin ) );
 	}
 
 	inline VariablePtr makeFunction( uint32_t id
