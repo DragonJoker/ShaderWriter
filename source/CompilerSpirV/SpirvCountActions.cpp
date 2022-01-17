@@ -302,7 +302,15 @@ namespace spirv
 				visitContainerStmt( stmt );
 			}
 
+			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override
+			{
+			}
+
 			void visitBreakStmt( ast::stmt::Break * stmt )override
+			{
+			}
+
+			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
 			{
 			}
 
@@ -330,7 +338,19 @@ namespace spirv
 			{
 			}
 
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+			{
+			}
+
 			void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override
+			{
+			}
+
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+			{
+			}
+
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 			{
 			}
 

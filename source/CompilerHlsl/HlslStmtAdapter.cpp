@@ -252,7 +252,7 @@ namespace hlsl
 								, ssboVar->getName() ) )
 						, ast::expr::makeLiteral( m_cache, 0 ) )
 					, mbrIndex++
-					, uint32_t( ast::var::Flag::eUniform ) ) );
+					, uint64_t( ast::var::Flag::eUniform ) ) );
 		}
 	}
 

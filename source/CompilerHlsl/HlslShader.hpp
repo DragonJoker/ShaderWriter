@@ -17,10 +17,10 @@ namespace hlsl
 		void registerVariable( ast::var::VariablePtr var );
 		ast::var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, ast::type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		ast::var::VariablePtr registerName( std::string const & name
 			, ast::type::TypePtr type
-			, uint32_t flags );
+			, uint64_t flags );
 		ast::var::VariablePtr registerName( std::string const & name
 			, ast::type::TypePtr type );
 		ast::var::VariablePtr registerName( std::string const & name

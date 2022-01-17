@@ -57,6 +57,11 @@ namespace ast::stmt
 		eFragmentLayout,
 		eOutputTessellationControlLayout,
 		eInputTessellationEvaluationLayout,
+		eAccelerationStructureDecl,
+		eInOutRayPayloadVariableDecl,
+		eHitAttributeVariableDecl,
+		eInOutCallableDataVariableDecl,
+		eBufferReferenceDecl,
 	};
 
 	class Stmt

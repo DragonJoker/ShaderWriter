@@ -46,6 +46,16 @@ namespace sdw
 	};
 
 	template<>
+	struct TypeTraits< uint64_t >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eUInt64;
+		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 8;
+		static size_t constexpr ComponentCount = 1;
+		using CppType = uint64_t;
+	};
+
+	template<>
 	struct TypeTraits< float >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eFloat;
@@ -86,12 +96,22 @@ namespace sdw
 	};
 
 	template<>
+	struct TypeTraits< ArithmeticValue< ast::type::Kind::eUInt64 > > : TypeTraits< uint64_t >
+	{
+	};
+
+	template<>
 	struct TypeTraits< IntegerValue< ast::type::Kind::eInt > > : TypeTraits< int32_t >
 	{
 	};
 
 	template<>
 	struct TypeTraits< IntegerValue< ast::type::Kind::eUInt > > : TypeTraits< uint32_t >
+	{
+	};
+
+	template<>
+	struct TypeTraits< IntegerValue< ast::type::Kind::eUInt64 > > : TypeTraits< uint64_t >
 	{
 	};
 
@@ -203,6 +223,36 @@ namespace sdw
 		static size_t constexpr Size = 16;
 		static size_t constexpr ComponentCount = 4;
 		using CppType = uint32_t;
+	};
+
+	template<>
+	struct TypeTraits< U64Vec2 >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec2U64;
+		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 16;
+		static size_t constexpr ComponentCount = 2;
+		using CppType = uint64_t;
+	};
+
+	template<>
+	struct TypeTraits< U64Vec3 >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec3U64;
+		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 24;
+		static size_t constexpr ComponentCount = 3;
+		using CppType = uint64_t;
+	};
+
+	template<>
+	struct TypeTraits< U64Vec4 >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eVec4U64;
+		static bool constexpr HasArithmeticOperators = true;
+		static size_t constexpr Size = 32;
+		static size_t constexpr ComponentCount = 4;
+		using CppType = uint64_t;
 	};
 
 	template<>
@@ -505,6 +555,26 @@ namespace sdw
 		using CppType = void;
 	};
 
+	template<>
+	struct TypeTraits< AccelerationStructure >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eAccelerationStructure;
+		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
+		using CppType = void;
+	};
+
+	template< typename T >
+	struct TypeTraits< NonUniformT< T > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = false;
+		using CppType = typename TypeTraits< T >::CppType;
+		static size_t constexpr Size = TypeTraits< T >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+	};
+
 	template< typename T >
 	struct TypeTraits< Array< T > >
 	{
@@ -573,7 +643,13 @@ namespace sdw
 	template<>
 	struct TypeKindTraits< ast::type::Kind::eUInt >
 	{
-		using Type = Int;
+		using Type = UInt;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eUInt64 >
+	{
+		using Type = UInt64;
 	};
 
 	template<>
@@ -676,6 +752,24 @@ namespace sdw
 	struct TypeKindTraits< ast::type::Kind::eVec4U >
 	{
 		using Type = UVec4;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec2U64 >
+	{
+		using Type = U64Vec2;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec3U64 >
+	{
+		using Type = U64Vec3;
+	};
+
+	template<>
+	struct TypeKindTraits< ast::type::Kind::eVec4U64 >
+	{
+		using Type = U64Vec4;
 	};
 
 	template<>

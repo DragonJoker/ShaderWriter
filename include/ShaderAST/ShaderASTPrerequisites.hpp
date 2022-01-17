@@ -41,6 +41,12 @@ namespace ast
 		eGeometry,
 		eFragment,
 		eCompute,
+		eRayGeneration,
+		eRayClosestHit,
+		eRayMiss,
+		eRayIntersection,
+		eRayAnyHit,
+		eRayCallable,
 	};
 
 	enum class FragmentOrigin
@@ -53,6 +59,25 @@ namespace ast
 	{
 		eHalfPixel,
 		eCenterInteger,
+	};
+
+	enum class RayFlag
+	{
+		eNone = 0u,
+		eOpaque = 1u,
+		eNoOpaque = 2u,
+		eTerminateOnFirstHit = 4u,
+		eSkipClosestHitShader = 8u,
+		eCullBackFacingTriangles = 16u,
+		eCullFrontFacingTriangles = 32u,
+		eCullOpaque = 64u,
+		eCullNoOpaque = 128u,
+	};
+
+	enum class RayHitKind
+	{
+		eFrontFacingTriangle = 0xFEu,
+		eBackFacingTriangle = 0xFFu,
 	};
 
 	enum class Builtin
@@ -99,6 +124,7 @@ namespace ast
 		eSubgroupLocalInvocationID,
 		eVertexIndex,
 		eInstanceIndex,
+		eInstanceID,
 		eSubgroupEqMaskKHR,
 		eSubgroupGeMaskKHR,
 		eSubgroupGtMaskKHR,
@@ -122,6 +148,20 @@ namespace ast
 		eSecondaryViewportMaskNV,
 		ePositionPerViewNV,
 		eViewportMaskPerViewNV,
+		eLaunchID,
+		eLaunchSize,
+		eInstanceCustomIndex,
+		eGeometryIndex,
+		eWorldRayOrigin,
+		eWorldRayDirection,
+		eObjectRayOrigin,
+		eObjectRayDirection,
+		eRayTmin,
+		eRayTmax,
+		eIncomingRayFlags,
+		eHitKind,
+		eObjectToWorld,
+		eWorldToObject,
 	};
 	SDAST_API std::string getName( Builtin value );
 	SDAST_API bool isPerVertex( Builtin value
@@ -231,6 +271,11 @@ namespace ast
 	struct OutputInfo
 		: AttributeInfo
 	{
+	};
+
+	struct InOutInfo
+	{
+		type::TypePtr type;
 	};
 
 	struct SpecConstantData

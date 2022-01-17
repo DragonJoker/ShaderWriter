@@ -31,7 +31,7 @@ namespace spirv
 		ast::var::VariablePtr var;
 		uint32_t location;
 		uint32_t arraySize;
-		uint32_t flags;
+		uint64_t flags;
 		PendingResult result;
 	};
 
@@ -40,7 +40,7 @@ namespace spirv
 		uint32_t mbrIndex;
 		uint32_t location;
 		uint32_t arraySize;
-		uint32_t flags;
+		uint64_t flags;
 		PendingResult result;
 	};
 
@@ -72,7 +72,7 @@ namespace spirv
 			, uint32_t location );
 		void addPendingMbr( ast::var::VariablePtr outerVar
 			, uint32_t mbrIndex
-			, uint32_t flags
+			, uint64_t flags
 			, uint32_t location
 			, uint32_t arraySize );
 		void addPendingMbr( ast::expr::Expr * outer
@@ -103,13 +103,13 @@ namespace spirv
 		PendingResult processPendingType( ast::type::TypePtr type
 			, std::string const & name
 			, ast::Builtin builtin
-			, uint32_t flags
+			, uint64_t flags
 			, uint32_t location
 			, uint32_t arraySize
 			, ast::stmt::Container * cont );
 		PendingResult processPendingType( ast::type::Struct const & structType
 			, uint32_t mbrIndex
-			, uint32_t mbrFlags
+			, uint64_t mbrFlags
 			, uint32_t mbrLocation
 			, uint32_t mbrArraySize
 			, ast::stmt::Container * cont );
@@ -402,6 +402,7 @@ namespace spirv
 
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, std::vector< spv::Decoration > & additionalDecorations );
+	spv::AddressingModel getAddressingModel( ast::ShaderStage kind );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
 	std::string getTypeName( spv::Op op );
@@ -415,6 +416,7 @@ namespace spirv
 	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
 		, ValueId resultId
 		, ValueId sampledTypeId );
+	InstructionPtr makeAccelerationStructureTypeInstruction( ValueId resultId );
 	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
 		, ValueId id );
 	InstructionPtr makeIntrinsicInstruction( spv::Op op
@@ -462,6 +464,8 @@ namespace spirv
 	bool isPointerParam( ast::type::TypePtr type
 		, bool isOutputParam );
 	bool isPointerParam( ast::var::Variable const & param );
+	void insertCapability( InstructionList & capabilities
+		, spv::Capability capa );
 }
 
 #endif

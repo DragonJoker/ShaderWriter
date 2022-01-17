@@ -448,6 +448,9 @@ namespace ast::debug
 		case expr::LiteralType::eUInt:
 			stream << expr->getValue< expr::LiteralType::eUInt >() << "u";
 			break;
+		case expr::LiteralType::eUInt64:
+			stream << expr->getValue< expr::LiteralType::eUInt64 >() << "ull";
+			break;
 		case expr::LiteralType::eFloat:
 			{
 				auto v = expr->getValue< expr::LiteralType::eFloat >();

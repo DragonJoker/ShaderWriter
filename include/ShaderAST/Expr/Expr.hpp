@@ -78,7 +78,8 @@ namespace ast::expr
 		eConstant = 1 << 0,
 		eSpecialisationConstant = 1 << 1,
 		eImplicit = 1 << 2,
-		eDummy = 1 << 3,
+		eNonUniform = 1 << 3,
+		eDummy = 1 << 4,
 	};
 
 	class Expr
@@ -146,6 +147,11 @@ namespace ast::expr
 		inline bool isImplicit()const
 		{
 			return hasFlag( Flag::eImplicit );
+		}
+
+		inline bool isNonUniform()const
+		{
+			return hasFlag( Flag::eNonUniform );
 		}
 
 		inline bool isDummy()const

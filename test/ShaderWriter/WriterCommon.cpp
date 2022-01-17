@@ -26,6 +26,7 @@
 #include "spirv_cross_util.hpp"
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
+#include "spirv-tools/libspirv.hpp"
 #pragma GCC diagnostic pop
 
 namespace test
@@ -53,6 +54,16 @@ namespace test
 
 #endif
 
+		bool isRaytracingStage( ast::ShaderStage stage )
+		{
+			return stage == ast::ShaderStage::eRayAnyHit
+				|| stage == ast::ShaderStage::eRayCallable
+				|| stage == ast::ShaderStage::eRayClosestHit
+				|| stage == ast::ShaderStage::eRayGeneration
+				|| stage == ast::ShaderStage::eRayIntersection
+				|| stage == ast::ShaderStage::eRayMiss;
+		}
+
 		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
 			spv::ExecutionModel result{};
@@ -76,6 +87,24 @@ namespace test
 				break;
 			case ast::ShaderStage::eCompute:
 				result = spv::ExecutionModelGLCompute;
+				break;
+			case ast::ShaderStage::eRayAnyHit:
+				result = spv::ExecutionModelAnyHitKHR;
+				break;
+			case ast::ShaderStage::eRayCallable:
+				result = spv::ExecutionModelCallableKHR;
+				break;
+			case ast::ShaderStage::eRayClosestHit:
+				result = spv::ExecutionModelClosestHitKHR;
+				break;
+			case ast::ShaderStage::eRayGeneration:
+				result = spv::ExecutionModelRayGenerationKHR;
+				break;
+			case ast::ShaderStage::eRayIntersection:
+				result = spv::ExecutionModelIntersectionKHR;
+				break;
+			case ast::ShaderStage::eRayMiss:
+				result = spv::ExecutionModelMissKHR;
 				break;
 			default:
 				AST_Failure( "Unsupported shader stage flag" );
@@ -262,28 +291,54 @@ namespace test
 
 #if SDW_HasCompilerGlsl
 
-				try
+				if ( !isRaytracingStage( shader.getType() ) )
 				{
-					auto glslangSpirv = compileGlslToSpv( shader.getType()
-						, glsl::compileGlsl( shader
+					try
+					{
+						auto glslangSpirv = compileGlslToSpv( shader.getType()
+							, glsl::compileGlsl( shader
 							, specialisation
 							, getDefaultGlslConfig() ) );
-					std::string errors;
-					test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
+						std::string errors;
+						test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 
-					if ( !errors.empty() )
-					{
-						testCounts << "VkShaderModule creation raised messages, for glslang output:" << endl;
-						testCounts << errors << endl;
+						if ( !errors.empty() )
+						{
+							testCounts << "VkShaderModule creation raised messages, for glslang output:" << endl;
+							testCounts << errors << endl;
+						}
 					}
-				}
-				catch ( std::exception & exc )
-				{
-					testCounts << exc.what() << endl;
-					throw;
+					catch ( std::exception & exc )
+					{
+						testCounts << exc.what() << endl;
+						throw;
+					}
 				}
 
 #endif
+			}
+			else
+			{
+				std::string errors;
+				auto consumer = [&errors]( spv_message_level_t level
+					, char const * source
+					, spv_position_t position
+					, char const * message )
+				{
+					errors += message + std::string{ "\n" };
+				};
+
+				spvtools::SpirvTools tools{ SPV_ENV_UNIVERSAL_1_5 };
+				tools.SetMessageConsumer( consumer );
+				spvtools::ValidatorOptions valOptions;
+				isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions );
+				check( isValidated );
+
+				if ( !errors.empty() )
+				{
+					testCounts << "SpirV validation raised messages:" << endl;
+					testCounts << errors << endl;
+				}
 			}
 
 			if ( compilers.glsl )
@@ -437,6 +492,12 @@ namespace test
 
 						if ( availableExtensions )
 						{
+							if ( config.specVersion >= spirv::v1_4 )
+							{
+								extensions.emplace( spirv::KHR_ray_tracing );
+								extensions.emplace( spirv::EXT_physical_storage_buffer );
+							}
+
 							config.availableExtensions = &extensions;
 						}
 
@@ -533,6 +594,18 @@ namespace test
 				return "Fragment";
 			case ast::ShaderStage::eCompute:
 				return "Compute";
+			case ast::ShaderStage::eRayGeneration:
+				return "Ray Generation";
+			case ast::ShaderStage::eRayClosestHit:
+				return "Ray Closet Hit";
+			case ast::ShaderStage::eRayMiss:
+				return "Ray Miss";
+			case ast::ShaderStage::eRayIntersection:
+				return "Ray Intersection";
+			case ast::ShaderStage::eRayAnyHit:
+				return "Ray Any Hit";
+			case ast::ShaderStage::eRayCallable:
+				return "Ray Callable";
 			default:
 				return "Unknown???"; 
 			}

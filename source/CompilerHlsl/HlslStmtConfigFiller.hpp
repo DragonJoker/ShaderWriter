@@ -27,7 +27,9 @@ namespace hlsl
 
 		void doSubmit( ast::expr::Expr * expr );
 
+		void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override;
 		void visitBreakStmt( ast::stmt::Break * cont )override;
+		void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitContainerStmt( ast::stmt::Container * cont )override;
 		void visitContinueStmt( ast::stmt::Continue * cont )override;
@@ -41,8 +43,11 @@ namespace hlsl
 		void visitForStmt( ast::stmt::For * stmt )override;
 		void visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
+		void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
+		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
 		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
 		void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override;
 		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;

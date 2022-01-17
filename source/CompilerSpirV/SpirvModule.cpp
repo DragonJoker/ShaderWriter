@@ -176,11 +176,15 @@ namespace spirv
 
 	//*************************************************************************
 
+	static uint32_t constexpr VendorID = 33u;
+	static uint32_t constexpr Version = 0x0012u;
+
 	Module::Module( ast::type::TypesCache & pcache
 		, SpirVConfig const & spirvConfig
+		, spv::AddressingModel addressingModel
 		, spv::MemoryModel pmemoryModel
 		, spv::ExecutionModel pexecutionModel )
-		: memoryModel{ makeInstruction< MemoryModelInstruction >( ValueId{ spv::Id( spv::AddressingModelLogical ) }, ValueId{ spv::Id( pmemoryModel ) } ) }
+		: memoryModel{ makeInstruction< MemoryModelInstruction >( ValueId{ spv::Id( addressingModel ) }, ValueId{ spv::Id( pmemoryModel ) } ) }
 		, variables{ &globalDeclarations }
 		, m_version{ spirvConfig.specVersion }
 		, m_cache{ &pcache }
@@ -189,7 +193,7 @@ namespace spirv
 	{
 		initialiseHeader( { spv::MagicNumber
 			, m_version
-			, 0x00100001
+			, ( VendorID << 16 ) | Version
 			, 1u	/* Bound IDs. */
 			, 0u	/* Schema. */ } );
 		initialiseExtensions();
@@ -261,11 +265,13 @@ namespace spirv
 	}
 
 	ValueId Module::registerPointerType( ValueId type
-		, spv::StorageClass storage )
+		, spv::StorageClass storage
+		, bool isForward )
 	{
 		uint64_t key = ( uint64_t( type.id ) << 33 )
 			| ( ( uint64_t( type.isPointer() ) << 32 ) & 0x01 )
-			| uint64_t( storage );
+			| ( uint64_t( storage ) << 1 )
+			| ( isForward & 0x01 );
 		auto it = m_registeredPointerTypes.find( key );
 
 		if ( it == m_registeredPointerTypes.end() )
@@ -273,9 +279,21 @@ namespace spirv
 			ValueId id{ getNextId()
 				, type.type->getCache().getPointerType( type.type, convert( storage ) ) };
 			it = m_registeredPointerTypes.emplace( key, id ).first;
-			globalDeclarations.push_back( makeInstruction< PointerTypeInstruction >( id
-				, ValueId{ spv::Id( storage ) }
-				, type ) );
+
+			if ( isForward )
+			{
+				globalDeclarations.push_back( makeInstruction< ForwardPointerTypeInstruction >( id
+					, ValueId{ spv::Id( storage ) } ) );
+				globalDeclarations.push_back( makeInstruction< PointerTypeInstruction >( id
+					, ValueId{ spv::Id( storage ) }
+					, type ) );
+			}
+			else
+			{
+				globalDeclarations.push_back( makeInstruction< PointerTypeInstruction >( id
+					, ValueId{ spv::Id( storage ) }
+					, type ) );
+			}
 		}
 
 		return it->second;
@@ -424,7 +442,8 @@ namespace spirv
 	ValueId Module::loadVariable( ValueId variable
 		, InstructionList & instructions )
 	{
-		if ( variable.isPointer() )
+		if ( variable.isPointer()
+			&& variable.getStorage() != ast::type::Storage::ePhysicalStorageBuffer )
 		{
 			auto type = static_cast< ast::type::Pointer const & >( *variable.type ).getPointerType();
 			auto typeId = registerType( type );
@@ -546,8 +565,36 @@ namespace spirv
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			ValueId id{ getNextId()
-				, type->getCache().getPointerType( type, convert( storage ) ) };
+			auto typeStorage = convert( storage );
+			ast::type::TypePtr varType;
+
+			if ( typeStorage == ast::type::Storage::eFunction )
+			{
+				if ( auto structType = getStructType( type ) )
+				{
+					if ( getArraySize( structType->back().type ) == ast::type::UnknownArraySize )
+					{
+						auto typeId = registerType( type );
+						decorate( typeId, spv::DecorationBlock );
+						varType = type->getCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
+						varType = type->getCache().getPointerType( varType, typeStorage );
+						typeStorage = ast::type::Storage::ePhysicalStorageBuffer;
+					}
+				}
+			}
+
+			if ( !varType )
+			{
+				varType = type->getCache().getPointerType( type, convert( storage ) );
+			}
+
+			ValueId id{ getNextId(), varType };
+
+			if ( typeStorage == ast::type::Storage::ePhysicalStorageBuffer )
+			{
+				decorate( id, spv::DecorationAliasedPointer );
+			}
+
 			addDebug( name, id );
 
 			if ( builtin != ast::Builtin::eNone )
@@ -638,6 +685,10 @@ namespace spirv
 					break;
 				case ast::expr::LiteralType::eUInt:
 					operands.emplace_back( value.getValue< ast::expr::LiteralType::eUInt >() );
+					break;
+				case ast::expr::LiteralType::eUInt64:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eUInt64 >() >> 32 ) );
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eUInt64 >() & 0x00000000FFFFFFFFull ) );
 					break;
 				case ast::expr::LiteralType::eFloat:
 				{
@@ -804,13 +855,32 @@ namespace spirv
 
 		if ( it == m_registeredUIntConstants.end() )
 		{
-			auto type = registerType( m_cache->getUInt() );
+			auto type = registerType( m_cache->getUInt32() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ value } } ) );
 			it = m_registeredUIntConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getUInt() );
+			m_registeredConstants.emplace( result, m_cache->getUInt32() );
+		}
+
+		return it->second;
+	}
+
+	ValueId Module::registerLiteral( uint64_t value )
+	{
+		auto it = m_registeredUInt64Constants.find( value );
+
+		if ( it == m_registeredUInt64Constants.end() )
+		{
+			auto type = registerType( m_cache->getUInt64() );
+			ValueId result{ getNextId(), type.type };
+			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
+				, result
+				, ValueIdList{ ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFull ) }
+					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFull ) } } ) );
+			it = m_registeredUInt64Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getUInt64() );
 		}
 
 		return it->second;
@@ -1340,7 +1410,8 @@ namespace spirv
 				, parentId
 				, arrayStride );
 			result = registerPointerType( rawTypeId
-				, convert( pointerType.getStorage() ) );
+				, convert( pointerType.getStorage() )
+				, pointerType.isForward() );
 		}
 		else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
 		{
@@ -1488,6 +1559,15 @@ namespace spirv
 		return result;
 	}
 
+	ValueId Module::registerBaseType( ast::type::AccelerationStructurePtr type
+		, uint32_t mbrIndex
+		, ValueId parentId )
+	{
+		ValueId result{ getNextId(), type };
+		globalDeclarations.push_back( makeAccelerationStructureTypeInstruction( result ) );
+		return result;
+	}
+
 	ValueId Module::registerBaseType( ast::type::StructPtr type
 		, uint32_t
 		, ValueId )
@@ -1506,6 +1586,7 @@ namespace spirv
 		globalDeclarations.push_back( makeInstruction< StructTypeInstruction >( result, subTypes ) );
 		debug.push_back( makeInstruction< NameInstruction >( result, type->getName() ) );
 		bool hasBuiltin = false;
+		bool hasDynarray = false;
 
 		for ( auto & member : *type )
 		{
@@ -1525,6 +1606,12 @@ namespace spirv
 			}
 
 			auto kind = getNonArrayKind( member.type );
+			auto arraySize = getArraySize( member.type );
+
+			if ( arraySize == ast::type::UnknownArraySize )
+			{
+				hasDynarray = true;
+			}
 
 			if ( isMatrixType( kind ) )
 			{
@@ -1548,7 +1635,8 @@ namespace spirv
 			}
 		}
 
-		if ( hasBuiltin )
+		if ( hasBuiltin
+			/*|| hasDynarray*/ )
 		{
 			decorate( result, spv::DecorationBlock );
 		}
@@ -1579,6 +1667,12 @@ namespace spirv
 		else if ( kind == ast::type::Kind::eImage )
 		{
 			result = registerBaseType( std::static_pointer_cast< ast::type::Image >( type )
+				, mbrIndex
+				, parentId );
+		}
+		else if ( kind == ast::type::Kind::eAccelerationStructure )
+		{
+			result = registerBaseType( std::static_pointer_cast< ast::type::AccelerationStructure >( type )
 				, mbrIndex
 				, parentId );
 		}
@@ -1631,19 +1725,28 @@ namespace spirv
 		case spv::ExecutionModelVertex:
 		case spv::ExecutionModelFragment:
 		case spv::ExecutionModelGLCompute:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( spv::CapabilityShader ) } ) );
+			insertCapability( capabilities, spv::CapabilityShader );
 			break;
 		case spv::ExecutionModelTessellationControl:
 		case spv::ExecutionModelTessellationEvaluation:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( spv::CapabilityShader ) } ) );
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( spv::CapabilityTessellation ) } ) );
+			insertCapability( capabilities, spv::CapabilityShader );
+			insertCapability( capabilities, spv::CapabilityTessellation );
 			break;
 		case spv::ExecutionModelGeometry:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( spv::CapabilityShader ) } ) );
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( spv::CapabilityGeometry ) } ) );
+			insertCapability( capabilities, spv::CapabilityShader );
+			insertCapability( capabilities, spv::CapabilityGeometry );
+			break;
+		case spv::ExecutionModelAnyHitKHR:
+		case spv::ExecutionModelCallableKHR:
+		case spv::ExecutionModelClosestHitKHR:
+		case spv::ExecutionModelIntersectionKHR:
+		case spv::ExecutionModelMissKHR:
+		case spv::ExecutionModelRayGenerationKHR:
+			insertCapability( capabilities, spv::CapabilityShader );
+			insertCapability( capabilities, spv::CapabilityRayTracingKHR );
 			break;
 		case spv::ExecutionModelKernel:
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( spv::CapabilityKernel ) } ) );
+			insertCapability( capabilities, spv::CapabilityKernel );
 			break;
 		default:
 			AST_Failure( "Unsupported ExecutionModel" );
@@ -1717,14 +1820,15 @@ namespace spirv
 		auto type = varId.type;
 		auto rawType = static_cast< ast::type::Pointer const & >( *type ).getPointerType();
 		auto rawTypeId = registerType( rawType );
+		auto typeStorage = varId.getStorage();
 
-		if ( varId.getStorage() == ast::type::Storage::ePushConstant )
+		if ( typeStorage == ast::type::Storage::ePushConstant )
 		{
 			decorate( rawTypeId, spv::DecorationBlock );
 		}
 
 		auto varTypeId = registerPointerType( rawTypeId
-			, convert( varId.getStorage() ) );
+			, convert( typeStorage ) );
 
 		if ( varId.getStorage() == ast::type::Storage::eFunction
 			&& m_currentFunction )

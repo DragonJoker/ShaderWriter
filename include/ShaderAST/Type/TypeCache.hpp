@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "Type.hpp"
+#include "TypeAccelerationStructure.hpp"
 #include "TypeArray.hpp"
 #include "TypeComputeIO.hpp"
 #include "TypeFragmentIO.hpp"
@@ -70,7 +71,8 @@ namespace ast::type
 		SDAST_API TypePtr getVoid();
 		SDAST_API TypePtr getBool();
 		SDAST_API TypePtr getInt();
-		SDAST_API TypePtr getUInt();
+		SDAST_API TypePtr getUInt32();
+		SDAST_API TypePtr getUInt64();
 		SDAST_API TypePtr getHalf();
 		SDAST_API TypePtr getFloat();
 		SDAST_API TypePtr getDouble();
@@ -80,9 +82,12 @@ namespace ast::type
 		SDAST_API TypePtr getVec2I();
 		SDAST_API TypePtr getVec3I();
 		SDAST_API TypePtr getVec4I();
-		SDAST_API TypePtr getVec2U();
-		SDAST_API TypePtr getVec3U();
-		SDAST_API TypePtr getVec4U();
+		SDAST_API TypePtr getVec2U32();
+		SDAST_API TypePtr getVec3U32();
+		SDAST_API TypePtr getVec4U32();
+		SDAST_API TypePtr getVec2U64();
+		SDAST_API TypePtr getVec3U64();
+		SDAST_API TypePtr getVec4U64();
 		SDAST_API TypePtr getVec2H();
 		SDAST_API TypePtr getVec4H();
 		SDAST_API TypePtr getVec2F();
@@ -115,6 +120,7 @@ namespace ast::type
 		SDAST_API TypePtr getVec4Type( Kind kind );
 		SDAST_API TypePtr getVector( Kind kind, uint32_t count );
 
+		SDAST_API AccelerationStructurePtr getAccelerationStructure();
 		SDAST_API ImagePtr getImage( ImageConfiguration const & config );
 		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & config );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
@@ -129,9 +135,11 @@ namespace ast::type
 		SDAST_API Type const * getNonMemberType( TypePtr type );
 
 		SDAST_API TypePtr getPointerType( TypePtr pointerType, Storage storage );
+		SDAST_API TypePtr getForwardPointerType( TypePtr pointerType, Storage storage );
 
 	private:
 		std::array< TypePtr, size_t( Kind::eMax ) > m_basicTypes;
+		AccelerationStructurePtr m_accelerationStructure;
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
 		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;
@@ -140,7 +148,7 @@ namespace ast::type
 		TypeCache< IOStruct, std::function< IOStructPtr( MemoryLayout, std::string, var::Flag ) >, std::function< size_t( MemoryLayout, std::string const &, var::Flag ) > > m_inputStruct;
 		TypeCache< IOStruct, std::function< IOStructPtr( MemoryLayout, std::string, var::Flag ) >, std::function< size_t( MemoryLayout, std::string const &, var::Flag ) > > m_outputStruct;
 		TypeCache< Array, std::function< ArrayPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_array;
-		TypeCache< Pointer, std::function< PointerPtr( TypePtr, Storage ) >, std::function< size_t( TypePtr, Storage ) > > m_pointer;
+		TypeCache< Pointer, std::function< PointerPtr( TypePtr, Storage, bool ) >, std::function< size_t( TypePtr, Storage, bool ) > > m_pointer;
 		struct MemberTypeInfo
 		{
 			TypePtr nonMemberType;

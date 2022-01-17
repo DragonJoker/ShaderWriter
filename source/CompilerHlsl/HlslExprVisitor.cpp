@@ -375,6 +375,9 @@ namespace hlsl
 		case ast::expr::LiteralType::eUInt:
 			stream << expr->getValue< ast::expr::LiteralType::eUInt >() << "u";
 			break;
+		case ast::expr::LiteralType::eUInt64:
+			stream << expr->getValue< ast::expr::LiteralType::eUInt64 >() << "ul";
+			break;
 		case ast::expr::LiteralType::eFloat:
 			{
 				auto v = expr->getValue< ast::expr::LiteralType::eFloat >();

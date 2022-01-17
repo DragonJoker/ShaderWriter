@@ -16,7 +16,8 @@ namespace ast::type
 	{
 	public:
 		SDAST_API Pointer( TypePtr pointerType
-			, Storage storage );
+			, Storage storage
+			, bool isForward );
 
 		Storage getStorage()const
 		{
@@ -28,14 +29,21 @@ namespace ast::type
 			return m_pointerType;
 		}
 
+		bool isForward()const
+		{
+			return m_isForward;
+		}
+
 	private:
 		TypePtr m_pointerType;
 		Storage m_storage;
+		bool m_isForward;
 	};
 	using PointerPtr = std::shared_ptr< Pointer >;
 
 	SDAST_API size_t getHash( TypePtr pointerType
-		, Storage storage );
+		, Storage storage
+		, bool isForward );
 
 	SDAST_API bool operator==( Pointer const & lhs, Pointer const & rhs );
 }

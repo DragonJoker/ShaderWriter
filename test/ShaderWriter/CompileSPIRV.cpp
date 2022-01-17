@@ -448,10 +448,35 @@ namespace test
 					VkPhysicalDeviceFeatures2 features2{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2
 						, nullptr
 						, {} };
+					VkPhysicalDeviceAccelerationStructureFeaturesKHR accelFeature{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR
+						, nullptr
+						, {} };
+					VkPhysicalDeviceRayTracingPipelineFeaturesKHR rtPipelineFeature{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR
+						, &accelFeature
+						, {} };
 					
 					if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 2, 0 ) )
 					{
 						features2.pNext = &features11;
+						features12.pNext = &rtPipelineFeature;
+
+						if ( isExtensionSupported( "VK_KHR_acceleration_structure"
+							, device_extensions ) )
+						{
+							info.device_extension_names.push_back( "VK_KHR_acceleration_structure" );
+						}
+
+						if ( isExtensionSupported( "VK_KHR_ray_tracing_pipeline"
+							, device_extensions ) )
+						{
+							info.device_extension_names.push_back( "VK_KHR_ray_tracing_pipeline" );
+						}
+
+						if ( isExtensionSupported( "VK_KHR_deferred_host_operations"
+							, device_extensions ) )
+						{
+							info.device_extension_names.push_back( "VK_KHR_deferred_host_operations" );
+						}
 					}
 					else if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
 					{
@@ -462,6 +487,7 @@ namespace test
 					{
 						info.device_extension_names.push_back( "VK_KHR_shader_draw_parameters" );
 					}
+
 
 					if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
 					{

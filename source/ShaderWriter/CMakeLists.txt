@@ -15,23 +15,29 @@ set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
 set( ${PROJECT_NAME}_HEADER_FILES
 	${INCLUDE_DIR}/ComputeWriter.hpp
 	${INCLUDE_DIR}/ComputeWriter.inl
-	${INCLUDE_DIR}/VertexWriter.hpp
-	${INCLUDE_DIR}/VertexWriter.inl
+	${INCLUDE_DIR}/FragmentWriter.hpp
+	${INCLUDE_DIR}/FragmentWriter.inl
+	${INCLUDE_DIR}/GeometryWriter.hpp
+	${INCLUDE_DIR}/GeometryWriter.inl
+	${INCLUDE_DIR}/Helpers.hpp
+	${INCLUDE_DIR}/Helpers.inl
+	${INCLUDE_DIR}/RayAnyHitWriter.hpp
+	${INCLUDE_DIR}/RayCallableWriter.hpp
+	${INCLUDE_DIR}/RayClosestHitWriter.hpp
+	${INCLUDE_DIR}/RayGenerationWriter.hpp
+	${INCLUDE_DIR}/RayIntersectionWriter.hpp
+	${INCLUDE_DIR}/RayMissWriter.hpp
+	${INCLUDE_DIR}/ShaderWriterPrerequisites.hpp
+	${INCLUDE_DIR}/ShaderWriterPrerequisites.inl
+	${INCLUDE_DIR}/Source.hpp
 	${INCLUDE_DIR}/TessellationControlWriter.hpp
 	${INCLUDE_DIR}/TessellationControlWriter.inl
 	${INCLUDE_DIR}/TessellationEvaluationWriter.hpp
 	${INCLUDE_DIR}/TessellationEvaluationWriter.inl
-	${INCLUDE_DIR}/GeometryWriter.hpp
-	${INCLUDE_DIR}/GeometryWriter.inl
-	${INCLUDE_DIR}/FragmentWriter.hpp
-	${INCLUDE_DIR}/FragmentWriter.inl
-	${INCLUDE_DIR}/Helpers.hpp
-	${INCLUDE_DIR}/Helpers.inl
-	${INCLUDE_DIR}/ShaderWriterPrerequisites.hpp
-	${INCLUDE_DIR}/ShaderWriterPrerequisites.inl
-	${INCLUDE_DIR}/Source.hpp
 	${INCLUDE_DIR}/Value.hpp
 	${INCLUDE_DIR}/Value.inl
+	${INCLUDE_DIR}/VertexWriter.hpp
+	${INCLUDE_DIR}/VertexWriter.inl
 	${INCLUDE_DIR}/Writer.hpp
 	${INCLUDE_DIR}/Writer.inl
 	${INCLUDE_DIR}/WriterDebug.hpp
@@ -39,14 +45,20 @@ set( ${PROJECT_NAME}_HEADER_FILES
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
 	${SOURCE_DIR}/ComputeWriter.cpp
-	${SOURCE_DIR}/VertexWriter.cpp
+	${SOURCE_DIR}/FragmentWriter.cpp
+	${SOURCE_DIR}/GeometryWriter.cpp
+	${SOURCE_DIR}/Helpers.cpp
+	${SOURCE_DIR}/RayAnyHitWriter.cpp
+	${SOURCE_DIR}/RayCallableWriter.cpp
+	${SOURCE_DIR}/RayClosestHitWriter.cpp
+	${SOURCE_DIR}/RayGenerationWriter.cpp
+	${SOURCE_DIR}/RayIntersectionWriter.cpp
+	${SOURCE_DIR}/RayMissWriter.cpp
+	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
 	${SOURCE_DIR}/TessellationControlWriter.cpp
 	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
-	${SOURCE_DIR}/GeometryWriter.cpp
-	${SOURCE_DIR}/FragmentWriter.cpp
-	${SOURCE_DIR}/Helpers.cpp
-	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
 	${SOURCE_DIR}/Value.cpp
+	${SOURCE_DIR}/VertexWriter.cpp
 	${SOURCE_DIR}/Writer.cpp
 	${SOURCE_DIR}/WriterDebug.cpp
 	${SOURCE_DIR}/WriterInt.cpp
@@ -61,6 +73,7 @@ source_group( "Source Files"
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
+	${INCLUDE_DIR}/BaseTypes/AccelerationStructure.hpp
 	${INCLUDE_DIR}/BaseTypes/ArithmeticValue.hpp
 	${INCLUDE_DIR}/BaseTypes/ArithmeticValue.inl
 	${INCLUDE_DIR}/BaseTypes/Array.hpp
@@ -77,6 +90,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/Int.inl
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.hpp
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.inl
+	${INCLUDE_DIR}/BaseTypes/NonUniform.hpp
+	${INCLUDE_DIR}/BaseTypes/NonUniform.inl
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.hpp
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.inl
 	${INCLUDE_DIR}/BaseTypes/SampledImage.hpp
@@ -89,6 +104,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/Void.inl
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+	${SOURCE_DIR}/BaseTypes/AccelerationStructure.cpp
 	${SOURCE_DIR}/BaseTypes/Bool.cpp
 	${SOURCE_DIR}/BaseTypes/Double.cpp
 	${SOURCE_DIR}/BaseTypes/Float.cpp
@@ -119,6 +135,8 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.hpp
 	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.inl
+	${INCLUDE_DIR}/CompositeTypes/BufferReference.hpp
+	${INCLUDE_DIR}/CompositeTypes/BufferReference.inl
 	${INCLUDE_DIR}/CompositeTypes/Builtins.hpp
 	${INCLUDE_DIR}/CompositeTypes/Builtins.inl
 	${INCLUDE_DIR}/CompositeTypes/Function.hpp

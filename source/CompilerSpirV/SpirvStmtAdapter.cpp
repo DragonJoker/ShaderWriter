@@ -86,6 +86,18 @@ namespace spirv
 		}
 	}
 
+	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+	}
+
+	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+	}
+
+	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+	}
+
 	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 	}

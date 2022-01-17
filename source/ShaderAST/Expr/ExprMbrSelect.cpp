@@ -39,7 +39,7 @@ namespace ast::expr
 
 	MbrSelect::MbrSelect( ExprPtr outer
 		, uint32_t memberIndex
-		, uint32_t memberFlags )
+		, uint64_t memberFlags )
 		: Expr{ outer->getCache()
 			, getMbrType( outer->getType(), memberIndex )
 			, Kind::eMbrSelect

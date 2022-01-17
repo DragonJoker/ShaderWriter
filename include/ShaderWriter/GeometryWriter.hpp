@@ -170,7 +170,7 @@ namespace sdw
 		inline T declStreamOutput( std::string const & name
 			, uint32_t location
 			, uint32_t streamIndex
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declStreamOutputArray( std::string const & name
@@ -183,7 +183,7 @@ namespace sdw
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension
-			, uint32_t attributes
+			, uint64_t attributes
 			, bool enabled = true );
 		/**@}*/
 	};

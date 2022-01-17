@@ -15,7 +15,8 @@ namespace ast::type
 	//*************************************************************************
 
 	TypesCache::TypesCache()
-		: m_image{ [this]( ImageConfiguration config )
+		: m_accelerationStructure{ std::make_shared< AccelerationStructure >( *this ) }
+		, m_image{ [this]( ImageConfiguration config )
 			{
 				return std::make_shared< Image >( *this, std::move( config ) );
 			}
@@ -104,18 +105,21 @@ namespace ast::type
 				return ast::type::getHash( type, arraySize );
 			} }
 		, m_pointer{ []( TypePtr pointerType
-				, Storage storage )
+				, Storage storage
+				, bool isForward )
 			{
 				return std::make_shared< Pointer >( std::move( pointerType )
-					, storage );
+					, storage
+					, isForward );;
 			}
 			, []( TypePtr pointerType
-				, Storage storage )noexcept
+				, Storage storage
+				, bool isForward )noexcept
 			{
-				return ast::type::getHash( pointerType, storage );
+				return ast::type::getHash( pointerType, storage, isForward );
 			} }
 	{
-		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eMat4x4D ); ++i )
+		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
 		{
 			m_basicTypes[i] = std::make_shared< Type >( *this, Kind( i ) );
 		}
@@ -141,9 +145,14 @@ namespace ast::type
 		return getBasicType( Kind::eInt );
 	}
 
-	TypePtr TypesCache::getUInt()
+	TypePtr TypesCache::getUInt32()
 	{
 		return getBasicType( Kind::eUInt );
+	}
+
+	TypePtr TypesCache::getUInt64()
+	{
+		return getBasicType( Kind::eUInt64 );
 	}
 
 	TypePtr TypesCache::getHalf()
@@ -191,19 +200,34 @@ namespace ast::type
 		return getBasicType( Kind::eVec4I );
 	}
 
-	TypePtr TypesCache::getVec2U()
+	TypePtr TypesCache::getVec2U32()
 	{
 		return getBasicType( Kind::eVec2U );
 	}
 
-	TypePtr TypesCache::getVec3U()
+	TypePtr TypesCache::getVec3U32()
 	{
 		return getBasicType( Kind::eVec3U );
 	}
 
-	TypePtr TypesCache::getVec4U()
+	TypePtr TypesCache::getVec4U32()
 	{
 		return getBasicType( Kind::eVec4U );
+	}
+
+	TypePtr TypesCache::getVec2U64()
+	{
+		return getBasicType( Kind::eVec2U64 );
+	}
+
+	TypePtr TypesCache::getVec3U64()
+	{
+		return getBasicType( Kind::eVec3U64 );
+	}
+
+	TypePtr TypesCache::getVec4U64()
+	{
+		return getBasicType( Kind::eVec4U64 );
 	}
 
 	TypePtr TypesCache::getVec2H()
@@ -355,6 +379,8 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eInt )];
 		case Kind::eUInt:
 			return m_basicTypes[size_t( Kind::eUInt )];
+		case Kind::eUInt64:
+			return m_basicTypes[size_t( Kind::eUInt64 )];
 		case Kind::eHalf:
 			return m_basicTypes[size_t( Kind::eHalf )];
 		case Kind::eFloat:
@@ -379,6 +405,12 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eVec3U )];
 		case Kind::eVec4U:
 			return m_basicTypes[size_t( Kind::eVec4U )];
+		case Kind::eVec2U64:
+			return m_basicTypes[size_t( Kind::eVec2U64 )];
+		case Kind::eVec3U64:
+			return m_basicTypes[size_t( Kind::eVec3U64 )];
+		case Kind::eVec4U64:
+			return m_basicTypes[size_t( Kind::eVec4U64 )];
 		case Kind::eVec2H:
 			return m_basicTypes[size_t( Kind::eVec2H )];
 		case Kind::eVec4H:
@@ -431,6 +463,8 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eMat4x3D )];
 		case Kind::eMat4x4D:
 			return m_basicTypes[size_t( Kind::eMat4x4D )];
+		case Kind::eAccelerationStructure:
+			return m_basicTypes[size_t( Kind::eAccelerationStructure )];
 		default:
 			AST_Failure( "Unexpected Kind" );
 			return nullptr;
@@ -446,7 +480,9 @@ namespace ast::type
 		case Kind::eInt:
 			return getVec2I();
 		case Kind::eUInt:
-			return getVec2U();
+			return getVec2U32();
+		case Kind::eUInt64:
+			return getVec2U64();
 		case Kind::eHalf:
 			return getVec2H();
 		case Kind::eFloat:
@@ -468,7 +504,9 @@ namespace ast::type
 		case Kind::eInt:
 			return getVec3I();
 		case Kind::eUInt:
-			return getVec3U();
+			return getVec3U32();
+		case Kind::eUInt64:
+			return getVec3U64();
 		case Kind::eFloat:
 			return getVec3F();
 		case Kind::eDouble:
@@ -488,7 +526,9 @@ namespace ast::type
 		case Kind::eInt:
 			return getVec4I();
 		case Kind::eUInt:
-			return getVec4U();
+			return getVec4U32();
+		case Kind::eUInt64:
+			return getVec4U64();
 		case Kind::eHalf:
 			return getVec4H();
 		case Kind::eFloat:
@@ -518,6 +558,11 @@ namespace ast::type
 		}
 
 		return nullptr;
+	}
+
+	AccelerationStructurePtr TypesCache::getAccelerationStructure()
+	{
+		return m_accelerationStructure;
 	}
 
 	ImagePtr TypesCache::getImage( ImageConfiguration const & config )
@@ -705,7 +750,12 @@ namespace ast::type
 
 	TypePtr TypesCache::getPointerType( TypePtr pointerType, Storage storage )
 	{
-		return m_pointer.getType( pointerType, storage );
+		return m_pointer.getType( pointerType, storage, false );
+	}
+
+	TypePtr TypesCache::getForwardPointerType( TypePtr pointerType, Storage storage )
+	{
+		return m_pointer.getType( pointerType, storage, true );
 	}
 
 	//*************************************************************************

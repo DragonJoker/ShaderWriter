@@ -347,6 +347,9 @@ namespace hlsl
 		case ast::type::Kind::eUInt:
 			result = "uint";
 			break;
+		case ast::type::Kind::eUInt64:
+			result = "uint64_t";
+			break;
 		case ast::type::Kind::eFloat:
 			result = "float";
 			break;
@@ -379,6 +382,15 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eVec4U:
 			result = "uint4";
+			break;
+		case ast::type::Kind::eVec2U64:
+			result = "uint64_t2";
+			break;
+		case ast::type::Kind::eVec3U64:
+			result = "uint64_t3";
+			break;
+		case ast::type::Kind::eVec4U64:
+			result = "uint64_t4";
 			break;
 		case ast::type::Kind::eVec2F:
 			result = "float2";
@@ -911,6 +923,9 @@ namespace hlsl
 			case ast::type::Kind::eUInt:
 				result = "uint2";
 				break;
+			case ast::type::Kind::eUInt64:
+				result = "uint64_t2";
+				break;
 			case ast::type::Kind::eFloat:
 				result = "float2";
 				break;
@@ -936,6 +951,9 @@ namespace hlsl
 			case ast::type::Kind::eUInt:
 				result = "uint3";
 				break;
+			case ast::type::Kind::eUInt64:
+				result = "uint64_t3";
+				break;
 			case ast::type::Kind::eFloat:
 				result = "float3";
 				break;
@@ -957,6 +975,9 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eUInt:
 				result = "uint4";
+				break;
+			case ast::type::Kind::eUInt64:
+				result = "uint64_t4";
 				break;
 			case ast::type::Kind::eFloat:
 				result = "float4";
@@ -1483,10 +1504,10 @@ namespace hlsl
 							stmt.addStmt( ast::stmt::makeSimple( ast::expr::makeAssign( baseMbr.type
 								, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, paramVar )
 									, inIndex
-									, uint32_t( ast::var::Flag::eImplicit ) )
+									, uint64_t( ast::var::Flag::eImplicit ) )
 								, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, separateVar )
 									, outIndex
-									, uint32_t( ast::var::Flag::eImplicit ) ) ) ) );
+									, uint64_t( ast::var::Flag::eImplicit ) ) ) ) );
 							++inIndex;
 							++outIndex;
 						}
@@ -1561,7 +1582,7 @@ namespace hlsl
 
 	void IOMapping::initialiseMainVar( ast::var::VariablePtr srcVar
 		, ast::type::TypePtr type
-		, uint32_t flags
+		, uint64_t flags
 		, VarVarMap & paramToEntryPoint )
 	{
 		paramVar->updateType( type );
@@ -1570,7 +1591,7 @@ namespace hlsl
 
 	void IOMapping::initialisePatchVar( ast::var::VariablePtr srcVar
 		, ast::type::TypePtr type
-		, uint32_t flags
+		, uint64_t flags
 		, VarVarMap & paramToEntryPoint )
 	{
 		initialiseMainVar( srcVar, type, flags, paramToEntryPoint );
@@ -1610,7 +1631,7 @@ namespace hlsl
 
 	void IOMapping::addPendingMbr( ast::var::VariablePtr outerVar
 		, uint32_t mbrIndex
-		, uint32_t flags
+		, uint64_t flags
 		, uint32_t location )
 	{
 		auto it = std::find_if( m_pendingMbr.begin()
@@ -1755,7 +1776,7 @@ namespace hlsl
 	PendingResult IOMapping::processPendingType( ast::type::TypePtr type
 		, std::string const & name
 		, ast::Builtin builtin
-		, uint32_t flags
+		, uint64_t flags
 		, uint32_t location
 		, uint32_t arraySize
 		, ast::type::IOStruct & structType )
@@ -1844,7 +1865,7 @@ namespace hlsl
 	PendingResult IOMapping::processPendingType( ast::type::TypePtr type
 		, std::string const & name
 		, ast::Builtin builtin
-		, uint32_t flags
+		, uint64_t flags
 		, uint32_t location )
 	{
 		auto arraySize = getArraySize( type );
@@ -1924,7 +1945,7 @@ namespace hlsl
 
 	PendingResult IOMapping::processPendingType( ast::type::Struct const & structType
 		, uint32_t mbrIndex
-		, uint32_t mbrFlags
+		, uint64_t mbrFlags
 		, uint32_t mbrLocation )
 	{
 		auto & mbr = *std::next( structType.begin(), ptrdiff_t( mbrIndex ) );
@@ -2017,7 +2038,7 @@ namespace hlsl
 				, tessType.getTopology()
 				, tessType.getOrder()
 				, tessType.getOutputVertices() )
-			, uint32_t( ast::var::Flag::eShaderOutput )
+			, uint64_t( ast::var::Flag::eShaderOutput )
 			, paramToEntryPoint );
 	}
 
@@ -2027,7 +2048,7 @@ namespace hlsl
 		m_highFreqOutputs.initialiseMainVar( srcVar
 			, ast::type::makeTessellationOutputPatchType( m_highFreqOutputs.paramStruct
 				, patchType.getLocation() )
-			, uint32_t( ast::var::Flag::eShaderOutput )
+			, uint64_t( ast::var::Flag::eShaderOutput )
 			, paramToEntryPoint );
 	}
 
@@ -2322,7 +2343,7 @@ namespace hlsl
 	}
 
 	void Routine::registerInputMbr( ast::var::VariablePtr var
-		, uint32_t outerFlags
+		, uint64_t outerFlags
 		, ast::Builtin mbrBuiltin
 		, uint32_t mbrIndex
 		, uint32_t mbrLocation )
@@ -2341,7 +2362,7 @@ namespace hlsl
 	}
 
 	void Routine::registerOutputMbr( ast::var::VariablePtr var
-		, uint32_t outerFlags
+		, uint64_t outerFlags
 		, ast::Builtin mbrBuiltin
 		, uint32_t mbrIndex
 		, uint32_t mbrLocation )
@@ -2492,7 +2513,7 @@ namespace hlsl
 									if ( isShaderInput( mbr.builtin, shader->getType() ) )
 									{
 										registerInputMbr( param
-											, uint32_t( ast::var::Flag::eShaderInput )
+											, uint64_t( ast::var::Flag::eShaderInput )
 											, mbr.builtin
 											, index++
 											, mbr.location );
@@ -2500,7 +2521,7 @@ namespace hlsl
 									else
 									{
 										registerInputMbr( param
-											, uint32_t( ast::var::Flag::eShaderOutput )
+											, uint64_t( ast::var::Flag::eShaderOutput )
 											, mbr.builtin
 											, index++
 											, mbr.location );
@@ -3049,7 +3070,7 @@ namespace hlsl
 			, ast::type::makeTessellationInputPatchType( m_patchInputs->paramStruct
 				, patchType.getDomain()
 				, patchType.getLocation() )
-			, uint32_t( ast::var::Flag::eShaderInput )
+			, uint64_t( ast::var::Flag::eShaderInput )
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3184,7 +3205,7 @@ namespace hlsl
 	}
 
 	void AdaptationData::registerInputMbr( ast::var::VariablePtr var
-		, uint32_t outerFlags
+		, uint64_t outerFlags
 		, ast::Builtin mbrBuiltin
 		, uint32_t mbrIndex
 		, uint32_t mbrLocation )
@@ -3226,7 +3247,7 @@ namespace hlsl
 	}
 
 	void AdaptationData::registerOutputMbr( ast::var::VariablePtr var
-		, uint32_t outerFlags
+		, uint64_t outerFlags
 		, ast::Builtin mbrBuiltin
 		, uint32_t mbrIndex
 		, uint32_t mbrLocation )

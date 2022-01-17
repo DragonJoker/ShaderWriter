@@ -428,6 +428,9 @@ namespace spirv
 				case ast::expr::LiteralType::eUInt:
 					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt >() );
 					break;
+				case ast::expr::LiteralType::eUInt64:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt64 >() );
+					break;
 				case ast::expr::LiteralType::eFloat:
 					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eFloat >() );
 					break;

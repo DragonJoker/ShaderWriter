@@ -10,30 +10,6 @@ namespace ast::debug
 {
 	namespace
 	{
-		std::string getName( type::MemoryLayout layout )
-		{
-			std::string result;
-
-			switch ( layout )
-			{
-			case ast::type::MemoryLayout::eStd140:
-				result = "STD140";
-				break;
-			case ast::type::MemoryLayout::eStd430:
-				result = "STD430";
-				break;
-			case ast::type::MemoryLayout::eC:
-				result = "C";
-				break;
-			default:
-				AST_Failure( "Unsupported type::MemoryLayout" );
-				result = "UNDEFINED";
-				break;
-			}
-
-			return result;
-		}
-
 		std::string getName( stmt::Kind kind )
 		{
 			std::string result;
@@ -175,6 +151,21 @@ namespace ast::debug
 			case ast::stmt::Kind::eInputTessellationEvaluationLayout:
 				result = "STINTESSELAYOUT";
 				break;
+			case ast::stmt::Kind::eAccelerationStructureDecl:
+				result = "STACCSTRUCTDECL";
+				break;
+			case ast::stmt::Kind::eInOutRayPayloadVariableDecl:
+				result = "STINOUTRAYPAYLOADDECL";
+				break;
+			case ast::stmt::Kind::eHitAttributeVariableDecl:
+				result = "STHITATTRDECL";
+				break;
+			case ast::stmt::Kind::eInOutCallableDataVariableDecl:
+				result = "STINOUTCALLDATADECL";
+				break;
+			case ast::stmt::Kind::eBufferReferenceDecl:
+				result = "STBUFREFDECL";
+				break;
 			default:
 				AST_Failure( "Unknown statement kind ?" );
 				break;
@@ -206,9 +197,24 @@ namespace ast::debug
 		return m_result;
 	}
 
+	void StmtVisitor::visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += displayVar( stmt->getVariable() ) + "\n";
+	}
+
 	void StmtVisitor::visitBreakStmt( stmt::Break * stmt )
 	{
 		displayStmtName( stmt, true );
+	}
+
+	void StmtVisitor::visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += getName( stmt->getType() ) + "\n";
 	}
 
 	void StmtVisitor::visitCommentStmt( stmt::Comment * stmt )
@@ -469,6 +475,31 @@ namespace ast::debug
 		m_result += stmt->getName() + "\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
+	}
+
+	void StmtVisitor::visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += displayVar( stmt->getVariable() );
+		m_result += "\n";
+	}
+
+	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += " L(";
+		m_result += std::to_string( stmt->getLocation() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
+		m_result += "\n";
+	}
+
+	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += " L(";
+		m_result += std::to_string( stmt->getLocation() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitReturnStmt( stmt::Return * stmt )

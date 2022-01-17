@@ -226,7 +226,7 @@ namespace sdw
 		, expr::ExprList && args );
 	SDW_API expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
-		, uint32_t flags );
+		, uint64_t flags );
 	SDW_API expr::ExprPtr makeSwizzle( expr::ExprPtr outer
 		, expr::SwizzleKind swizzle );
 	SDW_API expr::ExprPtr makeQuestion( type::TypePtr type
@@ -247,11 +247,19 @@ namespace sdw
 		, var::VariablePtr data
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
+	SDW_API stmt::StmtPtr makeBufferReferenceDecl( type::TypePtr type );
 	SDW_API stmt::StmtPtr makeReturn( expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makePreprocDefine( Shader & shader
 		, std::string name
 		, expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
+	SDW_API stmt::StmtPtr makeHitAttributeVariableDecl( var::VariablePtr var );
+	SDW_API stmt::StmtPtr makeInOutCallableDataVariableDecl( var::VariablePtr var
+		, uint32_t location );
+	SDW_API stmt::StmtPtr makeInOutRayPayloadVariableDecl( var::VariablePtr var
+		, uint32_t location );
+	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+		, uint32_t location );
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location );
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
@@ -271,6 +279,9 @@ namespace sdw
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	SDW_API stmt::StmtPtr makeImageDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet );
+	SDW_API stmt::StmtPtr makeAccelerationStructureDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	SDW_API stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type

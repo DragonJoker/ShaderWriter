@@ -18,6 +18,7 @@ namespace ast::type
 		eBoolean,
 		eInt,
 		eUInt,
+		eUInt64,// Submitted to extension enabling
 		eHalf,// Submitted to extension enabling
 		eFloat,
 		eDouble,
@@ -30,6 +31,9 @@ namespace ast::type
 		eVec2U,
 		eVec3U,
 		eVec4U,
+		eVec2U64,// Submitted to extension enabling
+		eVec3U64,// Submitted to extension enabling
+		eVec4U64,// Submitted to extension enabling
 		eVec2H,// Submitted to extension enabling
 		eVec4H,// Submitted to extension enabling
 		eVec2F,
@@ -63,6 +67,7 @@ namespace ast::type
 		eSampler,
 		eImage,
 		eSampledImage,
+		eAccelerationStructure,// Submitted to extension enabling
 		ePointer,
 		eGeometryInput,
 		eGeometryOutput,
@@ -170,6 +175,7 @@ namespace ast::type
 
 	SDAST_API bool isBoolType( Kind kind );
 	SDAST_API bool isUnsignedIntType( Kind kind );
+	SDAST_API bool isUnsignedInt64Type( Kind kind );
 	SDAST_API bool isSignedIntType( Kind kind );
 	SDAST_API bool isHalfType( Kind kind );
 	SDAST_API bool isFloatType( Kind kind );
@@ -183,6 +189,7 @@ namespace ast::type
 	SDAST_API bool isSamplerType( Kind kind );
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isSampledImageType( Kind kind );
+	SDAST_API bool isAccelerationStructureType( Kind kind );
 	SDAST_API bool isOpaqueType( Kind kind );
 	SDAST_API bool isOpaqueType( TypePtr type );
 	/**

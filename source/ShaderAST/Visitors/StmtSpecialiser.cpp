@@ -64,6 +64,12 @@ namespace ast
 				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< uint32_t const * >( it->data.data() ) ) );
 			break;
+		case type::Kind::eUInt64:
+			assert( it->data.size() == sizeof( uint64_t ) );
+			m_specialisations.emplace( stmt->getVariable()
+				, expr::makeLiteral( m_cache
+					, *reinterpret_cast< uint64_t const * >( it->data.data() ) ) );
+			break;
 		case type::Kind::eFloat:
 			assert( it->data.size() == sizeof( float ) );
 			m_specialisations.emplace( stmt->getVariable()

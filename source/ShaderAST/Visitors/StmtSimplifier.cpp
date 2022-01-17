@@ -21,6 +21,8 @@ namespace ast
 				return expr::LiteralType::eInt;
 			case ast::type::Kind::eUInt:
 				return expr::LiteralType::eUInt;
+			case ast::type::Kind::eUInt64:
+				return expr::LiteralType::eUInt64;
 			case ast::type::Kind::eFloat:
 				return expr::LiteralType::eFloat;
 			case ast::type::Kind::eDouble:
@@ -174,6 +176,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							+ rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							+ rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -207,6 +213,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							/ rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							/ rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -240,6 +250,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							- rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							- rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -273,6 +287,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							* rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							* rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -308,6 +326,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							% rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							% rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eBool:
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
@@ -335,6 +357,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							<< rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							<< rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eBool:
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
@@ -362,6 +388,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							>> rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							>> rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eBool:
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
@@ -389,6 +419,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							& rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							& rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eBool:
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
@@ -416,6 +450,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							| rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							| rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eBool:
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
@@ -443,6 +481,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							^ rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							^ rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eBool:
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
@@ -474,6 +516,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eBool >( lhs )
 							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt >() ) ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							&& convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt64 >() ) ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eBool >( lhs )
@@ -510,6 +556,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eBool >( lhs )
 							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt >() ) ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eBool >( lhs )
+							|| convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt64 >() ) ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eBool >( lhs )
@@ -546,6 +596,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							== rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							== rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -582,6 +636,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							!= rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							!= rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -618,6 +676,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							< rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							< rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -654,6 +716,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							<= rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							<= rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -690,6 +756,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							> rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							> rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -726,6 +796,10 @@ namespace ast
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eUInt >( lhs )
 							>= rhs.getValue< expr::LiteralType::eUInt >() ) );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ( convert< expr::LiteralType::eUInt64 >( lhs )
+							>= rhs.getValue< expr::LiteralType::eUInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, ( convert< expr::LiteralType::eFloat >( lhs )
@@ -754,6 +828,8 @@ namespace ast
 				return FuncT< int32_t >::replace( cache, lhs.getValue< expr::LiteralType::eInt >(), rhs );
 			case expr::LiteralType::eUInt:
 				return FuncT< uint32_t >::replace( cache, lhs.getValue< expr::LiteralType::eUInt >(), rhs );
+			case expr::LiteralType::eUInt64:
+				return FuncT< uint64_t >::replace( cache, lhs.getValue< expr::LiteralType::eUInt64 >(), rhs );
 			case expr::LiteralType::eFloat:
 				return FuncT< float >::replace( cache, lhs.getValue< expr::LiteralType::eFloat >(), rhs );
 			case expr::LiteralType::eDouble:
@@ -780,6 +856,9 @@ namespace ast
 				case expr::LiteralType::eUInt:
 					return expr::makeLiteral( cache
 						, ~operand.getValue< expr::LiteralType::eUInt >() );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ~operand.getValue< expr::LiteralType::eUInt64 >() );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, -operand.getValue< expr::LiteralType::eFloat >() );
@@ -809,6 +888,9 @@ namespace ast
 				case expr::LiteralType::eUInt:
 					return expr::makeLiteral( cache
 						, ~operand.getValue< expr::LiteralType::eUInt >() );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, ~operand.getValue< expr::LiteralType::eUInt64 >() );
 				case expr::LiteralType::eFloat:
 				case expr::LiteralType::eDouble:
 				default:
@@ -834,6 +916,9 @@ namespace ast
 				case expr::LiteralType::eUInt:
 					return expr::makeLiteral( cache
 						, operand.getValue< expr::LiteralType::eUInt >() == 0u );
+				case expr::LiteralType::eUInt64:
+					return expr::makeLiteral( cache
+						, operand.getValue< expr::LiteralType::eUInt64 >() == 0ull );
 				case expr::LiteralType::eFloat:
 					return expr::makeLiteral( cache
 						, operand.getValue< expr::LiteralType::eFloat >() == 0.0f );
@@ -877,6 +962,9 @@ namespace ast
 				case expr::LiteralType::eUInt:
 					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eUInt >() );
+				case expr::LiteralType::eUInt64:
+					return castLiteral( cache
+						, operand.getValue< expr::LiteralType::eUInt64 >() );
 				case expr::LiteralType::eFloat:
 					return castLiteral( cache
 						, operand.getValue< expr::LiteralType::eFloat >() );
@@ -904,6 +992,8 @@ namespace ast
 					return CastLiteralTo< int32_t >::cast( cache, operand );
 				case expr::LiteralType::eUInt:
 					return CastLiteralTo< uint32_t >::cast( cache, operand );
+				case expr::LiteralType::eUInt64:
+					return CastLiteralTo< uint64_t >::cast( cache, operand );
 				case expr::LiteralType::eFloat:
 					return CastLiteralTo< float >::cast( cache, operand );
 				case expr::LiteralType::eDouble:
@@ -1318,15 +1408,20 @@ namespace ast
 					uint32_t index = 0u;
 					auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
 					assert( lit.getLiteralType() == expr::LiteralType::eInt
-						|| lit.getLiteralType() == expr::LiteralType::eUInt );
+						|| lit.getLiteralType() == expr::LiteralType::eUInt
+						|| lit.getLiteralType() == expr::LiteralType::eUInt64 );
 
 					if ( lit.getLiteralType() == expr::LiteralType::eInt )
 					{
 						index = uint32_t( lit.getValue< expr::LiteralType::eInt >() );
 					}
-					else
+					else if ( lit.getLiteralType() == expr::LiteralType::eUInt )
 					{
 						index = lit.getValue< expr::LiteralType::eUInt >();
+					}
+					else
+					{
+						index = uint32_t( lit.getValue< expr::LiteralType::eUInt64 >() );
 					}
 
 					auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );

@@ -52,7 +52,16 @@ namespace sdw
 		{
 			static inline ast::type::TypePtr get( ShaderWriter & writer, uint32_t )
 			{
-				return getTypesCache( writer ).getUInt();
+				return getTypesCache( writer ).getUInt32();
+			}
+		};
+
+		template<>
+		struct TypeGetter< uint64_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, uint64_t )
+			{
+				return getTypesCache( writer ).getUInt64();
 			}
 		};
 

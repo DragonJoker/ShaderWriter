@@ -23,6 +23,14 @@ namespace spirv
 			{
 				config.registerCapability( spv::CapabilityFloat16 );
 			}
+			else if ( isUnsignedInt64Type( kind ) )
+			{
+				config.registerCapability( spv::CapabilityInt64 );
+			}
+			else if ( isAccelerationStructureType( kind ) )
+			{
+				config.registerCapability( spv::CapabilityRayTracingKHR );
+			}
 		}
 
 		void checkType( ast::expr::Expr * expr
@@ -58,6 +66,14 @@ namespace spirv
 				{
 					config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 				}
+			}
+			else if ( kind == ast::expr::Intrinsic::eTraceRay
+				|| kind == ast::expr::Intrinsic::eReportIntersection
+				|| kind == ast::expr::Intrinsic::eIgnoreIntersection
+				|| kind == ast::expr::Intrinsic::eTerminateRay
+				|| kind == ast::expr::Intrinsic::eExecuteCallable )
+			{
+				config.registerCapability( spv::CapabilityRayTracingKHR );
 			}
 		}
 	}

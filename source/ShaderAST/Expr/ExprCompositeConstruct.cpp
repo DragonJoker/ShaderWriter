@@ -137,7 +137,10 @@ namespace ast::expr
 				result = cache.getInt();
 				break;
 			case type::Kind::eUInt:
-				result = cache.getUInt();
+				result = cache.getUInt32();
+				break;
+			case type::Kind::eUInt64:
+				result = cache.getUInt64();
 				break;
 			case type::Kind::eHalf:
 				result = cache.getHalf();
@@ -163,7 +166,10 @@ namespace ast::expr
 				result = cache.getVec2I();
 				break;
 			case type::Kind::eUInt:
-				result = cache.getVec2U();
+				result = cache.getVec2U32();
+				break;
+			case type::Kind::eUInt64:
+				result = cache.getVec2U64();
 				break;
 			case type::Kind::eHalf:
 				result = cache.getVec2H();
@@ -189,7 +195,10 @@ namespace ast::expr
 				result = cache.getVec3I();
 				break;
 			case type::Kind::eUInt:
-				result = cache.getVec3U();
+				result = cache.getVec3U32();
+				break;
+			case type::Kind::eUInt64:
+				result = cache.getVec3U64();
 				break;
 			case type::Kind::eFloat:
 				result = cache.getVec3F();
@@ -212,7 +221,10 @@ namespace ast::expr
 				result = cache.getVec4I();
 				break;
 			case type::Kind::eUInt:
-				result = cache.getVec4U();
+				result = cache.getVec4U32();
+				break;
+			case type::Kind::eUInt64:
+				result = cache.getVec4U64();
 				break;
 			case type::Kind::eHalf:
 				result = cache.getVec4H();

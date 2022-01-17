@@ -206,7 +206,7 @@ namespace spirv
 				{
 					result = spv::OpConvertFToU;
 				}
-				else
+				else if ( !isDoubleType( dst ) )
 				{
 					AST_Failure( "Unsupported cast expression" );
 				}
@@ -225,7 +225,7 @@ namespace spirv
 				{
 					result = spv::OpConvertFToU;
 				}
-				else
+				else if ( !isFloatType( dst ) )
 				{
 					AST_Failure( "Unsupported cast expression" );
 				}
@@ -244,7 +244,7 @@ namespace spirv
 				{
 					result = spv::OpConvertFToU;
 				}
-				else
+				else if ( !isHalfType( dst ) )
 				{
 					AST_Failure( "Unsupported cast expression" );
 				}
@@ -263,7 +263,7 @@ namespace spirv
 				{
 					result = spv::OpBitcast;
 				}
-				else
+				else if ( !isSignedIntType( dst ) )
 				{
 					AST_Failure( "Unsupported cast expression" );
 				}
@@ -282,7 +282,15 @@ namespace spirv
 				else if ( isUnsignedIntType( dst ) )
 				{
 				}
-				else
+				else if ( isAccelerationStructureType( dst ) )
+				{
+					result = spv::OpConvertUToAccelerationStructureKHR;
+				}
+				else if ( isPointerType( dst ) )
+				{
+					result = spv::OpConvertUToPtr;
+				}
+				else if ( !isUnsignedIntType( dst ) )
 				{
 					AST_Failure( "Unsupported cast expression" );
 				}
@@ -307,7 +315,27 @@ namespace spirv
 			result = spv::StorageClassFunction;
 		}
 
-		if ( var->isStorageBuffer() )
+		if ( var->isHitAttribute() )
+		{
+			result = spv::StorageClassHitAttributeKHR;
+		}
+		else if ( var->isIncomingCallableData() )
+		{
+			result = spv::StorageClassIncomingCallableDataKHR;
+		}
+		else if ( var->isCallableData() )
+		{
+			result = spv::StorageClassCallableDataKHR;
+		}
+		else if ( var->isIncomingRayPayload() )
+		{
+			result = spv::StorageClassIncomingRayPayloadKHR;
+		}
+		else if ( var->isRayPayload() )
+		{
+			result = spv::StorageClassRayPayloadKHR;
+		}
+		else if ( var->isStorageBuffer() )
 		{
 			if ( version > v1_3 )
 			{
@@ -430,6 +458,12 @@ namespace spirv
 			, allLiterals
 			, isAlias };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			module.decorate( result, spv::DecorationNonUniform );
+		}
+
 		return result;
 	}
 
@@ -1081,6 +1115,9 @@ namespace spirv
 		case ast::expr::LiteralType::eUInt:
 			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt >() );
 			break;
+		case ast::expr::LiteralType::eUInt64:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt64 >() );
+			break;
 		case ast::expr::LiteralType::eFloat:
 			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eFloat >() );
 			break;
@@ -1213,8 +1250,6 @@ namespace spirv
 			, m_module
 			, true );
 		auto var = expr->getLHS()->getVariable();
-		// Aliases don't store pointers, hence make sure the result isn't.
-		//m_result = loadVariable( m_result, m_currentBlock );
 		m_module.registerAlias( var->getName()
 			, var->getType()
 			, m_result );
@@ -1390,8 +1425,10 @@ namespace spirv
 			params.push_back( loadVariable( doSubmit( arg.get() ) ) );
 		}
 
-		if ( opCode >= spv::OpEmitVertex
-			&& opCode <= spv::OpEndStreamPrimitive )
+		if ( ( opCode >= spv::OpEmitVertex && opCode <= spv::OpEndStreamPrimitive )
+			|| opCode == spv::OpIgnoreIntersectionKHR
+			|| opCode == spv::OpTerminateRayKHR
+			|| opCode == spv::OpTraceRayKHR )
 		{
 			m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode
 				, params ) );
@@ -1419,12 +1456,12 @@ namespace spirv
 			if ( m_unsignedExtendedTypes[count]->empty() )
 			{
 				auto type = count == 3
-					? m_module.getCache().getVec4U()
+					? m_module.getCache().getVec4U32()
 					: ( count == 2
-						? m_module.getCache().getVec3U()
+						? m_module.getCache().getVec3U32()
 						: ( count == 1
-							? m_module.getCache().getVec2U()
-							: m_module.getCache().getUInt() ) );
+							? m_module.getCache().getVec2U32()
+							: m_module.getCache().getUInt32() ) );
 				m_unsignedExtendedTypes[count]->declMember( "result", type );
 				m_unsignedExtendedTypes[count]->declMember( "extended", type );
 			}

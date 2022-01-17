@@ -96,9 +96,28 @@ namespace ast::type
 		switch ( kind )
 		{
 		case Kind::eUInt:
+		case Kind::eUInt64:
 		case Kind::eVec2U:
 		case Kind::eVec3U:
 		case Kind::eVec4U:
+		case Kind::eVec2U64:
+		case Kind::eVec3U64:
+		case Kind::eVec4U64:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isUnsignedInt64Type( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eUInt64:
+		case Kind::eVec2U64:
+		case Kind::eVec3U64:
+		case Kind::eVec4U64:
 			return true;
 
 		default:
@@ -190,6 +209,7 @@ namespace ast::type
 		case Kind::eBoolean:
 		case Kind::eInt:
 		case Kind::eUInt:
+		case Kind::eUInt64:
 		case Kind::eFloat:
 		case Kind::eDouble:
 		case Kind::eHalf:
@@ -213,6 +233,9 @@ namespace ast::type
 		case Kind::eVec2U:
 		case Kind::eVec3U:
 		case Kind::eVec4U:
+		case Kind::eVec2U64:
+		case Kind::eVec3U64:
+		case Kind::eVec4U64:
 		case Kind::eVec2F:
 		case Kind::eVec3F:
 		case Kind::eVec4F:
@@ -287,6 +310,11 @@ namespace ast::type
 		return kind == Kind::eSampledImage;
 	}
 
+	bool isAccelerationStructureType( Kind kind )
+	{
+		return kind == Kind::eAccelerationStructure;
+	}
+
 	bool isOpaqueType( TypePtr type )
 	{
 		if ( isArrayType( type->getKind() ) )
@@ -306,7 +334,8 @@ namespace ast::type
 	{
 		return isImageType( kind )
 			|| isSampledImageType( kind )
-			|| isSamplerType( kind );
+			|| isSamplerType( kind )
+			|| isAccelerationStructureType( kind );
 	}
 
 	uint32_t getComponentCount( Kind kind )
@@ -316,6 +345,7 @@ namespace ast::type
 		case Kind::eVec2B:
 		case Kind::eVec2I:
 		case Kind::eVec2U:
+		case Kind::eVec2U64:
 		case Kind::eVec2F:
 		case Kind::eVec2D:
 		case Kind::eVec2H:
@@ -330,6 +360,7 @@ namespace ast::type
 		case Kind::eVec3B:
 		case Kind::eVec3I:
 		case Kind::eVec3U:
+		case Kind::eVec3U64:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
 		case Kind::eMat3x2F:
@@ -343,6 +374,7 @@ namespace ast::type
 		case Kind::eVec4B:
 		case Kind::eVec4I:
 		case Kind::eVec4U:
+		case Kind::eVec4U64:
 		case Kind::eVec4F:
 		case Kind::eVec4D:
 		case Kind::eVec4H:
@@ -389,6 +421,11 @@ namespace ast::type
 		case Kind::eVec3U:
 		case Kind::eVec4U:
 			return Kind::eUInt;
+
+		case Kind::eVec2U64:
+		case Kind::eVec3U64:
+		case Kind::eVec4U64:
+			return Kind::eUInt64;
 
 		case Kind::eVec2H:
 		case Kind::eVec4H:
@@ -476,6 +513,7 @@ namespace ast::type
 		case Kind::eVec2B:
 		case Kind::eVec2I:
 		case Kind::eVec2U:
+		case Kind::eVec2U64:
 		case Kind::eVec2F:
 		case Kind::eVec2D:
 		case Kind::eVec2H:
@@ -484,6 +522,7 @@ namespace ast::type
 		case Kind::eVec3B:
 		case Kind::eVec3I:
 		case Kind::eVec3U:
+		case Kind::eVec3U64:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
 			return expr::CompositeType::eVec3;
@@ -491,6 +530,7 @@ namespace ast::type
 		case Kind::eVec4B:
 		case Kind::eVec4I:
 		case Kind::eVec4U:
+		case Kind::eVec4U64:
 		case Kind::eVec4F:
 		case Kind::eVec4D:
 		case Kind::eVec4H:

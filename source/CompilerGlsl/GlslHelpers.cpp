@@ -135,6 +135,9 @@ namespace glsl
 		case ast::type::Kind::eUInt:
 			result = "uint";
 			break;
+		case ast::type::Kind::eUInt64:
+			result = "uint64_t";
+			break;
 		case ast::type::Kind::eHalf:
 		case ast::type::Kind::eFloat:
 			result = "float";
@@ -168,6 +171,15 @@ namespace glsl
 			break;
 		case ast::type::Kind::eVec4U:
 			result = "uvec4";
+			break;
+		case ast::type::Kind::eVec2U64:
+			result = "u64vec2";
+			break;
+		case ast::type::Kind::eVec3U64:
+			result = "u64vec3";
+			break;
+		case ast::type::Kind::eVec4U64:
+			result = "u64vec4";
 			break;
 		case ast::type::Kind::eVec2H:
 			result = "f16vec2";
@@ -255,6 +267,9 @@ namespace glsl
 			break;
 		case ast::type::Kind::eSampledImage:
 			result = "sampledImage";
+			break;
+		case ast::type::Kind::ePointer:
+			result = "pointer";
 			break;
 		default:
 			AST_Failure( "Unsupported type::Kind" );
@@ -711,6 +726,9 @@ namespace glsl
 			case ast::type::Kind::eUInt:
 				result = "uvec2";
 				break;
+			case ast::type::Kind::eUInt64:
+				result = "u64vec2";
+				break;
 			case ast::type::Kind::eFloat:
 				result = "vec2";
 				break;
@@ -737,6 +755,9 @@ namespace glsl
 			case ast::type::Kind::eUInt:
 				result = "uvec3";
 				break;
+			case ast::type::Kind::eUInt64:
+				result = "u64vec3";
+				break;
 			case ast::type::Kind::eFloat:
 				result = "vec3";
 				break;
@@ -762,6 +783,9 @@ namespace glsl
 				break;
 			case ast::type::Kind::eUInt:
 				result = "uvec4";
+				break;
+			case ast::type::Kind::eUInt64:
+				result = "u64vec4";
 				break;
 			case ast::type::Kind::eFloat:
 				result = "vec4";

@@ -54,8 +54,12 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprXorAssign.hpp>
 #include <ShaderAST/Stmt/PreprocDefine.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
+#include <ShaderAST/Stmt/StmtBufferReferenceDecl.hpp>
 #include <ShaderAST/Stmt/StmtFragmentLayout.hpp>
+#include <ShaderAST/Stmt/StmtHitAttributeVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtImageDecl.hpp>
+#include <ShaderAST/Stmt/StmtInOutCallableDataVariableDecl.hpp>
+#include <ShaderAST/Stmt/StmtInOutRayPayloadVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtReturn.hpp>
 #include <ShaderAST/Stmt/StmtSampledImageDecl.hpp>
@@ -691,7 +695,7 @@ namespace sdw
 
 	expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return expr::makeMbrSelect( std::move( outer )
 			, memberIndex
@@ -758,6 +762,11 @@ namespace sdw
 			, bindingSet );
 	}
 
+	stmt::StmtPtr makeBufferReferenceDecl( type::TypePtr type )
+	{
+		return stmt::makeBufferReferenceDecl( type );
+	}
+
 	stmt::StmtPtr makeReturn( expr::ExprPtr expr )
 	{
 		return stmt::makeReturn( std::move( expr ) );
@@ -775,6 +784,25 @@ namespace sdw
 	stmt::StmtPtr makeVariableDecl( var::VariablePtr var )
 	{
 		return stmt::makeVariableDecl( std::move( var ) );
+	}
+
+	stmt::StmtPtr makeHitAttributeVariableDecl( var::VariablePtr var )
+	{
+		return stmt::makeHitAttributeVariableDecl( std::move( var ) );
+	}
+
+	stmt::StmtPtr makeInOutCallableDataVariableDecl( var::VariablePtr var
+		, uint32_t location )
+	{
+		return stmt::makeInOutCallableDataVariableDecl( std::move( var )
+			, location );
+	}
+
+	stmt::StmtPtr makeInOutRayPayloadVariableDecl( var::VariablePtr var
+		, uint32_t location )
+	{
+		return stmt::makeInOutRayPayloadVariableDecl( std::move( var )
+			, location );
 	}
 
 	stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
@@ -836,6 +864,15 @@ namespace sdw
 		, uint32_t bindingSet )
 	{
 		return stmt::makeImageDecl( std::move( var )
+			, bindingPoint
+			, bindingSet );
+	}
+
+	stmt::StmtPtr makeAccelerationStructureDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
+		return stmt::makeAccelerationStructureDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}

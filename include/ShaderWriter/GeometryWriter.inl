@@ -188,7 +188,7 @@ namespace sdw
 	inline T GeometryWriter::declStreamOutput( std::string const & name
 		, uint32_t location
 		, uint32_t streamIndex
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
@@ -237,7 +237,7 @@ namespace sdw
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint32_t dimension
-		, uint32_t attributes
+		, uint64_t attributes
 		, bool enabled )
 	{
 		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );

@@ -71,7 +71,7 @@ namespace
 		testBegin( "compute" );
 		using namespace sdw;
 		ComputeWriter writer;
-		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declImage< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )

@@ -1645,6 +1645,51 @@ namespace sdw
 	SDW_API Void groupMemoryBarrier( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
+#pragma region traceRay
+	/**
+	*name
+	*	traceRay
+	*/
+	/**@{*/
+	SDW_API Void traceRay( AccelerationStructure const & topLevel, UInt const & rayFlags, UInt const & cullMask, UInt const & sbtRecordOffset, UInt const & sbtRecordStride, UInt const & missIndex, Vec3 const & origin, Float const & Tmin, Vec3 const & direction, Float const & Tmax, Int const & payload );
+	/**@}*/
+#pragma endregion
+#pragma region reportIntersection
+	/**
+	*name
+	*	reportIntersection
+	*/
+	/**@{*/
+	SDW_API Void reportIntersection( Float const & hitT, UInt const & hitKind );
+	/**@}*/
+#pragma endregion
+#pragma region ignoreIntersection
+	/**
+	*name
+	*	ignoreIntersection
+	*/
+	/**@{*/
+	SDW_API Void ignoreIntersection( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region terminateRay
+	/**
+	*name
+	*	terminateRay
+	*/
+	/**@{*/
+	SDW_API Void terminateRay( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region executeCallable
+	/**
+	*name
+	*	executeCallable
+	*/
+	/**@{*/
+	SDW_API Void executeCallable( UInt const & sbtRecordIndex, Int const & callable );
+	/**@}*/
+#pragma endregion
 }
 
 #endif

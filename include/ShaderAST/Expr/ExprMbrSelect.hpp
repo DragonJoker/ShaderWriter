@@ -17,7 +17,7 @@ namespace ast::expr
 	public:
 		SDAST_API MbrSelect( ExprPtr outer
 			, uint32_t memberIndex
-			, uint32_t memberFlags );
+			, uint64_t memberFlags );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -34,7 +34,7 @@ namespace ast::expr
 		}
 
 		//\return The variable flags for the member.
-		inline uint32_t getMemberFlags()const
+		inline uint64_t getMemberFlags()const
 		{
 			return var::FlagHolder::getFlags();
 		}
@@ -50,7 +50,7 @@ namespace ast::expr
 
 	inline MbrSelectPtr makeMbrSelect( ExprPtr outer
 		, uint32_t memberIndex
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return std::make_unique< MbrSelect >( std::move( outer )
 			, memberIndex

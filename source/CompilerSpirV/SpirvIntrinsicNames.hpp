@@ -1114,6 +1114,26 @@ namespace spirv
 			result = spv::Id( spv::OpMemoryBarrier );
 			break;
 
+		case ast::expr::Intrinsic::eTraceRay:
+			result = spv::Id( spv::OpTraceRayKHR );
+			break;
+
+		case ast::expr::Intrinsic::eReportIntersection:
+			result = spv::Id( spv::OpReportIntersectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eIgnoreIntersection:
+			result = spv::Id( spv::OpIgnoreIntersectionKHR );
+			break;
+
+		case ast::expr::Intrinsic::eTerminateRay:
+			result = spv::Id( spv::OpTerminateRayKHR );
+			break;
+
+		case ast::expr::Intrinsic::eExecuteCallable:
+			result = spv::Id( spv::OpExecuteCallableKHR );
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

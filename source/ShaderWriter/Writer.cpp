@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/Writer.hpp"
 
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
+#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 #include "ShaderWriter/VecTypes/Vec2.hpp"
 
 #include <ShaderAST/Stmt/PreprocExtension.hpp>
@@ -53,7 +54,7 @@ namespace sdw
 
 	var::VariablePtr ShaderWriter::registerName( std::string const & name
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 	{
 		return m_shader->registerName( name, type, flags );
 	}
@@ -369,6 +370,29 @@ namespace sdw
 			, enabled };
 	}
 
+	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string const & name
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		auto type = AccelerationStructure::makeType( getTypesCache() );
+		auto var = registerAccelerationStructure( name
+			, type
+			, binding
+			, set );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeAccelerationStructureDecl( var
+				, binding
+				, set ) );
+		}
+
+		return AccelerationStructure{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
 	void ShaderWriter::doPushScope( ast::stmt::ContainerPtr && container )
 	{
 		m_currentStmts.emplace_back( std::move( container ) );
@@ -414,6 +438,15 @@ namespace sdw
 		return m_shader->registerSpecConstant( name, location, type );
 	}
 
+	var::VariablePtr ShaderWriter::registerAccelerationStructure( std::string const & name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return m_shader->registerAccelerationStructure( name, type, binding, set, enabled );
+	}
+
 	var::VariablePtr ShaderWriter::registerSampledImage( std::string const & name
 		, type::TypePtr type
 		, uint32_t binding
@@ -434,7 +467,7 @@ namespace sdw
 
 	var::VariablePtr ShaderWriter::registerInput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, type::TypePtr type )
 	{
 		return m_shader->registerInput( name, location, attributes, type );
@@ -442,10 +475,17 @@ namespace sdw
 
 	var::VariablePtr ShaderWriter::registerOutput( std::string const & name
 		, uint32_t location
-		, uint32_t attributes
+		, uint64_t attributes
 		, type::TypePtr type )
 	{
 		return m_shader->registerOutput( name, location, attributes, type );
+	}
+
+	var::VariablePtr ShaderWriter::registerInOut( std::string const & name
+		, uint64_t attributes
+		, type::TypePtr type )
+	{
+		return m_shader->registerInOut( name, attributes, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerBuiltin( ast::Builtin builtin

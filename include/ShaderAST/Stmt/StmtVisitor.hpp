@@ -13,7 +13,9 @@ See LICENSE file in root folder
 #include "PreprocIf.hpp"
 #include "PreprocIfDef.hpp"
 #include "PreprocVersion.hpp"
+#include "StmtAccelerationStructureDecl.hpp"
 #include "StmtBreak.hpp"
+#include "StmtBufferReferenceDecl.hpp"
 #include "StmtComment.hpp"
 #include "StmtCompound.hpp"
 #include "StmtContainer.hpp"
@@ -26,8 +28,11 @@ See LICENSE file in root folder
 #include "StmtFor.hpp"
 #include "StmtFragmentLayout.hpp"
 #include "StmtFunctionDecl.hpp"
+#include "StmtHitAttributeVariableDecl.hpp"
 #include "StmtIf.hpp"
 #include "StmtImageDecl.hpp"
+#include "StmtInOutCallableDataVariableDecl.hpp"
+#include "StmtInOutRayPayloadVariableDecl.hpp"
 #include "StmtInOutVariableDecl.hpp"
 #include "StmtInputComputeLayout.hpp"
 #include "StmtInputGeometryLayout.hpp"
@@ -61,7 +66,9 @@ namespace ast::stmt
 	public:
 		SDAST_API virtual ~Visitor()noexcept = default;
 
+		SDAST_API virtual void visitAccelerationStructureDeclStmt( AccelerationStructureDecl * ) = 0;
 		SDAST_API virtual void visitBreakStmt( Break * ) = 0;
+		SDAST_API virtual void visitBufferReferenceDeclStmt( BufferReferenceDecl * ) = 0;
 		SDAST_API virtual void visitCommentStmt( Comment * ) = 0;
 		SDAST_API virtual void visitCompoundStmt( Compound * ) = 0;
 		SDAST_API virtual void visitContainerStmt( Container * ) = 0;
@@ -74,8 +81,11 @@ namespace ast::stmt
 		SDAST_API virtual void visitForStmt( For * ) = 0;
 		SDAST_API virtual void visitFragmentLayoutStmt( FragmentLayout * ) = 0;
 		SDAST_API virtual void visitFunctionDeclStmt( FunctionDecl * ) = 0;
+		SDAST_API virtual void visitHitAttributeVariableDeclStmt( HitAttributeVariableDecl * ) = 0;
 		SDAST_API virtual void visitIfStmt( If * ) = 0;
 		SDAST_API virtual void visitImageDeclStmt( ImageDecl * ) = 0;
+		SDAST_API virtual void visitInOutCallableDataVariableDeclStmt( InOutCallableDataVariableDecl * ) = 0;
+		SDAST_API virtual void visitInOutRayPayloadVariableDeclStmt( InOutRayPayloadVariableDecl * ) = 0;
 		SDAST_API virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
 		SDAST_API virtual void visitInputComputeLayoutStmt( InputComputeLayout * ) = 0;
 		SDAST_API virtual void visitInputGeometryLayoutStmt( InputGeometryLayout * ) = 0;

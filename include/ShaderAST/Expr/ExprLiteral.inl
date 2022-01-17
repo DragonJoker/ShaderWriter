@@ -23,7 +23,13 @@ namespace ast::expr
 		template<>
 		inline uint32_t valueGetter< LiteralType::eUInt >( LiteralValue const & lit )
 		{
-			return lit.uintv;
+			return lit.uint32v;
+		}
+
+		template<>
+		inline uint64_t valueGetter< LiteralType::eUInt64 >( LiteralValue const & lit )
+		{
+			return lit.uint64v;
 		}
 
 		template<>

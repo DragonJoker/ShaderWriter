@@ -106,26 +106,10 @@ namespace ast::debug
 			return result;
 		}
 
-		std::string getName( type::MemoryLayout value )
-		{
-			switch ( value )
-			{
-			case type::MemoryLayout::eStd140:
-				return "STD140";
-			case type::MemoryLayout::eStd430:
-				return "STD430";
-			case type::MemoryLayout::eC:
-				return "C";
-			default:
-				AST_Failure( "Unsupported type::MemoryLayout" );
-				return "UNDEFINED";
-			}
-		}
-
 		std::string getName( type::Struct const & type )
 		{
 			return type.getName()
-				+ "," + getName( type.getMemoryLayout() );
+				+ "," + ast::debug::getName( type.getMemoryLayout() );
 		}
 
 		std::string computeArray( uint32_t arraySize )
@@ -145,6 +129,26 @@ namespace ast::debug
 			}
 
 			return result;
+		}
+	}
+
+	std::string getName( type::MemoryLayout value )
+	{
+		switch ( value )
+		{
+		case type::MemoryLayout::eStd140:
+			return "STD140";
+		case type::MemoryLayout::eStd430:
+			return "STD430";
+		case type::MemoryLayout::eC:
+			return "C";
+		case type::MemoryLayout::eScalar:
+			return "SCALAR";
+		case type::MemoryLayout::eShaderRecord:
+			return "SHADERRECORD";
+		default:
+			AST_Failure( "Unsupported type::MemoryLayout" );
+			return "UNDEFINED";
 		}
 	}
 
@@ -173,7 +177,10 @@ namespace ast::debug
 			result = "INT";
 			break;
 		case type::Kind::eUInt:
-			result = "UINT";
+			result = "UINT32";
+			break;
+		case type::Kind::eUInt64:
+			result = "UINT64";
 			break;
 		case type::Kind::eFloat:
 			result = "FLOAT";
@@ -203,13 +210,22 @@ namespace ast::debug
 			result = "IVEC4";
 			break;
 		case type::Kind::eVec2U:
-			result = "UVEC2";
+			result = "U32VEC2";
 			break;
 		case type::Kind::eVec3U:
-			result = "UVEC3";
+			result = "U32VEC3";
 			break;
 		case type::Kind::eVec4U:
-			result = "UVEC4";
+			result = "U32VEC4";
+			break;
+		case type::Kind::eVec2U64:
+			result = "U64VEC2";
+			break;
+		case type::Kind::eVec3U64:
+			result = "U64VEC3";
+			break;
+		case type::Kind::eVec4U64:
+			result = "U64VEC4";
 			break;
 		case type::Kind::eVec2F:
 			result = "FVEC2";
@@ -331,6 +347,9 @@ namespace ast::debug
 		case type::Kind::eFragmentInput:
 			result = "FRAGIN";
 			break;
+		case type::Kind::eAccelerationStructure:
+			result = "ACCST";
+			break;
 		default:
 			assert( false );
 			result = "UNKNOWN";
@@ -448,6 +467,13 @@ namespace ast::debug
 		case type::Kind::eArray:
 			result = getName( *static_cast< type::Array const & >( type ).getType() );
 			result += computeArray( static_cast< type::Array const & >( type ).getArraySize() );
+			break;
+		case type::Kind::ePointer:
+			if ( static_cast< type::Pointer const & >( type ).isForward() )
+			{
+				result = "FWD";
+			}
+			result += getName( *static_cast< type::Pointer const & >( type ).getPointerType() );
 			break;
 		case type::Kind::eStruct:
 			result = getName( getNonArrayKind( type ) );

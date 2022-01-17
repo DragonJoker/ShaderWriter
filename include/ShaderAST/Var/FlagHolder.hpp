@@ -8,53 +8,59 @@ See LICENSE file in root folder
 namespace ast::var
 {
 	enum class Flag
-		: uint32_t
+		: uint64_t
 	{
 		eNone = 0,
-		eParam = 1 << 0,
-		eInputParam = 1 << 1,
-		eOutputParam = 1 << 2,
-		eUniform = 1 << 3,
-		eConstant = 1 << 4,
-		eShaderInput = 1 << 5,
-		eShaderOutput = 1 << 6,
-		eShaderConstant = 1 << 7,
-		eSpecialisationConstant = 1 << 8,
-		ePushConstant = 1 << 9,
-		eLocale = 1 << 10,
-		eBuiltin = 1 << 11,
-		eImplicit = 1 << 12,
-		eMember = 1 << 13,
-		eFunction = 1 << 14,
-		eStatic = 1 << 15,
-		eFlat = 1 << 16,
-		eNoPerspective = 1 << 17,
-		ePatchInput = 1 << 18,
-		ePatchOutput = 1 << 19,
-		eCentroid = 1 << 20,
-		ePerSample = 1 << 21,
-		eGeometryStream = 1 << 22,
-		eBlendIndex = 1 << 23,
-		eLoopVar = 1 << 24,
-		eTemp = 1 << 25,
-		eAlias = 1 << 26,
-		eStorageBuffer = 1 << 27,
+		eParam = 1ull << 0,
+		eInputParam = 1ull << 1,
+		eOutputParam = 1ull << 2,
+		eUniform = 1ull << 3,
+		eConstant = 1ull << 4,
+		eShaderInput = 1ull << 5,
+		eShaderOutput = 1ull << 6,
+		eShaderConstant = 1ull << 7,
+		eSpecialisationConstant = 1ull << 8,
+		ePushConstant = 1ull << 9,
+		eLocale = 1ull << 10,
+		eBuiltin = 1ull << 11,
+		eImplicit = 1ull << 12,
+		eMember = 1ull << 13,
+		eFunction = 1ull << 14,
+		eStatic = 1ull << 15,
+		eFlat = 1ull << 16,
+		eNoPerspective = 1ull << 17,
+		ePatchInput = 1ull << 18,
+		ePatchOutput = 1ull << 19,
+		eCentroid = 1ull << 20,
+		ePerSample = 1ull << 21,
+		eGeometryStream = 1ull << 22,
+		eBlendIndex = 1ull << 23,
+		eLoopVar = 1ull << 24,
+		eTemp = 1ull << 25,
+		eAlias = 1ull << 26,
+		eStorageBuffer = 1ull << 27,
+		eIncomingRayPayload = 1ull << 28,
+		eRayPayload = 1ull << 29,
+		eIncomingCallableData = 1ull << 30,
+		eCallableData = 1ull << 31,
+		eHitAttribute = 1ull << 32,
+		eBufferReference = 1ull << 33,
 	};
 
 	class FlagHolder
 	{
 	public:
 		FlagHolder( Flag flag )
-			: m_flags{ uint32_t( flag ) }
+			: m_flags{ uint64_t( flag ) }
 		{
 		}
 
-		FlagHolder( uint32_t flags )
+		FlagHolder( uint64_t flags )
 			: m_flags{ flags }
 		{
 		}
 
-		uint32_t getFlags()const
+		uint64_t getFlags()const
 		{
 			return m_flags;
 		}
@@ -63,11 +69,11 @@ namespace ast::var
 		{
 			if ( set )
 			{
-				m_flags |= uint32_t( flag );
+				m_flags |= uint64_t( flag );
 			}
 			else
 			{
-				m_flags &= ~uint32_t( flag );
+				m_flags &= ~uint64_t( flag );
 			}
 		}
 
@@ -212,7 +218,7 @@ namespace ast::var
 		{
 			return flag == Flag::eNone
 				? false
-				: Flag( m_flags & uint32_t( flag ) ) == flag;
+				: Flag( m_flags & uint64_t( flag ) ) == flag;
 		}
 
 		bool isStorageBuffer()const
@@ -220,23 +226,53 @@ namespace ast::var
 			return hasFlag( Flag::eStorageBuffer );
 		}
 
+		bool isIncomingRayPayload()const
+		{
+			return hasFlag( Flag::eIncomingRayPayload );
+		}
+
+		bool isRayPayload()const
+		{
+			return hasFlag( Flag::eRayPayload );
+		}
+
+		bool isIncomingCallableData()const
+		{
+			return hasFlag( Flag::eIncomingCallableData );
+		}
+
+		bool isCallableData()const
+		{
+			return hasFlag( Flag::eCallableData );
+		}
+
+		bool isHitAttribute()const
+		{
+			return hasFlag( Flag::eHitAttribute );
+		}
+
+		bool isBufferReference()const
+		{
+			return hasFlag( Flag::eBufferReference );
+		}
+
 	private:
-		uint32_t m_flags;
+		uint64_t m_flags;
 	};
 
-	inline uint32_t operator|( Flag const lhs, Flag const rhs )
+	inline uint64_t operator|( Flag const lhs, Flag const rhs )
 	{
-		return uint32_t( lhs ) | uint32_t( rhs );
+		return uint64_t( lhs ) | uint64_t( rhs );
 	}
 
-	inline uint32_t operator|( Flag const lhs, uint32_t const rhs )
+	inline uint64_t operator|( Flag const lhs, uint64_t const rhs )
 	{
-		return uint32_t( lhs ) | uint32_t( rhs );
+		return uint64_t( lhs ) | uint64_t( rhs );
 	}
 
-	inline uint32_t operator|( uint32_t const lhs, Flag const rhs )
+	inline uint64_t operator|( uint64_t const lhs, Flag const rhs )
 	{
-		return uint32_t( lhs ) | uint32_t( rhs );
+		return uint64_t( lhs ) | uint64_t( rhs );
 	}
 
 

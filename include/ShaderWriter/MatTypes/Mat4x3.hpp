@@ -32,6 +32,12 @@ namespace sdw
 
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
+	template< typename ValueT >
+	Vec3T< ValueT > operator*( Mat4x3T< ValueT > const & lhs
+		, Vec4T< ValueT > const & rhs );
+	template< typename ValueT >
+	Vec4T< ValueT > operator*( Vec3T< ValueT > const & lhs
+		, Mat4x3T< ValueT > const & rhs );
 }
 
 #include "Mat4x3.inl"

@@ -13,16 +13,16 @@ namespace ast::var
 	namespace
 	{
 		std::string getName( Builtin builtin
-			, uint32_t flags )
+			, uint64_t flags )
 		{
 			std::string result{ getName( builtin ) };
 
-			if ( flags & uint32_t( Flag::eShaderOutput ) )
+			if ( flags & uint64_t( Flag::eShaderOutput ) )
 			{
 				result = "Out" + result;
 			}
 
-			if ( flags & uint32_t( Flag::eShaderInput ) )
+			if ( flags & uint64_t( Flag::eShaderInput ) )
 			{
 				result = "In" + result;
 			}
@@ -36,7 +36,7 @@ namespace ast::var
 	Variable::Variable( EntityName nameId
 		, VariablePtr outer
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 		: FlagHolder{ flags }
 		, m_nameId{ std::move( nameId ) }
 		, m_outer{ std::move( outer ) }
@@ -60,7 +60,7 @@ namespace ast::var
 	Variable::Variable( uint32_t id
 		, Builtin builtin
 		, type::TypePtr type
-		, uint32_t flags )
+		, uint64_t flags )
 		: FlagHolder{ flags }
 		, m_nameId{ id, var::getName( builtin, flags ) }
 		, m_type{ std::move( type ) }

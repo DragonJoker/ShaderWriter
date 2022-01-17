@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "IntrinsicFunctions.hpp"
+#include "ShaderWriter/BaseTypes/NonUniform.hpp"
 
 namespace sdw
 {
@@ -114,6 +115,8 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline DMat4x3 dmat4x3( Value const & value
 		, ValuesT const & ... values );
+	template< typename ValueT >
+	inline NonUniformT< ValueT > nonuniform( Value const & value );
 }
 
 #include "Intrinsics.inl"

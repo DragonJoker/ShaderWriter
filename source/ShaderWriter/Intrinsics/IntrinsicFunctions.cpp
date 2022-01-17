@@ -4,6 +4,7 @@ See LICENSE file in root folder
 /*
 This file is generated, don't modify it!
 */
+#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 #include "ShaderWriter/BaseTypes/Void.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
 #include "ShaderWriter/BaseTypes/Bool.hpp"
@@ -6489,6 +6490,103 @@ namespace sdw
 		return Void{ *findWriter( writer )
 			, expr::makeGroupMemoryBarrier( findTypesCache( writer ) )
 			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region traceRay
+	/**
+	*name
+	*	traceRay
+	*/
+	/**@{*/
+	Void traceRay( AccelerationStructure const & topLevel
+		, UInt const & rayFlags
+		, UInt const & cullMask
+		, UInt const & sbtRecordOffset
+		, UInt const & sbtRecordStride
+		, UInt const & missIndex
+		, Vec3 const & origin
+		, Float const & Tmin
+		, Vec3 const & direction
+		, Float const & Tmax
+		, Int const & payload )
+	{
+		return Void{ *findWriter( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload )
+			, expr::makeTraceRay( findTypesCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload )
+					, makeExpr( topLevel )
+				, makeExpr( rayFlags )
+				, makeExpr( cullMask )
+				, makeExpr( sbtRecordOffset )
+				, makeExpr( sbtRecordStride )
+				, makeExpr( missIndex )
+				, makeExpr( origin )
+				, makeExpr( Tmin )
+				, makeExpr( direction )
+				, makeExpr( Tmax )
+				, makeExpr( payload ) )
+			, areOptionalEnabled( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region reportIntersection
+	/**
+	*name
+	*	reportIntersection
+	*/
+	/**@{*/
+	Void reportIntersection( Float const & hitT
+		, UInt const & hitKind )
+	{
+		return Void{ *findWriter( hitT, hitKind )
+			, expr::makeReportIntersection( findTypesCache( hitT, hitKind )
+					, makeExpr( hitT )
+				, makeExpr( hitKind ) )
+			, areOptionalEnabled( hitT, hitKind ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region ignoreIntersection
+	/**
+	*name
+	*	ignoreIntersection
+	*/
+	/**@{*/
+	Void ignoreIntersection( ShaderWriter & writer )
+	{
+		return Void{ *findWriter( writer )
+			, expr::makeIgnoreIntersection( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region terminateRay
+	/**
+	*name
+	*	terminateRay
+	*/
+	/**@{*/
+	Void terminateRay( ShaderWriter & writer )
+	{
+		return Void{ *findWriter( writer )
+			, expr::makeTerminateRay( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region executeCallable
+	/**
+	*name
+	*	executeCallable
+	*/
+	/**@{*/
+	Void executeCallable( UInt const & sbtRecordIndex
+		, Int const & callable )
+	{
+		return Void{ *findWriter( sbtRecordIndex, callable )
+			, expr::makeExecuteCallable( findTypesCache( sbtRecordIndex, callable )
+					, makeExpr( sbtRecordIndex )
+				, makeExpr( callable ) )
+			, areOptionalEnabled( sbtRecordIndex, callable ) };
 	}
 	/**@}*/
 #pragma endregion

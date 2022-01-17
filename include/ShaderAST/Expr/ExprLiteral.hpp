@@ -14,6 +14,7 @@ namespace ast::expr
 		eBool,
 		eInt,
 		eUInt,
+		eUInt64,
 		eFloat,
 		eDouble,
 	};
@@ -40,6 +41,12 @@ namespace ast::expr
 	};
 
 	template<>
+	struct LiteralValueTraits< LiteralType::eUInt64 >
+	{
+		using type = uint64_t;
+	};
+
+	template<>
 	struct LiteralValueTraits< LiteralType::eFloat >
 	{
 		using type = float;
@@ -58,7 +65,8 @@ namespace ast::expr
 	{
 		bool boolv;
 		int32_t intv;
-		uint32_t uintv;
+		uint32_t uint32v;
+		uint64_t uint64v;
 		float floatv;
 		double doublev;
 	};
@@ -70,6 +78,7 @@ namespace ast::expr
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, bool value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, int32_t value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, uint32_t value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, uint64_t value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, float value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, double value );
 
@@ -77,6 +86,7 @@ namespace ast::expr
 		SDAST_API Literal( type::TypesCache & cache, bool value );
 		SDAST_API Literal( type::TypesCache & cache, int32_t value );
 		SDAST_API Literal( type::TypesCache & cache, uint32_t value );
+		SDAST_API Literal( type::TypesCache & cache, uint64_t value );
 		SDAST_API Literal( type::TypesCache & cache, float value );
 		SDAST_API Literal( type::TypesCache & cache, double value );
 

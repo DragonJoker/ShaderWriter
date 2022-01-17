@@ -52,6 +52,9 @@ namespace glsl
 			case ast::type::Kind::eUInt:
 				return "u";
 
+			case ast::type::Kind::eUInt64:
+				return "ul";
+
 			case ast::type::Kind::eFloat:
 				return std::string{};
 				
@@ -173,6 +176,8 @@ namespace glsl
 				return "std140";
 			case ast::type::MemoryLayout::eStd430:
 				return "std430";
+			case ast::type::MemoryLayout::eScalar:
+				return "scalar";
 			default:
 				AST_Failure( "Unsupported ast::type::MemoryLayout" );
 				return "std140";
@@ -527,6 +532,26 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
+	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	{
+	}
+
+	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
+	{
+	}
+
+	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+	}
+
+	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+	}
+
+	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+	}
+
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
 	{
 		m_appendLineEnd = true;
@@ -817,8 +842,8 @@ namespace glsl
 				m_result += m_indent;
 
 				if ( mbr.location != ast::type::Struct::InvalidLocation
-					&& structType.getFlag() != uint32_t( ast::var::Flag::ePatchOutput )
-					&& structType.getFlag() != uint32_t( ast::var::Flag::ePatchInput ) )
+					&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchOutput )
+					&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchInput ) )
 				{
 					m_result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
 					m_result += ( structType.isShaderInput()

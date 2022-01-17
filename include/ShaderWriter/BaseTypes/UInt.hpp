@@ -12,4 +12,9 @@ inline sdw::UInt operator "" _u( unsigned long long value )
 	return sdw::UInt{ uint32_t( value ) };
 }
 
+inline sdw::UInt64 operator "" _ull( unsigned long long value )
+{
+	return sdw::UInt64{ uint64_t( value ) };
+}
+
 #endif
