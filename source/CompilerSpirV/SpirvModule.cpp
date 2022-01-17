@@ -287,6 +287,10 @@ namespace spirv
 				globalDeclarations.push_back( makeInstruction< PointerTypeInstruction >( id
 					, ValueId{ spv::Id( storage ) }
 					, type ) );
+				key = ( uint64_t( type.id ) << 33 )
+					| ( ( uint64_t( type.isPointer() ) << 32 ) & 0x01 )
+					| ( uint64_t( storage ) << 1 );
+				m_registeredPointerTypes.emplace( key, id );
 			}
 			else
 			{
@@ -442,17 +446,39 @@ namespace spirv
 	ValueId Module::loadVariable( ValueId variable
 		, InstructionList & instructions )
 	{
-		if ( variable.isPointer()
-			&& variable.getStorage() != ast::type::Storage::ePhysicalStorageBuffer )
+		if ( variable.isPointer() )
 		{
 			auto type = static_cast< ast::type::Pointer const & >( *variable.type ).getPointerType();
-			auto typeId = registerType( type );
-			ValueId result{ getIntermediateResult(), typeId.type };
-			instructions.push_back( makeInstruction< LoadInstruction >( typeId
-				, result
-				, variable ) );
-			lnkIntermediateResult( result, variable );
-			return result;
+
+			if ( !hasRuntimeArray( type ) )
+			{
+				auto typeId = registerType( type );
+				ValueId result{ getIntermediateResult(), typeId.type };
+
+				if ( variable.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
+				{
+					// Loading from PhysicalStorageBuffer needs to set the alignment
+					auto structType = getStructType( type );
+					instructions.push_back( makeInstruction< LoadInstruction >( typeId
+						, result
+						, ValueIdList{ variable
+						, ValueId{ spv::Id( spv::MemoryAccessAlignedMask ) }
+						, ValueId{ spv::Id( ast::type::getAlignment( type
+							, ( structType
+								? structType->getMemoryLayout()
+								: ast::type::MemoryLayout::eScalar ) ) ) } } ) );
+				}
+				else
+				{
+					instructions.push_back( makeInstruction< LoadInstruction >( typeId
+						, result
+						, ValueIdList{ variable
+						, ValueId{ spv::Id( spv::MemoryAccessMaskNone ) } } ) );
+				}
+
+				lnkIntermediateResult( result, variable );
+				return result;
+			}
 		}
 
 		return variable;
@@ -561,11 +587,18 @@ namespace spirv
 		, VariableInfo & sourceInfo
 		, ValueId initialiser )
 	{
-		auto it = m_currentScopeVariables->find( name );
+		auto & container = m_currentScopeVariables;
+		auto typeStorage = convert( storage );
 
-		if ( it == m_currentScopeVariables->end() )
+		if ( typeStorage != ast::type::Storage::eFunction )
 		{
-			auto typeStorage = convert( storage );
+			container = &m_registeredVariables;
+		}
+
+		auto it = container->find( name );
+
+		if ( it == container->end() )
+		{
 			ast::type::TypePtr varType;
 
 			if ( typeStorage == ast::type::Storage::eFunction )

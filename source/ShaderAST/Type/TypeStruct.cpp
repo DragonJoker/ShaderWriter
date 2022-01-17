@@ -1227,7 +1227,7 @@ namespace ast::type
 		if ( layout == MemoryLayout::eC
 			|| layout == MemoryLayout::eScalar )
 		{
-			return 1u;
+			return 4u;
 		}
 
 		return getPackedAlignment( type, layout );
@@ -1269,6 +1269,16 @@ namespace ast::type
 		, MemoryLayout layout )
 	{
 		return getArrayStride( *type, layout );
+	}
+
+	bool hasRuntimeArray( TypePtr type )
+	{
+		if ( type->getKind() != Kind::eStruct )
+		{
+			return false;
+		}
+
+		return getArraySize( getStructType( type )->back().type ) == UnknownArraySize;
 	}
 
 	//*************************************************************************

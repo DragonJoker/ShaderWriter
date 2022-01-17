@@ -138,7 +138,7 @@ namespace test
 		{
 			auto options = compiler.get_common_options();
 			options.separate_shader_objects = true;
-			options.vulkan_semantics = false;
+			options.vulkan_semantics = true;
 			compiler.set_common_options( options );
 		}
 
@@ -287,8 +287,6 @@ namespace test
 
 			if ( !isValidated )
 			{
-				displayShader( "SPIR-V", text, testCounts, true );
-
 #if SDW_HasCompilerGlsl
 
 				if ( !isRaytracingStage( shader.getType() ) )
@@ -317,28 +315,31 @@ namespace test
 
 #endif
 			}
-			else
+
+			std::string errors;
+			auto consumer = [&errors]( spv_message_level_t level
+				, char const * source
+				, spv_position_t position
+				, char const * message )
 			{
-				std::string errors;
-				auto consumer = [&errors]( spv_message_level_t level
-					, char const * source
-					, spv_position_t position
-					, char const * message )
-				{
-					errors += message + std::string{ "\n" };
-				};
+				errors += "Index " + std::to_string( position.index ) + ": " + message + std::string{ "\n" };
+			};
 
-				spvtools::SpirvTools tools{ SPV_ENV_UNIVERSAL_1_5 };
-				tools.SetMessageConsumer( consumer );
-				spvtools::ValidatorOptions valOptions;
-				isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions );
-				check( isValidated );
+			spvtools::SpirvTools tools{ SPV_ENV_UNIVERSAL_1_5 };
+			tools.SetMessageConsumer( consumer );
+			spvtools::ValidatorOptions valOptions;
+			isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions ) && isValidated;
+			check( isValidated );
 
-				if ( !errors.empty() )
-				{
-					testCounts << "SpirV validation raised messages:" << endl;
-					testCounts << errors << endl;
-				}
+			if ( !errors.empty() )
+			{
+				testCounts << "SpirV validation raised messages:" << endl;
+				testCounts << errors << endl;
+			}
+
+			if ( !isValidated )
+			{
+				displayShader( "SPIR-V", text, testCounts, true );
 			}
 
 			if ( compilers.glsl )
@@ -496,6 +497,11 @@ namespace test
 							{
 								extensions.emplace( spirv::KHR_ray_tracing );
 								extensions.emplace( spirv::EXT_physical_storage_buffer );
+							}
+
+							if ( config.specVersion >= spirv::v1_3 )
+							{
+								extensions.emplace( spirv::EXT_descriptor_indexing );
 							}
 
 							config.availableExtensions = &extensions;

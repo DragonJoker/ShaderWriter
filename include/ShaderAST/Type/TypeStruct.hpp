@@ -321,6 +321,7 @@ namespace ast::type
 		, MemoryLayout layout );
 	SDAST_API uint32_t getArrayStride( TypePtr type
 		, MemoryLayout layout );
+	SDAST_API bool hasRuntimeArray( TypePtr type );
 }
 
 #endif

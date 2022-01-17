@@ -548,8 +548,7 @@ namespace ast
 				&& exprKind != expr::Kind::eTextureAccessCall
 				&& "Unsupported expr::Kind" );
 			switchParams = ( exprKind == expr::Kind::eTimes || exprKind == expr::Kind::eTimesAssign )
-				&& ( ( isVectorType( lhsTypeKind ) && isMatrixType( rhsTypeKind ) )
-					|| ( isScalarType( lhsTypeKind ) && ( isVectorType( rhsTypeKind ) || isMatrixType( rhsTypeKind ) ) ) );
+				&& ( isScalarType( lhsTypeKind ) && ( isVectorType( rhsTypeKind ) || isMatrixType( rhsTypeKind ) ) );
 
 			switch ( exprKind )
 			{
@@ -1851,7 +1850,7 @@ namespace ast
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
 			{
-				auto count = getComponentCount( newArg->getType()->getKind() );
+				auto count = getComponentCount( destKind );
 
 				for ( auto i = 0u; i < count; ++i )
 				{

@@ -21,6 +21,19 @@ namespace ast::type
 
 	//*************************************************************************
 
+	uint32_t getPointerLevel( TypePtr type )
+	{
+		uint32_t result = 0u;
+
+		while ( type->getKind() == Kind::ePointer )
+		{
+			++result;
+			type = static_cast< Pointer const & >( *type ).getPointerType();
+		}
+
+		return result;
+	}
+
 	size_t getHash( TypePtr pointerType
 		, Storage storage
 		, bool isForward )
