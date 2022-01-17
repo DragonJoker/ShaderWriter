@@ -271,7 +271,12 @@ namespace spirv
 
 	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		auto imgType = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
+		auto imgType = std::static_pointer_cast< ast::type::SampledImage >( getNonArrayType( stmt->getVariable()->getType() ) );
+
+		if ( getArraySize( stmt->getVariable()->getType() ) == ast::type::UnknownArraySize )
+		{
+			m_result.registerCapability( spv::CapabilityRuntimeDescriptorArray );
+		}
 
 		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 		{

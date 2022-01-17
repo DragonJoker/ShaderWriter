@@ -225,16 +225,16 @@ namespace spirv
 			{
 				ValueIdList result;
 				assert( exprs.size() >= 2u );
-				result.push_back( submit( exprs[0].expr
+				auto it = exprs.begin();
+				result.push_back( submit( it->expr
 					, context
 					, module
 					, currentBlock ) );
 
-				for ( size_t i = 1u; i < exprs.size(); ++i )
+				while ( ++it != exprs.end())
 				{
-					auto & expr = exprs[i];
 					result.push_back( module.loadVariable( submit( result.back()
-							, expr
+							, *it
 							, context
 							, module
 							, currentBlock )
@@ -410,6 +410,17 @@ namespace spirv
 						m_result = m_module.loadVariable( m_result
 							, m_currentBlock );
 					}
+					else
+					{
+						auto type = m_result.type;
+
+						while ( getPointerLevel( type ) > 1 )
+						{
+							m_result = m_module.loadVariable( m_result
+								, m_currentBlock );
+							type = m_result.type;
+						}
+					}
 				}
 			}
 
@@ -555,12 +566,21 @@ namespace spirv
 
 #else
 
-			auto var = ast::findIdentifier( expr )->getVariable();
+			spv::StorageClass storageClass{};
+
+			if ( accessChain.front().isPointer() )
+			{
+				storageClass = convert( accessChain.front().getStorage() );
+			}
+			else
+			{
+				auto var = ast::findIdentifier( expr )->getVariable();
+				storageClass = getStorageClass( module.getVersion(), var );
+			}
+
 			// Register the type pointed to.
 			auto rawTypeId = module.registerType( expr->getType() );
 			// Register the pointer to the type.
-			auto storageClass = getStorageClass( module.getVersion(), var );
-
 			auto pointerTypeId = module.registerPointerType( rawTypeId
 				, storageClass );
 			// Reserve the ID for the result.

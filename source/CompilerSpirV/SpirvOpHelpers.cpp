@@ -1931,7 +1931,7 @@ namespace spirv
 						: spv::OpMatrixTimesScalar ) ) )
 				: ( isVectorType( lhsTypeKind )
 					? ( isMatrixType( rhsTypeKind )
-						? spv::OpMatrixTimesVector
+						? spv::OpVectorTimesMatrix
 						: ( isVectorType( rhsTypeKind )
 							? ( isAnyFloating( lhsTypeKind, rhsTypeKind )
 								? spv::OpFMul
@@ -2105,8 +2105,7 @@ namespace spirv
 		}
 
 		switchParams = ( exprKind == ast::expr::Kind::eTimes || exprKind == ast::expr::Kind::eTimesAssign )
-			&& ( ( isVectorType( lhsTypeKind ) && isMatrixType( rhsTypeKind ) )
-				|| ( isScalarType( lhsTypeKind ) && ( isVectorType( rhsTypeKind ) || isMatrixType( rhsTypeKind ) ) ) );
+			&& ( isScalarType( lhsTypeKind ) && ( isVectorType( rhsTypeKind ) || isMatrixType( rhsTypeKind ) ) );
 		return result;
 	}
 

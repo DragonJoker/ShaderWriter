@@ -7,6 +7,9 @@
 #undef CurrentCompilers
 #define CurrentCompilers Compilers_SPIRV
 
+#undef ForceDisplayShaders
+#define ForceDisplayShaders true
+
 namespace
 {
 	struct ObjDesc
@@ -230,6 +233,124 @@ namespace
 		testEnd();
 	}
 
+	void vecTimesMtx( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "vecTimesMtx" );
+		using namespace sdw;
+		{
+			RayClosestHitWriter writer;
+
+			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
+			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
+
+			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
+
+			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+
+			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+
+			writer.implementMain( [&]( RayClosestHitIn in )
+				{
+					// Object data
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
+					auto indices = Indices( "indices", objResource.indexAddress );
+					auto vertices = Vertices( "vertices", objResource.vertexAddress );
+
+					// Indices of the triangle
+					auto ind = writer.declLocale( "ind", indices[writer.cast< UInt >( in.primitiveID )] );
+
+					// Vertex of the triangle
+					auto v0 = writer.declLocale( "v0", vertices[writer.cast< UInt >( ind.x() )] );
+					auto v1 = writer.declLocale( "v1", vertices[writer.cast< UInt >( ind.y() )] );
+					auto v2 = writer.declLocale( "v2", vertices[writer.cast< UInt >( ind.z() )] );
+
+					auto const barycentrics = writer.declLocale( "barycentrics"
+						, vec3( 1.0_f - attribs.x() - attribs.y(), attribs.x(), attribs.y() ) );
+
+					// Computing the coordinates of the hit position
+					auto const pos = writer.declLocale( "pos", v0.pos * barycentrics.x() + v1.pos * barycentrics.y() + v2.pos * barycentrics.z() );
+					auto const worldPos = writer.declLocale( "worldPos", vec3( pos * in.objectToWorld ) );  // Transforming the position to world space
+
+					prd = worldPos;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void dynarraySamplers( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "dynarraySamplers" );
+		using namespace sdw;
+		{
+			RayClosestHitWriter writer;
+
+			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
+			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
+
+			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
+
+			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+
+			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
+
+			writer.implementMain( [&]( RayClosestHitIn in )
+				{
+					// Object data
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
+					auto indices = Indices( "indices", objResource.indexAddress );
+
+					// Indices of the triangle
+					auto ind = writer.declLocale( "ind", writer.cast< UInt >( indices[writer.cast< UInt >( in.primitiveID )].x() ) );
+
+					prd = textureSamplers[ind].lod( attribs.xy(), 0.0_f ).xyz();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void nonUniform( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "nonUniform" );
+		using namespace sdw;
+		{
+			RayClosestHitWriter writer;
+
+			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
+			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
+
+			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
+
+			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+
+			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
+
+			writer.implementMain( [&]( RayClosestHitIn in )
+				{
+					// Object data
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
+					auto indices = Indices( "indices", objResource.indexAddress );
+
+					// Indices of the triangle
+					auto ind = writer.declLocale( "ind", writer.cast< UInt >( indices[writer.cast< UInt >( in.primitiveID )].x() ) );
+
+					prd = textureSamplers[nonuniform( ind )].lod( attribs.xy(), 0.0_f ).xyz();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
 	void wavefrontLighting( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "wavefrontLighting" );
@@ -363,7 +484,7 @@ namespace
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
 						auto texCoord = writer.declLocale< Vec2 >( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
-						diffuse *= textureSamplers[nonuniform( txtId )].sample( texCoord ).xyz();
+						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
 					}
 					FI;
 
@@ -418,7 +539,10 @@ sdwTestSuiteMain( TestWriterRayClosestHitShader )
 {
 	sdwTestSuiteBegin();
 
-	simple( testCounts );
+	//simple( testCounts );
+	//vecTimesMtx( testCounts );
+	//dynarraySamplers( testCounts );
+	nonUniform( testCounts );
 	//wavefrontLighting( testCounts );
 
 	sdwTestSuiteEnd();

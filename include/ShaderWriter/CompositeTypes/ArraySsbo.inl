@@ -140,12 +140,10 @@ namespace sdw
 		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ var::makeVariable( getNextVarId( writer )
 			, m_ssboType->getMember( m_interface.getType()->getName() + "Data" ).type
-			, m_name + "Data"
-			, var::Flag::eStorageBuffer ) }
+			, m_name + "Data" ) }
 		, m_ssboVar{ var::makeVariable( getNextVarId( writer )
 			, m_ssboType
-			, m_name + "Inst"
-			, var::Flag::eStorageBuffer ) }
+			, m_name ) }
 		, m_enabled{ enabled }
 	{
 		if ( isEnabled() )

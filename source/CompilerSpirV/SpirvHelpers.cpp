@@ -169,6 +169,8 @@ namespace spirv
 				return makeInstruction< BinInstructionT< spv::OpMatrixTimesVector > >( returnTypeId, resultId, operands );
 			case spv::OpMatrixTimesScalar:
 				return makeInstruction< BinInstructionT< spv::OpMatrixTimesScalar > >( returnTypeId, resultId, operands );
+			case spv::OpVectorTimesMatrix:
+				return makeInstruction< BinInstructionT< spv::OpVectorTimesMatrix > >( returnTypeId, resultId, operands );
 			case spv::OpVectorTimesScalar:
 				return makeInstruction< BinInstructionT< spv::OpVectorTimesScalar > >( returnTypeId, resultId, operands );
 			case spv::OpShiftLeftLogical:
@@ -1117,6 +1119,7 @@ namespace spirv
 		case spv::CapabilityShaderNonUniform:
 			break;
 		case spv::CapabilityRuntimeDescriptorArray:
+			registerExtension( EXT_descriptor_indexing );
 			break;
 		case spv::CapabilityInputAttachmentArrayDynamicIndexing:
 			break;

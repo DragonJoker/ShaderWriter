@@ -83,6 +83,11 @@ namespace spirv
 	{
 		ExprConfigFiller vis{ config };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			config.registerCapability( spv::CapabilityShaderNonUniform );
+		}
 	}
 
 	void ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
@@ -242,6 +247,11 @@ namespace spirv
 		for ( auto & arg : expr->getArgList() )
 		{
 			arg->accept( this );
+
+			if ( expr->isNonUniform() )
+			{
+				m_config.registerCapability( spv::CapabilitySampledImageArrayNonUniformIndexing );
+			}
 		}
 
 		auto kind = expr->getTextureAccess();

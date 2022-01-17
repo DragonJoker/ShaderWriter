@@ -41,6 +41,7 @@ namespace ast::type
 	};
 	using PointerPtr = std::shared_ptr< Pointer >;
 
+	SDAST_API uint32_t getPointerLevel( TypePtr pointerType );
 	SDAST_API size_t getHash( TypePtr pointerType
 		, Storage storage
 		, bool isForward );

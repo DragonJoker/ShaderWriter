@@ -388,7 +388,7 @@ namespace spirv
 	using SpecConstantFalseInstruction = InstructionT< spv::OpSpecConstantFalse, true, true, 0u, false, false >;
 	using SwitchInstruction = InstructionT< spv::OpSwitch, false, false, 2u, false, true >;
 	using SelectInstruction = InstructionT< spv::OpSelect, true, true, 3u, false, false >;
-	using LoadInstruction = InstructionT< spv::OpLoad, true, true, 1u, false, false >;
+	using LoadInstruction = VariadicInstructionT< spv::OpLoad, true, true >;
 	using StoreInstruction = InstructionT< spv::OpStore, false, false, 2u, false, false >;
 	using CopyMemoryInstruction = VariadicInstructionT< spv::OpCopyMemory, false, false >;
 	using VariableInstruction = VariadicInstructionT< spv::OpVariable, true, true >;
