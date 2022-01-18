@@ -42,14 +42,15 @@ namespace test
 			static glsl::GlslConfig const result
 			{
 				ast::ShaderStage::eCompute, // shaderStage;
-				460, // shaderLanguageVersion{ 430 };
-				false, // vulkanGlsl{ false };
-				false, // flipVertY{ false };
-				false, // fixupClipDepth{ false };
-				true, // hasStd430Layout{ false };
-				true, // hasShaderStorageBuffers{ false };
-				true, // hasDescriptorSets{ false };
-				true, // hasBaseInstance{ false };
+				glsl::v4_6, // shaderLanguageVersion;
+				nullptr, // availableExtensions;
+				false, // vulkanGlsl;
+				false, // flipVertY;
+				false, // fixupClipDepth;
+				true, // hasStd430Layout;
+				true, // hasShaderStorageBuffers;
+				true, // hasDescriptorSets;
+				true, // hasBaseInstance;
 			};
 			return result;
 		}

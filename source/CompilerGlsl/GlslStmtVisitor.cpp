@@ -1001,7 +1001,7 @@ namespace glsl
 			sep = ", ";
 		}
 
-		if ( set != InvalidIndex && m_writerConfig.shaderLanguageVersion >= 460 )
+		if ( set != InvalidIndex && m_writerConfig.wantedVersion >= v4_6 )
 		{
 			m_result += sep + "set=" + std::to_string( set );
 		}
