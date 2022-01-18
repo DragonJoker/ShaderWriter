@@ -469,6 +469,8 @@ namespace glsl
 
 		switch ( kind )
 		{
+		case ast::expr::Kind::eCopy:
+			break;
 		case ast::expr::Kind::eAdd:
 			result = "+";
 			break;

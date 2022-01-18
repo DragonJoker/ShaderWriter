@@ -590,7 +590,11 @@ namespace spirv
 		auto & container = m_currentScopeVariables;
 		auto typeStorage = convert( storage );
 
-		if ( typeStorage != ast::type::Storage::eFunction )
+		if ( typeStorage != ast::type::Storage::eFunction
+			&& typeStorage != ast::type::Storage::eUniform
+			&& typeStorage != ast::type::Storage::eUniformConstant
+			&& !isParam
+			&& !isOutParam )
 		{
 			container = &m_registeredVariables;
 		}

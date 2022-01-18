@@ -38,6 +38,7 @@ namespace ast
 		SDAST_API void visitCastExpr( expr::Cast * expr )override;
 		SDAST_API void visitCommaExpr( expr::Comma * expr )override;
 		SDAST_API void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override;
+		SDAST_API void visitCopyExpr( expr::Copy * )override;
 		SDAST_API void visitDivideExpr( expr::Divide * expr )override;
 		SDAST_API void visitDivideAssignExpr( expr::DivideAssign * expr )override;
 		SDAST_API void visitEqualExpr( expr::Equal * expr )override;

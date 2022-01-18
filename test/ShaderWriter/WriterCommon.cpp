@@ -138,7 +138,7 @@ namespace test
 		{
 			auto options = compiler.get_common_options();
 			options.separate_shader_objects = true;
-			options.vulkan_semantics = true;
+			options.vulkan_semantics = false;
 			compiler.set_common_options( options );
 		}
 

@@ -693,6 +693,12 @@ namespace ast
 				expr::ExprPtr result;
 				ExprSSAiser vis{ data, cache, container, isParam, result };
 				expr->accept( &vis );
+
+				if ( expr->isNonUniform() )
+				{
+					result->updateFlag( ast::expr::Flag::eNonUniform );
+				}
+
 				return result;
 			}
 
@@ -716,6 +722,9 @@ namespace ast
 			{
 				switch ( expr->getKind() )
 				{
+				case expr::Kind::eCopy:
+					m_result = std::make_unique< ast::expr::Copy >( doSubmit( expr->getOperand() ) );
+					break;
 				case expr::Kind::eBitNot:
 					doProcessUnExprT< expr::BitNot >( expr );
 					break;
@@ -743,6 +752,11 @@ namespace ast
 				default:
 					AST_Failure( "Unexpected unary expression type" );
 					break;
+				}
+
+				if ( expr->getOperand()->isNonUniform() )
+				{
+					m_result->updateFlag( ast::expr::Flag::eNonUniform );
 				}
 			}
 
@@ -825,6 +839,12 @@ namespace ast
 				default:
 					AST_Failure( "Unexpected binary expression type" );
 					break;
+				}
+
+				if ( expr->getLHS()->isNonUniform()
+					|| expr->getRHS()->isNonUniform() )
+				{
+					m_result->updateFlag( ast::expr::Flag::eNonUniform );
 				}
 			}
 

@@ -16,6 +16,8 @@ namespace ast::expr
 		SDAST_API Unary( type::TypePtr type
 			, ExprPtr operand
 			, Kind kind );
+		SDAST_API Unary( ExprPtr operand
+			, Kind kind );
 
 		inline Expr * getOperand()const
 		{

@@ -617,8 +617,19 @@ namespace spirv
 
 	void ExprVisitor::visitCommaExpr( ast::expr::Comma * expr )
 	{
+		auto dstTypeId = m_module.registerType( expr->getType() );
 		doSubmit( expr->getLHS() );
 		m_result = doSubmit( expr->getRHS() );
+	}
+
+	void ExprVisitor::visitCopyExpr( ast::expr::Copy * expr )
+	{
+		auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
+		auto dstTypeId = m_module.registerType( expr->getType() );
+		m_result = { m_module.getIntermediateResult(), dstTypeId.type };
+		m_currentBlock.instructions.emplace_back( makeInstruction< CopyObjectInstruction >( dstTypeId
+			, m_result
+			, operandId ) );
 	}
 
 	void ExprVisitor::visitAssignExpr( ast::expr::Assign * expr )
@@ -1205,6 +1216,11 @@ namespace spirv
 		auto sampledImageType = expr->getArgList()[0]->getType();
 		assert( sampledImageType->getKind() == ast::type::Kind::eSampledImage );
 		args[0] = loadVariable( args[0] );
+
+		if ( expr->getArgList().front().get()->isNonUniform() )
+		{
+			m_module.decorate( args[0], spv::DecorationNonUniform );
+		}
 
 		if ( config.needsImage )
 		{

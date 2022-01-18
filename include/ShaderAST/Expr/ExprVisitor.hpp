@@ -19,6 +19,7 @@ See LICENSE file in root folder
 #include "ExprCast.hpp"
 #include "ExprComma.hpp"
 #include "ExprCompositeConstruct.hpp"
+#include "ExprCopy.hpp"
 #include "ExprDivide.hpp"
 #include "ExprDivideAssign.hpp"
 #include "ExprEqual.hpp"
@@ -88,6 +89,7 @@ namespace ast::expr
 		SDAST_API virtual void visitCastExpr( Cast * ) = 0;
 		SDAST_API virtual void visitCommaExpr( Comma * ) = 0;
 		SDAST_API virtual void visitCompositeConstructExpr( CompositeConstruct * ) = 0;
+		SDAST_API virtual void visitCopyExpr( Copy * ) = 0;
 		SDAST_API virtual void visitDivideExpr( Divide * ) = 0;
 		SDAST_API virtual void visitDivideAssignExpr( DivideAssign * ) = 0;
 		SDAST_API virtual void visitEqualExpr( Equal * ) = 0;
@@ -209,6 +211,10 @@ namespace ast::expr
 		void visitCommaExpr( Comma * expr )override
 		{
 			visitBinaryExpr( expr );
+		}
+		void visitCopyExpr( expr::Copy * expr )override
+		{
+			visitUnaryExpr( expr );
 		}
 		void visitDivideExpr( Divide * expr )override
 		{

@@ -103,17 +103,22 @@ namespace spirv
 	{
 	}
 
+	void ExprConfigFiller::doSubmit( ast::expr::Expr * expr )
+	{
+		submit( expr, m_config );
+	}
+
 	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
 	{
 		checkType( expr, m_config );
-		expr->getOperand()->accept( this );
+		doSubmit( expr->getOperand() );
 	}
 
 	void ExprConfigFiller::visitBinaryExpr( ast::expr::Binary * expr )
 	{
 		checkType( expr, m_config );
-		expr->getLHS()->accept( this );
-		expr->getRHS()->accept( this );
+		doSubmit( expr->getLHS() );
+		doSubmit( expr->getRHS() );
 	}
 
 	void ExprConfigFiller::visitAggrInitExpr( ast::expr::AggrInit * expr )
@@ -122,12 +127,12 @@ namespace spirv
 
 		if ( expr->getIdentifier() )
 		{
-			expr->getIdentifier()->accept( this );
+			doSubmit( expr->getIdentifier() );
 		}
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			init->accept( this );
+			doSubmit( init.get() );
 		}
 	}
 
@@ -137,14 +142,14 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		checkType( expr, m_config );
-		expr->getOuterExpr()->accept( this );
+		doSubmit( expr->getOuterExpr() );
 
 		if ( expr->isBuiltin() )
 		{
@@ -159,11 +164,11 @@ namespace spirv
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
 		checkType( expr, m_config );
-		expr->getFn()->accept( this );
+		doSubmit( expr->getFn() );
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
@@ -173,7 +178,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 
 		auto kind = expr->getImageAccess();
@@ -226,7 +231,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 
 		auto kind = expr->getIntrinsic();
@@ -246,9 +251,9 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 
-			if ( expr->isNonUniform() )
+			if ( arg->isNonUniform() )
 			{
 				m_config.registerCapability( spv::CapabilitySampledImageArrayNonUniformIndexing );
 			}
@@ -300,8 +305,8 @@ namespace spirv
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )
 	{
 		checkType( expr, m_config );
-		expr->getIdentifier()->accept( this );
-		expr->getInitialiser()->accept( this );
+		doSubmit( expr->getIdentifier() );
+		doSubmit( expr->getInitialiser() );
 	}
 
 	void ExprConfigFiller::visitLiteralExpr( ast::expr::Literal * expr )
@@ -312,29 +317,29 @@ namespace spirv
 	void ExprConfigFiller::visitQuestionExpr( ast::expr::Question * expr )
 	{
 		checkType( expr, m_config );
-		expr->getCtrlExpr()->accept( this );
-		expr->getTrueExpr()->accept( this );
-		expr->getFalseExpr()->accept( this );
+		doSubmit( expr->getCtrlExpr() );
+		doSubmit( expr->getTrueExpr() );
+		doSubmit( expr->getFalseExpr() );
 	}
 
 	void ExprConfigFiller::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
-		expr->getOperand()->accept( this );
+		doSubmit( expr->getOperand() );
 	}
 
 	void ExprConfigFiller::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
 	{
-		expr->getLabel()->accept( this );
+		doSubmit( expr->getLabel() );
 	}
 
 	void ExprConfigFiller::visitSwitchTestExpr( ast::expr::SwitchTest * expr )
 	{
-		expr->getValue()->accept( this );
+		doSubmit( expr->getValue() );
 	}
 
 	void ExprConfigFiller::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
 		checkType( expr, m_config );
-		expr->getOuterExpr()->accept( this );
+		doSubmit( expr->getOuterExpr() );
 	}
 }
