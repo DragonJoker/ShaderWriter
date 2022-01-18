@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/RayIntersectionWriter.hpp"
 
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
+
 namespace sdw
 {
 	//*************************************************************************
@@ -100,6 +102,11 @@ namespace sdw
 	RayIntersectionWriter::RayIntersectionWriter()
 		: ShaderWriter{ ast::ShaderStage::eRayIntersection }
 	{
+	}
+
+	void RayIntersectionWriter::reportIntersection( Float const & tHit, UInt const & hitKind )
+	{
+		sdw::reportIntersection( tHit, hitKind );
 	}
 
 	void RayIntersectionWriter::implementMain( RayIntersectionMainFunc const & function )
