@@ -20,6 +20,7 @@ namespace sdw
 		, rayTmin{ getFloatMember( *this, ast::Builtin::eRayTmin ) }
 		, rayTmax{ getFloatMember( *this, ast::Builtin::eRayTmax ) }
 		, incomingRayFlags{ getUIntMember( *this, ast::Builtin::eIncomingRayFlags ) }
+		, hitT{ rayTmax }
 	{
 	}
 

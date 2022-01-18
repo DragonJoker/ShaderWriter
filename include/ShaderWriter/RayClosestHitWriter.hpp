@@ -73,6 +73,8 @@ namespace sdw
 		Mat4x3 objectToWorld;
 		//in mat4x3 gl_WorldToObjectEXT;
 		Mat4x3 worldToObject;
+
+		Float hitT;
 	};
 
 	using RayClosestHitMainFunc = std::function< void( RayClosestHitIn ) >;
