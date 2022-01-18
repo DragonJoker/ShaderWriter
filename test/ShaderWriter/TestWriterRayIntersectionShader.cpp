@@ -3,6 +3,9 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_NoHLSL
+
 namespace
 {
 	struct Sphere
@@ -182,6 +185,8 @@ namespace
 		{
 			RayIntersectionWriter writer;
 
+			writer.declType< Ray >();
+			writer.declType< Aabb >();
 			auto allSpheres = writer.declArrayShaderStorageBuffer< Sphere >( "allSpheres", 1u, 0u );
 			auto KIND_SPHERE = writer.declConstant( "KIND_SPHERE", 0_i );
 			auto KIND_CUBE = writer.declConstant( "KIND_CUBE", 1_i );
@@ -222,7 +227,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}

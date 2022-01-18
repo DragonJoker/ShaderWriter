@@ -4,6 +4,9 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_NoHLSL
+
 namespace
 {
 	void simple( test::sdw_test::TestCounts & testCounts )
@@ -25,7 +28,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}

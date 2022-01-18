@@ -4,6 +4,9 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_NoHLSL
+
 namespace
 {
 	struct ObjDesc
@@ -345,7 +348,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -393,7 +396,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -428,7 +431,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -463,7 +466,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -598,7 +601,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -634,7 +637,7 @@ namespace
 			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
-			auto cLight = writer.declIncomingCallableData< RayLight >( "cLight", 0u );
+			auto cLight = writer.declCallableData< RayLight >( "cLight", 0u );
 
 			writer.implementMain( [&]( RayClosestHitIn in )
 				{
@@ -722,7 +725,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}

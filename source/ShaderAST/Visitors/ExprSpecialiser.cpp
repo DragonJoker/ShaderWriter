@@ -38,6 +38,12 @@ namespace ast
 		expr::ExprPtr result;
 		ExprSpecialiser vis{ m_cache, m_specialisations, result };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			result->updateFlag( ast::expr::Flag::eNonUniform );
+		}
+
 		return result;
 	}
 

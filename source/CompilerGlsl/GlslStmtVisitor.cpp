@@ -261,6 +261,48 @@ namespace glsl
 			stream << major << "." << minor << "." << build << "-" << year;
 			return stream.str();
 		}
+
+		std::string writeStruct( std::string indent
+			, ast::type::Struct const & structType )
+		{
+			std::string result;
+			result += indent + "struct " + structType.getName();
+
+			if ( !structType.empty() )
+			{
+				result += "\n" + indent + "{\n";
+				auto save = indent;
+				indent += "\t";
+
+				for ( auto & mbr : structType )
+				{
+					result += indent;
+
+					if ( mbr.location != ast::type::Struct::InvalidLocation
+						&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchOutput )
+						&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchInput ) )
+					{
+						result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
+						result += ( structType.isShaderInput()
+							? std::string{ "in" }
+						: std::string{ "out" } ) + " ";
+					}
+
+					result += getTypeName( mbr.type ) + " " + mbr.name;
+					result += getTypeArraySize( mbr.type );
+					result += ";\n";
+				}
+
+				indent = save;
+				result += indent + "};\n";
+			}
+			else
+			{
+				result += ";\n";
+			}
+
+			return result;
+		}
 	}
 
 	//*************************************************************************
@@ -532,24 +574,86 @@ namespace glsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )
 	{
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "layout(";
+		doWriteBinding( stmt->getBindingPoint()
+			, stmt->getDescriptorSet()
+			, "" );
+		m_result += ") uniform accelerationStructureEXT";
+		join( m_result, stmt->getVariable()->getName(), " " );
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "layout(buffer_reference";
+		auto type = stmt->getType();
+
+		if ( auto structType = getStructType( stmt->getType() ) )
+		{
+			m_result += ", " + getName( structType->getMemoryLayout() );
+			m_result += ") buffer " + getTypeName( stmt->getType() ) + " { ";
+			m_result += getTypeName( structType->front().type ) + " " + structType->front().name + getTypeArraySize( structType->front().type ) + "; }";
+		}
+		else
+		{
+			m_result += ") buffer " + getTypeName( stmt->getType() ) + "s { ";
+			m_result += getTypeName( stmt->getType() ) + getTypeArraySize( stmt->getType() ) + "; }";
+		}
+
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "hitAttributeEXT";
+		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+		join( m_result, stmt->getVariable()->getName(), " " );
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
+		doAppendLineEnd();
+		auto var = stmt->getVariable();
+		std::string name = "callableDataEXT";
+
+		if ( var->isIncomingCallableData() )
+		{
+			name = "callableDataInEXT";
+		}
+
+		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + std::to_string( stmt->getLocation() ) + ")";
+		join( m_result, name, " " );
+		join( m_result, getTypeName( var->getType() ), " " );
+		join( m_result, var->getName(), " " );
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
+		doAppendLineEnd();
+		auto var = stmt->getVariable();
+		std::string name = "rayPayloadEXT";
+
+		if ( var->isIncomingRayPayload() )
+		{
+			name = "rayPayloadInEXT";
+		}
+
+		doAppendLineEnd();
+		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + std::to_string( stmt->getLocation() ) + ")";
+		join( m_result, name, " " );
+		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+		join( m_result, stmt->getVariable()->getName(), " " );
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
@@ -611,6 +715,8 @@ namespace glsl
 
 	void StmtVisitor::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
 	{
+		doAppendLineEnd();
+		m_result += m_indent + "ignoreIntersectionEXT;\n";
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
@@ -832,41 +938,7 @@ namespace glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += m_indent + "struct " + stmt->getType()->getName();
-
-		if ( !stmt->getType()->empty() )
-		{
-			m_result += "\n" + m_indent + "{\n";
-			auto save = m_indent;
-			m_indent += "\t";
-			auto & structType = *stmt->getType();
-
-			for ( auto & mbr : structType )
-			{
-				m_result += m_indent;
-
-				if ( mbr.location != ast::type::Struct::InvalidLocation
-					&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchOutput )
-					&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchInput ) )
-				{
-					m_result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
-					m_result += ( structType.isShaderInput()
-						? std::string{ "in" }
-						: std::string{ "out" } ) + " ";
-				}
-
-				m_result += getTypeName( mbr.type ) + " " + mbr.name;
-				m_result += getTypeArraySize( mbr.type );
-				m_result += ";\n";
-			}
-
-			m_indent = save;
-			m_result += m_indent + "};\n";
-		}
-		else
-		{
-			m_result += ";\n";
-		}
+		m_result += writeStruct( m_indent, *stmt->getType() );
 	}
 
 	void StmtVisitor::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
@@ -906,6 +978,7 @@ namespace glsl
 
 	void StmtVisitor::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
 	{
+		m_result += m_indent + "terminateRayEXT;\n";
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )

@@ -29,6 +29,20 @@ namespace glsl
 					{ "gl_InstanceID", "gl_InstanceIndex" },
 					{ "gl_VertexID", "gl_VertexIndex" },
 					{ "gl_DrawIndex", "gl_DrawID" },
+					{ "gl_LaunchID", "gl_LaunchIDEXT" },
+					{ "gl_LaunchSize", "gl_LaunchSizeEXT" },
+					{ "gl_InstanceCustomIndex", "gl_InstanceCustomIndexEXT" },
+					{ "gl_GeometryIndex", "gl_GeometryIndexEXT" },
+					{ "gl_WorldRayOrigin", "gl_WorldRayOriginEXT" },
+					{ "gl_WorldRayDirection", "gl_WorldRayDirectionEXT" },
+					{ "gl_ObjectRayOrigin", "gl_ObjectRayOriginEXT" },
+					{ "gl_ObjectRayDirection", "gl_ObjectRayDirectionEXT" },
+					{ "gl_RayTmin", "gl_RayTminEXT" },
+					{ "gl_RayTmax", "gl_RayTmaxEXT" },
+					{ "gl_IncomingRayFlags", "gl_IncomingRayFlagsEXT" },
+					{ "gl_HitKind", "gl_HitKindEXT" },
+					{ "gl_ObjectToWorld", "gl_ObjectToWorldEXT" },
+					{ "gl_WorldToObject", "gl_WorldToObjectEXT" },
 				};
 				auto it = toVkNames.find( name );
 
@@ -44,6 +58,20 @@ namespace glsl
 					{ "gl_InstanceIndex", "gl_InstanceID" },
 					{ "gl_VertexIndex", "gl_VertexID" },
 					{ "gl_DrawIndex", "gl_DrawID" },
+					{ "gl_LaunchID", "gl_LaunchIDEXT" },
+					{ "gl_LaunchSize", "gl_LaunchSizeEXT" },
+					{ "gl_InstanceCustomIndex", "gl_InstanceCustomIndexEXT" },
+					{ "gl_GeometryIndex", "gl_GeometryIndexEXT" },
+					{ "gl_WorldRayOrigin", "gl_WorldRayOriginEXT" },
+					{ "gl_WorldRayDirection", "gl_WorldRayDirectionEXT" },
+					{ "gl_ObjectRayOrigin", "gl_ObjectRayOriginEXT" },
+					{ "gl_ObjectRayDirection", "gl_ObjectRayDirectionEXT" },
+					{ "gl_RayTmin", "gl_RayTminEXT" },
+					{ "gl_RayTmax", "gl_RayTmaxEXT" },
+					{ "gl_IncomingRayFlags", "gl_IncomingRayFlagsEXT" },
+					{ "gl_HitKind", "gl_HitKindEXT" },
+					{ "gl_ObjectToWorld", "gl_ObjectToWorldEXT" },
+					{ "gl_WorldToObject", "gl_WorldToObjectEXT" },
 				};
 				auto it = toGlNames.find( name );
 
@@ -94,7 +122,8 @@ namespace glsl
 			|| expr->getKind() == ast::expr::Kind::eTextureAccessCall
 			|| expr->getKind() == ast::expr::Kind::eImageAccessCall
 			|| expr->getKind() == ast::expr::Kind::eUnaryMinus
-			|| expr->getKind() == ast::expr::Kind::eUnaryPlus;
+			|| expr->getKind() == ast::expr::Kind::eUnaryPlus
+			|| expr->getKind() == ast::expr::Kind::eCopy;
 
 		if ( noParen )
 		{
@@ -117,6 +146,12 @@ namespace glsl
 
 	void ExprVisitor::visitUnaryExpr( ast::expr::Unary * expr )
 	{
+		if ( expr->isNonUniform()
+			&& !expr->getOperand()->isNonUniform() )
+		{
+			m_result += "nonuniformEXT(";
+		}
+
 		if ( isUnaryPre( expr->getKind() ) )
 		{
 			m_result += getOperatorName( expr->getKind() );
@@ -127,6 +162,13 @@ namespace glsl
 			wrap( expr->getOperand() );
 			m_result += getOperatorName( expr->getKind() );
 		}
+
+		if ( expr->isNonUniform()
+			&& !expr->getOperand()->isNonUniform() )
+		{
+			m_result += ")";
+		}
+
 	}
 
 	void ExprVisitor::visitBinaryExpr( ast::expr::Binary * expr )

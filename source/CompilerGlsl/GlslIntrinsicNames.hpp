@@ -1064,6 +1064,18 @@ namespace glsl
 			result = "groupMemoryBarrier";
 			break;
 
+		case ast::expr::Intrinsic::eTraceRay:
+			result = "traceRayEXT";
+			break;
+
+		case ast::expr::Intrinsic::eReportIntersection:
+			result = "reportIntersectionEXT";
+			break;
+
+		case ast::expr::Intrinsic::eExecuteCallable:
+			result = "executeCallableEXT";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

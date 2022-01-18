@@ -127,11 +127,12 @@ namespace test
 			}
 		}
 
-		void doSetupOptions( spirv_cross::CompilerGLSL & compiler )
+		void doSetupOptions( ast::ShaderStage stage
+			, spirv_cross::CompilerGLSL & compiler )
 		{
 			auto options = compiler.get_common_options();
 			options.separate_shader_objects = true;
-			options.vulkan_semantics = false;
+			options.vulkan_semantics = isRayTraceStage( stage );
 			compiler.set_common_options( options );
 		}
 
@@ -176,7 +177,7 @@ namespace test
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
-			doSetupOptions( *compiler );
+			doSetupOptions( stage, *compiler );
 			return compileSpirV( "GLSL", *compiler, testCounts );
 		}
 
@@ -187,7 +188,7 @@ namespace test
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
 			doSetupHlslOptions( *compiler );
-			doSetupOptions( *compiler );
+			doSetupOptions( stage, *compiler );
 			return compileSpirV( "HLSL", *compiler, testCounts );
 		}
 
@@ -337,13 +338,13 @@ namespace test
 				displayShader( "SPIR-V", text, testCounts, true );
 			}
 
-			if ( compilers.glsl )
+			if ( compilers.glsl && !isRayTraceStage( shader.getType() ) )
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay );
 			}
 
-			if ( compilers.hlsl )
+			if ( compilers.hlsl && !isRayTraceStage( shader.getType() ) )
 			{
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay );
@@ -371,9 +372,17 @@ namespace test
 				auto validate = [&]()
 				{
 					std::string errors;
+					auto config = getDefaultGlslConfig();
+
+					if ( isRayTraceStage( shader.getType() ) )
+					{
+						config.vulkanGlsl = true;
+						config.wantedVersion = glsl::v4_6;
+					}
+
 					auto glsl = glsl::compileGlsl( shader
 						, specialisation
-						, getDefaultGlslConfig() );
+						, config );
 					auto isCompiled = compileGlsl( glsl
 						, shader.getType()
 						, errors

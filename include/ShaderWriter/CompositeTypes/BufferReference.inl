@@ -16,6 +16,14 @@ namespace sdw
 	{
 		if ( enabled )
 		{
+			if ( auto structType = getStructType( m_type ) )
+			{
+				if ( auto inner = getStructType( getNonArrayType( structType->front().type ) ) )
+				{
+					sdw::addStmt( writer, sdw::makeStructDecl( inner ) );
+				}
+			}
+
 			sdw::addStmt( writer, sdw::makeBufferReferenceDecl( m_pointer ) );
 		}
 	}
