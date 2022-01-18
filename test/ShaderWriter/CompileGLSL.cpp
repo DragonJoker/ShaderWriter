@@ -834,6 +834,11 @@ namespace test
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
 	{
+		if ( isRayTraceStage( stage ) )
+		{
+			return true;
+		}
+
 		bool result = false;
 		auto & window = testCounts.glsl->window;
 

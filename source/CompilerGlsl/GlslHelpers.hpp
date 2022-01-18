@@ -49,6 +49,10 @@ namespace glsl
 		bool requiresAtomicFloat{ false };
 		bool requiresFp16{ false };
 		bool requiresAtomicFp16Vector{ false };
+		bool requiresUint64{ false };
+		bool requiresBufferReference{ false };
+		bool requiresNonUniform{ false };
+		bool requiresScalarLayout{ false };
 	};
 	void checkType( ast::type::Type const & type
 		, IntrinsicsConfig & config );

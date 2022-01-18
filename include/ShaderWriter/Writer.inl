@@ -698,6 +698,12 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
+
+		if ( auto structType = getStructType( type ) )
+		{
+			addStmt( sdw::makeStructDecl( structType ) );
+		}
+
 		auto var = registerInOut( name
 			, uint64_t( ast::var::Flag::eRayPayload )
 			, type );
@@ -719,6 +725,12 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
+
+		if ( auto structType = getStructType( type ) )
+		{
+			addStmt( sdw::makeStructDecl( structType ) );
+		}
+
 		auto var = registerInOut( name
 			, uint64_t( ast::var::Flag::eIncomingRayPayload )
 			, type );
@@ -740,6 +752,12 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
+
+		if ( auto structType = getStructType( type ) )
+		{
+			addStmt( sdw::makeStructDecl( structType ) );
+		}
+
 		auto var = registerInOut( name
 			, uint64_t( ast::var::Flag::eCallableData )
 			, type );
@@ -761,6 +779,12 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
+
+		if ( auto structType = getStructType( type ) )
+		{
+			addStmt( sdw::makeStructDecl( structType ) );
+		}
+
 		auto var = registerInOut( name
 			, uint64_t( ast::var::Flag::eIncomingCallableData )
 			, type );
@@ -781,6 +805,12 @@ namespace sdw
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
+
+		if ( auto structType = getStructType( type ) )
+		{
+			addStmt( sdw::makeStructDecl( structType ) );
+		}
+
 		auto var = registerInOut( name
 			, uint64_t( ast::var::Flag::eHitAttribute )
 			, type );

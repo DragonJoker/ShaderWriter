@@ -103,18 +103,23 @@ namespace glsl
 
 	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
+		checkType( *stmt->getType(), m_result );
+		m_result.requiresBufferReference = true;
 	}
 
 	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		checkType( *stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
+		checkType( *stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
+		checkType( *stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )

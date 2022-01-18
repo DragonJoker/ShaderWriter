@@ -63,11 +63,9 @@ namespace glsl
 #define makeGlExtension( reqVersion, specVersion, name )\
 	static GlslExtension const name{ reqVersion, specVersion, "GL_"#name }
 
-#define makeGlslExtension( reqVersion, specVersion, name )\
-	static GlslExtension const name{ reqVersion, specVersion, "GLSL_"#name }
-
 	makeGlExtension( v1_4, v1_4, ARB_shader_stencil_export );
 	makeGlExtension( v1_4, v1_4, KHR_vulkan_glsl );
+	makeGlExtension( v1_4, v1_4, EXT_shader_explicit_arithmetic_types_int64 );
 	makeGlExtension( v1_4, v4_5, EXT_multiview );
 	makeGlExtension( v1_5, v1_5, ARB_explicit_attrib_location );
 	makeGlExtension( v1_5, v1_5, NV_gpu_shader5 );
@@ -83,12 +81,13 @@ namespace glsl
 	makeGlExtension( v4_5, v4_5, ARB_shader_viewport_layer_array );
 	makeGlExtension( v4_5, v4_5, NV_stereo_view_rendering );
 	makeGlExtension( v4_5, v4_5, NVX_multiview_per_view_attributes );
-	makeGlslExtension( v4_6, v4_6, EXT_shader_atomic_float );
-	makeGlslExtension( v4_6, v4_6, EXT_ray_tracing );
-	makeGlslExtension( v4_6, v4_6, EXT_ray_query );
+	makeGlExtension( v4_5, v4_5, EXT_nonuniform_qualifier );
+	makeGlExtension( v4_5, v4_6, EXT_buffer_reference2 );
+	makeGlExtension( v4_6, v4_6, EXT_shader_atomic_float );
+	makeGlExtension( v4_6, v4_6, EXT_ray_tracing );
+	makeGlExtension( v4_6, v4_6, EXT_ray_query );
+	makeGlExtension( v4_6, v4_6, EXT_scalar_block_layout );
 
-
-#undef makeGlslExtension
 #undef makeGlExtension
 
 	struct GlslConfig

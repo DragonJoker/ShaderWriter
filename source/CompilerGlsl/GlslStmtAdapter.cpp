@@ -210,6 +210,36 @@ namespace glsl
 						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 				}
 			}
+
+			if ( isRayTraceStage( adaptationData.stage ) )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( EXT_ray_tracing.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
+
+			if ( adaptationData.intrinsicsConfig.requiresUint64 )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( EXT_shader_explicit_arithmetic_types_int64.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
+
+			if ( adaptationData.intrinsicsConfig.requiresBufferReference )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( EXT_buffer_reference2.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
+
+			if ( adaptationData.intrinsicsConfig.requiresNonUniform )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( EXT_nonuniform_qualifier.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
+
+			if ( adaptationData.intrinsicsConfig.requiresScalarLayout )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( EXT_scalar_block_layout.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
 		}
 
 		StmtAdapter vis{ cache, adaptationData, result };

@@ -2073,6 +2073,7 @@ namespace ast
 					while ( it != elseIfs.end() )
 					{
 						auto elseStmt = currentIf->createElse();
+						m_current = elseStmt;
 						auto & elseIf = *it;
 						ctrlExpr = doSubmit( elseIf->getCtrlExpr() );
 						scalarType = getScalarType( ctrlExpr->getType()->getKind() );

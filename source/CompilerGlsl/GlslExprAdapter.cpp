@@ -151,6 +151,12 @@ namespace glsl
 		ast::expr::ExprPtr result;
 		ExprAdapter vis{ m_cache, m_adaptationData, result };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			result->updateFlag( ast::expr::Flag::eNonUniform );
+		}
+
 		return result;
 	}
 

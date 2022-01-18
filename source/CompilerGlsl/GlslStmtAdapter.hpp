@@ -48,6 +48,7 @@ namespace glsl
 
 	struct AdaptationData
 	{
+		ast::ShaderStage stage;
 		GlslConfig const & writerConfig;
 		IntrinsicsConfig intrinsicsConfig;
 		uint32_t nextVarId;

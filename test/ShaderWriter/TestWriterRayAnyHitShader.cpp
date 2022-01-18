@@ -3,6 +3,9 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_NoHLSL
+
 namespace
 {
 	struct HitPayload
@@ -310,7 +313,7 @@ namespace
 
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}

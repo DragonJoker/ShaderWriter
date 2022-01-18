@@ -28,17 +28,27 @@ namespace glsl
 	{
 	}
 
+	void ExprConfigFiller::doSubmit( ast::expr::Expr * expr )
+	{
+		expr->accept( this );
+
+		if ( expr->isNonUniform() )
+		{
+			m_config.requiresNonUniform = true;
+		}
+	}
+
 	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getOperand()->accept( this );
+		doSubmit( expr->getOperand() );
 	}
 
 	void ExprConfigFiller::visitBinaryExpr( ast::expr::Binary * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getLHS()->accept( this );
-		expr->getRHS()->accept( this );
+		doSubmit( expr->getLHS() );
+		doSubmit( expr->getRHS() );
 	}
 
 	void ExprConfigFiller::visitAggrInitExpr( ast::expr::AggrInit * expr )
@@ -47,12 +57,12 @@ namespace glsl
 
 		if ( expr->getIdentifier() )
 		{
-			expr->getIdentifier()->accept( this );
+			doSubmit( expr->getIdentifier() );
 		}
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			init->accept( this );
+			doSubmit( init.get() );
 		}
 	}
 
@@ -62,24 +72,24 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getOuterExpr()->accept( this );
+		doSubmit( expr->getOuterExpr() );
 	}
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getFn()->accept( this );
+		doSubmit( expr->getFn() );
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
@@ -129,7 +139,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
@@ -140,7 +150,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
@@ -166,7 +176,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			arg->accept( this );
+			doSubmit( arg.get() );
 		}
 	}
 
@@ -178,8 +188,8 @@ namespace glsl
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getIdentifier()->accept( this );
-		expr->getInitialiser()->accept( this );
+		doSubmit( expr->getIdentifier() );
+		doSubmit( expr->getInitialiser() );
 	}
 
 	void ExprConfigFiller::visitLiteralExpr( ast::expr::Literal * expr )
@@ -190,32 +200,32 @@ namespace glsl
 	void ExprConfigFiller::visitQuestionExpr( ast::expr::Question * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getCtrlExpr()->accept( this );
-		expr->getTrueExpr()->accept( this );
-		expr->getFalseExpr()->accept( this );
+		doSubmit( expr->getCtrlExpr() );
+		doSubmit( expr->getTrueExpr() );
+		doSubmit( expr->getFalseExpr() );
 	}
 
 	void ExprConfigFiller::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getOperand()->accept( this );
+		doSubmit( expr->getOperand() );
 	}
 
 	void ExprConfigFiller::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getLabel()->accept( this );
+		doSubmit( expr->getLabel() );
 	}
 
 	void ExprConfigFiller::visitSwitchTestExpr( ast::expr::SwitchTest * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getValue()->accept( this );
+		doSubmit( expr->getValue() );
 	}
 
 	void ExprConfigFiller::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
 		checkType( *expr->getType(), m_config );
-		expr->getOuterExpr()->accept( this );
+		doSubmit( expr->getOuterExpr() );
 	}
 }

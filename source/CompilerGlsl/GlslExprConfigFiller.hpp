@@ -23,6 +23,8 @@ namespace glsl
 	private:
 		ExprConfigFiller( IntrinsicsConfig & config );
 
+		void doSubmit( ast::expr::Expr * expr );
+
 		void visitUnaryExpr( ast::expr::Unary * expr )override;
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
 

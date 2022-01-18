@@ -312,6 +312,9 @@ namespace glsl
 		case ast::type::Kind::eTessellationEvaluationInput:
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
 			break;
+		case ast::type::Kind::ePointer:
+			result = getTypeName( std::static_pointer_cast< ast::type::Pointer >( type )->getPointerType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;
@@ -951,6 +954,7 @@ namespace glsl
 		case ast::expr::Kind::eBitNot:
 		case ast::expr::Kind::eLogNot:
 		case ast::expr::Kind::eCast:
+		case ast::expr::Kind::eCopy:
 		case ast::expr::Kind::ePreIncrement:
 		case ast::expr::Kind::ePreDecrement:
 		case ast::expr::Kind::eUnaryMinus:
@@ -970,6 +974,19 @@ namespace glsl
 		if ( getComponentType( type ) == ast::type::Kind::eHalf )
 		{
 			config.requiresFp16 = true;
+		}
+
+		if ( getComponentType( type ) == ast::type::Kind::eUInt64 )
+		{
+			config.requiresUint64 = true;
+		}
+
+		if ( auto structType = getStructType( type ) )
+		{
+			if ( structType->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
+			{
+				config.requiresScalarLayout = true;
+			}
 		}
 	}
 }

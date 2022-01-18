@@ -44,9 +44,6 @@ namespace sdw
 		SDW_API RayCallableWriter();
 
 		SDW_API void implementMain( RayCallableMainFunc const & function );
-
-		SDW_API void ignoreIntersection();
-		SDW_API void terminateRay();
 	};
 	/**@}*/
 }

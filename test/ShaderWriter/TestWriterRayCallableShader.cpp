@@ -3,6 +3,9 @@
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_NoHLSL
+
 namespace
 {
 	struct RayLight
@@ -78,7 +81,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -111,7 +114,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -148,7 +151,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_SPIRV );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}

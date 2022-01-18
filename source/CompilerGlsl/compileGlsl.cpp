@@ -27,7 +27,8 @@ namespace glsl
 			, ssaData );
 		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
 			, ssaStatements.get() );
-		glsl::AdaptationData adaptationData{ config
+		glsl::AdaptationData adaptationData{ shader.getType()
+			, config
 			, glsl::StmtConfigFiller::submit( simplified.get() )
 			, ssaData.nextVarId };
 		auto glStatements = glsl::StmtAdapter::submit( shader.getTypesCache()
