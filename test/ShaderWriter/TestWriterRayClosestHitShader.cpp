@@ -4,12 +4,6 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_SPIRV
-
-#undef ForceDisplayShaders
-#define ForceDisplayShaders true
-
 namespace
 {
 	struct ObjDesc
@@ -228,7 +222,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -276,7 +270,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -311,7 +305,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -346,7 +340,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -529,7 +523,7 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -539,11 +533,11 @@ sdwTestSuiteMain( TestWriterRayClosestHitShader )
 {
 	sdwTestSuiteBegin();
 
-	//simple( testCounts );
-	//vecTimesMtx( testCounts );
-	//dynarraySamplers( testCounts );
+	simple( testCounts );
+	vecTimesMtx( testCounts );
+	dynarraySamplers( testCounts );
 	nonUniform( testCounts );
-	//wavefrontLighting( testCounts );
+	wavefrontLighting( testCounts );
 
 	sdwTestSuiteEnd();
 }

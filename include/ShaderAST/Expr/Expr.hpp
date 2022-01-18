@@ -12,6 +12,7 @@ namespace ast::expr
 	enum class Kind
 		: uint8_t
 	{
+		eCopy,
 		eAdd,
 		eMinus,
 		eTimes,

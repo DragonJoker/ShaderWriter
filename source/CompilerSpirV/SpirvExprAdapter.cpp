@@ -39,6 +39,12 @@ namespace spirv
 			, adaptationData
 			, result };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			result->updateFlag( ast::expr::Flag::eNonUniform );
+		}
+
 		return result;
 	}
 
@@ -60,6 +66,12 @@ namespace spirv
 		ast::expr::ExprPtr result;
 		ExprAdapter vis{ m_cache, m_container, m_ioDeclarations, m_adaptationData, result };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			result->updateFlag( ast::expr::Flag::eNonUniform );
+		}
+
 		return result;
 	}
 

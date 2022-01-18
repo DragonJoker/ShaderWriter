@@ -17,6 +17,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprBitXor.hpp>
 #include <ShaderAST/Expr/ExprCast.hpp>
 #include <ShaderAST/Expr/ExprCompositeConstruct.hpp>
+#include <ShaderAST/Expr/ExprCopy.hpp>
 #include <ShaderAST/Expr/ExprDivide.hpp>
 #include <ShaderAST/Expr/ExprDivideAssign.hpp>
 #include <ShaderAST/Expr/ExprEqual.hpp>
@@ -445,6 +446,11 @@ namespace sdw
 	expr::ExprPtr makeBitNot( expr::ExprPtr operand )
 	{
 		return expr::makeBitNot( std::move( operand ) );
+	}
+
+	expr::ExprPtr makeCopy( expr::ExprPtr operand )
+	{
+		return expr::makeCopy( std::move( operand ) );
 	}
 
 	expr::ExprPtr makeLogAnd( expr::ExprPtr lhs

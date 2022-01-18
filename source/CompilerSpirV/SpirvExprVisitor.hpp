@@ -77,6 +77,7 @@ namespace spirv
 
 		void visitCastExpr( ast::expr::Cast * expr )override;
 		void visitCommaExpr( ast::expr::Comma * expr )override;
+		void visitCopyExpr( ast::expr::Copy * expr )override;
 		void visitAssignExpr( ast::expr::Assign * expr )override;
 		void visitAggrInitExpr( ast::expr::AggrInit * expr )override;
 		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;

@@ -27,6 +27,9 @@ namespace ast::debug
 
 			switch ( kind )
 			{
+			case expr::Kind::eCopy:
+				result = "COPY";
+				break;
 			case expr::Kind::eAdd:
 				result = "ADD";
 				break;
@@ -271,6 +274,12 @@ namespace ast::debug
 	void ExprVisitor::wrap( expr::Expr * expr )
 	{
 		m_result += "(";
+
+		if ( expr->isNonUniform() )
+		{
+			m_result += "[NONUNIFORM] ";
+		}
+
 		expr->accept( this );
 		m_result += ")";
 	}

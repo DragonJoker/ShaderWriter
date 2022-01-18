@@ -23,6 +23,8 @@ namespace spirv
 	private:
 		ExprConfigFiller( ModuleConfig & config );
 
+		void doSubmit( ast::expr::Expr * expr );
+
 		void visitUnaryExpr( ast::expr::Unary * expr )override;
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
 

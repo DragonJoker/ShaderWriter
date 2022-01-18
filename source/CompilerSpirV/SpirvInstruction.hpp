@@ -404,6 +404,7 @@ namespace spirv
 	using FunctionParameterInstruction = InstructionT< spv::OpFunctionParameter, true, true, 0u, false, false >;
 	using LabelInstruction = InstructionT< spv::OpLabel, false, true, 0u, false, false >;
 	using FunctionInstruction = InstructionT< spv::OpFunction, true, true, 2u, false, false >;
+	using CopyObjectInstruction = InstructionT< spv::OpCopyObject, true, true, 1u, false, false >;
 
 	using KillInstruction = InstructionT< spv::OpKill, false, false, 0u, false, false >;
 	using BranchInstruction = InstructionT< spv::OpBranch, false, false, 1u, false, false >;

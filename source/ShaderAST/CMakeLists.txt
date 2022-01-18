@@ -84,6 +84,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprCast.hpp
 	${INCLUDE_DIR}/Expr/ExprComma.hpp
 	${INCLUDE_DIR}/Expr/ExprCompositeConstruct.hpp
+	${INCLUDE_DIR}/Expr/ExprCopy.hpp
 	${INCLUDE_DIR}/Expr/ExprDivide.hpp
 	${INCLUDE_DIR}/Expr/ExprDivideAssign.hpp
 	${INCLUDE_DIR}/Expr/ExprEqual.hpp
@@ -156,6 +157,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprCast.cpp
 	${SOURCE_DIR}/Expr/ExprComma.cpp
 	${SOURCE_DIR}/Expr/ExprCompositeConstruct.cpp
+	${SOURCE_DIR}/Expr/ExprCopy.cpp
 	${SOURCE_DIR}/Expr/ExprDivide.cpp
 	${SOURCE_DIR}/Expr/ExprDivideAssign.cpp
 	${SOURCE_DIR}/Expr/ExprEqual.cpp

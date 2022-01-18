@@ -23,8 +23,6 @@ namespace sdw
 		NonUniformT( ValueT const & rhs );
 		NonUniformT( NonUniformT && rhs );
 
-		operator ValueT()const;
-
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 

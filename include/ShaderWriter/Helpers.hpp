@@ -155,6 +155,7 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	SDW_API expr::ExprPtr makeBitNot( expr::ExprPtr operand );
+	SDW_API expr::ExprPtr makeCopy( expr::ExprPtr operand );
 	SDW_API expr::ExprPtr makeLogAnd( expr::ExprPtr lhs
 		, expr::ExprPtr rhs );
 	SDW_API expr::ExprPtr makeLogOr( expr::ExprPtr lhs

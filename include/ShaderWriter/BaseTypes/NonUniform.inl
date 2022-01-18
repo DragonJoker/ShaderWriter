@@ -9,8 +9,9 @@ namespace sdw
 	NonUniformT< ValueT >::NonUniformT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: ValueT{ writer, std::move( expr ), enabled }
+		: ValueT{ writer, sdw::makeCopy( std::move( expr ) ), enabled }
 	{
+		this->getExpr()->updateFlag( ast::expr::Flag::eNonUniform );
 	}
 
 	template< typename ValueT >
@@ -23,16 +24,6 @@ namespace sdw
 	NonUniformT< ValueT >::NonUniformT( NonUniformT && rhs )
 		: ValueT{ std::move( rhs ) }
 	{
-	}
-
-	template< typename ValueT >
-	NonUniformT< ValueT >::operator ValueT()const
-	{
-		auto expr = makeExpr( *static_cast< ValueT const * >( this ) );
-		expr->updateFlag( ast::expr::Flag::eNonUniform );
-		return ValueT{ *this->getWriter()
-			, std::move( expr )
-			, this->isEnabled() };
 	}
 
 	template< typename ValueT >

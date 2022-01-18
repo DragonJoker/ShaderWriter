@@ -23,6 +23,12 @@ namespace ast
 		expr::ExprPtr result;
 		ExprCloner vis{ result };
 		expr->accept( &vis );
+
+		if ( expr->isNonUniform() )
+		{
+			result->updateFlag( ast::expr::Flag::eNonUniform );
+		}
+
 		return result;
 	}
 
@@ -50,7 +56,14 @@ namespace ast
 	{
 		if ( expr )
 		{
-			return doSubmit( expr.get() );
+			auto result = doSubmit( expr.get() );
+
+			if ( expr->isNonUniform() )
+			{
+				result->updateFlag( ast::expr::Flag::eNonUniform );
+			}
+
+			return result;
 		}
 
 		return nullptr;
@@ -169,6 +182,11 @@ namespace ast
 		m_result = expr::makeCompositeConstruct( expr->getComposite()
 			, expr->getComponent()
 			, std::move( args ) );
+	}
+
+	void ExprCloner::visitCopyExpr( expr::Copy * expr )
+	{
+		m_result = expr::makeCopy( doSubmit( expr->getOperand() ) );
 	}
 
 	void ExprCloner::visitDivideExpr( expr::Divide * expr )

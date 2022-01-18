@@ -1050,6 +1050,12 @@ namespace ast
 				expr::ExprPtr result;
 				ExprSimplifier vis{ m_cache, m_literalVars, result };
 				expr->accept( &vis );
+
+				if ( expr->isNonUniform() )
+				{
+					result->updateFlag( ast::expr::Flag::eNonUniform );
+				}
+
 				return result;
 			}
 

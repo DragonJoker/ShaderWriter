@@ -1990,7 +1990,6 @@ namespace spirv
 				|| decoration == spv::DecorationPerViewNV
 				|| decoration == spv::DecorationPerTaskNV
 				|| decoration == spv::DecorationPerVertexNV
-				|| decoration == spv::DecorationNonUniform
 				|| decoration == spv::DecorationReferencedIndirectlyINTEL
 				|| decoration == spv::DecorationCounterBuffer
 				|| decoration == spv::DecorationUserSemantic
@@ -2328,13 +2327,6 @@ namespace spirv
 			return stream;
 		}
 
-		std::string writeIndex( uint32_t index )
-		{
-			std::stringstream stream;
-			stream << std::setw( 10 ) << std::left << index;
-			return stream.str();
-		}
-
 		std::ostream & writeGlobalDeclaration( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, spirv::Module const & module
@@ -2364,17 +2356,14 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeGlobalDeclarations( uint32_t & index
-			, spirv::InstructionList const & instructions
+		std::ostream & writeGlobalDeclarations( spirv::InstructionList const & instructions
 			, NameCache & names
 			, spirv::Module const & module
 			, std::ostream & stream )
 		{
 			for ( auto & instruction : instructions )
 			{
-				stream << writeIndex( index );
 				writeGlobalDeclaration( instruction, names, module, stream );
-				index += instruction->op.opData.opCount;
 			}
 
 			return stream;
@@ -3018,57 +3007,25 @@ namespace spirv
 		}
 
 		template< typename Type >
-		std::ostream & writeInstructions( uint32_t & index
-			, std::vector< Type > const & instructions
+		std::ostream & writeInstructions( std::vector< Type > const & instructions
 			, NameCache & names
 			, std::ostream & ( *writer )( Type const &, NameCache &, std::ostream & )
 			, std::ostream & stream )
 		{
 			for ( auto & instruction : instructions )
 			{
-				stream << writeIndex( index );
 				writer( instruction, names, stream ) << "\n";
-				index += instruction->op.opData.opCount;
 			}
 
 			return stream;
 		}
 
-		template< typename Type >
-		std::ostream & writeInstructions( uint32_t & index
-			, std::vector< Type > const & instructions
-			, NameCache & names
-			, std::ostream & ( *writer )( uint32_t &, Type const &, NameCache &, std::ostream & )
-			, std::ostream & stream )
-		{
-			for ( auto & instruction : instructions )
-			{
-				stream << writeIndex( index );
-				writer( index, instruction, names, stream ) << "\n";
-			}
-
-			return stream;
-		}
-
-		std::ostream & writeBlock( uint32_t & index
-			, spirv::Block const & block
+		std::ostream & writeBlock( spirv::Block const & block
 			, NameCache & names
 			, std::ostream & stream )
 		{
-			writeBlockInstruction( block.instructions.front(), names, stream );
-			index += block.instructions.front()->op.opData.opCount;
-			stream << "\n";
-
-			for ( auto it = std::next( block.instructions.begin() ); it != block.instructions.end(); ++it )
-			{
-				stream << writeIndex( index );
-				writeBlockInstruction( *it, names, stream );
-				index += ( *it )->op.opData.opCount;
-				stream << "\n";
-			}
-
+			writeInstructions( block.instructions, names, writeBlockInstruction, stream );
 			writeBlockInstruction( block.blockEnd, names, stream );
-			index += block.blockEnd->op.opData.opCount;
 			return stream;
 		}
 
@@ -3090,36 +3047,22 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeFunction( uint32_t & index
-			, spirv::Function const & function
+		std::ostream & writeFunction( spirv::Function const & function
 			, NameCache & names
 			, std::ostream & stream )
 		{
-			writeFunctionDecl( function.declaration.front(), names, stream );
-			index += function.declaration.front()->op.opData.opCount;
-			stream << "\n";
-
-			for ( auto it = std::next( function.declaration.begin() ); it != function.declaration.end(); ++it )
-			{
-				stream << writeIndex( index );
-				writeFunctionDecl( *it, names, stream );
-				index += ( *it )->op.opData.opCount;
-				stream << "\n";
-			}
-
-			writeInstructions( index, function.cfg.blocks, names, writeBlock, stream );
+			writeInstructions( function.declaration, names, writeFunctionDecl, stream );
+			writeInstructions( function.cfg.blocks, names, writeBlock, stream );
 			return stream;
 		}
 
-		std::ostream & writeCapability( uint32_t & index
-			, spirv::InstructionPtr const & instruction
+		std::ostream & writeCapability( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
 		{
 			auto opCode = spv::Op( instruction->op.opData.opCode );
 			stream << "        " << spirv::getOperatorName( opCode );
 			stream << " " << spirv::getName( spv::Capability( instruction->operands[0] ) );
-			index += instruction->op.opData.opCount;
 			return stream;
 		}
 
@@ -3130,27 +3073,24 @@ namespace spirv
 			return stream;
 		}
 
-		std::ostream & writeMemoryModel( uint32_t & index
-			, spirv::InstructionPtr const & instruction
+		std::ostream & writeMemoryModel( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
 		{
 			auto opCode = spv::Op( instruction->op.opData.opCode );
-			stream << writeIndex( index ) << "        " + spirv::getOperatorName( opCode );
+			stream << "        " + spirv::getOperatorName( opCode );
 			stream << " " + getName( spv::AddressingModel( instruction->operands[0] ) );
 			stream << " " + getName( spv::MemoryModel( instruction->operands[1] ) );
-			index += instruction->op.opData.opCount;
 			stream << "\n";
 			return stream;
 		}
 
-		std::ostream & writeEntryPoint( uint32_t & index
-			, spirv::InstructionPtr const & instruction
+		std::ostream & writeEntryPoint( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
 		{
 			auto opCode = spv::Op( instruction->op.opData.opCode );
-			stream << writeIndex( index ) << "        " + spirv::getOperatorName( opCode );
+			stream << "        " + spirv::getOperatorName( opCode );
 			stream << " " + getName( spv::ExecutionModel( instruction->returnTypeId.value() ) );
 			stream << " %" + std::to_string( instruction->resultId.value() );
 			stream << " \"" + instruction->name.value() + "\"";
@@ -3161,12 +3101,10 @@ namespace spirv
 			}
 
 			stream << "\n";
-			index += instruction->op.opData.opCount;
 			return stream;
 		}
 
-		std::ostream & writeExecutionMode( uint32_t & index
-			, spirv::InstructionPtr const & instruction
+		std::ostream & writeExecutionMode( spirv::InstructionPtr const & instruction
 			, NameCache & names
 			, std::ostream & stream )
 		{
@@ -3184,21 +3122,18 @@ namespace spirv
 				}
 			}
 
-			index += instruction->op.opData.opCount;
 			return stream;
 		}
 
-		std::ostream & writeHeader( uint32_t & index
-			, spirv::IdList const & ids
+		std::ostream & writeHeader( spirv::IdList const & ids
 			, std::ostream & stream )
 		{
 			assert( ids.size() == 5u );
-			stream << writeIndex( index ) << "; Magic:     0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[0] << std::endl;
-			stream << writeIndex( index ) << "; Version:   0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[1] << std::endl;
-			stream << writeIndex( index ) << "; Generator: 0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[2] << std::endl;
-			stream << writeIndex( index ) << "; Bound:     " << std::dec << ids[3] << std::endl;
-			stream << writeIndex( index ) << "; Schema:    " << ids[4] << std::endl;
-			index += 5u;
+			stream << "; Magic:     0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[0] << std::endl;
+			stream << "; Version:   0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[1] << std::endl;
+			stream << "; Generator: 0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[2] << std::endl;
+			stream << "; Bound:     " << std::dec << ids[3] << std::endl;
+			stream << "; Schema:    " << ids[4] << std::endl;
 			return stream;
 		}
 
@@ -3207,27 +3142,26 @@ namespace spirv
 			, std::ostream & stream )
 		{
 			NameCache names;
-			uint32_t index = 0u;
 
 			if ( doWriteHeader )
 			{
-				writeHeader( index, module.header, stream ) << std::endl;
-				writeInstructions( index, module.capabilities, names, writeCapability, stream );
-				writeInstructions( index, module.extensions, names, writeExtension, stream );
-				writeInstructions( index, module.imports, names, writeImport, stream );
-				writeMemoryModel( index, module.memoryModel, names, stream );
-				writeEntryPoint( index, module.entryPoint, names, stream );
-				writeInstructions( index, module.executionModes, names, writeExecutionMode, stream ) << std::endl;
+				writeHeader( module.header, stream ) << std::endl;
+				writeInstructions( module.capabilities, names, writeCapability, stream );
+				writeInstructions( module.extensions, names, writeExtension, stream );
+				writeInstructions( module.imports, names, writeImport, stream );
+				writeMemoryModel( module.memoryModel, names, stream );
+				writeEntryPoint( module.entryPoint, names, stream );
+				writeInstructions( module.executionModes, names, writeExecutionMode, stream ) << std::endl;
 			}
 
 			stream << "; Debug" << std::endl;
-			writeInstructions( index, module.debug, names, writeDebug, stream ) << std::endl;
+			writeInstructions( module.debug, names, writeDebug, stream ) << std::endl;
 			stream << "; Decorations" << std::endl;
-			writeInstructions( index, module.decorations, names, writeDecoration, stream ) << std::endl;
+			writeInstructions( module.decorations, names, writeDecoration, stream ) << std::endl;
 			stream << "; Types, Constants, and Global Variables" << std::endl;
-			writeGlobalDeclarations( index, module.globalDeclarations, names, module, stream ) << std::endl;
+			writeGlobalDeclarations( module.globalDeclarations, names, module, stream ) << std::endl;
 			stream << "; Functions" << std::endl;
-			writeInstructions( index, module.functions, names, writeFunction, stream ) << std::endl;
+			writeInstructions( module.functions, names, writeFunction, stream ) << std::endl;
 			return stream;
 		}
 	}
