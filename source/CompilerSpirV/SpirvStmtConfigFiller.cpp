@@ -126,7 +126,14 @@ namespace spirv
 
 	void StmtConfigFiller::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
 	{
-		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		if ( isRayTraceStage( m_result.stage ) )
+		{
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		}
+		else
+		{
+			m_result.registerCapability( spv::CapabilityRayQueryKHR );
+		}
 	}
 
 	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
@@ -136,17 +143,38 @@ namespace spirv
 
 	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
-		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		if ( isRayTraceStage( m_result.stage ) )
+		{
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		}
+		else
+		{
+			m_result.registerCapability( spv::CapabilityRayQueryKHR );
+		}
 	}
 
 	void StmtConfigFiller::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
-		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		if ( isRayTraceStage( m_result.stage ) )
+		{
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		}
+		else
+		{
+			m_result.registerCapability( spv::CapabilityRayQueryKHR );
+		}
 	}
 
 	void StmtConfigFiller::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
-		m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		if ( isRayTraceStage( m_result.stage ) )
+		{
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		}
+		else
+		{
+			m_result.registerCapability( spv::CapabilityRayQueryKHR );
+		}
 	}
 
 	void StmtConfigFiller::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
@@ -195,6 +223,18 @@ namespace spirv
 			break;
 		default:
 			break;
+		}
+	}
+
+	void StmtConfigFiller::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
+	{
+		if ( isRayTraceStage( m_result.stage ) )
+		{
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		}
+		else
+		{
+			m_result.registerCapability( spv::CapabilityRayQueryKHR );
 		}
 	}
 
@@ -352,6 +392,18 @@ namespace spirv
 	{
 		ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
 		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
+	{
+		if ( isRayTraceStage( m_result.stage ) )
+		{
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+		}
+		else
+		{
+			m_result.registerCapability( spv::CapabilityRayQueryKHR );
+		}
 	}
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )

@@ -50,6 +50,16 @@ namespace sdw
 	{
 	}
 
+	void RayCallableWriter::ignoreIntersection()
+	{
+		addStmt( stmt::makeIgnoreIntersection() );
+	}
+
+	void RayCallableWriter::terminateRay()
+	{
+		addStmt( stmt::makeTerminateRay() );
+	}
+
 	void RayCallableWriter::implementMain( RayCallableMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"

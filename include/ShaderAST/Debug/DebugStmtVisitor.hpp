@@ -40,6 +40,7 @@ namespace ast::debug
 		SDAST_API void visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )override;
 		SDAST_API void visitIfStmt( stmt::If * stmt )override;
 		SDAST_API void visitImageDeclStmt( stmt::ImageDecl * stmt )override;
+		SDAST_API void visitIgnoreIntersectionStmt( stmt::IgnoreIntersection * stmt )override;
 		SDAST_API void visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )override;
 		SDAST_API void visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )override;
 		SDAST_API void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override;
@@ -60,6 +61,7 @@ namespace ast::debug
 		SDAST_API void visitStructureDeclStmt( stmt::StructureDecl * stmt )override;
 		SDAST_API void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override;
 		SDAST_API void visitSwitchStmt( stmt::Switch * stmt )override;
+		SDAST_API void visitTerminateRayStmt( stmt::TerminateRay * stmt )override;
 		SDAST_API void visitVariableDeclStmt( stmt::VariableDecl * stmt )override;
 		SDAST_API void visitWhileStmt( stmt::While * stmt )override;
 		SDAST_API void visitPreprocDefine( stmt::PreprocDefine * preproc )override;

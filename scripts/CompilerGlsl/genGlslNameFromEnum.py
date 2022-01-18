@@ -125,7 +125,7 @@ def main( argv ):
 	intrEnd = re.compile("^ASTIntrEnd$")
 	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
 	with open(inEnumFile, "r") as ins:
-		with open(outEnumFile, "w", newline='\n') as outs:
+		with open(outEnumFile, "w", newline='\r\n') as outs:
 			array = []
 			glslName = ""
 			accumEnumValues = list()

@@ -262,8 +262,6 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location );
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
-		, uint32_t location );
-	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint32_t blendIndex );

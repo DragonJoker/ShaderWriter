@@ -41,8 +41,6 @@ namespace ast::stmt
 		eBreak,
 		eContinue,
 		eDiscard,
-		eEmitVertex,
-		eEmitPrimitive,
 		eInputGeometryLayout,
 		eOutputGeometryLayout,
 		eInputComputeLayout,
@@ -62,6 +60,8 @@ namespace ast::stmt
 		eHitAttributeVariableDecl,
 		eInOutCallableDataVariableDecl,
 		eBufferReferenceDecl,
+		eTerminateRay,
+		eIgnoreIntersection,
 	};
 
 	class Stmt

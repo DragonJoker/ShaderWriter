@@ -103,12 +103,6 @@ namespace ast::debug
 			case ast::stmt::Kind::eDiscard:
 				result = "STDISCARD";
 				break;
-			case ast::stmt::Kind::eEmitVertex:
-				result = "STEMITVTX";
-				break;
-			case ast::stmt::Kind::eEmitPrimitive:
-				result = "STEMITPRIM";
-				break;
 			case ast::stmt::Kind::eInputGeometryLayout:
 				result = "STINGEOMLAYOUT";
 				break;
@@ -165,6 +159,12 @@ namespace ast::debug
 				break;
 			case ast::stmt::Kind::eBufferReferenceDecl:
 				result = "STBUFREFDECL";
+				break;
+			case ast::stmt::Kind::eIgnoreIntersection:
+				result = "STIGNOREINTER";
+				break;
+			case ast::stmt::Kind::eTerminateRay:
+				result = "STTERMRAY";
 				break;
 			default:
 				AST_Failure( "Unknown statement kind ?" );
@@ -351,6 +351,12 @@ namespace ast::debug
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
+		m_result += "\n";
+	}
+
+	void StmtVisitor::visitIgnoreIntersectionStmt( stmt::IgnoreIntersection * stmt )
+	{
+		displayStmtName( stmt, false );
 		m_result += "\n";
 	}
 
@@ -612,6 +618,12 @@ namespace ast::debug
 		m_result += ExprVisitor::submit( stmt->getTestExpr() ) + "\n";
 		m_compoundName = false;
 		visitCompoundStmt( stmt );
+	}
+
+	void StmtVisitor::visitTerminateRayStmt( stmt::TerminateRay * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( stmt::VariableDecl * stmt )

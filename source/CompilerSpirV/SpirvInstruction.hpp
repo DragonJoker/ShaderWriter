@@ -415,6 +415,8 @@ namespace spirv
 	using ReturnValueInstruction = InstructionT< spv::OpReturnValue, false, false, 1u, false, false >;
 	using UndefInstruction = InstructionT< spv::OpUndef, true, true, 0u, false, false >;
 	using FunctionEndInstruction = InstructionT< spv::OpFunctionEnd, false, false, 0u, false, false >;
+	using IgnoreIntersectionInstruction = InstructionT< spv::OpIgnoreIntersectionKHR, false, false, 0u, false, false >;
+	using TerminateRayInstruction = InstructionT< spv::OpTerminateRayKHR, false, false, 0u, false, false >;
 }
 
 #include "SpirvInstruction.inl"

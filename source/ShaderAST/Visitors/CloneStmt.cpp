@@ -193,6 +193,11 @@ namespace ast
 			, stmt->getDescriptorSet() ) );
 	}
 
+	void StmtCloner::visitIgnoreIntersectionStmt( stmt::IgnoreIntersection * stmt )
+	{
+		m_current->addStmt( stmt::makeIgnoreIntersection() );
+	}
+
 	void StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )
 	{
 		m_current->addStmt( stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
@@ -356,6 +361,11 @@ namespace ast
 		m_current = save;
 		m_current->addStmt( std::move( cont ) );
 		m_switchStmts.pop_back();
+	}
+
+	void StmtCloner::visitTerminateRayStmt( stmt::TerminateRay * stmt )
+	{
+		m_current->addStmt( stmt::makeTerminateRay() );
 	}
 
 	void StmtCloner::visitVariableDeclStmt( stmt::VariableDecl * stmt )

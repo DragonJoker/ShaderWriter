@@ -2,17 +2,37 @@
 
 namespace ast
 {
-	bool isPerVertex( Builtin value
-		, ShaderStage stage )
+	bool isRasterizerStage( ShaderStage stage )
 	{
-		switch ( value )
+		switch ( stage )
 		{
-		case ast::Builtin::ePosition:
-		case ast::Builtin::ePointSize:
-		case ast::Builtin::eCullDistance:
+		case ast::ShaderStage::eVertex:
+		case ast::ShaderStage::eTessellationControl:
+		case ast::ShaderStage::eTessellationEvaluation:
+		case ast::ShaderStage::eGeometry:
+		case ast::ShaderStage::eFragment:
 			return true;
-		case ast::Builtin::eClipDistance:
-			return stage != ShaderStage::eFragment;
+		default:
+			return false;
+		}
+	}
+
+	bool isComputeStage( ShaderStage stage )
+	{
+		return stage == ShaderStage::eCompute;
+	}
+
+	bool isRayTraceStage( ShaderStage stage )
+	{
+		switch ( stage )
+		{
+		case ast::ShaderStage::eRayGeneration:
+		case ast::ShaderStage::eRayClosestHit:
+		case ast::ShaderStage::eRayMiss:
+		case ast::ShaderStage::eRayIntersection:
+		case ast::ShaderStage::eRayAnyHit:
+		case ast::ShaderStage::eRayCallable:
+			return true;
 		default:
 			return false;
 		}
@@ -185,6 +205,22 @@ namespace ast
 		default:
 			AST_Failure( "Unsupported ast::Builtin" );
 			return "Undefined";
+		}
+	}
+
+	bool isPerVertex( Builtin value
+		, ShaderStage stage )
+	{
+		switch ( value )
+		{
+		case ast::Builtin::ePosition:
+		case ast::Builtin::ePointSize:
+		case ast::Builtin::eCullDistance:
+			return true;
+		case ast::Builtin::eClipDistance:
+			return stage != ShaderStage::eFragment;
+		default:
+			return false;
 		}
 	}
 }

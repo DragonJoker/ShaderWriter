@@ -2729,14 +2729,6 @@ namespace ast::expr
 			result = "REPORTINTERSECTION";
 			break;
 
-		case Intrinsic::eIgnoreIntersection:
-			result = "IGNOREINTERSECTION";
-			break;
-
-		case Intrinsic::eTerminateRay:
-			result = "TERMINATERAY";
-			break;
-
 		case Intrinsic::eExecuteCallable:
 			result = "EXECUTECALLABLE";
 			break;

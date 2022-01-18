@@ -257,6 +257,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtHitAttributeVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtIf.hpp
 	${INCLUDE_DIR}/Stmt/StmtImageDecl.hpp
+	${INCLUDE_DIR}/Stmt/StmtIgnoreIntersection.hpp
 	${INCLUDE_DIR}/Stmt/StmtInOutCallableDataVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtInOutRayPayloadVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtInOutVariableDecl.hpp
@@ -279,6 +280,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtStructureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtSwitch.hpp
 	${INCLUDE_DIR}/Stmt/StmtSwitchCase.hpp
+	${INCLUDE_DIR}/Stmt/StmtTerminateRay.hpp
 	${INCLUDE_DIR}/Stmt/StmtVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtVisitor.hpp
 	${INCLUDE_DIR}/Stmt/StmtWhile.hpp
@@ -311,6 +313,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtHitAttributeVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtIf.cpp
 	${SOURCE_DIR}/Stmt/StmtImageDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtIgnoreIntersection.cpp
 	${SOURCE_DIR}/Stmt/StmtInOutCallableDataVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtInOutRayPayloadVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtInOutVariableDecl.cpp
@@ -332,6 +335,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtSwitch.cpp
 	${SOURCE_DIR}/Stmt/StmtSwitchCase.cpp
+	${SOURCE_DIR}/Stmt/StmtTerminateRay.cpp
 	${SOURCE_DIR}/Stmt/StmtVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtWhile.cpp
 )

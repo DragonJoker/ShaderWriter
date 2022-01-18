@@ -26,7 +26,9 @@
 #include "spirv_cross_util.hpp"
 #include "spirv_glsl.hpp"
 #include "spirv_hlsl.hpp"
-#include "spirv-tools/libspirv.hpp"
+#if SDW_Test_HasSpirVTools
+#	include "spirv-tools/libspirv.hpp"
+#endif
 #pragma GCC diagnostic pop
 
 namespace test
@@ -53,16 +55,6 @@ namespace test
 		}
 
 #endif
-
-		bool isRaytracingStage( ast::ShaderStage stage )
-		{
-			return stage == ast::ShaderStage::eRayAnyHit
-				|| stage == ast::ShaderStage::eRayCallable
-				|| stage == ast::ShaderStage::eRayClosestHit
-				|| stage == ast::ShaderStage::eRayGeneration
-				|| stage == ast::ShaderStage::eRayIntersection
-				|| stage == ast::ShaderStage::eRayMiss;
-		}
 
 		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
@@ -289,7 +281,7 @@ namespace test
 			{
 #if SDW_HasCompilerGlsl
 
-				if ( !isRaytracingStage( shader.getType() ) )
+				if ( !isRayTraceStage( shader.getType() ) )
 				{
 					try
 					{
@@ -316,6 +308,7 @@ namespace test
 #endif
 			}
 
+#if SDW_Test_HasSpirVTools
 			std::string errors;
 			auto consumer = [&errors]( spv_message_level_t level
 				, char const * source
@@ -336,6 +329,7 @@ namespace test
 				testCounts << "SpirV validation raised messages:" << endl;
 				testCounts << errors << endl;
 			}
+#endif
 
 			if ( !isValidated )
 			{

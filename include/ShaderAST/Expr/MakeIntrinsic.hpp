@@ -11589,24 +11589,6 @@ namespace ast::expr
 	/**
 	*@return
 	*	void
-	*/
-	inline IntrinsicCallPtr makeIgnoreIntersection( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eIgnoreIntersection );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeTerminateRay( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eTerminateRay );
-	}
-	/**
-	*@return
-	*	void
 	*@param[in] sbtRecordIndex
 	*	uint
 	*@param[in] callable

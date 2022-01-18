@@ -456,6 +456,13 @@ namespace spirv
 			, stmt->getDescriptorSet() );
 	}
 
+	void StmtVisitor::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
+	{
+		interruptBlock( m_currentBlock
+			, makeInstruction< IgnoreIntersectionInstruction >()
+			, false );
+	}
+
 	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
 		m_result.registerType( stmt->getType() );
@@ -734,6 +741,13 @@ namespace spirv
 
 		m_controlBlocks.pop_back();
 		m_currentBlock = std::move( mergeBlock );
+	}
+
+	void StmtVisitor::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
+	{
+		interruptBlock( m_currentBlock
+			, makeInstruction< TerminateRayInstruction >()
+			, false );
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )

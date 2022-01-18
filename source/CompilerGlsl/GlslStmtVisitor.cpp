@@ -609,6 +609,10 @@ namespace glsl
 		m_result += ";\n";
 	}
 
+	void StmtVisitor::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
+	{
+	}
+
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		doAppendLineEnd();
@@ -898,6 +902,10 @@ namespace glsl
 		visitCompoundStmt( stmt );
 		m_result += "\n";
 		m_appendLineEnd = true;
+	}
+
+	void StmtVisitor::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
+	{
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
