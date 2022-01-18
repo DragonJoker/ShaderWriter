@@ -76,17 +76,21 @@ namespace ast::expr
 	{
 	private:
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, bool value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, int32_t value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, uint32_t value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, uint64_t value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, int value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, long value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned int value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned long value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned long long value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, float value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, double value );
 
 	public:
 		SDAST_API Literal( type::TypesCache & cache, bool value );
-		SDAST_API Literal( type::TypesCache & cache, int32_t value );
-		SDAST_API Literal( type::TypesCache & cache, uint32_t value );
-		SDAST_API Literal( type::TypesCache & cache, uint64_t value );
+		SDAST_API Literal( type::TypesCache & cache, int value );
+		SDAST_API Literal( type::TypesCache & cache, long value );
+		SDAST_API Literal( type::TypesCache & cache, unsigned int value );
+		SDAST_API Literal( type::TypesCache & cache, unsigned long value );
+		SDAST_API Literal( type::TypesCache & cache, unsigned long long value );
 		SDAST_API Literal( type::TypesCache & cache, float value );
 		SDAST_API Literal( type::TypesCache & cache, double value );
 

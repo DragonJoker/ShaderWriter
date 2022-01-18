@@ -1663,24 +1663,6 @@ namespace sdw
 	SDW_API Void reportIntersection( Float const & hitT, UInt const & hitKind );
 	/**@}*/
 #pragma endregion
-#pragma region ignoreIntersection
-	/**
-	*name
-	*	ignoreIntersection
-	*/
-	/**@{*/
-	SDW_API Void ignoreIntersection( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region terminateRay
-	/**
-	*name
-	*	terminateRay
-	*/
-	/**@{*/
-	SDW_API Void terminateRay( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
 #pragma region executeCallable
 	/**
 	*name

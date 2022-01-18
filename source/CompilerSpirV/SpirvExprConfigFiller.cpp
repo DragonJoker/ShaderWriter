@@ -29,7 +29,14 @@ namespace spirv
 			}
 			else if ( isAccelerationStructureType( kind ) )
 			{
-				config.registerCapability( spv::CapabilityRayTracingKHR );
+				if ( isRayTraceStage( config.stage ) )
+				{
+					config.registerCapability( spv::CapabilityRayTracingKHR );
+				}
+				else
+				{
+					config.registerCapability( spv::CapabilityRayQueryKHR );
+				}
 			}
 		}
 
@@ -69,11 +76,16 @@ namespace spirv
 			}
 			else if ( kind == ast::expr::Intrinsic::eTraceRay
 				|| kind == ast::expr::Intrinsic::eReportIntersection
-				|| kind == ast::expr::Intrinsic::eIgnoreIntersection
-				|| kind == ast::expr::Intrinsic::eTerminateRay
 				|| kind == ast::expr::Intrinsic::eExecuteCallable )
 			{
-				config.registerCapability( spv::CapabilityRayTracingKHR );
+				if ( isRayTraceStage( config.stage ) )
+				{
+					config.registerCapability( spv::CapabilityRayTracingKHR );
+				}
+				else
+				{
+					config.registerCapability( spv::CapabilityRayQueryKHR );
+				}
 			}
 		}
 	}

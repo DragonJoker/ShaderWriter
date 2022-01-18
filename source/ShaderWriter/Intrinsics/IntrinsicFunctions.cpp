@@ -6545,34 +6545,6 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region ignoreIntersection
-	/**
-	*name
-	*	ignoreIntersection
-	*/
-	/**@{*/
-	Void ignoreIntersection( ShaderWriter & writer )
-	{
-		return Void{ *findWriter( writer )
-			, expr::makeIgnoreIntersection( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region terminateRay
-	/**
-	*name
-	*	terminateRay
-	*/
-	/**@{*/
-	Void terminateRay( ShaderWriter & writer )
-	{
-		return Void{ *findWriter( writer )
-			, expr::makeTerminateRay( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
 #pragma region executeCallable
 	/**
 	*name

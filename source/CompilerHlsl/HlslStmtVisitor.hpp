@@ -49,6 +49,7 @@ namespace hlsl
 		void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override;
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override;
 		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
 		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
 		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
@@ -68,6 +69,7 @@ namespace hlsl
 		void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override;
 		void visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )override;
 		void visitSwitchStmt( ast::stmt::Switch * stmt )override;
+		void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override;
 		void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override;
 		void visitWhileStmt( ast::stmt::While * stmt )override;
 		void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override;

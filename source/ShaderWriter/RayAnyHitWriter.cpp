@@ -110,12 +110,12 @@ namespace sdw
 
 	void RayAnyHitWriter::ignoreIntersection()
 	{
-		sdw::ignoreIntersection( *this );
+		addStmt( stmt::makeIgnoreIntersection() );
 	}
 
 	void RayAnyHitWriter::terminateRay()
 	{
-		sdw::terminateRay( *this );
+		addStmt( stmt::makeTerminateRay() );
 	}
 
 	void RayAnyHitWriter::implementMain( RayAnyHitMainFunc const & function )

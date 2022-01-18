@@ -79,9 +79,15 @@ if ( VCPKG_TOOLCHAIN )
 		SPVRemapper
 	)
 	find_package( SPIRV-Tools CONFIG )
-	set( SPIRV_TOOLS_LIBRARIES
-		SPIRV-Tools-static
-	)
+	if ( SPIRV-Tools_FOUND )
+		set( SPIRV_TOOLS_LIBRARIES
+			SPIRV-Tools-static
+		)
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasSpirVTools=1
+		)
+	endif ()
 elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 	set( glslang_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external )
 	if ( NOT TARGET glslang )

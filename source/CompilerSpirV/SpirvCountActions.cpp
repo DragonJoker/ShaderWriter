@@ -338,7 +338,7 @@ namespace spirv
 			{
 			}
 
-			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
 			{
 			}
 
@@ -346,11 +346,15 @@ namespace spirv
 			{
 			}
 
-			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override
 			{
 			}
 
-			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			{
+			}
+
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
 			{
 			}
 
@@ -407,6 +411,10 @@ namespace spirv
 			}
 
 			void visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )override
+			{
+			}
+
+			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
 			{
 			}
 

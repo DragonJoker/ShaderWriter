@@ -5,1190 +5,324 @@
 
 namespace
 {
-	static constexpr uint32_t MaxPoints = 1u;
-
-	template< sdw::var::Flag FlagT >
-	struct PositionT
+	struct HitPayload
 		: sdw::StructInstance
 	{
-		PositionT( sdw::ShaderWriter & writer
+		HitPayload( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, position{ getMember< sdw::Vec3 >( "position" ) }
+			, hitValue{ getMember< sdw::Vec3 >( "hitValue" ) }
+			, seed{ getMember< sdw::UInt >( "seed" ) }
+			, depth{ getMember< sdw::Int >( "depth" ) }
+			, attenuation{ getMember< sdw::Vec3 >( "attenuation" ) }
+			, done{ getMember< sdw::Int >( "done" ) }
+			, rayOrigin{ getMember< sdw::Vec3 >( "rayOrigin" ) }
+			, rayDir{ getMember< sdw::Vec3 >( "rayDir" ) }
 		{
 		}
 
-		SDW_DeclStructInstance( , PositionT );
+		SDW_DeclStructInstance( , HitPayload );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position"
-				, FlagT );
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
+				, "HitPayload" );
 
 			if ( result->empty() )
 			{
-				result->declMember( "position"
+				result->declMember( "hitValue"
 					, sdw::type::Kind::eVec3F
-					, sdw::type::NotArray
-					, 0u );
-			}
-
-			return result;
-		}
-
-		sdw::Vec3 position;
-	};
-
-	template< sdw::var::Flag FlagT >
-	struct SurfaceT
-		: sdw::StructInstance
-	{
-		SurfaceT( sdw::ShaderWriter & writer
-			, sdw::expr::ExprPtr expr
-			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, position{ getMember< sdw::Vec3 >( "position" ) }
-			, normal{ getMember< sdw::Vec3 >( "normal" ) }
-			, tangent{ getMember< sdw::Vec3 >( "tangent" ) }
-			, bitangent{ getMember< sdw::Vec3 >( "bitangent" ) }
-			, texture{ getMember< sdw::Vec3 >( "texture" ) }
-			, instance{ getMember< sdw::Int >( "instance" ) }
-		{
-		}
-
-		SDW_DeclStructInstance( , SurfaceT );
-
-		template< sdw::var::Flag FlagU >
-		SurfaceT operator=( SurfaceT< FlagU > const & rhs )
-		{
-			position = rhs.position;
-			normal = rhs.normal;
-			tangent = rhs.tangent;
-			bitangent = rhs.bitangent;
-			texture = rhs.texture;
-			instance = rhs.instance;
-
-			return *this;
-		}
-
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Surface"
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				uint32_t index = 0u;
-				result->declMember( "position"
-					, sdw::type::Kind::eVec3F
-					, ast::type::NotArray
-					, index++ );
-				result->declMember( "normal"
-					, sdw::type::Kind::eVec3F
-					, ast::type::NotArray
-					, index++ );
-				result->declMember( "tangent"
-					, sdw::type::Kind::eVec3F
-					, ast::type::NotArray
-					, index++ );
-				result->declMember( "bitangent"
-					, sdw::type::Kind::eVec3F
-					, ast::type::NotArray
-					, index++ );
-				result->declMember( "texture"
-					, sdw::type::Kind::eVec3F
-					, ast::type::NotArray
-					, index++ );
-				result->declMember( "instance"
+					, sdw::type::NotArray );
+				result->declMember( "seed"
+					, sdw::type::Kind::eUInt
+					, sdw::type::NotArray );
+				result->declMember( "depth"
 					, sdw::type::Kind::eInt
-					, ast::type::NotArray
-					, index++ );
-			}
-
-			return result;
-		}
-
-		sdw::Vec3 position;
-		sdw::Vec3 normal;
-		sdw::Vec3 tangent;
-		sdw::Vec3 bitangent;
-		sdw::Vec3 texture;
-		sdw::Int instance;
-	};
-
-	template< sdw::var::Flag FlagT >
-	struct SimplePatchT
-		: sdw::StructInstance
-	{
-		SimplePatchT( sdw::ShaderWriter & writer
-			, sdw::expr::ExprPtr expr
-			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, control{ getMember< sdw::Vec3 >( "control" ) }
-		{
-		}
-
-		SDW_DeclStructInstance( , SimplePatchT );
-
-		template< sdw::var::Flag FlagU >
-		SimplePatchT operator=( SimplePatchT< FlagU > const & rhs )
-		{
-			control = rhs.control;
-		}
-
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "SimplePatch"
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				result->declMember( "control"
+					, sdw::type::NotArray );
+				result->declMember( "attenuation"
 					, sdw::type::Kind::eVec3F
-					, ast::type::NotArray
-					, 0u );
+					, sdw::type::NotArray );
+				result->declMember( "done"
+					, sdw::type::Kind::eInt
+					, sdw::type::NotArray );
+				result->declMember( "rayOrigin"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "rayDir"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
 			}
 
 			return result;
 		}
 
-		sdw::Vec3 control;
+		sdw::Vec3 hitValue;
+		sdw::UInt seed;
+		sdw::Int depth;
+		sdw::Vec3 attenuation;
+		sdw::Int done;
+		sdw::Vec3 rayOrigin;
+		sdw::Vec3 rayDir;
 	};
 
-	template< sdw::var::Flag FlagT >
-	struct PNTriPatchT
+	struct ObjDesc
 		: sdw::StructInstance
 	{
-		PNTriPatchT( sdw::ShaderWriter & writer
+		ObjDesc( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, wpB030{ getMember< sdw::Vec3 >( "wpB030" ) }
-			, wpB021{ getMember< sdw::Vec3 >( "wpB021" ) }
-			, wpB012{ getMember< sdw::Vec3 >( "wpB012" ) }
-			, wpB003{ getMember< sdw::Vec3 >( "wpB003" ) }
-			, wpB102{ getMember< sdw::Vec3 >( "wpB102" ) }
-			, wpB201{ getMember< sdw::Vec3 >( "wpB201" ) }
-			, wpB300{ getMember< sdw::Vec3 >( "wpB300" ) }
-			, wpB210{ getMember< sdw::Vec3 >( "wpB210" ) }
-			, wpB120{ getMember< sdw::Vec3 >( "wpB120" ) }
-			, wpB111{ getMember< sdw::Vec3 >( "wpB111" ) }
+			, txtOffset{ getMember< sdw::Int >( "txtOffset" ) }
+			, vertexAddress{ getMember< sdw::UInt64 >( "vertexAddress" ) }
+			, indexAddress{ getMember< sdw::UInt64 >( "indexAddress" ) }
+			, materialAddress{ getMember< sdw::UInt64 >( "materialAddress" ) }
+			, materialIndexAddress{ getMember< sdw::UInt64 >( "materialIndexAddress" ) }
 		{
 		}
 
-		SDW_DeclStructInstance( , PNTriPatchT );
+		SDW_DeclStructInstance( , ObjDesc );
 
-		template< sdw::var::Flag FlagU >
-		PNTriPatchT operator=( PNTriPatchT< FlagU > const & rhs )
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			wpB030 = rhs.wpB030;
-			wpB021 = rhs.wpB021;
-			wpB012 = rhs.wpB012;
-			wpB003 = rhs.wpB003;
-			wpB102 = rhs.wpB102;
-			wpB201 = rhs.wpB201;
-			wpB300 = rhs.wpB300;
-			wpB210 = rhs.wpB210;
-			wpB120 = rhs.wpB120;
-			wpB111 = rhs.wpB111;
-
-			return *this;
-		}
-
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PNTriPatch"
-				, FlagT );
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "ObjDesc" );
 
 			if ( result->empty() )
 			{
-				uint32_t index = 0u;
-				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->end();
+				result->declMember( "txtOffset"
+					, sdw::type::Kind::eInt
+					, sdw::type::NotArray );
+				result->declMember( "vertexAddress"
+					, sdw::type::Kind::eUInt64
+					, sdw::type::NotArray );
+				result->declMember( "indexAddress"
+					, sdw::type::Kind::eUInt64
+					, sdw::type::NotArray );
+				result->declMember( "materialAddress"
+					, sdw::type::Kind::eUInt64
+					, sdw::type::NotArray );
+				result->declMember( "materialIndexAddress"
+					, sdw::type::Kind::eUInt64
+					, sdw::type::NotArray );
 			}
 
 			return result;
 		}
 
-		sdw::Vec3 wpB030;
-		sdw::Vec3 wpB021;
-		sdw::Vec3 wpB012;
-		sdw::Vec3 wpB003;
-		sdw::Vec3 wpB102;
-		sdw::Vec3 wpB201;
-		sdw::Vec3 wpB300;
-		sdw::Vec3 wpB210;
-		sdw::Vec3 wpB120;
-		sdw::Vec3 wpB111;
+		sdw::Int txtOffset;
+		sdw::UInt64 vertexAddress;
+		sdw::UInt64 indexAddress;
+		sdw::UInt64 materialAddress;
+		sdw::UInt64 materialIndexAddress;
 	};
 
-	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
+	struct Vertex
+		: sdw::StructInstance
 	{
-		testBegin( "noSpecificIO" );
-		using namespace sdw;
+		Vertex( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, pos{ getMember< sdw::Vec3 >( "pos" ) }
+			, nrm{ getMember< sdw::Vec3 >( "nrm" ) }
+			, color{ getMember< sdw::Vec3 >( "color" ) }
+			, texCoord{ getMember< sdw::Vec2 >( "texCoord" ) }
 		{
-			TessellationControlWriter writer;
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[in.primitiveID].vtx.position.w();
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					writer.declLocale( "invocationID", in.invocationID );
-					writer.declLocale( "primitiveID", in.primitiveID );
-
-					listOut.vtx.position = listIn[in.invocationID].vtx.position * 2.0_f;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
 		}
-		testEnd();
-	}
 
-	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMemberInputOnly" );
-		using namespace sdw;
+		SDW_DeclStructInstance( , Vertex );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			TessellationControlWriter writer;
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
+				, "Vertex" );
 
-			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
+			if ( result->empty() )
+			{
+				result->declMember( "pos"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "nrm"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "color"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "texCoord"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray );
+			}
 
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = vec4( listIn[in.invocationID].position, 1.0_f );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
+			return result;
 		}
-		testEnd();
-	}
 
-	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
+		sdw::Vec3 pos;
+		sdw::Vec3 nrm;
+		sdw::Vec3 color;
+		sdw::Vec2 texCoord;
+	};
+
+	struct WaveFrontMaterial
+		: sdw::StructInstance
 	{
-		testBegin( "specificGlobalInputOnly" );
-		using namespace sdw;
+		WaveFrontMaterial( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, ambient{ getMember< sdw::Vec3 >( "ambient" ) }
+			, diffuse{ getMember< sdw::Vec3 >( "diffuse" ) }
+			, specular{ getMember< sdw::Vec3 >( "specular" ) }
+			, transmittance{ getMember< sdw::Vec3 >( "transmittance" ) }
+			, emission{ getMember< sdw::Vec3 >( "emission" ) }
+			, shininess{ getMember< sdw::Float >( "shininess" ) }
+			, ior{ getMember< sdw::Float >( "ior" ) }
+			, dissolve{ getMember< sdw::Float >( "dissolve" ) }
+			, illum{ getMember< sdw::Int >( "illum" ) }
+			, textureId{ getMember< sdw::Int >( "textureId" ) }
 		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = vec4( offset[in.invocationID], 1.0_f );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
 		}
-		testEnd();
-	}
 
-	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMixedInputOnly" );
-		using namespace sdw;
+		SDW_DeclStructInstance( , WaveFrontMaterial );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
+				, "WaveFrontMaterial" );
 
-			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
+			if ( result->empty() )
+			{
+				result->declMember( "ambient"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "diffuse"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "specular"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "transmittance"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "emission"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "shininess"
+					, sdw::type::Kind::eFloat
+					, sdw::type::NotArray );
+				result->declMember( "ior"
+					, sdw::type::Kind::eFloat
+					, sdw::type::NotArray );
+				result->declMember( "dissolve"
+					, sdw::type::Kind::eFloat
+					, sdw::type::NotArray );
+				result->declMember( "illum"
+					, sdw::type::Kind::eInt
+					, sdw::type::NotArray );
+				result->declMember( "textureId"
+					, sdw::type::Kind::eInt
+					, sdw::type::NotArray );
+			}
 
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = vec4( listIn[in.invocationID].position + offset[in.invocationID], 1.0_f );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
+			return result;
 		}
-		testEnd();
-	}
 
-	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
+		sdw::Vec3 ambient;
+		sdw::Vec3 diffuse;
+		sdw::Vec3 specular;
+		sdw::Vec3 transmittance;
+		sdw::Vec3 emission;
+		sdw::Float shininess;
+		sdw::Float ior;       // index of refraction
+		sdw::Float dissolve;  // 1 == opaque; 0 == fully transparent
+		sdw::Int illum;       // illumination model (see http://www.fileformat.info/format/material/)
+		sdw::Int textureId;
+	};
+
+	void simple( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberOutputOnly" );
+		testBegin( "simple" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			RayAnyHitWriter writer;
 
-			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
+			auto prd = writer.declIncomingRayPayload< HitPayload >( "prd", 0u );
+
+			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+
+			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArraySsboT< UInt > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+
+			// Generate a random unsigned int in [0, 2^24) given the previous RNG state
+			// using the Numerical Recipes linear congruential generator
+			auto lcg = writer.implementFunction< UInt >( "lcg"
+				, [&]( UInt prev )
 				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
+					auto LCG_A = 1664525_u;
+					auto LCG_C = 1013904223_u;
+					prev = ( LCG_A * prev + LCG_C );
+					writer.returnStmt( prev & 0x00FFFFFF_u );
+				}
+				, InOutUInt{ writer, "prev" } );
 
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
+			// Generate a random float in [0, 1) given the previous RNG state
+			auto rnd = writer.implementFunction< Float >( "rnd"
+				, [&]( UInt prev )
 				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].vtx.position.xyz();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
+					writer.returnStmt( writer.cast< Float >( lcg( prev ) ) / writer.cast< Float >( 0x01000000_i ) );
+				}
+				, InOutUInt{ writer, "prev" } );
 
-	void specificGlobalOutputOnly( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificGlobalOutputOnly" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
+			writer.implementMain( [&]( RayAnyHitIn in )
 				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
+					  // Object of this instance
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
+					auto matIndices = MatIndices( "matIndices", objResource.materialIndexAddress );
+					auto materials = Materials( "materials", objResource.materialAddress );
 
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					posoff[in.invocationID] = listIn[in.invocationID].vtx.position.xyz();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
+					auto matIdx = writer.declLocale( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
+					auto mat = writer.declLocale( "mat", materials[writer.cast< UInt >( matIdx )] );
 
-	void specificMixedOutputOnly( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMixedOutputOnly" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].vtx.position.xyz();
-					posoff[in.invocationID] = listIn[in.invocationID].vtx.position.xyz();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMemberInAndOut" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-
-			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
-
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].position;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificGlobalInAndOut" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					posoff[in.invocationID] = offset[in.invocationID];
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMixedInAndOut" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< VoidT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-				} );
-
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].position;
-					posoff[in.invocationID] = offset[in.invocationID];
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void noSpecificIOPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "noSpecificIOPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMemberInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMemberInputOnlyPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-
-			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificGlobalInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificGlobalInputOnlyPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMixedInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMixedInputOnlyPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< PositionT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMemberOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMemberOutputOnlyPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].vtx.position.xyz();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificGlobalOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificGlobalOutputOnlyPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					posoff[in.invocationID] = listIn[in.invocationID].vtx.position.xyz();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMixedOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMixedOutputOnlyPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].vtx.position.xyz();
-					posoff[in.invocationID] = listIn[in.invocationID].vtx.position.xyz();
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMemberInAndOutPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMemberInAndOutPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-
-			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = 4.0_f;
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].position;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificGlobalInAndOutPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificGlobalInAndOutPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = 2.0_f;
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< VoidT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< VoidT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					posoff[in.invocationID] = offset[in.invocationID];
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void specificMixedInAndOutPatch( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "specificMixedInAndOutPatch" );
-		using namespace sdw;
-		{
-			TessellationControlWriter writer;
-			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
-			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
-
-			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessPatchOutT< SimplePatchT > patchOut )
-				{
-					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
-					patchOut.tessLevelOuter[1] = listIn[0].position.x();
-					patchOut.tessLevelOuter[2] = offset[0].y();
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
-
-					patchOut.control = vec3( 1.0_f );
-				} );
-
-			writer.implementMainT< PositionT, MaxPoints, PositionT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 1u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< PositionT, MaxPoints > listIn
-					, TrianglesTessControlListOutT< PositionT > listOut )
-				{
-					listOut.vtx.position = listIn[in.invocationID].vtx.position;
-					listOut.position = listIn[in.invocationID].position;
-					posoff[in.invocationID] = offset[in.invocationID];
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void tessellationControl( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "tessellationControl" );
-		using namespace sdw;
-		{
-			static uint32_t constexpr maxPoints = 3u;
-			TessellationControlWriter writer;
-
-			// TCS inputs
-			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
-			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
-			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
-			ubo.end();
-
-			auto c3d_mapNormal = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapNormal", 0u, 0u );
-			auto c3d_mapHeight = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapHeight", 1u, 0u );
-
-			auto getTessLevel = writer.implementFunction< Float >( "getTessLevel"
-				, [&]( Float const & a
-					, Float const & b )
-				{
-					auto avgDistance = writer.declLocale( "avgDistance"
-						, ( a + b ) / 2.0 );
-
-					IF( writer, avgDistance <= 20.0 )
+					IF( writer, mat.illum == 4_i )
 					{
-						writer.returnStmt( 256.0_f );
-					}
-					ELSEIF( avgDistance <= 50.0 )
-					{
-						writer.returnStmt( 128.0_f );
-					}
-					ELSEIF( avgDistance <= 100.0_f )
-					{
-						writer.returnStmt( 64.0_f );
+						writer.returnStmt();
 					}
 					FI;
 
-					writer.returnStmt( 16.0_f );
-				}
-				, InFloat{ writer, "a" }
-				, InFloat{ writer, "b" } );
+					auto seed = writer.declLocale( "seed", prd.seed );  // We don't want to modify the PRD
 
-			auto projectToPlane = writer.implementFunction< Vec3 >( "projectToPlane"
-				, [&]( Vec3 const & point
-					, Vec3 const & planePoint
-					, Vec3 const & planeNormal )
-				{
-					auto v = writer.declLocale( "v"
-						, point - planePoint );
-					writer.returnStmt( point - dot( v, planeNormal ) * planeNormal );
-				}
-				, InVec3{ writer, "point" }
-				, InVec3{ writer, "planePoint" }
-				, InVec3{ writer, "planeNormal " } );
-
-			writer.implementPatchRoutineT< SurfaceT, maxPoints, PNTriPatchT >( 6u
-				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< SurfaceT, maxPoints > listIn
-					, TrianglesTessPatchOutT< PNTriPatchT > patchOut )
-				{
-					// The original vertices stay the same
-					patchOut.wpB030 = listIn[0].position;
-					patchOut.wpB003 = listIn[1].position;
-					patchOut.wpB300 = listIn[2].position;
-
-					// Edges are names according to the opposing vertex
-					auto edgeB300 = writer.declLocale( "edgeB300"
-						, patchOut.wpB003 - patchOut.wpB030 );
-					auto edgeB030 = writer.declLocale( "edgeB030"
-						, patchOut.wpB300 - patchOut.wpB003 );
-					auto edgeB003 = writer.declLocale( "edgeB003"
-						, patchOut.wpB030 - patchOut.wpB300 );
-
-					// Generate two midpoints on each edge
-					patchOut.wpB021 = patchOut.wpB030 + edgeB300 / 3.0;
-					patchOut.wpB012 = patchOut.wpB030 + edgeB300 * 2.0 / 3.0;
-					patchOut.wpB102 = patchOut.wpB003 + edgeB030 / 3.0;
-					patchOut.wpB201 = patchOut.wpB003 + edgeB030 * 2.0 / 3.0;
-					patchOut.wpB210 = patchOut.wpB300 + edgeB003 / 3.0;
-					patchOut.wpB120 = patchOut.wpB300 + edgeB003 * 2.0 / 3.0;
-
-					// Project each midpoint on the plane defined by the nearest vertex and its normal
-					patchOut.wpB021 = projectToPlane( patchOut.wpB021
-						, patchOut.wpB030
-						, listIn[0].normal );
-					patchOut.wpB012 = projectToPlane( patchOut.wpB012
-						, patchOut.wpB003
-						, listIn[1].normal );
-					patchOut.wpB102 = projectToPlane( patchOut.wpB102
-						, patchOut.wpB003
-						, listIn[1].normal );
-					patchOut.wpB201 = projectToPlane( patchOut.wpB201
-						, patchOut.wpB300
-						, listIn[2].normal );
-					patchOut.wpB210 = projectToPlane( patchOut.wpB210
-						, patchOut.wpB300
-						, listIn[2].normal );
-					patchOut.wpB120 = projectToPlane( patchOut.wpB120
-						, patchOut.wpB030
-						, listIn[0].normal );
-
-					// Handle the center
-					auto center = writer.declLocale( "center"
-						, ( patchOut.wpB003
-							+ patchOut.wpB030
-							+ patchOut.wpB300 ) / 3.0 );
-					patchOut.wpB111 = ( patchOut.wpB021
-						+ patchOut.wpB012
-						+ patchOut.wpB102
-						+ patchOut.wpB201
-						+ patchOut.wpB210
-						+ patchOut.wpB120 ) / 6.0;
-					patchOut.wpB111 += ( patchOut.wpB111 - center ) / 2.0;
-
-					// Calculate the distance from the camera to the three control points
-					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
-						, distance( pos, listIn[0].position ) );
-					auto eyeToVertexDistance1 = writer.declLocale( "eyeToVertexDistance1"
-						, distance( pos, listIn[1].position ) );
-					auto eyeToVertexDistance2 = writer.declLocale( "eyeToVertexDistance2"
-						, distance( pos, listIn[2].position ) );
-
-					// Calculate the tessellation levels
-					patchOut.tessLevelOuter[0] = getTessLevel( eyeToVertexDistance1, eyeToVertexDistance2 );
-					patchOut.tessLevelOuter[1] = getTessLevel( eyeToVertexDistance2, eyeToVertexDistance0 );
-					patchOut.tessLevelOuter[2] = getTessLevel( eyeToVertexDistance0, eyeToVertexDistance1 );
-					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[2];
+					IF( writer, mat.dissolve == 0.0_f )
+					{
+						writer.ignoreIntersection();
+					}
+					ELSEIF( rnd( seed ) > mat.dissolve )
+					{
+						writer.ignoreIntersection();
+					}
+					FI;
 				} );
 
-			writer.implementMainT< SurfaceT, maxPoints, SurfaceT >( ast::type::Partitioning::eEqual
-				, ast::type::OutputTopology::ePoint
-				, ast::type::PrimitiveOrdering::eCCW
-				, 3u
-				, [&]( TessControlMainIn in
-					, TessControlListInT< SurfaceT, maxPoints > listIn
-					, TrianglesTessControlListOutT< SurfaceT > listOut )
-				{
-					// Set the control points of the output patch
-					auto tbn = writer.declLocale( "tbn"
-						, mat3( normalize( listIn[in.invocationID].tangent )
-							, normalize( listIn[in.invocationID].bitangent )
-							, normalize( listIn[in.invocationID].normal ) ) );
-					auto v3MapNormal = writer.declLocale( "v3MapNormal"
-						, c3d_mapNormal.lod( listIn[in.invocationID].texture.xy(), 0.0_f ).xyz() );
-					v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0, 1.0 ) );
-					listOut.normal = normalize( tbn * v3MapNormal );
-					listOut.tangent = listIn[in.invocationID].tangent;
-					listOut.bitangent = listIn[in.invocationID].bitangent;
-					listOut.texture = listIn[in.invocationID].texture;
-					listOut.instance = listIn[in.invocationID].instance;
-				} );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
 }
 
-sdwTestSuiteMain( TestWriterTessellationControlShader )
+sdwTestSuiteMain( TestWriterAnyHitShader )
 {
 	sdwTestSuiteBegin();
 
-	noSpecificIO( testCounts );
-	specificMemberInputOnly( testCounts );
-	specificGlobalInputOnly( testCounts );
-	specificMixedInputOnly( testCounts );
-	specificMemberOutputOnly( testCounts );
-	specificGlobalOutputOnly( testCounts );
-	specificMixedOutputOnly( testCounts );
-	specificMemberInAndOut( testCounts );
-	specificGlobalInAndOut( testCounts );
-	specificMixedInAndOut( testCounts );
-
-	noSpecificIOPatch( testCounts );
-	specificMemberInputOnlyPatch( testCounts );
-	specificGlobalInputOnlyPatch( testCounts );
-	specificMixedInputOnlyPatch( testCounts );
-	specificMemberOutputOnlyPatch( testCounts );
-	specificGlobalOutputOnlyPatch( testCounts );
-	specificMixedOutputOnlyPatch( testCounts );
-	specificMemberInAndOutPatch( testCounts );
-	specificGlobalInAndOutPatch( testCounts );
-	specificMixedInAndOutPatch( testCounts );
-
-	tessellationControl( testCounts );
+	simple( testCounts );
 
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterTessellationControlShader )
+sdwTestSuiteLaunch( TestWriterAnyHitShader )

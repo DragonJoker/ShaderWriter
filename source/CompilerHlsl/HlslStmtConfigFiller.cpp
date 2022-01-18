@@ -176,6 +176,10 @@ namespace hlsl
 	{
 	}
 
+	void StmtConfigFiller::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
@@ -284,6 +288,10 @@ namespace hlsl
 	{
 		doSubmit( stmt->getTestExpr()->getValue() );
 		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
+	{
 	}
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )

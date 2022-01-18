@@ -31,6 +31,7 @@ See LICENSE file in root folder
 #include "StmtHitAttributeVariableDecl.hpp"
 #include "StmtIf.hpp"
 #include "StmtImageDecl.hpp"
+#include "StmtIgnoreIntersection.hpp"
 #include "StmtInOutCallableDataVariableDecl.hpp"
 #include "StmtInOutRayPayloadVariableDecl.hpp"
 #include "StmtInOutVariableDecl.hpp"
@@ -51,6 +52,7 @@ See LICENSE file in root folder
 #include "StmtStructureDecl.hpp"
 #include "StmtSwitchCase.hpp"
 #include "StmtSwitch.hpp"
+#include "StmtTerminateRay.hpp"
 #include "StmtVariableDecl.hpp"
 #include "StmtWhile.hpp"
 
@@ -84,6 +86,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitHitAttributeVariableDeclStmt( HitAttributeVariableDecl * ) = 0;
 		SDAST_API virtual void visitIfStmt( If * ) = 0;
 		SDAST_API virtual void visitImageDeclStmt( ImageDecl * ) = 0;
+		SDAST_API virtual void visitIgnoreIntersectionStmt( IgnoreIntersection * stmt ) = 0;
 		SDAST_API virtual void visitInOutCallableDataVariableDeclStmt( InOutCallableDataVariableDecl * ) = 0;
 		SDAST_API virtual void visitInOutRayPayloadVariableDeclStmt( InOutRayPayloadVariableDecl * ) = 0;
 		SDAST_API virtual void visitInOutVariableDeclStmt( InOutVariableDecl * ) = 0;
@@ -104,6 +107,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitStructureDeclStmt( StructureDecl * ) = 0;
 		SDAST_API virtual void visitSwitchCaseStmt( SwitchCase * ) = 0;
 		SDAST_API virtual void visitSwitchStmt( Switch * ) = 0;
+		SDAST_API virtual void visitTerminateRayStmt( TerminateRay * ) = 0;
 		SDAST_API virtual void visitVariableDeclStmt( VariableDecl * ) = 0;
 		SDAST_API virtual void visitWhileStmt( While * ) = 0;
 		SDAST_API virtual void visitPreprocDefine( PreprocDefine * ) = 0;

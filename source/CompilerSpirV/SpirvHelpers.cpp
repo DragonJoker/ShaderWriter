@@ -234,22 +234,6 @@ namespace spirv
 			return nullptr;
 		}
 
-		bool isRayTracing( ast::ShaderStage stage )
-		{
-			switch ( stage )
-			{
-			case ast::ShaderStage::eRayGeneration:
-			case ast::ShaderStage::eRayClosestHit:
-			case ast::ShaderStage::eRayMiss:
-			case ast::ShaderStage::eRayIntersection:
-			case ast::ShaderStage::eRayAnyHit:
-			case ast::ShaderStage::eRayCallable:
-				return true;
-			default:
-				return false;
-			}
-		}
-
 		bool isShaderInput( ast::Builtin builtin
 			, ast::ShaderStage type )
 		{
@@ -301,7 +285,7 @@ namespace spirv
 						|| builtin == ast::Builtin::eBaseInstance
 						|| builtin == ast::Builtin::eTessLevelOuter ) )
 				// Ray tracing stages only have input built-ins
-				|| isRayTracing( type );
+				|| isRayTraceStage( type );
 		}
 
 		bool isShaderOutput( ast::Builtin builtin
@@ -375,7 +359,7 @@ namespace spirv
 			config.registerCapability( spv::CapabilityCullDistance );
 			break;
 		case ast::Builtin::ePrimitiveID:
-			if ( !isRayTracing( stage ) )
+			if ( !isRayTraceStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityGeometry );
 			}
@@ -511,7 +495,14 @@ namespace spirv
 		case ast::Builtin::eHitKind:
 		case ast::Builtin::eObjectToWorld:
 		case ast::Builtin::eWorldToObject:
-			config.registerCapability( spv::CapabilityRayTracingKHR );
+			if ( isRayTraceStage( config.stage ) )
+			{
+				config.registerCapability( spv::CapabilityRayTracingKHR );
+			}
+			else
+			{
+				config.registerCapability( spv::CapabilityRayQueryKHR );
+			}
 			break;
 		default:
 			break;
@@ -805,7 +796,7 @@ namespace spirv
 		auto compType = getComponentType( type );
 
 		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
-			&& !isRayTracing( stage )
+			&& !isRayTraceStage( stage )
 			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
 			flags = flags | ast::var::Flag::eFlat;
@@ -1203,7 +1194,6 @@ namespace spirv
 			registerExtension( EXT_shader_atomic_float_add );
 			break;
 		case spv::CapabilityRayTraversalPrimitiveCullingKHR:
-			registerExtension( KHR_ray_query );
 			registerExtension( KHR_ray_tracing );
 			break;
 		case spv::CapabilityRayTracingProvisionalKHR:

@@ -545,7 +545,7 @@ def main( argv ):
 	prvFunctionGroup = ""
 	prvParamsGroup = ""
 	with open(inEnumFile, "r") as ins:
-		with open(outEnumFile, "w", newline='\n') as outs:
+		with open(outEnumFile, "w", newline='\r\n') as outs:
 			array = []
 			functionGroups = dict()
 			imageType = "Image"

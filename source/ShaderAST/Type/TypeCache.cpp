@@ -110,7 +110,7 @@ namespace ast::type
 			{
 				return std::make_shared< Pointer >( std::move( pointerType )
 					, storage
-					, isForward );;
+					, isForward );
 			}
 			, []( TypePtr pointerType
 				, Storage storage

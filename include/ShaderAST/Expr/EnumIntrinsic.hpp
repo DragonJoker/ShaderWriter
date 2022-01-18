@@ -709,8 +709,6 @@ namespace ast::expr
 	// Ray tracing Shader Functions
 		eTraceRay,
 		eReportIntersection,
-		eIgnoreIntersection,
-		eTerminateRay,
 		eExecuteCallable,
 
 	// Boundaries,

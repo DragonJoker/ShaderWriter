@@ -149,7 +149,7 @@ namespace sdw
 		if ( isEnabled() )
 		{
 			addStmt( m_writer
-				, sdw::makeSimple( sdw::makeInit( m_shader.registerName( instanceName, m_interface.getType() )
+				, sdw::makeSimple( sdw::makeInit( sdw::registerName( m_writer, instanceName, m_interface.getType() )
 					, std::move( addressExpr ) ) ) );
 			registerSsbo( m_writer, m_name, m_info );
 		}

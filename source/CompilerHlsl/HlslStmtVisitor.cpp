@@ -662,6 +662,10 @@ namespace hlsl
 		m_result += ";\n";
 	}
 
+	void StmtVisitor::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
+	{
+	}
+
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		AST_Failure( "ast::stmt::InOutVariableDecl unexpected at that point" );
@@ -842,6 +846,10 @@ namespace hlsl
 		m_appendSemiColon = false;
 		visitCompoundStmt( stmt );
 		m_appendLineEnd = true;
+	}
+
+	void StmtVisitor::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
+	{
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )

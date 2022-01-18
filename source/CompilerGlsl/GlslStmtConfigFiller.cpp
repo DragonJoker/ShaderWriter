@@ -139,6 +139,10 @@ namespace glsl
 		doParseImageConfig( image->getConfig() );
 	}
 
+	void StmtConfigFiller::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		checkType( *stmt->getVariable()->getType(), m_result );
@@ -226,6 +230,10 @@ namespace glsl
 	{
 		ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
 		visitContainerStmt( stmt );
+	}
+
+	void StmtConfigFiller::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
+	{
 	}
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )

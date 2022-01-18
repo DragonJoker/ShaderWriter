@@ -48,6 +48,9 @@ namespace ast
 		eRayAnyHit,
 		eRayCallable,
 	};
+	SDAST_API bool isRasterizerStage( ShaderStage stage );
+	SDAST_API bool isComputeStage( ShaderStage stage );
+	SDAST_API bool isRayTraceStage( ShaderStage stage );
 
 	enum class FragmentOrigin
 	{

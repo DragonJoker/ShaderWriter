@@ -541,7 +541,7 @@ def main( argv ):
 	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
 	enumName = ""
 	with open(inEnumFile, "r") as ins:
-		with open(outEnumFile, "w", newline='\n') as outs:
+		with open(outEnumFile, "w", newline='\r\n') as outs:
 			array = []
 			for line in ins:
 				array.append( line )

@@ -463,10 +463,10 @@ namespace spirv
 						, result
 						, ValueIdList{ variable
 						, ValueId{ spv::Id( spv::MemoryAccessAlignedMask ) }
-						, ValueId{ spv::Id( ast::type::getAlignment( type
+						, ValueId{ ast::type::getAlignment( type
 							, ( structType
 								? structType->getMemoryLayout()
-								: ast::type::MemoryLayout::eScalar ) ) ) } } ) );
+								: ast::type::MemoryLayout::eScalar ) ) } } ) );
 				}
 				else
 				{
@@ -1623,7 +1623,6 @@ namespace spirv
 		globalDeclarations.push_back( makeInstruction< StructTypeInstruction >( result, subTypes ) );
 		debug.push_back( makeInstruction< NameInstruction >( result, type->getName() ) );
 		bool hasBuiltin = false;
-		bool hasDynarray = false;
 
 		for ( auto & member : *type )
 		{
@@ -1643,12 +1642,6 @@ namespace spirv
 			}
 
 			auto kind = getNonArrayKind( member.type );
-			auto arraySize = getArraySize( member.type );
-
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				hasDynarray = true;
-			}
 
 			if ( isMatrixType( kind ) )
 			{

@@ -18,7 +18,7 @@ namespace ast::expr
 
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
-		, int32_t value )
+		, int value )
 		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eInt }
 	{
@@ -27,7 +27,16 @@ namespace ast::expr
 
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
-		, uint32_t value )
+		, long value )
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
+		, m_valueType{ LiteralType::eInt }
+	{
+		m_value.intv = int32_t( value );
+	}
+
+	Literal::Literal( type::TypesCache & cache
+		, type::TypePtr type
+		, unsigned int value )
 		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt }
 	{
@@ -36,7 +45,16 @@ namespace ast::expr
 
 	Literal::Literal( type::TypesCache & cache
 		, type::TypePtr type
-		, uint64_t value )
+		, unsigned long value )
+		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
+		, m_valueType{ LiteralType::eUInt }
+	{
+		m_value.uint32v = uint32_t( value );
+	}
+
+	Literal::Literal( type::TypesCache & cache
+		, type::TypePtr type
+		, unsigned long long value )
 		: Expr{ cache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt64 }
 	{
@@ -66,17 +84,27 @@ namespace ast::expr
 	{
 	}
 
-	Literal::Literal( type::TypesCache & cache, int32_t value )
+	Literal::Literal( type::TypesCache & cache, int value )
 		: Literal{ cache, cache.getInt(), value }
 	{
 	}
 
-	Literal::Literal( type::TypesCache & cache, uint32_t value )
+	Literal::Literal( type::TypesCache & cache, long value )
+		: Literal{ cache, cache.getInt(), value }
+	{
+	}
+
+	Literal::Literal( type::TypesCache & cache, unsigned int value )
 		: Literal{ cache, cache.getUInt32(), value }
 	{
 	}
 
-	Literal::Literal( type::TypesCache & cache, uint64_t value )
+	Literal::Literal( type::TypesCache & cache, unsigned long value )
+		: Literal{ cache, cache.getUInt32(), value }
+	{
+	}
+
+	Literal::Literal( type::TypesCache & cache, unsigned long long value )
 		: Literal{ cache, cache.getUInt64(), value }
 	{
 	}

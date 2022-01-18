@@ -1312,6 +1312,20 @@ namespace
 		testCounts << "ExprSwitchTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
+
+	void testExprCopy( test::TestCounts & testCounts )
+	{
+		testBegin( "testExprCopy" );
+		ast::type::TypesCache cache;
+		auto value = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "operand" ) );
+		auto expr = ast::expr::makeCopy( std::move( value ) );
+
+		require( expr->getKind() == ast::expr::Kind::eCopy );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+
+		testCounts << "ExprCopyTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
+		testEnd();
+	}
 }
 
 testSuiteMain( TestASTExpressions )
@@ -1370,6 +1384,7 @@ testSuiteMain( TestASTExpressions )
 	testExprQuestion( testCounts );
 	testExprSwitchCase( testCounts );
 	testExprSwitchTest( testCounts );
+	testExprCopy( testCounts );
 	testSuiteEnd();
 }
 
