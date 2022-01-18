@@ -1442,8 +1442,7 @@ namespace spirv
 		}
 
 		if ( ( opCode >= spv::OpEmitVertex && opCode <= spv::OpEndStreamPrimitive )
-			|| opCode == spv::OpIgnoreIntersectionKHR
-			|| opCode == spv::OpTerminateRayKHR
+			|| opCode == spv::OpExecuteCallableKHR
 			|| opCode == spv::OpTraceRayKHR )
 		{
 			m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode

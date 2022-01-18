@@ -167,6 +167,73 @@ namespace
 			return result;
 		}
 
+		sdw::Vec3 computeDiffuse( sdw::Vec3 plightDir
+			, sdw::Vec3 pnormal )
+		{
+			if ( !m_computeDiffuse )
+			{
+				auto & writer = *m_writer;
+				m_computeDiffuse = writer.implementFunction< sdw::Vec3 >( "computeDiffuse"
+					, [&]( WaveFrontMaterial mat
+						, sdw::Vec3 lightDir
+						, sdw::Vec3 normal )
+					{
+						// Lambertian
+						auto dotNL = writer.declLocale( "dotNL", max( dot( normal, lightDir ), 0.0_f ) );
+						auto c = writer.declLocale( "c", mat.diffuse * dotNL );
+						IF( writer, mat.illum >= 1_i )
+						{
+							c += mat.ambient;
+						}
+						FI
+							writer.returnStmt( c );
+					}
+					, sdw::InParam< WaveFrontMaterial >{ writer, "mat" }
+					, sdw::InVec3{ writer, "lightDir" }
+					, sdw::InVec3{ writer, "normal" } );
+			}
+			return m_computeDiffuse( *this, plightDir, pnormal );
+		}
+
+		sdw::Vec3 computeSpecular( sdw::Vec3 pviewDir
+			, sdw::Vec3 plightDir
+			, sdw::Vec3 pnormal )
+		{
+			if ( !m_computeSpecular )
+			{
+				auto & writer = *m_writer;
+				m_computeSpecular = writer.implementFunction< sdw::Vec3 >( "computeSpecular"
+					, [&]( WaveFrontMaterial mat
+						, sdw::Vec3 viewDir
+						, sdw::Vec3 lightDir
+						, sdw::Vec3 normal )
+					{
+						IF( writer, mat.illum < 2_i )
+						{
+							writer.returnStmt( vec3( 0.0_f ) );
+						}
+						FI;
+
+						// Compute specular only if not in shadow
+						auto const kPi = writer.declLocale( "kPi", 3.14159265_f );
+						auto const kShininess = writer.declLocale( "kShininess", max( mat.shininess, 4.0_f ) );
+
+						// Specular
+						auto kEnergyConservation = writer.declLocale( "kEnergyConservation", ( 2.0 + kShininess ) / ( 2.0 * kPi ) );
+						auto V = writer.declLocale( "V", normalize( -viewDir ) );
+						auto R = writer.declLocale( "R", reflect( -lightDir, normal ) );
+						auto specular = writer.declLocale( "specular", kEnergyConservation * pow( max( dot( V, R ), 0.0_f ), kShininess ) );
+
+						writer.returnStmt( vec3( mat.specular * specular ) );
+					}
+					, sdw::InParam< WaveFrontMaterial >{ writer, "mat" }
+					, sdw::InVec3{ writer, "viewDir" }
+					, sdw::InVec3{ writer, "lightDir" }
+					, sdw::InVec3{ writer, "normal" } );
+			}
+			return m_computeSpecular( *this, pviewDir, plightDir, pnormal );
+		}
+
 		sdw::Vec3 ambient;
 		sdw::Vec3 diffuse;
 		sdw::Vec3 specular;
@@ -177,6 +244,62 @@ namespace
 		sdw::Float dissolve;  // 1 == opaque; 0 == fully transparent
 		sdw::Int illum;       // illumination model (see http://www.fileformat.info/format/material/)
 		sdw::Int textureId;
+
+		sdw::Function< sdw::Vec3
+			, sdw::InParam< WaveFrontMaterial >
+			, sdw::InVec3
+			, sdw::InVec3 > m_computeDiffuse;
+		sdw::Function< sdw::Vec3
+			, sdw::InParam< WaveFrontMaterial >
+			, sdw::InVec3
+			, sdw::InVec3
+			, sdw::InVec3 > m_computeSpecular;
+	};
+
+	struct RayLight
+		: sdw::StructInstance
+	{
+		RayLight( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, inHitPosition{ getMember< sdw::Vec3 >( "inHitPosition" ) }
+			, outLightDistance{ getMember < sdw::Float >( "outLightDistance" ) }
+			, outLightDir{ getMember < sdw::Vec3 >( "outLightDir" ) }
+			, outIntensity{ getMember < sdw::Float >( "outIntensity" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , RayLight );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
+				, "RayLight" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "inHitPosition"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "outLightDistance"
+					, sdw::type::Kind::eFloat
+					, sdw::type::NotArray );
+				result->declMember( "outLightDir"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "outIntensity"
+					, sdw::type::Kind::eFloat
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 inHitPosition;
+		sdw::Float outLightDistance;
+		sdw::Vec3 outLightDir;
+		sdw::Float outIntensity;
 	};
 
 	void simple( test::sdw_test::TestCounts & testCounts )
@@ -373,54 +496,6 @@ namespace
 			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
-			auto computeDiffuse = writer.implementFunction< Vec3 >( "computeDiffuse"
-				, [&]( WaveFrontMaterial mat
-					, Vec3 lightDir
-					, Vec3 normal )
-				{
-					// Lambertian
-					auto dotNL = writer.declLocale< Float >( "dotNL", max( dot( normal, lightDir ), 0.0_f ) );
-					auto c = writer.declLocale< Vec3 >( "c", mat.diffuse * dotNL );
-					IF( writer, mat.illum >= 1_i )
-					{
-						c += mat.ambient;
-					}
-					FI
-					writer.returnStmt( c );
-				}
-				, InParam< WaveFrontMaterial >{ writer, "mat" }
-				, InParam< Vec3 >{ writer, "lightDir" }
-				, InParam< Vec3 >{ writer, "normal" } );
-
-			auto computeSpecular = writer.implementFunction< Vec3 >( "computeSpecular"
-				, [&]( WaveFrontMaterial mat
-					, Vec3 viewDir
-					, Vec3 lightDir
-					, Vec3 normal )
-				{
-					IF( writer, mat.illum < 2_i )
-					{
-						writer.returnStmt( vec3( 0.0_f ) );
-					}
-					FI;
-
-					// Compute specular only if not in shadow
-					auto const kPi = writer.declLocale( "kPi", 3.14159265_f );
-					auto const kShininess = writer.declLocale( "kShininess", max( mat.shininess, 4.0_f ) );
-
-					// Specular
-					auto kEnergyConservation = writer.declLocale( "kEnergyConservation", ( 2.0 + kShininess ) / ( 2.0 * kPi ) );
-					auto V = writer.declLocale( "V", normalize( -viewDir ) );
-					auto R = writer.declLocale( "R", reflect( -lightDir, normal ) );
-					auto specular = writer.declLocale( "specular", kEnergyConservation * pow( max( dot( V, R ), 0.0_f ), kShininess ) );
-
-					writer.returnStmt( vec3( mat.specular * specular ) );
-				}
-				, InParam< WaveFrontMaterial >{ writer, "mat" }
-				, InParam< Vec3 >{ writer, "viewDir" }
-				, InParam< Vec3 >{ writer, "lightDir" }
-				, InParam< Vec3 >{ writer, "normal" } );
-
 			writer.implementMain( [&]( RayClosestHitIn in )
 				{
 					// Object data
@@ -473,7 +548,7 @@ namespace
 					auto mat = writer.declLocale< WaveFrontMaterial >( "mat", materials[writer.cast< UInt >( matIdx )] );
 
 					// Diffuse
-					auto diffuse = writer.declLocale< Vec3 >( "diffuse", computeDiffuse( mat, L, worldNrm ) );
+					auto diffuse = writer.declLocale< Vec3 >( "diffuse", mat.computeDiffuse( L, worldNrm ) );
 					IF( writer, mat.textureId >= 0_i )
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
@@ -513,13 +588,137 @@ namespace
 						ELSE
 						{
 							// Specular
-							specular = computeSpecular( mat, in.worldRayDirection, L, worldNrm );
+							specular = mat.computeSpecular( in.worldRayDirection, L, worldNrm );
 						}
 						FI;
 					}
 					FI;
 
 					prd = vec3( lightIntensity * attenuation * ( diffuse + specular ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_SPIRV );
+		}
+		testEnd();
+	}
+
+	void execCallable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "execCallable" );
+		using namespace sdw;
+		{
+			RayClosestHitWriter writer;
+
+			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
+			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
+
+			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
+			auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
+
+			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
+
+			auto pcb = writer.declPushConstantsBuffer( "pcb" );
+			auto pcClearColor = pcb.declMember< Vec4 >( "pcClearColor" );
+			auto pcLightPosition = pcb.declMember< Vec3 >( "pcLightPosition" );
+			auto pcLightIntensity = pcb.declMember< Float >( "pcLightIntensity" );
+			auto pcLightDirection = pcb.declMember< Vec3 >( "pcLightDirection" );
+			auto pcLightSpotCutoff = pcb.declMember< Float >( "pcLightSpotCutoff" );
+			auto pcLightSpotOuterCutoff = pcb.declMember< Float >( "pcLightSpotOuterCutoff" );
+			auto pcLightType = pcb.declMember< Int >( "pcLightType" );
+			pcb.end();
+
+			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+
+			auto cLight = writer.declIncomingCallableData< RayLight >( "cLight", 0u );
+
+			writer.implementMain( [&]( RayClosestHitIn in )
+				{
+					// Object data
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
+					auto matIndices = MatIndices( "matIndices", objResource.materialIndexAddress );
+					auto materials = Materials( "materials", objResource.materialAddress );
+					auto indices = Indices( "indices", objResource.indexAddress );
+					auto vertices = Vertices( "vertices", objResource.vertexAddress );
+
+					// Indices of the triangle
+					auto ind = writer.declLocale( "ind", indices[writer.cast< UInt >( in.primitiveID )] );
+
+					// Vertex of the triangle
+					auto v0 = writer.declLocale( "v0", vertices[writer.cast< UInt >( ind.x() )] );
+					auto v1 = writer.declLocale( "v1", vertices[writer.cast< UInt >( ind.y() )] );
+					auto v2 = writer.declLocale( "v2", vertices[writer.cast< UInt >( ind.z() )] );
+
+					auto const barycentrics = writer.declLocale( "barycentrics", vec3( 1.0_f - attribs.x() - attribs.y(), attribs.x(), attribs.y() ) );
+
+					// Computing the coordinates of the hit position
+					auto const pos = writer.declLocale( "pos", v0.pos * barycentrics.x() + v1.pos * barycentrics.y() + v2.pos * barycentrics.z() );
+					auto const worldPos = writer.declLocale( "worldPos", in.objectToWorld * vec4( pos, 1.0 ) );  // Transforming the position to world space
+
+					// Computing the normal at hit position
+					auto const nrm = writer.declLocale( "nrm", v0.nrm * barycentrics.x() + v1.nrm * barycentrics.y() + v2.nrm * barycentrics.z() );
+					auto const worldNrm = writer.declLocale( "worldNrm", normalize( vec3( nrm * in.worldToObject ) ) );  // Transforming the normal to world space
+
+					// Vector toward the light
+					cLight.inHitPosition = worldPos;
+					executeCallable( writer.cast< UInt >( pcLightType ), 0_i );
+
+					// Material of the object
+					auto matIdx = writer.declLocale< Int >( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
+					auto mat = writer.declLocale< WaveFrontMaterial >( "mat", materials[writer.cast< UInt >( matIdx )] );
+
+					// Diffuse
+					auto diffuse = writer.declLocale< Vec3 >( "diffuse", mat.computeDiffuse( cLight.outLightDir, worldNrm ) );
+					IF( writer, mat.textureId >= 0_i )
+					{
+						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
+						auto texCoord = writer.declLocale< Vec2 >( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
+						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
+					}
+					FI;
+
+					auto specular = writer.declLocale( "specular", vec3( 0.0_f ) );
+					auto attenuation = writer.declLocale( "attenuation", 1.0_f );
+
+					// Tracing shadow ray only if the light is visible from the surface
+					IF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
+					{
+						auto tMin = writer.declLocale( "tMin", 0.001_f );
+						auto tMax = writer.declLocale( "tMax", cLight.outLightDistance );
+						auto origin = writer.declLocale( "origin", in.worldRayOrigin + in.worldRayDirection * in.hitT );
+						auto rayDir = writer.declLocale( "rayDir", cLight.outLightDir );
+						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
+						isShadowed = true;
+						writer.traceRay( topLevelAS	// acceleration structure
+							, flags					// rayFlags
+							, 0xFF_u				// cullMask
+							, 0_u					// sbtRecordOffset
+							, 0_u					// sbtRecordStride
+							, 1_u					// missIndex
+							, origin				// ray origin
+							, tMin					// ray min range
+							, rayDir				// ray direction
+							, tMax					// ray max range
+							, 1_i );				// payload (location = 1)
+
+						IF( writer, isShadowed )
+						{
+							attenuation = 0.3_f;
+						}
+						ELSE
+						{
+							// Specular
+							specular = mat.computeSpecular( in.worldRayDirection, cLight.outLightDir, worldNrm );
+						}
+						FI;
+					}
+					FI;
+
+					prd = vec3( cLight.outIntensity * attenuation * ( diffuse + specular ) );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -538,6 +737,7 @@ sdwTestSuiteMain( TestWriterRayClosestHitShader )
 	dynarraySamplers( testCounts );
 	nonUniform( testCounts );
 	wavefrontLighting( testCounts );
+	execCallable( testCounts );
 
 	sdwTestSuiteEnd();
 }

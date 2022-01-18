@@ -49,6 +49,8 @@ namespace sdw
 		Float rayTmax;
 		//in uint gl_IncomingRayFlagsEXT;
 		UInt incomingRayFlags;
+
+		Float hitT;
 	};
 
 	using RayMissMainFunc = std::function< void( RayMissIn ) >;

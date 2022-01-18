@@ -109,7 +109,7 @@ namespace
 			return result;
 		}
 
-		sdw::Float hitSphere( Sphere const & s )
+		sdw::Float hitSphere( Sphere const & ps )
 		{
 			if ( !m_hitSphere )
 			{
@@ -137,10 +137,10 @@ namespace
 					, sdw::InParam< Sphere >{ *m_writer, "s" }
 					, sdw::InParam< Ray >{ *m_writer, "r" } );
 			}
-			return m_hitSphere( s, *this );
+			return m_hitSphere( ps, *this );
 		}
 
-		sdw::Float hitAabb( Aabb const & aabb )
+		sdw::Float hitAabb( Aabb const & paabb )
 		{
 			if ( !m_hitAabb )
 			{
@@ -161,7 +161,7 @@ namespace
 					, sdw::InParam< Aabb >{ *m_writer, "aabb" }
 					, sdw::InParam< Ray >{ *m_writer, "r" } );
 			}
-			return m_hitAabb( aabb, *this );
+			return m_hitAabb( paabb, *this );
 		}
 
 		sdw::Vec3 origin;

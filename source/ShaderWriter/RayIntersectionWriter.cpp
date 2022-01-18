@@ -28,6 +28,7 @@ namespace sdw
 		, incomingRayFlags{ getUIntMember( *this, ast::Builtin::eIncomingRayFlags ) }
 		, objectToWorld{ getMat4x3Member( *this, ast::Builtin::eObjectToWorld ) }
 		, worldToObject{ getMat4x3Member( *this, ast::Builtin::eWorldToObject ) }
+		, hitT{ rayTmax }
 	{
 	}
 

@@ -2470,10 +2470,8 @@ namespace spirv
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpControlBarrier > >( operands );
 		case spv::OpMemoryBarrier:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpMemoryBarrier > >( operands );
-		case spv::OpTerminateRayKHR:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTerminateRayKHR > >( operands );
-		case spv::OpIgnoreIntersectionKHR:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpIgnoreIntersectionKHR > >( operands );
+		case spv::OpExecuteCallableKHR:
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpExecuteCallableKHR > >( operands );
 		case spv::OpTraceRayKHR:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( operands );
 		default:
