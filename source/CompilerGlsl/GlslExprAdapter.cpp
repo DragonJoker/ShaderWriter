@@ -171,7 +171,7 @@ namespace glsl
 	{
 		if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eFma1F
 			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eFma4D
-			&& m_adaptationData.writerConfig.shaderLanguageVersion < 430 )
+			&& m_adaptationData.writerConfig.wantedVersion < v4_3 )
 		{
 			assert( expr->getArgList().size() == 3u );
 			m_result = ast::expr::makeAdd( expr->getType()

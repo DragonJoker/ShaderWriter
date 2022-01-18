@@ -16,25 +16,23 @@ namespace glsl
 	namespace
 	{
 		void doEnableCoreExtension( ast::stmt::ContainerPtr & cont
-			, std::string const & extensionName
-			, uint32_t coreInVersion
+			, GlslExtension const & extension
 			, uint32_t shaderVersion )
 		{
-			if ( coreInVersion > shaderVersion )
+			if ( extension.reqVersion > shaderVersion )
 			{
-				cont->addStmt( ast::stmt::makePreprocExtension( extensionName
+				cont->addStmt( ast::stmt::makePreprocExtension( extension.name
 					, ast::stmt::PreprocExtension::ExtStatus::eRequired ) );
 			}
 		}
 
 		void doEnableExtension( ast::stmt::ContainerPtr & cont
-			, std::string const & extensionName
-			, uint32_t requiredVersion
+			, GlslExtension const & extension
 			, uint32_t shaderVersion )
 		{
-			if ( requiredVersion <= shaderVersion )
+			if ( extension.reqVersion <= shaderVersion )
 			{
-				cont->addStmt( ast::stmt::makePreprocExtension( extensionName
+				cont->addStmt( ast::stmt::makePreprocExtension( extension.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
 		}
@@ -178,37 +176,37 @@ namespace glsl
 
 		if ( it == container->end() )
 		{
-			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( adaptationData.writerConfig.shaderLanguageVersion ) ) );
-			doEnableCoreExtension( result, "GL_ARB_explicit_attrib_location", 330u, adaptationData.writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_explicit_uniform_location", 430u, adaptationData.writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_separate_shader_objects", 410u, adaptationData.writerConfig.shaderLanguageVersion );
-			doEnableCoreExtension( result, "GL_ARB_shading_language_420pack", 420u, adaptationData.writerConfig.shaderLanguageVersion );
-			doEnableExtension( result, "GL_KHR_vulkan_glsl", 460u, adaptationData.writerConfig.shaderLanguageVersion );
+			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( adaptationData.writerConfig.wantedVersion ) ) );
+			doEnableCoreExtension( result, ARB_explicit_attrib_location, adaptationData.writerConfig.wantedVersion );
+			doEnableCoreExtension( result, ARB_explicit_uniform_location, adaptationData.writerConfig.wantedVersion );
+			doEnableCoreExtension( result, ARB_separate_shader_objects, adaptationData.writerConfig.wantedVersion );
+			doEnableCoreExtension( result, ARB_shading_language_420pack, adaptationData.writerConfig.wantedVersion );
+			doEnableExtension( result, KHR_vulkan_glsl, adaptationData.writerConfig.wantedVersion );
 
 			if ( adaptationData.intrinsicsConfig.requiresCubeMapArray )
 			{
-				doEnableCoreExtension( result, "GL_ARB_texture_cube_map_array", 400u, adaptationData.writerConfig.shaderLanguageVersion );
+				doEnableCoreExtension( result, ARB_texture_cube_map_array, adaptationData.writerConfig.wantedVersion );
 			}
 
 			if ( adaptationData.intrinsicsConfig.requiresTextureGather )
 			{
-				doEnableCoreExtension( result, "GL_ARB_texture_gather", 400u, adaptationData.writerConfig.shaderLanguageVersion );
+				doEnableCoreExtension( result, ARB_texture_gather, adaptationData.writerConfig.wantedVersion );
 			}
 
 			if ( adaptationData.intrinsicsConfig.requiresFp16 )
 			{
-				result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_gpu_shader5"
+				result->addStmt( ast::stmt::makePreprocExtension( NV_gpu_shader5.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
 
 			if ( adaptationData.intrinsicsConfig.requiresAtomicFloat )
 			{
-				result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_shader_atomic_float"
+				result->addStmt( ast::stmt::makePreprocExtension( NV_shader_atomic_float.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 
 				if ( adaptationData.intrinsicsConfig.requiresAtomicFp16Vector )
 				{
-					result->addStmt( ast::stmt::makePreprocExtension( "GL_NV_shader_atomic_fp16_vector"
+					result->addStmt( ast::stmt::makePreprocExtension( NV_shader_atomic_fp16_vector.name
 						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 				}
 			}
