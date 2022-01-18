@@ -11101,6 +11101,19 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	testInterpolateAtOffset2( testCounts );
 	testInterpolateAtOffset3( testCounts );
 	testInterpolateAtOffset4( testCounts );
+	//testEmitStreamVertex( testCounts );
+	//testEndStreamPrimitive( testCounts );
+	//testEmitVertex( testCounts );
+	//testEndPrimitive( testCounts );
+	//testBarrier( testCounts );
+	//testMemoryBarrier( testCounts );
+	//testMemoryBarrierBuffer( testCounts );
+	//testMemoryBarrierShared( testCounts );
+	//testMemoryBarrierImage( testCounts );
+	//testGroupMemoryBarrier( testCounts );
+	//testTraceRay( testCounts );
+	//testReportIntersection( testCounts );
+	//testExecuteCallable( testCounts );
 	sdwTestSuiteEnd();
 }
 
