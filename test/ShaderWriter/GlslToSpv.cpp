@@ -168,7 +168,7 @@ namespace test
 				return EShLangCompute;
 			case ast::ShaderStage::eRayAnyHit:
 				return EShLangAnyHit;
-			case ast::ShaderStage::eRayCallable:
+			case ast::ShaderStage::eCallable:
 				return EShLangCallable;
 			case ast::ShaderStage::eRayClosestHit:
 				return EShLangClosestHit;

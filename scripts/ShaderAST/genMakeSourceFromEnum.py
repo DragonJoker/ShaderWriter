@@ -163,11 +163,11 @@ def assertParams( params, tabs ):
 			paramName = discardArray( resParam[index] )
 			if isArray( resParam[index] ):
 				index += 2
-				result += tabs + "assert( " + paramName + "->getType()->getKind() == type::Kind::eArray );\n"
-				result += tabs + "assert( type::getNonArrayType( " + paramName + "->getType() )->getKind() == " + paramType + " );\n"
+				result += tabs + "assert( " + paramName + "->getType()->getRawKind() == type::Kind::eArray );\n"
+				result += tabs + "assert( type::getNonArrayType( " + paramName + "->getType() )->getRawKind() == " + paramType + " );\n"
 			else:
 				index += 2
-				result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
+				result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
 	return result
 
 def assertParamsEx( params, tabs, lastType ):
@@ -188,7 +188,7 @@ def assertParamsEx( params, tabs, lastType ):
 			if len( resParam ) <= index + 2:
 				paramType = lastType
 
-			result += tabs + "assert( " + paramName + "->getType()->getKind() == " + paramType + " );\n"
+			result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
 	return result
 
 def computeArgs( args ):

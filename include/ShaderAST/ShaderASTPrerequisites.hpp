@@ -46,7 +46,7 @@ namespace ast
 		eRayMiss,
 		eRayIntersection,
 		eRayAnyHit,
-		eRayCallable,
+		eCallable,
 	};
 	SDAST_API bool isRasterizerStage( ShaderStage stage );
 	SDAST_API bool isComputeStage( ShaderStage stage );

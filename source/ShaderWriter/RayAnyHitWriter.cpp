@@ -12,7 +12,7 @@ namespace sdw
 	RayAnyHitIn::RayAnyHitIn( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: VoidT< FlagT >{ writer, std::move( expr ), enabled }
+		: StructInstance{ writer, std::move( expr ), enabled }
 		, launchID{ getUVec3Member( *this, ast::Builtin::eLaunchID ) }
 		, launchSize{ getUVec3Member( *this, ast::Builtin::eLaunchSize ) }
 		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
@@ -38,14 +38,14 @@ namespace sdw
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "rayAnyHitIn"
 					, makeType( getTypesCache( writer ) )
-				, FlagT ) )
+					, ast::var::Flag::eShaderInput ) )
 			, true }
 	{
 	}
 
-	ast::type::IOStructPtr RayAnyHitIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr RayAnyHitIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< FlagT >::makeIOType( cache );
+		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -117,13 +117,5 @@ namespace sdw
 	void RayAnyHitWriter::terminateRay()
 	{
 		addStmt( stmt::makeTerminateRay() );
-	}
-
-	void RayAnyHitWriter::implementMain( RayAnyHitMainFunc const & function )
-	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( RayAnyHitIn{ *this } ) );
 	}
 }

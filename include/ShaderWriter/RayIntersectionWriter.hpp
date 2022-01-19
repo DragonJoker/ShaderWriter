@@ -19,16 +19,14 @@ namespace sdw
 	*	Holds input data for a ray intersection shader.
 	*/
 	struct RayIntersectionIn
-		: public VoidT< ast::var::Flag::eShaderInput >
+		: StructInstance
 	{
-		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
-
 		SDW_API RayIntersectionIn( ShaderWriter & writer );
 		SDW_API RayIntersectionIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		SDW_API static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		// Work dimensions
 		// in uvec3 gl_LaunchIDEXT;

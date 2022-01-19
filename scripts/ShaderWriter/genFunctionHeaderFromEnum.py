@@ -54,6 +54,7 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Bool.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Image.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/RayPayload.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/SampledImage.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )

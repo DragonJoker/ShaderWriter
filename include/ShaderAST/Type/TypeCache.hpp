@@ -8,12 +8,14 @@ See LICENSE file in root folder
 #include "Type.hpp"
 #include "TypeAccelerationStructure.hpp"
 #include "TypeArray.hpp"
+#include "TypeCallableData.hpp"
 #include "TypeComputeIO.hpp"
 #include "TypeFragmentIO.hpp"
 #include "TypeFunction.hpp"
 #include "TypeGeometryIO.hpp"
 #include "TypeImage.hpp"
 #include "TypePointer.hpp"
+#include "TypeRayPayload.hpp"
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
 #include "TypeStruct.hpp"
@@ -121,6 +123,8 @@ namespace ast::type
 		SDAST_API TypePtr getVector( Kind kind, uint32_t count );
 
 		SDAST_API AccelerationStructurePtr getAccelerationStructure();
+		SDAST_API RayPayloadPtr getRayPayload( TypePtr dataType, uint32_t location );
+		SDAST_API CallableDataPtr getCallableData( TypePtr dataType, uint32_t location );
 		SDAST_API ImagePtr getImage( ImageConfiguration const & config );
 		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & config );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
@@ -149,6 +153,8 @@ namespace ast::type
 		TypeCache< IOStruct, std::function< IOStructPtr( MemoryLayout, std::string, var::Flag ) >, std::function< size_t( MemoryLayout, std::string const &, var::Flag ) > > m_outputStruct;
 		TypeCache< Array, std::function< ArrayPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_array;
 		TypeCache< Pointer, std::function< PointerPtr( TypePtr, Storage, bool ) >, std::function< size_t( TypePtr, Storage, bool ) > > m_pointer;
+		TypeCache< RayPayload, std::function< RayPayloadPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_rayPayload;
+		TypeCache< CallableData, std::function< CallableDataPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_callableData;
 		struct MemberTypeInfo
 		{
 			TypePtr nonMemberType;

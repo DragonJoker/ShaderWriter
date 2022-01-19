@@ -315,6 +315,16 @@ namespace ast::type
 		return kind == Kind::eAccelerationStructure;
 	}
 
+	bool isRayPayloadType( Kind kind )
+	{
+		return kind == Kind::eRayPayload;
+	}
+
+	bool isCallableDataType( Kind kind )
+	{
+		return kind == Kind::eCallableData;
+	}
+
 	bool isOpaqueType( TypePtr type )
 	{
 		if ( isArrayType( type->getKind() ) )
@@ -654,6 +664,49 @@ namespace ast::type
 	uint32_t getArraySize( TypePtr type )
 	{
 		return getArraySize( *type );
+	}
+
+	bool isWrapperType( Type const & type )
+	{
+		switch ( type.getKind() )
+		{
+		case Kind::eRayPayload:
+		case Kind::eCallableData:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool isWrapperType( TypePtr type )
+	{
+		return isWrapperType( *type );
+	}
+
+	Type const & unwrapType( Type const & type )
+	{
+		switch ( type.getKind() )
+		{
+		case Kind::eRayPayload:
+			return *static_cast< RayPayload const & >( type ).getDataType();
+		case Kind::eCallableData:
+			return *static_cast< CallableData const & >( type ).getDataType();
+		default:
+			return type;
+		}
+	}
+
+	TypePtr unwrapType( TypePtr type )
+	{
+		switch ( type->getKind() )
+		{
+		case Kind::eRayPayload:
+			return static_cast< RayPayload const & >( *type ).getDataType();
+		case Kind::eCallableData:
+			return static_cast< CallableData const & >( *type ).getDataType();
+		default:
+			return type;
+		}
 	}
 
 	//*************************************************************************

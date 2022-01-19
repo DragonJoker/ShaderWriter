@@ -1895,7 +1895,7 @@ namespace spirv
 		case ast::ShaderStage::eRayGeneration:
 		case ast::ShaderStage::eRayMiss:
 		case ast::ShaderStage::eRayIntersection:
-		case ast::ShaderStage::eRayCallable:
+		case ast::ShaderStage::eCallable:
 			result = spv::AddressingModelLogical;
 			break;
 		case ast::ShaderStage::eRayClosestHit:
@@ -1954,7 +1954,7 @@ namespace spirv
 		case ast::ShaderStage::eRayAnyHit:
 			result = spv::ExecutionModelAnyHitKHR;
 			break;
-		case ast::ShaderStage::eRayCallable:
+		case ast::ShaderStage::eCallable:
 			result = spv::ExecutionModelCallableKHR;
 			break;
 		default:

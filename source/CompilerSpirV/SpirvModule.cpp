@@ -94,23 +94,23 @@ namespace spirv
 		{
 			ast::type::TypePtr result;
 
-			if ( qualified.getKind() == ast::type::Kind::eArray )
+			if ( qualified.getRawKind() == ast::type::Kind::eArray )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Array const & >( qualified ) );
 			}
-			else if ( qualified.getKind() == ast::type::Kind::eStruct )
+			else if ( qualified.getRawKind() == ast::type::Kind::eStruct )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Struct const & >( qualified ) );
 			}
-			else if ( qualified.getKind() == ast::type::Kind::eImage )
+			else if ( qualified.getRawKind() == ast::type::Kind::eImage )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Image const & >( qualified ) );
 			}
-			else if ( qualified.getKind() == ast::type::Kind::eSampledImage )
+			else if ( qualified.getRawKind() == ast::type::Kind::eSampledImage )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::SampledImage const & >( qualified ) );
 			}
-			else if ( qualified.getKind() == ast::type::Kind::eSampler )
+			else if ( qualified.getRawKind() == ast::type::Kind::eSampler )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Sampler const & >( qualified ) );
 			}
@@ -1399,7 +1399,7 @@ namespace spirv
 	{
 		ValueId result{ 0u, type };
 
-		if ( type->getKind() == ast::type::Kind::eArray )
+		if ( type->getRawKind() == ast::type::Kind::eArray )
 		{
 			auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
 			auto elementTypeId = registerType( arrayedType
@@ -1439,7 +1439,7 @@ namespace spirv
 				result = it->second;
 			}
 		}
-		else if ( type->getKind() == ast::type::Kind::ePointer )
+		else if ( type->getRawKind() == ast::type::Kind::ePointer )
 		{
 			auto & pointerType = static_cast< ast::type::Pointer const & >( *type );
 			auto rawTypeId = registerType( pointerType.getPointerType()
@@ -1450,7 +1450,23 @@ namespace spirv
 				, convert( pointerType.getStorage() )
 				, pointerType.isForward() );
 		}
-		else if ( type->getKind() == ast::type::Kind::eGeometryOutput )
+		else if ( type->getRawKind() == ast::type::Kind::eRayPayload )
+		{
+			auto & payloadType = static_cast< ast::type::RayPayload const & >( *type );
+			result = registerType( payloadType.getDataType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getRawKind() == ast::type::Kind::eCallableData )
+		{
+			auto & callableType = static_cast< ast::type::CallableData const & >( *type );
+			result = registerType( callableType.getDataType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getRawKind() == ast::type::Kind::eGeometryOutput )
 		{
 			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
 			result = registerType( outputType.getType()
@@ -1459,7 +1475,7 @@ namespace spirv
 				, arrayStride );
 			registerExecutionMode( outputType.getLayout(), outputType.getCount() );
 		}
-		else if ( type->getKind() == ast::type::Kind::eGeometryInput )
+		else if ( type->getRawKind() == ast::type::Kind::eGeometryInput )
 		{
 			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
 			result = registerType( inputType.getType()
@@ -1468,7 +1484,7 @@ namespace spirv
 				, arrayStride );
 			registerExecutionMode( inputType.getLayout() );
 		}
-		else if ( type->getKind() == ast::type::Kind::eTessellationInputPatch )
+		else if ( type->getRawKind() == ast::type::Kind::eTessellationInputPatch )
 		{
 			auto & outputType = static_cast< ast::type::TessellationInputPatch const & >( *type );
 			result = registerType( outputType.getType()
@@ -1476,7 +1492,7 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
-		else if ( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+		else if ( type->getRawKind() == ast::type::Kind::eTessellationOutputPatch )
 		{
 			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
 			result = registerType( outputType.getType()
@@ -1484,7 +1500,7 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
-		else if ( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+		else if ( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
 		{
 			auto & outputType = static_cast< ast::type::TessellationControlOutput const & >( *type );
 			result = registerType( outputType.getType()
@@ -1497,7 +1513,7 @@ namespace spirv
 				, outputType.getOrder()
 				, outputType.getOutputVertices() );
 		}
-		else if ( type->getKind() == ast::type::Kind::eTessellationControlInput )
+		else if ( type->getRawKind() == ast::type::Kind::eTessellationControlInput )
 		{
 			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
 			result = registerType( inputType.getType()
@@ -1505,7 +1521,7 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
-		else if ( type->getKind() == ast::type::Kind::eTessellationEvaluationInput )
+		else if ( type->getRawKind() == ast::type::Kind::eTessellationEvaluationInput )
 		{
 			auto & inputType = static_cast< ast::type::TessellationEvaluationInput const & >( *type );
 			result = registerType( inputType.getType()
@@ -1513,7 +1529,7 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
-		else if ( type->getKind() == ast::type::Kind::eComputeInput )
+		else if ( type->getRawKind() == ast::type::Kind::eComputeInput )
 		{
 			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
 			result = registerType( inputType.getType()
@@ -1681,12 +1697,12 @@ namespace spirv
 	{
 		ValueId result{ 0u, type };
 
-		if ( type->getKind() == ast::type::Kind::eArray )
+		if ( type->getRawKind() == ast::type::Kind::eArray )
 		{
 			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 		}
 
-		auto kind = type->getKind();
+		auto kind = type->getRawKind();
 
 		if ( kind == ast::type::Kind::eSampledImage )
 		{
@@ -1787,7 +1803,7 @@ namespace spirv
 	void Module::addDebug( std::string const & name
 		, ValueId id )
 	{
-		auto type = id.type;
+		auto type = unwrapType( id.type );
 
 		if ( type->getKind() != ast::type::Kind::eStruct
 			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )

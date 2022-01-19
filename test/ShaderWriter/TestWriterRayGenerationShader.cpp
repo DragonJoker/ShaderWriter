@@ -69,7 +69,7 @@ namespace
 					auto tMin = 0.001_f;
 					auto tMax = 10000.0_f;
 
-					writer.traceRay( topLevelAS	// acceleration structure
+					prd.traceRay( topLevelAS	// acceleration structure
 						, rayFlags				// rayFlags
 						, 0xFF_u				// cullMask
 						, 0_u					// sbtRecordOffset
@@ -78,8 +78,7 @@ namespace
 						, origin.xyz()			// ray origin
 						, tMin					// ray min range
 						, direction.xyz()		// ray direction
-						, tMax					// ray max range
-						, 0_i );				// payload (location = 0)
+						, tMax );				// ray max range
 					image.store( ivec2( in.launchID.xy() ), vec4( prd, 1.0 ) );
 				} );
 			test::writeShader( writer

@@ -992,55 +992,63 @@ namespace ast::type
 	{
 		auto type = &ptype;
 
-		while ( type->getKind() != type::Kind::eStruct )
+		while ( type->getRawKind() != type::Kind::eStruct )
 		{
-			if ( type->getKind() == type::Kind::ePointer )
+			if ( type->getRawKind() == type::Kind::ePointer )
 			{
 				type = static_cast< type::Pointer const & >( *type ).getPointerType().get();
 			}
-			else if ( type->getKind() == type::Kind::eFragmentInput )
+			else if ( type->getRawKind() == type::Kind::eRayPayload )
+			{
+				type = static_cast< type::RayPayload const & >( *type ).getDataType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eCallableData )
+			{
+				type = static_cast< type::CallableData const & >( *type ).getDataType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{
 				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eGeometryInput )
+			else if ( type->getRawKind() == type::Kind::eGeometryInput )
 			{
 				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
 
-				if ( type->getKind() == type::Kind::eArray )
+				if ( type->getRawKind() == type::Kind::eArray )
 				{
 					return isStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
 			}
-			else if ( type->getKind() == type::Kind::eGeometryOutput )
+			else if ( type->getRawKind() == type::Kind::eGeometryOutput )
 			{
 				type = static_cast< type::GeometryOutput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eComputeInput )
+			else if ( type->getRawKind() == type::Kind::eComputeInput )
 			{
 				type = static_cast< type::ComputeInput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationInputPatch )
+			else if ( type->getRawKind() == type::Kind::eTessellationInputPatch )
 			{
 				type = static_cast< type::TessellationInputPatch const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
+			else if ( type->getRawKind() == type::Kind::eTessellationOutputPatch )
 			{
 				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationControlInput )
+			else if ( type->getRawKind() == type::Kind::eTessellationControlInput )
 			{
 				type = static_cast< type::TessellationControlInput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationControlOutput )
+			else if ( type->getRawKind() == type::Kind::eTessellationControlOutput )
 			{
 				type = static_cast< type::TessellationControlOutput const & >( *type ).getType().get();
 
-				if ( type->getKind() == type::Kind::eArray )
+				if ( type->getRawKind() == type::Kind::eArray )
 				{
 					return isStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
 			}
-			else if ( type->getKind() == type::Kind::eTessellationEvaluationInput )
+			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
 			{
 				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
 			}
@@ -1050,7 +1058,7 @@ namespace ast::type
 			}
 		}
 
-		if ( type->getKind() == type::Kind::eStruct )
+		if ( type->getRawKind() == type::Kind::eStruct )
 		{
 			return true;
 		}
@@ -1067,57 +1075,65 @@ namespace ast::type
 	{
 		auto type = &ptype;
 
-		while ( type->getKind() != type::Kind::eStruct )
+		while ( type->getRawKind() != type::Kind::eStruct )
 		{
-			if ( type->getKind() == type::Kind::ePointer )
+			if ( type->getRawKind() == type::Kind::ePointer )
 			{
 				type = static_cast< type::Pointer const & >( *type ).getPointerType().get();
 			}
-			else if ( type->getKind() == type::Kind::eFragmentInput )
+			else if ( type->getRawKind() == type::Kind::eRayPayload )
+			{
+				type = static_cast< type::RayPayload const & >( *type ).getDataType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eCallableData )
+			{
+				type = static_cast< type::CallableData const & >( *type ).getDataType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{
 				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eGeometryInput )
+			else if ( type->getRawKind() == type::Kind::eGeometryInput )
 			{
 				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
 
-				if ( type->getKind() == type::Kind::eArray )
+				if ( type->getRawKind() == type::Kind::eArray )
 				{
 					return getStructType( *static_cast< type::Array const & >( *type ).getType().get() );
 				}
 			}
-			else if ( type->getKind() == type::Kind::eGeometryOutput )
+			else if ( type->getRawKind() == type::Kind::eGeometryOutput )
 			{
 				type = static_cast< type::GeometryOutput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eComputeInput )
+			else if ( type->getRawKind() == type::Kind::eComputeInput )
 			{
 				type = static_cast< type::ComputeInput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationInputPatch )
+			else if ( type->getRawKind() == type::Kind::eTessellationInputPatch )
 			{
 				type = static_cast< type::TessellationInputPatch const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
+			else if ( type->getRawKind() == type::Kind::eTessellationOutputPatch )
 			{
 				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationControlInput )
+			else if ( type->getRawKind() == type::Kind::eTessellationControlInput )
 			{
 				type = static_cast< type::TessellationControlInput const & >( *type ).getType().get();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationControlOutput )
+			else if ( type->getRawKind() == type::Kind::eTessellationControlOutput )
 			{
 				type = static_cast< type::TessellationControlOutput const & >( *type ).getType().get();
 
-				if ( type->getKind() == type::Kind::eArray )
+				if ( type->getRawKind() == type::Kind::eArray )
 				{
 					return getStructType( *static_cast< type::Array const & >( *type ).getType().get() );
 				}
 
 				return nullptr;
 			}
-			else if ( type->getKind() == type::Kind::eTessellationEvaluationInput )
+			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
 			{
 				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
 			}
@@ -1127,7 +1143,7 @@ namespace ast::type
 			}
 		}
 
-		if ( type->getKind() == type::Kind::eStruct )
+		if ( type->getRawKind() == type::Kind::eStruct )
 		{
 			return static_cast< type::Struct const * >( type );
 		}
@@ -1137,55 +1153,63 @@ namespace ast::type
 
 	type::StructPtr getStructType( type::TypePtr type )
 	{
-		while ( type->getKind() != type::Kind::eStruct )
+		while ( type->getRawKind() != type::Kind::eStruct )
 		{
-			if ( type->getKind() == type::Kind::ePointer )
+			if ( type->getRawKind() == type::Kind::ePointer )
 			{
 				type = static_cast< type::Pointer const & >( *type ).getPointerType();
 			}
-			else if ( type->getKind() == type::Kind::eFragmentInput )
+			else if ( type->getRawKind() == type::Kind::eRayPayload )
+			{
+				type = static_cast< type::RayPayload const & >( *type ).getDataType();
+			}
+			else if ( type->getRawKind() == type::Kind::eCallableData )
+			{
+				type = static_cast< type::CallableData const & >( *type ).getDataType();
+			}
+			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{
 				type = static_cast< type::FragmentInput const & >( *type ).getType();
 			}
-			else if ( type->getKind() == type::Kind::eGeometryInput )
+			else if ( type->getRawKind() == type::Kind::eGeometryInput )
 			{
 				type = static_cast< type::GeometryInput const & >( *type ).getType();
 
-				if ( type->getKind() == type::Kind::eArray )
+				if ( type->getRawKind() == type::Kind::eArray )
 				{
 					return getStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
 			}
-			else if ( type->getKind() == type::Kind::eGeometryOutput )
+			else if ( type->getRawKind() == type::Kind::eGeometryOutput )
 			{
 				type = static_cast< type::GeometryOutput const & >( *type ).getType();
 			}
-			else if ( type->getKind() == type::Kind::eComputeInput )
+			else if ( type->getRawKind() == type::Kind::eComputeInput )
 			{
 				type = static_cast< type::ComputeInput const & >( *type ).getType();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationInputPatch )
+			else if ( type->getRawKind() == type::Kind::eTessellationInputPatch )
 			{
 				type = static_cast< type::TessellationInputPatch const & >( *type ).getType();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationOutputPatch )
+			else if ( type->getRawKind() == type::Kind::eTessellationOutputPatch )
 			{
 				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationControlInput )
+			else if ( type->getRawKind() == type::Kind::eTessellationControlInput )
 			{
 				type = static_cast< type::TessellationControlInput const & >( *type ).getType();
 			}
-			else if ( type->getKind() == type::Kind::eTessellationControlOutput )
+			else if ( type->getRawKind() == type::Kind::eTessellationControlOutput )
 			{
 				type = static_cast< type::TessellationControlOutput const & >( *type ).getType();
 
-				if ( type->getKind() == type::Kind::eArray )
+				if ( type->getRawKind() == type::Kind::eArray )
 				{
 					return getStructType( static_cast< type::Array const & >( *type ).getType() );
 				}
 			}
-			else if ( type->getKind() == type::Kind::eTessellationEvaluationInput )
+			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
 			{
 				type = static_cast< type::TessellationControlInput const & >( *type ).getType();
 			}
@@ -1195,7 +1219,7 @@ namespace ast::type
 			}
 		}
 
-		if ( type->getKind() == type::Kind::eStruct )
+		if ( type->getRawKind() == type::Kind::eStruct )
 		{
 			return std::static_pointer_cast< type::Struct >( type );
 		}

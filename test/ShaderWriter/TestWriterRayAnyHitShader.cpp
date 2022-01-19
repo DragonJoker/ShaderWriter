@@ -253,8 +253,6 @@ namespace
 		{
 			RayAnyHitWriter writer;
 
-			auto prd = writer.declIncomingRayPayload< HitPayload >( "prd", 0u );
-
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
 			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
@@ -281,8 +279,12 @@ namespace
 					writer.returnStmt( writer.cast< Float >( lcg( prev ) ) / writer.cast< Float >( 0x01000000_i ) );
 				}
 				, InOutUInt{ writer, "prev" } );
-
-			writer.implementMain( [&]( RayAnyHitIn in )
+			
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayAnyHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
 				{
 					  // Object of this instance
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );

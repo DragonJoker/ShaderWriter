@@ -76,6 +76,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Shader.hpp>
 
 #include "WriterInt.hpp"
+#include "Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw
 {
@@ -914,6 +915,16 @@ namespace sdw
 	{
 		return writer.getShader().registerName( name
 			, type );
+	}
+
+	var::VariablePtr registerName( ShaderWriter & writer
+		, std::string const & name
+		, type::TypePtr type
+		, uint64_t flags )
+	{
+		return writer.getShader().registerName( name
+			, type
+			, flags );
 	}
 
 	var::VariablePtr registerMember( ShaderWriter & writer

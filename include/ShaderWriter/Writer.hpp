@@ -4,6 +4,8 @@ See LICENSE file in root folder
 #ifndef ___SDW_Writer_H___
 #define ___SDW_Writer_H___
 
+#include "ShaderWriter/BaseTypes/HitAttribute.hpp"
+#include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 #include "ShaderWriter/CompositeTypes/BufferReference.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
@@ -397,11 +399,11 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declRayPayload( std::string const & name
+		inline RayPayloadT< T > declRayPayload( std::string const & name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declIncomingRayPayload( std::string const & name
+		inline RayPayloadInT< T > declIncomingRayPayload( std::string const & name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
@@ -413,7 +415,7 @@ namespace sdw
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declHitAttribute( std::string const & name
+		inline HitAttributeT< T > declHitAttribute( std::string const & name
 			, bool enabled = true );
 		SDW_API AccelerationStructure declAccelerationStructure( std::string const & name
 			, uint32_t binding
