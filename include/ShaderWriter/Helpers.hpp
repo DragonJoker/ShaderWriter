@@ -304,6 +304,10 @@ namespace sdw
 	SDW_API var::VariablePtr registerName( ShaderWriter & writer
 		, std::string const & name
 		, type::TypePtr type );
+	SDW_API var::VariablePtr registerName( ShaderWriter & writer
+		, std::string const & name
+		, type::TypePtr type
+		, uint64_t flags );
 	SDW_API var::VariablePtr registerMember( ShaderWriter & writer
 		, var::VariablePtr outer
 		, std::string const & name

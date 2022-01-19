@@ -6,6 +6,9 @@
 #undef CurrentCompilers
 #define CurrentCompilers Compilers_NoHLSL
 
+#undef ForceDisplayShaders
+#define ForceDisplayShaders true
+
 namespace
 {
 	struct RayLight
@@ -59,9 +62,7 @@ namespace
 		testBegin( "lightInf" );
 		using namespace sdw;
 		{
-			RayCallableWriter writer;
-
-			auto cLight = writer.declIncomingCallableData< RayLight >( "cLight", 0u );
+			CallableWriter writer;
 
 			auto constants = writer.declPushConstantsBuffer( "constants" );
 			auto clearColor = constants.declMember< Vec4 >( "clearColor" );
@@ -72,12 +73,14 @@ namespace
 			auto lightSpotOuterCutoff = constants.declMember< Float >( "lightSpotOuterCutoff" );
 			auto lightType = constants.declMember< Int >( "lightType" );
 			constants.end();
-
-			writer.implementMain( [&]( RayCallableIn in )
+			
+			writer.implementMainT< RayLight >( CallableDataInT< RayLight >{ writer, 0u }
+				, [&]( CallableIn in
+					, CallableDataInT< RayLight > data )
 				{
-					cLight.outLightDistance = 10000000.0_f;
-					cLight.outIntensity = 1.0_f;
-					cLight.outLightDir = normalize( -lightDirection );
+					data.outLightDistance = 10000000.0_f;
+					data.outIntensity = 1.0_f;
+					data.outLightDir = normalize( -lightDirection );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -91,9 +94,7 @@ namespace
 		testBegin( "lightPoint" );
 		using namespace sdw;
 		{
-			RayCallableWriter writer;
-
-			auto cLight = writer.declIncomingCallableData< RayLight >( "cLight", 0u );
+			CallableWriter writer;
 
 			auto constants = writer.declPushConstantsBuffer( "constants" );
 			auto clearColor = constants.declMember< Vec4 >( "clearColor" );
@@ -104,13 +105,15 @@ namespace
 			auto lightSpotOuterCutoff = constants.declMember< Float >( "lightSpotOuterCutoff" );
 			auto lightType = constants.declMember< Int >( "lightType" );
 			constants.end();
-
-			writer.implementMain( [&]( RayCallableIn in )
+			
+			writer.implementMainT< RayLight >( CallableDataInT< RayLight >{ writer, 0u }
+				, [&]( CallableIn in
+					, CallableDataInT< RayLight > data )
 				{
-					auto lDir = writer.declLocale( "lDir", lightPosition - cLight.inHitPosition );
-					cLight.outLightDistance = length( lDir );
-					cLight.outIntensity = lightIntensity / ( cLight.outLightDistance * cLight.outLightDistance );
-					cLight.outLightDir = normalize( lDir );
+					auto lDir = writer.declLocale( "lDir", lightPosition - data.inHitPosition );
+					data.outLightDistance = length( lDir );
+					data.outIntensity = lightIntensity / ( data.outLightDistance * data.outLightDistance );
+					data.outLightDir = normalize( lDir );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -124,9 +127,7 @@ namespace
 		testBegin( "lightSpot" );
 		using namespace sdw;
 		{
-			RayCallableWriter writer;
-
-			auto cLight = writer.declIncomingCallableData< RayLight >( "cLight", 0u );
+			CallableWriter writer;
 
 			auto constants = writer.declPushConstantsBuffer( "constants" );
 			auto clearColor = constants.declMember< Vec4 >( "clearColor" );
@@ -137,17 +138,19 @@ namespace
 			auto lightSpotOuterCutoff = constants.declMember< Float >( "lightSpotOuterCutoff" );
 			auto lightType = constants.declMember< Int >( "lightType" );
 			constants.end();
-
-			writer.implementMain( [&]( RayCallableIn in )
+			
+			writer.implementMainT< RayLight >( CallableDataInT< RayLight >{ writer, 0u }
+				, [&]( CallableIn in
+					, CallableDataInT< RayLight > data )
 				{
-					auto lDir = writer.declLocale( "lDir", lightPosition - cLight.inHitPosition );
-					cLight.outLightDistance = length( lDir );
-					cLight.outIntensity = lightIntensity / ( cLight.outLightDistance * cLight.outLightDistance );
-					cLight.outLightDir = normalize( lDir );
-					auto theta = writer.declLocale( "theta", dot( cLight.outLightDir, normalize( -lightDirection ) ) );
+					auto lDir = writer.declLocale( "lDir", lightPosition - data.inHitPosition );
+					data.outLightDistance = length( lDir );
+					data.outIntensity = lightIntensity / ( data.outLightDistance * data.outLightDistance );
+					data.outLightDir = normalize( lDir );
+					auto theta = writer.declLocale( "theta", dot( data.outLightDir, normalize( -lightDirection ) ) );
 					auto epsilon = writer.declLocale( "epsilon", lightSpotCutoff - lightSpotOuterCutoff );
 					auto spotIntensity = writer.declLocale( "spotIntensity", clamp( ( theta - lightSpotOuterCutoff ) / epsilon, 0.0_f, 1.0_f ) );
-					cLight.outIntensity *= spotIntensity;
+					data.outIntensity *= spotIntensity;
 				} );
 			test::writeShader( writer
 				, testCounts

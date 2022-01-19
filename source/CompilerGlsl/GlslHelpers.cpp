@@ -283,7 +283,7 @@ namespace glsl
 	{
 		std::string result;
 
-		switch ( type->getKind() )
+		switch ( type->getRawKind() )
 		{
 		case ast::type::Kind::eStruct:
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
@@ -296,6 +296,12 @@ namespace glsl
 			break;
 		case ast::type::Kind::eArray:
 			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
+			break;
+		case ast::type::Kind::eRayPayload:
+			result = getTypeName( std::static_pointer_cast< ast::type::RayPayload >( type )->getDataType() );
+			break;
+		case ast::type::Kind::eCallableData:
+			result = getTypeName( std::static_pointer_cast< ast::type::CallableData >( type )->getDataType() );
 			break;
 		case ast::type::Kind::eTessellationInputPatch:
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationInputPatch >( type )->getType() );

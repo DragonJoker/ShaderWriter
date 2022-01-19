@@ -60,8 +60,6 @@ namespace sdw
 	struct Void;
 	struct Boolean;
 	struct AccelerationStructure;
-	template< typename T >
-	struct NonUniformT;
 
 	template< ast::type::Kind KindT >
 	struct ArithmeticValue;
@@ -101,7 +99,7 @@ namespace sdw
 	struct Mat4x2T;
 	template< typename TypeT >
 	struct Mat4x3T;
-	template< typename ValueT >
+	template< typename TypeT >
 	struct NonUniformT;
 
 	using Vec2 = Vec2T< Float >;
@@ -182,6 +180,21 @@ namespace sdw
 	struct InputT;
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct OutputT;
+	template< ast::var::Flag FlagT, typename ValueT >
+	struct RayPayloadBaseT;
+	template< ast::var::Flag FlagT, typename ValueT >
+	struct CallableDataBaseT;
+	template< typename TypeT >
+	struct HitAttributeT;
+
+	template< typename DataT >
+	using RayPayloadInT = RayPayloadBaseT< ast::var::Flag::eShaderInput, DataT >;
+	template< typename DataT >
+	using RayPayloadT = RayPayloadBaseT< ast::var::Flag::eShaderOutput, DataT >;
+	template< typename DataT >
+	using CallableDataInT = CallableDataBaseT< ast::var::Flag::eShaderInput, DataT >;
+	template< typename DataT >
+	using CallableDataT = CallableDataBaseT< ast::var::Flag::eShaderOutput, DataT >;
 
 	using Input = InputT< VoidT >;
 	using Output = OutputT< VoidT >;

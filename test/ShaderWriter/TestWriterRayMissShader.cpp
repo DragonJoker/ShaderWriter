@@ -9,6 +9,37 @@
 
 namespace
 {
+	struct HitPayload
+		: sdw::StructInstance
+	{
+		HitPayload( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, hitValue{ getMember< sdw::Vec3 >( "hitValue" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , HitPayload );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "HitPayload" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "hitValue"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 hitValue;
+	};
+
 	void simple( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "simple" );
@@ -16,15 +47,14 @@ namespace
 		{
 			RayMissWriter writer;
 
-			auto prd = writer.declRayPayload< Vec3 >( "prd", 0u );
-
 			auto ubo = writer.declUniformBuffer( "GlobalUniforms", 2u, 0u );
 			auto clearColor = ubo.declMember< Vec4 >( "clearColor" );
 			ubo.end();
 
-			writer.implementMain( [&]( RayMissIn in )
+			writer.implementMainT< HitPayload >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, [&]( RayMissIn in, RayPayloadInT< HitPayload > payload )
 				{
-					prd = clearColor.xyz() * 0.8_f;
+					payload.hitValue = clearColor.xyz() * 0.8_f;
 				} );
 			test::writeShader( writer
 				, testCounts

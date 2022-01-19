@@ -12,7 +12,7 @@ namespace sdw
 	RayIntersectionIn::RayIntersectionIn( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: VoidT< FlagT >{ writer, std::move( expr ), enabled }
+		: StructInstance{ writer, std::move( expr ), enabled }
 		, launchID{ getUVec3Member( *this, ast::Builtin::eLaunchID ) }
 		, launchSize{ getUVec3Member( *this, ast::Builtin::eLaunchSize ) }
 		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
@@ -37,14 +37,14 @@ namespace sdw
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "rayIntersectIn"
 					, makeType( getTypesCache( writer ) )
-				, FlagT ) )
+					, ast::var::Flag::eShaderInput ) )
 			, true }
 	{
 	}
 
-	ast::type::IOStructPtr RayIntersectionIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr RayIntersectionIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< FlagT >::makeIOType( cache );
+		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{

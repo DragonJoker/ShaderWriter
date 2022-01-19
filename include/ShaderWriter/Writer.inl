@@ -14,10 +14,10 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-#pragma region Functions
+#pragma region Type registration
 	/**
 	*name
-	*	Functions
+	*	Type registration
 	*/
 	/**@{*/
 	template< typename TypeT >
@@ -693,11 +693,11 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declRayPayload( std::string const & name
+	inline RayPayloadT< T > ShaderWriter::declRayPayload( std::string const & name
 		, uint32_t location
 		, bool enabled )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = RayPayloadT< T >::makeType( getTypesCache(), location );
 
 		if ( auto structType = getStructType( type ) )
 		{
@@ -714,17 +714,17 @@ namespace sdw
 				, location ) );
 		}
 
-		return T{ *this
+		return RayPayloadT< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declIncomingRayPayload( std::string const & name
+	inline RayPayloadInT< T > ShaderWriter::declIncomingRayPayload( std::string const & name
 		, uint32_t location
 		, bool enabled )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = RayPayloadInT< T >::makeType( getTypesCache(), location );
 
 		if ( auto structType = getStructType( type ) )
 		{
@@ -741,7 +741,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return T{ *this
+		return RayPayloadInT< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}
@@ -801,7 +801,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declHitAttribute( std::string const & name
+	inline HitAttributeT< T > ShaderWriter::declHitAttribute( std::string const & name
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
@@ -820,7 +820,7 @@ namespace sdw
 			addStmt( sdw::makeHitAttributeVariableDecl( var ) );
 		}
 
-		return T{ *this
+		return HitAttributeT< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}

@@ -118,6 +118,28 @@ namespace ast::type
 			{
 				return ast::type::getHash( pointerType, storage, isForward );
 			} }
+		, m_rayPayload{ []( TypePtr type
+				, uint32_t location )
+			{
+				return std::make_shared< RayPayload >( std::move( type )
+					, location );
+			}
+			, []( TypePtr type
+				, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, location );
+			} }
+		, m_callableData{ []( TypePtr type
+				, uint32_t location )
+			{
+				return std::make_shared< CallableData >( std::move( type )
+					, location );
+			}
+			, []( TypePtr type
+				, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, location );
+			} }
 	{
 		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
 		{
@@ -563,6 +585,16 @@ namespace ast::type
 	AccelerationStructurePtr TypesCache::getAccelerationStructure()
 	{
 		return m_accelerationStructure;
+	}
+
+	RayPayloadPtr TypesCache::getRayPayload( TypePtr dataType, uint32_t location )
+	{
+		return m_rayPayload.getType( dataType, location );
+	}
+
+	CallableDataPtr TypesCache::getCallableData( TypePtr dataType, uint32_t location )
+	{
+		return m_callableData.getType( dataType, location );
 	}
 
 	ImagePtr TypesCache::getImage( ImageConfiguration const & config )

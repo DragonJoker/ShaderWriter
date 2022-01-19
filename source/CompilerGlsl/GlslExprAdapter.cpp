@@ -186,6 +186,23 @@ namespace glsl
 					, doSubmit( expr->getArgList()[1].get() ) )
 				, doSubmit( expr->getArgList()[2].get() ) );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay )
+		{
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			auto payLoad = std::move( args.back() );
+			// Extract location from RayPayload type, to set it as last param.
+			args.back() = std::make_unique< ast::expr::Literal >( m_cache
+				, int( static_cast< ast::type::RayPayload const & >( *payLoad->getType() ).getLocation() ) );
+			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
+				, std::move( args ) );
+		}
 		else
 		{
 			ast::expr::ExprList args;

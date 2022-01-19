@@ -1,34 +1,34 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/RayCallableWriter.hpp"
+#include "ShaderWriter/CallableWriter.hpp"
 
 namespace sdw
 {
 	//*************************************************************************
 
-	RayCallableIn::RayCallableIn( ShaderWriter & writer
+	CallableIn::CallableIn( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: VoidT< FlagT >{ writer, std::move( expr ), enabled }
+		: StructInstance{ writer, std::move( expr ), enabled }
 		, launchID{ getUVec3Member( *this, ast::Builtin::eLaunchID ) }
 		, launchSize{ getUVec3Member( *this, ast::Builtin::eLaunchSize ) }
 	{
 	}
 
-	RayCallableIn::RayCallableIn( ShaderWriter & writer )
-		: RayCallableIn{ writer
+	CallableIn::CallableIn( ShaderWriter & writer )
+		: CallableIn{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "rayCallIn"
 					, makeType( getTypesCache( writer ) )
-				, FlagT ) )
+					, ast::var::Flag::eShaderInput ) )
 			, true }
 	{
 	}
 
-	ast::type::IOStructPtr RayCallableIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr CallableIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< FlagT >::makeIOType( cache );
+		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -45,16 +45,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayCallableWriter::RayCallableWriter()
-		: ShaderWriter{ ast::ShaderStage::eRayCallable }
+	CallableWriter::CallableWriter()
+		: ShaderWriter{ ast::ShaderStage::eCallable }
 	{
-	}
-
-	void RayCallableWriter::implementMain( RayCallableMainFunc const & function )
-	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( RayCallableIn{ *this } ) );
 	}
 }

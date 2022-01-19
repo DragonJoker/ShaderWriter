@@ -462,7 +462,7 @@ namespace ast::debug
 	{
 		std::string result;
 
-		switch ( type.getKind() )
+		switch ( type.getRawKind() )
 		{
 		case type::Kind::eArray:
 			result = getName( *static_cast< type::Array const & >( type ).getType() );
@@ -474,6 +474,14 @@ namespace ast::debug
 				result = "FWD";
 			}
 			result += getName( *static_cast< type::Pointer const & >( type ).getPointerType() );
+			break;
+		case type::Kind::eRayPayload:
+			result = getName( *static_cast< type::RayPayload const & >( type ).getDataType() );
+			result += "<" + std::to_string( static_cast< type::RayPayload const & >( type ).getLocation() ) + ">";
+			break;
+		case type::Kind::eCallableData:
+			result = getName( *static_cast< type::CallableData const & >( type ).getDataType() );
+			result += "<" + std::to_string( static_cast< type::CallableData const & >( type ).getLocation() ) + ">";
 			break;
 		case type::Kind::eStruct:
 			result = getName( getNonArrayKind( type ) );

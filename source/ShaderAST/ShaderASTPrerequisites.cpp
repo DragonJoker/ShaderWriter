@@ -31,7 +31,7 @@ namespace ast
 		case ast::ShaderStage::eRayMiss:
 		case ast::ShaderStage::eRayIntersection:
 		case ast::ShaderStage::eRayAnyHit:
-		case ast::ShaderStage::eRayCallable:
+		case ast::ShaderStage::eCallable:
 			return true;
 		default:
 			return false;

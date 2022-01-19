@@ -13,6 +13,8 @@ set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
 set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
 
 set( ${PROJECT_NAME}_HEADER_FILES
+	${INCLUDE_DIR}/CallableWriter.hpp
+	${INCLUDE_DIR}/CallableWriter.inl
 	${INCLUDE_DIR}/ComputeWriter.hpp
 	${INCLUDE_DIR}/ComputeWriter.inl
 	${INCLUDE_DIR}/FragmentWriter.hpp
@@ -22,11 +24,13 @@ set( ${PROJECT_NAME}_HEADER_FILES
 	${INCLUDE_DIR}/Helpers.hpp
 	${INCLUDE_DIR}/Helpers.inl
 	${INCLUDE_DIR}/RayAnyHitWriter.hpp
-	${INCLUDE_DIR}/RayCallableWriter.hpp
+	${INCLUDE_DIR}/RayAnyHitWriter.inl
 	${INCLUDE_DIR}/RayClosestHitWriter.hpp
+	${INCLUDE_DIR}/RayClosestHitWriter.inl
 	${INCLUDE_DIR}/RayGenerationWriter.hpp
 	${INCLUDE_DIR}/RayIntersectionWriter.hpp
 	${INCLUDE_DIR}/RayMissWriter.hpp
+	${INCLUDE_DIR}/RayMissWriter.inl
 	${INCLUDE_DIR}/ShaderWriterPrerequisites.hpp
 	${INCLUDE_DIR}/ShaderWriterPrerequisites.inl
 	${INCLUDE_DIR}/Source.hpp
@@ -44,12 +48,12 @@ set( ${PROJECT_NAME}_HEADER_FILES
 	${SOURCE_DIR}/WriterInt.hpp
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
+	${SOURCE_DIR}/CallableWriter.cpp
 	${SOURCE_DIR}/ComputeWriter.cpp
 	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/GeometryWriter.cpp
 	${SOURCE_DIR}/Helpers.cpp
 	${SOURCE_DIR}/RayAnyHitWriter.cpp
-	${SOURCE_DIR}/RayCallableWriter.cpp
 	${SOURCE_DIR}/RayClosestHitWriter.cpp
 	${SOURCE_DIR}/RayGenerationWriter.cpp
 	${SOURCE_DIR}/RayIntersectionWriter.cpp
@@ -80,10 +84,14 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/Array.inl
 	${INCLUDE_DIR}/BaseTypes/Bool.hpp
 	${INCLUDE_DIR}/BaseTypes/Bool.inl
+	${INCLUDE_DIR}/BaseTypes/CallableData.hpp
+	${INCLUDE_DIR}/BaseTypes/CallableData.inl
 	${INCLUDE_DIR}/BaseTypes/Double.hpp
 	${INCLUDE_DIR}/BaseTypes/Double.inl
 	${INCLUDE_DIR}/BaseTypes/Float.hpp
 	${INCLUDE_DIR}/BaseTypes/Float.inl
+	${INCLUDE_DIR}/BaseTypes/HitAttribute.hpp
+	${INCLUDE_DIR}/BaseTypes/HitAttribute.inl
 	${INCLUDE_DIR}/BaseTypes/Image.hpp
 	${INCLUDE_DIR}/BaseTypes/Image.inl
 	${INCLUDE_DIR}/BaseTypes/Int.hpp
@@ -92,6 +100,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.inl
 	${INCLUDE_DIR}/BaseTypes/NonUniform.hpp
 	${INCLUDE_DIR}/BaseTypes/NonUniform.inl
+	${INCLUDE_DIR}/BaseTypes/RayPayload.hpp
+	${INCLUDE_DIR}/BaseTypes/RayPayload.inl
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.hpp
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.inl
 	${INCLUDE_DIR}/BaseTypes/SampledImage.hpp
@@ -110,6 +120,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/Float.cpp
 	${SOURCE_DIR}/BaseTypes/Image.cpp
 	${SOURCE_DIR}/BaseTypes/Int.cpp
+	${SOURCE_DIR}/BaseTypes/RayPayload.cpp
 	${SOURCE_DIR}/BaseTypes/SampledImage.cpp
 	${SOURCE_DIR}/BaseTypes/Sampler.cpp
 	${SOURCE_DIR}/BaseTypes/UInt.cpp

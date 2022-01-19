@@ -84,7 +84,7 @@ namespace test
 			case ast::ShaderStage::eRayAnyHit:
 				result = spv::ExecutionModelAnyHitKHR;
 				break;
-			case ast::ShaderStage::eRayCallable:
+			case ast::ShaderStage::eCallable:
 				result = spv::ExecutionModelCallableKHR;
 				break;
 			case ast::ShaderStage::eRayClosestHit:
@@ -518,12 +518,12 @@ namespace test
 							if ( config.specVersion >= spirv::v1_4 )
 							{
 								extensions.emplace( spirv::KHR_ray_tracing );
-								extensions.emplace( spirv::EXT_physical_storage_buffer );
 							}
 
 							if ( config.specVersion >= spirv::v1_3 )
 							{
 								extensions.emplace( spirv::EXT_descriptor_indexing );
+								extensions.emplace( spirv::EXT_physical_storage_buffer );
 							}
 
 							config.availableExtensions = &extensions;
@@ -632,7 +632,7 @@ namespace test
 				return "Ray Intersection";
 			case ast::ShaderStage::eRayAnyHit:
 				return "Ray Any Hit";
-			case ast::ShaderStage::eRayCallable:
+			case ast::ShaderStage::eCallable:
 				return "Ray Callable";
 			default:
 				return "Unknown???"; 

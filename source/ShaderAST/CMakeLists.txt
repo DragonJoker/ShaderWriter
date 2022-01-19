@@ -363,12 +363,14 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeAccelerationStructure.hpp
 	${INCLUDE_DIR}/Type/TypeArray.hpp
 	${INCLUDE_DIR}/Type/TypeCache.hpp
+	${INCLUDE_DIR}/Type/TypeCallableData.hpp
 	${INCLUDE_DIR}/Type/TypeComputeIO.hpp
 	${INCLUDE_DIR}/Type/TypeFragmentIO.hpp
 	${INCLUDE_DIR}/Type/TypeFunction.hpp
 	${INCLUDE_DIR}/Type/TypeGeometryIO.hpp
 	${INCLUDE_DIR}/Type/TypeImage.hpp
 	${INCLUDE_DIR}/Type/TypePointer.hpp
+	${INCLUDE_DIR}/Type/TypeRayPayload.hpp
 	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
@@ -381,12 +383,14 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeAccelerationStructure.cpp
 	${SOURCE_DIR}/Type/TypeArray.cpp
 	${SOURCE_DIR}/Type/TypeCache.cpp
+	${SOURCE_DIR}/Type/TypeCallableData.cpp
 	${SOURCE_DIR}/Type/TypeComputeIO.cpp
 	${SOURCE_DIR}/Type/TypeFragmentIO.cpp
 	${SOURCE_DIR}/Type/TypeFunction.cpp
 	${SOURCE_DIR}/Type/TypeGeometryIO.cpp
 	${SOURCE_DIR}/Type/TypeImage.cpp
 	${SOURCE_DIR}/Type/TypePointer.cpp
+	${SOURCE_DIR}/Type/TypeRayPayload.cpp
 	${SOURCE_DIR}/Type/TypeSampledImage.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp

@@ -6509,7 +6509,7 @@ namespace sdw
 		, Float const & Tmin
 		, Vec3 const & direction
 		, Float const & Tmax
-		, Int const & payload )
+		, RayPayload const & payload )
 	{
 		return Void{ *findWriter( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload )
 			, expr::makeTraceRay( findTypesCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload )

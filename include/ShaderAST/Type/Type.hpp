@@ -68,6 +68,8 @@ namespace ast::type
 		eImage,
 		eSampledImage,
 		eAccelerationStructure,// Submitted to extension enabling
+		eRayPayload,// Submitted to extension enabling
+		eCallableData,// Submitted to extension enabling
 		ePointer,
 		eGeometryInput,
 		eGeometryOutput,
@@ -134,27 +136,32 @@ namespace ast::type
 
 		SDAST_API virtual ~Type()noexcept = default;
 
-		inline Kind getKind()const
+		Kind getRawKind()const
 		{
 			return m_kind;
 		}
 
-		inline bool isMember()const
+		virtual Kind getKind()const
+		{
+			return m_kind;
+		}
+
+		bool isMember()const
 		{
 			return m_index != NotMember;
 		}
 
-		inline uint32_t getIndex()const
+		uint32_t getIndex()const
 		{
 			return m_index;
 		}
 
-		inline Struct * getParent()const
+		Struct * getParent()const
 		{
 			return m_parent;
 		}
 
-		inline TypesCache & getCache()const
+		TypesCache & getCache()const
 		{
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnull-dereference"
@@ -190,6 +197,8 @@ namespace ast::type
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isSampledImageType( Kind kind );
 	SDAST_API bool isAccelerationStructureType( Kind kind );
+	SDAST_API bool isRayPayloadType( Kind kind );
+	SDAST_API bool isCallableDataType( Kind kind );
 	SDAST_API bool isOpaqueType( Kind kind );
 	SDAST_API bool isOpaqueType( TypePtr type );
 	/**
@@ -218,6 +227,11 @@ namespace ast::type
 	SDAST_API Kind getNonArrayKindRec( TypePtr type );
 	SDAST_API uint32_t getArraySize( Type const & type );
 	SDAST_API uint32_t getArraySize( TypePtr type );
+
+	SDAST_API bool isWrapperType( Type const & type );
+	SDAST_API bool isWrapperType( TypePtr type );
+	SDAST_API Type const & unwrapType( Type const & type );
+	SDAST_API TypePtr unwrapType( TypePtr type );
 }
 
 #endif

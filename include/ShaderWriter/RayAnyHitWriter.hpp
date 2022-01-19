@@ -5,6 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_RayAnyHitWriter_H___
 
 #include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/BaseTypes/HitAttribute.hpp"
+#include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/MatTypes/Mat4x3.hpp"
 #include "ShaderWriter/MatTypes/Mat3x4.hpp"
 
@@ -19,16 +21,14 @@ namespace sdw
 	*	Holds input data for a ray any hit shader.
 	*/
 	struct RayAnyHitIn
-		: public VoidT< ast::var::Flag::eShaderInput >
+		: StructInstance
 	{
-		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
-
 		SDW_API RayAnyHitIn( ShaderWriter & writer );
 		SDW_API RayAnyHitIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		SDW_API static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		// Work dimensions
 		//in uvec3 gl_LaunchIDEXT;
@@ -77,7 +77,8 @@ namespace sdw
 		Float hitT;
 	};
 
-	using RayAnyHitMainFunc = std::function< void( RayAnyHitIn ) >;
+	template< typename PayloadT, typename AttrT >
+	using RayAnyHitMainFuncT = std::function< void( RayAnyHitIn, RayPayloadInT< PayloadT >, HitAttributeT< AttrT > ) >;
 
 	class RayAnyHitWriter
 		: public ShaderWriter
@@ -88,9 +89,17 @@ namespace sdw
 		SDW_API void ignoreIntersection();
 		SDW_API void terminateRay();
 
-		SDW_API void implementMain( RayAnyHitMainFunc const & function );
+		template< typename PayloadT, typename AttrT >
+		void implementMainT( uint32_t payloadLocation
+			, RayAnyHitMainFuncT< PayloadT, AttrT > const & function );
+		template< typename PayloadT, typename AttrT >
+		void implementMainT( RayPayloadInT< PayloadT > payload
+			, HitAttributeT< AttrT > attribute
+			, RayAnyHitMainFuncT< PayloadT, AttrT > const & function );
 	};
 	/**@}*/
 }
+
+#include "RayAnyHitWriter.inl"
 
 #endif

@@ -9,6 +9,37 @@
 
 namespace
 {
+	struct HitPayload
+		: sdw::StructInstance
+	{
+		HitPayload( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, hitValue{ getMember< sdw::Vec3 >( "hitValue" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , HitPayload );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "HitPayload" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "hitValue"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 hitValue;
+	};
+
 	struct ObjDesc
 		: sdw::StructInstance
 	{
@@ -313,16 +344,17 @@ namespace
 			RayClosestHitWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
-
-			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
 			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
-			writer.implementMain( [&]( RayClosestHitIn in )
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayClosestHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
 				{
 					// Object data
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
@@ -344,7 +376,7 @@ namespace
 					auto const pos = writer.declLocale( "pos", v0.pos * barycentrics.x() + v1.pos * barycentrics.y() + v2.pos * barycentrics.z() );
 					auto const worldPos = writer.declLocale( "worldPos", in.objectToWorld * vec4( pos, 1.0 ) );  // Transforming the position to world space
 
-					prd = worldPos;
+					prd.hitValue = worldPos;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -361,16 +393,17 @@ namespace
 			RayClosestHitWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
-
-			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
 			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-
-			writer.implementMain( [&]( RayClosestHitIn in )
+			
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayClosestHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
 				{
 					// Object data
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
@@ -392,42 +425,7 @@ namespace
 					auto const pos = writer.declLocale( "pos", v0.pos * barycentrics.x() + v1.pos * barycentrics.y() + v2.pos * barycentrics.z() );
 					auto const worldPos = writer.declLocale( "worldPos", vec3( pos * in.objectToWorld ) );  // Transforming the position to world space
 
-					prd = worldPos;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void dynarraySamplers( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "dynarraySamplers" );
-		using namespace sdw;
-		{
-			RayClosestHitWriter writer;
-
-			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
-
-			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
-
-			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
-
-			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
-
-			writer.implementMain( [&]( RayClosestHitIn in )
-				{
-					// Object data
-					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
-					auto indices = Indices( "indices", objResource.indexAddress );
-
-					// Indices of the triangle
-					auto ind = writer.declLocale( "ind", writer.cast< UInt >( indices[writer.cast< UInt >( in.primitiveID )].x() ) );
-
-					prd = textureSamplers[ind].lod( attribs.xy(), 0.0_f ).xyz();
+					prd.hitValue = worldPos;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -444,16 +442,17 @@ namespace
 			RayClosestHitWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
-
-			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
-
-			writer.implementMain( [&]( RayClosestHitIn in )
+			
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayClosestHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
 				{
 					// Object data
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
@@ -462,7 +461,7 @@ namespace
 					// Indices of the triangle
 					auto ind = writer.declLocale( "ind", writer.cast< UInt >( indices[writer.cast< UInt >( in.primitiveID )].x() ) );
 
-					prd = textureSamplers[nonuniform( ind )].lod( attribs.xy(), 0.0_f ).xyz();
+					prd.hitValue = textureSamplers[nonuniform( ind )].lod( attribs.xy(), 0.0_f ).xyz();
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -479,9 +478,7 @@ namespace
 			RayClosestHitWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
 
-			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
 			auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
@@ -498,8 +495,12 @@ namespace
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-
-			writer.implementMain( [&]( RayClosestHitIn in )
+			
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayClosestHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
 				{
 					// Object data
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
@@ -571,18 +572,17 @@ namespace
 						auto origin = writer.declLocale( "origin", in.worldRayOrigin + in.worldRayDirection * in.rayTmax );
 						auto rayDir = writer.declLocale( "rayDir", L );
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
-						isShadowed = true;
-						writer.traceRay( topLevelAS	// acceleration structure
-							, flags					// rayFlags
-							, 0xFF_u				// cullMask
-							, 0_u					// sbtRecordOffset
-							, 0_u					// sbtRecordStride
-							, 1_u					// missIndex
-							, origin				// ray origin
-							, tMin					// ray min range
-							, rayDir				// ray direction
-							, tMax					// ray max range
-							, 1_i );				// payload (location = 1)
+						isShadowed = sdw::Boolean{ true };
+						isShadowed.traceRay( topLevelAS	// acceleration structure
+							, flags						// rayFlags
+							, 0xFF_u					// cullMask
+							, 0_u						// sbtRecordOffset
+							, 0_u						// sbtRecordStride
+							, 1_u						// missIndex
+							, origin					// ray origin
+							, tMin						// ray min range
+							, rayDir					// ray direction
+							, tMax );					// ray max range
 
 						IF( writer, isShadowed )
 						{
@@ -597,7 +597,7 @@ namespace
 					}
 					FI;
 
-					prd = vec3( lightIntensity * attenuation * ( diffuse + specular ) );
+					prd.hitValue = vec3( lightIntensity * attenuation * ( diffuse + specular ) );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -614,9 +614,7 @@ namespace
 			RayClosestHitWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto attribs = writer.declHitAttribute< Vec2 >( "attribs" );
 
-			auto prd = writer.declIncomingRayPayload< Vec3 >( "prd", 0u );
 			auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
@@ -638,8 +636,12 @@ namespace
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
 			auto cLight = writer.declCallableData< RayLight >( "cLight", 0u );
-
-			writer.implementMain( [&]( RayClosestHitIn in )
+			
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayClosestHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
 				{
 					// Object data
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
@@ -695,8 +697,8 @@ namespace
 						auto origin = writer.declLocale( "origin", in.worldRayOrigin + in.worldRayDirection * in.hitT );
 						auto rayDir = writer.declLocale( "rayDir", cLight.outLightDir );
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
-						isShadowed = true;
-						writer.traceRay( topLevelAS	// acceleration structure
+						isShadowed = sdw::Boolean{ true };
+						isShadowed.traceRay( topLevelAS	// acceleration structure
 							, flags					// rayFlags
 							, 0xFF_u				// cullMask
 							, 0_u					// sbtRecordOffset
@@ -705,8 +707,7 @@ namespace
 							, origin				// ray origin
 							, tMin					// ray min range
 							, rayDir				// ray direction
-							, tMax					// ray max range
-							, 1_i );				// payload (location = 1)
+							, tMax );				// ray max range
 
 						IF( writer, isShadowed )
 						{
@@ -721,7 +722,7 @@ namespace
 					}
 					FI;
 
-					prd = vec3( cLight.outIntensity * attenuation * ( diffuse + specular ) );
+					prd.hitValue = vec3( cLight.outIntensity * attenuation * ( diffuse + specular ) );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -737,7 +738,6 @@ sdwTestSuiteMain( TestWriterRayClosestHitShader )
 
 	simple( testCounts );
 	vecTimesMtx( testCounts );
-	dynarraySamplers( testCounts );
 	nonUniform( testCounts );
 	wavefrontLighting( testCounts );
 	execCallable( testCounts );

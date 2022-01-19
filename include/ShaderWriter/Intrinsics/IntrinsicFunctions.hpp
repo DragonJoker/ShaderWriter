@@ -10,6 +10,7 @@ This file is generated, don't modify it!
 
 #include "ShaderWriter/BaseTypes/Bool.hpp"
 #include "ShaderWriter/BaseTypes/Image.hpp"
+#include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
@@ -1651,7 +1652,7 @@ namespace sdw
 	*	traceRay
 	*/
 	/**@{*/
-	SDW_API Void traceRay( AccelerationStructure const & topLevel, UInt const & rayFlags, UInt const & cullMask, UInt const & sbtRecordOffset, UInt const & sbtRecordStride, UInt const & missIndex, Vec3 const & origin, Float const & Tmin, Vec3 const & direction, Float const & Tmax, Int const & payload );
+	SDW_API Void traceRay( AccelerationStructure const & topLevel, UInt const & rayFlags, UInt const & cullMask, UInt const & sbtRecordOffset, UInt const & sbtRecordStride, UInt const & missIndex, Vec3 const & origin, Float const & Tmin, Vec3 const & direction, Float const & Tmax, RayPayload const & payload );
 	/**@}*/
 #pragma endregion
 #pragma region reportIntersection
