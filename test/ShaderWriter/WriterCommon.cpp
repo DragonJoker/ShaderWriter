@@ -383,10 +383,28 @@ namespace test
 					auto glsl = glsl::compileGlsl( shader
 						, specialisation
 						, config );
-					auto isCompiled = compileGlsl( glsl
-						, shader.getType()
-						, errors
-						, testCounts );
+					bool isCompiled{ false };
+
+					if ( isRayTraceStage( shader.getType() ) )
+					{
+						try
+						{
+							compileGlslToSpv( shader.getType(), glsl, 150 );
+							isCompiled = true;
+						}
+						catch ( std::exception & exc )
+						{
+							errors += exc.what();
+						}
+					}
+					else
+					{
+						isCompiled = compileGlsl( glsl
+							, shader.getType()
+							, errors
+							, testCounts );
+					}
+
 					check( isCompiled );
 
 					if ( !isCompiled )
