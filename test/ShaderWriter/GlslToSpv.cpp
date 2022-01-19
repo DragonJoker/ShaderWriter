@@ -156,25 +156,50 @@ namespace test
 			{
 			case ast::ShaderStage::eVertex:
 				return EShLangVertex;
-
 			case ast::ShaderStage::eTessellationControl:
 				return EShLangTessControl;
-
 			case ast::ShaderStage::eTessellationEvaluation:
 				return EShLangTessEvaluation;
-
 			case ast::ShaderStage::eGeometry:
 				return EShLangGeometry;
-
 			case ast::ShaderStage::eFragment:
 				return EShLangFragment;
-
 			case ast::ShaderStage::eCompute:
 				return EShLangCompute;
-
+			case ast::ShaderStage::eRayAnyHit:
+				return EShLangAnyHit;
+			case ast::ShaderStage::eRayCallable:
+				return EShLangCallable;
+			case ast::ShaderStage::eRayClosestHit:
+				return EShLangClosestHit;
+			case ast::ShaderStage::eRayGeneration:
+				return EShLangRayGen;
+			case ast::ShaderStage::eRayIntersection:
+				return EShLangIntersect;
+			case ast::ShaderStage::eRayMiss:
+				return EShLangMiss;
 			default:
 				AST_Failure( "Unsupported shader stage." );
 				return EShLangVertex;
+			}
+		}
+
+		glslang::EShTargetLanguageVersion doGetLanguageVersion( uint32_t spvVersion )
+		{
+			switch ( spvVersion )
+			{
+			case 110u:
+				return glslang::EShTargetSpv_1_1;
+			case 120u:
+				return glslang::EShTargetSpv_1_2;
+			case 130u:
+				return glslang::EShTargetSpv_1_3;
+			case 140u:
+				return glslang::EShTargetSpv_1_4;
+			case 150u:
+				return glslang::EShTargetSpv_1_5;
+			default:
+				return glslang::EShTargetSpv_1_0;
 			}
 		}
 	}
@@ -190,7 +215,8 @@ namespace test
 	}
 
 	std::vector< uint32_t > compileGlslToSpv( ast::ShaderStage stage
-		, std::string const & shader )
+		, std::string const & shader
+		, uint32_t spvVersion )
 	{
 		std::vector< uint32_t > spirv;
 		BlockLocale guard;
@@ -200,10 +226,11 @@ namespace test
 		// Enable SPIR-V and Vulkan rules when parsing GLSL
 		auto messages = EShMessages( EShMsgSpvRules | EShMsgVulkanRules );
 		auto glstage = doGetLanguage( stage );
+		glslang::TShader glshader{ glstage };
+		glshader.setEnvTarget( glslang::EShTargetSpv
+			, doGetLanguageVersion( spvVersion ) );
 
 		std::string source = shader;
-
-		glslang::TShader glshader{ glstage };
 		char const * const str = source.c_str();
 		glshader.setStrings( &str, 1 );
 

@@ -35,5 +35,6 @@ namespace test
 	*	Transpiles a GLSL shader to SPIR-V.
 	*/
 	std::vector< uint32_t > compileGlslToSpv( ast::ShaderStage stage
-		, std::string const & shader );
+		, std::string const & shader
+		, uint32_t spvVersion = 100/* default to SPIR-V 1.0*/ );
 }
