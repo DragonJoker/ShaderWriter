@@ -140,6 +140,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/CallableData.cpp
 	${SOURCE_DIR}/BaseTypes/Double.cpp
 	${SOURCE_DIR}/BaseTypes/Float.cpp
+	${SOURCE_DIR}/BaseTypes/HitAttribute.cpp
 	${SOURCE_DIR}/BaseTypes/Image.cpp
 	${SOURCE_DIR}/BaseTypes/Int.cpp
 	${SOURCE_DIR}/BaseTypes/RayPayload.cpp

@@ -564,7 +564,7 @@ namespace test
 							return;
 						}
 
-						displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay, false );
+						displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay && availableExtensions, false );
 						std::vector< uint32_t > spirv;
 
 						try
@@ -575,7 +575,7 @@ namespace test
 						catch ( ... )
 						{
 							failure( "testWriteSpirV" );
-							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
+							displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
 							throw;
 						}
 
@@ -605,7 +605,7 @@ namespace test
 								&& text.find( "Cannot resolve expression type" ) == std::string::npos )
 							{
 								failure( "testWriteSpirV" );
-								displayShader( "SPIR-V", textSpirv, testCounts, true, false );
+								displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
 								testCounts << "spirv_cross exception: " << text << endl;
 								throw;
 							}
@@ -613,7 +613,7 @@ namespace test
 						catch ( std::exception & exc )
 						{
 							failure( "testWriteSpirV" );
-							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
+							displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
 							testCounts << "std exception: " << exc.what() << endl;
 							throw;
 						}

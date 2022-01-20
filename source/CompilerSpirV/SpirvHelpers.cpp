@@ -489,6 +489,9 @@ namespace spirv
 		case ast::type::Kind::eCallableData:
 			checkType( static_cast< ast::type::CallableData const & >( *type ).getDataType(), config );
 			break;
+		case ast::type::Kind::eHitAttribute:
+			checkType( static_cast< ast::type::HitAttribute const & >( *type ).getDataType(), config );
+			break;
 		case ast::type::Kind::eTessellationInputPatch:
 			checkType( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), config );
 			break;

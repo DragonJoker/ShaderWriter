@@ -76,6 +76,15 @@
 			<Item Name="location">m_location</Item>
 		</Expand>
 	</Type>
+	<Type Name="ast::type::HitAttribute">
+		<DisplayString>HitAttribute&lt;{*m_dataType}&gt;</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+			<Item Name="dataType">*m_dataType</Item>
+		</Expand>
+	</Type>
 	<Type Name="ast::type::SampledImage">
 		<DisplayString>combined [{*m_imageType}, {*m_samplerType}]</DisplayString>
 		<Expand>

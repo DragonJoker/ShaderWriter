@@ -486,6 +486,9 @@ namespace ast::debug
 			result = getName( *static_cast< type::CallableData const & >( type ).getDataType() );
 			result += "<" + std::to_string( static_cast< type::CallableData const & >( type ).getLocation() ) + ">";
 			break;
+		case type::Kind::eHitAttribute:
+			result = getName( *static_cast< type::HitAttribute const & >( type ).getDataType() );
+			break;
 		case type::Kind::eStruct:
 		case type::Kind::eRayDesc:
 			result = getName( getNonArrayKind( type ) );
@@ -648,6 +651,8 @@ namespace ast::debug
 			return "LINE";
 		case type::OutputTopology::eTriangle:
 			return "TRIANGLE";
+		case type::OutputTopology::eQuad:
+			return "QUAD";
 		default:
 			AST_Failure( "Unsupported type::Partitioning." );
 			return "UNDEFINED";

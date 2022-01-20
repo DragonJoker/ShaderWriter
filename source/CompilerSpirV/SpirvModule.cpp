@@ -1468,6 +1468,14 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
+		else if ( type->getRawKind() == ast::type::Kind::eHitAttribute )
+		{
+			auto & callableType = static_cast< ast::type::HitAttribute const & >( *type );
+			result = registerType( callableType.getDataType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else if ( type->getRawKind() == ast::type::Kind::eGeometryOutput )
 		{
 			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );

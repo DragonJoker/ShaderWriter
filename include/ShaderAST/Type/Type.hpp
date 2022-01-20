@@ -70,6 +70,7 @@ namespace ast::type
 		eAccelerationStructure,// Submitted to extension enabling
 		eRayPayload,// Submitted to extension enabling
 		eCallableData,// Submitted to extension enabling
+		eHitAttribute,// Submitted to extension enabling
 		eRayDesc,// Submitted to extension enabling
 		ePointer,
 		eGeometryInput,
@@ -198,6 +199,7 @@ namespace ast::type
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isSampledImageType( Kind kind );
 	SDAST_API bool isAccelerationStructureType( Kind kind );
+	SDAST_API bool isHitAttributeType( Kind kind );
 	SDAST_API bool isRayPayloadType( Kind kind );
 	SDAST_API bool isCallableDataType( Kind kind );
 	SDAST_API bool isOpaqueType( Kind kind );

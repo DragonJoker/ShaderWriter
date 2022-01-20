@@ -315,6 +315,11 @@ namespace ast::type
 		return kind == Kind::eAccelerationStructure;
 	}
 
+	bool isHitAttributeType( Kind kind )
+	{
+		return kind == Kind::eRayPayload;
+	}
+
 	bool isRayPayloadType( Kind kind )
 	{
 		return kind == Kind::eRayPayload;
@@ -672,6 +677,7 @@ namespace ast::type
 		{
 		case Kind::eRayPayload:
 		case Kind::eCallableData:
+		case Kind::eHitAttribute:
 			return true;
 		default:
 			return false;
@@ -691,6 +697,8 @@ namespace ast::type
 			return *static_cast< RayPayload const & >( type ).getDataType();
 		case Kind::eCallableData:
 			return *static_cast< CallableData const & >( type ).getDataType();
+		case Kind::eHitAttribute:
+			return *static_cast< HitAttribute const & >( type ).getDataType();
 		default:
 			return type;
 		}
@@ -704,6 +712,8 @@ namespace ast::type
 			return static_cast< RayPayload const & >( *type ).getDataType();
 		case Kind::eCallableData:
 			return static_cast< CallableData const & >( *type ).getDataType();
+		case Kind::eHitAttribute:
+			return static_cast< HitAttribute const & >( *type ).getDataType();
 		default:
 			return type;
 		}

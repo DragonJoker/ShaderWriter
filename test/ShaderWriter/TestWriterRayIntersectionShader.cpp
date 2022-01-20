@@ -5,6 +5,7 @@
 
 #undef CurrentCompilers
 #define CurrentCompilers Compilers_NoHLSL
+#pragma warning( disable:5245 )
 
 namespace
 {
@@ -221,7 +222,8 @@ namespace
 					// Report hit point
 					IF( writer, tHit > 0.0_f )
 					{
-						writer.reportIntersection( tHit, writer.cast< UInt >( hitKind ) );
+						auto attribs = writer.declHitAttribute< sdw::Vec2 >( "attribs" );
+						attribs.reportIntersection( tHit, writer.cast< UInt >( hitKind ) );
 					}
 					FI;
 				} );

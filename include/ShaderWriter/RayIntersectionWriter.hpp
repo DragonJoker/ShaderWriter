@@ -79,7 +79,6 @@ namespace sdw
 	public:
 		SDW_API RayIntersectionWriter();
 
-		SDW_API void reportIntersection( Float const & tHit, UInt const & hitKind );
 		SDW_API void implementMain( RayIntersectionMainFunc const & function );
 	};
 	/**@}*/

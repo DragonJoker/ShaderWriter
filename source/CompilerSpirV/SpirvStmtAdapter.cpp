@@ -88,6 +88,7 @@ namespace spirv
 
 	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		m_ioDeclarations->addStmt( ast::stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
 	}
 
 	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )

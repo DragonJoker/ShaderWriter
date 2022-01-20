@@ -302,6 +302,9 @@ namespace glsl
 		case ast::type::Kind::eRayPayload:
 			result = getTypeName( std::static_pointer_cast< ast::type::RayPayload >( type )->getDataType() );
 			break;
+		case ast::type::Kind::eHitAttribute:
+			result = getTypeName( std::static_pointer_cast< ast::type::HitAttribute >( type )->getDataType() );
+			break;
 		case ast::type::Kind::eCallableData:
 			result = getTypeName( std::static_pointer_cast< ast::type::CallableData >( type )->getDataType() );
 			break;

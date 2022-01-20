@@ -152,6 +152,11 @@ namespace spirv
 			args.push_back( ast::expr::makeLiteral( m_cache
 				, int( static_cast< ast::type::CallableData const & >( *callData->getType() ).getLocation() ) ) );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eReportIntersection )
+		{
+			// Remove unused HitAttribute last param.
+			args.pop_back();
+		}
 
 		m_result = ast::expr::makeIntrinsicCall( expr->getType()
 			, expr->getIntrinsic()

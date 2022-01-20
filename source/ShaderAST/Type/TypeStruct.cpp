@@ -293,7 +293,7 @@ namespace ast::type
 					result += getPackedSize( *member.type, layout );
 				}
 			}
-			else
+			else if ( !type.empty() )
 			{
 				auto member = type.back();
 				uint32_t packedAlignment = getPackedAlignment( *member.type, layout );
@@ -1044,6 +1044,10 @@ namespace ast::type
 			{
 				type = static_cast< type::CallableData const & >( *type ).getDataType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eHitAttribute )
+			{
+				type = static_cast< type::HitAttribute const & >( *type ).getDataType().get();
+			}
 			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{
 				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
@@ -1129,6 +1133,10 @@ namespace ast::type
 			{
 				type = static_cast< type::CallableData const & >( *type ).getDataType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eHitAttribute )
+			{
+				type = static_cast< type::HitAttribute const & >( *type ).getDataType().get();
+			}
 			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{
 				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
@@ -1208,6 +1216,10 @@ namespace ast::type
 			else if ( type->getRawKind() == type::Kind::eCallableData )
 			{
 				type = static_cast< type::CallableData const & >( *type ).getDataType();
+			}
+			else if ( type->getRawKind() == type::Kind::eHitAttribute )
+			{
+				type = static_cast< type::HitAttribute const & >( *type ).getDataType();
 			}
 			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{

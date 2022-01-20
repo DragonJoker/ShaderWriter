@@ -140,6 +140,14 @@ namespace ast::type
 			{
 				return ast::type::getHash( type, location );
 			} }
+		, m_hitAttribute{ []( TypePtr type )
+			{
+				return std::make_shared< HitAttribute >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} }
 	{
 		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
 		{
@@ -587,6 +595,11 @@ namespace ast::type
 	AccelerationStructurePtr TypesCache::getAccelerationStructure()
 	{
 		return m_accelerationStructure;
+	}
+
+	HitAttributePtr TypesCache::getHitAttribute( TypePtr dataType )
+	{
+		return m_hitAttribute.getType( dataType );
 	}
 
 	RayPayloadPtr TypesCache::getRayPayload( TypePtr dataType, uint32_t location )

@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 
+#include <ShaderAST/Visitors/GetExprName.hpp>
+
 namespace sdw
 {
 	//*********************************************************************************************
@@ -33,6 +35,7 @@ namespace sdw
 		, expr::ExprPtr expr
 		, bool enabled )
 		: ValueT{ writer, std::move( expr ), enabled }
+		, m_internal{ writer, ValueT::getExpr(), enabled }
 	{
 	}
 
@@ -41,7 +44,15 @@ namespace sdw
 	ast::type::TypePtr HitAttributeT< ValueT >::makeType( ast::type::TypesCache & cache
 		, ParamsT ... params )
 	{
-		return ValueT::makeType( cache );
+		return cache.getHitAttribute( ValueT::makeType( cache, std::forward< ParamsT >( params )... ) );
+	}
+
+	template< typename ValueT >
+	ReturnWrapperT< Boolean > HitAttributeT< ValueT >::reportIntersection( Float tHit
+		, UInt const & hitKind )
+	{
+		return m_internal.reportIntersection( tHit
+			, hitKind );
 	}
 
 	//*********************************************************************************************
