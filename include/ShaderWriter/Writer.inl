@@ -804,7 +804,7 @@ namespace sdw
 	inline HitAttributeT< T > ShaderWriter::declHitAttribute( std::string const & name
 		, bool enabled )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = HitAttributeT< T >::makeType( getTypesCache() );
 
 		if ( auto structType = getStructType( type ) )
 		{
@@ -817,7 +817,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addGlobalStmt( sdw::makeHitAttributeVariableDecl( var ) );
+			addStmt( sdw::makeHitAttributeVariableDecl( var ) );
 		}
 
 		return HitAttributeT< T >{ *this

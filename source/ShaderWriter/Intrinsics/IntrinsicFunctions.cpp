@@ -6528,14 +6528,16 @@ namespace sdw
 	*	reportIntersection
 	*/
 	/**@{*/
-	Void reportIntersection( Float const & hitT
-		, UInt const & hitKind )
+	Boolean reportIntersection( Float const & hitT
+		, UInt const & hitKind
+		, HitAttribute const & attribs )
 	{
-		return Void{ *findWriter( hitT, hitKind )
-			, expr::makeReportIntersection( findTypesCache( hitT, hitKind )
+		return Boolean{ *findWriter( hitT, hitKind, attribs )
+			, expr::makeReportIntersection( findTypesCache( hitT, hitKind, attribs )
 					, makeExpr( hitT )
-				, makeExpr( hitKind ) )
-			, areOptionalEnabled( hitT, hitKind ) };
+				, makeExpr( hitKind )
+				, makeExpr( attribs ) )
+			, areOptionalEnabled( hitT, hitKind, attribs ) };
 	}
 	/**@}*/
 #pragma endregion

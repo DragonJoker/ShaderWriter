@@ -13,6 +13,7 @@ See LICENSE file in root folder
 #include "TypeFragmentIO.hpp"
 #include "TypeFunction.hpp"
 #include "TypeGeometryIO.hpp"
+#include "TypeHitAttribute.hpp"
 #include "TypeImage.hpp"
 #include "TypePointer.hpp"
 #include "TypeRayPayload.hpp"
@@ -123,6 +124,7 @@ namespace ast::type
 		SDAST_API TypePtr getVector( Kind kind, uint32_t count );
 
 		SDAST_API AccelerationStructurePtr getAccelerationStructure();
+		SDAST_API HitAttributePtr getHitAttribute( TypePtr dataType );
 		SDAST_API RayPayloadPtr getRayPayload( TypePtr dataType, uint32_t location );
 		SDAST_API CallableDataPtr getCallableData( TypePtr dataType, uint32_t location );
 		SDAST_API RayDescPtr getRayDesc();
@@ -157,6 +159,7 @@ namespace ast::type
 		TypeCache< Pointer, std::function< PointerPtr( TypePtr, Storage, bool ) >, std::function< size_t( TypePtr, Storage, bool ) > > m_pointer;
 		TypeCache< RayPayload, std::function< RayPayloadPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_rayPayload;
 		TypeCache< CallableData, std::function< CallableDataPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_callableData;
+		TypeCache< HitAttribute, std::function< HitAttributePtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_hitAttribute;
 		struct MemberTypeInfo
 		{
 			TypePtr nonMemberType;

@@ -5,10 +5,43 @@ See LICENSE file in root folder
 #define ___SDW_HitAttribute_H___
 #pragma once
 
-#include "ShaderWriter/Value.hpp"
+#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Float.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
+#include "ShaderWriter/BaseTypes/ReturnWrapper.hpp"
 
 namespace sdw
 {
+	struct HitAttribute
+	{
+		SDW_API HitAttribute( ShaderWriter & writer
+			, expr::Expr * expr
+			, bool enabled );
+
+		SDW_API ReturnWrapperT< Boolean > reportIntersection( Float tHit
+			, UInt const & hitKind );
+
+		ShaderWriter * getWriter()const
+		{
+			return m_plWriter;
+		}
+
+		ast::expr::Expr * getExpr()const
+		{
+			return m_plExpr;
+		}
+
+		bool isEnabled()const
+		{
+			return m_plEnabled;
+		}
+
+	private:
+		ShaderWriter * m_plWriter;
+		expr::Expr * m_plExpr;
+		bool m_plEnabled;
+	};
+
 	template< typename ValueT >
 	struct HitAttributeT
 		: public ValueT
@@ -27,7 +60,15 @@ namespace sdw
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, ParamsT ... params );
+
+		ReturnWrapperT< Boolean > reportIntersection( Float tHit
+			, UInt const & hitKind );
+
+	private:
+		HitAttribute m_internal;
 	};
+
+	SDW_API expr::ExprPtr makeExpr( HitAttribute const & value );
 
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( HitAttributeT< ValueT > const & value );

@@ -38,7 +38,6 @@ namespace sdw
 		bool m_plEnabled;
 	};
 
-
 	template< ast::var::Flag FlagT, typename ValueT >
 	struct CallableDataBaseT
 		: public ValueT

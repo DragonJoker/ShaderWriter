@@ -502,6 +502,11 @@ namespace glsl
 		}
 	}
 
+	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+		m_globalsCont->addStmt( ast::stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
+	}
+
 	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
 		if ( stmt->getVariable()->isCallableData() )

@@ -231,6 +231,21 @@ namespace glsl
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eReportIntersection )
+		{
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			// Remove unused HitAttribute last param.
+			args.pop_back();
+			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
+				, std::move( args ) );
+		}
 		else
 		{
 			ast::expr::ExprList args;

@@ -105,11 +105,6 @@ namespace sdw
 	{
 	}
 
-	void RayIntersectionWriter::reportIntersection( Float const & tHit, UInt const & hitKind )
-	{
-		sdw::reportIntersection( tHit, hitKind );
-	}
-
 	void RayIntersectionWriter::implementMain( RayIntersectionMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"

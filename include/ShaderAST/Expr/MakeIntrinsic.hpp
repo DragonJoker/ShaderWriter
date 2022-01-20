@@ -11554,22 +11554,27 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	void
+	*	boolean
 	*@param[in] hitT
 	*	float
 	*@param[in] hitKind
 	*	uint
+	*@param[in] attribs
+	*	hitattribute
 	*/
 	inline IntrinsicCallPtr makeReportIntersection( type::TypesCache & cache
 		, ExprPtr hitT
-		, ExprPtr hitKind )
+		, ExprPtr hitKind
+		, ExprPtr attribs )
 	{
 		assert( hitT->getType()->getRawKind() == type::Kind::eFloat );
 		assert( hitKind->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+		assert( attribs->getType()->getRawKind() == type::Kind::eHitAttribute );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eReportIntersection
 			, std::move( hitT )
-			, std::move( hitKind ) );
+			, std::move( hitKind )
+			, std::move( attribs ) );
 	}
 	/**
 	*@return

@@ -10,6 +10,7 @@ This file is generated, don't modify it!
 
 #include "ShaderWriter/BaseTypes/Bool.hpp"
 #include "ShaderWriter/BaseTypes/CallableData.hpp"
+#include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/Image.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
@@ -1663,7 +1664,7 @@ namespace sdw
 	*	reportIntersection
 	*/
 	/**@{*/
-	SDW_API Void reportIntersection( Float const & hitT, UInt const & hitKind );
+	SDW_API Boolean reportIntersection( Float const & hitT, UInt const & hitKind, HitAttribute const & attribs );
 	/**@}*/
 #pragma endregion
 #pragma region executeCallable
