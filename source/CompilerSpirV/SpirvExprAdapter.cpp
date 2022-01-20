@@ -144,6 +144,14 @@ namespace spirv
 			args.push_back( ast::expr::makeLiteral( m_cache
 				, int( static_cast< ast::type::RayPayload const & >( *payLoad->getType() ).getLocation() ) ) );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eExecuteCallable )
+		{
+			auto callData = std::move( args.back() );
+			args.pop_back();
+			// Extract location from RayPayload type, to set it as last param.
+			args.push_back( ast::expr::makeLiteral( m_cache
+				, int( static_cast< ast::type::CallableData const & >( *callData->getType() ).getLocation() ) ) );
+		}
 
 		m_result = ast::expr::makeIntrinsicCall( expr->getType()
 			, expr->getIntrinsic()

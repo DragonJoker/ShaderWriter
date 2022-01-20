@@ -9,6 +9,36 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	struct CallableData
+	{
+		SDW_API CallableData( ShaderWriter & writer
+			, expr::Expr * expr
+			, bool enabled );
+
+		SDW_API void execute( UInt const & sbtRecordIndex );
+
+		ShaderWriter * getWriter()const
+		{
+			return m_plWriter;
+		}
+
+		ast::expr::Expr * getExpr()const
+		{
+			return m_plExpr;
+		}
+
+		bool isEnabled()const
+		{
+			return m_plEnabled;
+		}
+
+	private:
+		ShaderWriter * m_plWriter;
+		expr::Expr * m_plExpr;
+		bool m_plEnabled;
+	};
+
+
 	template< ast::var::Flag FlagT, typename ValueT >
 	struct CallableDataBaseT
 		: public ValueT
@@ -29,7 +59,14 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, uint32_t location
 			, ParamsT ... params );
+
+		void execute( UInt const & sbtRecordIndex );
+
+	private:
+		CallableData m_internal;
 	};
+
+	SDW_API expr::ExprPtr makeExpr( CallableData const & value );
 
 	template< ast::var::Flag FlagT, typename ValueT >
 	expr::ExprPtr makeExpr( CallableDataBaseT< FlagT, ValueT > const & value );

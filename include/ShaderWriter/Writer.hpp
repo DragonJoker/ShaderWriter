@@ -407,11 +407,11 @@ namespace sdw
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declCallableData( std::string const & name
+		inline CallableDataT< T > declCallableData( std::string const & name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declIncomingCallableData( std::string const & name
+		inline CallableDataInT< T > declIncomingCallableData( std::string const & name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >

@@ -747,11 +747,11 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declCallableData( std::string const & name
+	inline CallableDataT< T > ShaderWriter::declCallableData( std::string const & name
 		, uint32_t location
 		, bool enabled )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = CallableDataT< T >::makeType( getTypesCache(), location );
 
 		if ( auto structType = getStructType( type ) )
 		{
@@ -768,17 +768,17 @@ namespace sdw
 				, location ) );
 		}
 
-		return T{ *this
+		return CallableDataT< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declIncomingCallableData( std::string const & name
+	inline CallableDataInT< T > ShaderWriter::declIncomingCallableData( std::string const & name
 		, uint32_t location
 		, bool enabled )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = CallableDataInT< T >::makeType( getTypesCache(), location );
 
 		if ( auto structType = getStructType( type ) )
 		{
@@ -795,7 +795,7 @@ namespace sdw
 				, location ) );
 		}
 
-		return T{ *this
+		return CallableDataInT< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}

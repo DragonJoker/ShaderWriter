@@ -698,5 +698,5 @@ ASTIntrDecl( Intrinsic )
 	// Ray tracing Shader Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( traceRay, TraceRay ), ASTIntrParams( ASTIntrParam( type::Kind::eAccelerationStructure, topLevel ), ASTIntrParam( type::Kind::eUInt, rayFlags ), ASTIntrParam( type::Kind::eUInt, cullMask ), ASTIntrParam( type::Kind::eUInt, sbtRecordOffset ), ASTIntrParam( type::Kind::eUInt, sbtRecordStride ), ASTIntrParam( type::Kind::eUInt, missIndex ), ASTIntrParam( type::Kind::eRayDesc, rayDesc ), ASTIntrParam( type::Kind::eRayPayload, payload ) ) )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( reportIntersection, ReportIntersection ), ASTIntrParams( ASTIntrParam( type::Kind::eFloat, hitT ), ASTIntrParam( type::Kind::eUInt, hitKind ) ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( executeCallable, ExecuteCallable ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, sbtRecordIndex ), ASTIntrParam( type::Kind::eInt, callable ) ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( executeCallable, ExecuteCallable ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, sbtRecordIndex ), ASTIntrParam( type::Kind::eCallableData, callable ) ) )
 ASTIntrEnd

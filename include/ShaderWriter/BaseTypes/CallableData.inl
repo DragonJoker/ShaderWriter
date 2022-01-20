@@ -38,6 +38,7 @@ namespace sdw
 		, expr::ExprPtr expr
 		, bool enabled )
 		: ValueT{ writer, std::move( expr ), enabled }
+		, m_internal{ writer, ValueT::getExpr(), enabled }
 	{
 	}
 
@@ -56,6 +57,12 @@ namespace sdw
 	{
 		return cache.getCallableData( ValueT::makeType( cache, std::forward< ParamsT >( params )... )
 			, location );
+	}
+
+	template< ast::var::Flag FlagT, typename ValueT >
+	void CallableDataBaseT< FlagT, ValueT >::execute( UInt const & sbtRecordIndex )
+	{
+		m_internal.execute( sbtRecordIndex );
 	}
 
 	//*********************************************************************************************
