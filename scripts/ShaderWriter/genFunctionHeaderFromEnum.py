@@ -59,6 +59,7 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/FunctionParam.hpp"' )
+	outs.write( '\n#include "ShaderWriter/CompositeTypes/RayDesc.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MatTypes/Mat2.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MatTypes/Mat2x3.hpp"' )
 	outs.write( '\n#include "ShaderWriter/MatTypes/Mat2x4.hpp"' )

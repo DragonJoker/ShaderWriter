@@ -24,7 +24,7 @@ namespace sdw
 	inline type::StructPtr ShaderWriter::declType()
 	{
 		auto result = TypeT::makeType( getTypesCache() );
-		sdw::addStmt( *this, sdw::makeStructDecl( result ) );
+		addGlobalStmt( sdw::makeStructDecl( result ) );
 		return result;
 	}
 	/**@}*/
@@ -89,7 +89,7 @@ namespace sdw
 		function( params... );
 		doPopScope();
 		auto functionType = decl->getType();
-		addFuncStmt( std::move( decl ) );
+		addGlobalStmt( std::move( decl ) );
 		return Function< ReturnT, ParamsT... >{ *this, functionType, name };
 	}
 	/**@}*/
@@ -701,12 +701,12 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerInOut( name
-			, uint64_t( ast::var::Flag::eRayPayload )
-			, type );
+		auto var = registerName( name
+			, type
+			, uint64_t( ast::var::Flag::eRayPayload ) );
 
 		if ( enabled )
 		{
@@ -728,7 +728,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
 		auto var = registerInOut( name
@@ -755,12 +755,12 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerInOut( name
-			, uint64_t( ast::var::Flag::eCallableData )
-			, type );
+		auto var = registerName( name
+			, type
+			, uint64_t( ast::var::Flag::eCallableData ) );
 
 		if ( enabled )
 		{
@@ -782,7 +782,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
 		auto var = registerInOut( name
@@ -808,7 +808,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
 		auto var = registerInOut( name
@@ -817,7 +817,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeHitAttributeVariableDecl( var ) );
+			addGlobalStmt( sdw::makeHitAttributeVariableDecl( var ) );
 		}
 
 		return HitAttributeT< T >{ *this

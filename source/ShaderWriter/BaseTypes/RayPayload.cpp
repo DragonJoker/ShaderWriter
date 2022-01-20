@@ -21,10 +21,7 @@ namespace sdw
 		, UInt const & sbtRecordOffset
 		, UInt const & sbtRecordStride
 		, UInt const & missIndex
-		, Vec3 const & origin
-		, Float const & Tmin
-		, Vec3 const & direction
-		, Float const & Tmax )
+		, RayDesc const & rayDesc )
 	{
 		sdw::traceRay( topLevel
 			, rayFlags
@@ -32,10 +29,7 @@ namespace sdw
 			, sbtRecordOffset
 			, sbtRecordStride
 			, missIndex
-			, origin
-			, Tmin
-			, direction
-			, Tmax
+			, rayDesc
 			, *this );
 	}
 

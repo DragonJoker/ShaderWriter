@@ -5,9 +5,7 @@
 
 #undef CurrentCompilers
 #define CurrentCompilers Compilers_NoHLSL
-
-#undef ForceDisplayShaders
-#define ForceDisplayShaders true
+#pragma warning( disable:5245 )
 
 namespace
 {

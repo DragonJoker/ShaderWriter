@@ -150,7 +150,7 @@ namespace ast
 		SDAST_API var::VariablePtr getMemberVar( var::VariablePtr outer
 			, std::string const & name )const;
 		SDAST_API void addStmt( stmt::StmtPtr stmt );
-		SDAST_API void addFuncStmt( stmt::StmtPtr stmt );
+		SDAST_API void addGlobalStmt( stmt::StmtPtr stmt );
 		SDAST_API void registerSsbo( std::string const & name
 			, SsboInfo const & info );
 		SDAST_API void registerUbo( std::string const & name
@@ -252,7 +252,7 @@ namespace ast
 			return m_blocks.back().container;
 		}
 
-		stmt::Container * getFuncContainer()
+		stmt::Container * getGlobalContainer()
 		{
 			return m_blocks.front().container;
 		}

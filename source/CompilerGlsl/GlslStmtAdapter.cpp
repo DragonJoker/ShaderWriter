@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "GlslTextureAccessFunctions.hpp"
 
 #include <ShaderAST/Shader.hpp>
+#include <ShaderAST/Type/TypeCache.hpp>
 
 #include <algorithm>
 
@@ -240,20 +241,27 @@ namespace glsl
 				result->addStmt( ast::stmt::makePreprocExtension( EXT_scalar_block_layout.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
+
+			if ( adaptationData.intrinsicsConfig.requiresRayDescDecl )
+			{
+				result->addStmt( ast::stmt::makeStructureDecl( cache.getRayDesc() ) );
+			}
 		}
 
-		StmtAdapter vis{ cache, adaptationData, result };
+		StmtAdapter vis{ cache, adaptationData, result.get(), result };
 		container->accept( &vis );
 		return result;
 	}
 
 	StmtAdapter::StmtAdapter( ast::type::TypesCache & cache
 		, AdaptationData & adaptationData
+		, ast::stmt::Container * globalsCont
 		, ast::stmt::ContainerPtr & result )
 		: ast::StmtCloner{ result }
 		, m_cache{ cache }
 		, m_adaptationData{ adaptationData }
 		, m_entryPointFinish{ ast::stmt::makeContainer() }
+		, m_globalsCont{ globalsCont }
 	{
 	}
 	
@@ -491,6 +499,34 @@ namespace glsl
 		if ( !cont->empty() )
 		{
 			m_result->addStmt( std::move( cont ) );
+		}
+	}
+
+	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		if ( stmt->getVariable()->isCallableData() )
+		{
+			stmt->getVariable()->updateFlag( ast::var::Flag::eShaderOutput );
+			m_globalsCont->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
+				, stmt->getLocation() ) );
+		}
+		else
+		{
+			StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt );
+		}
+	}
+
+	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		if ( stmt->getVariable()->isRayPayload() )
+		{
+			stmt->getVariable()->updateFlag( ast::var::Flag::eShaderOutput );
+			m_globalsCont->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
+				, stmt->getLocation() ) );
+		}
+		else
+		{
+			StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt );
 		}
 	}
 

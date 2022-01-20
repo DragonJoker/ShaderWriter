@@ -67,6 +67,7 @@ namespace glsl
 	private:
 		StmtAdapter( ast::type::TypesCache & cache
 			, AdaptationData & adaptationData
+			, ast::stmt::Container * globalsCont
 			, ast::stmt::ContainerPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
@@ -79,6 +80,8 @@ namespace glsl
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
+		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
+		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
 
 	private:
 		void doProcess( ast::var::VariablePtr var
@@ -123,6 +126,7 @@ namespace glsl
 		ast::type::TypesCache & m_cache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::ContainerPtr m_entryPointFinish;
+		ast::stmt::Container * m_globalsCont;
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 		uint32_t m_maxPoint{};
 		ast::type::InputLayout m_inputLayout;

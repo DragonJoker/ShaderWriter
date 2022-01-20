@@ -26,10 +26,10 @@ namespace sdw
 	{
 		if ( auto structType = getStructType( this->getType() ) )
 		{
-			addStmt( writer, sdw::makeStructDecl( structType ) );
+			addGlobalStmt( writer, sdw::makeStructDecl( structType ) );
 		}
 
-		addStmt( writer
+		addGlobalStmt( writer
 			, sdw::makeInOutCallableDataVariableDecl( ast::findIdentifier( this->getExpr() )->getVariable(), location ) );
 	}
 

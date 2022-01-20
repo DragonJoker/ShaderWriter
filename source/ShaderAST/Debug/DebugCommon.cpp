@@ -167,6 +167,9 @@ namespace ast::debug
 		case type::Kind::eStruct:
 			result = "STRUCT";
 			break;
+		case type::Kind::eRayDesc:
+			result = "RAYDESC";
+			break;
 		case type::Kind::eFunction:
 			result = "FUNC";
 			break;
@@ -484,6 +487,7 @@ namespace ast::debug
 			result += "<" + std::to_string( static_cast< type::CallableData const & >( type ).getLocation() ) + ">";
 			break;
 		case type::Kind::eStruct:
+		case type::Kind::eRayDesc:
 			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::Struct const & >( type ) );
 			result += ")";

@@ -99,7 +99,8 @@ namespace ast::type
 		SDAST_API Struct( TypesCache & cache
 			, MemoryLayout layout
 			, std::string name
-			, var::Flag flag );
+			, var::Flag flag
+			, Kind kind = Kind::eStruct );
 
 	public:
 		SDAST_API Member getMember( uint32_t index );
@@ -206,6 +207,12 @@ namespace ast::type
 	class BaseStruct
 		: public Struct
 	{
+	protected:
+		SDAST_API BaseStruct( TypesCache & cache
+			, MemoryLayout layout
+			, std::string name
+			, Kind kind );
+
 	public:
 		SDAST_API BaseStruct( TypesCache & cache
 			, MemoryLayout layout
@@ -291,6 +298,14 @@ namespace ast::type
 			, Builtin builtin
 			, uint32_t index = InvalidLocation );
 	};
+
+	struct RayDesc
+		: public BaseStruct
+	{
+		SDAST_API RayDesc( TypesCache & cache );
+	};
+
+	using RayDescPtr = std::shared_ptr< RayDesc >;
 
 	SDAST_API bool isStructType( type::Type const & type );
 	SDAST_API bool isStructType( type::TypePtr type );

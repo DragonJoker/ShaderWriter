@@ -53,6 +53,7 @@ namespace glsl
 		bool requiresBufferReference{ false };
 		bool requiresNonUniform{ false };
 		bool requiresScalarLayout{ false };
+		bool requiresRayDescDecl{ false };
 	};
 	void checkType( ast::type::Type const & type
 		, IntrinsicsConfig & config );

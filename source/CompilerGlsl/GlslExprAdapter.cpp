@@ -196,9 +196,19 @@ namespace glsl
 			}
 
 			auto payLoad = std::move( args.back() );
+			args.pop_back();
+			auto rayDesc = std::move( args.back() );
+			args.pop_back();
+			// Replace RayDesc parameter with its four members
+			assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
+			uint32_t index = 0u;
+			for ( auto mbr : *getStructType( rayDesc->getType() ) )
+			{
+				args.push_back( ast::expr::makeMbrSelect( ExprCloner::submit( rayDesc ), index++, 0u ) );
+			}
 			// Extract location from RayPayload type, to set it as last param.
-			args.back() = std::make_unique< ast::expr::Literal >( m_cache
-				, int( static_cast< ast::type::RayPayload const & >( *payLoad->getType() ).getLocation() ) );
+			args.push_back( ast::expr::makeLiteral( m_cache
+				, int( static_cast< ast::type::RayPayload const & >( *payLoad->getType() ).getLocation() ) ) );
 			m_result = ast::expr::makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );

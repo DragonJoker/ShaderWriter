@@ -60,6 +60,7 @@ namespace sdw
 	struct Void;
 	struct Boolean;
 	struct AccelerationStructure;
+	struct RayDesc;
 
 	template< ast::type::Kind KindT >
 	struct ArithmeticValue;

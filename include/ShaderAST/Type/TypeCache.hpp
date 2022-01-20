@@ -125,6 +125,7 @@ namespace ast::type
 		SDAST_API AccelerationStructurePtr getAccelerationStructure();
 		SDAST_API RayPayloadPtr getRayPayload( TypePtr dataType, uint32_t location );
 		SDAST_API CallableDataPtr getCallableData( TypePtr dataType, uint32_t location );
+		SDAST_API RayDescPtr getRayDesc();
 		SDAST_API ImagePtr getImage( ImageConfiguration const & config );
 		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & config );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
@@ -144,6 +145,7 @@ namespace ast::type
 	private:
 		std::array< TypePtr, size_t( Kind::eMax ) > m_basicTypes;
 		AccelerationStructurePtr m_accelerationStructure;
+		RayDescPtr m_rayDesc;
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
 		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;

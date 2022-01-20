@@ -31,6 +31,8 @@
 #endif
 #pragma GCC diagnostic pop
 
+#include <iomanip>
+
 namespace test
 {
 	namespace
@@ -192,17 +194,42 @@ namespace test
 			return compileSpirV( "HLSL", *compiler, testCounts );
 		}
 
+		std::string printNumber( uint32_t index )
+		{
+			std::stringstream stream;
+			stream << std::setw( 6 ) << std::left << index;
+			return stream.str();
+		}
+
 		void displayShader( std::string const & name
 			, std::string const & shader
 			, test::TestCounts & testCounts
-			, bool force )
+			, bool force
+			, bool lines )
 		{
 			if ( force )
 			{
 				testCounts << "////////////////////////////////////////////////////////////" << endl;
 				testCounts << "// " << name << endl;
 				testCounts << "////////////////////////////////////////////////////////////" << endl;
-				testCounts << endl << shader << endl;
+
+				if ( lines )
+				{
+					std::stringstream stream{ shader };
+					std::string line;
+					uint32_t index = 1u;
+
+					while ( std::getline( stream, line, '\n' ) )
+					{
+						testCounts << printNumber( index++ ) << line << endl;
+					}
+				}
+				else
+				{
+					testCounts << endl << shader;
+				}
+
+				testCounts << endl;
 			}
 		}
 
@@ -335,19 +362,19 @@ namespace test
 
 			if ( !isValidated )
 			{
-				displayShader( "SPIR-V", text, testCounts, true );
+				displayShader( "SPIR-V", text, testCounts, true, false );
 			}
 
 			if ( compilers.glsl && !isRayTraceStage( shader.getType() ) )
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay );
+				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay, true );
 			}
 
 			if ( compilers.hlsl && !isRayTraceStage( shader.getType() ) )
 			{
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay );
+				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay, true );
 			}
 		}
 
@@ -357,7 +384,7 @@ namespace test
 			, test::TestCounts & testCounts )
 		{
 			auto debug = ::sdw::writeDebug( shader );
-			displayShader( "Statements", debug, testCounts, compilers.forceDisplay );
+			displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
 		}
 
 		void testWriteGlsl( ::ast::Shader const & shader
@@ -409,12 +436,12 @@ namespace test
 
 					if ( !isCompiled )
 					{
-						displayShader( "GLSL", glsl, testCounts, true );
+						displayShader( "GLSL", glsl, testCounts, true, true );
 						testCounts << errors << endl;
 					}
 					else
 					{
-						displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay );
+						displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay, true );
 					}
 				};
 				checkNoThrow( validate() );
@@ -446,12 +473,12 @@ namespace test
 
 					if ( !isCompiled )
 					{
-						displayShader( "HLSL", hlsl, testCounts, true );
+						displayShader( "HLSL", hlsl, testCounts, true, true );
 						testCounts << errors << endl;
 					}
 					else
 					{
-						displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay );
+						displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
 					}
 				};
 				checkNoThrow( validate() );
@@ -537,7 +564,7 @@ namespace test
 							return;
 						}
 
-						displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay );
+						displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay, false );
 						std::vector< uint32_t > spirv;
 
 						try
@@ -548,7 +575,7 @@ namespace test
 						catch ( ... )
 						{
 							failure( "testWriteSpirV" );
-							displayShader( "SPIR-V", textSpirv, testCounts, true );
+							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 							throw;
 						}
 
@@ -578,7 +605,7 @@ namespace test
 								&& text.find( "Cannot resolve expression type" ) == std::string::npos )
 							{
 								failure( "testWriteSpirV" );
-								displayShader( "SPIR-V", textSpirv, testCounts, true );
+								displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 								testCounts << "spirv_cross exception: " << text << endl;
 								throw;
 							}
@@ -586,7 +613,7 @@ namespace test
 						catch ( std::exception & exc )
 						{
 							failure( "testWriteSpirV" );
-							displayShader( "SPIR-V", textSpirv, testCounts, true );
+							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 							testCounts << "std exception: " << exc.what() << endl;
 							throw;
 						}
@@ -709,8 +736,8 @@ namespace test
 							, shader.getType()
 							, testCounts );
 						auto textSpirv = spirv::writeSpirv( shader, config );
-						displayShader( "SPIR-V", textSpirv, testCounts, true );
-						displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true );
+						displayShader( "SPIR-V", textSpirv, testCounts, true, false );
+						displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 								, ast::SpecialisationInfo{}
@@ -718,6 +745,7 @@ namespace test
 						displayShader( "glslang SPIR-V"
 							, spirv::displaySpirv( glslangSpirv )
 							, testCounts
+							, true
 							, true );
 					};
 
@@ -770,10 +798,12 @@ namespace test
 						displayShader( "SPIR-V"
 							, textSpirv
 							, testCounts
-							, true );
+							, true
+							, false );
 						displayShader( "SpirV-Cross GLSL"
 							, crossGlsl
 							, testCounts
+							, true
 							, true );
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
@@ -782,7 +812,8 @@ namespace test
 						displayShader( "glslang SPIR-V"
 							, spirv::displaySpirv( glslangSpirv )
 							, testCounts
-							, true );
+							, true
+							, false );
 					};
 					checkNoThrow( validate() );
 				}

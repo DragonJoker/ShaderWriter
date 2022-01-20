@@ -13,57 +13,19 @@ set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/${_FOLDER_NAME} )
 set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
 
 set( ${PROJECT_NAME}_HEADER_FILES
-	${INCLUDE_DIR}/CallableWriter.hpp
-	${INCLUDE_DIR}/CallableWriter.inl
-	${INCLUDE_DIR}/ComputeWriter.hpp
-	${INCLUDE_DIR}/ComputeWriter.inl
-	${INCLUDE_DIR}/FragmentWriter.hpp
-	${INCLUDE_DIR}/FragmentWriter.inl
-	${INCLUDE_DIR}/GeometryWriter.hpp
-	${INCLUDE_DIR}/GeometryWriter.inl
 	${INCLUDE_DIR}/Helpers.hpp
 	${INCLUDE_DIR}/Helpers.inl
-	${INCLUDE_DIR}/RayAnyHitWriter.hpp
-	${INCLUDE_DIR}/RayAnyHitWriter.inl
-	${INCLUDE_DIR}/RayClosestHitWriter.hpp
-	${INCLUDE_DIR}/RayClosestHitWriter.inl
-	${INCLUDE_DIR}/RayGenerationWriter.hpp
-	${INCLUDE_DIR}/RayIntersectionWriter.hpp
-	${INCLUDE_DIR}/RayMissWriter.hpp
-	${INCLUDE_DIR}/RayMissWriter.inl
 	${INCLUDE_DIR}/ShaderWriterPrerequisites.hpp
 	${INCLUDE_DIR}/ShaderWriterPrerequisites.inl
 	${INCLUDE_DIR}/Source.hpp
-	${INCLUDE_DIR}/TessellationControlWriter.hpp
-	${INCLUDE_DIR}/TessellationControlWriter.inl
-	${INCLUDE_DIR}/TessellationEvaluationWriter.hpp
-	${INCLUDE_DIR}/TessellationEvaluationWriter.inl
 	${INCLUDE_DIR}/Value.hpp
 	${INCLUDE_DIR}/Value.inl
-	${INCLUDE_DIR}/VertexWriter.hpp
-	${INCLUDE_DIR}/VertexWriter.inl
-	${INCLUDE_DIR}/Writer.hpp
-	${INCLUDE_DIR}/Writer.inl
 	${INCLUDE_DIR}/WriterDebug.hpp
 	${SOURCE_DIR}/WriterInt.hpp
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
-	${SOURCE_DIR}/CallableWriter.cpp
-	${SOURCE_DIR}/ComputeWriter.cpp
-	${SOURCE_DIR}/FragmentWriter.cpp
-	${SOURCE_DIR}/GeometryWriter.cpp
 	${SOURCE_DIR}/Helpers.cpp
-	${SOURCE_DIR}/RayAnyHitWriter.cpp
-	${SOURCE_DIR}/RayClosestHitWriter.cpp
-	${SOURCE_DIR}/RayGenerationWriter.cpp
-	${SOURCE_DIR}/RayIntersectionWriter.cpp
-	${SOURCE_DIR}/RayMissWriter.cpp
-	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
-	${SOURCE_DIR}/TessellationControlWriter.cpp
-	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
 	${SOURCE_DIR}/Value.cpp
-	${SOURCE_DIR}/VertexWriter.cpp
-	${SOURCE_DIR}/Writer.cpp
 	${SOURCE_DIR}/WriterDebug.cpp
 	${SOURCE_DIR}/WriterInt.cpp
 )
@@ -74,6 +36,65 @@ source_group( "Header Files"
 source_group( "Source Files"
 	FILES
 		${${PROJECT_NAME}_SOURCE_FILES}
+)
+
+set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
+	${INCLUDE_DIR}/CallableWriter.hpp
+	${INCLUDE_DIR}/CallableWriter.inl
+	${INCLUDE_DIR}/ComputeWriter.hpp
+	${INCLUDE_DIR}/ComputeWriter.inl
+	${INCLUDE_DIR}/FragmentWriter.hpp
+	${INCLUDE_DIR}/FragmentWriter.inl
+	${INCLUDE_DIR}/GeometryWriter.hpp
+	${INCLUDE_DIR}/GeometryWriter.inl
+	${INCLUDE_DIR}/RayAnyHitWriter.hpp
+	${INCLUDE_DIR}/RayAnyHitWriter.inl
+	${INCLUDE_DIR}/RayClosestHitWriter.hpp
+	${INCLUDE_DIR}/RayClosestHitWriter.inl
+	${INCLUDE_DIR}/RayGenerationWriter.hpp
+	${INCLUDE_DIR}/RayIntersectionWriter.hpp
+	${INCLUDE_DIR}/RayMissWriter.hpp
+	${INCLUDE_DIR}/RayMissWriter.inl
+	${INCLUDE_DIR}/TessellationControlWriter.hpp
+	${INCLUDE_DIR}/TessellationControlWriter.inl
+	${INCLUDE_DIR}/TessellationEvaluationWriter.hpp
+	${INCLUDE_DIR}/TessellationEvaluationWriter.inl
+	${INCLUDE_DIR}/VertexWriter.hpp
+	${INCLUDE_DIR}/VertexWriter.inl
+	${INCLUDE_DIR}/Writer.hpp
+	${INCLUDE_DIR}/Writer.inl
+)
+set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
+	${SOURCE_DIR}/CallableWriter.cpp
+	${SOURCE_DIR}/ComputeWriter.cpp
+	${SOURCE_DIR}/FragmentWriter.cpp
+	${SOURCE_DIR}/GeometryWriter.cpp
+	${SOURCE_DIR}/RayAnyHitWriter.cpp
+	${SOURCE_DIR}/RayClosestHitWriter.cpp
+	${SOURCE_DIR}/RayGenerationWriter.cpp
+	${SOURCE_DIR}/RayIntersectionWriter.cpp
+	${SOURCE_DIR}/RayMissWriter.cpp
+	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
+	${SOURCE_DIR}/TessellationControlWriter.cpp
+	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
+	${SOURCE_DIR}/VertexWriter.cpp
+	${SOURCE_DIR}/Writer.cpp
+)
+source_group( "Header Files\\Writers"
+	FILES
+		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+)
+source_group( "Source Files\\Writers"
+	FILES
+		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
+)
+set( ${PROJECT_NAME}_HEADER_FILES
+	${${PROJECT_NAME}_HEADER_FILES}
+	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
+)
+set( ${PROJECT_NAME}_SOURCE_FILES
+	${${PROJECT_NAME}_SOURCE_FILES}
+	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
@@ -157,6 +178,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/Pcb.hpp
 	${INCLUDE_DIR}/CompositeTypes/Pcb.inl
 	${INCLUDE_DIR}/CompositeTypes/PerVertex.hpp
+	${INCLUDE_DIR}/CompositeTypes/RayDesc.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ssbo.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ssbo.inl
 	${INCLUDE_DIR}/CompositeTypes/Struct.hpp
@@ -171,6 +193,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/CompositeTypes/Builtins.cpp
 	${SOURCE_DIR}/CompositeTypes/Pcb.cpp
 	${SOURCE_DIR}/CompositeTypes/PerVertex.cpp
+	${SOURCE_DIR}/CompositeTypes/RayDesc.cpp
 	${SOURCE_DIR}/CompositeTypes/Ssbo.cpp
 	${SOURCE_DIR}/CompositeTypes/Struct.cpp
 	${SOURCE_DIR}/CompositeTypes/StructInstance.cpp

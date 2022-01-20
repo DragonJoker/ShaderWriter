@@ -41,7 +41,8 @@ namespace spirv
 						result->declMember( member.name
 							, std::static_pointer_cast< ast::type::Array >( type ) );
 					}
-					else if ( type->getKind() == ast::type::Kind::eStruct )
+					else if ( type->getKind() == ast::type::Kind::eStruct
+						|| type->getKind() == ast::type::Kind::eRayDesc )
 					{
 						result->declMember( member.name
 							, std::static_pointer_cast< ast::type::Struct >( type ) );
@@ -98,7 +99,8 @@ namespace spirv
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Array const & >( qualified ) );
 			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eStruct )
+			else if ( qualified.getRawKind() == ast::type::Kind::eStruct
+				|| qualified.getRawKind() == ast::type::Kind::eRayDesc )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Struct const & >( qualified ) );
 			}
@@ -1553,6 +1555,7 @@ namespace spirv
 		, uint32_t arrayStride )
 	{
 		assert( kind != ast::type::Kind::eStruct );
+		assert( kind != ast::type::Kind::eRayDesc );
 		assert( kind != ast::type::Kind::eImage );
 		assert( kind != ast::type::Kind::eSampledImage );
 
@@ -1722,7 +1725,8 @@ namespace spirv
 				, mbrIndex
 				, parentId );
 		}
-		else if ( kind == ast::type::Kind::eStruct )
+		else if ( kind == ast::type::Kind::eStruct
+			|| kind == ast::type::Kind::eRayDesc )
 		{
 			result = registerBaseType( std::static_pointer_cast< ast::type::Struct >( type )
 				, mbrIndex
@@ -1805,12 +1809,14 @@ namespace spirv
 	{
 		auto type = unwrapType( id.type );
 
-		if ( type->getKind() != ast::type::Kind::eStruct
+		if ( ( type->getKind() != ast::type::Kind::eStruct
+				&& type->getKind() != ast::type::Kind::eRayDesc )
 			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )
 		{
 			debug.push_back( makeInstruction< NameInstruction >( id, name ) );
 		}
 		else if ( type->getKind() == ast::type::Kind::eStruct
+			|| type->getKind() == ast::type::Kind::eRayDesc
 			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() == name )
 		{
 			debug.push_back( makeInstruction< NameInstruction >( id, name + "Inst" ) );

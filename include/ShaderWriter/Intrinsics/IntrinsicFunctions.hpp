@@ -15,6 +15,7 @@ This file is generated, don't modify it!
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/FunctionParam.hpp"
+#include "ShaderWriter/CompositeTypes/RayDesc.hpp"
 #include "ShaderWriter/MatTypes/Mat2.hpp"
 #include "ShaderWriter/MatTypes/Mat2x3.hpp"
 #include "ShaderWriter/MatTypes/Mat2x4.hpp"
@@ -1652,7 +1653,7 @@ namespace sdw
 	*	traceRay
 	*/
 	/**@{*/
-	SDW_API Void traceRay( AccelerationStructure const & topLevel, UInt const & rayFlags, UInt const & cullMask, UInt const & sbtRecordOffset, UInt const & sbtRecordStride, UInt const & missIndex, Vec3 const & origin, Float const & Tmin, Vec3 const & direction, Float const & Tmax, RayPayload const & payload );
+	SDW_API Void traceRay( AccelerationStructure const & topLevel, UInt const & rayFlags, UInt const & cullMask, UInt const & sbtRecordOffset, UInt const & sbtRecordStride, UInt const & missIndex, RayDesc const & rayDesc, RayPayload const & payload );
 	/**@}*/
 #pragma endregion
 #pragma region reportIntersection

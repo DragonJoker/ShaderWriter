@@ -299,6 +299,10 @@ namespace sdw
 		, stmt::StmtPtr stmt );
 	SDW_API void addStmt( ShaderWriter & writer
 		, stmt::StmtPtr stmt );
+	SDW_API void addGlobalStmt( Shader & shader
+		, stmt::StmtPtr stmt );
+	SDW_API void addGlobalStmt( ShaderWriter & writer
+		, stmt::StmtPtr stmt );
 	SDW_API void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
 	SDW_API var::VariablePtr registerName( ShaderWriter & writer

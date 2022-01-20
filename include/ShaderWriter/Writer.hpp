@@ -116,7 +116,7 @@ namespace sdw
 			, type::TypePtr type );
 		SDW_API var::VariablePtr getVar( std::string const & name );
 		SDW_API void addStmt( stmt::StmtPtr stmt );
-		SDW_API void addFuncStmt( stmt::StmtPtr stmt );
+		SDW_API void addGlobalStmt( stmt::StmtPtr stmt );
 		SDW_API void registerSsbo( std::string const & name
 			, SsboInfo const & info );
 		SDW_API void registerUbo( std::string const & name

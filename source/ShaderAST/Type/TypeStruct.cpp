@@ -217,7 +217,8 @@ namespace ast::type
 
 			auto kind = getNonArrayKindRec( type );
 
-			if ( kind == Kind::eStruct )
+			if ( kind == Kind::eStruct
+				|| kind == Kind::eRayDesc )
 			{
 				return getPackedAlignment( static_cast< Struct const & >( type )
 					, layout );
@@ -275,7 +276,8 @@ namespace ast::type
 
 				// The next member following a struct member is aligned to the base alignment of the struct that came before.
 				// GL 4.5 spec, 7.6.2.2.
-				if ( kind == Kind::eStruct )
+				if ( kind == Kind::eStruct
+					|| kind == Kind::eRayDesc )
 				{
 					padAlignment = packedAlignment;
 				}
@@ -304,7 +306,8 @@ namespace ast::type
 
 			auto kind = getNonArrayKindRec( type );
 
-			if ( kind == Kind::eStruct )
+			if ( kind == Kind::eStruct
+				|| kind == Kind::eRayDesc )
 			{
 				return getPackedSize( static_cast< Struct const & >( type )
 					, layout );
@@ -397,8 +400,9 @@ namespace ast::type
 	Struct::Struct( TypesCache & cache
 		, MemoryLayout layout
 		, std::string name
-		, var::Flag flag )
-		: Type{ cache, Kind::eStruct }
+		, var::Flag flag
+		, Kind kind )
+		: Type{ cache, kind }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 		, m_flag{ flag }
@@ -537,8 +541,16 @@ namespace ast::type
 
 	BaseStruct::BaseStruct( TypesCache & cache
 		, MemoryLayout layout
+		, std::string name
+		, Kind kind )
+		: Struct{ cache, layout, name, {}, kind }
+	{
+	}
+
+	BaseStruct::BaseStruct( TypesCache & cache
+		, MemoryLayout layout
 		, std::string name )
-		: Struct{ cache, layout, name, {} }
+		: BaseStruct{ cache, layout, name, Kind::eStruct }
 	{
 	}
 
@@ -613,7 +625,8 @@ namespace ast::type
 		Struct::Member result;
 		auto kind = getNonArrayKind( type );
 
-		if ( kind == Kind::eStruct )
+		if ( kind == Kind::eStruct
+			|| kind == Kind::eRayDesc )
 		{
 			auto structType = std::static_pointer_cast< Struct >( type->getType() );
 
@@ -846,7 +859,8 @@ namespace ast::type
 
 		auto kind = getNonArrayKind( type );
 
-		if ( kind == Kind::eStruct )
+		if ( kind == Kind::eStruct
+			|| kind == Kind::eRayDesc )
 		{
 			declMember( name
 				, std::static_pointer_cast< Struct >( type->getType() )
@@ -936,6 +950,17 @@ namespace ast::type
 
 	//*************************************************************************
 
+	RayDesc::RayDesc( TypesCache & cache )
+		: BaseStruct{ cache, MemoryLayout::eC, "RayDesc", Kind::eRayDesc }
+	{
+		declMember( "Origin", Kind::eVec3F );
+		declMember( "TMin", Kind::eFloat );
+		declMember( "Direction", Kind::eVec3F );
+		declMember( "TMax", Kind::eFloat );
+	}
+
+	//*************************************************************************
+
 	size_t getHash( MemoryLayout layout
 		, std::string const & name )
 	{
@@ -969,7 +994,8 @@ namespace ast::type
 
 			if ( result )
 			{
-				if ( itl->type->getKind() == Kind::eStruct )
+				if ( itl->type->getKind() == Kind::eStruct
+					|| itl->type->getKind() == Kind::eRayDesc )
 				{
 					result = static_cast< Struct const & >( *itl->type ) == static_cast< Struct const & >( *itr->type );
 				}
@@ -992,7 +1018,8 @@ namespace ast::type
 	{
 		auto type = &ptype;
 
-		while ( type->getRawKind() != type::Kind::eStruct )
+		while ( type->getRawKind() != type::Kind::eStruct
+			&& type->getRawKind() != type::Kind::eRayDesc )
 		{
 			if ( type->getRawKind() == type::Kind::ePointer )
 			{
@@ -1058,7 +1085,8 @@ namespace ast::type
 			}
 		}
 
-		if ( type->getRawKind() == type::Kind::eStruct )
+		if ( type->getRawKind() == type::Kind::eStruct
+			|| type->getRawKind() == type::Kind::eRayDesc )
 		{
 			return true;
 		}
@@ -1075,7 +1103,8 @@ namespace ast::type
 	{
 		auto type = &ptype;
 
-		while ( type->getRawKind() != type::Kind::eStruct )
+		while ( type->getRawKind() != type::Kind::eStruct
+			&& type->getRawKind() != type::Kind::eRayDesc )
 		{
 			if ( type->getRawKind() == type::Kind::ePointer )
 			{
@@ -1143,7 +1172,8 @@ namespace ast::type
 			}
 		}
 
-		if ( type->getRawKind() == type::Kind::eStruct )
+		if ( type->getRawKind() == type::Kind::eStruct
+			|| type->getRawKind() == type::Kind::eRayDesc )
 		{
 			return static_cast< type::Struct const * >( type );
 		}
@@ -1153,7 +1183,8 @@ namespace ast::type
 
 	type::StructPtr getStructType( type::TypePtr type )
 	{
-		while ( type->getRawKind() != type::Kind::eStruct )
+		while ( type->getRawKind() != type::Kind::eStruct
+			&& type->getRawKind() != type::Kind::eRayDesc )
 		{
 			if ( type->getRawKind() == type::Kind::ePointer )
 			{
@@ -1219,7 +1250,8 @@ namespace ast::type
 			}
 		}
 
-		if ( type->getRawKind() == type::Kind::eStruct )
+		if ( type->getRawKind() == type::Kind::eStruct
+			|| type->getRawKind() == type::Kind::eRayDesc )
 		{
 			return std::static_pointer_cast< type::Struct >( type );
 		}
