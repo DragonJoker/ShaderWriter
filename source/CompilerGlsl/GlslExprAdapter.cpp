@@ -213,6 +213,24 @@ namespace glsl
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eExecuteCallable )
+		{
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			auto callData = std::move( args.back() );
+			args.pop_back();
+			// Extract location from RayPayload type, to set it as last param.
+			args.push_back( ast::expr::makeLiteral( m_cache
+				, int( static_cast< ast::type::CallableData const & >( *callData->getType() ).getLocation() ) ) );
+			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
+				, std::move( args ) );
+		}
 		else
 		{
 			ast::expr::ExprList args;

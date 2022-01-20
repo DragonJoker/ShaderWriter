@@ -56,6 +56,26 @@
 			<Item Name="isForward">m_isForward</Item>
 		</Expand>
 	</Type>
+	<Type Name="ast::type::RayPayload">
+		<DisplayString>RayPayload&lt;{*m_dataType}&gt;</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+			<Item Name="dataType">*m_dataType</Item>
+			<Item Name="location">m_location</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::type::CallableData">
+		<DisplayString>CallableData&lt;{*m_dataType}&gt;</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="parent">m_parent</Item>
+			<Item Name="index">m_index</Item>
+			<Item Name="dataType">*m_dataType</Item>
+			<Item Name="location">m_location</Item>
+		</Expand>
+	</Type>
 	<Type Name="ast::type::SampledImage">
 		<DisplayString>combined [{*m_imageType}, {*m_samplerType}]</DisplayString>
 		<Expand>
@@ -511,7 +531,8 @@
 	<Type Name="ast::expr::Literal">
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eBool">{m_value.boolv}</DisplayString>
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt">{m_value.intv}s</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt">{m_value.uintv}u</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt">{m_value.uint32v}u</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt64">{m_value.uint64v}ull</DisplayString>
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eFloat">{m_value.floatv}f</DisplayString>
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eDouble">{m_value.doublev}d</DisplayString>
 		<Expand>
@@ -522,7 +543,8 @@
 			<Item Name="value">m_value</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eBool">m_value.boolv</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt">m_value.intv</Item>
-			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt">m_value.uintv</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt">m_value.uint32v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt64">m_value.uint64v</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eFloat">m_value.floatv</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eDouble">m_value.doublev</Item>
 		</Expand>

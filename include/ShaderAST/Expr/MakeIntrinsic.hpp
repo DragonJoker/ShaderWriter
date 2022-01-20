@@ -11577,14 +11577,14 @@ namespace ast::expr
 	*@param[in] sbtRecordIndex
 	*	uint
 	*@param[in] callable
-	*	int
+	*	callabledata
 	*/
 	inline IntrinsicCallPtr makeExecuteCallable( type::TypesCache & cache
 		, ExprPtr sbtRecordIndex
 		, ExprPtr callable )
 	{
 		assert( sbtRecordIndex->getType()->getRawKind() == type::Kind::eUInt );
-		assert( callable->getType()->getRawKind() == type::Kind::eInt );
+		assert( callable->getType()->getRawKind() == type::Kind::eCallableData );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eExecuteCallable
 			, std::move( sbtRecordIndex )

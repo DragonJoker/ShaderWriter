@@ -613,8 +613,6 @@ namespace
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
-			auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
-
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
 
@@ -632,8 +630,6 @@ namespace
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-
-			auto cLight = writer.declCallableData< RayLight >( "cLight", 0u );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
 				, HitAttributeT< Vec2 >{ writer }
@@ -667,8 +663,9 @@ namespace
 					auto const worldNrm = writer.declLocale( "worldNrm", normalize( vec3( nrm * in.worldToObject ) ) );  // Transforming the normal to world space
 
 					// Vector toward the light
+					auto cLight = writer.declCallableData< RayLight >( "cLight", 1u );
 					cLight.inHitPosition = worldPos;
-					executeCallable( writer.cast< UInt >( pcLightType ), 0_i );
+					cLight.execute( writer.cast< UInt >( pcLightType ) );
 
 					// Material of the object
 					auto matIdx = writer.declLocale< Int >( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
@@ -696,6 +693,7 @@ namespace
 						ray.direction = cLight.outLightDir;
 						ray.tMin = 0.001_f;
 						ray.tMax = cLight.outLightDistance;
+						auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 2u );
 						isShadowed = sdw::Boolean{ true };
 						isShadowed.traceRay( topLevelAS	// acceleration structure
 							, flags					// rayFlags

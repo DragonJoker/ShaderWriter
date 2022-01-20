@@ -9,6 +9,7 @@ This file is generated, don't modify it!
 #pragma once
 
 #include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/CallableData.hpp"
 #include "ShaderWriter/BaseTypes/Image.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
@@ -1671,7 +1672,7 @@ namespace sdw
 	*	executeCallable
 	*/
 	/**@{*/
-	SDW_API Void executeCallable( UInt const & sbtRecordIndex, Int const & callable );
+	SDW_API Void executeCallable( UInt const & sbtRecordIndex, CallableData const & callable );
 	/**@}*/
 #pragma endregion
 }

@@ -137,6 +137,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/AccelerationStructure.cpp
 	${SOURCE_DIR}/BaseTypes/Bool.cpp
+	${SOURCE_DIR}/BaseTypes/CallableData.cpp
 	${SOURCE_DIR}/BaseTypes/Double.cpp
 	${SOURCE_DIR}/BaseTypes/Float.cpp
 	${SOURCE_DIR}/BaseTypes/Image.cpp

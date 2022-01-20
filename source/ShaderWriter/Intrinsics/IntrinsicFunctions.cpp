@@ -6546,7 +6546,7 @@ namespace sdw
 	*/
 	/**@{*/
 	Void executeCallable( UInt const & sbtRecordIndex
-		, Int const & callable )
+		, CallableData const & callable )
 	{
 		return Void{ *findWriter( sbtRecordIndex, callable )
 			, expr::makeExecuteCallable( findTypesCache( sbtRecordIndex, callable )
