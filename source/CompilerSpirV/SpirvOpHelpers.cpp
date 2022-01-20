@@ -1799,6 +1799,7 @@ namespace spirv
 			result = spv::OpTypeFunction;
 			break;
 		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
 			result = spv::OpTypeStruct;
 			break;
 		case ast::type::Kind::eBoolean:

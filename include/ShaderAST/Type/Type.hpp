@@ -70,6 +70,7 @@ namespace ast::type
 		eAccelerationStructure,// Submitted to extension enabling
 		eRayPayload,// Submitted to extension enabling
 		eCallableData,// Submitted to extension enabling
+		eRayDesc,// Submitted to extension enabling
 		ePointer,
 		eGeometryInput,
 		eGeometryOutput,

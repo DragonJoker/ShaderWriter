@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/Value.hpp"
+#include "ShaderWriter/CompositeTypes/RayDesc.hpp"
 
 namespace sdw
 {
@@ -21,10 +22,7 @@ namespace sdw
 			, UInt const & sbtRecordOffset
 			, UInt const & sbtRecordStride
 			, UInt const & missIndex
-			, Vec3 const & origin
-			, Float const & Tmin
-			, Vec3 const & direction
-			, Float const & Tmax );
+			, RayDesc const & rayDesc );
 
 		ShaderWriter * getWriter()const
 		{
@@ -74,10 +72,7 @@ namespace sdw
 			, UInt const & sbtRecordOffset
 			, UInt const & sbtRecordStride
 			, UInt const & missIndex
-			, Vec3 const & origin
-			, Float const & Tmin
-			, Vec3 const & direction
-			, Float const & Tmax );
+			, RayDesc const & rayDesc );
 
 	private:
 		RayPayload m_internal;

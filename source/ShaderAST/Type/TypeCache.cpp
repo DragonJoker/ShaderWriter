@@ -145,6 +145,8 @@ namespace ast::type
 		{
 			m_basicTypes[i] = std::make_shared< Type >( *this, Kind( i ) );
 		}
+
+		m_rayDesc = std::make_shared< RayDesc >( *this );
 	}
 
 	TypePtr TypesCache::getUndefined()
@@ -595,6 +597,11 @@ namespace ast::type
 	CallableDataPtr TypesCache::getCallableData( TypePtr dataType, uint32_t location )
 	{
 		return m_callableData.getType( dataType, location );
+	}
+
+	RayDescPtr TypesCache::getRayDesc()
+	{
+		return m_rayDesc;
 	}
 
 	ImagePtr TypesCache::getImage( ImageConfiguration const & config )

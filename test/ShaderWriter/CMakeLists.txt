@@ -59,12 +59,21 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		endif ()
 	endif ()
 
-	if ( ( TARGET CompilerHlsl )
-		AND WIN32 )
+	if ( ( TARGET CompilerHlsl ) AND WIN32 )
 		set( OptionalCompileDefinitions
 			${OptionalCompileDefinitions}
 			SDW_Test_HasDirect3D11=1
 		)
+		find_package( DXC )
+		if ( DXC_FOUND )
+			set( OptionalCompileDefinitions
+				${OptionalCompileDefinitions}
+				SDW_Test_HasDXC=1
+			)
+			set( DXC_LIBRARIES
+				DXC::dxc
+			)
+		endif ()
 	endif ()
 endif ()
 
@@ -189,6 +198,7 @@ target_link_libraries( TestWriterCommon
 		sdw::test::Common
 		sdw::test::SpirvCross
 		${TargetLinkLibraries}
+		${DXC_LIBRARIES}
 )
 target_compile_definitions( TestWriterCommon
 	PUBLIC

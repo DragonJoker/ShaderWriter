@@ -59,7 +59,8 @@ namespace ast::type
 
 			if ( result )
 			{
-				if ( lhsVar->getType()->getKind() == Kind::eStruct )
+				if ( lhsVar->getType()->getKind() == Kind::eStruct
+					|| lhsVar->getType()->getKind() == Kind::eRayDesc )
 				{
 					result = static_cast< Struct const & >( *lhsVar->getType() ) == static_cast< Struct const & >( *rhsVar->getType() );
 				}

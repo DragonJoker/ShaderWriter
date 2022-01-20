@@ -96,6 +96,7 @@ namespace sdw
 		switch ( kind )
 		{
 		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
 			assert( false );
 			return nullptr;
 		case ast::type::Kind::eImage:

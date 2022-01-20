@@ -37,8 +37,6 @@ namespace
 		{
 			RayGenerationWriter writer;
 
-			auto prd = writer.declRayPayload< Vec3 >( "prd", 0u );
-
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 			auto image = writer.declImage< WFImg2DRgba32 >( "image", 1u, 0u );
 
@@ -57,28 +55,24 @@ namespace
 					auto d = writer.declLocale( "d"
 						, inUV * 2.0 - 1.0 );
 
-					auto origin = writer.declLocale( "origin"
-						, viewInverse * vec4( 0.0_f, 0.0_f, 0.0_f, 1.0_f ) );
 					auto target = writer.declLocale( "target"
 						, projInverse * vec4( d.x(), d.y(), 1.0_f, 1.0_f ) );
-					auto direction = writer.declLocale( "direction"
-						, viewInverse * vec4( normalize( target.xyz() ), 0.0_f ) );
 
 					auto rayFlags = writer.declLocale( "rayFlags"
 						, RayFlags::Opaque() );
-					auto tMin = 0.001_f;
-					auto tMax = 10000.0_f;
-
+					auto ray = writer.declLocale< RayDesc >( "ray" );
+					ray.origin = vec3( viewInverse * vec4( 0.0_f, 0.0_f, 0.0_f, 1.0_f ) );
+					ray.direction = vec3( viewInverse * vec4( normalize( target.xyz() ), 0.0_f ) );
+					ray.tMin = 0.001_f;
+					ray.tMax = 10000.0_f;
+					auto prd = writer.declRayPayload< Vec3 >( "prd", 0u );
 					prd.traceRay( topLevelAS	// acceleration structure
 						, rayFlags				// rayFlags
 						, 0xFF_u				// cullMask
 						, 0_u					// sbtRecordOffset
 						, 0_u					// sbtRecordStride
 						, 0_u					// missIndex
-						, origin.xyz()			// ray origin
-						, tMin					// ray min range
-						, direction.xyz()		// ray direction
-						, tMax );				// ray max range
+						, ray );
 					image.store( ivec2( in.launchID.xy() ), vec4( prd, 1.0 ) );
 				} );
 			test::writeShader( writer

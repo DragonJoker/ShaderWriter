@@ -121,6 +121,7 @@ namespace glsl
 			result = "void";
 			break;
 		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
 			result = "struct";
 			break;
 		case ast::type::Kind::eFunction:
@@ -286,6 +287,7 @@ namespace glsl
 		switch ( type->getRawKind() )
 		{
 		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
 		case ast::type::Kind::eImage:

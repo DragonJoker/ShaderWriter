@@ -6505,26 +6505,20 @@ namespace sdw
 		, UInt const & sbtRecordOffset
 		, UInt const & sbtRecordStride
 		, UInt const & missIndex
-		, Vec3 const & origin
-		, Float const & Tmin
-		, Vec3 const & direction
-		, Float const & Tmax
+		, RayDesc const & rayDesc
 		, RayPayload const & payload )
 	{
-		return Void{ *findWriter( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload )
-			, expr::makeTraceRay( findTypesCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload )
+		return Void{ *findWriter( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload )
+			, expr::makeTraceRay( findTypesCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload )
 					, makeExpr( topLevel )
 				, makeExpr( rayFlags )
 				, makeExpr( cullMask )
 				, makeExpr( sbtRecordOffset )
 				, makeExpr( sbtRecordStride )
 				, makeExpr( missIndex )
-				, makeExpr( origin )
-				, makeExpr( Tmin )
-				, makeExpr( direction )
-				, makeExpr( Tmax )
+				, makeExpr( rayDesc )
 				, makeExpr( payload ) )
-			, areOptionalEnabled( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, origin, Tmin, direction, Tmax, payload ) };
+			, areOptionalEnabled( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload ) };
 	}
 	/**@}*/
 #pragma endregion

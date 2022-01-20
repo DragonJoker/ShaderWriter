@@ -461,7 +461,8 @@ namespace spirv
 		type = ast::type::getNonArrayType( type );
 		auto kind = type->getKind();
 
-		if ( kind == ast::type::Kind::eStruct )
+		if ( kind == ast::type::Kind::eStruct
+			|| kind == ast::type::Kind::eRayDesc )
 		{
 			doTraverseType( std::static_pointer_cast< ast::type::Struct >( type ) );
 		}

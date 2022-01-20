@@ -567,11 +567,12 @@ namespace
 					// Tracing shadow ray only if the light is visible from the surface
 					IF( writer, dot( worldNrm, L ) > 0.0_f )
 					{
-						auto tMin = writer.declLocale( "tMin", 0.001_f );
-						auto tMax = writer.declLocale( "tMax", lightDistance );
-						auto origin = writer.declLocale( "origin", in.worldRayOrigin + in.worldRayDirection * in.rayTmax );
-						auto rayDir = writer.declLocale( "rayDir", L );
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
+						auto ray = writer.declLocale< RayDesc >( "ray" );
+						ray.origin = in.worldRayOrigin + in.worldRayDirection * in.rayTmax;
+						ray.direction = L;
+						ray.tMin = 0.001_f;
+						ray.tMax = lightDistance;
 						isShadowed = sdw::Boolean{ true };
 						isShadowed.traceRay( topLevelAS	// acceleration structure
 							, flags						// rayFlags
@@ -579,10 +580,7 @@ namespace
 							, 0_u						// sbtRecordOffset
 							, 0_u						// sbtRecordStride
 							, 1_u						// missIndex
-							, origin					// ray origin
-							, tMin						// ray min range
-							, rayDir					// ray direction
-							, tMax );					// ray max range
+							, ray );
 
 						IF( writer, isShadowed )
 						{
@@ -692,11 +690,12 @@ namespace
 					// Tracing shadow ray only if the light is visible from the surface
 					IF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
 					{
-						auto tMin = writer.declLocale( "tMin", 0.001_f );
-						auto tMax = writer.declLocale( "tMax", cLight.outLightDistance );
-						auto origin = writer.declLocale( "origin", in.worldRayOrigin + in.worldRayDirection * in.hitT );
-						auto rayDir = writer.declLocale( "rayDir", cLight.outLightDir );
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
+						auto ray = writer.declLocale< RayDesc >( "ray" );
+						ray.origin = in.worldRayOrigin + in.worldRayDirection * in.rayTmax;
+						ray.direction = cLight.outLightDir;
+						ray.tMin = 0.001_f;
+						ray.tMax = cLight.outLightDistance;
 						isShadowed = sdw::Boolean{ true };
 						isShadowed.traceRay( topLevelAS	// acceleration structure
 							, flags					// rayFlags
@@ -704,10 +703,7 @@ namespace
 							, 0_u					// sbtRecordOffset
 							, 0_u					// sbtRecordStride
 							, 1_u					// missIndex
-							, origin				// ray origin
-							, tMin					// ray min range
-							, rayDir				// ray direction
-							, tMax );				// ray max range
+							, ray );
 
 						IF( writer, isShadowed )
 						{

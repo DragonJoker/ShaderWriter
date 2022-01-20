@@ -133,6 +133,9 @@ namespace glsl
 		case ast::expr::Intrinsic::eAtomicExchangeF:
 			m_config.requiresAtomicFloat = true;
 			break;
+		case ast::expr::Intrinsic::eTraceRay:
+			m_config.requiresRayDescDecl = true;
+			break;
 		default:
 			break;
 		}

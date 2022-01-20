@@ -530,7 +530,7 @@ namespace ast
 		}
 	}
 
-	void Shader::addFuncStmt( stmt::StmtPtr stmt )
+	void Shader::addGlobalStmt( stmt::StmtPtr stmt )
 	{
 		if ( m_ignore )
 		{
@@ -543,7 +543,7 @@ namespace ast
 		}
 		else
 		{
-			getFuncContainer()->addStmt( std::move( stmt ) );
+			getGlobalContainer()->addStmt( std::move( stmt ) );
 		}
 	}
 

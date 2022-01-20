@@ -26,10 +26,10 @@ namespace sdw
 	{
 		if ( auto structType = getStructType( this->getType() ) )
 		{
-			addStmt( writer, sdw::makeStructDecl( structType ) );
+			addGlobalStmt( writer, sdw::makeStructDecl( structType ) );
 		}
 
-		addStmt( writer
+		addGlobalStmt( writer
 			, sdw::makeInOutRayPayloadVariableDecl( ast::findIdentifier( this->getExpr() )->getVariable(), location ) );
 	}
 
@@ -66,10 +66,7 @@ namespace sdw
 		, UInt const & sbtRecordOffset
 		, UInt const & sbtRecordStride
 		, UInt const & missIndex
-		, Vec3 const & origin
-		, Float const & Tmin
-		, Vec3 const & direction
-		, Float const & Tmax )
+		, RayDesc const & rayDesc )
 	{
 		m_internal.traceRay( topLevel
 			, rayFlags
@@ -77,10 +74,7 @@ namespace sdw
 			, sbtRecordOffset
 			, sbtRecordStride
 			, missIndex
-			, origin
-			, Tmin
-			, direction
-			, Tmax );
+			, rayDesc );
 	}
 
 	//*********************************************************************************************

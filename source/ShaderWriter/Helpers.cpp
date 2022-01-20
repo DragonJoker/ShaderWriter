@@ -903,6 +903,18 @@ namespace sdw
 		addStmt( writer.getShader(), std::move( stmt ) );
 	}
 
+	void addGlobalStmt( Shader & shader
+		, stmt::StmtPtr stmt )
+	{
+		shader.addGlobalStmt( std::move( stmt ) );
+	}
+
+	void addGlobalStmt( ShaderWriter & writer
+		, stmt::StmtPtr stmt )
+	{
+		addGlobalStmt( writer.getShader(), std::move( stmt ) );
+	}
+
 	void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt )
 	{

@@ -16,7 +16,8 @@ namespace sdw
 	inline T StructInstance::getMember( std::string const & name
 		, bool optional )const
 	{
-		assert( m_type->getKind() == type::Kind::eStruct );
+		assert( m_type->getKind() == type::Kind::eStruct
+			|| m_type->getKind() == type::Kind::eRayDesc );
 		auto mbrFlags = m_type->getFlag();
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
@@ -90,7 +91,8 @@ namespace sdw
 	inline Array< T > StructInstance::getMemberArray( std::string const & name
 		, bool optional )const
 	{
-		assert( m_type->getKind() == type::Kind::eStruct );
+		assert( m_type->getKind() == type::Kind::eStruct
+			|| m_type->getKind() == type::Kind::eRayDesc );
 		auto mbrFlags = m_type->getFlag();
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
@@ -162,7 +164,8 @@ namespace sdw
 	template< typename T >
 	inline T StructInstance::getMember( ast::Builtin builtin )const
 	{
-		assert( m_type->getKind() == type::Kind::eStruct );
+		assert( m_type->getKind() == type::Kind::eStruct
+			|| m_type->getKind() == type::Kind::eRayDesc );
 		auto mbrFlags = m_type->getFlag() | ast::var::Flag::eBuiltin;
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
@@ -187,7 +190,8 @@ namespace sdw
 	template< typename T >
 	inline Array< T > StructInstance::getMemberArray( ast::Builtin builtin )const
 	{
-		assert( m_type->getKind() == type::Kind::eStruct );
+		assert( m_type->getKind() == type::Kind::eStruct
+			|| m_type->getKind() == type::Kind::eRayDesc );
 		auto mbrFlags = m_type->getFlag() | ast::var::Flag::eBuiltin;
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )

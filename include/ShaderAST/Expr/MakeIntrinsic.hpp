@@ -11518,14 +11518,8 @@ namespace ast::expr
 	*	uint
 	*@param[in] missIndex
 	*	uint
-	*@param[in] origin
-	*	vec3f
-	*@param[in] Tmin
-	*	float
-	*@param[in] direction
-	*	vec3f
-	*@param[in] Tmax
-	*	float
+	*@param[in] rayDesc
+	*	raydesc
 	*@param[in] payload
 	*	raypayload
 	*/
@@ -11536,10 +11530,7 @@ namespace ast::expr
 		, ExprPtr sbtRecordOffset
 		, ExprPtr sbtRecordStride
 		, ExprPtr missIndex
-		, ExprPtr origin
-		, ExprPtr Tmin
-		, ExprPtr direction
-		, ExprPtr Tmax
+		, ExprPtr rayDesc
 		, ExprPtr payload )
 	{
 		assert( topLevel->getType()->getRawKind() == type::Kind::eAccelerationStructure );
@@ -11548,10 +11539,7 @@ namespace ast::expr
 		assert( sbtRecordOffset->getType()->getRawKind() == type::Kind::eUInt );
 		assert( sbtRecordStride->getType()->getRawKind() == type::Kind::eUInt );
 		assert( missIndex->getType()->getRawKind() == type::Kind::eUInt );
-		assert( origin->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( Tmin->getType()->getRawKind() == type::Kind::eFloat );
-		assert( direction->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( Tmax->getType()->getRawKind() == type::Kind::eFloat );
+		assert( rayDesc->getType()->getRawKind() == type::Kind::eRayDesc );
 		assert( payload->getType()->getRawKind() == type::Kind::eRayPayload );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eTraceRay
@@ -11561,10 +11549,7 @@ namespace ast::expr
 			, std::move( sbtRecordOffset )
 			, std::move( sbtRecordStride )
 			, std::move( missIndex )
-			, std::move( origin )
-			, std::move( Tmin )
-			, std::move( direction )
-			, std::move( Tmax )
+			, std::move( rayDesc )
 			, std::move( payload ) );
 	}
 	/**
