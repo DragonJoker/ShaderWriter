@@ -55,6 +55,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprXorAssign.hpp>
 #include <ShaderAST/Stmt/PreprocDefine.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
+#include <ShaderAST/Stmt/StmtAccelerationStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtBufferReferenceDecl.hpp>
 #include <ShaderAST/Stmt/StmtFragmentLayout.hpp>
 #include <ShaderAST/Stmt/StmtHitAttributeVariableDecl.hpp>

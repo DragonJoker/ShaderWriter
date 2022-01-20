@@ -5,6 +5,9 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
+#include <ShaderAST/Stmt/StmtIgnoreIntersection.hpp>
+#include <ShaderAST/Stmt/StmtTerminateRay.hpp>
+
 namespace sdw
 {
 	//*************************************************************************
