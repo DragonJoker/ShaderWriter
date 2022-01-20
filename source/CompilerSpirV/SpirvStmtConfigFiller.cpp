@@ -138,6 +138,7 @@ namespace spirv
 
 	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
+		m_result.addressingModel = spv::AddressingModelPhysicalStorageBuffer64;
 		m_result.registerCapability( spv::CapabilityPhysicalStorageBufferAddresses );
 	}
 
@@ -271,30 +272,38 @@ namespace spirv
 		{
 			m_result.registerCapability( spv::CapabilityGeometryStreams );
 		}
+
+		doTraverseType( var->getType() );
 	}
 
 	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
+		doTraverseType( stmt->getVariable()->getType() );
 	}
 
 	void StmtConfigFiller::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
 	{
+		doTraverseType( stmt->getType() );
 	}
 
 	void StmtConfigFiller::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
+		doTraverseType( stmt->getType() );
 	}
 
 	void StmtConfigFiller::visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )
 	{
+		doTraverseType( stmt->getType() );
 	}
 
 	void StmtConfigFiller::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
+		doTraverseType( stmt->getType() );
 	}
 
 	void StmtConfigFiller::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
+		doTraverseType( stmt->getType() );
 	}
 
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
@@ -311,55 +320,12 @@ namespace spirv
 
 	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		auto imgType = std::static_pointer_cast< ast::type::SampledImage >( getNonArrayType( stmt->getVariable()->getType() ) );
-
-		if ( getArraySize( stmt->getVariable()->getType() ) == ast::type::UnknownArraySize )
-		{
-			m_result.registerCapability( spv::CapabilityRuntimeDescriptorArray );
-		}
-
-		if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
-		{
-			m_result.registerCapability( spv::CapabilitySampled1D );
-		}
-
-		if ( imgType->getConfig().dimension == ast::type::ImageDim::eRect )
-		{
-			m_result.registerCapability( spv::CapabilitySampledRect );
-		}
-
-		if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )
-		{
-			m_result.registerCapability( spv::CapabilitySampledBuffer );
-		}
-
-		switch ( imgType->getConfig().format )
-		{
-		case ast::type::ImageFormat::eRg32f:
-		case ast::type::ImageFormat::eRg16f:
-		case ast::type::ImageFormat::eR32f:
-		case ast::type::ImageFormat::eR16f:
-		case ast::type::ImageFormat::eRg32i:
-		case ast::type::ImageFormat::eRg16i:
-		case ast::type::ImageFormat::eRg8i:
-		case ast::type::ImageFormat::eR32i:
-		case ast::type::ImageFormat::eR16i:
-		case ast::type::ImageFormat::eR8i:
-		case ast::type::ImageFormat::eRg32u:
-		case ast::type::ImageFormat::eRg16u:
-		case ast::type::ImageFormat::eRg8u:
-		case ast::type::ImageFormat::eR32u:
-		case ast::type::ImageFormat::eR16u:
-		case ast::type::ImageFormat::eR8u:
-			m_result.registerCapability( spv::CapabilityStorageImageExtendedFormats );
-			break;
-		default:
-			break;
-		}
+		doTraverseType( stmt->getVariable()->getType() );
 	}
 
 	void StmtConfigFiller::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
+		doTraverseType( stmt->getVariable()->getType() );
 	}
 
 	void StmtConfigFiller::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
@@ -458,30 +424,6 @@ namespace spirv
 
 	void StmtConfigFiller::doTraverseType( ast::type::TypePtr type )
 	{
-		type = ast::type::getNonArrayType( type );
-		auto kind = type->getKind();
-
-		if ( kind == ast::type::Kind::eStruct
-			|| kind == ast::type::Kind::eRayDesc )
-		{
-			doTraverseType( std::static_pointer_cast< ast::type::Struct >( type ) );
-		}
-		else
-		{
-			kind = getScalarType( kind );
-
-			if ( kind == ast::type::Kind::eDouble )
-			{
-				m_result.registerCapability( spv::CapabilityFloat64 );
-			}
-		}
-	}
-
-	void StmtConfigFiller::doTraverseType( ast::type::StructPtr type )
-	{
-		for ( auto & member : *type )
-		{
-			doTraverseType( member.type );
-		}
+		checkType( type, m_result );
 	}
 }

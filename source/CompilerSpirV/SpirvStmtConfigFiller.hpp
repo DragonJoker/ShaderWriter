@@ -73,7 +73,6 @@ namespace spirv
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 		void doTraverseType( ast::type::TypePtr type );
-		void doTraverseType( ast::type::StructPtr type );
 
 	private:
 		ModuleConfig & m_result;

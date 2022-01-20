@@ -338,9 +338,180 @@ namespace spirv
 			stream << getMajor( spvVersion ) << "." << getMinor( spvVersion );
 			return stream.str();
 		}
+
+		void checkType( ast::type::Kind kind
+			, ModuleConfig & config )
+		{
+			if ( isDoubleType( kind ) )
+			{
+				config.registerCapability( spv::CapabilityFloat64 );
+			}
+			else if ( isHalfType( kind ) )
+			{
+				config.registerCapability( spv::CapabilityFloat16 );
+			}
+			else if ( isUnsignedInt64Type( kind ) )
+			{
+				config.registerCapability( spv::CapabilityInt64 );
+			}
+			else if ( isAccelerationStructureType( kind ) )
+			{
+				if ( isRayTraceStage( config.stage ) )
+				{
+					config.registerCapability( spv::CapabilityRayTracingKHR );
+				}
+				else
+				{
+					config.registerCapability( spv::CapabilityRayQueryKHR );
+				}
+			}
+		}
+
+		void checkType( ast::type::Image const & type
+			, uint32_t arraySize
+			, ModuleConfig & config )
+		{
+			if ( arraySize == ast::type::UnknownArraySize )
+			{
+				config.registerCapability( spv::CapabilityRuntimeDescriptorArray );
+			}
+
+			switch ( type.getConfig().format )
+			{
+			case ast::type::ImageFormat::eRg32f:
+			case ast::type::ImageFormat::eRg16f:
+			case ast::type::ImageFormat::eR32f:
+			case ast::type::ImageFormat::eR16f:
+			case ast::type::ImageFormat::eRg32i:
+			case ast::type::ImageFormat::eRg16i:
+			case ast::type::ImageFormat::eRg8i:
+			case ast::type::ImageFormat::eR32i:
+			case ast::type::ImageFormat::eR16i:
+			case ast::type::ImageFormat::eR8i:
+			case ast::type::ImageFormat::eRg32u:
+			case ast::type::ImageFormat::eRg16u:
+			case ast::type::ImageFormat::eRg8u:
+			case ast::type::ImageFormat::eR32u:
+			case ast::type::ImageFormat::eR16u:
+			case ast::type::ImageFormat::eR8u:
+				config.registerCapability( spv::CapabilityStorageImageExtendedFormats );
+				break;
+			default:
+				break;
+			}
+		}
+
+		void checkType( ast::type::SampledImage const & type
+			, uint32_t arraySize
+			, ModuleConfig & config )
+		{
+			if ( arraySize == ast::type::UnknownArraySize )
+			{
+				config.registerCapability( spv::CapabilityRuntimeDescriptorArray );
+			}
+
+			if ( type.getConfig().dimension == ast::type::ImageDim::e1D )
+			{
+				config.registerCapability( spv::CapabilitySampled1D );
+			}
+
+			if ( type.getConfig().dimension == ast::type::ImageDim::eRect )
+			{
+				config.registerCapability( spv::CapabilitySampledRect );
+			}
+
+			if ( type.getConfig().dimension == ast::type::ImageDim::eBuffer )
+			{
+				config.registerCapability( spv::CapabilitySampledBuffer );
+			}
+
+			switch ( type.getConfig().format )
+			{
+			case ast::type::ImageFormat::eRg32f:
+			case ast::type::ImageFormat::eRg16f:
+			case ast::type::ImageFormat::eR32f:
+			case ast::type::ImageFormat::eR16f:
+			case ast::type::ImageFormat::eRg32i:
+			case ast::type::ImageFormat::eRg16i:
+			case ast::type::ImageFormat::eRg8i:
+			case ast::type::ImageFormat::eR32i:
+			case ast::type::ImageFormat::eR16i:
+			case ast::type::ImageFormat::eR8i:
+			case ast::type::ImageFormat::eRg32u:
+			case ast::type::ImageFormat::eRg16u:
+			case ast::type::ImageFormat::eRg8u:
+			case ast::type::ImageFormat::eR32u:
+			case ast::type::ImageFormat::eR16u:
+			case ast::type::ImageFormat::eR8u:
+				config.registerCapability( spv::CapabilityStorageImageExtendedFormats );
+				break;
+			default:
+				break;
+			}
+		}
+
+		void checkType( ast::type::Struct const & type
+			, ModuleConfig & config )
+		{
+			for ( auto & mbr : type )
+			{
+				checkType( mbr.type, config );
+			}
+		}
 	}
 
 	//*********************************************************************************************
+
+	void checkType( ast::type::TypePtr type
+		, ModuleConfig & config )
+	{
+		auto arraySize = getArraySize( type );
+		type = getNonArrayType( type );
+
+		switch ( type->getRawKind() )
+		{
+		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
+			checkType( static_cast< ast::type::Struct const & >( *type ), config );
+			break;
+		case ast::type::Kind::eImage:
+			checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
+			break;
+		case ast::type::Kind::eSampledImage:
+			checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
+			break;
+		case ast::type::Kind::eArray:
+			checkType( static_cast< ast::type::Array const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eRayPayload:
+			checkType( static_cast< ast::type::RayPayload const & >( *type ).getDataType(), config );
+			break;
+		case ast::type::Kind::eCallableData:
+			checkType( static_cast< ast::type::CallableData const & >( *type ).getDataType(), config );
+			break;
+		case ast::type::Kind::eTessellationInputPatch:
+			checkType( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eTessellationOutputPatch:
+			checkType( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eTessellationControlInput:
+			checkType( static_cast< ast::type::TessellationControlInput const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eTessellationControlOutput:
+			checkType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eTessellationEvaluationInput:
+			checkType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::ePointer:
+			checkType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), config );
+			break;
+		default:
+			checkType( type->getKind(), config );
+			break;
+		}
+	}
 
 	void checkBuiltin( ast::Builtin builtin
 		, ast::ShaderStage stage
@@ -1878,36 +2049,6 @@ namespace spirv
 			AST_Failure( "Unsupported ast::Builtin" );
 			return spv::BuiltInMax;
 		}
-	}
-
-	spv::AddressingModel getAddressingModel( ast::ShaderStage kind )
-	{
-		spv::AddressingModel result{};
-
-		switch ( kind )
-		{
-		case ast::ShaderStage::eVertex:
-		case ast::ShaderStage::eTessellationControl:
-		case ast::ShaderStage::eTessellationEvaluation:
-		case ast::ShaderStage::eGeometry:
-		case ast::ShaderStage::eCompute:
-		case ast::ShaderStage::eFragment:
-		case ast::ShaderStage::eRayGeneration:
-		case ast::ShaderStage::eRayMiss:
-		case ast::ShaderStage::eRayIntersection:
-		case ast::ShaderStage::eCallable:
-			result = spv::AddressingModelLogical;
-			break;
-		case ast::ShaderStage::eRayClosestHit:
-		case ast::ShaderStage::eRayAnyHit:
-			result = spv::AddressingModelPhysicalStorageBuffer64;
-			break;
-		default:
-			AST_Failure( "Unsupported sdw::ShaderStage." );
-			break;
-		}
-
-		return result;
 	}
 
 	spv::MemoryModel getMemoryModel()

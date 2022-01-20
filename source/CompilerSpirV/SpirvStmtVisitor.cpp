@@ -96,7 +96,7 @@ namespace spirv
 	{
 		Module result{ cache
 			, spirvConfig
-			, getAddressingModel( type )
+			, moduleConfig.addressingModel
 			, getMemoryModel()
 			, getExecutionModel( type ) };
 		StmtVisitor vis{ result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
