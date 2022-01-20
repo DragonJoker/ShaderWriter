@@ -2,9 +2,6 @@
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
-
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_NoHLSL
 #pragma warning( disable:5245 )
 
 namespace

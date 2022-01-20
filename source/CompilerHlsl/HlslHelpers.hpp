@@ -369,6 +369,35 @@ namespace hlsl
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
 
+		void setHlslType( ast::type::TypePtr orig
+			, ast::type::TypePtr repl )
+		{
+			m_replacedTypes.emplace( orig, repl );
+		}
+
+		bool isHlslType( ast::type::TypePtr type )const
+		{
+			auto it = std::find_if( m_replacedTypes.begin()
+				, m_replacedTypes.end()
+				, [&type]( auto const & lookup )
+				{
+					return lookup.second == type;
+				} );
+			return it != m_replacedTypes.end();
+		}
+
+		ast::type::TypePtr getHlslType( ast::type::TypePtr type )const
+		{
+			auto it = m_replacedTypes.find( type );
+
+			if ( it == m_replacedTypes.end() )
+			{
+				return type;
+			}
+
+			return it->second;
+		}
+
 		RoutineMap const & getRoutines()const
 		{
 			return m_routines;
@@ -422,6 +451,7 @@ namespace hlsl
 		Routine * m_mainEntryPoint{};
 		Routine * m_currentRoutine{};
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		std::map< ast::type::TypePtr, ast::type::TypePtr > m_replacedTypes;
 
 	public:
 		HlslShader * shader;

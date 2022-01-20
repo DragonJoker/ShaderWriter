@@ -4,6 +4,7 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
+// HLSL doesn't support buffer references
 #undef CurrentCompilers
 #define CurrentCompilers Compilers_NoHLSL
 

@@ -333,6 +333,7 @@ namespace hlsl
 			result = "void";
 			break;
 		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
 			result = "struct";
 			break;
 		case ast::type::Kind::eFunction:
@@ -482,6 +483,9 @@ namespace hlsl
 		case ast::type::Kind::eVec4H:
 			result = "vector<half, 4>";
 			break;
+		case ast::type::Kind::eAccelerationStructure:
+			result = "RaytracingAccelerationStructure";
+			break;
 		default:
 			break;
 		}
@@ -604,8 +608,9 @@ namespace hlsl
 			result = "static ";
 		}
 
-		if ( var.isInputParam()
-			&& var.isOutputParam() )
+		if ( var.isIncomingRayPayload()
+			|| var.isIncomingCallableData()
+			|| ( var.isInputParam() && var.isOutputParam() ) )
 		{
 			result = "inout ";
 		}
@@ -829,9 +834,10 @@ namespace hlsl
 			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 		}
 
-		switch ( type->getKind() )
+		switch ( type->getRawKind() )
 		{
 		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
 		case ast::type::Kind::eImage:
@@ -872,6 +878,15 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eComputeInput:
 			result = getTypeName( static_cast< ast::type::ComputeInput const & >( *type ).getType() );
+			break;
+		case ast::type::Kind::eRayPayload:
+			result = getTypeName( static_cast< ast::type::RayPayload const & >( *type ).getDataType() );
+			break;
+		case ast::type::Kind::eCallableData:
+			result = getTypeName( static_cast< ast::type::CallableData const & >( *type ).getDataType() );
+			break;
+		case ast::type::Kind::eHitAttribute:
+			result = getTypeName( static_cast< ast::type::HitAttribute const & >( *type ).getDataType() );
 			break;
 		default:
 			result = getTypeName( type->getKind() );
@@ -1238,6 +1253,7 @@ namespace hlsl
 		case ast::expr::Kind::eBitNot:
 		case ast::expr::Kind::eLogNot:
 		case ast::expr::Kind::eCast:
+		case ast::expr::Kind::eCopy:
 		case ast::expr::Kind::ePreIncrement:
 		case ast::expr::Kind::ePreDecrement:
 		case ast::expr::Kind::eUnaryMinus:
@@ -1836,7 +1852,8 @@ namespace hlsl
 				arraySize = ast::type::NotArray;
 			}
 
-			if ( nonArray->getKind() == ast::type::Kind::eStruct )
+			if ( nonArray->getKind() == ast::type::Kind::eStruct
+				|| nonArray->getKind() == ast::type::Kind::eRayDesc )
 			{
 				structType.declMember( name
 					, std::static_pointer_cast< ast::type::Struct >( nonArray )
