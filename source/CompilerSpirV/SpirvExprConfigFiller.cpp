@@ -12,45 +12,17 @@ namespace spirv
 {
 	namespace
 	{
-		void checkType( ast::type::Kind kind
-			, ModuleConfig & config )
-		{
-			if ( isDoubleType( kind ) )
-			{
-				config.registerCapability( spv::CapabilityFloat64 );
-			}
-			else if ( isHalfType( kind ) )
-			{
-				config.registerCapability( spv::CapabilityFloat16 );
-			}
-			else if ( isUnsignedInt64Type( kind ) )
-			{
-				config.registerCapability( spv::CapabilityInt64 );
-			}
-			else if ( isAccelerationStructureType( kind ) )
-			{
-				if ( isRayTraceStage( config.stage ) )
-				{
-					config.registerCapability( spv::CapabilityRayTracingKHR );
-				}
-				else
-				{
-					config.registerCapability( spv::CapabilityRayQueryKHR );
-				}
-			}
-		}
-
 		void checkType( ast::expr::Expr * expr
 			, ModuleConfig & config )
 		{
-			checkType( expr->getType()->getKind()
+			checkType( expr->getType()
 				, config );
 		}
 
 		void checkType( ast::expr::IntrinsicCall * expr
 			, ModuleConfig & config )
 		{
-			checkType( expr->getType()->getKind()
+			checkType( expr->getType()
 				, config );
 			auto kind = expr->getIntrinsic();
 

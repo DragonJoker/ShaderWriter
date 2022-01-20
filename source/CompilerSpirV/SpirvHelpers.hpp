@@ -154,6 +154,7 @@ namespace spirv
 		uint32_t nextVarId;
 		uint32_t aliasId;
 		ast::ShaderStage stage;
+		spv::AddressingModel addressingModel{ spv::AddressingModelLogical };
 		
 		std::set< spv::ExecutionMode > executionModes;
 
@@ -400,9 +401,10 @@ namespace spirv
 		ValueId workGroupSizeExpr;
 	};
 
+	void checkType( ast::type::TypePtr type
+		, ModuleConfig & config );
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, std::vector< spv::Decoration > & additionalDecorations );
-	spv::AddressingModel getAddressingModel( ast::ShaderStage kind );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
 	std::string getTypeName( spv::Op op );
