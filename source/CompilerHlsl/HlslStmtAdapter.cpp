@@ -60,7 +60,8 @@ namespace hlsl
 			, m_intrinsicsConfig
 			, m_writerConfig
 			, m_adaptationData
-			, m_intrinsics );
+			, m_intrinsics
+			, false );
 	}
 
 	void StmtAdapter::linkVars( ast::var::VariablePtr textureSampler
@@ -72,51 +73,80 @@ namespace hlsl
 				, std::move( sampler ) ) );
 	}
 
+	void StmtAdapter::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
+	{
+	}
+
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
 		if ( stmt->getFlags() )
 		{
-			m_adaptationData.updateCurrentEntryPoint( stmt );
-
-			auto & cache = stmt->getType()->getCache();
-			// Write function content into a temporary container, registering I/O.
-			auto cont = ast::stmt::makeContainer();
-			auto save = m_current;
-			m_current = cont.get();
-			visitContainerStmt( stmt );
-			m_current = save;
-
-
-			if ( m_adaptationData.needsSeparateFunc() )
+			if ( isRayTraceStage( m_shader.getType() ) )
 			{
-				// Write SDW_main function
-				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
-				auto sdwMainCont = ast::stmt::makeFunctionDecl( cache.getFunction( stmt->getType()->getReturnType()
-					, ast::var::VariableList{} )
-					, "SDW_" + stmt->getName() );
-				sdwMainCont->addStmt( std::move( cont ) );
-				m_current->addStmt( std::move( sdwMainCont ) );
+				auto funcType = stmt->getType();
+				auto save = m_current;
+				ast::var::VariableList params;
+				// Skip first parameter, since it only contains the builtins.
+				auto it = std::next( funcType->begin() );
 
-				// Write main function
-				writeMain( stmt );
+				// Push the other parameters like any other function.
+				while ( it != funcType->end() )
+				{
+					params.push_back( *it );
+					++it;
+				}
+
+				auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
+					, stmt->getName()
+					, stmt->getFlags() );
+				m_current = cont.get();
+				visitContainerStmt( stmt );
+				m_current = save;
+				m_current->addStmt( std::move( cont ) );
 			}
 			else
 			{
-				// Write main function, with only used parameters.
-				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
-				ast::var::VariableList parameters;
-				auto retType = m_adaptationData.fillParameters( parameters, *m_current );
-				auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
-					, parameters )
-					, stmt->getName()
-					, stmt->getFlags() );
-				mainCont->addStmt( m_adaptationData.writeLocalesBegin() );
-				mainCont->addStmt( std::move( cont ) );
-				mainCont->addStmt( m_adaptationData.writeLocalesEnd() );
-				m_current->addStmt( std::move( mainCont ) );
-			}
+				m_adaptationData.updateCurrentEntryPoint( stmt );
 
-			m_adaptationData.updateCurrentEntryPoint( nullptr );
+				auto & cache = stmt->getType()->getCache();
+				// Write function content into a temporary container, registering I/O.
+				auto cont = ast::stmt::makeContainer();
+				auto save = m_current;
+				m_current = cont.get();
+				visitContainerStmt( stmt );
+				m_current = save;
+
+				if ( m_adaptationData.needsSeparateFunc() )
+				{
+					// Write SDW_main function
+					m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
+					auto sdwMainCont = ast::stmt::makeFunctionDecl( cache.getFunction( stmt->getType()->getReturnType()
+						, ast::var::VariableList{} )
+						, "SDW_" + stmt->getName() );
+					sdwMainCont->addStmt( std::move( cont ) );
+					m_current->addStmt( std::move( sdwMainCont ) );
+
+					// Write main function
+					writeMain( stmt );
+				}
+				else
+				{
+					// Write main function, with only used parameters.
+					m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
+					ast::var::VariableList parameters;
+					auto retType = m_adaptationData.fillParameters( parameters, *m_current );
+					auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
+						, parameters )
+						, stmt->getName()
+						, stmt->getFlags() );
+					mainCont->addStmt( m_adaptationData.writeLocalesBegin() );
+					mainCont->addStmt( std::move( cont ) );
+					mainCont->addStmt( m_adaptationData.writeLocalesEnd() );
+					m_current->addStmt( std::move( mainCont ) );
+				}
+
+				m_adaptationData.updateCurrentEntryPoint( nullptr );
+			}
 		}
 		else
 		{
@@ -126,6 +156,83 @@ namespace hlsl
 			visitContainerStmt( stmt );
 			m_current = save;
 			m_current->addStmt( std::move( cont ) );
+		}
+	}
+
+	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto type = var->getType();
+		assert( type->getRawKind() == ast::type::Kind::eHitAttribute );
+
+		if ( !isStructType( type ) )
+		{
+			auto & hitAttrType = static_cast< ast::type::HitAttribute const & >( *type );
+			// HLSL HitAttribute must be a structure
+			auto structType = m_cache.getStruct( ast::type::MemoryLayout::eC
+				, std::string{ "SDW_HLSL_HitAttribute" } );
+			structType->declMember( "d", hitAttrType.getDataType() );
+			m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			auto newType = m_cache.getHitAttribute( structType );
+			m_adaptationData.setHlslType( type, newType );
+			var->updateType( newType );
+		}
+
+		if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayIntersection )
+		{
+			StmtCloner::visitHitAttributeVariableDeclStmt( stmt );
+		}
+	}
+
+	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto type = var->getType();
+		assert( type->getRawKind() == ast::type::Kind::eCallableData );
+
+		if ( !isStructType( type ) )
+		{
+			auto & callDataType = static_cast< ast::type::CallableData const & >( *type );
+			// HLSL CallableData must be a structure
+			auto structType = m_cache.getStruct( ast::type::MemoryLayout::eC
+				, var->isCallableData() ? std::string{ "SDW_HLSL_CallableData" } : std::string{ "SDW_HLSL_CallableDataIn" } );
+			structType->declMember( "d", callDataType.getDataType() );
+			m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			auto newType = m_cache.getCallableData( structType
+				, callDataType.getLocation() );
+			m_adaptationData.setHlslType( type, newType );
+			var->updateType( newType );
+		}
+
+		if ( stmt->getVariable()->isCallableData() )
+		{
+			StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt );
+		}
+	}
+
+	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		auto type = var->getType();
+		assert( type->getRawKind() == ast::type::Kind::eRayPayload );
+
+		if ( !isStructType( type ) )
+		{
+			auto & rayPayloadType = static_cast< ast::type::RayPayload const & >( *type );
+			// HLSL RayPayload must be a structure
+			auto structType = m_cache.getStruct( ast::type::MemoryLayout::eC
+				, var->isRayPayload() ? std::string{ "SDW_HLSL_RayPayload" } : std::string{ "SDW_HLSL_RayPayloadIn" } );
+			structType->declMember( "d", rayPayloadType.getDataType() );
+			m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			auto newType = m_cache.getRayPayload( structType
+				, rayPayloadType.getLocation() );
+			m_adaptationData.setHlslType( type, newType );
+			var->updateType( newType );
+		}
+
+		if ( var->isRayPayload() )
+		{
+			StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt );
 		}
 	}
 

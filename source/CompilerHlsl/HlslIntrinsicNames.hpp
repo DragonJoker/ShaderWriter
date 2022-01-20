@@ -1072,6 +1072,18 @@ namespace hlsl
 			result = "GroupMemoryBarrier";
 			break;
 
+		case ast::expr::Intrinsic::eTraceRay:
+			result = "TraceRay";
+			break;
+
+		case ast::expr::Intrinsic::eReportIntersection:
+			result = "ReportHit";
+			break;
+
+		case ast::expr::Intrinsic::eExecuteCallable:
+			result = "CallShader";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

@@ -637,19 +637,18 @@ namespace hlsl
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
-		, ast::stmt::Container * intrinsics )
+		, ast::stmt::Container * intrinsics
+		, bool preventVarTypeReplacement )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis
-		{
-			cache,
-			result,
-			container,
-			intrinsicsConfig,
-			writerConfig,
-			adaptationData,
-			intrinsics,
-		};
+		ExprAdapter vis{ cache
+			, result
+			, container
+			, intrinsicsConfig
+			, writerConfig
+			, adaptationData
+			, intrinsics
+			, preventVarTypeReplacement };
 		expr->accept( &vis );
 		return result;
 	}
@@ -660,7 +659,8 @@ namespace hlsl
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
-		, ast::stmt::Container * intrinsics )
+		, ast::stmt::Container * intrinsics
+		, bool preventVarTypeReplacement )
 	{
 		return submit( cache
 			, expr.get()
@@ -668,7 +668,8 @@ namespace hlsl
 			, intrinsicsConfig
 			, writerConfig
 			, adaptationData
-			, intrinsics );
+			, intrinsics
+			, preventVarTypeReplacement );
 	}
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
@@ -677,7 +678,8 @@ namespace hlsl
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
-		, ast::stmt::Container * intrinsics )
+		, ast::stmt::Container * intrinsics
+		, bool preventVarTypeReplacement )
 		: ExprCloner{ result }
 		, m_cache{ cache }
 		, m_container{ container }
@@ -685,6 +687,7 @@ namespace hlsl
 		, m_writerConfig{ writerConfig }
 		, m_adaptationData{ adaptationData }
 		, m_intrinsics{ intrinsics }
+		, m_preventVarTypeReplacement{ preventVarTypeReplacement }
 	{
 	}
 
@@ -700,6 +703,7 @@ namespace hlsl
 			m_writerConfig,
 			m_adaptationData,
 			m_intrinsics,
+			m_preventVarTypeReplacement,
 		};
 		expr->accept( &vis );
 		return result;
@@ -782,6 +786,14 @@ namespace hlsl
 			{
 				m_result = ast::expr::makeIdentifier( m_cache, var );
 			}
+		}
+
+		if ( m_adaptationData.isHlslType( var->getType() )
+			&& !m_preventVarTypeReplacement )
+		{
+			m_result = ast::expr::makeMbrSelect( std::move( m_result )
+				, 0u
+				, var->getFlags() );
 		}
 
 		updateLinkedVars( var
@@ -1058,14 +1070,19 @@ namespace hlsl
 			// The resulting expression is now the alias.
 			m_result = ast::expr::makeIdentifier( m_cache, aliasVar );
 		}
-		else 
+		else
 		{
 			ast::expr::ExprList args;
+			m_preventVarTypeReplacement = expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eExecuteCallable
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eReportIntersection;
 
 			for ( auto & arg : expr->getArgList() )
 			{
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
+
+			m_preventVarTypeReplacement = false;
 
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEmitVertex )
 			{
@@ -1100,11 +1117,10 @@ namespace hlsl
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
+		auto outer = expr->getOuterExpr();
+		ast::expr::ExprPtr indexExpr;
+		auto structType = expr->getOuterType();
 		{
-			auto outer = expr->getOuterExpr();
-			ast::expr::ExprPtr indexExpr;
-			auto structType = expr->getOuterType();
-
 			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
 			{
 				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
@@ -1133,6 +1149,82 @@ namespace hlsl
 		}
 
 		if ( !m_result )
+		{
+			if ( expr->isBuiltin() )
+			{
+				auto writeFuncCall = [this]( ast::type::TypePtr retType
+					, std::string const & name )
+				{
+					return ast::expr::makeFnCall( retType
+						, ast::expr::makeIdentifier( m_cache
+							, ast::var::makeFunction( m_adaptationData.nextVarId
+								, m_cache.getFunction( retType, {} )
+								, name ) )
+						, {} );
+				};
+				auto mbr = structType->getMember( expr->getMemberIndex() );
+
+				switch ( mbr.builtin )
+				{
+				case ast::Builtin::eLaunchID:
+					m_result = writeFuncCall( mbr.type, "DispatchRaysIndex" );
+					break;
+				case ast::Builtin::eLaunchSize:
+					m_result = writeFuncCall( mbr.type, "DispatchRaysDimensions" );
+					break;
+				case ast::Builtin::eInstanceCustomIndex:
+					m_result = writeFuncCall( mbr.type, "InstanceID" );
+					break;
+				case ast::Builtin::eInstanceID:
+					m_result = writeFuncCall( mbr.type, "InstanceIndex" );
+					break;
+				case ast::Builtin::eGeometryIndex:
+					m_result = writeFuncCall( mbr.type, "InstanceIndex" );
+					break;
+				case ast::Builtin::ePrimitiveID:
+					if ( isRayTraceStage( m_writerConfig.shaderStage ) )
+					{
+						m_result = writeFuncCall( mbr.type, "PrimitiveIndex" );
+					}
+					break;
+				case ast::Builtin::eWorldRayOrigin:
+					m_result = writeFuncCall( mbr.type, "WorldRayOrigin" );
+					break;
+				case ast::Builtin::eWorldRayDirection:
+					m_result = writeFuncCall( mbr.type, "WorldRayDirection" );
+					break;
+				case ast::Builtin::eObjectRayOrigin:
+					m_result = writeFuncCall( mbr.type, "ObjectRayOrigin" );
+					break;
+				case ast::Builtin::eObjectRayDirection:
+					m_result = writeFuncCall( mbr.type, "ObjectRayDirection" );
+					break;
+				case ast::Builtin::eRayTmin:
+					m_result = writeFuncCall( mbr.type, "RayTMin" );
+					break;
+				case ast::Builtin::eRayTmax:
+					m_result = writeFuncCall( mbr.type, "RayTCurrent" );
+					break;
+				case ast::Builtin::eIncomingRayFlags:
+					m_result = writeFuncCall( mbr.type, "RayFlags" );
+					break;
+				case ast::Builtin::eHitKind:
+					m_result = writeFuncCall( mbr.type, "HitKind" );
+					break;
+				case ast::Builtin::eObjectToWorld:
+					m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
+					break;
+				case ast::Builtin::eWorldToObject:
+					m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
+					break;
+				default:
+					//noop
+					break;
+				}
+			}
+		}
+
+		if ( !m_result && !isRayTraceStage( m_writerConfig.shaderStage ) )
 		{
 			m_result = m_adaptationData.processPendingMbr( expr->getOuterExpr()
 				, expr->getMemberIndex()

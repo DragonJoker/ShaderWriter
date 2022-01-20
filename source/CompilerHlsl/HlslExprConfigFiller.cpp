@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "HlslExprConfigFiller.hpp"
 
 #include "HlslHelpers.hpp"
+#include "HlslShader.hpp"
 #include "HlslVariableReplacer.hpp"
 #include "HlslImageAccessConfig.hpp"
 #include "HlslIntrinsicConfig.hpp"
@@ -71,6 +72,11 @@ namespace hlsl
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
 		expr->getOuterExpr()->accept( this );
+
+		if ( isRayTraceStage( m_adaptationData.shader->getType() ) )
+		{
+			return;
+		}
 
 		if ( expr->isBuiltin() )
 		{

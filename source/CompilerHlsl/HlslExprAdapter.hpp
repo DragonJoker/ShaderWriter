@@ -24,14 +24,16 @@ namespace hlsl
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
-			, ast::stmt::Container * intrinsics );
+			, ast::stmt::Container * intrinsics
+			, bool preventVarTypeReplacement );
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr const & expr
 			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
-			, ast::stmt::Container * intrinsics );
+			, ast::stmt::Container * intrinsics
+			, bool preventVarTypeReplacement );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
@@ -40,7 +42,8 @@ namespace hlsl
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
-			, ast::stmt::Container * intrinsics );
+			, ast::stmt::Container * intrinsics
+			, bool preventVarTypeReplacement );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;
@@ -90,6 +93,7 @@ namespace hlsl
 		HlslConfig const & m_writerConfig;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_intrinsics;
+		bool m_preventVarTypeReplacement{ false };
 	};
 }
 

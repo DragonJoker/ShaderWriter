@@ -38,7 +38,12 @@ namespace ast::expr
 	inline SwizzlePtr makeSwizzle( ExprPtr outer
 		, SwizzleKind swizzle )
 	{
-		assert( type::isVectorType( outer->getType()->getKind() ) );
+		assert( type::isVectorType( outer->getType()->getKind() )
+			|| ( type::isScalarType( outer->getType()->getKind() )
+				&& ( swizzle == SwizzleKind::e0
+					|| swizzle == SwizzleKind::e00
+					|| swizzle == SwizzleKind::e000
+					|| swizzle == SwizzleKind::e0000 ) ) );
 		return std::make_unique< Swizzle >( std::move( outer )
 			, swizzle );
 	}

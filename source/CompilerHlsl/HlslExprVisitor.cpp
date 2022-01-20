@@ -66,7 +66,8 @@ namespace hlsl
 			|| expr->getKind() == ast::expr::Kind::eTextureAccessCall
 			|| expr->getKind() == ast::expr::Kind::eImageAccessCall
 			|| expr->getKind() == ast::expr::Kind::eUnaryMinus
-			|| expr->getKind() == ast::expr::Kind::eUnaryPlus;
+			|| expr->getKind() == ast::expr::Kind::eUnaryPlus
+			|| expr->getKind() == ast::expr::Kind::eCopy;
 
 		if ( noParen )
 		{

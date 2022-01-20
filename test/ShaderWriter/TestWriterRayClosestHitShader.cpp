@@ -4,6 +4,7 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
+// HLSL doesn't support buffer references
 #undef CurrentCompilers
 #define CurrentCompilers Compilers_NoHLSL
 
@@ -91,10 +92,11 @@ namespace
 		sdw::UInt64 materialIndexAddress;
 	};
 
-	struct Vertex
+	template< ast::type::MemoryLayout LayoutT >
+	struct VertexT
 		: sdw::StructInstance
 	{
-		Vertex( sdw::ShaderWriter & writer
+		VertexT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
@@ -105,11 +107,11 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , Vertex );
+		SDW_DeclStructInstance( , VertexT );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
+			auto result = cache.getStruct( LayoutT
 				, "Vertex" );
 
 			if ( result->empty() )
@@ -136,11 +138,76 @@ namespace
 		sdw::Vec3 color;
 		sdw::Vec2 texCoord;
 	};
+	using Vertex430 = VertexT< sdw::type::MemoryLayout::eStd430 >;
+	using VertexScalar = VertexT< sdw::type::MemoryLayout::eScalar >;
 
-	struct WaveFrontMaterial
+	struct Index
 		: sdw::StructInstance
 	{
-		WaveFrontMaterial( sdw::ShaderWriter & writer
+		Index( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, ind{ getMember< sdw::IVec3 >( "ind" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , Index );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Index" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "ind"
+					, sdw::type::Kind::eVec3I
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::IVec3 ind;
+	};
+
+	struct MatIndex
+		: sdw::StructInstance
+	{
+		MatIndex( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, ind{ getMember< sdw::Int >( "ind" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , MatIndex );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "MatIndex" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "ind"
+					, sdw::type::Kind::eInt
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Int ind;
+	};
+
+	template< ast::type::MemoryLayout LayoutT >
+	struct WaveFrontMaterialT
+		: sdw::StructInstance
+	{
+		WaveFrontMaterialT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
@@ -157,11 +224,11 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , WaveFrontMaterial );
+		SDW_DeclStructInstance( , WaveFrontMaterialT );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
+			auto result = cache.getStruct( LayoutT
 				, "WaveFrontMaterial" );
 
 			if ( result->empty() )
@@ -208,7 +275,7 @@ namespace
 			{
 				auto & writer = *m_writer;
 				m_computeDiffuse = writer.implementFunction< sdw::Vec3 >( "computeDiffuse"
-					, [&]( WaveFrontMaterial mat
+					, [&]( WaveFrontMaterialT< LayoutT > mat
 						, sdw::Vec3 lightDir
 						, sdw::Vec3 normal )
 					{
@@ -222,7 +289,7 @@ namespace
 						FI
 							writer.returnStmt( c );
 					}
-					, sdw::InParam< WaveFrontMaterial >{ writer, "mat" }
+					, sdw::InParam< WaveFrontMaterialT< LayoutT > >{ writer, "mat" }
 					, sdw::InVec3{ writer, "lightDir" }
 					, sdw::InVec3{ writer, "normal" } );
 			}
@@ -237,7 +304,7 @@ namespace
 			{
 				auto & writer = *m_writer;
 				m_computeSpecular = writer.implementFunction< sdw::Vec3 >( "computeSpecular"
-					, [&]( WaveFrontMaterial mat
+					, [&]( WaveFrontMaterialT< LayoutT > mat
 						, sdw::Vec3 viewDir
 						, sdw::Vec3 lightDir
 						, sdw::Vec3 normal )
@@ -260,7 +327,7 @@ namespace
 
 						writer.returnStmt( vec3( mat.specular * specular ) );
 					}
-					, sdw::InParam< WaveFrontMaterial >{ writer, "mat" }
+					, sdw::InParam< WaveFrontMaterialT< LayoutT > >{ writer, "mat" }
 					, sdw::InVec3{ writer, "viewDir" }
 					, sdw::InVec3{ writer, "lightDir" }
 					, sdw::InVec3{ writer, "normal" } );
@@ -280,15 +347,17 @@ namespace
 		sdw::Int textureId;
 
 		sdw::Function< sdw::Vec3
-			, sdw::InParam< WaveFrontMaterial >
+			, sdw::InParam< WaveFrontMaterialT< LayoutT > >
 			, sdw::InVec3
 			, sdw::InVec3 > m_computeDiffuse;
 		sdw::Function< sdw::Vec3
-			, sdw::InParam< WaveFrontMaterial >
+			, sdw::InParam< WaveFrontMaterialT< LayoutT > >
 			, sdw::InVec3
 			, sdw::InVec3
 			, sdw::InVec3 > m_computeSpecular;
 	};
+	using WaveFrontMaterial430 = WaveFrontMaterialT< sdw::type::MemoryLayout::eStd430 >;
+	using WaveFrontMaterialScalar = WaveFrontMaterialT< sdw::type::MemoryLayout::eScalar >;
 
 	struct RayLight
 		: sdw::StructInstance
@@ -347,7 +416,7 @@ namespace
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
@@ -396,7 +465,7 @@ namespace
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
@@ -491,9 +560,9 @@ namespace
 			auto pcLightType = pcb.declMember< Int >( "pcLightType" );
 			pcb.end();
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterialScalar > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
@@ -548,15 +617,15 @@ namespace
 					FI;
 
 					// Material of the object
-					auto matIdx = writer.declLocale< Int >( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
-					auto mat = writer.declLocale< WaveFrontMaterial >( "mat", materials[writer.cast< UInt >( matIdx )] );
+					auto matIdx = writer.declLocale( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
+					auto mat = writer.declLocale( "mat", materials[writer.cast< UInt >( matIdx )] );
 
 					// Diffuse
-					auto diffuse = writer.declLocale< Vec3 >( "diffuse", mat.computeDiffuse( L, worldNrm ) );
+					auto diffuse = writer.declLocale( "diffuse", mat.computeDiffuse( L, worldNrm ) );
 					IF( writer, mat.textureId >= 0_i )
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
-						auto texCoord = writer.declLocale< Vec2 >( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
+						auto texCoord = writer.declLocale( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
 						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
 					}
 					FI;
@@ -604,6 +673,122 @@ namespace
 		testEnd();
 	}
 
+	void basicExecCallable( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "basicExecCallable" );
+		using namespace sdw;
+		{
+			RayClosestHitWriter writer;
+
+			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
+
+			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+			auto vertices = writer.declArrayShaderStorageBuffer< Vertex430 >( "Vertices", 1u, 1u );
+			auto indices = writer.declArrayShaderStorageBuffer< Index >( "Indices", 2u, 1u );
+			auto materials = writer.declArrayShaderStorageBuffer< WaveFrontMaterial430 >( "Materials", 3u, 1u );
+			auto matIndices = writer.declArrayShaderStorageBuffer< MatIndex >( "MatIndices", 4u, 1u );
+			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 5u, 1u, ast::type::UnknownArraySize );
+
+			auto pcb = writer.declPushConstantsBuffer( "pcb" );
+			auto pcClearColor = pcb.declMember< Vec4 >( "pcClearColor" );
+			auto pcLightPosition = pcb.declMember< Vec3 >( "pcLightPosition" );
+			auto pcLightIntensity = pcb.declMember< Float >( "pcLightIntensity" );
+			auto pcLightDirection = pcb.declMember< Vec3 >( "pcLightDirection" );
+			auto pcLightSpotCutoff = pcb.declMember< Float >( "pcLightSpotCutoff" );
+			auto pcLightSpotOuterCutoff = pcb.declMember< Float >( "pcLightSpotOuterCutoff" );
+			auto pcLightType = pcb.declMember< Int >( "pcLightType" );
+			pcb.end();
+
+			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
+				, HitAttributeT< Vec2 >{ writer }
+				, [&]( RayClosestHitIn in
+					, RayPayloadInT< HitPayload > prd
+					, HitAttributeT< Vec2 > attribs )
+				{
+					// Object data
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< UInt >( in.instanceCustomIndex )] );
+
+					// Indices of the triangle
+					auto ind = writer.declLocale( "ind", indices[writer.cast< UInt >( in.primitiveID )] );
+
+					// Vertex of the triangle
+					auto v0 = writer.declLocale( "v0", vertices[writer.cast< UInt >( ind.ind.x() )] );
+					auto v1 = writer.declLocale( "v1", vertices[writer.cast< UInt >( ind.ind.y() )] );
+					auto v2 = writer.declLocale( "v2", vertices[writer.cast< UInt >( ind.ind.z() )] );
+
+					auto const barycentrics = writer.declLocale( "barycentrics", vec3( 1.0_f - attribs.x() - attribs.y(), attribs.x(), attribs.y() ) );
+
+					// Computing the coordinates of the hit position
+					auto const pos = writer.declLocale( "pos", v0.pos * barycentrics.x() + v1.pos * barycentrics.y() + v2.pos * barycentrics.z() );
+					auto const worldPos = writer.declLocale( "worldPos", in.objectToWorld * vec4( pos, 1.0 ) );  // Transforming the position to world space
+
+					// Computing the normal at hit position
+					auto const nrm = writer.declLocale( "nrm", v0.nrm * barycentrics.x() + v1.nrm * barycentrics.y() + v2.nrm * barycentrics.z() );
+					auto const worldNrm = writer.declLocale( "worldNrm", normalize( vec3( nrm * in.worldToObject ) ) );  // Transforming the normal to world space
+
+					// Vector toward the light
+					auto cLight = writer.declCallableData< RayLight >( "cLight", 0u );
+					cLight.inHitPosition = worldPos;
+					cLight.execute( writer.cast< UInt >( pcLightType ) );
+
+					// Material of the object
+					auto matIdx = writer.declLocale( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )].ind );
+					auto mat = writer.declLocale( "mat", materials[writer.cast< UInt >( matIdx )] );
+
+					// Diffuse
+					auto diffuse = writer.declLocale( "diffuse", mat.computeDiffuse( cLight.outLightDir, worldNrm ) );
+					IF( writer, mat.textureId >= 0_i )
+					{
+						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
+						auto texCoord = writer.declLocale( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
+						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
+					}
+					FI;
+
+					auto specular = writer.declLocale( "specular", vec3( 0.0_f ) );
+					auto attenuation = writer.declLocale( "attenuation", 1.0_f );
+
+					// Tracing shadow ray only if the light is visible from the surface
+					IF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
+					{
+						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
+						auto ray = writer.declLocale< RayDesc >( "ray" );
+						ray.origin = in.worldRayOrigin + in.worldRayDirection * in.rayTmax;
+						ray.direction = cLight.outLightDir;
+						ray.tMin = 0.001_f;
+						ray.tMax = cLight.outLightDistance;
+						auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
+						isShadowed = sdw::Boolean{ true };
+						isShadowed.traceRay( topLevelAS	// acceleration structure
+							, flags					// rayFlags
+							, 0xFF_u				// cullMask
+							, 0_u					// sbtRecordOffset
+							, 0_u					// sbtRecordStride
+							, 1_u					// missIndex
+							, ray );
+
+						IF( writer, isShadowed )
+						{
+							attenuation = 0.3_f;
+						}
+						ELSE
+						{
+							// Specular
+							specular = mat.computeSpecular( in.worldRayDirection, cLight.outLightDir, worldNrm );
+						}
+						FI;
+					}
+					FI;
+
+					prd.hitValue = vec3( cLight.outIntensity * attenuation * ( diffuse + specular ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_All );
+		}
+		testEnd();
+	}
+
 	void execCallable( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "execCallable" );
@@ -626,9 +811,9 @@ namespace
 			auto pcLightType = pcb.declMember< Int >( "pcLightType" );
 			pcb.end();
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterialScalar > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
@@ -668,15 +853,15 @@ namespace
 					cLight.execute( writer.cast< UInt >( pcLightType ) );
 
 					// Material of the object
-					auto matIdx = writer.declLocale< Int >( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
-					auto mat = writer.declLocale< WaveFrontMaterial >( "mat", materials[writer.cast< UInt >( matIdx )] );
+					auto matIdx = writer.declLocale( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
+					auto mat = writer.declLocale( "mat", materials[writer.cast< UInt >( matIdx )] );
 
 					// Diffuse
-					auto diffuse = writer.declLocale< Vec3 >( "diffuse", mat.computeDiffuse( cLight.outLightDir, worldNrm ) );
+					auto diffuse = writer.declLocale( "diffuse", mat.computeDiffuse( cLight.outLightDir, worldNrm ) );
 					IF( writer, mat.textureId >= 0_i )
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
-						auto texCoord = writer.declLocale< Vec2 >( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
+						auto texCoord = writer.declLocale( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
 						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
 					}
 					FI;
@@ -734,6 +919,7 @@ sdwTestSuiteMain( TestWriterRayClosestHitShader )
 	vecTimesMtx( testCounts );
 	nonUniform( testCounts );
 	wavefrontLighting( testCounts );
+	basicExecCallable( testCounts );
 	execCallable( testCounts );
 
 	sdwTestSuiteEnd();

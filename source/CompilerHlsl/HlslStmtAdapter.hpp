@@ -36,7 +36,11 @@ namespace hlsl
 			, ast::var::VariablePtr texture
 			, ast::var::VariablePtr sampler );
 
+		void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
+		void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override;
+		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
+		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
 		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
 		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;

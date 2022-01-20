@@ -38,8 +38,8 @@ namespace hlsl
 			, intrinsicsConfig
 			, config
 			, adaptationData );
-		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
-			, shader.getStatements() );
+		dxStatements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			, dxStatements.get() );
 		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
 		return hlsl::StmtVisitor::submit( config, adaptationData.getRoutines(), aliases, dxStatements.get() );

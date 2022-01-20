@@ -534,6 +534,31 @@ namespace hlsl
 					params.push_back( mbr );
 				}
 			}
+
+			if ( m_writerConfig.shaderStage == ast::ShaderStage::eCallable )
+			{
+				m_result += m_indent + "[shader(\"callable\")]\n";
+			}
+			else if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayAnyHit )
+			{
+				m_result += m_indent + "[shader(\"anyhit\")]\n";
+			}
+			else if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayClosestHit )
+			{
+				m_result += m_indent + "[shader(\"closesthit\")]\n";
+			}
+			else if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayGeneration )
+			{
+				m_result += m_indent + "[shader(\"raygeneration\")]\n";
+			}
+			else if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayIntersection )
+			{
+				m_result += m_indent + "[shader(\"intersection\")]\n";
+			}
+			else if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayMiss )
+			{
+				m_result += m_indent + "[shader(\"miss\")]\n";
+			}
 		}
 		else
 		{
@@ -601,8 +626,15 @@ namespace hlsl
 		m_appendLineEnd = true;
 	}
 
-	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )
 	{
+		doAppendLineEnd();
+		m_result += m_indent;
+		auto & var = *stmt->getVariable();
+		m_result += getTypeName( var.getType() ) + " ";
+		m_result += var.getName();
+		m_result += ": register(t" + std::to_string( stmt->getBindingPoint() ) + ")";
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
@@ -611,14 +643,17 @@ namespace hlsl
 
 	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		declareVariable( stmt->getVariable() );
 	}
 
 	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
+		declareVariable( stmt->getVariable() );
 	}
 
 	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
+		declareVariable( stmt->getVariable() );
 	}
 
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
@@ -664,6 +699,7 @@ namespace hlsl
 
 	void StmtVisitor::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
 	{
+		m_result += m_indent + "IgnoreHit();\n";
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
@@ -850,23 +886,12 @@ namespace hlsl
 
 	void StmtVisitor::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
 	{
+		m_result += m_indent + "AcceptHitAndEndSearch();\n";
 	}
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		doAppendLineEnd();
-		m_result += m_indent;
-		auto & var = *stmt->getVariable();
-
-		if ( var.isStatic() )
-		{
-			m_result += "static ";
-		}
-
-		m_result += getTypeName( var.getType() ) + " ";
-		m_result += var.getName();
-		m_result += getTypeArraySize( var.getType() );
-		m_result += ";\n";
+		declareVariable( stmt->getVariable() );
 	}
 
 	void StmtVisitor::visitWhileStmt( ast::stmt::While * stmt )
@@ -923,5 +948,22 @@ namespace hlsl
 	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
 		AST_Failure( "ast::stmt::PreprocVersion unexpected at that point" );
+	}
+
+	void StmtVisitor::declareVariable( ast::var::VariablePtr pvar )
+	{
+		doAppendLineEnd();
+		m_result += m_indent;
+		auto & var = *pvar;
+
+		if ( var.isStatic() )
+		{
+			m_result += "static ";
+		}
+
+		m_result += getTypeName( var.getType() ) + " ";
+		m_result += var.getName();
+		m_result += getTypeArraySize( var.getType() );
+		m_result += ";\n";
 	}
 }

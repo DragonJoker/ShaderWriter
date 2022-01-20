@@ -82,6 +82,9 @@ namespace hlsl
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
 
 	private:
+		void declareVariable( ast::var::VariablePtr var );
+
+	private:
 		HlslConfig const & m_writerConfig;
 		RoutineMap const & m_routines;
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;

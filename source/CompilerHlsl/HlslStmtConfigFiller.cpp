@@ -120,7 +120,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		if ( stmt->getFlags() )
+		if ( stmt->getFlags() && !isRayTraceStage( m_shader.getType() ) )
 		{
 			if ( !stmt->isEntryPoint() )
 			{
@@ -142,6 +142,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
+		throw std::runtime_error{ "ast::stmt::BufferReferenceDecl are not supported in HLSL" };
 	}
 
 	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
