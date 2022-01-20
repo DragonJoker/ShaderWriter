@@ -266,28 +266,39 @@ namespace ast::type
 			, MemoryLayout layout )
 		{
 			uint32_t result{ 0u };
-			uint32_t padAlignment = 1;
 
-			for ( auto & member : type )
+			if ( type.getMemoryLayout() != layout )
 			{
+				uint32_t padAlignment = 1;
+
+				for ( auto & member : type )
+				{
+					uint32_t packedAlignment = getPackedAlignment( *member.type, layout );
+					uint32_t alignment = std::max( packedAlignment, padAlignment );
+					auto kind = getNonArrayKindRec( *member.type );
+
+					// The next member following a struct member is aligned to the base alignment of the struct that came before.
+					// GL 4.5 spec, 7.6.2.2.
+					if ( kind == Kind::eStruct
+						|| kind == Kind::eRayDesc )
+					{
+						padAlignment = packedAlignment;
+					}
+					else
+					{
+						padAlignment = 1;
+					}
+
+					result = ( result + alignment - 1 ) & ~( alignment - 1 );
+					result += getPackedSize( *member.type, layout );
+				}
+			}
+			else
+			{
+				auto member = type.back();
 				uint32_t packedAlignment = getPackedAlignment( *member.type, layout );
-				uint32_t alignment = std::max( packedAlignment, padAlignment );
-				auto kind = getNonArrayKindRec( *member.type );
-
-				// The next member following a struct member is aligned to the base alignment of the struct that came before.
-				// GL 4.5 spec, 7.6.2.2.
-				if ( kind == Kind::eStruct
-					|| kind == Kind::eRayDesc )
-				{
-					padAlignment = packedAlignment;
-				}
-				else
-				{
-					padAlignment = 1;
-				}
-
-				result = ( result + alignment - 1 ) & ~( alignment - 1 );
-				result += getPackedSize( *member.type, layout );
+				result = member.offset + member.size;
+				result = ( result + packedAlignment - 1 ) & ~( packedAlignment - 1 );
 			}
 
 			return result;
