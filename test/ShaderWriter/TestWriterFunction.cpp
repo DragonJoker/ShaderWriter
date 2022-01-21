@@ -133,6 +133,33 @@ namespace
 	}
 
 	template< typename ValueT >
+	void testSingleInParamConstantArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSingleInParamConstantArray" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
+		using namespace sdw;
+		FragmentWriter writer;
+		auto c = writer.declConstantArray< ValueT >( "c"
+			, std::vector< ValueT >{ test::getDefault< ValueT >( writer )
+				, test::getDefault< ValueT >( writer ) } );
+
+		auto test = writer.implementFunction< sdw::Void >( "test"
+			, [&]( ValueT s )
+			{
+				auto a = writer.declLocale< ValueT >( "a", c[0_u] * s );
+			}
+			, sdw::InParam< ValueT >{ writer, "s" } );
+
+		writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+			{
+				auto s = writer.declLocale( "s", test::getDefault< ValueT >( writer ) );
+				test( s );
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	template< typename ValueT >
 	void testSingleInParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testSingleInParamVariable" + ast::debug::getName( sdw::typeEnum< ValueT > ) );
@@ -1905,6 +1932,7 @@ namespace
 	{
 		testSingleInParamLiteral< ValueT >( testCounts );
 		testSingleInParamConstant< ValueT >( testCounts );
+		testSingleInParamConstantArray< ValueT >( testCounts );
 		testSingleInParamVariable< ValueT >( testCounts );
 		testSingleInParamArrayVariable< ValueT >( testCounts );
 		testSingleInParamInputVariable< ValueT >( testCounts );
