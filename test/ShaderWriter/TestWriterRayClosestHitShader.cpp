@@ -548,8 +548,6 @@ namespace
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
-			auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
-
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
 
@@ -642,6 +640,7 @@ namespace
 						ray.direction = L;
 						ray.tMin = 0.001_f;
 						ray.tMax = lightDistance;
+						auto isShadowed = writer.declRayPayload< Boolean >( "isShadowed", 1u );
 						isShadowed = sdw::Boolean{ true };
 						isShadowed.traceRay( topLevelAS	// acceleration structure
 							, flags						// rayFlags

@@ -1438,7 +1438,15 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			params.push_back( loadVariable( doSubmit( arg.get() ) ) );
+			auto id = doSubmit( arg.get() );
+
+			if ( arg->getType()->getRawKind() != ast::type::Kind::eRayPayload
+				&& arg->getType()->getRawKind() != ast::type::Kind::eCallableData )
+			{
+				id = loadVariable( id );
+			}
+
+			params.push_back( id );
 		}
 
 		if ( ( opCode >= spv::OpEmitVertex && opCode <= spv::OpEndStreamPrimitive )
