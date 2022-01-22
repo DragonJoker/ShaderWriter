@@ -163,7 +163,7 @@ namespace ast::type
 			return m_layout;
 		}
 
-		uint64_t  getFlag()const
+		uint64_t getFlag()const
 		{
 			return uint64_t( m_flag );
 		}

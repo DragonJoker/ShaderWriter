@@ -70,7 +70,8 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 				${OptionalCompileDefinitions}
 				SDW_Test_HasDXC=1
 			)
-			set( DXC_LIBRARIES
+			set( TargetLinkLibraries
+				${TargetLinkLibraries}
 				DXC::dxc
 			)
 		endif ()
@@ -80,7 +81,8 @@ endif ()
 if ( VCPKG_TOOLCHAIN )
 	find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
 	get_target_property( glslang_INCLUDE_DIR SPIRV INTERFACE_INCLUDE_DIRECTORIES )
-	set( glslang_LIBRARIES
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
 		OSDependent
 		glslang
 		OGLCompiler
@@ -89,7 +91,8 @@ if ( VCPKG_TOOLCHAIN )
 	)
 	find_package( SPIRV-Tools CONFIG )
 	if ( SPIRV-Tools_FOUND )
-		set( SPIRV_TOOLS_LIBRARIES
+		set( TargetLinkLibraries
+			${TargetLinkLibraries}
 			SPIRV-Tools-static
 		)
 		set( OptionalCompileDefinitions
@@ -113,13 +116,25 @@ elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 		set_property( TARGET SPIRV PROPERTY FOLDER "External/glslang" )
 		set_property( TARGET SPVRemapper PROPERTY FOLDER "External/glslang" )
 	endif ()
-	set( glslang_LIBRARIES
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
 		OSDependent
 		glslang
 		OGLCompiler
 		SPIRV
 		SPVRemapper
 	)
+	find_package( SPIRV-Tools )
+	if ( SPIRV-Tools_FOUND )
+		set( TargetLinkLibraries
+			${TargetLinkLibraries}
+			SPIRV-Tools-static
+		)
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasSpirVTools=1
+		)
+	endif ()
 else ()
 	message( FATAL_ERROR "glslang_INCLUDE_DIR couldn't be defined." )
 endif ()
@@ -127,43 +142,53 @@ endif ()
 set( SPIRV_CROSS_DIR
 	${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross
 )
-set( SPIRV_CROSS_HEADER_FILES
-	${SPIRV_CROSS_DIR}/GLSL.std.450.h
-	${SPIRV_CROSS_DIR}/spirv_common.hpp
-	${SPIRV_CROSS_DIR}/spirv.hpp
-	${SPIRV_CROSS_DIR}/spirv_cross.hpp
-	${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.hpp
-	${SPIRV_CROSS_DIR}/spirv_parser.hpp
-	${SPIRV_CROSS_DIR}/spirv_cfg.hpp
-	${SPIRV_CROSS_DIR}/spirv_glsl.hpp
-	${SPIRV_CROSS_DIR}/spirv_hlsl.hpp
-)
-set( SPIRV_CROSS_SOURCE_FILES
-	${SPIRV_CROSS_DIR}/spirv_cross.cpp
-	${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.cpp
-	${SPIRV_CROSS_DIR}/spirv_parser.cpp
-	${SPIRV_CROSS_DIR}/spirv_cfg.cpp
-	${SPIRV_CROSS_DIR}/spirv_glsl.cpp
-	${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
-)
-add_library( SdwSpirvCross
-	STATIC
-	${SPIRV_CROSS_HEADER_FILES}
-	${SPIRV_CROSS_SOURCE_FILES}
-)
-add_library( sdw::test::SpirvCross
-	ALIAS
-	SdwSpirvCross
-)
-target_include_directories( SdwSpirvCross
-	PUBLIC
-		${SPIRV_CROSS_DIR}
-)
-set_target_properties( SdwSpirvCross
-	PROPERTIES
-		CXX_STANDARD 17
-		FOLDER "Tests/ShaderWriter"
-)
+if ( EXISTS ${SPIRV_CROSS_DIR}/spirv.hpp )
+	set( SPIRV_CROSS_HEADER_FILES
+		${SPIRV_CROSS_DIR}/GLSL.std.450.h
+		${SPIRV_CROSS_DIR}/spirv_common.hpp
+		${SPIRV_CROSS_DIR}/spirv.hpp
+		${SPIRV_CROSS_DIR}/spirv_cross.hpp
+		${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.hpp
+		${SPIRV_CROSS_DIR}/spirv_parser.hpp
+		${SPIRV_CROSS_DIR}/spirv_cfg.hpp
+		${SPIRV_CROSS_DIR}/spirv_glsl.hpp
+		${SPIRV_CROSS_DIR}/spirv_hlsl.hpp
+	)
+	set( SPIRV_CROSS_SOURCE_FILES
+		${SPIRV_CROSS_DIR}/spirv_cross.cpp
+		${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.cpp
+		${SPIRV_CROSS_DIR}/spirv_parser.cpp
+		${SPIRV_CROSS_DIR}/spirv_cfg.cpp
+		${SPIRV_CROSS_DIR}/spirv_glsl.cpp
+		${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
+	)
+	add_library( SdwSpirvCross
+		STATIC
+		${SPIRV_CROSS_HEADER_FILES}
+		${SPIRV_CROSS_SOURCE_FILES}
+	)
+	add_library( sdw::test::SpirvCross
+		ALIAS
+		SdwSpirvCross
+	)
+	target_include_directories( SdwSpirvCross
+		PUBLIC
+			${SPIRV_CROSS_DIR}
+	)
+	set_target_properties( SdwSpirvCross
+		PROPERTIES
+			CXX_STANDARD 17
+			FOLDER "Tests/ShaderWriter"
+	)
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
+		sdw::test::SpirvCross
+	)
+	set( OptionalCompileDefinitions
+		${OptionalCompileDefinitions}
+		SDW_Test_HasSpirVCross=1
+	)
+endif ()
 
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
@@ -192,13 +217,9 @@ target_link_libraries( TestWriterCommon
 	PUBLIC
 		sdw::ShaderAST
 		sdw::ShaderWriter
-		${BinLibraries}
-		${glslang_LIBRARIES}
-		${SPIRV_TOOLS_LIBRARIES}
 		sdw::test::Common
-		sdw::test::SpirvCross
+		${BinLibraries}
 		${TargetLinkLibraries}
-		${DXC_LIBRARIES}
 )
 target_compile_definitions( TestWriterCommon
 	PUBLIC

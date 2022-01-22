@@ -682,9 +682,9 @@ namespace
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
-			auto vertices = writer.declArrayShaderStorageBuffer< Vertex430 >( "Vertices", 1u, 1u );
+			auto vertices = writer.declArrayShaderStorageBuffer< VertexScalar >( "Vertices", 1u, 1u );
 			auto indices = writer.declArrayShaderStorageBuffer< Index >( "Indices", 2u, 1u );
-			auto materials = writer.declArrayShaderStorageBuffer< WaveFrontMaterial430 >( "Materials", 3u, 1u );
+			auto materials = writer.declArrayShaderStorageBuffer< WaveFrontMaterialScalar >( "Materials", 3u, 1u );
 			auto matIndices = writer.declArrayShaderStorageBuffer< MatIndex >( "MatIndices", 4u, 1u );
 			auto textureSamplers = writer.declSampledImageArray< FImg2DRgba32 >( "textureSamplers", 5u, 1u, ast::type::UnknownArraySize );
 
