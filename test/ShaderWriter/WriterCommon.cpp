@@ -22,10 +22,12 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 #pragma GCC diagnostic ignored "-Wtype-limits"
-#include "spirv_cpp.hpp"
-#include "spirv_cross_util.hpp"
-#include "spirv_glsl.hpp"
-#include "spirv_hlsl.hpp"
+#if SDW_Test_HasSpirVCross
+#	include "spirv_cpp.hpp"
+#	include "spirv_cross_util.hpp"
+#	include "spirv_glsl.hpp"
+#	include "spirv_hlsl.hpp"
+#endif
 #if SDW_Test_HasSpirVTools
 #	include "spirv-tools/libspirv.hpp"
 #endif
@@ -59,6 +61,7 @@ namespace test
 
 #endif
 
+#if SDW_Test_HasSpirVCross
 		spv::ExecutionModel getExecutionModel( ast::ShaderStage stage )
 		{
 			spv::ExecutionModel result{};
@@ -193,6 +196,7 @@ namespace test
 			doSetupOptions( stage, *compiler );
 			return compileSpirV( "HLSL", *compiler, testCounts );
 		}
+#endif
 
 		std::string printNumber( uint32_t index )
 		{
@@ -350,6 +354,7 @@ namespace test
 			spvtools::SpirvTools tools{ SPV_ENV_UNIVERSAL_1_5 };
 			tools.SetMessageConsumer( consumer );
 			spvtools::ValidatorOptions valOptions;
+			valOptions.SetScalarBlockLayout( true );
 			isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions ) && isValidated;
 			check( isValidated );
 
@@ -365,7 +370,8 @@ namespace test
 				displayShader( "SPIR-V", text, testCounts, true, false );
 			}
 
-			if ( compilers.glsl && !isRayTraceStage( shader.getType() ) )
+#if SDW_Test_HasSpirVCross
+			if ( compilers.glsl )
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay, true );
@@ -376,6 +382,7 @@ namespace test
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay, true );
 			}
+#endif
 		}
 
 		void testWriteDebug( ::ast::Shader const & shader
@@ -590,6 +597,7 @@ namespace test
 								, infoIndex );
 							success();
 						}
+#if SDW_Test_HasSpirVCross
 						catch ( spirv_cross::CompilerError & exc )
 						{
 							std::string text = exc.what();
@@ -610,6 +618,7 @@ namespace test
 								throw;
 							}
 						}
+#endif
 						catch ( std::exception & exc )
 						{
 							failure( "testWriteSpirV" );
@@ -727,6 +736,7 @@ namespace test
 						testCounts << errors << endl;
 					}
 
+#if SDW_Test_HasSpirVCross
 					auto validate = [&]( ast::Shader const & shader )
 					{
 						spirv::SpirVConfig config{};
@@ -753,6 +763,7 @@ namespace test
 					{
 						checkNoThrow( validate( shader ) );
 					}
+#endif
 				}
 
 				testCounts.decIndent();
@@ -786,6 +797,7 @@ namespace test
 						testCounts << errors << endl;
 					}
 
+#if SDW_Test_HasSpirVCross
 					auto validate = [&]()
 					{
 						spirv::SpirVConfig config{};
@@ -816,6 +828,7 @@ namespace test
 							, false );
 					};
 					checkNoThrow( validate() );
+#endif
 				}
 
 				testCounts.decIndent();

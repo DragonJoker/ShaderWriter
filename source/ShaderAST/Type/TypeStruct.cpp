@@ -14,6 +14,14 @@ namespace ast::type
 
 	namespace
 	{
+		uint32_t getAligned( uint32_t value, uint32_t align )
+		{
+			auto rem = value % align;
+			return ( rem
+				? value + ( align - rem )
+				: value );
+		}
+
 		bool isVec4Padded( MemoryLayout layout )
 		{
 			switch ( layout )
@@ -64,6 +72,34 @@ namespace ast::type
 			}
 
 			return getNaiveSize( type.getKind() );
+		}
+
+		uint32_t getLargestScalarElementSize( Struct const & type )
+		{
+			uint32_t result = 0u;
+
+			for ( auto & mbr : type )
+			{
+				auto t = getNonArrayTypeRec( mbr.type );
+
+				if ( isStructType( t ) )
+				{
+					result = std::max( result, mbr.size );
+				}
+				else
+				{
+					auto kind = t->getKind();
+
+					while ( !isScalarType( kind ) )
+					{
+						kind = getComponentType( kind );
+					}
+
+					result = std::max( result, getNaiveSize( kind ) );
+				}
+			}
+
+			return result;
 		}
 
 		uint32_t getNaiveSize( Type const & type )
@@ -151,6 +187,18 @@ namespace ast::type
 			, MemoryLayout layout )
 		{
 			const uint32_t baseAlignment = getPackedBaseSize( kind );
+
+			// From GL_EXT_scalar_block_layout spec
+			// (https://github.com/KhronosGroup/GLSL/blob/master/extensions/ext/GL_EXT_scalar_block_layout.txt#L74)
+			// 1. If the member is a scalar consuming N basic machine units, the base alignment is N.
+			// 2. If the member is a vector, the base alignment is equal to that of its components.
+			// 3. If the member is a matrix, the base alignment is equal to that of its components.
+			// 4. If the member is an array, the base alignment is equal to that of its elements.
+			if ( layout == MemoryLayout::eScalar )
+			{
+				return baseAlignment;
+			}
+
 			auto componentCount = getComponentCount( kind );
 			// From 7.6.2.2 in GL 4.5 core spec
 			// (https://www.khronos.org/registry/OpenGL/specs/gl/glspec45.core.pdf).
@@ -242,7 +290,7 @@ namespace ast::type
 			if ( arraySize == NotArray )
 			{
 				uint32_t alignment = getPackedAlignment( type, layout );
-				return ( size + alignment - 1 ) & ~( alignment - 1 );
+				return getAligned( size, alignment );
 			}
 			else
 			{
@@ -289,7 +337,7 @@ namespace ast::type
 						padAlignment = 1;
 					}
 
-					result = ( result + alignment - 1 ) & ~( alignment - 1 );
+					result = getAligned( result, alignment );
 					result += getPackedSize( *member.type, layout );
 				}
 			}
@@ -298,7 +346,7 @@ namespace ast::type
 				auto member = type.back();
 				uint32_t packedAlignment = getPackedAlignment( *member.type, layout );
 				result = member.offset + member.size;
-				result = ( result + packedAlignment - 1 ) & ~( packedAlignment - 1 );
+				result = getAligned( result, packedAlignment );
 			}
 
 			return result;
@@ -352,11 +400,6 @@ namespace ast::type
 			}
 
 			return columns * rows * baseAlignment;
-		}
-
-		uint32_t getAligned( uint32_t value, uint32_t align )
-		{
-			return ( value + align - 1 ) & ~( align - 1 );
 		}
 	}
 
@@ -530,10 +573,18 @@ namespace ast::type
 	void Struct::doUpdateOffsets()
 	{
 		uint32_t offset = 0u;
+		auto minAlign = 1u;
+
+		if ( m_layout == MemoryLayout::eScalar )
+		{
+			minAlign = getLargestScalarElementSize( *this );
+		}
 
 		for ( auto & member : m_members )
 		{
-			uint32_t alignment = getAlignment( *member.type, m_layout );
+			uint32_t alignment = m_layout == MemoryLayout::eScalar
+				? minAlign
+				: getAlignment( *member.type, m_layout );
 			member.offset = getAligned( offset, alignment );
 			offset = member.offset + getAligned( member.size, alignment );
 		}
@@ -1285,8 +1336,7 @@ namespace ast::type
 	uint32_t getSize( Type const & type
 		, MemoryLayout layout )
 	{
-		if ( layout == MemoryLayout::eC
-			|| layout == MemoryLayout::eScalar )
+		if ( layout == MemoryLayout::eC )
 		{
 			return getNaiveSize( type );
 		}
@@ -1303,10 +1353,9 @@ namespace ast::type
 	uint32_t getAlignment( Type const & type
 		, MemoryLayout layout )
 	{
-		if ( layout == MemoryLayout::eC
-			|| layout == MemoryLayout::eScalar )
+		if ( layout == MemoryLayout::eC )
 		{
-			return 4u;
+			return 1u;
 		}
 
 		return getPackedAlignment( type, layout );
@@ -1321,8 +1370,7 @@ namespace ast::type
 	uint32_t getArrayStride( Array const & type
 		, MemoryLayout layout )
 	{
-		if ( layout == MemoryLayout::eC
-			|| layout == MemoryLayout::eScalar )
+		if ( layout == MemoryLayout::eC )
 		{
 			return getNaiveSize( *type.getType() );
 		}

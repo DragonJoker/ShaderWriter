@@ -94,7 +94,7 @@ namespace
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eScalar
 				, "ObjDesc" );
 
 			if ( result->empty() )
