@@ -93,20 +93,14 @@ namespace spirv
 
 	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
-		if ( stmt->getVariable()->isCallableData() )
-		{
-			m_ioDeclarations->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
-				, stmt->getLocation() ) );
-		}
+		m_ioDeclarations->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
+			, stmt->getLocation() ) );
 	}
 
 	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
-		if ( stmt->getVariable()->isRayPayload() )
-		{
-			m_ioDeclarations->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
-				, stmt->getLocation() ) );
-		}
+		m_ioDeclarations->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
+			, stmt->getLocation() ) );
 	}
 
 	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
