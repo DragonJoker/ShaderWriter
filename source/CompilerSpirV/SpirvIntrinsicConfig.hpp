@@ -1057,6 +1057,10 @@ namespace spirv
 			config.isExtension = false;
 			break;
 
+		case ast::expr::Intrinsic::eSetMeshOutputCounts:
+			config.isExtension = false;
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

@@ -60,7 +60,9 @@ namespace spirv
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
 		void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * )override;
 		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
+		void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override;
 		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override;
+		void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( ast::stmt::Return * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
@@ -100,7 +102,7 @@ namespace spirv
 			spv::Id breakLabel;
 			spv::Id continueLabel;
 		};
-
+		ModuleConfig const & m_moduleConfig;
 		spirv::PreprocContext m_context;
 		ShaderActions m_actions;
 		Module & m_result;

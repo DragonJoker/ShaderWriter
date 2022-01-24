@@ -350,6 +350,10 @@ namespace spirv
 			, bool isEntryPoint );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationEvaluationInput const & tessType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::MeshVertexOutput const & meshType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::MeshPrimitiveOutput const & meshType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
