@@ -71,6 +71,12 @@ namespace ast::type
 				return mbr.offset + mbr.size;
 			}
 
+			if ( isArrayType( type.getKind() ) )
+			{
+				auto mbr = getStructType( type )->back();
+				return mbr.offset + mbr.size;
+			}
+
 			return getNaiveSize( type.getKind() );
 		}
 
@@ -104,10 +110,19 @@ namespace ast::type
 
 		uint32_t getNaiveSize( Type const & type )
 		{
-			auto arraySize = getArraySize( type );
-			return ( arraySize == NotArray
-				? getNonArrayNaiveSize( type )
-				: arraySize * getNonArrayNaiveSize( getNonArrayType( type ) ) );
+			if ( type.getKind() == ast::type::Kind::eArray )
+			{
+				auto arraySize = getArraySize( type );
+
+				if ( arraySize == ast::type::UnknownArraySize )
+				{
+					arraySize = 1u;
+				}
+
+				return arraySize * getNaiveSize( getNonArrayType( type ) );
+			}
+
+			return getNonArrayNaiveSize( type );
 		}
 
 		uint32_t getPackedBaseSize( Kind kind )
@@ -851,6 +866,29 @@ namespace ast::type
 		doCreateMember( mbrType, builtin, index );
 	}
 
+	void IOStruct::declMember( Builtin builtin
+		, ArrayPtr type
+		, uint32_t arraySize
+		, uint32_t index )
+	{
+		TypePtr mbrType;
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getCache().getMemberType( type
+				, *this
+				, uint32_t( size() ) );
+		}
+
+		doCreateMember( mbrType, builtin, index );
+	}
+
 	void IOStruct::declMember( std::string name
 		, Kind kind
 		, uint32_t arraySize
@@ -1145,6 +1183,14 @@ namespace ast::type
 			{
 				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eMeshVertexOutput )
+			{
+				type = static_cast< type::MeshVertexOutput const & >( *type ).getType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eMeshPrimitiveOutput )
+			{
+				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
+			}
 			else
 			{
 				break;
@@ -1236,6 +1282,14 @@ namespace ast::type
 			{
 				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eMeshVertexOutput )
+			{
+				type = static_cast< type::MeshVertexOutput const & >( *type ).getType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eMeshPrimitiveOutput )
+			{
+				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
+			}
 			else
 			{
 				break;
@@ -1317,6 +1371,14 @@ namespace ast::type
 			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
 			{
 				type = static_cast< type::TessellationControlInput const & >( *type ).getType();
+			}
+			else if ( type->getRawKind() == type::Kind::eMeshVertexOutput )
+			{
+				type = static_cast< type::MeshVertexOutput const & >( *type ).getType();
+			}
+			else if ( type->getRawKind() == type::Kind::eMeshPrimitiveOutput )
+			{
+				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType();
 			}
 			else
 			{

@@ -353,6 +353,12 @@ namespace ast::debug
 		case type::Kind::eAccelerationStructure:
 			result = "ACCST";
 			break;
+		case type::Kind::eMeshVertexOutput:
+			result = "MESHVTXOUT";
+			break;
+		case type::Kind::eMeshPrimitiveOutput:
+			result = "MESHPRIMOUT";
+			break;
 		default:
 			assert( false );
 			result = "UNKNOWN";
@@ -553,6 +559,17 @@ namespace ast::debug
 			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::TessellationInputPatch const & >( type ).getDomain() );
 			result += ", " + std::to_string( static_cast< type::TessellationInputPatch const & >( type ).getLocation() );
+			result += ")";
+			break;
+		case type::Kind::eMeshVertexOutput:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + std::to_string( static_cast< type::MeshVertexOutput const & >( type ).getMaxVertices() );
+			result += ")";
+			break;
+		case type::Kind::eMeshPrimitiveOutput:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( static_cast< type::MeshPrimitiveOutput const & >( type ).getTopology() );
+			result += ", " + std::to_string( static_cast< type::MeshPrimitiveOutput const & >( type ).getMaxPrimitives() );
 			result += ")";
 			break;
 		default:
@@ -877,6 +894,18 @@ namespace ast::debug
 		if ( var.isBufferReference() )
 		{
 			result += sep + "BUFFREF";
+			sep = ",";
+		}
+
+		if ( var.isPerPrimitive() )
+		{
+			result += sep + "PERPRIM";
+			sep = ",";
+		}
+
+		if ( var.isPerView() )
+		{
+			result += sep + "PERVIEW";
 			sep = ",";
 		}
 

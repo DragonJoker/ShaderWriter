@@ -1676,6 +1676,15 @@ namespace sdw
 	SDW_API Void executeCallable( UInt const & sbtRecordIndex, CallableData const & callable );
 	/**@}*/
 #pragma endregion
+#pragma region setMeshOutputCounts
+	/**
+	*name
+	*	setMeshOutputCounts
+	*/
+	/**@{*/
+	SDW_API Void setMeshOutputCounts( UInt const & numVertices, UInt const & numPrimitives );
+	/**@}*/
+#pragma endregion
 }
 
 #endif

@@ -264,6 +264,10 @@ namespace ast::type
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t index = InvalidLocation );
+		SDAST_API void declMember( Builtin builtin
+			, ArrayPtr type
+			, uint32_t arraySize
+			, uint32_t index = InvalidLocation );
 		SDAST_API void declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize

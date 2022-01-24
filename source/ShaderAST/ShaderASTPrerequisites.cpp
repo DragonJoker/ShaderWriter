@@ -11,6 +11,8 @@ namespace ast
 		case ast::ShaderStage::eTessellationEvaluation:
 		case ast::ShaderStage::eGeometry:
 		case ast::ShaderStage::eFragment:
+		case ast::ShaderStage::eTask:
+		case ast::ShaderStage::eMesh:
 			return true;
 		default:
 			return false;
@@ -32,6 +34,18 @@ namespace ast
 		case ast::ShaderStage::eRayIntersection:
 		case ast::ShaderStage::eRayAnyHit:
 		case ast::ShaderStage::eCallable:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool isMeshStage( ShaderStage stage )
+	{
+		switch ( stage )
+		{
+		case ast::ShaderStage::eTask:
+		case ast::ShaderStage::eMesh:
 			return true;
 		default:
 			return false;
@@ -174,6 +188,22 @@ namespace ast
 			return "PositionPerViewNV";
 		case ast::Builtin::eViewportMaskPerViewNV:
 			return "ViewportMaskPerViewNV";
+		case ast::Builtin::ePrimitiveIndicesNV:
+			return "PrimitiveIndicesNV";
+		case ast::Builtin::ePrimitiveCountNV:
+			return "PrimitiveCountNV";
+		case ast::Builtin::eTaskCountNV:
+			return "TaskCountNV";
+		case ast::Builtin::eClipDistancePerViewNV:
+			return "ClipDistancePerViewNV";
+		case ast::Builtin::eCullDistancePerViewNV:
+			return "CullDistancePerViewNV";
+		case ast::Builtin::eLayerPerViewNV:
+			return "LayerPerViewNV";
+		case ast::Builtin::eMeshViewCountNV:
+			return "MeshViewCountNV";
+		case ast::Builtin::eMeshViewIndicesNV:
+			return "MeshViewIndicesNV";
 		case ast::Builtin::eLaunchID:
 			return "LaunchID";
 		case ast::Builtin::eLaunchSize:
@@ -214,11 +244,31 @@ namespace ast
 		switch ( value )
 		{
 		case ast::Builtin::ePosition:
+		case ast::Builtin::ePositionPerViewNV:
 		case ast::Builtin::ePointSize:
 		case ast::Builtin::eCullDistance:
+		case ast::Builtin::eCullDistancePerViewNV:
 			return true;
 		case ast::Builtin::eClipDistance:
+		case ast::Builtin::eClipDistancePerViewNV:
 			return stage != ShaderStage::eFragment;
+		default:
+			return false;
+		}
+	}
+
+	bool isPerPrimitive( Builtin value
+		, ShaderStage stage )
+	{
+		switch ( value )
+		{
+		case ast::Builtin::ePrimitiveID:
+		case ast::Builtin::eLayer:
+		case ast::Builtin::eLayerPerViewNV:
+		case ast::Builtin::eViewportIndex:
+		case ast::Builtin::eViewportMaskNV:
+		case ast::Builtin::eViewportMaskPerViewNV:
+			return stage == ShaderStage::eMesh;
 		default:
 			return false;
 		}

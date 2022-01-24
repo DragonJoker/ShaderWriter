@@ -96,6 +96,12 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				model = L"ps_5_0";
 				break;
+			case ast::ShaderStage::eTask:
+				model = L"as_6_5";
+				break;
+			case ast::ShaderStage::eMesh:
+				model = L"ms_6_5";
+				break;
 			case ast::ShaderStage::eCallable:
 				model = L"lib_6_6";
 				break;
@@ -269,7 +275,8 @@ namespace test
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
 	{
-		if ( isRayTraceStage( type ) )
+		if ( isRayTraceStage( type )
+			|| isMeshStage( type ) )
 		{
 			return compileHlslDXC( shader
 				, getShaderModelW( type )

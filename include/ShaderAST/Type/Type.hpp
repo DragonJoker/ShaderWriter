@@ -82,6 +82,8 @@ namespace ast::type
 		eTessellationEvaluationInput,
 		eFragmentInput,
 		eComputeInput,
+		eMeshVertexOutput,
+		eMeshPrimitiveOutput,
 		eCount,
 		eMin = eUndefined,
 		eMax = eArray,

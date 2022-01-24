@@ -49,18 +49,6 @@ namespace sdw
 		return instance.getMember< Float >( builtin );
 	}
 
-	Array< Int > getIntMemberArray( StructInstance const & instance
-		, ast::Builtin builtin )
-	{
-		return instance.getMemberArray< Int >( builtin );
-	}
-
-	Array< Float > getFloatMemberArray( StructInstance const & instance
-		, ast::Builtin builtin )
-	{
-		return instance.getMemberArray< Float >( builtin );
-	}
-
 	Vec2 getVec2Member( StructInstance const & instance
 		, ast::Builtin builtin )
 	{
@@ -109,6 +97,54 @@ namespace sdw
 		return instance.getMember< Mat3x4 >( builtin );
 	}
 
+	Array< Int > getIntMemberArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< Int >( builtin );
+	}
+
+	Array< UInt > getUIntMemberArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< UInt >( builtin );
+	}
+
+	Array< Float > getFloatMemberArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< Float >( builtin );
+	}
+
+	Array< Vec4 > getVec4MemberArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< Vec4 >( builtin );
+	}
+
+	Array< UVec2 > getUVec2MemberArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< UVec2 >( builtin );
+	}
+
+	Array< UVec3 > getUVec3MemberArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< UVec3 >( builtin );
+	}
+
+	Array< Array< Int > > getIntMemberArrayArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< Array< Int > >( builtin );
+	}
+
+	Array< Array< Float > > getFloatMemberArrayArray( StructInstance const & instance
+		, ast::Builtin builtin )
+	{
+		return instance.getMemberArray< Array< Float > >( builtin );
+	}
+
 	//*********************************************************************************************
 
 	StructInstance::StructInstance( ShaderWriter & writer
@@ -117,6 +153,7 @@ namespace sdw
 		: Value{ writer, std::move( expr ), enabled }
 		, m_type{ getStructType( getType() ) }
 	{
+		assert( m_type != nullptr && "Non structure type ?" );
 	}
 
 	//*********************************************************************************************

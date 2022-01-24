@@ -105,6 +105,8 @@ namespace test
 		GL_TESS_CONTROL_SHADER = 0x8E88,
 		GL_TESS_EVALUATION_SHADER = 0x8E87,
 		GL_COMPUTE_SHADER = 0x91B9,
+		GL_MESH_SHADER = 0x9559,
+		GL_TASK_SHADER = 0x955A,
 	};
 
 #else
@@ -781,11 +783,14 @@ namespace test
 			case ast::ShaderStage::eGeometry:
 				return GL_GEOMETRY_SHADER;
 				break;
-			case ast::ShaderStage::eCompute:
-				return GL_COMPUTE_SHADER;
-				break;
 			case ast::ShaderStage::eFragment:
 				return GL_FRAGMENT_SHADER;
+				break;
+			case ast::ShaderStage::eMesh:
+				return GL_MESH_SHADER;
+				break;
+			case ast::ShaderStage::eCompute:
+				return GL_COMPUTE_SHADER;
 				break;
 			default:
 				AST_Failure( "Unsupported ShaderType." );

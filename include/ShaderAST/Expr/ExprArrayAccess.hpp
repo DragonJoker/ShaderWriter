@@ -30,6 +30,8 @@ namespace ast::expr
 			|| lhs->getType()->getKind() == type::Kind::eTessellationControlInput
 			|| lhs->getType()->getKind() == type::Kind::eTessellationControlOutput
 			|| lhs->getType()->getKind() == type::Kind::eTessellationEvaluationInput
+			|| lhs->getType()->getKind() == type::Kind::eMeshVertexOutput
+			|| lhs->getType()->getKind() == type::Kind::eMeshPrimitiveOutput
 			|| isVectorType( lhs->getType()->getKind() )
 			|| isMatrixType( lhs->getType()->getKind() ) );
 		return std::make_unique< ArrayAccess >( std::move( type )

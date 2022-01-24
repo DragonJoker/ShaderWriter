@@ -23,6 +23,7 @@ namespace ast::stmt
 			eTessellationEvaluationOutput,
 			eGeometryInput,
 			eGeometryOutput,
+			eMeshOutput,
 		};
 
 	public:

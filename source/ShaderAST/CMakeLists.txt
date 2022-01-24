@@ -267,7 +267,9 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtList.hpp
 	${INCLUDE_DIR}/Stmt/StmtLoop.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputGeometryLayout.hpp
+	${INCLUDE_DIR}/Stmt/StmtOutputMeshLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputTessellationControlLayout.hpp
+	${INCLUDE_DIR}/Stmt/StmtPerPrimitiveDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPerVertexDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPushConstantsBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtReturn.hpp
@@ -322,7 +324,9 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtInputTessellationEvaluationLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtLoop.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputGeometryLayout.cpp
+	${SOURCE_DIR}/Stmt/StmtOutputMeshLayout.cpp
 	${SOURCE_DIR}/Stmt/StmtOutputTessellationControlLayout.cpp
+	${SOURCE_DIR}/Stmt/StmtPerPrimitiveDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPerVertexDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPushConstantsBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtReturn.cpp
@@ -370,6 +374,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeGeometryIO.hpp
 	${INCLUDE_DIR}/Type/TypeHitAttribute.hpp
 	${INCLUDE_DIR}/Type/TypeImage.hpp
+	${INCLUDE_DIR}/Type/TypeMeshIO.hpp
 	${INCLUDE_DIR}/Type/TypePointer.hpp
 	${INCLUDE_DIR}/Type/TypeRayPayload.hpp
 	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
@@ -391,6 +396,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeGeometryIO.cpp
 	${SOURCE_DIR}/Type/TypeHitAttribute.cpp
 	${SOURCE_DIR}/Type/TypeImage.cpp
+	${SOURCE_DIR}/Type/TypeMeshIO.cpp
 	${SOURCE_DIR}/Type/TypePointer.cpp
 	${SOURCE_DIR}/Type/TypeRayPayload.cpp
 	${SOURCE_DIR}/Type/TypeSampledImage.cpp

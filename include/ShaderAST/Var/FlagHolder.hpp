@@ -45,6 +45,10 @@ namespace ast::var
 		eCallableData = 1ull << 31,
 		eHitAttribute = 1ull << 32,
 		eBufferReference = 1ull << 33,
+		ePerPrimitive = 1ull << 34,
+		ePerView = 1ull << 35,
+		ePerTask = 1ull << 36,
+		eShared = 1ull << 37,
 	};
 
 	class FlagHolder
@@ -254,6 +258,26 @@ namespace ast::var
 		bool isBufferReference()const
 		{
 			return hasFlag( Flag::eBufferReference );
+		}
+
+		bool isPerPrimitive()const
+		{
+			return hasFlag( Flag::ePerPrimitive );
+		}
+
+		bool isPerView()const
+		{
+			return hasFlag( Flag::ePerView );
+		}
+
+		bool isPerTask()const
+		{
+			return hasFlag( Flag::ePerTask );
+		}
+
+		bool isShared()const
+		{
+			return hasFlag( Flag::eShared );
 		}
 
 	private:

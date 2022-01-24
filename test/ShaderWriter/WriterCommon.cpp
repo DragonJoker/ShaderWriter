@@ -83,6 +83,9 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				result = spv::ExecutionModelFragment;
 				break;
+			case ast::ShaderStage::eMesh:
+				result = spv::ExecutionModelMeshNV;
+				break;
 			case ast::ShaderStage::eCompute:
 				result = spv::ExecutionModelGLCompute;
 				break;
@@ -378,7 +381,9 @@ namespace test
 				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay && display, true );
 			}
 
-			if ( compilers.hlsl && !isRayTraceStage( shader.getType() ) )
+			if ( compilers.hlsl
+				&& !isRayTraceStage( shader.getType() )
+				&& !isMeshStage( shader.getType() ) )
 			{
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay && display, true );
@@ -554,6 +559,7 @@ namespace test
 
 							if ( config.specVersion >= spirv::v1_3 )
 							{
+								extensions.emplace( spirv::NV_mesh_shader );
 								extensions.emplace( spirv::EXT_descriptor_indexing );
 								extensions.emplace( spirv::EXT_physical_storage_buffer );
 							}
@@ -655,6 +661,8 @@ namespace test
 				return "Geometry";
 			case ast::ShaderStage::eFragment:
 				return "Fragment";
+			case ast::ShaderStage::eMesh:
+				return "Mesh";
 			case ast::ShaderStage::eCompute:
 				return "Compute";
 			case ast::ShaderStage::eRayGeneration:

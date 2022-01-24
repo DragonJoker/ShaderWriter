@@ -786,6 +786,24 @@ namespace
 		testEnd();
 	}
 
+	void testOutputMeshLayout( test::TestCounts & testCounts )
+	{
+		testBegin( "testOutputMeshLayout" );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeOutputMeshLayout( cache.getVoid()
+			, ast::type::OutputTopology::eTriangle
+			, 64u
+			, 126u );
+		testCounts << "StmtOutputGeometryLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eOutputMeshLayout );
+		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
+		check( stmt->getTopology() == ast::type::OutputTopology::eTriangle );
+		check( stmt->getMaxVertices() == 64u );
+		check( stmt->getMaxPrimitives() == 126u );
+		testEnd();
+	}
+
 	void testInputComputeLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputComputeLayout" );
@@ -1088,6 +1106,7 @@ testSuiteMain( TestASTStatements )
 	testDiscard( testCounts );
 	testInputGeometryLayout( testCounts );
 	testOutputGeometryLayout( testCounts );
+	testOutputMeshLayout( testCounts );
 	testInputComputeLayout( testCounts );
 	testPreprocDefine( testCounts );
 	testPreprocIf( testCounts );

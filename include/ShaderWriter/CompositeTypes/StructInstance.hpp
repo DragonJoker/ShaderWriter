@@ -20,10 +20,6 @@ namespace sdw
 		, ast::Builtin builtin );
 	SDW_API Float getFloatMember( StructInstance const & instance
 		, ast::Builtin builtin );
-	SDW_API Array< Int > getIntMemberArray( StructInstance const & instance
-		, ast::Builtin builtin );
-	SDW_API Array< Float > getFloatMemberArray( StructInstance const & instance
-		, ast::Builtin builtin );
 	SDW_API Vec2 getVec2Member( StructInstance const & instance
 		, ast::Builtin builtin );
 	SDW_API Vec3 getVec3Member( StructInstance const & instance
@@ -39,6 +35,22 @@ namespace sdw
 	SDW_API Mat4x3 getMat4x3Member( StructInstance const & instance
 		, ast::Builtin builtin );
 	SDW_API Mat3x4 getMat3x4Member( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Int > getIntMemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< UInt > getUIntMemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Float > getFloatMemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Vec4 > getVec4MemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< UVec2 > getUVec2MemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< UVec3 > getUVec3MemberArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Array< Int > > getIntMemberArrayArray( StructInstance const & instance
+		, ast::Builtin builtin );
+	SDW_API Array< Array< Float > > getFloatMemberArrayArray( StructInstance const & instance
 		, ast::Builtin builtin );
 
 	class StructInstance

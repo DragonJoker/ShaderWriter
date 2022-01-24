@@ -6558,4 +6558,21 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region setMeshOutputCounts
+	/**
+	*name
+	*	setMeshOutputCounts
+	*/
+	/**@{*/
+	Void setMeshOutputCounts( UInt const & numVertices
+		, UInt const & numPrimitives )
+	{
+		return Void{ *findWriter( numVertices, numPrimitives )
+			, expr::makeSetMeshOutputCounts( findTypesCache( numVertices, numPrimitives )
+					, makeExpr( numVertices )
+				, makeExpr( numPrimitives ) )
+			, areOptionalEnabled( numVertices, numPrimitives ) };
+	}
+	/**@}*/
+#pragma endregion
 }
