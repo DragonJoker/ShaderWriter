@@ -29,6 +29,8 @@ namespace hlsl
 	std::string getOperatorName( ast::expr::Kind kind );
 	std::string getLayoutName( ast::type::InputLayout layout );
 	std::string getLayoutName( ast::type::OutputLayout layout );
+	std::string getLayoutName( ast::type::OutputTopology layout );
+	std::string getAttributeName( ast::type::TypePtr type );
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component );
 	std::string getSampledName( ast::type::ImageFormat value );
@@ -108,12 +110,18 @@ namespace hlsl
 		eNoSeparate,
 		eNoSeparateDistinctParams,
 		eLocalReturn,
-		eGlobalSeparateVar,
 		eLocalSeparateVar,
 	};
 
 	struct IOMapping
 	{
+		struct PendingMbrIO
+		{
+			ast::var::VariablePtr outer;
+			uint32_t index;
+			PendingIO io;
+		};
+
 		IOMapping( HlslShader & pshader
 			, IOMappingMode pmode
 			, bool pisInput
@@ -173,13 +181,6 @@ namespace hlsl
 		bool hasSeparate()const;
 
 	private:
-		struct PendingMbrIO
-		{
-			ast::var::VariablePtr outer;
-			uint32_t index;
-			PendingIO io;
-		};
-
 		PendingResult processPendingType( ast::type::TypePtr type
 			, std::string const & name
 			, ast::Builtin builtin
@@ -218,13 +219,16 @@ namespace hlsl
 			, ast::type::GeometryOutput const & geomType );
 		void initialiseHFOutput( ast::var::VariablePtr var
 			, ast::type::TessellationControlOutput const & tessType );
+		void initialiseHFOutput( ast::var::VariablePtr srcVar
+			, ast::type::MeshVertexOutput const & meshType );
 		void initialiseHFOutput( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType );
+		void initialiseLFOutput( ast::var::VariablePtr var
+			, ast::type::MeshPrimitiveOutput const & meshType );
 
 		HlslShader * shader;
 		AdaptationData * parent;
 		bool isMain;
-		bool needsSeparateFunc;
 		VarVarMap paramToEntryPoint{};
 		ast::stmt::Container * globalDeclarations{};
 
@@ -282,6 +286,16 @@ namespace hlsl
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
 
+		void setOutputTopology( ast::type::OutputTopology value )
+		{
+			m_outputTopology = value;
+		}
+
+		ast::type::OutputTopology getOutputTopology()const
+		{
+			return m_outputTopology;
+		}
+
 	private:
 		void registerInputMbr( ast::var::VariablePtr var
 			, uint64_t outerFlags
@@ -300,6 +314,8 @@ namespace hlsl
 			IOMapping m_highFreqOutputs;
 			IOMapping m_lowFreqInputs;
 			IOMapping m_lowFreqOutputs;
+			IOMapping::PendingMbrIO m_primitiveIndices;
+			ast::type::OutputTopology m_outputTopology{};
 	};
 
 	using RoutinePtr = std::unique_ptr< Routine >;
@@ -311,7 +327,6 @@ namespace hlsl
 
 		void addEntryPoint( ast::stmt::FunctionDecl const & stmt );
 		void updateCurrentEntryPoint( ast::stmt::FunctionDecl const * stmt );
-		bool needsSeparateFunc()const;
 		void initialiseEntryPoint( ast::stmt::FunctionDecl const & stmt );
 
 		ast::stmt::ContainerPtr writeGlobals( std::unordered_set< std::string > & declaredStructs );
@@ -427,6 +442,10 @@ namespace hlsl
 			, bool isEntryPoint );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationEvaluationInput const & tessType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::MeshVertexOutput const & meshType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::MeshPrimitiveOutput const & meshType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, bool isEntryPoint );

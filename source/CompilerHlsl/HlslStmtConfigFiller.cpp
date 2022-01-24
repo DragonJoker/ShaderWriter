@@ -120,7 +120,8 @@ namespace hlsl
 
 	void StmtConfigFiller::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
-		if ( stmt->getFlags() && !isRayTraceStage( m_shader.getType() ) )
+		if ( stmt->getFlags()
+			&& !isRayTraceStage( m_shader.getType() ) )
 		{
 			if ( !stmt->isEntryPoint() )
 			{
@@ -218,8 +219,37 @@ namespace hlsl
 	{
 	}
 
+	void StmtConfigFiller::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
+	}
+
+	void StmtConfigFiller::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
+	{
+		auto index = 0u;
+		auto type = getNonArrayType( stmt->getType() );
+		auto structType = getStructType( type );
+		assert( structType );
+
+		for ( auto & member : *structType )
+		{
+			auto name = ast::getName( member.builtin );
+			auto var = ( m_shader.hasVar( name )
+				? m_shader.getVar( name, member.type )
+				: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
+
+			if ( structType->isShaderOutput() )
+			{
+				m_adaptationData.addPendingOutput( var, index++ );
+			}
+			else
+			{
+				m_adaptationData.addPendingInput( var, index++ );
+			}
+		}
 	}
 
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )

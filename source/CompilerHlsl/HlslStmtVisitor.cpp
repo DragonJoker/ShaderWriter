@@ -70,6 +70,22 @@ namespace hlsl
 			}
 		}
 
+		std::string getName( ast::type::OutputTopology topology )
+		{
+			switch ( topology )
+			{
+			case ast::type::OutputTopology::ePoint:
+				return "point";
+			case ast::type::OutputTopology::eLine:
+				return "line";
+			case ast::type::OutputTopology::eTriangle:
+				return "triangle";
+			default:
+				AST_Failure( "Unsupported type::OutputTopology." );
+				return "UNDEFINED";
+			}
+		}
+
 		std::string writeIOMember( ast::ShaderStage stage
 			, ast::type::TypePtr type
 			, std::string name
@@ -110,10 +126,23 @@ namespace hlsl
 				return semantic;
 			}
 
-			std::string result = getTypeName( type ) + " ";
+			std::string result;
+
+			if ( isMeshStage( stage )
+				&& builtin == ast::Builtin::ePrimitiveIndicesNV )
+			{
+				result += "indices ";
+			}
+
+			result += getTypeName( type ) + " ";
 			result += adaptName( name );
 			result += getTypeArraySize( type );
-			result += semantic;
+
+			if ( builtin != ast::Builtin::ePrimitiveIndicesNV )
+			{
+				result += semantic;
+			}
+
 			return result;
 		}
 
@@ -250,6 +279,25 @@ namespace hlsl
 				else
 				{
 				}
+			}
+
+			return result;
+		}
+
+		std::string writeMeshPrimOut( RoutineMap const & routines
+			, std::string const & indent )
+		{
+			auto it = std::find_if( routines.begin()
+				, routines.end()
+				, []( auto & lookup )
+				{
+					return lookup.second->isMain;
+				} );
+			std::string result;
+
+			if ( it != routines.end() )
+			{
+				result += indent + "[outputtopology(\"" + getName( it->second->getOutputTopology() ) + "\")]\n";
 			}
 
 			return result;
@@ -451,25 +499,28 @@ namespace hlsl
 				}
 				else if ( argType->getKind() == ast::type::Kind::eComputeInput )
 				{
-					auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
-
-					if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
+					if ( !isMeshStage( m_writerConfig.shaderStage ) )
 					{
-						if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
+						auto & compType = static_cast< ast::type::ComputeInput const & >( *argType );
+
+						if ( compType.getLocalSizeX() == ast::stmt::InputComputeLayout::Uninit )
 						{
-							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
+							if ( compType.getLocalSizeY() == ast::stmt::InputComputeLayout::Uninit )
+							{
+								m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() ) + " )]\n";
+							}
+							else
+							{
+								m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
+									+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
+							}
 						}
 						else
 						{
 							m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
-								+ ", " + std::to_string( compType.getLocalSizeY() ) + " )]\n";
+								+ ", " + std::to_string( compType.getLocalSizeY() )
+								+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
 						}
-					}
-					else
-					{
-						m_result += m_indent + "[numthreads( " + std::to_string( compType.getLocalSizeX() )
-							+ ", " + std::to_string( compType.getLocalSizeY() )
-							+ ", " + std::to_string( compType.getLocalSizeZ() ) + " )]\n";
 					}
 
 					params.push_back( mbr );
@@ -529,10 +580,40 @@ namespace hlsl
 						params.push_back( mbr );
 					}
 				}
+				else if ( argType->getKind() == ast::type::Kind::eMeshVertexOutput )
+				{
+					auto & meshType = static_cast< ast::type::MeshVertexOutput const & >( *argType );
+					argType = meshType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( mbr );
+					}
+				}
+				else if ( argType->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
+				{
+					auto & meshType = static_cast< ast::type::MeshPrimitiveOutput const & >( *argType );
+					argType = meshType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( mbr );
+					}
+				}
 				else
 				{
 					params.push_back( mbr );
 				}
+			}
+
+			if ( isMeshStage( m_writerConfig.shaderStage ) )
+			{
+				m_result += writeMeshPrimOut( m_routines
+					, m_indent );
 			}
 
 			if ( m_writerConfig.shaderStage == ast::ShaderStage::eCallable )
@@ -598,6 +679,7 @@ namespace hlsl
 			else
 			{
 				m_result += sep + getDirectionName( *param )
+					+ getAttributeName( param->getType() )
 					+ getTypeName( param->getType() ) + " "
 					+ adaptName( param->getName() )
 					+ getTypeArraySize( param->getType() );
@@ -752,9 +834,19 @@ namespace hlsl
 		AST_Failure( "ast::stmt::OutputGeometryLayout unexpected at that point" );
 	}
 
+	void StmtVisitor::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
+	{
+		AST_Failure( "ast::stmt::OutputMeshLayout unexpected at that point" );
+	}
+
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
 		AST_Failure( "ast::stmt::visitOutputTessellationControlLayoutStmt unexpected at that point" );
+	}
+
+	void StmtVisitor::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
+	{
+		AST_Failure( "ast::stmt::PerPrimitiveDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
