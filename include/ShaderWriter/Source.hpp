@@ -29,6 +29,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/GeometryWriter.hpp"
 #include "ShaderWriter/TessellationControlWriter.hpp"
 #include "ShaderWriter/TessellationEvaluationWriter.hpp"
+#include "ShaderWriter/MeshWriter.hpp"
 #include "ShaderWriter/RayAnyHitWriter.hpp"
 #include "ShaderWriter/RayClosestHitWriter.hpp"
 #include "ShaderWriter/RayGenerationWriter.hpp"

@@ -2733,6 +2733,12 @@ namespace ast::expr
 			result = "EXECUTECALLABLE";
 			break;
 
+
+	//Mesh Shader Functions
+		case Intrinsic::eSetMeshOutputCounts:
+			result = "SETMESHOUTPUTCOUNTS";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

@@ -11595,6 +11595,27 @@ namespace ast::expr
 			, std::move( sbtRecordIndex )
 			, std::move( callable ) );
 	}
+	//Mesh Shader Functions
+
+	/**
+	*@return
+	*	void
+	*@param[in] numVertices
+	*	uint
+	*@param[in] numPrimitives
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeSetMeshOutputCounts( type::TypesCache & cache
+		, ExprPtr numVertices
+		, ExprPtr numPrimitives )
+	{
+		assert( numVertices->getType()->getRawKind() == type::Kind::eUInt );
+		assert( numPrimitives->getType()->getRawKind() == type::Kind::eUInt );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eSetMeshOutputCounts
+			, std::move( numVertices )
+			, std::move( numPrimitives ) );
+	}
 }
 
 #endif

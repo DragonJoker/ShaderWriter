@@ -1451,7 +1451,24 @@ namespace ast
 					m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
 						, getFinalSwizzle( values, indices ) );
 				}
-				else
+
+				if ( !m_result )
+				{
+					auto outer = expr->getOuterExpr();
+
+					if ( outer->getKind() == expr::Kind::eCompositeConstruct
+						&& ( expr->getSwizzle() == expr::SwizzleKind::e0
+							|| expr->getSwizzle() == expr::SwizzleKind::e1
+							|| expr->getSwizzle() == expr::SwizzleKind::e2
+							|| expr->getSwizzle() == expr::SwizzleKind::e3 ) )
+					{
+						auto & compositeConstruct = static_cast< expr::CompositeConstruct const & >( *outer );
+						m_result = doSubmit( std::next( compositeConstruct.getArgList().begin()
+							, ptrdiff_t( expr->getSwizzle().toIndex() ) )->get() );
+					}
+				}
+
+				if ( !m_result )
 				{
 					m_result = expr::makeSwizzle( doSubmit( expr->getOuterExpr() )
 						, expr->getSwizzle() );

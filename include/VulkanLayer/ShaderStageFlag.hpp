@@ -20,6 +20,8 @@ namespace ast::vk
 		eGeometry = 0x01u << int( ShaderStage::eGeometry ),
 		eFragment = 0x01u << int( ShaderStage::eFragment ),
 		eCompute = 0x01u << int( ShaderStage::eCompute ),
+		eTask = 0x01u << int( ShaderStage::eTask ),
+		eMesh = 0x01u << int( ShaderStage::eMesh ),
 		eRayGeneration = 0x01u << int( ShaderStage::eRayGeneration ),
 		eRayAnyHit = 0x01u << int( ShaderStage::eRayAnyHit ),
 		eRayClosestHit = 0x01u << int( ShaderStage::eRayClosestHit ),

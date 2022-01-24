@@ -239,6 +239,14 @@ namespace ast
 			, stmt->getPrimCount() ) );
 	}
 
+	void StmtCloner::visitOutputMeshLayoutStmt( stmt::OutputMeshLayout * stmt )
+	{
+		m_current->addStmt( stmt::makeOutputMeshLayout( stmt->getType()
+			, stmt->getTopology()
+			, stmt->getMaxVertices()
+			, stmt->getMaxPrimitives() ) );
+	}
+
 	void StmtCloner::visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )
 	{
 		m_current->addStmt( stmt::makeInputTessellationEvaluationLayout( stmt->getType()
@@ -255,6 +263,11 @@ namespace ast
 			, stmt->getTopology()
 			, stmt->getPrimitiveOrdering()
 			, stmt->getOutputVertices() ) );
+	}
+
+	void StmtCloner::visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl * stmt )
+	{
+		m_current->addStmt( stmt::makePerPrimitiveDecl( stmt->getType() ) );
 	}
 
 	void StmtCloner::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )

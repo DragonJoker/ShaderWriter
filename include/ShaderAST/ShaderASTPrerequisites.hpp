@@ -41,6 +41,8 @@ namespace ast
 		eGeometry,
 		eFragment,
 		eCompute,
+		eTask,
+		eMesh,
 		eRayGeneration,
 		eRayAnyHit,
 		eRayClosestHit,
@@ -51,6 +53,7 @@ namespace ast
 	SDAST_API bool isRasterizerStage( ShaderStage stage );
 	SDAST_API bool isComputeStage( ShaderStage stage );
 	SDAST_API bool isRayTraceStage( ShaderStage stage );
+	SDAST_API bool isMeshStage( ShaderStage stage );
 
 	enum class FragmentOrigin
 	{
@@ -151,6 +154,14 @@ namespace ast
 		eSecondaryViewportMaskNV,
 		ePositionPerViewNV,
 		eViewportMaskPerViewNV,
+		ePrimitiveIndicesNV,
+		ePrimitiveCountNV,
+		eTaskCountNV,
+		eClipDistancePerViewNV,
+		eCullDistancePerViewNV,
+		eLayerPerViewNV,
+		eMeshViewCountNV,
+		eMeshViewIndicesNV,
 		eLaunchID,
 		eLaunchSize,
 		eInstanceCustomIndex,
@@ -168,6 +179,8 @@ namespace ast
 	};
 	SDAST_API std::string getName( Builtin value );
 	SDAST_API bool isPerVertex( Builtin value
+		, ShaderStage stage );
+	SDAST_API bool isPerPrimitive( Builtin value
 		, ShaderStage stage );
 
 	struct EntityName

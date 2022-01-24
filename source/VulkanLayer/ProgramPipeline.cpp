@@ -108,6 +108,8 @@ namespace ast::vk
 				return VK_SHADER_STAGE_COMPUTE_BIT;
 			case ast::ShaderStage::eFragment:
 				return VK_SHADER_STAGE_FRAGMENT_BIT;
+			case ast::ShaderStage::eMesh:
+				return VK_SHADER_STAGE_MESH_BIT_NV;
 			default:
 				std::cerr << "Unsupported ShaderStage.\n";
 				return VK_SHADER_STAGE_COMPUTE_BIT;

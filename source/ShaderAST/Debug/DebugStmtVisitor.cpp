@@ -31,6 +31,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eVariableDecl:
 				result = "STVARDECL";
 				break;
+			case ast::stmt::Kind::ePerPrimitiveDecl:
+				result = "STPERPRIMDECL";
+				break;
 			case ast::stmt::Kind::ePerVertexDecl:
 				result = "STPERVERTEXDECL";
 				break;
@@ -434,6 +437,14 @@ namespace ast::debug
 		m_result += ") C(" + std::to_string( stmt->getPrimCount() ) + ")\n";
 	}
 
+	void StmtVisitor::visitOutputMeshLayoutStmt( stmt::OutputMeshLayout * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "T(" + getName( stmt->getTopology() );
+		m_result += ") V(" + std::to_string( stmt->getMaxVertices() );
+		m_result += ") P(" + std::to_string( stmt->getMaxPrimitives() ) + ")\n";
+	}
+
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
 		displayStmtName( stmt, false );
@@ -442,6 +453,13 @@ namespace ast::debug
 		m_result += "," + getName( stmt->getTopology() );
 		m_result += "," + getName( stmt->getPrimitiveOrdering() );
 		m_result += ") C(" + std::to_string( stmt->getOutputVertices() ) + ")\n";
+	}
+
+	void StmtVisitor::visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "(" + getName( stmt->getType() ) + ")\n";
+		m_result += "\n";
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
@@ -470,6 +488,9 @@ namespace ast::debug
 			break;
 		case stmt::PerVertexDecl::Source::eGeometryOutput:
 			m_result += "GEOMOUT";
+			break;
+		case stmt::PerVertexDecl::Source::eMeshOutput:
+			m_result += "MESHOUT";
 			break;
 		}
 		m_result += "(" + getName( stmt->getType() ) + ")\n";

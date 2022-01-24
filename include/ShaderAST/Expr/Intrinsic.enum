@@ -699,4 +699,7 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( traceRay, TraceRay ), ASTIntrParams( ASTIntrParam( type::Kind::eAccelerationStructure, topLevel ), ASTIntrParam( type::Kind::eUInt, rayFlags ), ASTIntrParam( type::Kind::eUInt, cullMask ), ASTIntrParam( type::Kind::eUInt, sbtRecordOffset ), ASTIntrParam( type::Kind::eUInt, sbtRecordStride ), ASTIntrParam( type::Kind::eUInt, missIndex ), ASTIntrParam( type::Kind::eRayDesc, rayDesc ), ASTIntrParam( type::Kind::eRayPayload, payload ) ) )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( reportIntersection, ReportIntersection ), ASTIntrParams( ASTIntrParam( type::Kind::eFloat, hitT ), ASTIntrParam( type::Kind::eUInt, hitKind ), ASTIntrParam( type::Kind::eHitAttribute, attribs ) ) )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( executeCallable, ExecuteCallable ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, sbtRecordIndex ), ASTIntrParam( type::Kind::eCallableData, callable ) ) )
+
+	//Mesh Shader Functions
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( setMeshOutputCounts, SetMeshOutputCounts ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, numVertices ), ASTIntrParam( type::Kind::eUInt, numPrimitives ) ) )
 ASTIntrEnd

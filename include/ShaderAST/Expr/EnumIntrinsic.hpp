@@ -711,6 +711,9 @@ namespace ast::expr
 		eReportIntersection,
 		eExecuteCallable,
 
+	//Mesh Shader Functions
+		eSetMeshOutputCounts,
+
 	// Boundaries,
 		eCount,
 		eInvalid = ~( 0u ),

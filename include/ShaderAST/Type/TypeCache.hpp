@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include "TypeGeometryIO.hpp"
 #include "TypeHitAttribute.hpp"
 #include "TypeImage.hpp"
+#include "TypeMeshIO.hpp"
 #include "TypePointer.hpp"
 #include "TypeRayPayload.hpp"
 #include "TypeSampledImage.hpp"

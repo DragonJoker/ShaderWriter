@@ -47,6 +47,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/FragmentWriter.inl
 	${INCLUDE_DIR}/GeometryWriter.hpp
 	${INCLUDE_DIR}/GeometryWriter.inl
+	${INCLUDE_DIR}/MeshWriter.hpp
+	${INCLUDE_DIR}/MeshWriter.inl
 	${INCLUDE_DIR}/RayAnyHitWriter.hpp
 	${INCLUDE_DIR}/RayAnyHitWriter.inl
 	${INCLUDE_DIR}/RayClosestHitWriter.hpp
@@ -69,6 +71,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/ComputeWriter.cpp
 	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/GeometryWriter.cpp
+	${SOURCE_DIR}/MeshWriter.cpp
 	${SOURCE_DIR}/RayAnyHitWriter.cpp
 	${SOURCE_DIR}/RayClosestHitWriter.cpp
 	${SOURCE_DIR}/RayGenerationWriter.cpp
@@ -179,6 +182,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/FunctionParam.inl
 	${INCLUDE_DIR}/CompositeTypes/Pcb.hpp
 	${INCLUDE_DIR}/CompositeTypes/Pcb.inl
+	${INCLUDE_DIR}/CompositeTypes/PerPrimitive.hpp
 	${INCLUDE_DIR}/CompositeTypes/PerVertex.hpp
 	${INCLUDE_DIR}/CompositeTypes/RayDesc.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ssbo.hpp
@@ -194,6 +198,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/CompositeTypes/ArraySsbo.cpp
 	${SOURCE_DIR}/CompositeTypes/Builtins.cpp
 	${SOURCE_DIR}/CompositeTypes/Pcb.cpp
+	${SOURCE_DIR}/CompositeTypes/PerPrimitive.cpp
 	${SOURCE_DIR}/CompositeTypes/PerVertex.cpp
 	${SOURCE_DIR}/CompositeTypes/RayDesc.cpp
 	${SOURCE_DIR}/CompositeTypes/Ssbo.cpp
