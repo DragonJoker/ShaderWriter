@@ -244,6 +244,11 @@ namespace spirv
 						|| builtin == ast::Builtin::eLocalInvocationID
 						|| builtin == ast::Builtin::eGlobalInvocationID
 						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
+				|| ( type == ast::ShaderStage::eMesh
+					&& ( builtin == ast::Builtin::eWorkGroupID
+						|| builtin == ast::Builtin::eLocalInvocationID
+						|| builtin == ast::Builtin::eGlobalInvocationID
+						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
 				|| ( type == ast::ShaderStage::eFragment
 					&& ( builtin == ast::Builtin::eFragCoord
 						|| builtin == ast::Builtin::eFrontFacing
@@ -319,7 +324,16 @@ namespace spirv
 					&& ( builtin == ast::Builtin::ePosition
 						|| builtin == ast::Builtin::ePointSize
 						|| builtin == ast::Builtin::eClipDistance
-						|| builtin == ast::Builtin::eCullDistance ) );
+						|| builtin == ast::Builtin::eCullDistance ) )
+				|| ( type == ast::ShaderStage::eMesh
+					&& ( builtin == ast::Builtin::ePosition
+						|| builtin == ast::Builtin::ePointSize
+						|| builtin == ast::Builtin::eClipDistance
+						|| builtin == ast::Builtin::eCullDistance
+						|| builtin == ast::Builtin::ePrimitiveID
+						|| builtin == ast::Builtin::eLayer
+						|| builtin == ast::Builtin::eViewportIndex
+						|| builtin == ast::Builtin::eViewportMaskNV ) );
 		}
 
 		uint32_t getMajor( uint32_t spvVersion )
@@ -507,6 +521,12 @@ namespace spirv
 		case ast::type::Kind::eTessellationEvaluationInput:
 			checkType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), config );
 			break;
+		case ast::type::Kind::eMeshVertexOutput:
+			checkType( static_cast< ast::type::MeshVertexOutput const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eMeshPrimitiveOutput:
+			checkType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), config );
+			break;
 		case ast::type::Kind::ePointer:
 			checkType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), config );
 			break;
@@ -533,7 +553,11 @@ namespace spirv
 			config.registerCapability( spv::CapabilityCullDistance );
 			break;
 		case ast::Builtin::ePrimitiveID:
-			if ( !isRayTraceStage( stage ) )
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else if ( !isRayTraceStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityGeometry );
 			}
@@ -543,7 +567,11 @@ namespace spirv
 			// Tessellation or Geometry
 			break;
 		case ast::Builtin::eLayer:
-			if ( stage == ast::ShaderStage::eGeometry )
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else if ( stage == ast::ShaderStage::eGeometry )
 			{
 				config.registerCapability( spv::CapabilityGeometry );
 			}
@@ -553,7 +581,14 @@ namespace spirv
 			}
 			break;
 		case ast::Builtin::eViewportIndex:
-			config.registerCapability( spv::CapabilityMultiViewport );
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else
+			{
+				config.registerCapability( spv::CapabilityMultiViewport );
+			}
 			break;
 		case ast::Builtin::eTessLevelOuter:
 		case ast::Builtin::eTessLevelInner:
@@ -585,12 +620,28 @@ namespace spirv
 		case ast::Builtin::eWorkGroupSize:
 			break;
 		case ast::Builtin::eWorkGroupID:
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
 			break;
 		case ast::Builtin::eLocalInvocationID:
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
 			break;
 		case ast::Builtin::eGlobalInvocationID:
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
 			break;
 		case ast::Builtin::eLocalInvocationIndex:
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
 			break;
 		case ast::Builtin::eWorkDim:
 		case ast::Builtin::eGlobalSize:
@@ -645,7 +696,14 @@ namespace spirv
 			config.registerCapability( spv::CapabilityStencilExportEXT );
 			break;
 		case ast::Builtin::eViewportMaskNV:
-			config.registerCapability( spv::CapabilityShaderViewportMaskNV );
+			if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else
+			{
+				config.registerCapability( spv::CapabilityShaderViewportMaskNV );
+			}
 			break;
 		case ast::Builtin::eSecondaryPositionNV:
 		case ast::Builtin::eSecondaryViewportMaskNV:
@@ -969,11 +1027,18 @@ namespace spirv
 	{
 		auto compType = getComponentType( type );
 
-		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+		if ( ( ( stage != ast::ShaderStage::eVertex || !isInput )
+				&& stage != ast::ShaderStage::eMesh )
 			&& !isRayTraceStage( stage )
 			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
 			flags = flags | ast::var::Flag::eFlat;
+		}
+
+		if ( builtin == ast::Builtin::ePrimitiveIndicesNV )
+		{
+			arraySize *= getComponentCount( type );
+			type = type->getCache().getBasicType( compType );
 		}
 
 		if ( arraySize != ast::type::NotArray )
@@ -1270,6 +1335,7 @@ namespace spirv
 		case spv::CapabilityFragmentFullyCoveredEXT:
 			break;
 		case spv::CapabilityMeshShadingNV:
+			registerExtension( NV_mesh_shader );
 			break;
 		case spv::CapabilityImageFootprintNV:
 			break;
@@ -1457,6 +1523,12 @@ namespace spirv
 				break;
 			case ast::type::Kind::eTessellationControlOutput:
 				registerParam( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+				break;
+			case ast::type::Kind::eMeshVertexOutput:
+				registerParam( param, static_cast< ast::type::MeshVertexOutput const & >( *type ) );
+				break;
+			case ast::type::Kind::eMeshPrimitiveOutput:
+				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
 			default:
 				{
@@ -1832,6 +1904,48 @@ namespace spirv
 		}
 	}
 
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::MeshVertexOutput const & meshType )
+	{
+		auto type = meshType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( isStructType( type ) )
+		{
+			auto & structType = *getStructType( type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, meshType.getMaxVertices()
+				, true );
+		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::MeshPrimitiveOutput const & meshType )
+	{
+		auto type = meshType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( isStructType( type ) )
+		{
+			auto & structType = *getStructType( type );
+			assert( structType.isShaderOutput() );
+			registerOutput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, meshType.getMaxPrimitives()
+				, true );
+		}
+	}
+
 	void ModuleConfig::registerInput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & structType
 		, uint32_t arraySize
@@ -2020,6 +2134,22 @@ namespace spirv
 			return spv::BuiltInPositionPerViewNV;
 		case ast::Builtin::eViewportMaskPerViewNV:
 			return spv::BuiltInViewportMaskPerViewNV;
+		case ast::Builtin::ePrimitiveIndicesNV:
+			return spv::BuiltInPrimitiveIndicesNV;
+		case ast::Builtin::ePrimitiveCountNV:
+			return spv::BuiltInPrimitiveCountNV;
+		case ast::Builtin::eTaskCountNV:
+			return spv::BuiltInTaskCountNV;
+		case ast::Builtin::eClipDistancePerViewNV:
+			return spv::BuiltInClipDistancePerViewNV;
+		case ast::Builtin::eCullDistancePerViewNV:
+			return spv::BuiltInCullDistancePerViewNV;
+		case ast::Builtin::eLayerPerViewNV:
+			return spv::BuiltInLayerPerViewNV;
+		case ast::Builtin::eMeshViewCountNV:
+			return spv::BuiltInMeshViewCountNV;
+		case ast::Builtin::eMeshViewIndicesNV:
+			return spv::BuiltInMeshViewIndicesNV;
 		case ast::Builtin::eLaunchID:
 			return spv::BuiltInLaunchIdKHR;
 		case ast::Builtin::eLaunchSize:
@@ -2079,6 +2209,9 @@ namespace spirv
 			break;
 		case ast::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
+			break;
+		case ast::ShaderStage::eMesh:
+			result = spv::ExecutionModelMeshNV;
 			break;
 		case ast::ShaderStage::eCompute:
 			result = spv::ExecutionModelGLCompute;

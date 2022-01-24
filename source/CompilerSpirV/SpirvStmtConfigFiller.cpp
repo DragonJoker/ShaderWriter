@@ -48,6 +48,10 @@ namespace spirv
 		case ast::ShaderStage::eCompute:
 			m_result.registerCapability( spv::CapabilityShader );
 			break;
+		case ast::ShaderStage::eTask:
+		case ast::ShaderStage::eMesh:
+			m_result.registerCapability( spv::CapabilityMeshShadingNV );
+			break;
 		case ast::ShaderStage::eRayGeneration:
 		case ast::ShaderStage::eRayClosestHit:
 		case ast::ShaderStage::eRayMiss:
@@ -331,9 +335,18 @@ namespace spirv
 		doTraverseType( stmt->getType() );
 	}
 
+	void StmtConfigFiller::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
+	{
+		doTraverseType( stmt->getType() );
+	}
+
 	void StmtConfigFiller::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
 		doTraverseType( stmt->getType() );
+	}
+
+	void StmtConfigFiller::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
+	{
 	}
 
 	void StmtConfigFiller::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )

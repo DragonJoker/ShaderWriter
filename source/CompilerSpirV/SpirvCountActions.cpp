@@ -382,7 +382,15 @@ namespace spirv
 			{
 			}
 
+			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
+			{
+			}
+
 			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
+			{
+			}
+
+			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
 			{
 			}
 

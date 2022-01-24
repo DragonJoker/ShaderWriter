@@ -1190,6 +1190,30 @@ namespace spirv
 		}
 	}
 
+	void Module::registerExecutionMode( ast::type::OutputTopology topology
+		, uint32_t maxVertices
+		, uint32_t maxPrimitives )
+	{
+		switch ( topology )
+		{
+		case ast::type::OutputTopology::ePoint:
+			registerExecutionMode( spv::ExecutionModeOutputPoints );
+			break;
+		case ast::type::OutputTopology::eLine:
+			registerExecutionMode( spv::ExecutionModeOutputLinesNV );
+			break;
+		case ast::type::OutputTopology::eTriangle:
+			registerExecutionMode( spv::ExecutionModeOutputTrianglesNV );
+			break;
+		default:
+			AST_Failure( "Unsupported OutputTopology" );
+			break;
+		}
+
+		registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ maxVertices } } );
+		registerExecutionMode( spv::ExecutionModeOutputPrimitivesNV, { ValueId{ maxPrimitives } } );
+	}
+
 	spv::Id Module::getIntermediateResult()
 	{
 		spv::Id result{};
@@ -1535,6 +1559,22 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
+		else if ( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
+		{
+			auto & outputType = static_cast< ast::type::MeshVertexOutput const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
+		{
+			auto & outputType = static_cast< ast::type::MeshPrimitiveOutput const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else if ( type->getRawKind() == ast::type::Kind::eComputeInput )
 		{
 			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
@@ -1789,6 +1829,10 @@ namespace spirv
 		case spv::ExecutionModelGeometry:
 			insertCapability( capabilities, spv::CapabilityShader );
 			insertCapability( capabilities, spv::CapabilityGeometry );
+			break;
+		case spv::ExecutionModelMeshNV:
+			insertCapability( capabilities, spv::CapabilityShader );
+			insertCapability( capabilities, spv::CapabilityMeshShadingNV );
 			break;
 		case spv::ExecutionModelAnyHitKHR:
 		case spv::ExecutionModelCallableKHR:

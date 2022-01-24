@@ -30,6 +30,7 @@ namespace spirv
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		void visitAssignExpr( ast::expr::Assign * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;

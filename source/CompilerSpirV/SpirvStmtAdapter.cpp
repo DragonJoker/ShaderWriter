@@ -295,6 +295,35 @@ namespace spirv
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::MeshVertexOutput const & meshType )
+	{
+		m_maxVertices = meshType.getMaxVertices();
+
+		if ( m_maxPrimitives )
+		{
+			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+				, m_topology
+				, m_maxVertices
+				, m_maxPrimitives ) );
+		}
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::MeshPrimitiveOutput const & meshType )
+	{
+		m_maxPrimitives = meshType.getMaxPrimitives();
+		m_topology = meshType.getTopology();
+
+		if ( m_maxVertices )
+		{
+			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+				, meshType.getTopology()
+				, m_maxVertices
+				, m_maxPrimitives ) );
+		}
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationInputPatch const & patchType )
 	{
 		var = m_adaptationData.config.getInputPatch( var );
@@ -384,6 +413,12 @@ namespace spirv
 				break;
 			case ast::type::Kind::eTessellationControlOutput:
 				doProcess( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+				break;
+			case ast::type::Kind::eMeshVertexOutput:
+				doProcess( param, static_cast< ast::type::MeshVertexOutput const & >( *type ) );
+				break;
+			case ast::type::Kind::eMeshPrimitiveOutput:
+				doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
 			default:
 				break;

@@ -77,6 +77,10 @@ namespace spirv
 			, bool isEntryPoint );
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::TessellationEvaluationInput const & tessType );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::MeshVertexOutput const & meshType );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::MeshPrimitiveOutput const & meshType );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		void doProcessInOut( ast::type::FunctionPtr funcType
@@ -93,6 +97,9 @@ namespace spirv
 			ast::stmt::ContainerPtr statements;
 		};
 		std::map< std::string, PendingFunction > m_pending;
+		ast::type::OutputTopology m_topology;
+		uint32_t m_maxVertices{};
+		uint32_t m_maxPrimitives{};
 	};
 }
 

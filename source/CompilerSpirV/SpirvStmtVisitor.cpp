@@ -54,36 +54,6 @@ namespace spirv
 
 			return result;
 		}
-
-		void decorateVar( ast::var::VariablePtr var
-			, ValueId varId
-			, Module & module )
-		{
-			if ( var->isFlat() )
-			{
-				module.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
-			}
-
-			if ( var->isNoPerspective() )
-			{
-				module.decorate( varId, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
-			}
-
-			if ( var->isCentroid() )
-			{
-				module.decorate( varId, IdList{ spv::Id( spv::DecorationCentroid ) } );
-			}
-
-			if ( var->isPerSample() )
-			{
-				module.decorate( varId, IdList{ spv::Id( spv::DecorationSample ) } );
-			}
-
-			if ( var->isPatch() )
-			{
-				module.decorate( varId, IdList{ spv::Id( spv::DecorationPatch ) } );
-			}
-		}
 	}
 
 	Module StmtVisitor::submit( ast::type::TypesCache & cache
@@ -110,7 +80,8 @@ namespace spirv
 		, spirv::PreprocContext context
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
-		: m_context{ std::move( context ) }
+		: m_moduleConfig{ moduleConfig }
+		, m_context{ std::move( context ) }
 		, m_actions{ std::move( actions ) }
 		, m_result{ result }
 	{
@@ -404,8 +375,7 @@ namespace spirv
 	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
-		auto varId = visitVariable( var );
-		decorateVar( var, varId, m_result );
+		visitVariable( var );
 	}
 
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
@@ -472,8 +442,7 @@ namespace spirv
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
-		decorateVar( var, varId, m_result );
-		m_result.bindVariable( visitVariable( stmt->getVariable() )
+		m_result.bindVariable( varId
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
 	}
@@ -482,7 +451,6 @@ namespace spirv
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
-		decorateVar( var, varId, m_result );
 		m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 	}
 
@@ -490,7 +458,6 @@ namespace spirv
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
-		decorateVar( var, varId, m_result );
 		m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 	}
 
@@ -498,7 +465,6 @@ namespace spirv
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
-		decorateVar( var, varId, m_result );
 
 		if ( var->isShaderConstant() )
 		{
@@ -518,7 +484,6 @@ namespace spirv
 		{
 			m_result.decorate( varId, { spv::Id( spv::DecorationStream ), stmt->getStreamIndex() } );
 		}
-
 	}
 
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
@@ -538,8 +503,12 @@ namespace spirv
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
-		m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getCache().getVec3U32() );
-		m_result.decorate( m_context.workGroupSizeExpr, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
+
+		if ( m_moduleConfig.stage == ast::ShaderStage::eCompute )
+		{
+			m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getCache().getVec3U32() );
+			m_result.decorate( m_context.workGroupSizeExpr, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
+		}
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
@@ -550,6 +519,13 @@ namespace spirv
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 		m_result.registerExecutionMode( stmt->getLayout(), stmt->getPrimCount() );
+	}
+
+	void StmtVisitor::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
+	{
+		m_result.registerExecutionMode( stmt->getTopology()
+			, stmt->getMaxVertices()
+			, stmt->getMaxPrimitives() );
 	}
 
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
@@ -566,6 +542,10 @@ namespace spirv
 		m_result.registerExecutionMode( stmt->getDomain()
 			, stmt->getPartitioning()
 			, stmt->getPrimitiveOrdering() );
+	}
+
+	void StmtVisitor::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
+	{
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
@@ -740,12 +720,7 @@ namespace spirv
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		auto result = visitVariable( stmt->getVariable() );
-
-		if ( stmt->getVariable()->isPatch() )
-		{
-			m_result.decorate( result, spv::DecorationPatch );
-		}
+		visitVariable( stmt->getVariable() );
 	}
 
 	void StmtVisitor::visitWhileStmt( ast::stmt::While * stmt )
@@ -796,6 +771,7 @@ namespace spirv
 	ValueId StmtVisitor::visitVariable( ast::var::VariablePtr var )
 	{
 		VariableInfo info;
+		ValueId result;
 
 		if ( var->isMember() )
 		{
@@ -807,18 +783,52 @@ namespace spirv
 				, var->isOutputParam()
 				, var->getOuter()->getType()
 				, info ).id;
-			return m_result.registerMemberVariable( outer
+			result = m_result.registerMemberVariable( outer
 				, var->getName()
 				, var->getType() );
 		}
+		else
+		{
+			result = m_result.registerVariable( var->getName()
+				, var->getBuiltin()
+				, getStorageClass( m_result.getVersion(), var )
+				, var->isAlias()
+				, var->isParam()
+				, var->isOutputParam()
+				, var->getType()
+				, info ).id;
+		}
 
-		return m_result.registerVariable( var->getName()
-			, var->getBuiltin()
-			, getStorageClass( m_result.getVersion(), var )
-			, var->isAlias()
-			, var->isParam()
-			, var->isOutputParam()
-			, var->getType()
-			, info ).id;
+		if ( var->isFlat() )
+		{
+			m_result.decorate( result, IdList{ spv::Id( spv::DecorationFlat ) } );
+		}
+
+		if ( var->isNoPerspective() )
+		{
+			m_result.decorate( result, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
+		}
+
+		if ( var->isCentroid() )
+		{
+			m_result.decorate( result, IdList{ spv::Id( spv::DecorationCentroid ) } );
+		}
+
+		if ( var->isPerSample() )
+		{
+			m_result.decorate( result, IdList{ spv::Id( spv::DecorationSample ) } );
+		}
+
+		if ( var->isPatch() )
+		{
+			m_result.decorate( result, IdList{ spv::Id( spv::DecorationPatch ) } );
+		}
+
+		if ( var->isPerPrimitive() )
+		{
+			m_result.decorate( result, { spv::Id( spv::DecorationPerPrimitiveNV ) } );
+		}
+
+		return result;
 	}
 }

@@ -69,6 +69,7 @@ namespace spirv
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_viewport_array2 );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_stereo_view_rendering );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NVX_multiview_per_view_attributes );
+	makeSpirVExtension( v1_0, v1_3, vUnk, NV_mesh_shader );
 	makeSpirVExtension( v1_0, v1_5, vUnk, EXT_shader_atomic_float_add );
 	makeSpirVExtension( v1_4, v1_5, vUnk, KHR_ray_tracing );
 	makeSpirVExtension( v1_0, v1_5, vUnk, KHR_ray_query );
