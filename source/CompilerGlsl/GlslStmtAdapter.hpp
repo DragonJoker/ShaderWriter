@@ -24,7 +24,8 @@ namespace glsl
 	public:
 		void setMainVar( ast::var::VariablePtr const & rhs )
 		{
-			if ( rhs->isPatch() )
+			if ( rhs->isPatch()
+				|| rhs->isPerPrimitive() )
 			{
 				m_patch = rhs;
 			}
@@ -41,7 +42,9 @@ namespace glsl
 
 		std::map< ast::type::StructPtr, ast::var::VariableList > vars{};
 		ast::var::VariablePtr perVertex{};
+		ast::var::VariablePtr perPrimitive{};
 		std::map< ast::Builtin, ast::expr::ExprPtr > perVertexMbrs;
+		std::map< ast::Builtin, ast::expr::ExprPtr > perPrimitiveMbrs;
 		std::map< ast::type::StructPtr, std::pair< ast::type::StructPtr, uint32_t > > builtinsStructs;
 		std::map< ast::type::StructPtr, ast::var::VariablePtr > othersStructs;
 	};
@@ -82,6 +85,7 @@ namespace glsl
 		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
 		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
+		void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
@@ -109,6 +113,10 @@ namespace glsl
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::TessellationEvaluationInput const & tesseType );
 		void doProcess( ast::var::VariablePtr var
+			, ast::type::MeshVertexOutput const & meshType );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::MeshPrimitiveOutput const & meshType );
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStructPtr structType
@@ -128,6 +136,9 @@ namespace glsl
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		ast::type::TypePtr doDeclarePerVertex( bool isInput
 			, IOVars & io );
+		ast::type::TypePtr doDeclarePerPrimitive( bool isInput
+			, IOVars & io );
+		void doProcessMeshOutputs();
 
 	private:
 		ast::type::TypesCache & m_cache;
@@ -136,9 +147,16 @@ namespace glsl
 		ast::stmt::Container * m_globalsCont;
 		std::unordered_set< std::string > m_declaredStructs;
 		uint32_t m_maxPoint{};
+		uint32_t m_maxPrimitives{};
 		ast::type::InputLayout m_inputLayout;
 		ast::type::TypePtr m_inPerVertex;
 		ast::type::TypePtr m_outPerVertex;
+		ast::type::TypePtr m_inPerPrimitive;
+		ast::type::TypePtr m_outPerPrimitive;
+		ast::var::VariablePtr m_meshVtxVar{};
+		ast::type::MeshVertexOutput const * m_meshVtxType{};
+		ast::var::VariablePtr m_meshPrimVar{};
+		ast::type::MeshPrimitiveOutput const * m_meshPrimType{};
 	};
 }
 

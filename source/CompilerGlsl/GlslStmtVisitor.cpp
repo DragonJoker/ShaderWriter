@@ -792,48 +792,67 @@ namespace glsl
 		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
 	}
 
+	void StmtVisitor::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "layout(" + getLayoutName( stmt->getTopology() ) + ") out;\n";
+		m_result += m_indent + "layout(max_vertices = " + std::to_string( stmt->getMaxVertices() ) + ", max_primitives = " + std::to_string( stmt->getMaxPrimitives() ) + ") out;\n";
+	}
+
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "layout(vertices=" + std::to_string( stmt->getOutputVertices() ) + ") out;\n";
 	}
 
+	void StmtVisitor::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
+	{
+	}
+
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
-		m_appendLineEnd = true;
-		doAppendLineEnd();
-		std::string decl;
-		decl += "gl_PerVertex\n";
-		decl += m_indent + "{\n";
-		decl += m_indent + "	vec4 gl_Position;\n";
-		decl += m_indent + "	float gl_PointSize;\n";
-		decl += m_indent + "	float gl_ClipDistance[];\n";
-		decl += m_indent + "	float gl_CullDistance[];\n";
-		decl += m_indent + "}";
-		switch ( stmt->getSource() )
+		if ( stmt->getSource() != ast::stmt::PerVertexDecl::Source::eMeshOutput )
 		{
-		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
-			m_result += m_indent + "out " + decl + ";\n";
-			break;
-		case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
-			m_result += m_indent + "in " + decl + " gl_in[gl_MaxPatchVertices];\n";
-			break;
-		case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
-			m_result += m_indent + "out " + decl + " gl_out[];\n";
-			break;
-		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
-			m_result += m_indent + "out " + decl + ";\n";
-			break;
-		case ast::stmt::PerVertexDecl::Source::eGeometryInput:
-			m_result += m_indent + "in " + decl + " gl_in[];\n";
-			break;
-		case ast::stmt::PerVertexDecl::Source::eGeometryOutput:
-			m_result += m_indent + "out " + decl + ";\n";
-			break;
-		}
+			m_appendLineEnd = true;
+			doAppendLineEnd();
+			std::string decl;
+			decl += "gl_PerVertex\n";
 
-		m_appendLineEnd = true;
+			decl += m_indent + "{\n";
+			decl += m_indent + "	vec4 gl_Position;\n";
+			decl += m_indent + "	float gl_PointSize;\n";
+			decl += m_indent + "	float gl_ClipDistance[];\n";
+			decl += m_indent + "	float gl_CullDistance[];\n";
+			decl += m_indent + "}";
+
+			switch ( stmt->getSource() )
+			{
+			case ast::stmt::PerVertexDecl::Source::eVertexOutput:
+				m_result += m_indent + "out " + decl + ";\n";
+				break;
+			case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
+			case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
+				m_result += m_indent + "in " + decl + " gl_in[gl_MaxPatchVertices];\n";
+				break;
+			case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
+				m_result += m_indent + "out " + decl + " gl_out[];\n";
+				break;
+			case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
+				m_result += m_indent + "out " + decl + ";\n";
+				break;
+			case ast::stmt::PerVertexDecl::Source::eGeometryInput:
+				m_result += m_indent + "in " + decl + " gl_in[];\n";
+				break;
+			case ast::stmt::PerVertexDecl::Source::eGeometryOutput:
+				m_result += m_indent + "out " + decl + ";\n";
+				break;
+			case ast::stmt::PerVertexDecl::Source::eMeshOutput:
+				m_result += m_indent + "out " + decl + " gl_MeshVerticesNV[];\n";
+				break;
+			}
+
+			m_appendLineEnd = true;
+		}
 	}
 
 	void StmtVisitor::visitReturnStmt( ast::stmt::Return * stmt )

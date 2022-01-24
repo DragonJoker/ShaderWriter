@@ -118,6 +118,27 @@ namespace glsl
 			auto it = ires.first;
 			return ast::ExprCloner::submit( it->second.get() );
 		}
+
+		ast::expr::ExprPtr registerPerPrimitiveBuiltin( ast::type::TypesCache & cache
+			, ast::Builtin builtin
+			, ast::type::TypePtr type
+			, uint64_t flags
+			, uint32_t & nextVarId
+			, IOVars & io )
+		{
+			auto ires = io.perPrimitiveMbrs.emplace( builtin, nullptr );
+
+			if ( ires.second )
+			{
+				ires.first->second = ast::expr::makeIdentifier( cache
+					, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
+						, type
+						, flags | ast::var::Flag::eBuiltin ) );
+			}
+
+			auto it = ires.first;
+			return ast::ExprCloner::submit( it->second.get() );
+		}
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
@@ -162,6 +183,127 @@ namespace glsl
 		}
 
 		return result;
+	}
+
+	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
+	{
+		auto lhs = expr->getLHS();
+
+		if ( lhs->getKind() == ast::expr::Kind::eMbrSelect )
+		{
+			auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *lhs );
+			auto outer = mbrSelect.getOuterExpr();
+
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				auto structType = mbrSelect.getOuterType();
+				auto mbr = structType->getMember( mbrSelect.getMemberIndex() );
+
+				if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
+				{
+					auto & io = m_adaptationData.outputs;
+					auto it = io.vars.find( structType );
+					assert( it != io.vars.end() );
+					auto mbrIt = std::find_if( it->second.begin()
+						, it->second.end()
+						, [&mbr]( ast::var::VariablePtr const & lookup )
+						{
+							return lookup->getName() == mbr.name
+								|| lookup->getName() == "gl_" + mbr.name;
+						} );
+					assert( mbrIt != it->second.end() );
+
+					// Compute base index, based on declared type of builtin
+					auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+					auto index = arrayAccess.getRHS();
+					ast::expr::ExprPtr multiplier;
+
+					switch ( mbr.type->getKind() )
+					{
+					case ast::type::Kind::eUInt:
+						break;
+					case ast::type::Kind::eVec2U:
+						multiplier = ast::expr::makeLiteral( m_cache, 2u );
+						break;
+					case ast::type::Kind::eVec3U:
+						multiplier = ast::expr::makeLiteral( m_cache, 3u );
+						break;
+					default:
+						AST_Failure( "Unsupported type for gl_PrimitiveIndicesNV" );
+						break;
+					}
+
+					auto baseIndex = doSubmit( index );
+
+					if ( multiplier )
+					{
+						baseIndex = ast::expr::makeTimes( m_cache.getUInt32()
+							, doSubmit( index )
+							, std::move( multiplier ) );
+					}
+
+					auto componentCount = getComponentCount( mbr.type );
+
+					if ( componentCount == 1u )
+					{
+						m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
+							, ast::expr::makeIdentifier( m_cache, *mbrIt )
+							, std::move( baseIndex ) );
+						m_result = ast::expr::makeAssign( mbr.type
+							, std::move( m_result )
+							, doSubmit( expr->getRHS() ) );
+					}
+					else
+					{
+						m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
+							, ast::expr::makeIdentifier( m_cache, *mbrIt )
+							, ExprCloner::submit( baseIndex ) );
+						m_result = ast::expr::makeAssign( mbr.type
+							, std::move( m_result )
+							, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+								, ast::expr::SwizzleKind::e0 ) );
+
+						if ( componentCount >= 2u )
+						{
+							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+							m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
+								, ast::expr::makeIdentifier( m_cache, *mbrIt )
+								, ast::expr::makeAdd( m_cache.getUInt32()
+									, ExprCloner::submit( baseIndex )
+									, ast::expr::makeLiteral( m_cache, 1u ) ) );
+							m_result = ast::expr::makeAssign( mbr.type
+								, std::move( m_result )
+								, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+									, ast::expr::SwizzleKind::e1 ) );
+						}
+
+						if ( componentCount >= 3u )
+						{
+							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+							m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
+								, ast::expr::makeIdentifier( m_cache, *mbrIt )
+								, ast::expr::makeAdd( m_cache.getUInt32()
+									, ExprCloner::submit( baseIndex )
+									, ast::expr::makeLiteral( m_cache, 2u ) ) );
+							m_result = ast::expr::makeAssign( mbr.type
+								, std::move( m_result )
+								, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+									, ast::expr::SwizzleKind::e2 ) );
+						}
+					}
+				}
+			}
+		}
+
+		if ( !m_result )
+		{
+			ExprCloner::visitAssignExpr( expr );
+		}
+	}
+
+	void ExprAdapter::visitArrayAccessExpr( ast::expr::ArrayAccess * expr )
+	{
+		ExprCloner::visitArrayAccessExpr( expr );
 	}
 
 	void ExprAdapter::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
@@ -249,6 +391,28 @@ namespace glsl
 			m_result = ast::expr::makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCounts )
+		{
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			auto numPrimitives = std::move( args.back() );
+			args.pop_back();
+			auto numVertices = std::move( args.back() );
+			args.pop_back();
+			auto type = numPrimitives->getType();
+			auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, type
+				, "gl_" + getName( ast::Builtin::ePrimitiveCountNV )
+				, ast::var::Flag::eBuiltin | ast::var::Flag::eShaderOutput );
+			m_result = ast::expr::makeAssign( type
+				, ast::expr::makeIdentifier( m_cache, var )
+				, std::move( numPrimitives ) );
 		}
 		else
 		{
@@ -526,8 +690,8 @@ namespace glsl
 		auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
 		auto compType = getComponentType( mbr.type );
 
-		if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex
-				|| !isInput )
+		if ( ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex || !isInput )
+				&& m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eMesh )
 			&& ( isUnsignedIntType( compType )
 				|| isSignedIntType( compType ) ) )
 		{
@@ -573,6 +737,51 @@ namespace glsl
 				else
 				{
 					result = registerPerVertexBuiltin( m_cache
+						, mbr.builtin
+						, mbr.type
+						, mbrFlags
+						, m_adaptationData.nextVarId
+						, io );
+				}
+			}
+		}
+		else if ( isPerPrimitive( mbr.builtin
+			, m_adaptationData.writerConfig.shaderStage ) )
+		{
+			ast::expr::ExprPtr indexExpr{};
+
+			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+				outer = arrayAccess.getLHS();
+
+				if ( outer->getKind() == ast::expr::Kind::eIdentifier
+					&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
+				{
+					indexExpr = doSubmit( arrayAccess.getRHS() );
+				}
+			}
+
+			if ( outer->getKind() == ast::expr::Kind::eIdentifier
+				&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
+			{
+				if ( indexExpr )
+				{
+					auto type = getNonArrayType( io.perPrimitive->getType() );
+					assert( isStructType( type ) );
+					auto perPrimitiveType = getStructType( type );
+					mbrIndex = perPrimitiveType->findMember( mbr.builtin );
+					assert( mbrIndex != ast::type::Struct::NotFound );
+					result = ast::expr::makeArrayAccess( perPrimitiveType
+						, ast::expr::makeIdentifier( m_cache, io.perPrimitive )
+						, std::move( indexExpr ) );
+					result = ast::expr::makeMbrSelect( std::move( result )
+						, mbrIndex
+						, mbrFlags | ast::var::Flag::eBuiltin );
+				}
+				else
+				{
+					result = registerPerPrimitiveBuiltin( m_cache
 						, mbr.builtin
 						, mbr.type
 						, mbrFlags

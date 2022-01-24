@@ -48,7 +48,9 @@ namespace glsl
 		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
 		void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override;
 		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
+		void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override;
 		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override;
+		void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( ast::stmt::Return * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;

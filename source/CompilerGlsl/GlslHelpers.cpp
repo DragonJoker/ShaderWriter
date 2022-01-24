@@ -723,6 +723,23 @@ namespace glsl
 		}
 	}
 
+	std::string getLayoutName( ast::type::OutputTopology value )
+	{
+		switch ( value )
+		{
+		case ast::type::OutputTopology::ePoint:
+			return "points";
+		case ast::type::OutputTopology::eLine:
+			return "lines";
+		case ast::type::OutputTopology::eTriangle:
+			return "triangles";
+		case ast::type::OutputTopology::eQuad:
+			return "quads";
+		default:
+			throw std::runtime_error{ "Unsupported ast::type::OutputTopology." };
+		}
+	}
+
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component )
 	{

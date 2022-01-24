@@ -60,6 +60,8 @@ namespace glsl
 					return ast::stmt::PerVertexDecl::eGeometryInput;
 				}
 				return ast::stmt::PerVertexDecl::eGeometryOutput;
+			case ast::ShaderStage::eMesh:
+				return ast::stmt::PerVertexDecl::eMeshOutput;
 			case ast::ShaderStage::eFragment:
 				AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
 				return ast::stmt::PerVertexDecl::eVertexOutput;
@@ -106,6 +108,49 @@ namespace glsl
 				, count );
 		}
 
+		ast::type::StructPtr getMeshPerVertexBaseType( ast::type::TypesCache & cache
+			, bool isInput )
+		{
+			auto result{ cache.getIOStruct( ast::type::MemoryLayout::eC
+				, "gl_MeshPerVertexNV"
+				, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
+
+			if ( !result->hasMember( ast::Builtin::ePosition ) )
+			{
+				result->declMember( ast::Builtin::ePosition
+					, ast::type::Kind::eVec4F
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::ePositionPerViewNV
+					, ast::type::Kind::eVec4F
+					, ast::type::UnknownArraySize );
+				result->declMember( ast::Builtin::ePointSize
+					, ast::type::Kind::eFloat
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::eClipDistance
+					, ast::type::Kind::eFloat
+					, 8u );
+				result->declMember( ast::Builtin::eClipDistancePerViewNV
+					, cache.getArray( cache.getFloat(), 8u )
+					, ast::type::UnknownArraySize );
+				result->declMember( ast::Builtin::eCullDistance
+					, ast::type::Kind::eFloat
+					, 8u );
+				result->declMember( ast::Builtin::eCullDistancePerViewNV
+					, cache.getArray( cache.getFloat(), 8u )
+					, ast::type::UnknownArraySize );
+			}
+
+			return result;
+		}
+
+		ast::type::ArrayPtr getMeshPerVertexArrayType( ast::type::TypesCache & cache
+			, uint32_t count
+			, bool isInput )
+		{
+			return cache.getArray( getMeshPerVertexBaseType( cache, isInput )
+				, count );
+		}
+
 		ast::type::TypePtr getPerVertexType( ast::type::TypesCache & cache
 			, ast::ShaderStage stage
 			, bool isInput
@@ -146,6 +191,87 @@ namespace glsl
 				}
 				return getPerVertexBaseType( cache
 					, isInput );
+			case ast::ShaderStage::eMesh:
+				assert( !isInput );
+				return getMeshPerVertexArrayType( cache
+					, getArraySize( inputLayout )
+					, isInput );
+			case ast::ShaderStage::eFragment:
+				AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
+				return nullptr;
+			case ast::ShaderStage::eCompute:
+				AST_Failure( "Unexpected gl_PerVertex declaration in compute shader." );
+				return nullptr;
+			default:
+				AST_Failure( "Unexpected shader stage." );
+				return nullptr;
+			}
+		}
+
+		ast::type::StructPtr getPerPrimitiveBaseType( ast::type::TypesCache & cache
+			, bool isInput )
+		{
+			auto result{ cache.getIOStruct( ast::type::MemoryLayout::eC
+				, "gl_MeshPerPrimitiveNV"
+				, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
+
+			if ( !result->hasMember( ast::Builtin::ePosition ) )
+			{
+				result->declMember( ast::Builtin::ePrimitiveID
+					, ast::type::Kind::eInt
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::eLayer
+					, ast::type::Kind::eInt
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::eLayerPerViewNV
+					, ast::type::Kind::eInt
+					, ast::type::UnknownArraySize );
+				result->declMember( ast::Builtin::eViewportIndex
+					, ast::type::Kind::eInt
+					, ast::type::NotArray );
+				result->declMember( ast::Builtin::eViewportMaskNV
+					, ast::type::Kind::eInt
+					, 1u );
+				result->declMember( ast::Builtin::eViewportMaskPerViewNV
+					, cache.getArray( cache.getInt(), 1u )
+					, ast::type::UnknownArraySize );
+			}
+
+			return result;
+		}
+
+		ast::type::ArrayPtr getPerPrimitiveArrayType( ast::type::TypesCache & cache
+			, uint32_t count
+			, bool isInput )
+		{
+			return cache.getArray( getPerPrimitiveBaseType( cache, isInput )
+				, count );
+		}
+
+		ast::type::TypePtr getPerPrimitiveType( ast::type::TypesCache & cache
+			, ast::ShaderStage stage
+			, bool isInput
+			, uint32_t maxPrimitives )
+		{
+			switch ( stage )
+			{
+			case ast::ShaderStage::eMesh:
+				assert( !isInput );
+				return getPerPrimitiveArrayType( cache
+					, maxPrimitives
+					, isInput );
+			case ast::ShaderStage::eVertex:
+				AST_Failure( "Unexpected gl_PerVertex declaration in vertex shader." );
+				return nullptr;
+			case ast::ShaderStage::eTessellationControl:
+				AST_Failure( "Unexpected gl_PerVertex declaration in tessellation control shader." );
+				return nullptr;
+			case ast::ShaderStage::eTessellationEvaluation:
+				AST_Failure( "Unexpected gl_PerVertex declaration in tessellation evaluation shader." );
+				return nullptr;
+			case ast::ShaderStage::eGeometry:
+				AST_Failure( "Unexpected gl_PerVertex declaration in geometry shader." );
+				return nullptr;
 			case ast::ShaderStage::eFragment:
 				AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
 				return nullptr;
@@ -287,6 +413,12 @@ namespace glsl
 				case ast::type::Kind::eTessellationControlOutput:
 					doProcess( param, static_cast< ast::type::TessellationControlOutput const & >( *type ) );
 					break;
+				case ast::type::Kind::eMeshVertexOutput:
+					doProcess( param, static_cast< ast::type::MeshVertexOutput const & >( *type ) );
+					break;
+				case ast::type::Kind::eMeshPrimitiveOutput:
+					doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
+					break;
 				default:
 					{
 						uint32_t arraySize = ast::type::NotArray;
@@ -414,6 +546,12 @@ namespace glsl
 	{
 		declareType( stmt->getType() );
 		StmtCloner::visitOutputGeometryLayoutStmt( stmt );
+	}
+
+	void StmtAdapter::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
+	{
+		declareType( stmt->getType() );
+		StmtCloner::visitOutputMeshLayoutStmt( stmt );
 	}
 
 	void StmtAdapter::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
@@ -817,6 +955,40 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::MeshVertexOutput const & meshType )
+	{
+		m_meshVtxVar = var;
+		m_meshVtxType = &meshType;
+		m_maxPoint = meshType.getMaxVertices();
+
+		if ( m_meshPrimType )
+		{
+			doProcessMeshOutputs();
+			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+				, m_meshPrimType->getTopology()
+				, m_maxPoint
+				, m_maxPrimitives ) );
+		}
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::MeshPrimitiveOutput const & meshType )
+	{
+		m_meshPrimVar = var;
+		m_meshPrimType = &meshType;
+		m_maxPrimitives = meshType.getMaxPrimitives();
+
+		if ( m_meshVtxType )
+		{
+			doProcessMeshOutputs();
+			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+				, meshType.getTopology()
+				, m_maxPoint
+				, m_maxPrimitives ) );
+		}
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
 		auto type = compType.getType();
@@ -831,10 +1003,20 @@ namespace glsl
 				, true );
 		}
 
-		m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
-			, compType.getLocalSizeX()
-			, compType.getLocalSizeY()
-			, compType.getLocalSizeZ() ) );
+		if ( isMeshStage( m_adaptationData.stage ) )
+		{
+			m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
+				, compType.getLocalSizeX() * compType.getLocalSizeY() * compType.getLocalSizeZ()
+				, 1u
+				, 1u ) );
+		}
+		else
+		{
+			m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
+				, compType.getLocalSizeX()
+				, compType.getLocalSizeY()
+				, compType.getLocalSizeZ() ) );
+		}
 	}
 
 	void StmtAdapter::doProcessOutput( ast::var::VariablePtr var
@@ -886,6 +1068,10 @@ namespace glsl
 					{
 						outerName = "gl_in";
 					}
+					else if ( m_adaptationData.writerConfig.shaderStage == ast::ShaderStage::eMesh )
+					{
+						outerName = "gl_MeshVerticesNV";
+					}
 					else
 					{
 						outerName = "gl_out";
@@ -893,6 +1079,15 @@ namespace glsl
 				}
 
 				io.perVertex = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, outerName }
+					, type
+					, ( ast::var::Flag::eBuiltin
+						| ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) );
+			}
+			else if ( isPerPrimitive( mbr.builtin
+				, m_adaptationData.writerConfig.shaderStage ) )
+			{
+				auto type = doDeclarePerPrimitive( isInput, io );
+				io.perPrimitive = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "gl_MeshPrimitivesNV" }
 					, type
 					, ( ast::var::Flag::eBuiltin
 						| ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) );
@@ -916,9 +1111,15 @@ namespace glsl
 						| ( mbr.builtin != ast::Builtin::eNone
 							? ast::var::Flag::eBuiltin
 							: ast::var::Flag::eNone );
-					auto compType = getComponentType( mbr.type );
+					auto mbrType = mbr.type;
+					auto compType = getComponentType( mbrType );
 
-					if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex
+					if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
+					{
+						mbrType = m_cache.getBasicType( compType );
+					}
+					else if ( ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex
+								&& m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eMesh )
 							|| !isInput )
 						&& ( isUnsignedIntType( compType )
 							|| isSignedIntType( compType ) ) )
@@ -928,8 +1129,8 @@ namespace glsl
 
 					auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
 						, ( arraySize == ast::type::NotArray
-							? mbr.type
-							: m_cache.getArray( mbr.type, arraySize ) )
+							? mbrType
+							: m_cache.getArray( mbrType, arraySize ) )
 						, mbrFlags );
 					typeIt->second.emplace_back( mbrVar );
 
@@ -1001,5 +1202,64 @@ namespace glsl
 		}
 
 		return m_outPerVertex;
+	}
+
+	ast::type::TypePtr StmtAdapter::doDeclarePerPrimitive( bool isInput
+		, IOVars & io )
+	{
+		if ( ( isInput && !m_inPerPrimitive )
+			|| ( !isInput && !m_outPerPrimitive ) )
+		{
+			auto type = getPerPrimitiveType( m_cache
+				, m_adaptationData.writerConfig.shaderStage
+				, isInput
+				, m_maxPrimitives );
+			m_current->addStmt( ast::stmt::makePerPrimitiveDecl( type ) );
+
+			if ( isInput )
+			{
+				m_inPerPrimitive = type;
+			}
+			else
+			{
+				m_outPerPrimitive = type;
+			}
+
+			return type;
+		}
+
+		if ( isInput )
+		{
+			return m_inPerPrimitive;
+		}
+
+		return m_outPerPrimitive;
+	}
+
+	void StmtAdapter::doProcessMeshOutputs()
+	{
+		auto type = m_meshVtxType->getType();
+
+		if ( isStructType( type ) )
+		{
+			auto structType = getStructType( type );
+			assert( structType->isShaderOutput() );
+			doProcessOutput( m_meshVtxVar
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
+				, ast::type::UnknownArraySize
+				, true );
+		}
+
+		type = m_meshPrimType->getType();
+
+		if ( isStructType( type ) )
+		{
+			auto structType = getStructType( type );
+			assert( structType->isShaderOutput() );
+			doProcessOutput( m_meshPrimVar
+				, std::static_pointer_cast< ast::type::IOStruct >( structType )
+				, ast::type::UnknownArraySize
+				, true );
+		}
 	}
 }
