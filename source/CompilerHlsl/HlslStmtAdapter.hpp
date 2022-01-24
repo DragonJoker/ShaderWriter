@@ -49,6 +49,7 @@ namespace hlsl
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
+		void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override;
 		void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override;
 		void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override;
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
@@ -57,6 +58,7 @@ namespace hlsl
 		void rewriteShaderIOVars();
 		void writeMain( ast::stmt::FunctionDecl * stmt );
 		ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt );
+		void declareType( ast::type::TypePtr type );
 
 	private:
 		IntrinsicsConfig const & m_intrinsicsConfig;
@@ -66,7 +68,7 @@ namespace hlsl
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_intrinsics;
 		ast::stmt::Container * m_inOutDeclarations;
-		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		std::unordered_set< std::string > m_declaredStructs;
 	};
 }
 

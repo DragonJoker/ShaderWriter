@@ -21,9 +21,11 @@ namespace hlsl
 		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
-		auto ssaStatements = ast::transformSSA( shader.getTypesCache()
+		auto statements = ast::transformSSA( shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
+		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			, statements.get() );
 		HlslShader hlslShader{ shader };
 		AdaptationData adaptationData{ hlslShader };
 		adaptationData.aliasId = ssaData.aliasId;
@@ -31,17 +33,20 @@ namespace hlsl
 
 		auto intrinsicsConfig = hlsl::StmtConfigFiller::submit( hlslShader
 			, adaptationData
-			, ssaStatements.get() );
+			, statements.get() );
 
-		auto dxStatements = hlsl::StmtAdapter::submit( hlslShader
-			, ssaStatements.get()
+		statements = hlsl::StmtAdapter::submit( hlslShader
+			, statements.get()
 			, intrinsicsConfig
 			, config
 			, adaptationData );
-		dxStatements = ast::StmtSimplifier::submit( shader.getTypesCache()
-			, dxStatements.get() );
-		dxStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), dxStatements.get(), specialisation );
+		// Simplify again, since adaptation can introduce complexity
+		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			, statements.get() );
+		statements = ast::StmtSpecialiser::submit( shader.getTypesCache()
+			, statements.get()
+			, specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return hlsl::StmtVisitor::submit( config, adaptationData.getRoutines(), aliases, dxStatements.get() );
+		return hlsl::StmtVisitor::submit( config, adaptationData.getRoutines(), aliases, statements.get() );
 	}
 }

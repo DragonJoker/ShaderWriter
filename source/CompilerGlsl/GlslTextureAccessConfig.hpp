@@ -60,7 +60,7 @@ namespace glsl
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF:
-			config.requiresTextureGather = true;
+			config.requiredExtensions.insert( ARB_texture_gather );
 			break;
 		default:
 			break;

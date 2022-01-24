@@ -4,6 +4,7 @@
 #include <ShaderWriter/CompositeTypes/ArraySsbo.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma warning( disable:5245 )
 
 namespace
 {

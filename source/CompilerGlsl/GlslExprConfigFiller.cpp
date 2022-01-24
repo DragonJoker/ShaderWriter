@@ -34,7 +34,7 @@ namespace glsl
 
 		if ( expr->isNonUniform() )
 		{
-			m_config.requiresNonUniform = true;
+			m_config.requiredExtensions.insert( EXT_nonuniform_qualifier );
 		}
 	}
 
@@ -127,11 +127,11 @@ namespace glsl
 		case ast::expr::Intrinsic::eAtomicAdd4H:
 		case ast::expr::Intrinsic::eAtomicExchange2H:
 		case ast::expr::Intrinsic::eAtomicExchange4H:
-			m_config.requiresAtomicFp16Vector = true;
+			m_config.requiredExtensions.insert( NV_shader_atomic_fp16_vector );
 			[[fallthrough]];
 		case ast::expr::Intrinsic::eAtomicAddF:
 		case ast::expr::Intrinsic::eAtomicExchangeF:
-			m_config.requiresAtomicFloat = true;
+			m_config.requiredExtensions.insert( NV_shader_atomic_float );
 			break;
 		case ast::expr::Intrinsic::eTraceRay:
 			m_config.requiresRayDescDecl = true;
@@ -166,13 +166,13 @@ namespace glsl
 			|| ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicExchange1DF
 				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF ) )
 		{
-			m_config.requiresAtomicFloat = true;
+			m_config.requiredExtensions.insert( NV_shader_atomic_float );
 
 			for ( auto & arg : expr->getArgList() )
 			{
 				if ( ast::type::getComponentType( arg->getType() ) == ast::type::Kind::eHalf )
 				{
-					m_config.requiresAtomicFp16Vector = true;
+					m_config.requiredExtensions.insert( NV_shader_atomic_fp16_vector );
 				}
 			}
 		}

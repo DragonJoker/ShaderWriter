@@ -1224,7 +1224,8 @@ namespace hlsl
 			}
 		}
 
-		if ( !m_result && !isRayTraceStage( m_writerConfig.shaderStage ) )
+		if ( !m_result
+			&& !isRayTraceStage( m_writerConfig.shaderStage ) )
 		{
 			m_result = m_adaptationData.processPendingMbr( expr->getOuterExpr()
 				, expr->getMemberIndex()

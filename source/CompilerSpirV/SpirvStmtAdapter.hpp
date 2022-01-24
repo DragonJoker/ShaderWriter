@@ -44,16 +44,10 @@ namespace spirv
 		void visitIfStmt( ast::stmt::If * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
 		void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override;
-		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
 		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
 		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
 		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
-		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
-		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
-		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
 		void visitSimpleStmt( ast::stmt::Simple * stmt )override;
-		void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override;
-		void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override;
 		void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override;
 		void visitPreprocElif( ast::stmt::PreprocElif * preproc )override;
 		void visitPreprocElse( ast::stmt::PreprocElse * preproc )override;

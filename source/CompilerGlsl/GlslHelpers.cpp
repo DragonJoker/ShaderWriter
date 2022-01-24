@@ -984,19 +984,19 @@ namespace glsl
 	{
 		if ( getComponentType( type ) == ast::type::Kind::eHalf )
 		{
-			config.requiresFp16 = true;
+			config.requiredExtensions.insert( NV_gpu_shader5 );
 		}
 
 		if ( getComponentType( type ) == ast::type::Kind::eUInt64 )
 		{
-			config.requiresUint64 = true;
+			config.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
 		}
 
 		if ( auto structType = getStructType( type ) )
 		{
 			if ( structType->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
 			{
-				config.requiresScalarLayout = true;
+				config.requiredExtensions.insert( EXT_scalar_block_layout );
 			}
 		}
 	}

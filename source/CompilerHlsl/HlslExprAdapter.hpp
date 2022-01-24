@@ -16,6 +16,7 @@ namespace hlsl
 		: public ast::ExprCloner
 	{
 		friend struct IOMapping;
+		friend struct Routine;
 
 	public:
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache

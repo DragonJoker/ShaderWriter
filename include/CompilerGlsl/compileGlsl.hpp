@@ -47,6 +47,7 @@ namespace glsl
 	{
 		uint32_t reqVersion{ vUnk };
 		uint32_t specVersion{ vUnk };
+		uint32_t coreVersion{ vUnk };
 		std::string name{};
 	};
 
@@ -60,33 +61,33 @@ namespace glsl
 
 	using GlslExtensionSet = std::set< GlslExtension, CompGlslVExtension >;
 
-#define makeGlExtension( reqVersion, specVersion, name )\
-	static GlslExtension const name{ reqVersion, specVersion, "GL_"#name }
+#define makeGlExtension( reqVersion, specVersion, coreVersion, name )\
+	static GlslExtension const name{ reqVersion, specVersion, coreVersion, "GL_"#name }
 
-	makeGlExtension( v1_4, v1_4, ARB_shader_stencil_export );
-	makeGlExtension( v1_4, v1_4, KHR_vulkan_glsl );
-	makeGlExtension( v1_4, v1_4, EXT_shader_explicit_arithmetic_types_int64 );
-	makeGlExtension( v1_4, v4_5, EXT_multiview );
-	makeGlExtension( v1_5, v1_5, ARB_explicit_attrib_location );
-	makeGlExtension( v1_5, v1_5, NV_gpu_shader5 );
-	makeGlExtension( v4_0, v4_0, ARB_separate_shader_objects );
-	makeGlExtension( v4_0, v4_0, ARB_texture_cube_map_array );
-	makeGlExtension( v4_0, v4_0, ARB_texture_gather );
-	makeGlExtension( v4_2, v4_2, ARB_explicit_uniform_location );
-	makeGlExtension( v4_2, v4_2, ARB_shading_language_420pack );
-	makeGlExtension( v4_2, v4_2, NV_shader_atomic_float );
-	makeGlExtension( v4_3, v4_3, NV_viewport_array2 );
-	makeGlExtension( v4_3, v4_3, NV_shader_atomic_fp16_vector );
-	makeGlExtension( v4_5, v4_5, ARB_shader_ballot );
-	makeGlExtension( v4_5, v4_5, ARB_shader_viewport_layer_array );
-	makeGlExtension( v4_5, v4_5, NV_stereo_view_rendering );
-	makeGlExtension( v4_5, v4_5, NVX_multiview_per_view_attributes );
-	makeGlExtension( v4_5, v4_5, EXT_nonuniform_qualifier );
-	makeGlExtension( v4_5, v4_6, EXT_buffer_reference2 );
-	makeGlExtension( v4_6, v4_6, EXT_shader_atomic_float );
-	makeGlExtension( v4_6, v4_6, EXT_ray_tracing );
-	makeGlExtension( v4_6, v4_6, EXT_ray_query );
-	makeGlExtension( v4_6, v4_6, EXT_scalar_block_layout );
+	makeGlExtension( v1_4, v1_4, vUnk, ARB_shader_stencil_export );
+	makeGlExtension( v1_4, v4_5, vUnk, KHR_vulkan_glsl );
+	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int64 );
+	makeGlExtension( v1_4, v4_5, vUnk, EXT_multiview );
+	makeGlExtension( v1_5, v1_5, vUnk, ARB_explicit_attrib_location );
+	makeGlExtension( v1_5, v1_5, vUnk, NV_gpu_shader5 );
+	makeGlExtension( v4_0, v4_0, v4_1, ARB_separate_shader_objects );
+	makeGlExtension( v4_0, v4_0, vUnk, ARB_texture_cube_map_array );
+	makeGlExtension( v4_0, v4_0, vUnk, ARB_texture_gather );
+	makeGlExtension( v4_2, v4_2, v4_3, ARB_explicit_uniform_location );
+	makeGlExtension( v4_2, v4_2, v4_2, ARB_shading_language_420pack );
+	makeGlExtension( v4_2, v4_2, vUnk, NV_shader_atomic_float );
+	makeGlExtension( v4_3, v4_3, vUnk, NV_viewport_array2 );
+	makeGlExtension( v4_3, v4_3, vUnk, NV_shader_atomic_fp16_vector );
+	makeGlExtension( v4_5, v4_5, vUnk, ARB_shader_ballot );
+	makeGlExtension( v4_5, v4_5, vUnk, ARB_shader_viewport_layer_array );
+	makeGlExtension( v4_5, v4_5, vUnk, NV_stereo_view_rendering );
+	makeGlExtension( v4_5, v4_5, vUnk, NVX_multiview_per_view_attributes );
+	makeGlExtension( v4_5, v4_5, vUnk, EXT_nonuniform_qualifier );
+	makeGlExtension( v4_5, v4_6, vUnk, EXT_buffer_reference2 );
+	makeGlExtension( v4_6, v4_6, vUnk, EXT_shader_atomic_float );
+	makeGlExtension( v4_6, v4_6, vUnk, EXT_ray_tracing );
+	makeGlExtension( v4_6, v4_6, vUnk, EXT_ray_query );
+	makeGlExtension( v4_6, v4_6, vUnk, EXT_scalar_block_layout );
 
 #undef makeGlExtension
 

@@ -20,6 +20,12 @@ namespace ast::vk
 		eGeometry = 0x01u << int( ShaderStage::eGeometry ),
 		eFragment = 0x01u << int( ShaderStage::eFragment ),
 		eCompute = 0x01u << int( ShaderStage::eCompute ),
+		eRayGeneration = 0x01u << int( ShaderStage::eRayGeneration ),
+		eRayAnyHit = 0x01u << int( ShaderStage::eRayAnyHit ),
+		eRayClosestHit = 0x01u << int( ShaderStage::eRayClosestHit ),
+		eRayMiss = 0x01u << int( ShaderStage::eRayMiss ),
+		eRayIntersection = 0x01u << int( ShaderStage::eRayIntersection ),
+		eCallable = 0x01u << int( ShaderStage::eCallable ),
 	};
 
 	using ShaderStageFlags = uint32_t;

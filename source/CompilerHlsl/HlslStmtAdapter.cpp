@@ -40,6 +40,7 @@ namespace hlsl
 		, m_shader{ shader }
 		, m_cache{ shader.getTypesCache() }
 	{
+		m_declaredStructs.insert( "RayDesc" );
 		auto cont = ast::stmt::makeContainer();
 		compileHlslIntrinsicFunctions( cont.get(), m_intrinsicsConfig );
 		compileHlslTextureAccessFunctions( cont.get(), m_intrinsicsConfig );
@@ -75,6 +76,7 @@ namespace hlsl
 
 	void StmtAdapter::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
+		declareType( stmt->getType() );
 	}
 
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
@@ -115,36 +117,18 @@ namespace hlsl
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 				m_current = save;
-
-				if ( m_adaptationData.needsSeparateFunc() )
-				{
-					// Write SDW_main function
-					m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
-					auto sdwMainCont = ast::stmt::makeFunctionDecl( cache.getFunction( stmt->getType()->getReturnType()
-						, ast::var::VariableList{} )
-						, "SDW_" + stmt->getName() );
-					sdwMainCont->addStmt( std::move( cont ) );
-					m_current->addStmt( std::move( sdwMainCont ) );
-
-					// Write main function
-					writeMain( stmt );
-				}
-				else
-				{
-					// Write main function, with only used parameters.
-					m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
-					ast::var::VariableList parameters;
-					auto retType = m_adaptationData.fillParameters( parameters, *m_current );
-					auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
-						, parameters )
-						, stmt->getName()
-						, stmt->getFlags() );
-					mainCont->addStmt( m_adaptationData.writeLocalesBegin() );
-					mainCont->addStmt( std::move( cont ) );
-					mainCont->addStmt( m_adaptationData.writeLocalesEnd() );
-					m_current->addStmt( std::move( mainCont ) );
-				}
-
+				// Write main function, with only used parameters.
+				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
+				ast::var::VariableList parameters;
+				auto retType = m_adaptationData.fillParameters( parameters, *m_current );
+				auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
+					, parameters )
+					, stmt->getName()
+					, stmt->getFlags() );
+				mainCont->addStmt( m_adaptationData.writeLocalesBegin() );
+				mainCont->addStmt( std::move( cont ) );
+				mainCont->addStmt( m_adaptationData.writeLocalesEnd() );
+				m_current->addStmt( std::move( mainCont ) );
 				m_adaptationData.updateCurrentEntryPoint( nullptr );
 			}
 		}
@@ -162,6 +146,7 @@ namespace hlsl
 	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
+		declareType( var->getType() );
 		auto type = var->getType();
 		assert( type->getRawKind() == ast::type::Kind::eHitAttribute );
 
@@ -187,6 +172,7 @@ namespace hlsl
 	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
+		declareType( var->getType() );
 		auto type = var->getType();
 		assert( type->getRawKind() == ast::type::Kind::eCallableData );
 
@@ -213,6 +199,7 @@ namespace hlsl
 	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
+		declareType( var->getType() );
 		auto type = var->getType();
 		assert( type->getRawKind() == ast::type::Kind::eRayPayload );
 
@@ -238,18 +225,27 @@ namespace hlsl
 
 	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		declareType( stmt->getVariable()->getType() );
 	}
 
 	void StmtAdapter::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
 	{
+		declareType( stmt->getType() );
 	}
 
 	void StmtAdapter::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
+		declareType( stmt->getType() );
 	}
 
 	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
+		declareType( stmt->getType() );
+	}
+
+	void StmtAdapter::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
+	{
+		declareType( stmt->getType() );
 	}
 
 	void StmtAdapter::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
@@ -336,8 +332,8 @@ namespace hlsl
 	void StmtAdapter::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
 		auto ssboVar = stmt->getVariable();
+		declareType( ssboVar->getType() );
 		m_adaptationData.ssboList.push_back( ssboVar );
-		m_current->addStmt( ast::stmt::makeStructureDecl( stmt->getType() ) );
 		m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
 			, ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, ssboVar->getType()
@@ -365,6 +361,7 @@ namespace hlsl
 
 	void StmtAdapter::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
+		declareType( stmt->getData()->getType() );
 		m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
 		m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
 			, stmt->getSsboInstance()
@@ -373,13 +370,15 @@ namespace hlsl
 			, stmt->getDescriptorSet() ) );
 	}
 
-	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
+	void StmtAdapter::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
 	{
-		m_current->addStmt( ast::stmt::makeVariableDecl( stmt->getVariable() ) );
+		declareType( stmt->getType() );
 	}
 
-	void StmtAdapter::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
+	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
+		declareType( stmt->getVariable()->getType() );
+		m_current->addStmt( ast::stmt::makeVariableDecl( stmt->getVariable() ) );
 	}
 
 	void StmtAdapter::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
@@ -444,5 +443,16 @@ namespace hlsl
 		return ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
 			, stmt->getName()
 			, stmt->getFlags() );
+	}
+
+	void StmtAdapter::declareType( ast::type::TypePtr type )
+	{
+		if ( auto structType = getStructType( type ) )
+		{
+			if ( m_declaredStructs.insert( structType->getName() ).second )
+			{
+				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			}
+		}
 	}
 }

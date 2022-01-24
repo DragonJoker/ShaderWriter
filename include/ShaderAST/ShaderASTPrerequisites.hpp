@@ -42,10 +42,10 @@ namespace ast
 		eFragment,
 		eCompute,
 		eRayGeneration,
+		eRayAnyHit,
 		eRayClosestHit,
 		eRayMiss,
 		eRayIntersection,
-		eRayAnyHit,
 		eCallable,
 	};
 	SDAST_API bool isRasterizerStage( ShaderStage stage );

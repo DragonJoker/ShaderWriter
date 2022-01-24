@@ -17,14 +17,17 @@ namespace glsl
 	public:
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::Expr * expr
-			, AdaptationData & adaptationData );
+			, AdaptationData & adaptationData
+			, ast::stmt::Container * container );
 		static ast::expr::ExprPtr submit( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr const & expr
-			, AdaptationData & adaptationData );
+			, AdaptationData & adaptationData
+			, ast::stmt::Container * container );
 
 	private:
 		ExprAdapter( ast::type::TypesCache & cache
 			, AdaptationData & adaptationData
+			, ast::stmt::Container * container
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
@@ -51,6 +54,7 @@ namespace glsl
 	private:
 		ast::type::TypesCache & m_cache;
 		AdaptationData & m_adaptationData;
+		ast::stmt::Container * m_container;
 	};
 }
 

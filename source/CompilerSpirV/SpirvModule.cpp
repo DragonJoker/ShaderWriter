@@ -1904,6 +1904,13 @@ namespace spirv
 				, initialiser
 				, m_registeredVariables
 				, globalDeclarations );
+
+			if ( m_currentScopeVariables
+				&& m_currentScopeVariables != &m_registeredVariables )
+			{
+				// Register globals to current scope too.
+				m_currentScopeVariables->insert( *it );
+			}
 		}
 
 		m_registeredVariablesTypes.emplace( varId, rawTypeId );
