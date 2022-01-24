@@ -128,7 +128,7 @@ elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 	if ( SPIRV-Tools_FOUND )
 		set( TargetLinkLibraries
 			${TargetLinkLibraries}
-			SPIRV-Tools-static
+			SPIRV-Tools
 		)
 		set( OptionalCompileDefinitions
 			${OptionalCompileDefinitions}
