@@ -22,20 +22,23 @@ namespace glsl
 		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
-		auto ssaStatements = ast::transformSSA( shader.getTypesCache()
+		auto statements = ast::transformSSA( shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
-		auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
-			, ssaStatements.get() );
+		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			, statements.get() );
 		glsl::AdaptationData adaptationData{ shader.getType()
 			, config
-			, glsl::StmtConfigFiller::submit( simplified.get() )
+			, glsl::StmtConfigFiller::submit( statements.get() )
 			, ssaData.nextVarId };
-		auto glStatements = glsl::StmtAdapter::submit( shader.getTypesCache()
-			, simplified.get()
+		statements = glsl::StmtAdapter::submit( shader.getTypesCache()
+			, statements.get()
 			, adaptationData );
-		glStatements = ast::StmtSpecialiser::submit( shader.getTypesCache(), glStatements.get(), specialisation );
+		// Simplify again, since adaptation can introduce complexity
+		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			, statements.get() );
+		statements = ast::StmtSpecialiser::submit( shader.getTypesCache(), statements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return glsl::StmtVisitor::submit( config, aliases, glStatements.get() );
+		return glsl::StmtVisitor::submit( config, aliases, statements.get() );
 	}
 }

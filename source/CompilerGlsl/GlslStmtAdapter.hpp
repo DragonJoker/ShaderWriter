@@ -76,13 +76,20 @@ namespace glsl
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
 		void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override;
 		void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override;
+		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
+		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
+		void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override;
+		void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override;
+		void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override;
+		void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
+		void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override;
+		void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override;
 		void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override;
-		void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override;
-		void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override;
+		void declareType( ast::type::TypePtr type );
 
 	private:
 		void doProcess( ast::var::VariablePtr var
@@ -96,11 +103,11 @@ namespace glsl
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType );
 		void doProcess( ast::var::VariablePtr var
-			, ast::type::TessellationControlInput const & geomType );
+			, ast::type::TessellationControlInput const & tesscType );
 		void doProcess( ast::var::VariablePtr var
-			, ast::type::TessellationControlOutput const & geomType );
+			, ast::type::TessellationControlOutput const & tesscType );
 		void doProcess( ast::var::VariablePtr var
-			, ast::type::TessellationEvaluationInput const & geomType );
+			, ast::type::TessellationEvaluationInput const & tesseType );
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void doProcessOutput( ast::var::VariablePtr var
@@ -119,7 +126,6 @@ namespace glsl
 			, IOVars & io );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
-		void doDeclareStruct( ast::type::StructPtr const & structType );
 		ast::type::TypePtr doDeclarePerVertex( bool isInput
 			, IOVars & io );
 
@@ -128,7 +134,7 @@ namespace glsl
 		AdaptationData & m_adaptationData;
 		ast::stmt::ContainerPtr m_entryPointFinish;
 		ast::stmt::Container * m_globalsCont;
-		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		std::unordered_set< std::string > m_declaredStructs;
 		uint32_t m_maxPoint{};
 		ast::type::InputLayout m_inputLayout;
 		ast::type::TypePtr m_inPerVertex;

@@ -25,23 +25,28 @@ namespace spirv
 		{
 			ast::SSAData ssaData;
 			ssaData.nextVarId = shader.getData().nextVarId;
-			auto ssaStatements = ast::transformSSA( shader.getTypesCache()
+			auto statements = ast::transformSSA( shader.getTypesCache()
 				, shader.getStatements()
 				, ssaData );
-			auto simplified = ast::StmtSimplifier::submit( shader.getTypesCache()
-				, ssaStatements.get() );
+			statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+				, statements.get() );
 			ModuleConfig moduleConfig{ config
 				, shader.getTypesCache()
 				, shader.getType()
 				, ssaData.nextVarId
 				, ssaData.aliasId };
-			spirv::StmtConfigFiller::submit( simplified.get(), moduleConfig );
+			spirv::StmtConfigFiller::submit( statements.get()
+				, moduleConfig );
 			spirv::PreprocContext context{};
 			AdaptationData adaptationData{ context, std::move( moduleConfig ) };
-			auto spirvStatements = spirv::StmtAdapter::submit( simplified.get(), adaptationData );
-			auto actions = listActions( simplified.get() );
+			statements = spirv::StmtAdapter::submit( statements.get()
+				, adaptationData );
+			// Simplify again, since adaptation can introduce complexity
+			statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+				, statements.get() );
+			auto actions = listActions( statements.get() );
 			return spirv::StmtVisitor::submit( shader.getTypesCache()
-				, spirvStatements.get()
+				, statements.get()
 				, shader.getType()
 				, adaptationData.config
 				, std::move( context )

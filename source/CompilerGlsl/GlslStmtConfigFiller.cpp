@@ -97,14 +97,14 @@ namespace glsl
 		visitContainerStmt( stmt );
 	}
 
-	void StmtConfigFiller::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )
+	void StmtConfigFiller::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )
 	{
 	}
 
 	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
 		checkType( *stmt->getType(), m_result );
-		m_result.requiresBufferReference = true;
+		m_result.requiredExtensions.insert( EXT_buffer_reference2 );
 	}
 
 	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
@@ -296,7 +296,7 @@ namespace glsl
 		if ( config.dimension == ast::type::ImageDim::eCube
 			&& config.isArrayed )
 		{
-			m_result.requiresCubeMapArray = true;
+			m_result.requiredExtensions.insert( ARB_texture_cube_map_array );
 		}
 	}
 }

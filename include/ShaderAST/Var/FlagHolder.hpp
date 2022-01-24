@@ -77,6 +77,13 @@ namespace ast::var
 			}
 		}
 
+		bool hasFlag( Flag flag )const
+		{
+			return flag == Flag::eNone
+				? false
+				: Flag( m_flags & uint64_t( flag ) ) == flag;
+		}
+
 		bool isParam()const
 		{
 			return hasFlag( Flag::eParam )
@@ -212,13 +219,6 @@ namespace ast::var
 		bool isAlias()const
 		{
 			return hasFlag( Flag::eAlias );
-		}
-
-		bool hasFlag( Flag flag )const
-		{
-			return flag == Flag::eNone
-				? false
-				: Flag( m_flags & uint64_t( flag ) ) == flag;
 		}
 
 		bool isStorageBuffer()const

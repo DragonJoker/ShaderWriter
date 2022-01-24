@@ -182,6 +182,7 @@ namespace glsl
 	{
 		visitAssignmentExpr( expr );
 	}
+
 	void ExprVisitor::visitAndAssignExpr( ast::expr::AndAssign * expr )
 	{
 		visitAssignmentExpr( expr );

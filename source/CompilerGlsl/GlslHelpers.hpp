@@ -5,6 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_GLSLHelpers_H___
 #pragma once
 
+#include "compileGlsl.hpp"
+
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
@@ -43,17 +45,9 @@ namespace glsl
 		bool requiresFma2D{ false };
 		bool requiresFma3D{ false };
 		bool requiresFma4D{ false };
-
-		bool requiresCubeMapArray{ false };
-		bool requiresTextureGather{ false };
-		bool requiresAtomicFloat{ false };
-		bool requiresFp16{ false };
-		bool requiresAtomicFp16Vector{ false };
-		bool requiresUint64{ false };
-		bool requiresBufferReference{ false };
-		bool requiresNonUniform{ false };
-		bool requiresScalarLayout{ false };
 		bool requiresRayDescDecl{ false };
+
+		GlslExtensionSet requiredExtensions{};
 	};
 	void checkType( ast::type::Type const & type
 		, IntrinsicsConfig & config );

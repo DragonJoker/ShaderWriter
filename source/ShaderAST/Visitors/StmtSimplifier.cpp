@@ -15,17 +15,17 @@ namespace ast
 
 			switch ( kind )
 			{
-			case ast::type::Kind::eBoolean:
+			case type::Kind::eBoolean:
 				return expr::LiteralType::eBool;
-			case ast::type::Kind::eInt:
+			case type::Kind::eInt:
 				return expr::LiteralType::eInt;
-			case ast::type::Kind::eUInt:
+			case type::Kind::eUInt:
 				return expr::LiteralType::eUInt;
-			case ast::type::Kind::eUInt64:
+			case type::Kind::eUInt64:
 				return expr::LiteralType::eUInt64;
-			case ast::type::Kind::eFloat:
+			case type::Kind::eFloat:
 				return expr::LiteralType::eFloat;
-			case ast::type::Kind::eDouble:
+			case type::Kind::eDouble:
 				return expr::LiteralType::eDouble;
 			default:
 				AST_Failure( "Unsupported kind for a literal" );
@@ -1053,7 +1053,7 @@ namespace ast
 
 				if ( expr->isNonUniform() )
 				{
-					result->updateFlag( ast::expr::Flag::eNonUniform );
+					result->updateFlag( expr::Flag::eNonUniform );
 				}
 
 				return result;
@@ -1475,7 +1475,7 @@ namespace ast
 		, stmt::Container * stmt
 		, std::map< var::VariablePtr, expr::Literal * > & literalVars )
 	{
-		auto result = ast::stmt::makeContainer();
+		auto result = stmt::makeContainer();
 		StmtSimplifier vis{ cache, literalVars, result };
 		stmt->accept( &vis );
 		return result;

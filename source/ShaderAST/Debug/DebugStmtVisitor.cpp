@@ -472,7 +472,7 @@ namespace ast::debug
 			m_result += "GEOMOUT";
 			break;
 		}
-		m_result += "\n";
+		m_result += "(" + getName( stmt->getType() ) + ")\n";
 	}
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )

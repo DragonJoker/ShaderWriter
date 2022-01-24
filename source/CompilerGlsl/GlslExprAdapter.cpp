@@ -122,34 +122,38 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::Expr * expr
-		, AdaptationData & adaptationData )
+		, AdaptationData & adaptationData
+		, ast::stmt::Container * container )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ cache, adaptationData, result };
+		ExprAdapter vis{ cache, adaptationData, container, result };
 		expr->accept( &vis );
 		return result;
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
 		, ast::expr::ExprPtr const & expr
-		, AdaptationData & adaptationData )
+		, AdaptationData & adaptationData
+		, ast::stmt::Container * container )
 	{
-		return submit( cache, expr.get(), adaptationData );
+		return submit( cache, expr.get(), adaptationData, container );
 	}
 
 	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
 		, AdaptationData & adaptationData
+		, ast::stmt::Container * container
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ result }
 		, m_cache{ cache }
 		, m_adaptationData{ adaptationData }
+		, m_container{ container }
 	{
 	}
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_adaptationData, result };
+		ExprAdapter vis{ m_cache, m_adaptationData, m_container, result };
 		expr->accept( &vis );
 
 		if ( expr->isNonUniform() )
@@ -532,7 +536,8 @@ namespace glsl
 
 		ast::expr::ExprPtr result;
 
-		if ( isPerVertex( mbr.builtin, m_adaptationData.writerConfig.shaderStage ) )
+		if ( isPerVertex( mbr.builtin
+			, m_adaptationData.writerConfig.shaderStage ) )
 		{
 			ast::expr::ExprPtr indexExpr{};
 

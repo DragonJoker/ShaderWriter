@@ -570,18 +570,6 @@ namespace spirv
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
-		switch ( stmt->getSource() )
-		{
-		case ast::stmt::PerVertexDecl::Source::eVertexOutput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationControlInput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationControlOutput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationInput:
-		case ast::stmt::PerVertexDecl::Source::eTessellationEvaluationOutput:
-		case ast::stmt::PerVertexDecl::Source::eGeometryInput:
-		case ast::stmt::PerVertexDecl::Source::eGeometryOutput:
-		default:
-			break;
-		}
 	}
 
 	void StmtVisitor::visitReturnStmt( ast::stmt::Return * stmt )

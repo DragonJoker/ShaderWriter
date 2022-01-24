@@ -107,26 +107,6 @@ namespace spirv
 	{
 	}
 
-	void StmtAdapter::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
-	{
-		StmtCloner::visitImageDeclStmt( stmt );
-	}
-
-	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
-	{
-		StmtCloner::visitPerVertexDeclStmt( stmt );
-	}
-
-	void StmtAdapter::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
-	{
-		StmtCloner::visitSampledImageDeclStmt( stmt );
-	}
-
-	void StmtAdapter::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
-	{
-		StmtCloner::visitShaderStructBufferDeclStmt( stmt );
-	}
-
 	void StmtAdapter::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
 		bool processed = false;
@@ -170,16 +150,6 @@ namespace spirv
 		{
 			StmtCloner::visitSimpleStmt( stmt );
 		}
-	}
-
-	void StmtAdapter::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
-	{
-		StmtCloner::visitStructureDeclStmt( stmt );
-	}
-
-	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
-	{
-		StmtCloner::visitVariableDeclStmt( stmt );
 	}
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )

@@ -1385,11 +1385,11 @@ namespace spirv
 
 	void ModuleConfig::registerExtension( SpirVExtension extension )
 	{
-		if ( spirvConfig.specVersion < extension.reqVersion )
+		if ( spirvConfig.specVersion < extension.specVersion )
 		{
 			throw std::runtime_error{ "SPIR-V specification version (" + printSpvVersion( spirvConfig.specVersion )
 				+ ") doesn't support extension [" + extension.name
-				+ "] (required version: " + printSpvVersion( extension.reqVersion ) + ")" };
+				+ "] (required version: " + printSpvVersion( extension.specVersion ) + ")" };
 		}
 
 		if ( spirvConfig.availableExtensions )
@@ -2077,11 +2077,11 @@ namespace spirv
 		case ast::ShaderStage::eGeometry:
 			result = spv::ExecutionModelGeometry;
 			break;
-		case ast::ShaderStage::eCompute:
-			result = spv::ExecutionModelGLCompute;
-			break;
 		case ast::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
+			break;
+		case ast::ShaderStage::eCompute:
+			result = spv::ExecutionModelGLCompute;
 			break;
 		case ast::ShaderStage::eRayGeneration:
 			result = spv::ExecutionModelRayGenerationKHR;

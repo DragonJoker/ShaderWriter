@@ -155,7 +155,7 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterRayIntersectionShader )
+sdwTestSuiteMain( TestWriterCallableShader )
 {
 	sdwTestSuiteBegin();
 
@@ -166,4 +166,4 @@ sdwTestSuiteMain( TestWriterRayIntersectionShader )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterRayIntersectionShader )
+sdwTestSuiteLaunch( TestWriterCallableShader )

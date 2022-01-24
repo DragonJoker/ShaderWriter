@@ -305,7 +305,8 @@ namespace test
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex )
+			, uint32_t infoIndex
+			, bool display )
 		{
 			auto isValidated = validateSpirV( shader, spirv, text, testCounts, infoIndex, true );
 			check( isValidated );
@@ -374,13 +375,13 @@ namespace test
 			if ( compilers.glsl )
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay, true );
+				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay && display, true );
 			}
 
 			if ( compilers.hlsl && !isRayTraceStage( shader.getType() ) )
 			{
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
-				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay, true );
+				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay && display, true );
 			}
 #endif
 		}
@@ -472,6 +473,7 @@ namespace test
 					auto hlsl = hlsl::compileHlsl( shader
 						, specialisation
 						, hlsl::HlslConfig{} );
+					displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
 					bool isCompiled = compileHlsl( hlsl
 						, shader.getType()
 						, errors
@@ -480,12 +482,8 @@ namespace test
 
 					if ( !isCompiled )
 					{
-						displayShader( "HLSL", hlsl, testCounts, true, true );
+						displayShader( "HLSL", hlsl, testCounts, !compilers.forceDisplay, true );
 						testCounts << errors << endl;
-					}
-					else
-					{
-						displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
 					}
 				};
 				checkNoThrow( validate() );
@@ -594,7 +592,8 @@ namespace test
 								, specialisation
 								, compilers
 								, testCounts
-								, infoIndex );
+								, infoIndex
+								, availableExtensions );
 							success();
 						}
 #if SDW_Test_HasSpirVCross

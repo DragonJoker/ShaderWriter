@@ -28,6 +28,36 @@ namespace spirv
 	StmtConfigFiller::StmtConfigFiller( ModuleConfig & result )
 		: m_result{ result }
 	{
+		switch ( m_result.stage )
+		{
+		case ast::ShaderStage::eVertex:
+			m_result.registerCapability( spv::CapabilityShader );
+			break;
+		case ast::ShaderStage::eTessellationControl:
+		case ast::ShaderStage::eTessellationEvaluation:
+			m_result.registerCapability( spv::CapabilityShader );
+			m_result.registerCapability( spv::CapabilityTessellation );
+			break;
+		case ast::ShaderStage::eGeometry:
+			m_result.registerCapability( spv::CapabilityShader );
+			m_result.registerCapability( spv::CapabilityGeometry );
+			break;
+		case ast::ShaderStage::eFragment:
+			m_result.registerCapability( spv::CapabilityShader );
+			break;
+		case ast::ShaderStage::eCompute:
+			m_result.registerCapability( spv::CapabilityShader );
+			break;
+		case ast::ShaderStage::eRayGeneration:
+		case ast::ShaderStage::eRayClosestHit:
+		case ast::ShaderStage::eRayMiss:
+		case ast::ShaderStage::eRayIntersection:
+		case ast::ShaderStage::eRayAnyHit:
+		case ast::ShaderStage::eCallable:
+			m_result.registerCapability( spv::CapabilityShader );
+			m_result.registerCapability( spv::CapabilityRayTracingKHR );
+			break;
+		}
 	}
 
 	void StmtConfigFiller::visitBreakStmt( ast::stmt::Break * cont )

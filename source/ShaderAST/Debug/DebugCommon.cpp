@@ -736,9 +736,15 @@ namespace ast::debug
 			sep = ",";
 		}
 
-		if ( var.isShaderConstant() )
+		if ( var.isConstant() )
 		{
 			result += sep + "CONST";
+			sep = ",";
+		}
+
+		if ( var.isShaderConstant() )
+		{
+			result += sep + "SHDRCONST";
 			sep = ",";
 		}
 
@@ -766,6 +772,18 @@ namespace ast::debug
 			sep = ",";
 		}
 
+		if ( var.isStatic() )
+		{
+			result += sep + "STATIC";
+			sep = ",";
+		}
+
+		if ( var.isSpecialisationConstant() )
+		{
+			result += sep + "SPECCONST";
+			sep = ",";
+		}
+
 		if ( var.isLocale() )
 		{
 			result += sep + "LOCALE";
@@ -775,6 +793,90 @@ namespace ast::debug
 		if ( var.isMember() )
 		{
 			result += sep + "MEMBER";
+			sep = ",";
+		}
+
+		if ( var.isFlat() )
+		{
+			result += sep + "FLAT";
+			sep = ",";
+		}
+
+		if ( var.isPatchInput() )
+		{
+			result += sep + "PATCHIN";
+			sep = ",";
+		}
+
+		if ( var.isPatchOutput() )
+		{
+			result += sep + "PATCHOUT";
+			sep = ",";
+		}
+
+		if ( var.isCentroid() )
+		{
+			result += sep + "CENTROID";
+			sep = ",";
+		}
+
+		if ( var.isPerSample() )
+		{
+			result += sep + "PERSAMPLE";
+			sep = ",";
+		}
+
+		if ( var.isGeometryStream() )
+		{
+			result += sep + "GEOMSTREAM";
+			sep = ",";
+		}
+
+		if ( var.isBlendIndex() )
+		{
+			result += sep + "BLENDIDX";
+			sep = ",";
+		}
+
+		if ( var.isStorageBuffer() )
+		{
+			result += sep + "STORBUFFER";
+			sep = ",";
+		}
+
+		if ( var.isIncomingRayPayload() )
+		{
+			result += sep + "INRAYPAYLOAD";
+			sep = ",";
+		}
+
+		if ( var.isRayPayload() )
+		{
+			result += sep + "RAYPAYLOAD";
+			sep = ",";
+		}
+
+		if ( var.isIncomingCallableData() )
+		{
+			result += sep + "INCALLDATA";
+			sep = ",";
+		}
+
+		if ( var.isCallableData() )
+		{
+			result += sep + "CALLDATA";
+			sep = ",";
+		}
+
+		if ( var.isHitAttribute() )
+		{
+			result += sep + "HITATTR";
+			sep = ",";
+		}
+
+		if ( var.isBufferReference() )
+		{
+			result += sep + "BUFFREF";
 			sep = ",";
 		}
 

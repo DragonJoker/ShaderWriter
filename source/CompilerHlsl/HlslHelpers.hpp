@@ -138,7 +138,7 @@ namespace hlsl
 		ast::var::VariableList unsupportedBuiltins{};
 
 		void writeGlobals( ast::stmt::Container & stmt
-			, std::unordered_set< ast::type::StructPtr > & declaredStructs )const;
+			, std::unordered_set< std::string > & declaredStructs )const;
 		void writeLocalesBegin( ast::stmt::Container & stmt )const;
 		void writeLocalesEnd( ast::stmt::Container & stmt )const;
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
@@ -229,7 +229,7 @@ namespace hlsl
 		ast::stmt::Container * globalDeclarations{};
 
 		void writeGlobals( ast::stmt::Container & cont
-			, std::unordered_set< ast::type::StructPtr > & declaredStructs );
+			, std::unordered_set< std::string > & declaredStructs );
 		void writeLocalesBegin( ast::stmt::Container & cont )const;
 		void writeLocalesEnd( ast::stmt::Container & cont )const;
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
@@ -314,7 +314,7 @@ namespace hlsl
 		bool needsSeparateFunc()const;
 		void initialiseEntryPoint( ast::stmt::FunctionDecl const & stmt );
 
-		ast::stmt::ContainerPtr writeGlobals( std::unordered_set< ast::type::StructPtr > & declaredStructs );
+		ast::stmt::ContainerPtr writeGlobals( std::unordered_set< std::string > & declaredStructs );
 		ast::stmt::ContainerPtr writeLocalesBegin();
 		ast::stmt::ContainerPtr writeLocalesEnd();
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters

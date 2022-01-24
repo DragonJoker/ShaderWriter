@@ -16,22 +16,18 @@ namespace glsl
 {
 	namespace
 	{
-		void doEnableCoreExtension( ast::stmt::ContainerPtr & cont
+		void doEnableExtension( ast::stmt::ContainerPtr & cont
 			, GlslExtension const & extension
 			, uint32_t shaderVersion )
 		{
 			if ( extension.reqVersion > shaderVersion )
 			{
-				cont->addStmt( ast::stmt::makePreprocExtension( extension.name
-					, ast::stmt::PreprocExtension::ExtStatus::eRequired ) );
+				throw std::runtime_error{ "GLSL specification version (" + std::to_string( shaderVersion )
+					+ ") doesn't support extension [" + extension.name
+					+ "] (required version: " + std::to_string( extension.reqVersion ) + ")" };
 			}
-		}
 
-		void doEnableExtension( ast::stmt::ContainerPtr & cont
-			, GlslExtension const & extension
-			, uint32_t shaderVersion )
-		{
-			if ( extension.reqVersion <= shaderVersion )
+			if ( extension.coreVersion > shaderVersion )
 			{
 				cont->addStmt( ast::stmt::makePreprocExtension( extension.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
@@ -178,73 +174,21 @@ namespace glsl
 		if ( it == container->end() )
 		{
 			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( adaptationData.writerConfig.wantedVersion ) ) );
-			doEnableCoreExtension( result, ARB_explicit_attrib_location, adaptationData.writerConfig.wantedVersion );
-			doEnableCoreExtension( result, ARB_explicit_uniform_location, adaptationData.writerConfig.wantedVersion );
-			doEnableCoreExtension( result, ARB_separate_shader_objects, adaptationData.writerConfig.wantedVersion );
-			doEnableCoreExtension( result, ARB_shading_language_420pack, adaptationData.writerConfig.wantedVersion );
+			doEnableExtension( result, ARB_explicit_attrib_location, adaptationData.writerConfig.wantedVersion );
+			doEnableExtension( result, ARB_explicit_uniform_location, adaptationData.writerConfig.wantedVersion );
+			doEnableExtension( result, ARB_separate_shader_objects, adaptationData.writerConfig.wantedVersion );
+			doEnableExtension( result, ARB_shading_language_420pack, adaptationData.writerConfig.wantedVersion );
 			doEnableExtension( result, KHR_vulkan_glsl, adaptationData.writerConfig.wantedVersion );
 
-			if ( adaptationData.intrinsicsConfig.requiresCubeMapArray )
+			for ( auto & extension : adaptationData.intrinsicsConfig.requiredExtensions )
 			{
-				doEnableCoreExtension( result, ARB_texture_cube_map_array, adaptationData.writerConfig.wantedVersion );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresTextureGather )
-			{
-				doEnableCoreExtension( result, ARB_texture_gather, adaptationData.writerConfig.wantedVersion );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresFp16 )
-			{
-				result->addStmt( ast::stmt::makePreprocExtension( NV_gpu_shader5.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresAtomicFloat )
-			{
-				result->addStmt( ast::stmt::makePreprocExtension( NV_shader_atomic_float.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-
-				if ( adaptationData.intrinsicsConfig.requiresAtomicFp16Vector )
-				{
-					result->addStmt( ast::stmt::makePreprocExtension( NV_shader_atomic_fp16_vector.name
-						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-				}
+				doEnableExtension( result, extension, adaptationData.writerConfig.wantedVersion );
 			}
 
 			if ( isRayTraceStage( adaptationData.stage ) )
 			{
 				result->addStmt( ast::stmt::makePreprocExtension( EXT_ray_tracing.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresUint64 )
-			{
-				result->addStmt( ast::stmt::makePreprocExtension( EXT_shader_explicit_arithmetic_types_int64.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresBufferReference )
-			{
-				result->addStmt( ast::stmt::makePreprocExtension( EXT_buffer_reference2.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresNonUniform )
-			{
-				result->addStmt( ast::stmt::makePreprocExtension( EXT_nonuniform_qualifier.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresScalarLayout )
-			{
-				result->addStmt( ast::stmt::makePreprocExtension( EXT_scalar_block_layout.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresRayDescDecl )
-			{
-				result->addStmt( ast::stmt::makeStructureDecl( cache.getRayDesc() ) );
 			}
 		}
 
@@ -263,13 +207,18 @@ namespace glsl
 		, m_entryPointFinish{ ast::stmt::makeContainer() }
 		, m_globalsCont{ globalsCont }
 	{
+		if ( m_adaptationData.intrinsicsConfig.requiresRayDescDecl )
+		{
+			declareType( cache.getRayDesc() );
+		}
 	}
 	
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		return ExprAdapter::submit( m_cache
 			, expr
-			, m_adaptationData );
+			, m_adaptationData
+			, m_current );
 	}
 
 	void StmtAdapter::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
@@ -388,6 +337,13 @@ namespace glsl
 		}
 	}
 
+	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		declareType( var->getType() );
+		m_globalsCont->addStmt( ast::stmt::makeHitAttributeVariableDecl( var ) );
+	}
+
 	void StmtAdapter::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
 		if ( m_adaptationData.writerConfig.hasDescriptorSets )
@@ -400,6 +356,64 @@ namespace glsl
 				, stmt->getBindingPoint()
 				, InvalidIndex ) );
 		}
+	}
+
+	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		declareType( var->getType() );
+
+		if ( var->isCallableData() )
+		{
+			var->updateFlag( ast::var::Flag::eShaderOutput );
+			m_globalsCont->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( var
+				, stmt->getLocation() ) );
+		}
+		else
+		{
+			StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt );
+		}
+	}
+
+	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
+	{
+		auto var = stmt->getVariable();
+		declareType( var->getType() );
+
+		if ( var->isRayPayload() )
+		{
+			var->updateFlag( ast::var::Flag::eShaderOutput );
+			m_globalsCont->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( var
+				, stmt->getLocation() ) );
+		}
+		else
+		{
+			StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt );
+		}
+	}
+
+	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
+	{
+		declareType( stmt->getVariable()->getType() );
+		StmtCloner::visitInOutVariableDeclStmt( stmt );
+	}
+
+	void StmtAdapter::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
+	{
+		declareType( stmt->getType() );
+		StmtCloner::visitInputComputeLayoutStmt( stmt );
+	}
+
+	void StmtAdapter::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
+	{
+		declareType( stmt->getType() );
+		StmtCloner::visitInputGeometryLayoutStmt( stmt );
+	}
+
+	void StmtAdapter::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
+	{
+		declareType( stmt->getType() );
+		StmtCloner::visitOutputGeometryLayoutStmt( stmt );
 	}
 
 	void StmtAdapter::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
@@ -470,6 +484,8 @@ namespace glsl
 
 	void StmtAdapter::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
+		declareType( stmt->getData()->getType() );
+
 		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 			&& !m_adaptationData.writerConfig.hasStd430Layout )
 		{
@@ -490,6 +506,17 @@ namespace glsl
 		}
 	}
 
+	void StmtAdapter::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
+	{
+		declareType( stmt->getType() );
+	}
+
+	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
+	{
+		declareType( stmt->getVariable()->getType() );
+		ast::StmtCloner::visitVariableDeclStmt( stmt );
+	}
+
 	void StmtAdapter::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
 		m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
@@ -502,36 +529,14 @@ namespace glsl
 		}
 	}
 
-	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
+	void StmtAdapter::declareType( ast::type::TypePtr type )
 	{
-		m_globalsCont->addStmt( ast::stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
-	}
-
-	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
-	{
-		if ( stmt->getVariable()->isCallableData() )
+		if ( auto structType = getStructType( type ) )
 		{
-			stmt->getVariable()->updateFlag( ast::var::Flag::eShaderOutput );
-			m_globalsCont->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
-				, stmt->getLocation() ) );
-		}
-		else
-		{
-			StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt );
-		}
-	}
-
-	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
-	{
-		if ( stmt->getVariable()->isRayPayload() )
-		{
-			stmt->getVariable()->updateFlag( ast::var::Flag::eShaderOutput );
-			m_globalsCont->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
-				, stmt->getLocation() ) );
-		}
-		else
-		{
-			StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt );
+			if ( m_declaredStructs.insert( structType->getName() ).second )
+			{
+				m_globalsCont->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			}
 		}
 	}
 
@@ -683,7 +688,7 @@ namespace glsl
 			if ( !outStructType->empty() )
 			{
 				io.othersStructs.emplace( structType, othersVar );
-				m_current->addStmt( ast::stmt::makeStructureDecl( outStructType ) );
+				declareType( outStructType );
 				m_current->addStmt( ast::stmt::makeInOutVariableDecl( othersVar
 					, patchType.getLocation() ) );
 				io.setMainVar( var );
@@ -759,7 +764,7 @@ namespace glsl
 			if ( !outStructType->empty() )
 			{
 				io.othersStructs.emplace( structType, othersVar );
-				m_current->addStmt( ast::stmt::makeStructureDecl( outStructType ) );
+				declareType( outStructType );
 				m_current->addStmt( ast::stmt::makeInOutVariableDecl( othersVar
 					, patchType.getLocation() ) );
 				io.setMainVar( var );
@@ -961,14 +966,6 @@ namespace glsl
 		m_current = m_entryPointFinish.get();
 		visitContainerStmt( stmt );
 		m_current = save;
-	}
-
-	void StmtAdapter::doDeclareStruct( ast::type::StructPtr const & structType )
-	{
-		if ( m_declaredStructs.emplace( structType ).second )
-		{
-			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
-		}
 	}
 
 	ast::type::TypePtr StmtAdapter::doDeclarePerVertex( bool isInput
