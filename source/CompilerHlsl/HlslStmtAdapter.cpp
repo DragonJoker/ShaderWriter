@@ -238,12 +238,22 @@ namespace hlsl
 		declareType( stmt->getType() );
 	}
 
+	void StmtAdapter::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
+	{
+		declareType( stmt->getType() );
+	}
+
 	void StmtAdapter::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
 		declareType( stmt->getType() );
 	}
 
 	void StmtAdapter::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
+	{
+		declareType( stmt->getType() );
+	}
+
+	void StmtAdapter::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
 	{
 		declareType( stmt->getType() );
 	}

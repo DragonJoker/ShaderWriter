@@ -1084,6 +1084,10 @@ namespace hlsl
 			result = "CallShader";
 			break;
 
+		case ast::expr::Intrinsic::eSetMeshOutputCounts:
+			result = "SetMeshOutputCounts";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}
