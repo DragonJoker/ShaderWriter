@@ -31,6 +31,8 @@ namespace glsl
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		void visitAssignExpr( ast::expr::Assign * expr )override;
+		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;

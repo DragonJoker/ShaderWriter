@@ -31,6 +31,7 @@ namespace glsl
 	std::string getLayoutName( ast::type::PatchDomain value );
 	std::string getLayoutName( ast::type::PrimitiveOrdering value );
 	std::string getLayoutName( ast::type::Partitioning value );
+	std::string getLayoutName( ast::type::OutputTopology value );
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component );
 	bool isUnaryPre( ast::expr::Kind kind );
