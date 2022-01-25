@@ -316,6 +316,12 @@ namespace glsl
 				result->addStmt( ast::stmt::makePreprocExtension( EXT_ray_tracing.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
+
+			if ( isMeshStage( adaptationData.stage ) )
+			{
+				result->addStmt( ast::stmt::makePreprocExtension( NV_mesh_shader.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
+			}
 		}
 
 		StmtAdapter vis{ cache, adaptationData, result.get(), result };
@@ -418,6 +424,9 @@ namespace glsl
 					break;
 				case ast::type::Kind::eMeshPrimitiveOutput:
 					doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
+					break;
+				case ast::type::Kind::eTaskPayloadIn:
+					doProcess( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 					break;
 				default:
 					{
@@ -671,7 +680,9 @@ namespace glsl
 	{
 		if ( auto structType = getStructType( type ) )
 		{
-			if ( m_declaredStructs.insert( structType->getName() ).second )
+			if ( type->getKind() != ast::type::Kind::eTaskPayload
+				&& type->getKind() != ast::type::Kind::eTaskPayloadIn
+				&& m_declaredStructs.insert( structType->getName() ).second )
 			{
 				m_globalsCont->addStmt( ast::stmt::makeStructureDecl( structType ) );
 			}
@@ -989,6 +1000,12 @@ namespace glsl
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TaskPayloadIn const & meshType )
+	{
+		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
 		auto type = compType.getType();
@@ -1118,11 +1135,10 @@ namespace glsl
 					{
 						mbrType = m_cache.getBasicType( compType );
 					}
-					else if ( ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex
-								&& m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eMesh )
-							|| !isInput )
-						&& ( isUnsignedIntType( compType )
-							|| isSignedIntType( compType ) ) )
+					else if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex || !isInput )
+						&& !isMeshStage( m_adaptationData.writerConfig.shaderStage )
+						&& !isRayTraceStage( m_adaptationData.writerConfig.shaderStage )
+						&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 					{
 						mbrFlags = mbrFlags | ast::var::Flag::eFlat;
 					}

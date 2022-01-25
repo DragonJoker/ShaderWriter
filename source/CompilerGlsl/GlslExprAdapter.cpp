@@ -403,7 +403,7 @@ namespace glsl
 
 			auto numPrimitives = std::move( args.back() );
 			args.pop_back();
-			auto numVertices = std::move( args.back() );
+			// previous to last is numVertices, which is ignored
 			args.pop_back();
 			auto type = numPrimitives->getType();
 			auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
@@ -413,6 +413,26 @@ namespace glsl
 			m_result = ast::expr::makeAssign( type
 				, ast::expr::makeIdentifier( m_cache, var )
 				, std::move( numPrimitives ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMesh )
+		{
+			ast::expr::ExprList args;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			auto numTasks = std::move( args.back() );
+			args.pop_back();
+			auto type = numTasks->getType();
+			auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, type
+				, "gl_" + getName( ast::Builtin::eTaskCountNV )
+				, ast::var::Flag::eBuiltin | ast::var::Flag::eShaderOutput );
+			m_result = ast::expr::makeAssign( type
+				, ast::expr::makeIdentifier( m_cache, var )
+				, std::move( numTasks ) );
 		}
 		else
 		{
@@ -690,10 +710,10 @@ namespace glsl
 		auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
 		auto compType = getComponentType( mbr.type );
 
-		if ( ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex || !isInput )
-				&& m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eMesh )
-			&& ( isUnsignedIntType( compType )
-				|| isSignedIntType( compType ) ) )
+		if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex || !isInput )
+			&& !isMeshStage( m_adaptationData.writerConfig.shaderStage )
+			&& !isRayTraceStage( m_adaptationData.writerConfig.shaderStage )
+			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
 			mbrFlags = mbrFlags | ast::var::Flag::eFlat;
 		}
