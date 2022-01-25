@@ -13,7 +13,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename T >
-	inline T StructInstance::getMember( std::string const & name
+	inline T StructInstance::getMember( std::string_view name
 		, bool optional )const
 	{
 		assert( m_type->getKind() == type::Kind::eStruct
@@ -41,7 +41,7 @@ namespace sdw
 			}
 			else if ( !optional )
 			{
-				throw std::runtime_error{ "Struct member [" + name + "] was not found." };
+				throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
 			}
 
 			return T{ writer
@@ -88,7 +88,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > StructInstance::getMemberArray( std::string const & name
+	inline Array< T > StructInstance::getMemberArray( std::string_view name
 		, bool optional )const
 	{
 		assert( m_type->getKind() == type::Kind::eStruct
@@ -116,7 +116,7 @@ namespace sdw
 			}
 			else if ( !optional )
 			{
-				throw std::runtime_error{ "Struct member [" + name + "] was not found." };
+				throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
 			}
 
 			return Array< T >{ writer

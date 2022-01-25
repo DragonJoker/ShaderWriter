@@ -5,12 +5,12 @@ namespace sdw
 {
 	template< typename BufferT >
 	BufferReferenceT< BufferT >::BufferReferenceT( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, ast::type::MemoryLayout layout
 		, ast::type::Storage storage
 		, bool enabled )
 		: m_writer{ writer }
-		, m_type{ BufferT::makeType( getTypesCache( writer ), name, layout, enabled ) }
+		, m_type{ BufferT::makeType( getTypesCache( writer ), std::move( name ), layout, enabled ) }
 		, m_pointer{ getTypesCache( writer ).getForwardPointerType( m_type, storage ) }
 		, m_enabled{ enabled }
 	{
@@ -29,11 +29,11 @@ namespace sdw
 	}
 
 	template< typename BufferT >
-	BufferT BufferReferenceT< BufferT >::operator()( std::string const & instanceName
+	BufferT BufferReferenceT< BufferT >::operator()( std::string instanceName
 		, UInt64 address )
 	{
 		return BufferT{ m_writer
-			, instanceName
+			, std::move( instanceName )
 			, sdw::makeCast( getTypesCache( m_writer ).getPointerType( m_type, static_cast< ast::type::Pointer const & >( *m_pointer ).getStorage() )
 				, makeExpr( address ) )
 			, isEnabled() };

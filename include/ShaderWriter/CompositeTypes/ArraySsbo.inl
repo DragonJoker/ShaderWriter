@@ -43,7 +43,7 @@ namespace sdw
 
 	template< typename InstanceT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
-		, std::string const & instanceName
+		, std::string instanceName
 		, ast::type::TypePtr dataType
 		, ast::type::MemoryLayout layout
 		, uint32_t bind
@@ -51,7 +51,7 @@ namespace sdw
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ sdw::getShader( m_writer ) }
-		, m_name{ instanceName }
+		, m_name{ std::move( instanceName ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_ssboType{ m_interface.getType() }
@@ -79,14 +79,14 @@ namespace sdw
 
 	template< typename InstanceT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
-		, std::string const & instanceName
+		, std::string instanceName
 		, ast::type::BaseStructPtr dataType
 		, uint32_t bind
 		, uint32_t set
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ sdw::getShader( m_writer ) }
-		, m_name{ instanceName }
+		, m_name{ std::move( instanceName ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_ssboType{ m_interface.getType() }
@@ -114,12 +114,12 @@ namespace sdw
 
 	template< typename InstanceT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
-		, std::string const & instanceName
+		, std::string instanceName
 		, uint32_t bind
 		, uint32_t set
 		, bool enabled )
 		: ArraySsboT{ writer
-			, instanceName
+			, std::move( instanceName )
 			, details::makeSsboType< InstanceT >( writer, enabled )
 			, bind
 			, set
@@ -129,12 +129,12 @@ namespace sdw
 
 	template< typename InstanceT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
-		, std::string const & instanceName
+		, std::string instanceName
 		, ast::expr::ExprPtr addressExpr
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ sdw::getShader( m_writer ) }
-		, m_name{ instanceName }
+		, m_name{ std::move( instanceName ) }
 		, m_interface{ std::static_pointer_cast< ast::type::BaseStruct >( static_cast< ast::type::Pointer const & >( *addressExpr->getType() ).getPointerType() ) }
 		, m_info{ m_interface.getType(), ~0u, ~0u }
 		, m_ssboType{ m_interface.getType() }
@@ -149,7 +149,7 @@ namespace sdw
 		if ( isEnabled() )
 		{
 			addStmt( m_writer
-				, sdw::makeSimple( sdw::makeInit( sdw::registerName( m_writer, instanceName, m_interface.getType() )
+				, sdw::makeSimple( sdw::makeInit( sdw::registerName( m_writer, m_name, m_interface.getType() )
 					, std::move( addressExpr ) ) ) );
 			registerSsbo( m_writer, m_name, m_info );
 		}

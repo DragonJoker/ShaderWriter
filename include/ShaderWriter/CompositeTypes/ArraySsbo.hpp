@@ -16,7 +16,7 @@ namespace sdw
 	{
 	public:
 		ArraySsboT( ShaderWriter & writer
-			, std::string const & instanceName
+			, std::string instanceName
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout
 			, uint32_t bind
@@ -24,21 +24,21 @@ namespace sdw
 			, bool enabled );
 
 		ArraySsboT( ShaderWriter & writer
-			, std::string const & instanceName
+			, std::string instanceName
 			, ast::type::BaseStructPtr dataType
 			, uint32_t bind
 			, uint32_t set
 			, bool enabled );
 
 		ArraySsboT( ShaderWriter & writer
-			, std::string const & instanceName
+			, std::string instanceName
 			, uint32_t bind
 			, uint32_t set
 			, bool enabled );
 
 		// From a buffer reference
 		ArraySsboT( ShaderWriter & writer
-			, std::string const & instanceName
+			, std::string instanceName
 			, ast::expr::ExprPtr addressExpr
 			, bool enabled );
 
@@ -68,7 +68,7 @@ namespace sdw
 	};
 
 	SDW_API void registerSsbo( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, SsboInfo const & info );
 }
 

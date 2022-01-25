@@ -66,18 +66,18 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
+	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string name
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
-		return implementFunction< ReturnT >( name
+		return implementFunction< ReturnT >( std::move( name )
 			, ast::stmt::FunctionFlag::eNone
 			, function
 			, std::forward< ParamsT >( params )... );
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string const & name
+	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string name
 		, ast::stmt::FunctionFlag flag
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
@@ -90,7 +90,7 @@ namespace sdw
 		doPopScope();
 		auto functionType = decl->getType();
 		addGlobalStmt( std::move( decl ) );
-		return Function< ReturnT, ParamsT... >{ *this, functionType, name };
+		return Function< ReturnT, ParamsT... >{ *this, functionType, std::move( name ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -222,12 +222,12 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declConstant( std::string const & name
+	inline T ShaderWriter::declConstant( std::string name
 		, T const & rhs
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerStaticConstant( name
+		auto var = registerStaticConstant( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -242,13 +242,13 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declConstantArray( std::string const & name
+	inline Array< T > ShaderWriter::declConstantArray( std::string name
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
 		auto type = Array< T >::makeType( getTypesCache()
 			, uint32_t( rhs.size() ) );
-		auto var = registerStaticConstant( name
+		auto var = registerStaticConstant( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -263,11 +263,11 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > ShaderWriter::declConstant( std::string const & name
+	inline IntegerValue< KindT > ShaderWriter::declConstant( std::string name
 		, ReturnWrapperT< IntegerValue< KindT > > rhs
 		, bool enabled )
 	{
-		return declConstant( name, IntegerValue< KindT >{ std::move( rhs ) }, enabled );
+		return declConstant( std::move( name ), IntegerValue< KindT >{ std::move( rhs ) }, enabled );
 	}
 	/**@}*/
 #pragma endregion
@@ -282,14 +282,14 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string const & name
+		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerSampledImage( name
+		auto var = registerSampledImage( std::move( name )
 			, type
 			, binding
 			, set
@@ -308,7 +308,7 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T ShaderWriter::declSampledImage( std::string const & name
+		inline T ShaderWriter::declSampledImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
@@ -317,7 +317,7 @@ namespace sdw
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
-			, T::Ms > ( name
+			, T::Ms > ( std::move( name )
 				, binding
 				, set
 				, enabled );
@@ -328,7 +328,7 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string const & name
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -337,7 +337,7 @@ namespace sdw
 		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerSampledImage( name
+		auto var = registerSampledImage( std::move( name )
 			, type
 			, binding
 			, set
@@ -356,7 +356,7 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline Array< T > ShaderWriter::declSampledImageArray( std::string const & name
+		inline Array< T > ShaderWriter::declSampledImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -366,7 +366,7 @@ namespace sdw
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
-			, T::Ms > ( name
+			, T::Ms > ( std::move( name )
 				, binding
 				, set
 				, dimension
@@ -386,14 +386,14 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string const & name
+		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
 		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerImage( name
+		auto var = registerImage( std::move( name )
 			, type
 			, binding
 			, set
@@ -412,7 +412,7 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T ShaderWriter::declImage( std::string const & name
+		inline T ShaderWriter::declImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
@@ -422,7 +422,7 @@ namespace sdw
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
-			, T::Ms > ( name
+			, T::Ms > ( std::move( name )
 				, binding
 				, set
 				, enabled );
@@ -434,7 +434,7 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string const & name
+		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -443,7 +443,7 @@ namespace sdw
 		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerImage( name
+		auto var = registerImage( std::move( name )
 			, type
 			, binding
 			, set
@@ -462,7 +462,7 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline Array< T > ShaderWriter::declImageArray( std::string const & name
+		inline Array< T > ShaderWriter::declImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -473,7 +473,7 @@ namespace sdw
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
-			, T::Ms > ( name
+			, T::Ms > ( std::move( name )
 				, binding
 				, set
 				, dimension
@@ -488,18 +488,18 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declInput( std::string const & name
+	inline T ShaderWriter::declInput( std::string name
 		, uint32_t location
 		, bool enabled )
 	{
-		return declInput< T >( name
+		return declInput< T >( std::move( name )
 			, location
 			, 0u
 			, enabled );
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declInput( std::string const & name
+	inline T ShaderWriter::declInput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, bool enabled )
@@ -513,7 +513,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as input type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerInput( name
+		auto var = registerInput( std::move( name )
 			, location
 			, attributes
 			, type );
@@ -530,12 +530,12 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+	inline Array< T > ShaderWriter::declInputArray( std::string name
 		, uint32_t location
 		, uint32_t dimension
 		, bool enabled )
 	{
-		return declInputArray< T >( name
+		return declInputArray< T >( std::move( name )
 			, location
 			, dimension
 			, 0u
@@ -543,7 +543,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+	inline Array< T > ShaderWriter::declInputArray( std::string name
 		, uint32_t location
 		, uint32_t dimension
 		, uint64_t attributes
@@ -559,7 +559,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as input type" );
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerInput( name
+		auto var = registerInput( std::move( name )
 			, location
 			, attributes
 			, type );
@@ -576,12 +576,12 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declInput( std::string const & name
+	inline T ShaderWriter::declInput( std::string name
 		, uint32_t location
 		, bool enabled
 		, T const & defaultValue )
 	{
-		return declInput< T >( name
+		return declInput< T >( std::move( name )
 			, location
 			, 0u
 			, enabled
@@ -589,7 +589,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declInput( std::string const & name
+	inline T ShaderWriter::declInput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, bool enabled
@@ -608,7 +608,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			var = registerInput( name
+			var = registerInput( std::move( name )
 				, location
 				, attributes
 				, type );
@@ -617,7 +617,7 @@ namespace sdw
 		}
 		else
 		{
-			var = registerStaticConstant( name
+			var = registerStaticConstant( std::move( name )
 				, type );
 			addStmt( sdw::makeSimple( sdw::makeInit( var
 				, makeConstExpr( *this, defaultValue ) ) ) );
@@ -629,13 +629,13 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+	inline Array< T > ShaderWriter::declInputArray( std::string name
 		, uint32_t location
 		, uint32_t dimension
 		, bool enabled
 		, std::vector< T > const & defaultValue )
 	{
-		return declInputArray< T >( name
+		return declInputArray< T >( std::move( name )
 			, location
 			, dimension
 			, 0u
@@ -644,7 +644,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string const & name
+	inline Array< T > ShaderWriter::declInputArray( std::string name
 		, uint32_t location
 		, uint32_t dimension
 		, uint64_t attributes
@@ -665,7 +665,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			var = registerInput( name
+			var = registerInput( std::move( name )
 				, location
 				, attributes
 				, type );
@@ -674,7 +674,7 @@ namespace sdw
 		}
 		else
 		{
-			var = registerStaticConstant( name
+			var = registerStaticConstant( std::move( name )
 				, type );
 			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
 				, makeConstExpr( *this, defaultValue ) ) ) );
@@ -766,7 +766,7 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline RayPayloadT< T > ShaderWriter::declRayPayload( std::string const & name
+	inline RayPayloadT< T > ShaderWriter::declRayPayload( std::string name
 		, uint32_t location
 		, bool enabled )
 	{
@@ -777,7 +777,7 @@ namespace sdw
 			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerName( name
+		auto var = registerName( std::move( name )
 			, type
 			, uint64_t( ast::var::Flag::eRayPayload ) );
 
@@ -793,7 +793,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline RayPayloadInT< T > ShaderWriter::declIncomingRayPayload( std::string const & name
+	inline RayPayloadInT< T > ShaderWriter::declIncomingRayPayload( std::string name
 		, uint32_t location
 		, bool enabled )
 	{
@@ -804,7 +804,7 @@ namespace sdw
 			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerInOut( name
+		auto var = registerInOut( std::move( name )
 			, uint64_t( ast::var::Flag::eIncomingRayPayload )
 			, type );
 
@@ -820,7 +820,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline CallableDataT< T > ShaderWriter::declCallableData( std::string const & name
+	inline CallableDataT< T > ShaderWriter::declCallableData( std::string name
 		, uint32_t location
 		, bool enabled )
 	{
@@ -831,7 +831,7 @@ namespace sdw
 			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerName( name
+		auto var = registerName( std::move( name )
 			, type
 			, uint64_t( ast::var::Flag::eCallableData ) );
 
@@ -847,7 +847,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline CallableDataInT< T > ShaderWriter::declIncomingCallableData( std::string const & name
+	inline CallableDataInT< T > ShaderWriter::declIncomingCallableData( std::string name
 		, uint32_t location
 		, bool enabled )
 	{
@@ -858,7 +858,7 @@ namespace sdw
 			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerInOut( name
+		auto var = registerInOut( std::move( name )
 			, uint64_t( ast::var::Flag::eIncomingCallableData )
 			, type );
 
@@ -874,7 +874,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline HitAttributeT< T > ShaderWriter::declHitAttribute( std::string const & name
+	inline HitAttributeT< T > ShaderWriter::declHitAttribute( std::string name
 		, bool enabled )
 	{
 		auto type = HitAttributeT< T >::makeType( getTypesCache() );
@@ -884,7 +884,7 @@ namespace sdw
 			addGlobalStmt( sdw::makeStructDecl( structType ) );
 		}
 
-		auto var = registerInOut( name
+		auto var = registerInOut( std::move( name )
 			, uint64_t( ast::var::Flag::eHitAttribute )
 			, type );
 
@@ -906,13 +906,13 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declUniformBuffer( std::string const & name
+	inline T ShaderWriter::declUniformBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 	{
-		return T{ *this, name, binding, set, layout, enabled };
+		return T{ *this, std::move( name ), binding, set, layout, enabled };
 	}
 	/**@}*/
 #pragma endregion
@@ -923,22 +923,22 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declShaderStorageBuffer( std::string const & name
+	inline T ShaderWriter::declShaderStorageBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 	{
-		return T{ *this, name, binding, set, layout, enabled };
+		return T{ *this, std::move( name ), binding, set, layout, enabled };
 	}
 
 	template< typename T >
-	inline ArraySsboT< T > ShaderWriter::declArrayShaderStorageBuffer( std::string const & name
+	inline ArraySsboT< T > ShaderWriter::declArrayShaderStorageBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		return ArraySsboT< T >{ *this, name, binding, set, enabled };
+		return ArraySsboT< T >{ *this, std::move( name ), binding, set, enabled };
 	}
 	/**@}*/
 #pragma endregion
@@ -949,12 +949,12 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename BufferT >
-	inline BufferReferenceT< BufferT > ShaderWriter::declBufferReference( std::string const & name
+	inline BufferReferenceT< BufferT > ShaderWriter::declBufferReference( std::string name
 		, ast::type::MemoryLayout layout
 		, ast::type::Storage storage
 		, bool enabled )
 	{
-		return BufferReferenceT< BufferT >{ *this, name, layout, storage, enabled };
+		return BufferReferenceT< BufferT >{ *this, std::move( name ), layout, storage, enabled };
 	}
 	/**@}*/
 #pragma endregion
@@ -965,11 +965,11 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declPushConstantsBuffer( std::string const & name
+	inline T ShaderWriter::declPushConstantsBuffer( std::string name
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 	{
-		return T{ *this, name, layout, enabled };
+		return T{ *this, std::move( name ), layout, enabled };
 	}
 	/**@}*/
 #pragma endregion
@@ -980,10 +980,10 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declStruct( std::string const & name
+	inline T ShaderWriter::declStruct( std::string name
 		, ast::type::MemoryLayout layout )
 	{
-		return T{ *this, name, layout };
+		return T{ *this, std::move( name ), layout };
 	}
 	/**@}*/
 #pragma endregion
@@ -994,18 +994,18 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declOutput( std::string const & name
+	inline T ShaderWriter::declOutput( std::string name
 		, uint32_t location
 		, bool enabled )
 	{
-		return declOutput< T >( name
+		return declOutput< T >( std::move( name )
 			, location
 			, 0u
 			, enabled );
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declOutput( std::string const & name
+	inline T ShaderWriter::declOutput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, bool enabled )
@@ -1019,7 +1019,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerOutput( name
+		auto var = registerOutput( std::move( name )
 			, location
 			, attributes
 			, type );
@@ -1036,12 +1036,12 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
+	inline Array< T > ShaderWriter::declOutputArray( std::string name
 		, uint32_t location
 		, uint32_t dimension
 		, bool enabled )
 	{
-		return declOutputArray< T >( name
+		return declOutputArray< T >( std::move( name )
 			, location
 			, dimension
 			, 0u
@@ -1049,7 +1049,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declOutputArray( std::string const & name
+	inline Array< T > ShaderWriter::declOutputArray( std::string name
 		, uint32_t location
 		, uint32_t dimension
 		, uint64_t attributes
@@ -1065,7 +1065,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerOutput( name
+		auto var = registerOutput( std::move( name )
 			, location
 			, attributes
 			, type );
@@ -1089,19 +1089,19 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename InstanceT >
-	inline InstanceT ShaderWriter::declLocale( std::string const & name
+	inline InstanceT ShaderWriter::declLocale( std::string name
 		, Struct const & type
 		, bool enabled )
 	{
-		return type.getInstance< InstanceT >( name, enabled );
+		return type.getInstance< InstanceT >( std::move( name ), enabled );
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declLocale( std::string const & name
+	inline T ShaderWriter::declLocale( std::string name
 		, bool enabled )
 	{
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1115,19 +1115,19 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declLocale( std::string const & name
+	inline T ShaderWriter::declLocale( std::string name
 		, T const & rhs )
 	{
-		return declLocale( name, rhs, rhs.isEnabled() );
+		return declLocale( std::move( name ), rhs, rhs.isEnabled() );
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declLocale( std::string const & name
+	inline T ShaderWriter::declLocale( std::string name
 		, T const & rhs
 		, bool enabled )
 	{
 		auto type = rhs.getType();
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1142,12 +1142,12 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declLocale( std::string const & name
+	inline T ShaderWriter::declLocale( std::string name
 		, bool enabled
 		, T const & defaultValue )
 	{
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( !enabled )
@@ -1166,13 +1166,13 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
+	inline Array< T > ShaderWriter::declLocaleArray( std::string name
 		, uint32_t dimension
 		, bool enabled )
 	{
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1186,14 +1186,14 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
+	inline Array< T > ShaderWriter::declLocaleArray( std::string name
 		, uint32_t dimension
 		, std::vector< T > const & rhs
 		, bool enabled )
 	{
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1208,19 +1208,19 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declLocale( std::string const & name
+	inline Array< T > ShaderWriter::declLocale( std::string name
 		, Array< T > const & rhs )
 	{
-		return declLocale( name, rhs, rhs.isEnabled() );
+		return declLocale( std::move( name ), rhs, rhs.isEnabled() );
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declLocale( std::string const & name
+	inline Array< T > ShaderWriter::declLocale( std::string name
 		, Array< T > const & rhs
 		, bool enabled )
 	{
 		auto type = rhs.getType();
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1235,14 +1235,14 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declLocaleArray( std::string const & name
+	inline Array< T > ShaderWriter::declLocaleArray( std::string name
 		, uint32_t dimension
 		, bool enabled
 		, std::vector< T > const & defaultValue )
 	{
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1261,27 +1261,27 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declLocale( std::string const & name
+	inline T ShaderWriter::declLocale( std::string name
 		, ReturnWrapperT< T > rhs
 		, bool enabled )
 	{
-		return declLocale( name, T{ std::move( rhs ) }, enabled );
+		return declLocale( std::move( name ), T{ std::move( rhs ) }, enabled );
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declLocale( std::string const & name
+	inline T ShaderWriter::declLocale( std::string name
 		, bool enabled
 		, ReturnWrapperT< T > defaultValue )
 	{
-		return declLocale( name, enabled, T{ std::move( defaultValue ) } );
+		return declLocale( std::move( name ), enabled, T{ std::move( defaultValue ) } );
 	}
 
 	template< typename BaseT, typename DerivedT >
-	inline std::unique_ptr< BaseT > ShaderWriter::declDerivedLocale( std::string const & name
+	inline std::unique_ptr< BaseT > ShaderWriter::declDerivedLocale( std::string name
 		, bool enabled )
 	{
 		auto type = DerivedT::makeType( getTypesCache() );
-		auto var = registerLocale( name
+		auto var = registerLocale( std::move( name )
 			, type );
 
 		if ( enabled )
@@ -1316,7 +1316,7 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::getVariable( std::string const & name
+	inline T ShaderWriter::getVariable( std::string_view name
 		, bool enabled )
 	{
 		auto var = getVar( name );
@@ -1328,7 +1328,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::getVariableArray( std::string const & name
+	inline Array< T > ShaderWriter::getVariableArray( std::string_view name
 		, bool enabled )
 	{
 		auto var = getVar( name );

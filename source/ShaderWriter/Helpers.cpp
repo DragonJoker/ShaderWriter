@@ -757,13 +757,13 @@ namespace sdw
 		return stmt::makeStructureDecl( std::move( type ) );
 	}
 
-	stmt::StmtPtr makeShaderStructBufferDecl( std::string const & ssboName
+	stmt::StmtPtr makeShaderStructBufferDecl( std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeShaderStructBufferDecl( ssboName
+		return stmt::makeShaderStructBufferDecl( std::move( ssboName )
 			, ssboInstance
 			, data
 			, bindingPoint
@@ -923,50 +923,50 @@ namespace sdw
 	}
 
 	var::VariablePtr registerName( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type )
 	{
-		return writer.getShader().registerName( name
+		return writer.getShader().registerName( std::move( name )
 			, type );
 	}
 
 	var::VariablePtr registerName( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type
 		, uint64_t flags )
 	{
-		return writer.getShader().registerName( name
+		return writer.getShader().registerName( std::move( name )
 			, type
 			, flags );
 	}
 
 	var::VariablePtr registerMember( ShaderWriter & writer
 		, var::VariablePtr outer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type )
 	{
 		return writer.getShader().registerMember( outer
-			, name
+			, std::move( name )
 			, type );
 	}
 
 	var::VariablePtr registerBlockVariable( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type )
 	{
-		return writer.getShader().registerBlockVariable( name
+		return writer.getShader().registerBlockVariable( std::move( name )
 			, type );
 	}
 
 	var::VariablePtr getVar( ShaderWriter & writer
-		, std::string const & name )
+		, std::string_view name )
 	{
 		return writer.getShader().getVar( name );
 	}
 
 	var::VariablePtr getMemberVar( ShaderWriter & writer
 		, ast::var::VariablePtr outer
-		, std::string const & name )
+		, std::string_view name )
 	{
 		return writer.getShader().getMemberVar( outer, name );
 	}

@@ -32,34 +32,34 @@ namespace ast
 		}
 
 		template< type::Kind Kind >
-		type::TypePtr registerMember( std::string const & name
+		type::TypePtr registerMember( std::string name
 			, uint32_t arraySize = ast::type::NotArray )
 		{
 			static_assert( Kind != type::Kind::eBoolean, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );
-			return m_type->declMember( name, Kind, arraySize ).type;
+			return m_type->declMember( std::move( name ), Kind, arraySize ).type;
 		}
 
-		type::TypePtr registerMember( std::string const & name
+		type::TypePtr registerMember( std::string name
 			, type::BaseStructPtr type
 			, uint32_t arraySize = ast::type::NotArray )
 		{
-			return m_type->declMember( name, type, arraySize ).type;
+			return m_type->declMember( std::move( name ), type, arraySize ).type;
 		}
 
-		uint32_t findMember( std::string const & name )const
+		uint32_t findMember( std::string_view name )const
 		{
 			return m_type->findMember( name );
 		}
 
-		bool hasMember( std::string const & name )const
+		bool hasMember( std::string_view name )const
 		{
 			return m_type->hasMember( name );
 		}
 
-		type::TypePtr getMember( std::string const & name )const
+		type::TypePtr getMember( std::string_view name )const
 		{
 			return m_type->getMember( name ).type;
 		}

@@ -6,10 +6,10 @@ namespace sdw
 	//*********************************************************************************************
 
 	template< typename InstanceT >
-	InstanceT Struct::getInstance( std::string const & name
+	InstanceT Struct::getInstance( std::string name
 		, bool enabled )const
 	{
-		auto var = registerBlockVariable( *m_writer, name, m_type );
+		auto var = registerBlockVariable( *m_writer, std::move( name ), m_type );
 
 		if ( enabled )
 		{
@@ -22,7 +22,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline void Struct::declMember( std::string const & name )
+	inline void Struct::declMember( std::string name )
 	{
 		static_assert( typeEnum< T > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
@@ -32,12 +32,12 @@ namespace sdw
 			, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
-		m_type->declMember( name
+		m_type->declMember( std::move( name )
 			, T::makeType( getTypesCache( *m_writer ) ) );
 	}
 
 	template< typename T >
-	inline void Struct::declMember( std::string const & name
+	inline void Struct::declMember( std::string name
 		, uint32_t dimension )
 	{
 		static_assert( typeEnum< T > != type::Kind::eBoolean
@@ -48,7 +48,7 @@ namespace sdw
 			, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
-		m_type->declMember( name
+		m_type->declMember( std::move( name )
 			, typeEnum< T >
 			, dimension );
 	}
@@ -82,7 +82,7 @@ namespace sdw
 
 	template< var::Flag FlagT >
 	template< typename T >
-	inline void IOStructT< FlagT >::declMember( std::string const & name
+	inline void IOStructT< FlagT >::declMember( std::string name
 		, uint32_t location )
 	{
 		static_assert( typeEnum< T > != type::Kind::eBoolean
@@ -93,14 +93,14 @@ namespace sdw
 			, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
-		m_type->declMember( name
+		m_type->declMember( std::move( name )
 			, T::makeType( getTypesCache( *m_writer ) )
 			, location );
 	}
 
 	template< var::Flag FlagT >
 	template< typename T >
-	inline void IOStructT< FlagT >::declMember( std::string const & name
+	inline void IOStructT< FlagT >::declMember( std::string name
 		, uint32_t dimension
 		, uint32_t location )
 	{
@@ -112,7 +112,7 @@ namespace sdw
 			, "Can't put a boolean type inside a structure" );
 		static_assert( typeEnum< T > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
-		m_type->declMember( name
+		m_type->declMember( std::move( name )
 			, typeEnum< T >
 			, dimension
 			, location );

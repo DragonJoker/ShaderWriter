@@ -186,12 +186,12 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T FragmentWriter::declBlendOutput( std::string const & name
+	inline T FragmentWriter::declBlendOutput( std::string name
 		, uint32_t location
 		, uint32_t blendIndex
 		, bool enabled )
 	{
-		return declBlendOutput< T >( name
+		return declBlendOutput< T >( std::move( name )
 			, location
 			, blendIndex
 			, 0u
@@ -199,7 +199,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T FragmentWriter::declBlendOutput( std::string const & name
+	inline T FragmentWriter::declBlendOutput( std::string name
 		, uint32_t location
 		, uint32_t blendIndex
 		, uint64_t attributes
@@ -214,7 +214,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerOutput( name
+		auto var = registerOutput( std::move( name )
 			, location
 			, attributes | var::Flag::eBlendIndex
 			, type );
@@ -232,13 +232,13 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > FragmentWriter::declBlendOutputArray( std::string const & name
+	inline Array< T > FragmentWriter::declBlendOutputArray( std::string name
 		, uint32_t location
 		, uint32_t blendIndex
 		, uint32_t dimension
 		, bool enabled )
 	{
-		return declBlendOutputArray< T >( name
+		return declBlendOutputArray< T >( std::move( name )
 			, location
 			, blendIndex
 			, dimension
@@ -247,7 +247,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > FragmentWriter::declBlendOutputArray( std::string const & name
+	inline Array< T > FragmentWriter::declBlendOutputArray( std::string name
 		, uint32_t location
 		, uint32_t blendIndex
 		, uint32_t dimension
@@ -264,7 +264,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerOutput( name
+		auto var = registerOutput( std::move( name )
 			, location
 			, blendIndex
 			, attributes | var::Flag::eBlendIndex

@@ -47,63 +47,63 @@ namespace sdw
 		doGetCurrentWriter() = nullptr;
 	}
 
-	bool ShaderWriter::hasVariable( std::string const & name )const
+	bool ShaderWriter::hasVariable( std::string_view name )const
 	{
 		return m_shader->hasVariable( name );
 	}
 
-	var::VariablePtr ShaderWriter::registerName( std::string const & name
+	var::VariablePtr ShaderWriter::registerName( std::string name
 		, type::TypePtr type
 		, uint64_t flags )
 	{
-		return m_shader->registerName( name, type, flags );
+		return m_shader->registerName( std::move( name ), type, flags );
 	}
 
-	var::VariablePtr ShaderWriter::registerLocale( std::string const & name
+	var::VariablePtr ShaderWriter::registerLocale( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerLocale( name, type );
+		return m_shader->registerLocale( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerLoopVar( std::string const & name
+	var::VariablePtr ShaderWriter::registerLoopVar( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerLoopVar( name, type );
+		return m_shader->registerLoopVar( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerInParam( std::string const & name
+	var::VariablePtr ShaderWriter::registerInParam( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerInParam( name, type );
+		return m_shader->registerInParam( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerOutParam( std::string const & name
+	var::VariablePtr ShaderWriter::registerOutParam( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerOutParam( name, type );
+		return m_shader->registerOutParam( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerInOutParam( std::string const & name
+	var::VariablePtr ShaderWriter::registerInOutParam( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerInOutParam( name, type );
+		return m_shader->registerInOutParam( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::getVar( std::string const & name )
+	var::VariablePtr ShaderWriter::getVar( std::string_view name )
 	{
 		return m_shader->getVar( name );
 	}
 
-	void ShaderWriter::registerSsbo( std::string const & name
+	void ShaderWriter::registerSsbo( std::string name
 		, SsboInfo const & info )
 	{
-		m_shader->registerSsbo( name, info );
+		m_shader->registerSsbo( std::move( name ), info );
 	}
 
-	void ShaderWriter::registerUbo( std::string const & name
+	void ShaderWriter::registerUbo( std::string name
 		, UboInfo const & info )
 	{
-		m_shader->registerUbo( name, info );
+		m_shader->registerUbo( std::move( name ), info );
 	}
 
 	void ShaderWriter::addStmt( stmt::StmtPtr stmt )
@@ -260,13 +260,13 @@ namespace sdw
 		addStmt( ast::stmt::makeContinue() );
 	}
 
-	Boolean ShaderWriter::declSpecConstant( std::string const & name
+	Boolean ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
 		, bool rhs
 		, bool enabled )
 	{
 		auto type = Boolean::makeType( getTypesCache() );
-		auto var = registerSpecConstant( name
+		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
 
@@ -282,13 +282,13 @@ namespace sdw
 			, enabled };
 	}
 
-	Int ShaderWriter::declSpecConstant( std::string const & name
+	Int ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
 		, int32_t rhs
 		, bool enabled )
 	{
 		auto type = Int::makeType( getTypesCache() );
-		auto var = registerSpecConstant( name
+		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
 
@@ -304,13 +304,13 @@ namespace sdw
 			, enabled };
 	}
 
-	UInt ShaderWriter::declSpecConstant( std::string const & name
+	UInt ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
 		, uint32_t rhs
 		, bool enabled )
 	{
 		auto type = UInt::makeType( getTypesCache() );
-		auto var = registerSpecConstant( name
+		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
 
@@ -326,13 +326,13 @@ namespace sdw
 			, enabled };
 	}
 
-	Float ShaderWriter::declSpecConstant( std::string const & name
+	Float ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
 		, float rhs
 		, bool enabled )
 	{
 		auto type = Float::makeType( getTypesCache() );
-		auto var = registerSpecConstant( name
+		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
 
@@ -348,13 +348,13 @@ namespace sdw
 			, enabled };
 	}
 
-	Double ShaderWriter::declSpecConstant( std::string const & name
+	Double ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
 		, double rhs
 		, bool enabled )
 	{
 		auto type = Double::makeType( getTypesCache() );
-		auto var = registerSpecConstant( name
+		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
 
@@ -370,13 +370,13 @@ namespace sdw
 			, enabled };
 	}
 
-	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string const & name
+	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
 		auto type = AccelerationStructure::makeType( getTypesCache() );
-		auto var = registerAccelerationStructure( name
+		auto var = registerAccelerationStructure( std::move( name )
 			, type
 			, binding
 			, set );
@@ -419,73 +419,73 @@ namespace sdw
 		m_shader->pop();
 	}
 
-	var::VariablePtr ShaderWriter::registerStaticConstant( std::string const & name
+	var::VariablePtr ShaderWriter::registerStaticConstant( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerStaticConstant( name, type );
+		return m_shader->registerStaticConstant( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerConstant( std::string const & name
+	var::VariablePtr ShaderWriter::registerConstant( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerConstant( name, type );
+		return m_shader->registerConstant( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerSpecConstant( std::string const & name
+	var::VariablePtr ShaderWriter::registerSpecConstant( std::string name
 		, uint32_t location
 		, type::TypePtr type )
 	{
-		return m_shader->registerSpecConstant( name, location, type );
+		return m_shader->registerSpecConstant( std::move( name ), location, type );
 	}
 
-	var::VariablePtr ShaderWriter::registerAccelerationStructure( std::string const & name
+	var::VariablePtr ShaderWriter::registerAccelerationStructure( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerAccelerationStructure( name, type, binding, set, enabled );
+		return m_shader->registerAccelerationStructure( std::move( name ), type, binding, set, enabled );
 	}
 
-	var::VariablePtr ShaderWriter::registerSampledImage( std::string const & name
+	var::VariablePtr ShaderWriter::registerSampledImage( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerSampledImage( name, type, binding, set, enabled );
+		return m_shader->registerSampledImage( std::move( name ), type, binding, set, enabled );
 	}
 
-	var::VariablePtr ShaderWriter::registerImage( std::string const & name
+	var::VariablePtr ShaderWriter::registerImage( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerImage( name, type, binding, set, enabled );
+		return m_shader->registerImage( std::move( name ), type, binding, set, enabled );
 	}
 
-	var::VariablePtr ShaderWriter::registerInput( std::string const & name
+	var::VariablePtr ShaderWriter::registerInput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return m_shader->registerInput( name, location, attributes, type );
+		return m_shader->registerInput( std::move( name ), location, attributes, type );
 	}
 
-	var::VariablePtr ShaderWriter::registerOutput( std::string const & name
+	var::VariablePtr ShaderWriter::registerOutput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return m_shader->registerOutput( name, location, attributes, type );
+		return m_shader->registerOutput( std::move( name ), location, attributes, type );
 	}
 
-	var::VariablePtr ShaderWriter::registerInOut( std::string const & name
+	var::VariablePtr ShaderWriter::registerInOut( std::string name
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return m_shader->registerInOut( name, attributes, type );
+		return m_shader->registerInOut( std::move( name ), attributes, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerBuiltin( ast::Builtin builtin

@@ -10,15 +10,15 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Ssbo::Ssbo( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, uint32_t bind
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
-		, m_name{ name }
-		, m_interface{ writer.getTypesCache(), layout, name + "Block" }
+		, m_name{ std::move( name ) }
+		, m_interface{ writer.getTypesCache(), layout, m_name + "Block" }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_var{ writer.getShader().registerName( m_name, m_interface.getType(), var::Flag::eStorageBuffer ) }
 		, m_stmt{ stmt::makeShaderBufferDecl( m_var, bind, set ) }
@@ -35,12 +35,12 @@ namespace sdw
 		}
 	}
 
-	StructInstance Ssbo::declStructMember( std::string const & name
+	StructInstance Ssbo::declStructMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
 		auto type = m_interface.registerMember( name, s.getType() );
-		auto var = registerMember( m_writer, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled )
 		{
@@ -52,13 +52,13 @@ namespace sdw
 			, isEnabled() && enabled };
 	}
 
-	Array< StructInstance > Ssbo::declStructMember( std::string const & name
+	Array< StructInstance > Ssbo::declStructMember( std::string name
 		, Struct const & s
 		, uint32_t dimension
 		, bool enabled )
 	{
 		auto type = m_interface.registerMember( name, s.getType(), dimension );
-		auto var = registerMember( m_writer, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled )
 		{

@@ -104,15 +104,15 @@ namespace ast::type
 
 	public:
 		SDAST_API Member getMember( uint32_t index );
-		SDAST_API Member getMember( std::string const & name );
-		SDAST_API uint32_t findMember( std::string const & name )const;
+		SDAST_API Member getMember( std::string_view name );
+		SDAST_API uint32_t findMember( std::string_view name )const;
 		SDAST_API Member getMember( Builtin builtin
 			, uint32_t index = InvalidLocation );
 		SDAST_API uint32_t findMember( Builtin builtin
 			, uint32_t index = InvalidLocation )const;
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
-		bool hasMember( std::string const & name )
+		bool hasMember( std::string_view name )
 		{
 			return findMember( name ) != NotFound;
 		}
@@ -194,7 +194,7 @@ namespace ast::type
 		}
 
 	protected:
-		std::pair< uint32_t, uint32_t > doLookupMember( std::string const & name
+		std::pair< uint32_t, uint32_t > doLookupMember( std::string_view name
 			, TypePtr type );
 		void doAddMember( Member const & member );
 
@@ -250,7 +250,7 @@ namespace ast::type
 
 	private:
 		Member doCreateMember( TypePtr type
-			, std::string const & name );
+			, std::string name );
 		Member doCreateMember( TypePtr type
 			, Builtin builtin
 			, uint32_t index = InvalidLocation );
@@ -301,7 +301,7 @@ namespace ast::type
 
 	private:
 		Member doCreateMember( TypePtr type
-			, std::string const & name
+			, std::string name
 			, uint32_t location );
 		Member doCreateMember( TypePtr type
 			, Builtin builtin

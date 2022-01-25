@@ -14,12 +14,12 @@ namespace sdw
 	{
 	public:
 		BufferReferenceT( ShaderWriter & writer
-			, std::string const & name
+			, std::string name
 			, ast::type::MemoryLayout layout
 			, ast::type::Storage storage
 			, bool enabled );
 
-		BufferT operator()( std::string const & instanceName
+		BufferT operator()( std::string instanceName
 			, UInt64 address );
 
 		bool isEnabled()const

@@ -7,13 +7,14 @@ See LICENSE file in root folder
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 
 #include <algorithm>
+#include <string_view>
 
 namespace ast
 {
 	namespace
 	{
 		auto findVariable( std::set< var::VariablePtr > const & vars
-			, std::string const & name )
+			, std::string_view name )
 		{
 			return std::find_if( vars.begin()
 				, vars.end()
@@ -26,7 +27,7 @@ namespace ast
 
 		auto findMbrVariable( std::set< var::VariablePtr > const & vars
 			, var::VariablePtr outer
-			, std::string const & name )
+			, std::string_view name )
 		{
 			return std::find_if( vars.begin()
 				, vars.end()
@@ -95,7 +96,7 @@ namespace ast
 		return expr;
 	}
 
-	bool Shader::hasVariable( std::string const & name )const
+	bool Shader::hasVariable( std::string_view name )const
 	{
 		auto & block = m_blocks.back();
 		auto it = findVariable( block.registered, name );
@@ -113,37 +114,37 @@ namespace ast
 #endif
 	}
 
-	var::VariablePtr Shader::registerName( std::string const & name
+	var::VariablePtr Shader::registerName( std::string name
 		, type::TypePtr type
 		, uint64_t flags )
 	{
 		auto var = var::makeVariable( ++m_data.nextVarId
 			, type
-			, name
+			, std::move( name )
 			, flags );
 		registerVariable( var );
 		return var;
 	}
 
-	var::VariablePtr Shader::registerName( std::string const & name
+	var::VariablePtr Shader::registerName( std::string name
 		, type::TypePtr type
 		, var::Flag flag )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, uint64_t( flag ) );
 	}
 
-	var::VariablePtr Shader::registerName( std::string const & name
+	var::VariablePtr Shader::registerName( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, 0u );
 	}
 
 	var::VariablePtr Shader::registerMember( var::VariablePtr outer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type
 		, uint64_t flags )
 	{
@@ -151,74 +152,74 @@ namespace ast
 		auto result = var::makeVariable( ++m_data.nextVarId
 			, outer
 			, type
-			, name
+			, std::move( name )
 			, flags );
 		registerVariable( result );
 		return result;
 	}
 
 	var::VariablePtr Shader::registerMember( var::VariablePtr outer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type
 		, var::Flag flag )
 	{
 		return registerMember( std::move( outer )
-			, name
+			, std::move( name )
 			, type
 			, uint64_t( flag ) );
 	}
 
 	var::VariablePtr Shader::registerMember( var::VariablePtr outer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type )
 	{
 		auto flags = outer->isUniform()
 			? ast::var::Flag::eUniform
 			: ast::var::Flag( 0u );
 		return registerMember( std::move( outer )
-			, name
+			, std::move( name )
 			, type
 			, flags );
 	}
 
-	var::VariablePtr Shader::registerStaticConstant( std::string const & name
+	var::VariablePtr Shader::registerStaticConstant( std::string name
 		, type::TypePtr type )
 	{
 		auto result = registerName( name
 			, type
 			, var::Flag::eStatic | var::Flag::eConstant );
-		m_data.constants.emplace( name, type );
+		m_data.constants.emplace( std::move( name ), type );
 		return result;
 	}
 
-	var::VariablePtr Shader::registerConstant( std::string const & name
+	var::VariablePtr Shader::registerConstant( std::string name
 		, type::TypePtr type )
 	{
 		auto result = registerName( name
 			, type
 			, var::Flag::eShaderConstant );
-		m_data.constants.emplace( name, type );
+		m_data.constants.emplace( std::move( name ), type );
 		return result;
 	}
 
-	var::VariablePtr Shader::registerSpecConstant( std::string const & name
+	var::VariablePtr Shader::registerSpecConstant( std::string name
 		, uint32_t location
 		, type::TypePtr type )
 	{
 		auto result = registerName( name
 			, type
 			, var::Flag::eSpecialisationConstant );
-		m_data.specConstants.emplace( name, SpecConstantInfo{ { type, location } } );
+		m_data.specConstants.emplace( std::move( name ), SpecConstantInfo{ { type, location } } );
 		return result;
 	}
 
-	var::VariablePtr Shader::registerAccelerationStructure( std::string const & name
+	var::VariablePtr Shader::registerAccelerationStructure( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		auto result = registerName( name
+		auto result = registerName( std::move( name )
 			, type
 			, var::Flag::eUniform | var::Flag::eConstant );
 
@@ -234,63 +235,79 @@ namespace ast
 		return result;
 	}
 
-	var::VariablePtr Shader::registerSampledImage( std::string const & name
+	var::VariablePtr Shader::registerSampledImage( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eUniform | var::Flag::eConstant );
+		var::VariablePtr result;
 
 		if ( enabled )
 		{
+			result = registerName( name
+				, type
+				, var::Flag::eUniform | var::Flag::eConstant );
+
 			auto imgType = getNonArrayType( type );
 			assert( imgType->getKind() == ast::type::Kind::eSampledImage );
 
 			if ( static_cast< ast::type::SampledImage const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
 			{
-				m_data.uniformTexels.emplace( name, SamplerInfo{ { type, { binding, set } } } );
+				m_data.uniformTexels.emplace( std::move( name ), SamplerInfo{ { type, { binding, set } } } );
 			}
 			else
 			{
-				m_data.samplers.emplace( name, SamplerInfo{ { type, { binding, set } } } );
+				m_data.samplers.emplace( std::move( name ), SamplerInfo{ { type, { binding, set } } } );
 			}
+		}
+		else
+		{
+			result = registerName( std::move( name )
+				, type
+				, var::Flag::eUniform | var::Flag::eConstant );
 		}
 
 		return result;
 	}
 
-	var::VariablePtr Shader::registerImage( std::string const & name
+	var::VariablePtr Shader::registerImage( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eUniform | var::Flag::eConstant );
+		var::VariablePtr result;
 
 		if ( enabled )
 		{
+			result = registerName( name
+				, type
+				, var::Flag::eUniform | var::Flag::eConstant );
+
 			auto imgType = getNonArrayType( type );
 			assert( imgType->getKind() == ast::type::Kind::eImage );
 
 			if ( static_cast< ast::type::Image const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
 			{
-				m_data.storageTexels.emplace( name, ImageInfo{ { type, { binding, set } } } );
+				m_data.storageTexels.emplace( std::move( name ), ImageInfo{ { type, { binding, set } } } );
 			}
 			else
 			{
-				m_data.images.emplace( name, ImageInfo{ { type, { binding, set } } } );
+				m_data.images.emplace( std::move( name ), ImageInfo{ { type, { binding, set } } } );
 			}
+		}
+		else
+		{
+			result = registerName( std::move( name )
+				, type
+				, var::Flag::eUniform | var::Flag::eConstant );
 		}
 
 		return result;
 	}
 
-	var::VariablePtr Shader::registerInput( std::string const & name
+	var::VariablePtr Shader::registerInput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, type::TypePtr type )
@@ -323,13 +340,13 @@ namespace ast
 			flags = flags | var::Flag::eFlat;
 		}
 
-		auto result = registerName( name
+		auto result = registerName( std::move( name )
 			, type
 			, flags | var::Flag::eShaderInput );
 		return result;
 	}
 
-	var::VariablePtr Shader::registerOutput( std::string const & name
+	var::VariablePtr Shader::registerOutput( std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, type::TypePtr type )
@@ -362,13 +379,13 @@ namespace ast
 			flags = flags | var::Flag::eFlat;
 		}
 
-		auto result = registerName( name
+		auto result = registerName( std::move( name )
 			, type
 			, flags | var::Flag::eShaderOutput );
 		return result;
 	}
 
-	var::VariablePtr Shader::registerInOut( std::string const & name
+	var::VariablePtr Shader::registerInOut( std::string name
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
@@ -382,7 +399,7 @@ namespace ast
 			return getVar( name );
 		}
 
-		auto result = registerName( name
+		auto result = registerName( std::move( name )
 			, type
 			, attributes | var::Flag::eShaderOutput | var::Flag::eShaderInput );
 		return result;
@@ -400,61 +417,61 @@ namespace ast
 		return result;
 	}
 
-	var::VariablePtr Shader::registerBlockVariable( std::string const & name
+	var::VariablePtr Shader::registerBlockVariable( std::string name
 		, type::TypePtr type )
 	{
-		return registerLocale( name, type );
+		return registerLocale( std::move( name ), type );
 	}
 
-	var::VariablePtr Shader::registerLocale( std::string const & name
+	var::VariablePtr Shader::registerLocale( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, var::Flag::eLocale );
 	}
 
-	var::VariablePtr Shader::registerLoopVar( std::string const & name
+	var::VariablePtr Shader::registerLoopVar( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, var::Flag::eLocale | var::Flag::eLoopVar );
 	}
 
-	var::VariablePtr Shader::registerParam( std::string const & name
+	var::VariablePtr Shader::registerParam( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, var::Flag::eParam );
 	}
 
-	var::VariablePtr Shader::registerInParam( std::string const & name
+	var::VariablePtr Shader::registerInParam( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, var::Flag::eInputParam );
 	}
 
-	var::VariablePtr Shader::registerOutParam( std::string const & name
+	var::VariablePtr Shader::registerOutParam( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, var::Flag::eOutputParam );
 	}
 
-	var::VariablePtr Shader::registerInOutParam( std::string const & name
+	var::VariablePtr Shader::registerInOutParam( std::string name
 		, type::TypePtr type )
 	{
-		return registerName( name
+		return registerName( std::move( name )
 			, type
 			, uint64_t( var::Flag::eInputParam ) | uint64_t( var::Flag::eOutputParam ) );
 	}
 
-	bool Shader::hasVar( std::string const & name )const
+	bool Shader::hasVar( std::string_view name )const
 	{
 		auto & block = m_blocks.back();
 		auto it = findVariable( block.registered, name );
@@ -474,7 +491,7 @@ namespace ast
 		return false;
 	}
 
-	var::VariablePtr Shader::getVar( std::string const & name )const
+	var::VariablePtr Shader::getVar( std::string_view name )const
 	{
 		auto & block = m_blocks.back();
 		auto it = findVariable( block.registered, name );
@@ -486,7 +503,7 @@ namespace ast
 			if ( it == m_blocks.front().registered.end() )
 			{
 				std::string text;
-				text += "No registered variable with the name [" + name + "].";
+				text += "No registered variable with the name [" + std::string( name ) + "].";
 				throw std::runtime_error{ text };
 			}
 		}
@@ -495,7 +512,7 @@ namespace ast
 	}
 
 	var::VariablePtr Shader::getMemberVar( var::VariablePtr outer
-		, std::string const & name )const
+		, std::string_view name )const
 	{
 		auto & block = m_blocks.back();
 		auto it = findMbrVariable( block.registered, outer, name );
@@ -507,7 +524,7 @@ namespace ast
 			if ( it == m_blocks.front().registered.end() )
 			{
 				std::string text;
-				text += "No registered member variable with the name [" + name + "].";
+				text += "No registered member variable with the name [" + std::string( name ) + "].";
 				throw std::runtime_error{ text };
 			}
 		}
@@ -549,28 +566,28 @@ namespace ast
 		}
 	}
 
-	void Shader::registerSsbo( std::string const & name
+	void Shader::registerSsbo( std::string name
 		, SsboInfo const & info )
 	{
-		m_data.ssbos.emplace( name, info );
+		m_data.ssbos.emplace( std::move( name ), info );
 	}
 
-	void Shader::registerUbo( std::string const & name
+	void Shader::registerUbo( std::string name
 		, UboInfo const & info )
 	{
-		m_data.ubos.emplace( name, info );
+		m_data.ubos.emplace( std::move( name ), info );
 	}
 
-	void Shader::registerPcb( std::string const & name
+	void Shader::registerPcb( std::string name
 		, InterfaceBlock const & info )
 	{
-		m_data.pcbs.emplace( name, info );
+		m_data.pcbs.emplace( std::move( name ), info );
 	}
 
-	void Shader::registerShaderRecord( std::string const & name
+	void Shader::registerShaderRecord( std::string name
 		, ShaderRecordInfo const & info )
 	{
-		m_data.shaderRecords.emplace( name, info );
+		m_data.shaderRecords.emplace( std::move( name ), info );
 	}
 
 	expr::ExprPtr Shader::getDummyExpr( type::TypePtr type )const

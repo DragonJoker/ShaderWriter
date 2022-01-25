@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	ShaderStructBufferDecl::ShaderStructBufferDecl( std::string const & ssboName
+	ShaderStructBufferDecl::ShaderStructBufferDecl( std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint

@@ -15,39 +15,39 @@ namespace sdw
 	{
 	public:
 		SDW_API Ubo( ShaderWriter & writer
-			, std::string const & name
+			, std::string name
 			, uint32_t bind
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true );
 		SDW_API void end();
 
-		SDW_API StructInstance declStructMember( std::string const & name
+		SDW_API StructInstance declStructMember( std::string name
 			, Struct const & s
 			, bool enabled = true );
-		SDW_API Array< StructInstance > declStructMember( std::string const & name
+		SDW_API Array< StructInstance > declStructMember( std::string name
 			, Struct const & s
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline T declStructMember( std::string const & name
+		inline T declStructMember( std::string name
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStructMember( std::string const & name
+		inline Array< T > declStructMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline T declMember( std::string const & name
+		inline T declMember( std::string name
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declMember( std::string const & name
+		inline Array< T > declMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline T getMember( std::string const & name
+		inline T getMember( std::string_view name
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name
+		inline Array< T > getMemberArray( std::string_view name
 			, bool enabled = true );
 
 		bool isEnabled()const

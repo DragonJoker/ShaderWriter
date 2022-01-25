@@ -249,7 +249,7 @@ namespace test
 			return res;
 		}
 
-		bool isLayerSupported( std::string const & name
+		bool isLayerSupported( std::string_view name
 			, std::vector< LayerProperties > const & cont )
 		{
 			return ( cont.end() != std::find_if( cont.begin()
@@ -260,7 +260,7 @@ namespace test
 				} ) );
 		}
 
-		bool isExtensionSupported( std::string const & name
+		bool isExtensionSupported( std::string_view name
 			, std::vector< VkExtensionProperties > const & cont )
 		{
 			return ( cont.end() != std::find_if( cont.begin()

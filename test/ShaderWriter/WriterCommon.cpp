@@ -154,7 +154,7 @@ namespace test
 			compiler.set_hlsl_options( options );
 		}
 
-		std::string compileSpirV( std::string const & language
+		std::string compileSpirV( std::string_view language
 			, spirv_cross::Compiler & compiler
 			, test::TestCounts & testCounts )
 		{
@@ -211,7 +211,7 @@ namespace test
 			return stream.str();
 		}
 
-		void displayShader( std::string const & name
+		void displayShader( std::string_view name
 			, std::string const & shader
 			, test::TestCounts & testCounts
 			, bool force
@@ -851,8 +851,8 @@ namespace test
 
 	namespace sdw_test
 	{
-		TestSuite::TestSuite( std::string const & name )
-			: test::TestSuite{ name }
+		TestSuite::TestSuite( std::string name )
+			: test::TestSuite{ std::move( name ) }
 		{
 			initialiseGlslang();
 		}
@@ -942,10 +942,10 @@ namespace test
 			, compilers );
 	}
 
-	void expectError( std::string const & value
+	void expectError( std::string value
 		, sdw_test::TestCounts & testCounts )
 	{
-		testCounts.expectedError = value;
+		testCounts.expectedError = std::move( value );
 	}
 
 	void validateShaders( ast::ShaderArray const & shaders

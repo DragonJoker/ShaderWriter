@@ -59,7 +59,7 @@ namespace test
 		{
 			using TestCountsType = test::sdw_test::TestCounts;
 
-			TestSuite( std::string const & name );
+			TestSuite( std::string name );
 			~TestSuite();
 		};
 	}
@@ -443,7 +443,7 @@ namespace test
 	void validateShader( ast::Shader const & writer
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
-	void expectError( std::string const & value
+	void expectError( std::string value
 		, sdw_test::TestCounts & testCounts );
 }
 
