@@ -148,6 +148,44 @@ namespace ast::type
 			{
 				return std::hash< TypePtr >{}( type );
 			} }
+		, m_meshVertexOutput{ []( TypePtr type
+			, uint32_t maxVertices )
+			{
+				return std::make_shared< MeshVertexOutput >( type, maxVertices );
+			}
+			, []( TypePtr type
+				, uint32_t maxVertices )noexcept
+			{
+				return getHash( type, maxVertices );
+			} }
+		, m_meshPrimitiveOutput{ []( TypePtr type
+			, OutputTopology topology
+			, uint32_t maxPrimitives )
+			{
+				return std::make_shared< MeshPrimitiveOutput >( type, topology, maxPrimitives );
+			}
+			, []( TypePtr type
+				, OutputTopology topology
+				, uint32_t maxPrimitives )noexcept
+			{
+				return getHash( type, topology, maxPrimitives );
+			} }
+		, m_taskPayload{ []( TypePtr type )
+			{
+				return std::make_shared< TaskPayload >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} }
+		, m_taskPayloadIn{ []( TypePtr type )
+			{
+				return std::make_shared< TaskPayloadIn >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} }
 	{
 		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
 		{
@@ -617,6 +655,29 @@ namespace ast::type
 		return m_rayDesc;
 	}
 
+	MeshVertexOutputPtr TypesCache::getMeshVertexOutput( TypePtr type
+		, uint32_t maxVertices )
+	{
+		return m_meshVertexOutput.getType( type, maxVertices );
+	}
+
+	MeshPrimitiveOutputPtr TypesCache::getMeshPrimitiveOutput( TypePtr type
+		, OutputTopology topology
+		, uint32_t maxPrimitives )
+	{
+		return m_meshPrimitiveOutput.getType( type, topology, maxPrimitives );
+	}
+
+	TaskPayloadPtr TypesCache::getTaskPayload( TypePtr type )
+	{
+		return m_taskPayload.getType( type );
+	}
+
+	TaskPayloadInPtr TypesCache::getTaskPayloadIn( TypePtr type )
+	{
+		return m_taskPayloadIn.getType( type );
+	}
+
 	ImagePtr TypesCache::getImage( ImageConfiguration const & config )
 	{
 		return m_image.getType( config );
@@ -769,15 +830,16 @@ namespace ast::type
 		, std::string const & name
 		, var::Flag flag )
 	{
-		if ( flag != var::Flag::eShaderInput
-			&& flag != var::Flag::eShaderOutput
-			&& flag != var::Flag::ePatchOutput
-			&& flag != var::Flag::ePatchInput )
+		if ( !hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
+			&& !hasFlag( uint64_t( flag ), var::Flag::eShaderOutput )
+			&& !hasFlag( uint64_t( flag ), var::Flag::ePatchOutput )
+			&& !hasFlag( uint64_t( flag ), var::Flag::ePatchInput )
+			&& !hasFlag( uint64_t( flag ), var::Flag::ePerTask ) )
 		{
 			throw std::runtime_error{ "Non I/O structure." };
 		}
 
-		return ( flag == var::Flag::eShaderInput
+		return ( hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
 			? m_inputStruct.getType( layout, name, flag )
 			: m_outputStruct.getType( layout, name, flag ) );
 	}

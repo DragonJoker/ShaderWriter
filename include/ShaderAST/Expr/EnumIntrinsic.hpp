@@ -713,6 +713,7 @@ namespace ast::expr
 
 	//Mesh Shader Functions
 		eSetMeshOutputCounts,
+		eDispatchMesh,
 
 	// Boundaries,
 		eCount,

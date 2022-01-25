@@ -6,6 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 #include "ShaderWriter/CompositeTypes/BufferReference.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
@@ -392,10 +393,36 @@ namespace sdw
 			, std::vector< T > const & defaultValue );
 		/**@}*/
 #pragma endregion
+#pragma region Shared variables declaration
+		/**
+		*name
+		*	Shared variables declaration.
+		*/
+		/**@{*/
+		template< typename T >
+		T declSharedVariable( std::string name
+			, bool enabled = true );
+		template< typename T >
+		Array< T > declSharedVariable( std::string name
+			, uint32_t dimension
+			, bool enabled = true );
+		/**@}*/
+#pragma endregion
+#pragma region Mesh and task variables declaration
+		/**
+		*name
+		*	Mesh and task variables declaration.
+		*/
+		/**@{*/
+		template< template< ast::var::Flag FlagT > typename DataT >
+		TaskPayloadOutT< DataT > declTaskPayload( std::string name
+			, bool enabled = true );
+		/**@}*/
+#pragma endregion
 #pragma region Ray tracing variables declaration
 		/**
 		*name
-		*	Ray payload declaration.
+		*	Ray tracing variables declaration.
 		*/
 		/**@{*/
 		template< typename T >

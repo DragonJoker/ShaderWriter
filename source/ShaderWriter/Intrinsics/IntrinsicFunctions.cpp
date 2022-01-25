@@ -6575,4 +6575,21 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region dispatchMesh
+	/**
+	*name
+	*	dispatchMesh
+	*/
+	/**@{*/
+	Void dispatchMesh( TaskPayload const & payload
+		, UInt const & numTasks )
+	{
+		return Void{ *findWriter( payload, numTasks )
+			, expr::makeDispatchMesh( findTypesCache( payload, numTasks )
+					, makeExpr( payload )
+				, makeExpr( numTasks ) )
+			, areOptionalEnabled( payload, numTasks ) };
+	}
+	/**@}*/
+#pragma endregion
 }

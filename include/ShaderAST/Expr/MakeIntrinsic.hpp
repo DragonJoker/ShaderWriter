@@ -11616,6 +11616,25 @@ namespace ast::expr
 			, std::move( numVertices )
 			, std::move( numPrimitives ) );
 	}
+	/**
+	*@return
+	*	void
+	*@param[in] payload
+	*	taskpayload
+	*@param[in] numTasks
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeDispatchMesh( type::TypesCache & cache
+		, ExprPtr payload
+		, ExprPtr numTasks )
+	{
+		assert( payload->getType()->getRawKind() == type::Kind::eTaskPayload );
+		assert( numTasks->getType()->getRawKind() == type::Kind::eUInt );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eDispatchMesh
+			, std::move( payload )
+			, std::move( numTasks ) );
+	}
 }
 
 #endif

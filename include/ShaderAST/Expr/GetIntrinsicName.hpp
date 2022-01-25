@@ -2739,6 +2739,10 @@ namespace ast::expr
 			result = "SETMESHOUTPUTCOUNTS";
 			break;
 
+		case Intrinsic::eDispatchMesh:
+			result = "DISPATCHMESH";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

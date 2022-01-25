@@ -84,6 +84,8 @@ namespace ast::type
 		eComputeInput,
 		eMeshVertexOutput,
 		eMeshPrimitiveOutput,
+		eTaskPayload,
+		eTaskPayloadIn,
 		eCount,
 		eMin = eUndefined,
 		eMax = eArray,

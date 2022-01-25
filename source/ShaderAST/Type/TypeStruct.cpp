@@ -589,6 +589,8 @@ namespace ast::type
 	{
 		uint32_t offset = 0u;
 		auto minAlign = 1u;
+		auto prvAlignment = 1u;
+		bool prvIsStruct = false;
 
 		if ( m_layout == MemoryLayout::eScalar )
 		{
@@ -597,13 +599,18 @@ namespace ast::type
 
 		for ( auto & member : m_members )
 		{
-			uint32_t alignment = m_layout == MemoryLayout::eScalar
+			uint32_t alignment = ( m_layout == MemoryLayout::eScalar
 				? minAlign
-				: getAlignment( *member.type, m_layout );
+				: ( prvIsStruct
+					? prvAlignment
+					: getAlignment( *member.type, m_layout ) ) );
 			member.offset = getAligned( offset, alignment );
-			offset = member.offset + getAligned( member.size, alignment );
+			offset = member.offset + member.size;
+			prvAlignment = alignment;
+			prvIsStruct = isStructType( member.type );
 		}
 	}
+
 	void Struct::doCopyMembers( Struct const & rhs )
 	{
 		for ( auto & member : rhs )
@@ -1191,6 +1198,14 @@ namespace ast::type
 			{
 				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayload )
+			{
+				type = static_cast< type::TaskPayload const & >( *type ).getType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
+			{
+				type = static_cast< type::TaskPayloadIn const & >( *type ).getType().get();
+			}
 			else
 			{
 				break;
@@ -1290,6 +1305,14 @@ namespace ast::type
 			{
 				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayload )
+			{
+				type = static_cast< type::TaskPayload const & >( *type ).getType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
+			{
+				type = static_cast< type::TaskPayloadIn const & >( *type ).getType().get();
+			}
 			else
 			{
 				break;
@@ -1379,6 +1402,14 @@ namespace ast::type
 			else if ( type->getRawKind() == type::Kind::eMeshPrimitiveOutput )
 			{
 				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayload )
+			{
+				type = static_cast< type::TaskPayload const & >( *type ).getType();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
+			{
+				type = static_cast< type::TaskPayloadIn const & >( *type ).getType();
 			}
 			else
 			{

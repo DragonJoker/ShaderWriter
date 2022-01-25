@@ -773,25 +773,20 @@ namespace test
 			{
 			case ast::ShaderStage::eVertex:
 				return GL_VERTEX_SHADER;
-				break;
 			case ast::ShaderStage::eTessellationControl:
 				return GL_TESS_CONTROL_SHADER;
-				break;
 			case ast::ShaderStage::eTessellationEvaluation:
 				return GL_TESS_EVALUATION_SHADER;
-				break;
 			case ast::ShaderStage::eGeometry:
 				return GL_GEOMETRY_SHADER;
-				break;
 			case ast::ShaderStage::eFragment:
 				return GL_FRAGMENT_SHADER;
-				break;
+			case ast::ShaderStage::eTask:
+				return GL_TASK_SHADER;
 			case ast::ShaderStage::eMesh:
 				return GL_MESH_SHADER;
-				break;
 			case ast::ShaderStage::eCompute:
 				return GL_COMPUTE_SHADER;
-				break;
 			default:
 				AST_Failure( "Unsupported ShaderType." );
 				return GL_VERTEX_SHADER;

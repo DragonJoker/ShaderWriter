@@ -9,6 +9,27 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
+	class TaskPayloadIn
+		: public Type
+	{
+	public:
+		SDAST_API TaskPayloadIn( TypePtr type );
+
+		type::TypePtr getType()const
+		{
+			return m_type;
+		}
+
+	private:
+		TypePtr m_type;
+	};
+	using TaskPayloadInPtr = std::shared_ptr< TaskPayloadIn >;
+
+	inline TaskPayloadInPtr makeTaskPayloadInType( TypePtr type )
+	{
+		return std::make_shared< TaskPayloadIn >( type );
+	}
+
 	class MeshVertexOutput
 		: public Type
 	{
@@ -68,6 +89,10 @@ namespace ast::type
 		uint32_t m_maxPrimitives;
 	};
 	using MeshPrimitiveOutputPtr = std::shared_ptr< MeshPrimitiveOutput >;
+
+	SDAST_API size_t getHash( TypePtr type
+		, OutputTopology topology
+		, uint32_t maxPrimitives );
 
 	inline MeshPrimitiveOutputPtr makeMeshPrimitiveOutputType( TypePtr type
 		, OutputTopology topology

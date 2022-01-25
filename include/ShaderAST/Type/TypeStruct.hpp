@@ -170,22 +170,27 @@ namespace ast::type
 
 		bool isShaderInput()const
 		{
-			return m_flag == var::Flag::eShaderInput;
+			return hasFlag( getFlag(), var::Flag::eShaderInput );
 		}
 
 		bool isShaderOutput()const
 		{
-			return m_flag == var::Flag::eShaderOutput;
+			return hasFlag( getFlag(), var::Flag::eShaderOutput );
 		}
 
 		bool isPatchInput()const
 		{
-			return m_flag == var::Flag::ePatchInput;
+			return hasFlag( getFlag(), var::Flag::ePatchInput );
 		}
 
 		bool isPatchOutput()const
 		{
-			return m_flag == var::Flag::ePatchOutput;
+			return hasFlag( getFlag(), var::Flag::ePatchOutput );
+		}
+
+		bool isPerTask()const
+		{
+			return hasFlag( getFlag(), var::Flag::ePerTask );
 		}
 
 	protected:
