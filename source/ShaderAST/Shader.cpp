@@ -316,8 +316,9 @@ namespace ast
 		auto flags = attributes;
 
 		if ( ( m_type != ast::ShaderStage::eVertex && m_type != ast::ShaderStage::eCompute )
-			&& ( isSignedIntType( kind )
-				|| isUnsignedIntType( kind ) ) )
+			&& !isMeshStage( m_type )
+			&& !isRayTraceStage( m_type )
+			&& ( isSignedIntType( kind ) || isUnsignedIntType( kind ) ) )
 		{
 			flags = flags | var::Flag::eFlat;
 		}
@@ -354,8 +355,9 @@ namespace ast
 		auto flags = attributes;
 
 		if ( ( m_type != ast::ShaderStage::eFragment && m_type != ast::ShaderStage::eCompute )
-			&& ( isSignedIntType( kind )
-				|| isUnsignedIntType( kind ) ) )
+			&& !isMeshStage( m_type )
+			&& !isRayTraceStage( m_type )
+			&& ( isSignedIntType( kind ) || isUnsignedIntType( kind ) ) )
 		{
 			flags = flags | var::Flag::eFlat;
 		}

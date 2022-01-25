@@ -702,4 +702,5 @@ ASTIntrDecl( Intrinsic )
 
 	//Mesh Shader Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( setMeshOutputCounts, SetMeshOutputCounts ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, numVertices ), ASTIntrParam( type::Kind::eUInt, numPrimitives ) ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( dispatchMesh, DispatchMesh ), ASTIntrParams( ASTIntrParam( type::Kind::eTaskPayload, payload ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, numTasks ) ) )
 ASTIntrEnd

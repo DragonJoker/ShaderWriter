@@ -214,6 +214,45 @@ namespace
 		sdw::UInt meshletIndex;
 	};
 
+	namespace payload
+	{
+		template< sdw::var::Flag FlagT >
+		struct PayloadT
+			: public sdw::StructInstance
+		{
+			PayloadT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, meshletIndices{ getMemberArray< sdw::UInt >( "meshletIndices" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , PayloadT );
+
+			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+					, ( FlagT == sdw::var::Flag::eShaderOutput
+						? std::string{ "Output" }
+						: std::string{ "Input" } ) + "Payload"
+					, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
+
+				if ( result->empty() )
+				{
+					result->declMember( "meshletIndices"
+						, sdw::type::Kind::eUInt
+						, 32u
+						, ast::type::Struct::InvalidLocation );
+				}
+
+				return result;
+			}
+
+			sdw::Array< sdw::UInt > meshletIndices;
+		};
+	}
+
 	namespace render
 	{
 		struct Constants
@@ -456,6 +495,246 @@ namespace
 		};
 	}
 
+	namespace cull
+	{
+		static uint32_t const ThreadsPerWave = 32u;
+
+		struct Constants
+			: public sdw::StructInstance
+		{
+			Constants( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, view{ getMember< sdw::Mat4 >( "view" ) }
+				, viewProj{ getMember< sdw::Mat4 >( "viewProj" ) }
+				, planes{ getMemberArray< sdw::Vec4 >( "planes" ) }
+				, viewPosition{ getMember< sdw::Vec3 >( "viewPosition" ) }
+				, highlightedIndex{ getMember< sdw::UInt >( "highlightedIndex" ) }
+				, cullViewPosition{ getMember< sdw::Vec3 >( "cullViewPosition" ) }
+				, selectedIndex{ getMember< sdw::UInt >( "selectedIndex" ) }
+				, drawMeshlets{ getMember< sdw::UInt >( "drawMeshlets" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , Constants );
+
+			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd140
+					, "Constants" );
+
+				if ( result->empty() )
+				{
+					result->declMember( "view"
+						, sdw::type::Kind::eMat4x4F
+						, sdw::type::NotArray );
+					result->declMember( "viewProj"
+						, sdw::type::Kind::eMat4x4F
+						, sdw::type::NotArray );
+					result->declMember( "planes"
+						, sdw::type::Kind::eVec4F
+						, 6u );
+					result->declMember( "viewPosition"
+						, sdw::type::Kind::eVec3F
+						, sdw::type::NotArray );
+					result->declMember( "highlightedIndex"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+					result->declMember( "cullViewPosition"
+						, sdw::type::Kind::eVec3F
+						, sdw::type::NotArray );
+					result->declMember( "selectedIndex"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+					result->declMember( "drawMeshlets"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+				}
+
+				return result;
+			}
+
+			sdw::Mat4 view;
+			sdw::Mat4 viewProj;
+			sdw::Array< sdw::Vec4 > planes;
+			sdw::Vec3 viewPosition;
+			sdw::UInt highlightedIndex;
+			sdw::Vec3 cullViewPosition;
+			sdw::UInt selectedIndex;
+			sdw::UInt drawMeshlets;
+		};
+
+		struct Instance
+			: public sdw::StructInstance
+		{
+			Instance( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, world{ getMember< sdw::Mat4 >( "world" ) }
+				, worldInvTranspose{ getMember< sdw::Mat4 >( "worldInvTranspose" ) }
+				, scale{ getMember< sdw::Float >( "scale" ) }
+				, flags{ getMember< sdw::UInt >( "flags" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , Instance );
+
+			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd140
+					, "Instance" );
+
+				if ( result->empty() )
+				{
+					result->declMember( "world"
+						, sdw::type::Kind::eMat4x4F
+						, sdw::type::NotArray );
+					result->declMember( "worldInvTranspose"
+						, sdw::type::Kind::eMat4x4F
+						, sdw::type::NotArray );
+					result->declMember( "scale"
+						, sdw::type::Kind::eFloat
+						, sdw::type::NotArray );
+					result->declMember( "flags"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+				}
+
+				return result;
+			}
+
+			sdw::Mat4 world;
+			sdw::Mat4 worldInvTranspose;
+			sdw::Float scale;
+			sdw::UInt flags;
+		};
+
+		struct CullData
+			: public sdw::StructInstance
+		{
+			CullData( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, boundingSphere{ getMember< sdw::Vec4 >( "boundingSphere" ) }
+				, normalCone{ getMember< sdw::UInt >( "normalCone" ) }
+				, apexOffset{ getMember< sdw::Float >( "apexOffset" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , CullData );
+
+			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+					, "CullData" );
+
+				if ( result->empty() )
+				{
+					result->declMember( "boundingSphere"
+						, sdw::type::Kind::eVec4F
+						, sdw::type::NotArray );
+					result->declMember( "normalCone"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+					result->declMember( "apexOffset"
+						, sdw::type::Kind::eFloat
+						, sdw::type::NotArray );
+				}
+
+				return result;
+			}
+
+			sdw::Vec4 boundingSphere;
+			sdw::UInt normalCone;
+			sdw::Float apexOffset;
+		};
+
+		struct MeshInfo
+			: public sdw::StructInstance
+		{
+			MeshInfo( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, indexSize{ getMember< sdw::UInt >( "indexSize" ) }
+				, meshletCount{ getMember< sdw::UInt >( "meshletCount" ) }
+				, lastMeshletVertCount{ getMember< sdw::UInt >( "lastMeshletVertCount" ) }
+				, lastMeshletPrimCount{ getMember< sdw::UInt >( "lastMeshletPrimCount" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , MeshInfo );
+
+			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd140
+					, "MeshInfo" );
+
+				if ( result->empty() )
+				{
+					result->declMember( "indexSize"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+					result->declMember( "meshletCount"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+					result->declMember( "lastMeshletVertCount"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+					result->declMember( "lastMeshletPrimCount"
+						, sdw::type::Kind::eUInt
+						, sdw::type::NotArray );
+				}
+
+				return result;
+			}
+
+			sdw::UInt indexSize;
+			sdw::UInt meshletCount;
+			sdw::UInt lastMeshletVertCount;
+			sdw::UInt lastMeshletPrimCount;
+		};
+
+		template< sdw::var::Flag FlagT >
+		struct PayloadT
+			: public sdw::StructInstance
+		{
+			PayloadT( sdw::ShaderWriter & writer
+				, sdw::expr::ExprPtr expr
+				, bool enabled = true )
+				: sdw::StructInstance{ writer, std::move( expr ), enabled }
+				, meshletIndices{ getMemberArray< sdw::UInt >( "meshletIndices" ) }
+			{
+			}
+
+			SDW_DeclStructInstance( , PayloadT );
+
+			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+					, ( FlagT == sdw::var::Flag::eShaderOutput
+						? std::string{ "Output" }
+						: std::string{ "Input" } ) + "Payload"
+					, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
+
+				if ( result->empty() )
+				{
+					result->declMember( "meshletIndices"
+						, sdw::type::Kind::eUInt
+						, ThreadsPerWave
+						, ast::type::Struct::InvalidLocation );
+				}
+
+				return result;
+			}
+
+			sdw::Array< sdw::UInt > meshletIndices;
+		};
+	}
+
 	template< sdw::var::Flag FlagT >
 	struct PerVertexColourT
 		: public sdw::StructInstance
@@ -499,55 +778,13 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
 				, 64u
 				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, PointsMeshPrimitiveListOutT< VoidT > primOut )
-				{} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void pointXY( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "pointXY" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
-				, 2u
-				, 64u
-				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, PointsMeshPrimitiveListOutT< VoidT > primOut )
-				{} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void pointXYZ( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "pointXYZ" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
-				, 2u
-				, 2u
-				, 64u
-				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, PointsMeshPrimitiveListOutT< VoidT > primOut )
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, PointsMeshPrimitiveListOut primOut )
 				{} );
 			test::writeShader( writer
 				, testCounts
@@ -562,12 +799,14 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( MeshInT < VoidT >{ writer, 8u, 1u, 1u }
-				, MeshVertexListOutT< VoidT >{ writer, 64u }
-				, PointsMeshPrimitiveListOutT< VoidT >{ writer, 126u }
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, PointsMeshPrimitiveListOutT< VoidT > primOut )
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, PointsMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, PointsMeshPrimitiveListOut primOut )
 				{} );
 			test::writeShader( writer
 				, testCounts
@@ -582,55 +821,13 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
 				, 64u
 				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, LinesMeshPrimitiveListOutT< VoidT > primOut )
-				{} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void lineXY( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "lineXY" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
-				, 2u
-				, 64u
-				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, LinesMeshPrimitiveListOutT< VoidT > primOut )
-				{} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void lineXYZ( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "lineXYZ" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
-				, 2u
-				, 2u
-				, 64u
-				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, LinesMeshPrimitiveListOutT< VoidT > primOut )
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, LinesMeshPrimitiveListOut primOut )
 				{} );
 			test::writeShader( writer
 				, testCounts
@@ -645,12 +842,14 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( MeshInT < VoidT >{ writer, 8u, 1u, 1u }
-				, MeshVertexListOutT< VoidT >{ writer, 64u }
-				, LinesMeshPrimitiveListOutT< VoidT >{ writer, 126u }
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, LinesMeshPrimitiveListOutT< VoidT > primOut )
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, LinesMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, LinesMeshPrimitiveListOut primOut )
 				{} );
 			test::writeShader( writer
 				, testCounts
@@ -665,57 +864,15 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
 				, 64u
 				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
 				{
 				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void triangleXY( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "triangleXY" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
-				, 2u
-				, 64u
-				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
-				{} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void triangleXYZ( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "triangleXYZ" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 8u
-				, 2u
-				, 2u
-				, 64u
-				, 126u
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
-				{} );
 			test::writeShader( writer
 				, testCounts
 				, CurrentCompilers );
@@ -729,12 +886,14 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( MeshInT < VoidT >{ writer, 8u, 1u, 1u }
-				, MeshVertexListOutT< VoidT >{ writer, 64u }
-				, TrianglesMeshPrimitiveListOutT< VoidT >{ writer, 126u }
-				, [&]( MeshInT< VoidT > in
-					, MeshVertexListOutT< VoidT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, TrianglesMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
 				{} );
 			test::writeShader( writer
 				, testCounts
@@ -753,12 +912,14 @@ namespace
 				, std::vector< Vec3 >{ vec3( -1.0_f, -1.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 1.0_f, -1.0_f, 0.0_f ) } );
 			const auto colors = writer.declConstantArray< Vec3 >( "colors"
 				, std::vector< Vec3 >{ vec3( 1.0_f, 0.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 0.0_f, 0.0_f, 1.0_f ) } );
-			writer.implementMainT< VoidT, PerVertexColourT, VoidT >( MeshInT < VoidT >{ writer, 1u, 1u, 1u }
+			writer.implementMainT< VoidT, PerVertexColourT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
 				, MeshVertexListOutT< PerVertexColourT >{ writer, 3u }
-				, TrianglesMeshPrimitiveListOutT< VoidT >{ writer, 1u }
-				, [&]( MeshInT< VoidT > in
+				, TrianglesMeshPrimitiveListOut{ writer, 1u }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
 					, MeshVertexListOutT< PerVertexColourT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+					, TrianglesMeshPrimitiveListOut primOut )
 				{
 					primOut.setMeshOutputCounts( 3_u, 1_u );
 
@@ -773,6 +934,31 @@ namespace
 
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void taskPayload( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "taskPayload" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< payload::PayloadT, VoidT, VoidT >( 32u
+				, TaskPayloadInT< payload::PayloadT >{ writer }
+				, MeshVertexListOut{ writer, 3u }
+				, TrianglesMeshPrimitiveListOut{ writer, 1u }
+				, [&]( MeshIn in
+					, TaskPayloadInT< payload::PayloadT > payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
+			{
+				primOut.setMeshOutputCounts( 3_u, payload.meshletIndices[0u] );
+				primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
+			} );
 			test::writeShader( writer
 				, testCounts
 				, CurrentCompilers );
@@ -864,15 +1050,17 @@ namespace
 				, InUInt{ writer, "meshletIndex" }
 				, InUInt{ writer, "vertexIndex" } );
 
-			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( MeshInT < VoidT >{ writer, 32u, 1u, 1u }
+			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, 252u }
-				, TrianglesMeshPrimitiveListOutT< VoidT >{ writer, 84u }
-				, [&]( MeshInT< VoidT > in
+				, TrianglesMeshPrimitiveListOut{ writer, 84u }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+					, TrianglesMeshPrimitiveListOut primOut )
 				{
-					auto gid = in.workGroupID.x();
-					auto gtid = in.localInvocationID.x();
+					auto gid = in.workGroupID;
+					auto gtid = in.localInvocationID;
 					auto m = writer.declLocale( "m", meshlets[meshInfo.meshletOffset + gid] );
 
 					primOut.setMeshOutputCounts( m.vertCount, m.primCount );
@@ -998,14 +1186,16 @@ namespace
 			static uint32_t constexpr MaxVerts = 252u;
 			static uint32_t constexpr MaxPrims = 84u;
 
-			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( MeshInT < VoidT >{ writer, 32u, 1u, 1u }
+			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
-				, TrianglesMeshPrimitiveListOutT< VoidT >{ writer, MaxPrims }
-				, [&]( MeshInT< VoidT > in
+				, TrianglesMeshPrimitiveListOut{ writer, MaxPrims }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+					, TrianglesMeshPrimitiveListOut primOut )
 				{
-					auto gid = in.workGroupID.x();
+					auto gid = in.workGroupID;
 					auto gtid = in.localInvocationIndex;
 					auto meshletIndex = writer.declLocale( "meshletIndex", gid /drawParams.instanceCount );
 					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
@@ -1066,6 +1256,184 @@ namespace
 		}
 		testEnd();
 	}
+
+	void checkConstantsLayout( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "checkConstantsLayout" );
+		using namespace sdw;
+		using namespace cull;
+		{
+			MeshWriter writer;
+
+			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
+			auto constants = Globals.declStructMember< Constants >( "constants" );
+			Globals.end();
+
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, TrianglesMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
+				{
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void cullMeshlet( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "cullMeshlet" );
+		using namespace sdw;
+		using namespace cull;
+		{
+			MeshWriter writer;
+
+			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
+			auto constants = Globals.declStructMember< Constants >( "constants" );
+			Globals.end();
+
+			auto MeshInfos = writer.declUniformBuffer( "bufferMeshInfos", 1u, 0u );
+			auto meshInfos = MeshInfos.declStructMember< MeshInfo >( "meshInfos" );
+			MeshInfos.end();
+
+			auto Instances = writer.declUniformBuffer( "bufferInstance", 2u, 0u );
+			auto instance = Instances.declStructMember< Instance >( "instance" );
+			Instances.end();
+
+			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
+			auto meshlets = writer.declArrayShaderStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+			auto uniqueVertexIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto meshletCullData = writer.declArrayShaderStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
+
+			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
+				, [&]( UInt primitive )
+				{
+					// Unpacks a 10 bits per index triangle from a 32-bit uint.
+					writer.returnStmt( uvec3( primitive & 0x3FF
+						, ( primitive >> 10 ) & 0x3FF
+						, ( primitive >> 20 ) & 0x3FF ) );
+				}
+				, InUInt{ writer, "primitive" } );
+
+			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
+				, [&]( Meshlet m
+					, UInt index )
+				{
+					writer.returnStmt( unpackPrimitive( primitiveIndices[m.primOffset + index].index ) );
+				}
+				, InParam< Meshlet >{ writer, "m" }
+				, InUInt{ writer, "index" } );
+
+			auto getVertexIndex = writer.implementFunction< UInt >( "getVertexIndex"
+				, [&]( Meshlet m
+					, UInt localIndex )
+				{
+					localIndex = m.vertOffset + localIndex;
+
+					IF( writer, meshInfos.indexSize == 4 ) // 32-bit Vertex Indices
+					{
+						writer.returnStmt( uniqueVertexIndices[localIndex].index );
+					}
+					ELSE // 16-bit Vertex Indices
+					{
+						// Byte address must be 4-byte aligned.
+						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1 ) );
+						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2 ) );
+
+						// Grab the pair of 16-bit indices, shift & mask off proper 16-bits.
+						auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index );
+						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16 ) ) & 0xffff );
+
+						writer.returnStmt( index );
+					}
+					FI;
+				}
+				, InParam< Meshlet >{ writer, "m" }
+				, InUInt{ writer, "localIndex" } );
+
+			auto getVertexAttributes = writer.implementFunction< MyVertexOut >( "getVertexAttributes"
+				, [&]( UInt meshletIndex
+					, UInt vertexIndex )
+				{
+					auto v = writer.declLocale( "v", vertices[vertexIndex] );
+
+					auto positionWS = writer.declLocale( "positionWS", instance.world * vec4( v.position, 1.0_f ) );
+
+					auto vout = writer.declLocale< MyVertexOut >( "vout" );
+					vout.positionVS = ( positionWS * constants.view ).xyz();
+					vout.positionHS = positionWS * constants.viewProj;
+					vout.normal = ( vec4( v.normal, 0.0f ) * instance.worldInvTranspose ).xyz();
+					vout.meshletIndex = meshletIndex;
+
+					writer.returnStmt( vout );
+				}
+				, InUInt{ writer, "meshletIndex" }
+				, InUInt{ writer, "vertexIndex" } );
+
+			static uint32_t constexpr MaxVerts = 252u;
+			static uint32_t constexpr MaxPrims = 84u;
+
+			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u
+				, TaskPayloadInT< PayloadT >{ writer }
+				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
+				, TrianglesMeshPrimitiveListOut{ writer, MaxPrims }
+				, [&]( MeshIn in
+					, TaskPayloadInT< PayloadT > payload
+					, MeshVertexListOutT< MyVertexOutT > vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
+				{
+					auto dtid = in.globalInvocationID;
+					auto gid = in.workGroupID;
+					auto gtid = in.localInvocationID;
+					// Load the meshlet from the AS payload data
+					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
+
+					// Catch any out-of-range indices (in case too many MS threadgroups were dispatched from AS)
+					IF( writer, meshletIndex >= meshInfos.meshletCount )
+					{
+						writer.returnStmt();
+					}
+					FI;
+
+					// Load the meshlet
+					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
+
+					// Our vertex and primitive counts come directly from the meshlet
+					primOut.setMeshOutputCounts( m.vertCount, m.primCount );
+
+					//--------------------------------------------------------------------
+					// Export Primitive & Vertex Data
+
+					IF( writer, gtid < m.vertCount )
+					{
+						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
+						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex ) );
+						vtxOut[gtid].position = vertex.positionHS;
+						vtxOut[gtid].positionVS = vertex.positionVS;
+						vtxOut[gtid].normal = vertex.normal;
+						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
+					}
+					FI;
+
+					IF( writer, gtid < m.primCount )
+					{
+						primOut[gtid].primitiveIndex = getPrimitive( m, gtid );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterMeshShader )
@@ -1073,20 +1441,17 @@ sdwTestSuiteMain( TestWriterMeshShader )
 	sdwTestSuiteBegin();
 
 	pointX( testCounts );
-	pointXY( testCounts );
-	pointXYZ( testCounts );
 	point( testCounts );
 	lineX( testCounts );
-	lineXY( testCounts );
-	lineXYZ( testCounts );
 	line( testCounts );
 	triangleX( testCounts );
-	triangleXY( testCounts );
-	triangleXYZ( testCounts );
 	triangle( testCounts );
 	oneTriangle( testCounts );
+	taskPayload( testCounts );
 	renderMeshlet( testCounts );
 	meshletInstancing( testCounts );
+	checkConstantsLayout( testCounts );
+	cullMeshlet( testCounts );
 
 	sdwTestSuiteEnd();
 }

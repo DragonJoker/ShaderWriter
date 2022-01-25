@@ -169,9 +169,14 @@ namespace ast::debug
 			case ast::stmt::Kind::eTerminateRay:
 				result = "STTERMRAY";
 				break;
-			default:
-				AST_Failure( "Unknown statement kind ?" );
+			case ast::stmt::Kind::eOutputMeshLayout:
+				result = "STOUTMESHLAYOUT";
 				break;
+			}
+
+			if ( result.empty() )
+			{
+				AST_Failure( "Unknown statement kind ?" );
 			}
 
 			return result;

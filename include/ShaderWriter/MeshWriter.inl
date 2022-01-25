@@ -10,78 +10,6 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	MeshInT< DataT >::MeshInT( ShaderWriter & writer
-		, ast::expr::ExprPtr expr
-		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, workGroupSize{ getUVec3Member( *this, ast::Builtin::eWorkGroupSize ) }
-		, workGroupID{ getUVec3Member( *this, ast::Builtin::eWorkGroupID ) }
-		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ) }
-		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ) }
-		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
-		, meshViewCount{ getUIntMember( *this, ast::Builtin::eMeshViewCountNV ) }
-		, meshViewIndices{ getUIntMemberArray( *this, ast::Builtin::eMeshViewIndicesNV ) }
-	{
-	}
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	template< typename ... ParamsT >
-	MeshInT< DataT >::MeshInT( ShaderWriter & writer
-		, uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, ParamsT ... params )
-		: MeshInT{ writer
-			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "meshIn"
-					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
-						, localSizeX
-						, localSizeY
-						, localSizeZ )
-					, FlagT ) )
-			, true }
-	{
-	}
-
-	template< template< ast::var::Flag FlagT > typename DataT >
-	template< typename ... ParamsT >
-	ast::type::StructPtr MeshInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
-	{
-		auto result = InputT< DataT >::makeType( cache
-			, std::forward< ParamsT >( params )... );
-
-		if ( !result->hasMember( ast::Builtin::eWorkGroupID ) )
-		{
-			result->declMember( ast::Builtin::eWorkGroupSize
-				, type::Kind::eVec3U
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eWorkGroupID
-				, type::Kind::eVec3U
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eLocalInvocationID
-				, type::Kind::eVec3U
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eGlobalInvocationID
-				, type::Kind::eVec3U
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eLocalInvocationIndex
-				, type::Kind::eUInt
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eMeshViewCountNV
-				, type::Kind::eUInt
-				, ast::type::NotArray );
-			result->declMember( ast::Builtin::eMeshViewIndicesNV
-				, type::Kind::eUInt
-				, ast::type::UnknownArraySize );
-		}
-
-		return result;
-	}
-
-	//*************************************************************************
-
-	template< template< ast::var::Flag FlagT > typename DataT >
 	MeshVertexOutT< DataT >::MeshVertexOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
@@ -292,63 +220,35 @@ namespace sdw
 	*	Points
 	*/
 	/**@{*/
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
+		, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, 1u, 1u }
+		this->implementMainT( localSizeX
+			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives
-		, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
-	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, localSizeY, 1u }
-			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
-			, function );
-	}
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename VertexT
-		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives
-		, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
-	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, localSizeY, localSizeZ }
-			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
-			, function );
-	}
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename VertexT
-		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( MeshInT< InT > meshIn
+		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
+		, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( std::move( meshIn ) )
+			, makeInParam( MeshIn{ *this, localSizeX } )
+			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
 	}
@@ -357,63 +257,35 @@ namespace sdw
 	*	Lines
 	*/
 	/**@{*/
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
+		, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, 1u, 1u }
+		this->implementMainT( localSizeX
+			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives
-		, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
-	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, localSizeY, 1u }
-			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
-			, function );
-	}
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename VertexT
-		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives
-		, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
-	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, localSizeY, localSizeZ }
-			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
-			, function );
-	}
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename VertexT
-		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( MeshInT< InT > meshIn
+		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
+		, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( std::move( meshIn ) )
+			, makeInParam( MeshIn{ *this, localSizeX } )
+			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
 	}
@@ -422,63 +294,35 @@ namespace sdw
 	*	Triangles
 	*/
 	/**@{*/
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
+		, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, 1u, 1u }
+		this->implementMainT( localSizeX
+			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives
-		, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
-	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, localSizeY, 1u }
-			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
-			, function );
-	}
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename VertexT
-		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives
-		, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
-	{
-		this->implementMainT( MeshInT< InT >{ *this, localSizeX, localSizeY, localSizeZ }
-			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
-			, function );
-	}
-
-	template< template< ast::var::Flag FlagT > typename InT
-		, template< ast::var::Flag FlagT > typename VertexT
-		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( MeshInT< InT > meshIn
+		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function )
+		, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( std::move( meshIn ) )
+			, makeInParam( MeshIn{ *this, localSizeX } )
+			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
 	}

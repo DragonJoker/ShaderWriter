@@ -110,6 +110,35 @@ namespace ast::vk
 				return VK_SHADER_STAGE_FRAGMENT_BIT;
 			case ast::ShaderStage::eMesh:
 				return VK_SHADER_STAGE_MESH_BIT_NV;
+			case ast::ShaderStage::eTask:
+				return VK_SHADER_STAGE_TASK_BIT_NV;
+#if VK_KHR_ray_tracing_pipeline
+			case ast::ShaderStage::eRayGeneration:
+				return VK_SHADER_STAGE_RAYGEN_BIT_KHR;
+			case ast::ShaderStage::eRayAnyHit:
+				return VK_SHADER_STAGE_ANY_HIT_BIT_KHR;
+			case ast::ShaderStage::eRayClosestHit:
+				return VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR;
+			case ast::ShaderStage::eRayMiss:
+				return VK_SHADER_STAGE_MISS_BIT_KHR;
+			case ast::ShaderStage::eCallable:
+				return VK_SHADER_STAGE_CALLABLE_BIT_KHR;
+			case ast::ShaderStage::eRayIntersection:
+				return VK_SHADER_STAGE_INTERSECTION_BIT_KHR;
+#elif VK_NV_ray_tracing
+			case ast::ShaderStage::eRayGeneration:
+				return VK_SHADER_STAGE_RAYGEN_BIT_NV;
+			case ast::ShaderStage::eRayAnyHit:
+				return VK_SHADER_STAGE_ANY_HIT_BIT_NV;
+			case ast::ShaderStage::eRayClosestHit:
+				return VK_SHADER_STAGE_CLOSEST_HIT_BIT_NV;
+			case ast::ShaderStage::eRayMiss:
+				return VK_SHADER_STAGE_MISS_BIT_NV;
+			case ast::ShaderStage::eCallable:
+				return VK_SHADER_STAGE_CALLABLE_BIT_NV;
+			case ast::ShaderStage::eRayIntersection:
+				return VK_SHADER_STAGE_INTERSECTION_BIT_NV;
+#endif
 			default:
 				std::cerr << "Unsupported ShaderStage.\n";
 				return VK_SHADER_STAGE_COMPUTE_BIT;
@@ -132,6 +161,22 @@ namespace ast::vk
 				return "Compute";
 			case ast::ShaderStage::eFragment:
 				return "Fragment";
+			case ast::ShaderStage::eTask:
+				return "Task";
+			case ast::ShaderStage::eMesh:
+				return "Mesh";
+			case ast::ShaderStage::eRayGeneration:
+				return "RayGeneration";
+			case ast::ShaderStage::eRayAnyHit:
+				return "RayAnyHit";
+			case ast::ShaderStage::eRayClosestHit:
+				return "RayClosestHit";
+			case ast::ShaderStage::eRayMiss:
+				return "RayMiss";
+			case ast::ShaderStage::eCallable:
+				return "Callable";
+			case ast::ShaderStage::eRayIntersection:
+				return "RayIntersection";
 			default:
 				assert( false );
 				return "Unsupported";

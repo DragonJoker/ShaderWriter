@@ -686,10 +686,83 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region Ray payload declaration
+#pragma region Shared variables declaration
 	/**
 	*name
-	*	Ray payload declaration.
+	*	Shared variables declaration.
+	*/
+	/**@{*/
+	template< typename T >
+	T ShaderWriter::declSharedVariable( std::string name
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerName( name
+			, type
+			, uint64_t( ast::var::Flag::eShared ) );
+
+		if ( enabled )
+		{
+			addGlobalStmt( sdw::makeVariableDecl( var ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	Array< T > ShaderWriter::declSharedVariable( std::string name
+		, uint32_t dimension
+		, bool enabled )
+	{
+		auto type = getTypesCache().getArray( T::makeType( getTypesCache() )
+			, dimension );
+		auto var = registerName( name
+			, type
+			, uint64_t( ast::var::Flag::eShared ) );
+
+		if ( enabled )
+		{
+			addGlobalStmt( sdw::makeVariableDecl( var ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Mesh and task variables declaration
+	/**
+	*name
+	*	Mesh and task variables declaration.
+	*/
+	/**@{*/
+	template< template< ast::var::Flag FlagT > typename DataT >
+	TaskPayloadOutT< DataT > ShaderWriter::declTaskPayload( std::string name
+		, bool enabled )
+	{
+		auto type = ast::type::makeTaskPayloadType( TaskPayloadOutT< DataT >::makeType( getTypesCache() ) );
+		auto var = registerName( name
+			, type
+			, ast::var::Flag::ePerTask | ast::var::Flag::eShaderOutput );
+
+		if ( enabled )
+		{
+			addGlobalStmt( sdw::makeVariableDecl( var ) );
+		}
+
+		return TaskPayloadOutT< DataT >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Ray tracing variables declaration
+	/**
+	*name
+	*	Ray tracing variables declaration.
 	*/
 	/**@{*/
 	template< typename T >

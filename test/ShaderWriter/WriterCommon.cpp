@@ -83,6 +83,9 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				result = spv::ExecutionModelFragment;
 				break;
+			case ast::ShaderStage::eTask:
+				result = spv::ExecutionModelTaskNV;
+				break;
 			case ast::ShaderStage::eMesh:
 				result = spv::ExecutionModelMeshNV;
 				break;
@@ -661,6 +664,8 @@ namespace test
 				return "Geometry";
 			case ast::ShaderStage::eFragment:
 				return "Fragment";
+			case ast::ShaderStage::eTask:
+				return "Task";
 			case ast::ShaderStage::eMesh:
 				return "Mesh";
 			case ast::ShaderStage::eCompute:

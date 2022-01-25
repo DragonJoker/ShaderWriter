@@ -15,6 +15,7 @@ This file is generated, don't modify it!
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/FunctionParam.hpp"
 #include "ShaderWriter/CompositeTypes/RayDesc.hpp"
@@ -1683,6 +1684,15 @@ namespace sdw
 	*/
 	/**@{*/
 	SDW_API Void setMeshOutputCounts( UInt const & numVertices, UInt const & numPrimitives );
+	/**@}*/
+#pragma endregion
+#pragma region dispatchMesh
+	/**
+	*name
+	*	dispatchMesh
+	*/
+	/**@{*/
+	SDW_API Void dispatchMesh( TaskPayload const & payload, UInt const & numTasks );
 	/**@}*/
 #pragma endregion
 }

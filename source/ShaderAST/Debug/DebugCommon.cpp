@@ -359,6 +359,12 @@ namespace ast::debug
 		case type::Kind::eMeshPrimitiveOutput:
 			result = "MESHPRIMOUT";
 			break;
+		case type::Kind::eTaskPayload:
+			result = "TASKPLOUT";
+			break;
+		case type::Kind::eTaskPayloadIn:
+			result = "TASKPLIN";
+			break;
 		default:
 			assert( false );
 			result = "UNKNOWN";
@@ -485,15 +491,21 @@ namespace ast::debug
 			result += getName( *static_cast< type::Pointer const & >( type ).getPointerType() );
 			break;
 		case type::Kind::eRayPayload:
-			result = getName( *static_cast< type::RayPayload const & >( type ).getDataType() );
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( *static_cast< type::RayPayload const & >( type ).getDataType() );
 			result += "<" + std::to_string( static_cast< type::RayPayload const & >( type ).getLocation() ) + ">";
+			result += ")";
 			break;
 		case type::Kind::eCallableData:
-			result = getName( *static_cast< type::CallableData const & >( type ).getDataType() );
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( *static_cast< type::CallableData const & >( type ).getDataType() );
 			result += "<" + std::to_string( static_cast< type::CallableData const & >( type ).getLocation() ) + ">";
+			result += ")";
 			break;
 		case type::Kind::eHitAttribute:
-			result = getName( *static_cast< type::HitAttribute const & >( type ).getDataType() );
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( *static_cast< type::HitAttribute const & >( type ).getDataType() );
+			result += ")";
 			break;
 		case type::Kind::eStruct:
 		case type::Kind::eRayDesc:
@@ -524,8 +536,8 @@ namespace ast::debug
 			break;
 		case type::Kind::eGeometryOutput:
 			result = getName( getNonArrayKind( type ) );
-			result += "<" + std::to_string( static_cast< type::GeometryOutput const & >( type ).getCount() );
-			result += ">(" + getName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
+			result += "(" + std::to_string( static_cast< type::GeometryOutput const & >( type ).getCount() );
+			result += ", " + getName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
 			result += ")";
 			break;
 		case type::Kind::eTessellationControlInput:
@@ -570,6 +582,16 @@ namespace ast::debug
 			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::MeshPrimitiveOutput const & >( type ).getTopology() );
 			result += ", " + std::to_string( static_cast< type::MeshPrimitiveOutput const & >( type ).getMaxPrimitives() );
+			result += ")";
+			break;
+		case type::Kind::eTaskPayload:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( *static_cast< type::TaskPayload const & >( type ).getType() );
+			result += ")";
+			break;
+		case type::Kind::eTaskPayloadIn:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( *static_cast< type::TaskPayloadIn const & >( type ).getType() );
 			result += ")";
 			break;
 		default:

@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_MeshWriter_H___
 
 #include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/CompositeTypes/PerPrimitive.hpp"
 #include "ShaderWriter/CompositeTypes/PerVertex.hpp"
@@ -19,36 +20,27 @@ namespace sdw
 	*/
 	/**@{*/
 	/**
-	*	Holds input data for a mesh shader.
+	*	Holds input intrinsics for a mesh shader.
 	*/
-	template< template< ast::var::Flag FlagT > typename DataT >
-	struct MeshInT
-		: public InputT< DataT >
+	struct MeshIn
+		: public StructInstance
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
-
-		template< typename ... ParamsT >
-		MeshInT( ShaderWriter & writer
-			, uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, ParamsT ... params );
-		MeshInT( ShaderWriter & writer
+		SDW_API MeshIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
+		SDW_API MeshIn( ShaderWriter & writer
+			, uint32_t localSizeX );
 
-		template< typename ... ParamsT >
-		static ast::type::StructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//const uvec3 gl_WorkGroupSize;
-		UVec3 const workGroupSize;
+		UInt const workGroupSize;
 		//in uvec3 gl_WorkGroupID;
-		UVec3 const workGroupID;
+		UInt const workGroupID;
 		//in uvec3 gl_LocalInvocationID;
-		UVec3 const localInvocationID;
+		UInt const localInvocationID;
 		//in uvec3 gl_GlobalInvocationID;
-		UVec3 const globalInvocationID;
+		UInt const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex;
 		UInt const localInvocationIndex;
 		//in uint  gl_MeshViewCountNV;
@@ -103,6 +95,8 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT ... params );
 	};
+
+	using MeshVertexListOut = MeshVertexListOutT< VoidT >;
 
 	template< ast::type::OutputTopology TopologyT >
 	struct PrimitiveIndexT;
@@ -213,30 +207,35 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	using TrianglesMeshPrimitiveListOutT = MeshPrimitiveListOutT< DataT, ast::type::OutputTopology::eTriangle >;
 
+	using PointsMeshPrimitiveListOut = PointsMeshPrimitiveListOutT< VoidT >;
+	using LinesMeshPrimitiveListOut = LinesMeshPrimitiveListOutT< VoidT >;
+	using TrianglesMeshPrimitiveListOut = TrianglesMeshPrimitiveListOutT< VoidT >;
+
 	/**
 	*	Entry point type
 	*/
 	/**@{*/
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT
 		, ast::type::OutputTopology TopologyT >
-	using MeshMainFuncT = std::function< void( MeshInT< InT >
+	using MeshMainFuncT = std::function< void( MeshIn
+		, TaskPayloadInT< PayloadT >
 		, MeshVertexListOutT< VertexT >
 		, MeshPrimitiveListOutT< PrimitiveT, TopologyT > ) >;
 
-	template< template< ast::var::Flag FlagT > typename InT
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	using PointsMeshMainFuncT = MeshMainFuncT< InT, VertexT, PrimitiveT, ast::type::OutputTopology::ePoint >;
-	template< template< ast::var::Flag FlagT > typename InT
+	using PointsMeshMainFuncT = MeshMainFuncT< PayloadT, VertexT, PrimitiveT, ast::type::OutputTopology::ePoint >;
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	using LinesMeshMainFuncT = MeshMainFuncT< InT, VertexT, PrimitiveT, ast::type::OutputTopology::eLine >;
-	template< template< ast::var::Flag FlagT > typename InT
+	using LinesMeshMainFuncT = MeshMainFuncT< PayloadT, VertexT, PrimitiveT, ast::type::OutputTopology::eLine >;
+	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	using TrianglesMeshMainFuncT = MeshMainFuncT< InT, VertexT, PrimitiveT, ast::type::OutputTopology::eTriangle >;
+	using TrianglesMeshMainFuncT = MeshMainFuncT< PayloadT, VertexT, PrimitiveT, ast::type::OutputTopology::eTriangle >;
 	/**@}*/
 
 	class MeshWriter
@@ -248,109 +247,61 @@ namespace sdw
 		*	Points
 		*/
 		/**@{*/
-		template< template< ast::var::Flag FlagT > typename InT
+		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
-			, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
+			, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
+		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t maxVertices
-			, uint32_t maxPrimitives
-			, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename VertexT
-			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, uint32_t maxVertices
-			, uint32_t maxPrimitives
-			, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename VertexT
-			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( MeshInT< InT > mesIn
+			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-			, PointsMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
+			, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		/**@}*/
 		/**
 		*	Lines
 		*/
 		/**@{*/
-		template< template< ast::var::Flag FlagT > typename InT
+		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
-			, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
+			, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
+		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t maxVertices
-			, uint32_t maxPrimitives
-			, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename VertexT
-			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, uint32_t maxVertices
-			, uint32_t maxPrimitives
-			, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename VertexT
-			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( MeshInT< InT > mesIn
+			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-			, LinesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
+			, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		/**@}*/
 		/**
 		*	Triangles
 		*/
 		/**@{*/
-		template< template< ast::var::Flag FlagT > typename InT
+		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
-			, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
+			, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
+		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t maxVertices
-			, uint32_t maxPrimitives
-			, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename VertexT
-			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, uint32_t maxVertices
-			, uint32_t maxPrimitives
-			, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename VertexT
-			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( MeshInT< InT > mesIn
+			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-			, TrianglesMeshMainFuncT< InT, VertexT, PrimitiveT > const & function );
+			, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		/**@}*/
 	};
 	/**@}*/

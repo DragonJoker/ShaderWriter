@@ -21,6 +21,7 @@ See LICENSE file in root folder
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
 #include "TypeStruct.hpp"
+#include "TypeTaskIO.hpp"
 #include "TypeTessellationControlIO.hpp"
 #include "TypeTessellationEvaluationIO.hpp"
 
@@ -129,6 +130,10 @@ namespace ast::type
 		SDAST_API RayPayloadPtr getRayPayload( TypePtr dataType, uint32_t location );
 		SDAST_API CallableDataPtr getCallableData( TypePtr dataType, uint32_t location );
 		SDAST_API RayDescPtr getRayDesc();
+		SDAST_API MeshVertexOutputPtr getMeshVertexOutput( TypePtr type, uint32_t maxVertices );
+		SDAST_API MeshPrimitiveOutputPtr getMeshPrimitiveOutput( TypePtr type, OutputTopology topology, uint32_t maxPrimitives );
+		SDAST_API TaskPayloadPtr getTaskPayload( TypePtr type );
+		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
 		SDAST_API ImagePtr getImage( ImageConfiguration const & config );
 		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & config );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
@@ -161,6 +166,10 @@ namespace ast::type
 		TypeCache< RayPayload, std::function< RayPayloadPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_rayPayload;
 		TypeCache< CallableData, std::function< CallableDataPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_callableData;
 		TypeCache< HitAttribute, std::function< HitAttributePtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_hitAttribute;
+		TypeCache< MeshVertexOutput, std::function< MeshVertexOutputPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_meshVertexOutput;
+		TypeCache< MeshPrimitiveOutput, std::function< MeshPrimitiveOutputPtr( TypePtr, OutputTopology, uint32_t ) >, std::function< size_t( TypePtr, OutputTopology, uint32_t ) > > m_meshPrimitiveOutput;
+		TypeCache< TaskPayload, std::function< TaskPayloadPtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_taskPayload;
+		TypeCache< TaskPayloadIn, std::function< TaskPayloadInPtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_taskPayloadIn;
 		struct MemberTypeInfo
 		{
 			TypePtr nonMemberType;

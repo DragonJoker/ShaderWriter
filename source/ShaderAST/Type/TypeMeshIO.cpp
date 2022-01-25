@@ -3,8 +3,18 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Type/TypeMeshIO.hpp"
 
+#include "ShaderAST/Type/TypeCache.hpp"
+
 namespace ast::type
 {
+	//*************************************************************************
+
+	TaskPayloadIn::TaskPayloadIn( TypePtr type )
+		: Type{ type->getCache(), Kind::eTaskPayloadIn }
+		, m_type{ type }
+	{
+	}
+
 	//*************************************************************************
 
 	MeshVertexOutput::MeshVertexOutput( TypePtr type
@@ -25,6 +35,18 @@ namespace ast::type
 		, m_topology{ topology }
 		, m_maxPrimitives{ maxPrimitives }
 	{
+	}
+
+	//*************************************************************************
+
+	size_t getHash( TypePtr type
+		, OutputTopology topology
+		, uint32_t maxPrimitives )
+	{
+		size_t result = std::hash< TypePtr >{}( type );
+		result = hashCombine( result, uint32_t( topology ) );
+		result = hashCombine( result, maxPrimitives );
+		return result;
 	}
 
 	//*************************************************************************

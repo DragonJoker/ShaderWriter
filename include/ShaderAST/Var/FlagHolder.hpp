@@ -51,6 +51,13 @@ namespace ast::var
 		eShared = 1ull << 37,
 	};
 
+	inline bool hasFlag( uint64_t flags, Flag flag )
+	{
+		return flag == Flag::eNone
+			? false
+			: Flag( flags & uint64_t( flag ) ) == flag;
+	}
+
 	class FlagHolder
 	{
 	public:
@@ -83,9 +90,7 @@ namespace ast::var
 
 		bool hasFlag( Flag flag )const
 		{
-			return flag == Flag::eNone
-				? false
-				: Flag( m_flags & uint64_t( flag ) ) == flag;
+			return ast::var::hasFlag( m_flags, flag );
 		}
 
 		bool isParam()const

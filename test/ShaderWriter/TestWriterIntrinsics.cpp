@@ -10447,6 +10447,84 @@ namespace
 		}
 		testEnd();
 	}
+
+	void testSetMeshOutputCounts( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSetMeshOutputCounts" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshIn in
+					, TaskPayloadInT< VoidT > payload
+					, MeshVertexListOutT< VoidT > vtxOut
+					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< sdw::var::Flag FlagT >
+	struct PayloadT
+		: public sdw::StructInstance
+	{
+		PayloadT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, meshletIndices{ getMemberArray< sdw::UInt >( "meshletIndices" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , PayloadT );
+
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
+				, ( FlagT == sdw::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "Payload"
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				result->declMember( "meshletIndices"
+					, sdw::type::Kind::eUInt
+					, 32u
+					, ast::type::Struct::InvalidLocation );
+			}
+
+			return result;
+		}
+
+		sdw::Array< sdw::UInt > meshletIndices;
+	};
+
+	void testDispatchMesh( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testDispatchMesh" );
+		using namespace sdw;
+		{
+			TaskWriter writer;
+			auto payload = writer.declTaskPayload< PayloadT >( "payload" );
+
+			writer.implementMain( 32u
+				, [&]( TaskIn in )
+				{
+					payload.meshletIndices[0_u] = 1_u;
+					payload.dispatchMesh( 1_u );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterIntrinsics )
@@ -11114,6 +11192,8 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	//testTraceRay( testCounts );
 	//testReportIntersection( testCounts );
 	//testExecuteCallable( testCounts );
+	testSetMeshOutputCounts( testCounts );
+	testDispatchMesh( testCounts );
 	sdwTestSuiteEnd();
 }
 

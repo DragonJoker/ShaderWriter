@@ -162,6 +162,8 @@ namespace test
 				return EShLangTessEvaluation;
 			case ast::ShaderStage::eGeometry:
 				return EShLangGeometry;
+			case ast::ShaderStage::eTask:
+				return EShLangTaskNV;
 			case ast::ShaderStage::eMesh:
 				return EShLangMeshNV;
 			case ast::ShaderStage::eFragment:
