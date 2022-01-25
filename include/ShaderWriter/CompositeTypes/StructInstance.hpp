@@ -64,10 +64,10 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		inline T getMember( std::string const & name
+		inline T getMember( std::string_view name
 			, bool optional = false )const;
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name
+		inline Array< T > getMemberArray( std::string_view name
 			, bool optional = false )const;
 		template< typename T >
 		inline T getMember( ast::Builtin builtin )const;

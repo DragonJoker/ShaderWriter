@@ -250,7 +250,7 @@ namespace sdw
 			template< typename ... ParamsT >
 			static inline ReturnT submit( ShaderWriter & writer
 				, ast::type::FunctionPtr type
-				, std::string const & name
+				, std::string name
 				, ParamsT const & ... params )
 			{
 				expr::ExprList args;
@@ -259,7 +259,7 @@ namespace sdw
 				auto & cache = getTypesCache( writer );
 				return ReturnT{ writer
 					, sdw::makeFnCall( ReturnT::makeType( cache )
-						, sdw::makeIdent( cache, var::makeFunction( getNextVarId( writer ), type, name ) )
+						, sdw::makeIdent( cache, var::makeFunction( getNextVarId( writer ), type, std::move( name ) ) )
 						, std::move( args ) )
 					, isEnabled };
 			}
@@ -269,12 +269,12 @@ namespace sdw
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
-		, std::string const & name
+		, std::string name
 		, ParamsT const & ... params )
 	{
 		return details::FunctionCallGetter< ReturnT >::submit( writer
 			, type
-			, name
+			, std::move( name )
 			, params... );
 	}
 
@@ -321,26 +321,26 @@ namespace sdw
 	template< typename ReturnT, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( ShaderWriter & writer
 		, ast::var::VariableList & args
-		, std::string const & name
+		, std::string name
 		, stmt::FunctionFlag flag
 		, ParamsT && ... params )
 	{
 		auto & cache = getTypesCache( writer );
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
 		return stmt::makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
-			, name
+			, std::move( name )
 			, flag );
 	}
 
 	template<>
 	inline stmt::FunctionDeclPtr getFunctionHeader< void >( ShaderWriter & writer
 		, ast::var::VariableList & args
-		, std::string const & name
+		, std::string name
 		, stmt::FunctionFlag flag )
 	{
 		auto & cache = getTypesCache( writer );
 		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), args )
-			, name
+			, std::move( name )
 			, flag );
 	}
 
@@ -371,11 +371,11 @@ namespace sdw
 	template< typename ReturnT, typename ... ParamsT >
 	inline Function< ReturnT, ParamsT... >::Function( ShaderWriter & writer
 		, ast::type::FunctionPtr type
-		, std::string const & name )
+		, std::string name )
 		: m_writer{ &writer }
 		, m_shader{ &getShader( *m_writer ) }
 		, m_type{ type }
-		, m_name{ name }
+		, m_name{ std::move( name ) }
 	{
 	}
 

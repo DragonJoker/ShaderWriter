@@ -50,13 +50,13 @@ namespace sdw
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
-		, std::string const & name
+		, std::string name
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline stmt::FunctionDeclPtr getFunctionHeader( ShaderWriter & writer
 		, ast::var::VariableList & args
-		, std::string const & name
+		, std::string name
 		, stmt::FunctionFlag flag
 		, ParamsT && ... params );
 
@@ -69,7 +69,7 @@ namespace sdw
 		inline Function() = default;
 		inline Function( ShaderWriter & writer
 			, ast::type::FunctionPtr type
-			, std::string const & name );
+			, std::string name );
 		inline ReturnT operator()( ParamsT && ... params )const;
 		inline operator bool()const;
 

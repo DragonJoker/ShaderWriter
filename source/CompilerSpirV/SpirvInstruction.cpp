@@ -733,7 +733,7 @@ namespace spirv
 		, operands{ convert( poperands ) }
 		, packedName{ nullopt }
 		, config{ pconfig }
-		, name{ pname }
+		, name{ std::move( pname ) }
 		, labels{ plabels }
 	{
 		if ( bool( name ) )

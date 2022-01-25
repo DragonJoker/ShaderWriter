@@ -1641,15 +1641,15 @@ namespace spirv
 		{
 			using IdNames = std::map< spv::Id, std::string >;
 
-			void add( spv::Id id, std::string const & name )
+			void add( spv::Id id, std::string name )
 			{
-				names.emplace( id, name );
+				names.emplace( id, std::move( name ) );
 			}
 
-			void addType( spv::Id id, std::string const & name )
+			void addType( spv::Id id, std::string name )
 			{
 				add( id, name );
-				types.emplace( id, name );
+				types.emplace( id, std::move( name ) );
 			}
 
 			std::string getFloatTypeName( Instruction const & instruction )const

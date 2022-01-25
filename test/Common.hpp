@@ -146,7 +146,7 @@ namespace test
 		using TestCountsType = test::TestCounts;
 		using TestSuiteLaunch = TestResults( * )( test::TestSuite &, test::TestCounts & );
 
-		TestSuite( std::string const & name );
+		TestSuite( std::string name );
 		~TestSuite()noexcept;
 
 		void registerTests( std::string name
@@ -203,19 +203,19 @@ namespace test
 	};
 
 	void beginTest( TestCounts & testCounts
-		, std::string const & name );
+		, std::string name );
 	void endTest( TestCounts & testCounts );
 	void reportFailure( char const * const error
 		, char const * const function
 		, int line
 		, TestCounts & testCounts );
 
-	inline void reportFailure( std::string const & error
+	inline void reportFailure( std::string_view error
 		, char const * const function
 		, int line
 		, TestCounts & testCounts )
 	{
-		reportFailure( error.c_str(), function, line, testCounts );
+		reportFailure( error.data(), function, line, testCounts );
 	}
 
 #	define testSuiteMain( testName )\

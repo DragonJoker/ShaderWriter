@@ -172,12 +172,12 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T GeometryWriter::declStreamOutput( std::string const & name
+	inline T GeometryWriter::declStreamOutput( std::string name
 		, uint32_t location
 		, uint32_t streamIndex
 		, bool enabled )
 	{
-		return declStreamOutput< T >( name
+		return declStreamOutput< T >( std::move( name )
 			, location
 			, streamIndex
 			, 0u
@@ -185,7 +185,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T GeometryWriter::declStreamOutput( std::string const & name
+	inline T GeometryWriter::declStreamOutput( std::string name
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint64_t attributes
@@ -200,7 +200,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerOutput( name
+		auto var = registerOutput( std::move( name )
 			, location
 			, attributes | var::Flag::eGeometryStream
 			, type );
@@ -218,13 +218,13 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > GeometryWriter::declStreamOutputArray( std::string const & name
+	inline Array< T > GeometryWriter::declStreamOutputArray( std::string name
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint32_t dimension
 		, bool enabled )
 	{
-		return declStreamOutputArray< T >( name
+		return declStreamOutputArray< T >( std::move( name )
 			, location
 			, streamIndex
 			, dimension
@@ -233,7 +233,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > GeometryWriter::declStreamOutputArray( std::string const & name
+	inline Array< T > GeometryWriter::declStreamOutputArray( std::string name
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint32_t dimension
@@ -250,7 +250,7 @@ namespace sdw
 		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerOutput( name
+		auto var = registerOutput( std::move( name )
 			, location
 			, attributes | var::Flag::eGeometryStream
 			, type );

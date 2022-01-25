@@ -74,90 +74,90 @@ namespace ast
 		*	Variables registration.
 		*/
 		/**@{*/
-		SDAST_API bool hasVariable( std::string const & name )const;
+		SDAST_API bool hasVariable( std::string_view name )const;
 		SDAST_API void registerVariable( var::VariablePtr var );
-		SDAST_API var::VariablePtr registerName( std::string const & name
+		SDAST_API var::VariablePtr registerName( std::string name
 			, type::TypePtr type
 			, uint64_t flags );
-		SDAST_API var::VariablePtr registerName( std::string const & name
+		SDAST_API var::VariablePtr registerName( std::string name
 			, type::TypePtr type
 			, var::Flag flag );
-		SDAST_API var::VariablePtr registerName( std::string const & name
+		SDAST_API var::VariablePtr registerName( std::string name
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerMember( var::VariablePtr outer
-			, std::string const & name
+			, std::string name
 			, type::TypePtr type
 			, uint64_t flags );
 		SDAST_API var::VariablePtr registerMember( var::VariablePtr outer
-			, std::string const & name
+			, std::string name
 			, type::TypePtr type
 			, var::Flag flag );
 		SDAST_API var::VariablePtr registerMember( var::VariablePtr outer
-			, std::string const & name
+			, std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerStaticConstant( std::string const & name
+		SDAST_API var::VariablePtr registerStaticConstant( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerConstant( std::string const & name
+		SDAST_API var::VariablePtr registerConstant( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerSpecConstant( std::string const & name
+		SDAST_API var::VariablePtr registerSpecConstant( std::string name
 			, uint32_t location
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerAccelerationStructure( std::string const & name
+		SDAST_API var::VariablePtr registerAccelerationStructure( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDAST_API var::VariablePtr registerSampledImage( std::string const & name
+		SDAST_API var::VariablePtr registerSampledImage( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDAST_API var::VariablePtr registerImage( std::string const & name
+		SDAST_API var::VariablePtr registerImage( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDAST_API var::VariablePtr registerInput( std::string const & name
+		SDAST_API var::VariablePtr registerInput( std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerOutput( std::string const & name
+		SDAST_API var::VariablePtr registerOutput( std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerInOut( std::string const & name
+		SDAST_API var::VariablePtr registerInOut( std::string name
 			, uint64_t attributes
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, type::TypePtr type
 			, var::Flag flag );
-		SDAST_API var::VariablePtr registerBlockVariable( std::string const & name
+		SDAST_API var::VariablePtr registerBlockVariable( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerLocale( std::string const & name
+		SDAST_API var::VariablePtr registerLocale( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerLoopVar( std::string const & name
+		SDAST_API var::VariablePtr registerLoopVar( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerParam( std::string const & name
+		SDAST_API var::VariablePtr registerParam( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerInParam( std::string const & name
+		SDAST_API var::VariablePtr registerInParam( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerOutParam( std::string const & name
+		SDAST_API var::VariablePtr registerOutParam( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerInOutParam( std::string const & name
+		SDAST_API var::VariablePtr registerInOutParam( std::string name
 			, type::TypePtr type );
-		SDAST_API bool hasVar( std::string const & name )const;
-		SDAST_API var::VariablePtr getVar( std::string const & name )const;
+		SDAST_API bool hasVar( std::string_view name )const;
+		SDAST_API var::VariablePtr getVar( std::string_view name )const;
 		SDAST_API var::VariablePtr getMemberVar( var::VariablePtr outer
-			, std::string const & name )const;
+			, std::string_view name )const;
 		SDAST_API void addStmt( stmt::StmtPtr stmt );
 		SDAST_API void addGlobalStmt( stmt::StmtPtr stmt );
-		SDAST_API void registerSsbo( std::string const & name
+		SDAST_API void registerSsbo( std::string name
 			, SsboInfo const & info );
-		SDAST_API void registerUbo( std::string const & name
+		SDAST_API void registerUbo( std::string name
 			, UboInfo const & info );
-		SDAST_API void registerPcb( std::string const & name
+		SDAST_API void registerPcb( std::string name
 			, InterfaceBlock const & info );
-		SDAST_API void registerShaderRecord( std::string const & name
+		SDAST_API void registerShaderRecord( std::string name
 			, ShaderRecordInfo const & info );
 		SDAST_API expr::ExprPtr getDummyExpr( type::TypePtr type )const;
 		/**@}*/

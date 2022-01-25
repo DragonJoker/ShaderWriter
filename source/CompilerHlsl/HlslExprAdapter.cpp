@@ -1163,13 +1163,13 @@ namespace hlsl
 			if ( expr->isBuiltin() )
 			{
 				auto writeFuncCall = [this]( ast::type::TypePtr retType
-					, std::string const & name )
+					, std::string name )
 				{
 					return ast::expr::makeFnCall( retType
 						, ast::expr::makeIdentifier( m_cache
 							, ast::var::makeFunction( m_adaptationData.nextVarId
 								, m_cache.getFunction( retType, {} )
-								, name ) )
+								, std::move( name ) ) )
 						, {} );
 				};
 				auto mbr = structType->getMember( expr->getMemberIndex() );

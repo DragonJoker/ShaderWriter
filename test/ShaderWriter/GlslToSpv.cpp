@@ -219,7 +219,7 @@ namespace test
 	}
 
 	std::vector< uint32_t > compileGlslToSpv( ast::ShaderStage stage
-		, std::string const & shader
+		, std::string_view shader
 		, uint32_t spvVersion )
 	{
 		std::vector< uint32_t > spirv;
@@ -234,8 +234,7 @@ namespace test
 		glshader.setEnvTarget( glslang::EShTargetSpv
 			, doGetLanguageVersion( spvVersion ) );
 
-		std::string source = shader;
-		char const * const str = source.c_str();
+		char const * const str = shader.data();
 		glshader.setStrings( &str, 1 );
 
 		if ( !glshader.parse( &resources, 100, false, messages ) )

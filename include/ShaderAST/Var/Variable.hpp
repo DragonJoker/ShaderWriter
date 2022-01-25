@@ -75,7 +75,7 @@ namespace ast::var
 			m_type = type;
 		}
 
-		std::string getName()const
+		std::string const & getName()const
 		{
 			return m_nameId.name;
 		}
@@ -189,7 +189,7 @@ namespace ast::var
 		, type::TypePtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, outer
 			, type
 			, Flag::eNone );
@@ -201,7 +201,7 @@ namespace ast::var
 		, std::string name
 		, Flag flag )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, outer
 			, type
 			, uint64_t( flag ) );
@@ -213,7 +213,7 @@ namespace ast::var
 		, std::string name
 		, uint64_t flags )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, outer
 			, type
 			, flags );
@@ -223,7 +223,7 @@ namespace ast::var
 		, type::TypePtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, type
 			, Flag::eNone );
 	}
@@ -233,7 +233,7 @@ namespace ast::var
 		, std::string name
 		, uint64_t flags )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, type
 			, flags );
 	}
@@ -243,7 +243,7 @@ namespace ast::var
 		, std::string name
 		, Flag flag )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, type
 			, uint64_t( flag ) );
 	}
@@ -274,7 +274,7 @@ namespace ast::var
 		, type::FunctionPtr type
 		, std::string name )
 	{
-		return std::make_shared< Variable >( EntityName{ id, name }
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
 			, type
 			, Flag::eFunction );
 	}

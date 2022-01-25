@@ -16,26 +16,26 @@ namespace sdw
 	{
 	public:
 		SDW_API Pcb( ShaderWriter & writer
-			, std::string const & name
+			, std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
 		SDW_API void end();
 
-		SDW_API StructInstance declMember( std::string const & name
+		SDW_API StructInstance declMember( std::string name
 			, Struct const & s
 			, bool enabled = true );
 		template< typename T >
-		inline T declMember( std::string const & name
+		inline T declMember( std::string name
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declMember( std::string const & name
+		inline Array< T > declMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline T getMember( std::string const & name
+		inline T getMember( std::string_view name
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > getMemberArray( std::string const & name
+		inline Array< T > getMemberArray( std::string_view name
 			, bool enabled = true );
 
 		bool isEnabled()const

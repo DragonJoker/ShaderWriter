@@ -359,8 +359,8 @@ namespace test
 
 	//*********************************************************************************************
 
-	TestSuite::TestSuite( std::string const & name )
-		: suiteName{ name }
+	TestSuite::TestSuite( std::string name )
+		: suiteName{ std::move( name ) }
 		, tcout{ std::make_unique< test::LogStreambuf< test::StreamLogStreambufTraits > >( suiteName, std::cout ) }
 	{
 	}
@@ -495,9 +495,9 @@ namespace test
 	//*********************************************************************************************
 
 	void beginTest( TestCounts & testCounts
-		, std::string const & name )
+		, std::string name )
 	{
-		testCounts.testName = name;
+		testCounts.testName = std::move( name );
 		testCounts.curTestErrors = 0u;
 		testCounts << "TEST: " << testCounts.testName << endl;
 	}

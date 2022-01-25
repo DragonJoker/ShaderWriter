@@ -8,6 +8,7 @@
 #include <d3dcompiler.h>
 
 #include <string>
+#include <string_view>
 #include <iostream>
 
 #pragma comment(lib,"d3dcompiler.lib")
@@ -127,7 +128,7 @@ namespace test
 			return model;
 		}
 
-		bool compileHlslDXC( std::string const & shader
+		bool compileHlslDXC( std::string_view shader
 			, std::wstring const & model
 			, std::string & errors
 			, sdw_test::TestCounts & testCounts )
@@ -219,7 +220,7 @@ namespace test
 #endif
 		}
 
-		bool compileHlslD3D11( std::string const & shader
+		bool compileHlslD3D11( std::string_view shader
 			, std::string const & model
 			, std::string & errors
 			, sdw_test::TestCounts & testCounts )
@@ -270,7 +271,7 @@ namespace test
 	{
 	}
 
-	bool compileHlsl( std::string const & shader
+	bool compileHlsl( std::string_view shader
 		, ast::ShaderStage type
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )

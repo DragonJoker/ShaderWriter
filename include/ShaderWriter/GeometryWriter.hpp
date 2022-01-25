@@ -162,24 +162,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declStreamOutput( std::string const & name
+		inline T declStreamOutput( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, bool enabled = true );
 		template< typename T >
-		inline T declStreamOutput( std::string const & name
+		inline T declStreamOutput( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string const & name
+		inline Array< T > declStreamOutputArray( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string const & name
+		inline Array< T > declStreamOutputArray( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension

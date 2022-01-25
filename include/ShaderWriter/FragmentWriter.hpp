@@ -123,24 +123,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declBlendOutput( std::string const & name
+		inline T declBlendOutput( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, bool enabled = true );
 		template< typename T >
-		inline T declBlendOutput( std::string const & name
+		inline T declBlendOutput( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string const & name
+		inline Array< T > declBlendOutputArray( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string const & name
+		inline Array< T > declBlendOutputArray( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension

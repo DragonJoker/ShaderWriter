@@ -60,13 +60,13 @@ namespace spirv
 		SDWSPIRV_API void decorateMember( ValueId id
 			, uint32_t index
 			, IdList const & decoration );
-		SDWSPIRV_API VariableInfo registerParam( std::string const & name
+		SDWSPIRV_API VariableInfo registerParam( std::string name
 			, bool isOutput
 			, ast::type::TypePtr type );
-		SDWSPIRV_API VariableInfo registerAlias( std::string const & name
+		SDWSPIRV_API VariableInfo registerAlias( std::string name
 			, ast::type::TypePtr type
 			, ValueId exprResultId );
-		SDWSPIRV_API VariableInfo registerVariable( std::string const & name
+		SDWSPIRV_API VariableInfo registerVariable( std::string name
 			, ast::Builtin builtin
 			, spv::StorageClass storage
 			, bool isAlias
@@ -92,9 +92,9 @@ namespace spirv
 		SDWSPIRV_API ValueId registerLiteral( double value );
 		SDWSPIRV_API ValueId registerLiteral( ValueIdList const & initialisers
 			, ast::type::TypePtr type );
-		SDWSPIRV_API void registerExtension( std::string const & name );
+		SDWSPIRV_API void registerExtension( std::string name );
 		SDWSPIRV_API void registerEntryPoint( ValueId functionId
-			, std::string const & name
+			, std::string name
 			, ValueIdList const & inputs
 			, ValueIdList const & outputs );
 		SDWSPIRV_API void registerExecutionMode( spv::ExecutionMode mode );
@@ -150,7 +150,7 @@ namespace spirv
 			, uint32_t descriptorSet
 			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
 
-		SDWSPIRV_API Function * beginFunction( std::string const & name
+		SDWSPIRV_API Function * beginFunction( std::string name
 			, ValueId retType
 			, ast::var::VariableList const & params );
 		SDWSPIRV_API Block newBlock();
@@ -224,7 +224,7 @@ namespace spirv
 		bool addMbrBuiltin( ast::Builtin pbuiltin
 			, ValueId outer
 			, uint32_t mbrIndex );
-		void addVariable( std::string const & name
+		void addVariable( std::string name
 			, ValueId varId
 			, std::map< std::string, VariableInfo >::iterator & it
 			, ValueId initialiser );

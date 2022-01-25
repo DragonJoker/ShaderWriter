@@ -43,7 +43,7 @@ namespace ast::var
 		, m_type{ std::move( type ) }
 		, m_builtin{ Builtin::eNone }
 	{
-		if ( outer )
+		if ( m_outer )
 		{
 			updateFlag( Flag::eMember, true );
 		}
@@ -77,7 +77,7 @@ namespace ast::var
 	Variable::Variable( uint32_t id
 		, type::FunctionPtr type
 		, std::string name )
-		: Variable{ { id, name }, type }
+		: Variable{ { id, std::move( name ) }, type }
 	{
 	}
 

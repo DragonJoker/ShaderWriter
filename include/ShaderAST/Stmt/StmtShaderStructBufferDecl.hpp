@@ -16,7 +16,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API ShaderStructBufferDecl( std::string const & ssboName
+		SDAST_API ShaderStructBufferDecl( std::string ssboName
 			, var::VariablePtr ssboInstance
 			, var::VariablePtr data
 			, uint32_t bindingPoint
@@ -63,7 +63,7 @@ namespace ast::stmt
 	};
 	using ShaderStructBufferDeclPtr = std::unique_ptr< ShaderStructBufferDecl >;
 
-	inline ShaderStructBufferDeclPtr makeShaderStructBufferDecl( std::string const & ssboName
+	inline ShaderStructBufferDeclPtr makeShaderStructBufferDecl( std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint

@@ -20,7 +20,7 @@ namespace sdw
 			, ast::type::BaseStructPtr type );
 		SDW_API void end();
 		template< typename InstanceT = StructInstance >
-		InstanceT getInstance( std::string const & name
+		InstanceT getInstance( std::string name
 			, bool enabled )const;
 
 		type::BaseStructPtr getType()const
@@ -29,9 +29,9 @@ namespace sdw
 		}
 
 		template< typename T >
-		inline void declMember( std::string const & name );
+		inline void declMember( std::string name );
 		template< typename T >
-		inline void declMember( std::string const & name
+		inline void declMember( std::string name
 			, uint32_t dimension );
 		SDW_API void declMember( std::string name
 			, Struct const & type );
@@ -58,10 +58,10 @@ namespace sdw
 		}
 
 		template< typename T >
-		inline void declMember( std::string const & name
+		inline void declMember( std::string name
 			, uint32_t location );
 		template< typename T >
-		inline void declMember( std::string const & name
+		inline void declMember( std::string name
 			, uint32_t dimension
 			, uint32_t location );
 

@@ -101,26 +101,26 @@ namespace sdw
 		*	Variables registration.
 		*/
 		/**@{*/
-		SDW_API bool hasVariable( std::string const & name )const;
-		SDW_API var::VariablePtr registerName( std::string const & name
+		SDW_API bool hasVariable( std::string_view name )const;
+		SDW_API var::VariablePtr registerName( std::string name
 			, type::TypePtr type
 			, uint64_t flags );
-		SDW_API var::VariablePtr registerLocale( std::string const & name
+		SDW_API var::VariablePtr registerLocale( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerLoopVar( std::string const & name
+		SDW_API var::VariablePtr registerLoopVar( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerInParam( std::string const & name
+		SDW_API var::VariablePtr registerInParam( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerOutParam( std::string const & name
+		SDW_API var::VariablePtr registerOutParam( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerInOutParam( std::string const & name
+		SDW_API var::VariablePtr registerInOutParam( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr getVar( std::string const & name );
+		SDW_API var::VariablePtr getVar( std::string_view name );
 		SDW_API void addStmt( stmt::StmtPtr stmt );
 		SDW_API void addGlobalStmt( stmt::StmtPtr stmt );
-		SDW_API void registerSsbo( std::string const & name
+		SDW_API void registerSsbo( std::string name
 			, SsboInfo const & info );
-		SDW_API void registerUbo( std::string const & name
+		SDW_API void registerUbo( std::string name
 			, UboInfo const & info );
 		/**@}*/
 #pragma endregion
@@ -141,11 +141,11 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename ReturnT, typename ... ParamsT >
-		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
+		inline Function< ReturnT, ParamsT... > implementFunction( std::string name
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
 		template< typename ReturnT, typename ... ParamsT >
-		inline Function< ReturnT, ParamsT... > implementFunction( std::string const & name
+		inline Function< ReturnT, ParamsT... > implementFunction( std::string name
 			, ast::stmt::FunctionFlag flag
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
@@ -222,15 +222,15 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declConstant( std::string const & name
+		inline T declConstant( std::string name
 			, T const & rhs
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declConstantArray( std::string const & name
+		inline Array< T > declConstantArray( std::string name
 			, std::vector< T > const & rhs
 			, bool enabled = true );
 		template< ast::type::Kind KindT >
-		inline IntegerValue< KindT > declConstant( std::string const & name
+		inline IntegerValue< KindT > declConstant( std::string name
 			, ReturnWrapperT< IntegerValue< KindT > > rhs
 			, bool enabled = true );
 		/**@}*/
@@ -241,23 +241,23 @@ namespace sdw
 		*	Specialisation constant declaration.
 		*/
 		/**@{*/
-		SDW_API Boolean declSpecConstant( std::string const & name
+		SDW_API Boolean declSpecConstant( std::string name
 			, uint32_t location
 			, bool rhs
 			, bool enabled = true );
-		SDW_API Int declSpecConstant( std::string const & name
+		SDW_API Int declSpecConstant( std::string name
 			, uint32_t location
 			, int32_t rhs
 			, bool enabled = true );
-		SDW_API UInt declSpecConstant( std::string const & name
+		SDW_API UInt declSpecConstant( std::string name
 			, uint32_t location
 			, uint32_t rhs
 			, bool enabled = true );
-		SDW_API Float declSpecConstant( std::string const & name
+		SDW_API Float declSpecConstant( std::string name
 			, uint32_t location
 			, float rhs
 			, bool enabled = true );
-		SDW_API Double declSpecConstant( std::string const & name
+		SDW_API Double declSpecConstant( std::string name
 			, uint32_t location
 			, double rhs
 			, bool enabled = true );
@@ -274,12 +274,12 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > declSampledImage( std::string const & name
+		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > declSampledImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declSampledImage( std::string const & name
+		inline T declSampledImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -288,13 +288,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string const & name
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declSampledImageArray( std::string const & name
+		inline Array< T > declSampledImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -313,12 +313,12 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > declImage( std::string const & name
+		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > declImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declImage( std::string const & name
+		inline T declImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -328,13 +328,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string const & name
+		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declImageArray( std::string const & name
+		inline Array< T > declImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -348,45 +348,45 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declInput( std::string const & name
+		inline T declInput( std::string name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declInput( std::string const & name
+		inline T declInput( std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declInputArray( std::string const & name
+		inline Array< T > declInputArray( std::string name
 			, uint32_t location
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declInputArray( std::string const & name
+		inline Array< T > declInputArray( std::string name
 			, uint32_t location
 			, uint32_t dimension
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline T declInput( std::string const & name
+		inline T declInput( std::string name
 			, uint32_t location
 			, bool enabled
 			, T const & defaultValue );
 		template< typename T >
-		inline T declInput( std::string const & name
+		inline T declInput( std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, bool enabled
 			, T const & defaultValue );
 		template< typename T >
-		inline Array< T > declInputArray( std::string const & name
+		inline Array< T > declInputArray( std::string name
 			, uint32_t location
 			, uint32_t dimension
 			, uint64_t attributes
 			, bool enabled
 			, std::vector< T > const & defaultValue );
 		template< typename T >
-		inline Array< T > declInputArray( std::string const & name
+		inline Array< T > declInputArray( std::string name
 			, uint32_t location
 			, uint32_t dimension
 			, bool enabled
@@ -426,25 +426,25 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline RayPayloadT< T > declRayPayload( std::string const & name
+		inline RayPayloadT< T > declRayPayload( std::string name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline RayPayloadInT< T > declIncomingRayPayload( std::string const & name
+		inline RayPayloadInT< T > declIncomingRayPayload( std::string name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline CallableDataT< T > declCallableData( std::string const & name
+		inline CallableDataT< T > declCallableData( std::string name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline CallableDataInT< T > declIncomingCallableData( std::string const & name
+		inline CallableDataInT< T > declIncomingCallableData( std::string name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline HitAttributeT< T > declHitAttribute( std::string const & name
+		inline HitAttributeT< T > declHitAttribute( std::string name
 			, bool enabled = true );
-		SDW_API AccelerationStructure declAccelerationStructure( std::string const & name
+		SDW_API AccelerationStructure declAccelerationStructure( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -457,7 +457,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T = Ubo >
-		inline T declUniformBuffer( std::string const & name
+		inline T declUniformBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
@@ -471,13 +471,13 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T = Ssbo >
-		inline T declShaderStorageBuffer( std::string const & name
+		inline T declShaderStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
 		template< typename T >
-		inline ArraySsboT< T > declArrayShaderStorageBuffer( std::string const & name
+		inline ArraySsboT< T > declArrayShaderStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -490,7 +490,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename BufferT >
-		inline BufferReferenceT< BufferT > declBufferReference( std::string const & name
+		inline BufferReferenceT< BufferT > declBufferReference( std::string name
 			, ast::type::MemoryLayout layout
 			, ast::type::Storage storage
 			, bool enabled = true );
@@ -503,7 +503,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T = Pcb >
-		inline T declPushConstantsBuffer( std::string const & name
+		inline T declPushConstantsBuffer( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
 		/**@}*/
@@ -515,7 +515,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T = Struct >
-		inline T declStruct( std::string const & name
+		inline T declStruct( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC );
 		/**@}*/
 #pragma endregion
@@ -526,21 +526,21 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declOutput( std::string const & name
+		inline T declOutput( std::string name
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declOutput( std::string const & name
+		inline T declOutput( std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declOutputArray( std::string const & name
+		inline Array< T > declOutputArray( std::string name
 			, uint32_t location
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declOutputArray( std::string const & name
+		inline Array< T > declOutputArray( std::string name
 			, uint32_t location
 			, uint32_t dimension
 			, uint64_t attributes
@@ -554,54 +554,54 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename InstanceT >
-		inline InstanceT declLocale( std::string const & name
+		inline InstanceT declLocale( std::string name
 			, Struct const & type
 			, bool enabled = true );
 		template< typename T >
-		inline T declLocale( std::string const & name
+		inline T declLocale( std::string name
 			, bool enabled = true );
 		template< typename T >
-		inline T declLocale( std::string const & name
+		inline T declLocale( std::string name
 			, T const & rhs );
 		template< typename T >
-		inline T declLocale( std::string const & name
+		inline T declLocale( std::string name
 			, T const & rhs
 			, bool enabled );
 		template< typename T >
-		inline T declLocale( std::string const & name
+		inline T declLocale( std::string name
 			, bool enabled
 			, T const & defaultValue );
 		template< typename T >
-		inline Array< T > declLocaleArray( std::string const & name
+		inline Array< T > declLocaleArray( std::string name
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declLocaleArray( std::string const & name
+		inline Array< T > declLocaleArray( std::string name
 			, uint32_t dimension
 			, std::vector< T > const & rhs
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declLocale( std::string const & name
+		inline Array< T > declLocale( std::string name
 			, Array< T > const & rhs );
 		template< typename T >
-		inline Array< T > declLocale( std::string const & name
+		inline Array< T > declLocale( std::string name
 			, Array< T > const & rhs
 			, bool enabled );
 		template< typename T >
-		inline Array< T > declLocaleArray( std::string const & name
+		inline Array< T > declLocaleArray( std::string name
 			, uint32_t dimension
 			, bool enabled
 			, std::vector< T > const & defaultValue );
 		template< typename T >
-		inline T declLocale( std::string const & name
+		inline T declLocale( std::string name
 			, ReturnWrapperT< T > rhs
 			, bool enabled = true );
 		template< typename T >
-		inline T declLocale( std::string const & name
+		inline T declLocale( std::string name
 			, bool enabled
 			, ReturnWrapperT< T > defaultValue );
 		template< typename BaseT, typename DerivedT >
-		inline std::unique_ptr< BaseT > declDerivedLocale( std::string const & name
+		inline std::unique_ptr< BaseT > declDerivedLocale( std::string name
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -612,10 +612,10 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T getVariable( std::string const & name
+		inline T getVariable( std::string_view name
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > getVariableArray( std::string const & name
+		inline Array< T > getVariableArray( std::string_view name
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -646,37 +646,37 @@ namespace sdw
 		SDW_API void doPopScope();
 
 	protected:
-		SDW_API var::VariablePtr registerStaticConstant( std::string const & name
+		SDW_API var::VariablePtr registerStaticConstant( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerConstant( std::string const & name
+		SDW_API var::VariablePtr registerConstant( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerSpecConstant( std::string const & name
+		SDW_API var::VariablePtr registerSpecConstant( std::string name
 			, uint32_t location
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerAccelerationStructure( std::string const & name
+		SDW_API var::VariablePtr registerAccelerationStructure( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDW_API var::VariablePtr registerSampledImage( std::string const & name
+		SDW_API var::VariablePtr registerSampledImage( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDW_API var::VariablePtr registerImage( std::string const & name
+		SDW_API var::VariablePtr registerImage( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDW_API var::VariablePtr registerInput( std::string const & name
-			, uint32_t location
-			, uint64_t attributes
-			, type::TypePtr type );
-		SDW_API var::VariablePtr registerOutput( std::string const & name
+		SDW_API var::VariablePtr registerInput( std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerInOut( std::string const & name
+		SDW_API var::VariablePtr registerOutput( std::string name
+			, uint32_t location
+			, uint64_t attributes
+			, type::TypePtr type );
+		SDW_API var::VariablePtr registerInOut( std::string name
 			, uint64_t attributes
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerBuiltin( ast::Builtin builtin

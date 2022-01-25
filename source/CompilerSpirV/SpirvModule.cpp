@@ -160,12 +160,12 @@ namespace spirv
 
 		std::map< std::string, VariableInfo >::iterator doAddVariable( ValueId varTypeId
 			, ValueId varId
-			, std::string const & name
+			, std::string name
 			, ValueId initialiser
 			, std::map< std::string, VariableInfo > & variables
 			, InstructionList & instructions )
 		{
-			auto result = variables.emplace( name, VariableInfo{} ).first;
+			auto result = variables.emplace( std::move( name ), VariableInfo{} ).first;
 			result->second.id = varId;
 			result->second.isParam = false;
 			result->second.isAlias = false;
@@ -524,7 +524,7 @@ namespace spirv
 		}
 	}
 
-	VariableInfo Module::registerParam( std::string const & name
+	VariableInfo Module::registerParam( std::string name
 		, bool isOutput
 		, ast::type::TypePtr type )
 	{
@@ -537,12 +537,12 @@ namespace spirv
 
 			if ( m_currentFunction )
 			{
-				it = m_currentScopeVariables->emplace( name
+				it = m_currentScopeVariables->emplace( std::move( name )
 					, VariableInfo{ typeId, false, true, isOutput } ).first;
 			}
 			else
 			{
-				it = m_registeredVariables.emplace( name
+				it = m_registeredVariables.emplace( std::move( name )
 					, VariableInfo{ typeId, false, true, isOutput } ).first;
 			}
 
@@ -552,7 +552,7 @@ namespace spirv
 		return it->second;
 	}
 
-	VariableInfo Module::registerAlias( std::string const & name
+	VariableInfo Module::registerAlias( std::string name
 		, ast::type::TypePtr type
 		, ValueId exprResultId )
 	{
@@ -564,12 +564,12 @@ namespace spirv
 
 			if ( m_currentFunction )
 			{
-				it = m_currentScopeVariables->emplace( name
+				it = m_currentScopeVariables->emplace( std::move( name )
 					, VariableInfo{ exprResultId, true, false, false } ).first;
 			}
 			else
 			{
-				it = m_registeredVariables.emplace( name
+				it = m_registeredVariables.emplace( std::move( name )
 					, VariableInfo{ exprResultId, true, false, false } ).first;
 			}
 
@@ -579,7 +579,7 @@ namespace spirv
 		return it->second;
 	}
 
-	VariableInfo Module::registerVariable( std::string const & name
+	VariableInfo Module::registerVariable( std::string name
 		, ast::Builtin builtin
 		, spv::StorageClass storage
 		, bool isAlias
@@ -637,7 +637,7 @@ namespace spirv
 				addBuiltin( builtin, id );
 			}
 
-			addVariable( name, id, it, initialiser );
+			addVariable( std::move( name ), id, it, initialiser );
 			sourceInfo = it->second;
 
 			if ( m_version >= v1_4 )
@@ -664,7 +664,7 @@ namespace spirv
 				it->second.isParam = false;
 				it->second.isOutParam = false;
 				addDebug( "ptr_" + name, id );
-				addVariable( name, id, it, {} );
+				addVariable( std::move( name ), id, it, {} );
 
 				if ( m_version >= v1_4 )
 				{
@@ -990,13 +990,13 @@ namespace spirv
 		return it->second;
 	}
 
-	void Module::registerExtension( std::string const & name )
+	void Module::registerExtension( std::string name )
 	{
-		extensions.push_back( makeInstruction< ExtensionInstruction >( name ) );
+		extensions.push_back( makeInstruction< ExtensionInstruction >( std::move( name ) ) );
 	}
 
 	void Module::registerEntryPoint( ValueId functionId
-		, std::string const & name
+		, std::string name
 		, ValueIdList const & inputs
 		, ValueIdList const & outputs )
 	{
@@ -1022,7 +1022,7 @@ namespace spirv
 		entryPoint = makeInstruction< EntryPointInstruction >( ValueId{ spv::Id( m_model ) }
 			, functionId
 			, operands
-			, name );
+			, std::move( name ) );
 
 		switch ( m_model )
 		{
@@ -1274,7 +1274,7 @@ namespace spirv
 		return id;
 	}
 
-	Function * Module::beginFunction( std::string const & name
+	Function * Module::beginFunction( std::string name
 		, ValueId retType
 		, ast::var::VariableList const & params )
 	{
@@ -1339,7 +1339,7 @@ namespace spirv
 		}
 
 		m_registeredVariablesTypes.emplace( result, funcTypeId );
-		debug.push_back( makeInstruction< NameInstruction >( result, name ) );
+		debug.push_back( makeInstruction< NameInstruction >( result, std::move( name ) ) );
 		variables = &m_currentFunction->variables;
 
 		return m_currentFunction;
@@ -1928,7 +1928,7 @@ namespace spirv
 		return result;
 	}
 
-	void Module::addVariable( std::string const & name
+	void Module::addVariable( std::string name
 		, ValueId varId
 		, std::map< std::string, VariableInfo >::iterator & it
 		, ValueId initialiser )
@@ -1952,7 +1952,7 @@ namespace spirv
 		{
 			it = doAddVariable( varTypeId
 				, varId
-				, name
+				, std::move( name )
 				, initialiser
 				, *m_currentScopeVariables
 				, m_currentFunction->variables );
@@ -1961,7 +1961,7 @@ namespace spirv
 		{
 			it = doAddVariable( varTypeId
 				, varId
-				, name
+				, std::move( name )
 				, initialiser
 				, m_registeredVariables
 				, globalDeclarations );

@@ -18,20 +18,20 @@ namespace hlsl
 		ast::var::VariablePtr registerBuiltin( ast::Builtin builtin
 			, ast::type::TypePtr type
 			, uint64_t flags );
-		ast::var::VariablePtr registerName( std::string const & name
+		ast::var::VariablePtr registerName( std::string name
 			, ast::type::TypePtr type
 			, uint64_t flags );
-		ast::var::VariablePtr registerName( std::string const & name
+		ast::var::VariablePtr registerName( std::string name
 			, ast::type::TypePtr type );
-		ast::var::VariablePtr registerName( std::string const & name
+		ast::var::VariablePtr registerName( std::string name
 			, ast::type::TypePtr type
 			, ast::var::Flag flag );
-		ast::var::VariablePtr registerSampler( std::string const & name
+		ast::var::VariablePtr registerSampler( std::string name
 			, ast::type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		ast::var::VariablePtr registerImage( std::string const & name
+		ast::var::VariablePtr registerImage( std::string name
 			, ast::type::TypePtr type
 			, uint32_t binding
 			, uint32_t set

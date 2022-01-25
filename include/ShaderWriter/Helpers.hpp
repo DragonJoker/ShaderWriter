@@ -243,7 +243,7 @@ namespace sdw
 	SDW_API stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
 		, type::TypePtr type );
 	SDW_API stmt::StmtPtr makeStructDecl( type::StructPtr type );
-	SDW_API stmt::StmtPtr makeShaderStructBufferDecl( std::string const & ssboName
+	SDW_API stmt::StmtPtr makeShaderStructBufferDecl( std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint
@@ -306,24 +306,24 @@ namespace sdw
 	SDW_API void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
 	SDW_API var::VariablePtr registerName( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type );
 	SDW_API var::VariablePtr registerName( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type
 		, uint64_t flags );
 	SDW_API var::VariablePtr registerMember( ShaderWriter & writer
 		, var::VariablePtr outer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type );
 	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, type::TypePtr type );
 	SDW_API var::VariablePtr getVar( ShaderWriter & writer
-		, std::string const & name );
+		, std::string_view name );
 	SDW_API var::VariablePtr getMemberVar( ShaderWriter & writer
 		, ast::var::VariablePtr outer
-		, std::string const & name );
+		, std::string_view name );
 }
 
 #include "Helpers.inl"

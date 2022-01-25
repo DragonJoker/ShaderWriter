@@ -10,14 +10,14 @@ See LICENSE file in root folder
 namespace sdw
 {
 	Pcb::Pcb( ShaderWriter & writer
-		, std::string const & name
+		, std::string name
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
 		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
-		, m_name{ name }
-		, m_info{ writer.getTypesCache(), layout, name }
+		, m_name{ std::move( name ) }
+		, m_info{ writer.getTypesCache(), layout, m_name }
 		, m_var{ writer.getShader().registerName( m_name, m_info.getType(), var::Flag::ePushConstant ) }
 		, m_enabled{ enabled }
 	{
@@ -32,12 +32,12 @@ namespace sdw
 		}
 	}
 
-	StructInstance Pcb::declMember( std::string const & name
+	StructInstance Pcb::declMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
 		auto type = m_info.registerMember( name, s.getType() );
-		auto var = registerMember( m_writer, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled )
 		{
