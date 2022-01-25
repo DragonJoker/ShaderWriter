@@ -10,6 +10,8 @@ See LICENSE file in root folder
 #include "HlslIntrinsicConfig.hpp"
 #include "HlslTextureAccessConfig.hpp"
 
+#include <ShaderAST/Visitors/GetExprName.hpp>
+
 namespace hlsl
 {
 	void ExprConfigFiller::submit( ast::expr::Expr * expr
@@ -85,8 +87,17 @@ namespace hlsl
 				, *expr
 				, 0u );
 		}
-		else if ( expr->isShaderInput() || expr->isShaderOutput() )
+		else if ( !expr->isPerTask()
+			&& ( expr->isShaderInput() || expr->isShaderOutput() ) )
 		{
+			auto ident = ast::findIdentifier( expr );
+
+			if ( ident
+				&& ident->getVariable()->isPerTask() )
+			{
+				return;
+			}
+
 			auto type = expr->getOuterType();
 			auto mbr = type->getMember( expr->getMemberIndex() );
 

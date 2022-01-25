@@ -604,13 +604,25 @@ namespace hlsl
 						params.push_back( mbr );
 					}
 				}
+				else if ( argType->getKind() == ast::type::Kind::eTaskPayloadIn )
+				{
+					auto & taskType = static_cast< ast::type::TaskPayloadIn const & >( *argType );
+					argType = taskType.getType();
+
+					if ( argType->getKind() != ast::type::Kind::eVoid
+						&& ( argType->getKind() != ast::type::Kind::eStruct
+							|| !static_cast< ast::type::Struct const & >( *argType ).empty() ) )
+					{
+						params.push_back( mbr );
+					}
+				}
 				else
 				{
 					params.push_back( mbr );
 				}
 			}
 
-			if ( isMeshStage( m_writerConfig.shaderStage ) )
+			if ( m_writerConfig.shaderStage == ast::ShaderStage::eMesh )
 			{
 				m_result += writeMeshPrimOut( m_routines
 					, m_indent );
@@ -1051,6 +1063,11 @@ namespace hlsl
 		if ( var.isStatic() )
 		{
 			m_result += "static ";
+		}
+
+		if ( var.isPerTask() )
+		{
+			m_result += "groupshared ";
 		}
 
 		m_result += getTypeName( var.getType() ) + " ";

@@ -607,6 +607,10 @@ namespace hlsl
 		{
 			result = "inout ";
 		}
+		else if ( var.isPerTask() )
+		{
+			result = "groupshared ";
+		}
 		else if ( var.isInputParam()
 			|| var.isShaderInput() )
 		{
@@ -852,6 +856,14 @@ namespace hlsl
 		{
 			result = "primitives ";
 		}
+		else if ( type->getKind() == ast::type::Kind::eTaskPayload )
+		{
+			result = "payload ";
+		}
+		else if ( type->getKind() == ast::type::Kind::eTaskPayloadIn )
+		{
+			result = "payload ";
+		}
 
 		return result;
 	}
@@ -924,6 +936,12 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eMeshPrimitiveOutput:
 			result = getTypeName( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType() );
+			break;
+		case ast::type::Kind::eTaskPayload:
+			result = getTypeName( static_cast< ast::type::TaskPayload const & >( *type ).getType() );
+			break;
+		case ast::type::Kind::eTaskPayloadIn:
+			result = getTypeName( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType() );
 			break;
 		default:
 			result = getTypeName( type->getKind() );
@@ -1372,19 +1390,20 @@ namespace hlsl
 		paramStruct = shader->getTypesCache().getIOStruct( ast::type::MemoryLayout::eC
 			, "HLSL_SDW_" + type + suffix
 			, flag );
+		uint64_t flags = flag | paramFlag;
 
 		if ( stage == ast::ShaderStage::eGeometry && !isInput )
 		{
-			paramVar = shader->registerName( "sdw" + suffix + type
-				, paramStruct
-				, flag | paramFlag | ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput );
+			flags = flags | ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput;
 		}
-		else
+		else if ( stage == ast::ShaderStage::eTask && !isInput )
 		{
-			paramVar = shader->registerName( "sdw" + suffix + type
-				, paramStruct
-				, flag | paramFlag );
+			flags = flags | ast::var::Flag::ePerTask;
 		}
+
+		paramVar = shader->registerName( "sdw" + suffix + type
+			, paramStruct
+			, flags );
 
 		if ( needsSeparate( mode ) )
 		{
@@ -1819,6 +1838,8 @@ namespace hlsl
 		auto compType = getComponentType( type );
 
 		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+			&& !isMeshStage( stage )
+			&& !isRayTraceStage( stage )
 			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
 			flags = flags | ast::var::Flag::eFlat;
@@ -1956,9 +1977,21 @@ namespace hlsl
 		: shader{ &pshader }
 		, parent{ pparent }
 		, isMain{ pisMain }
-		, m_highFreqOutputs{ *shader, getMode( shader->getType(), isMain, false, true, false ), false, false, getFuncName( isMain ) }
-		, m_lowFreqInputs{ *shader, getMode( shader->getType(), isMain, true, false, false ), true, false, getFuncName( isMain ) }
-		, m_lowFreqOutputs{ *shader, getMode( shader->getType(), isMain, false, false, false ), false, isMeshStage( shader->getType() ), getFuncName( isMain ) }
+		, m_highFreqOutputs{ *shader
+			, getMode( shader->getType(), isMain, false, true, false )
+			, false
+			, false
+			, getFuncName( isMain ) }
+		, m_lowFreqInputs{ *shader
+			, getMode( shader->getType(), isMain, true, false, false )
+			, true
+			, false
+			, getFuncName( isMain ) }
+		, m_lowFreqOutputs{ *shader
+			, getMode( shader->getType(), isMain, false, false, false )
+			, false
+			, isMeshStage( shader->getType() )
+			, getFuncName( isMain ) }
 		, m_primitiveIndices{}
 	{
 	}
@@ -2005,6 +2038,15 @@ namespace hlsl
 			, ast::type::makeTessellationOutputPatchType( m_highFreqOutputs.paramStruct
 				, patchType.getLocation() )
 			, uint64_t( ast::var::Flag::eShaderOutput )
+			, paramToEntryPoint );
+	}
+
+	void Routine::initialiseHFOutput( ast::var::VariablePtr srcVar
+		, ast::type::TaskPayload const & taskType )
+	{
+		m_highFreqOutputs.initialiseMainVar( srcVar
+			, ast::type::makeTaskPayloadType( m_highFreqOutputs.paramStruct )
+			, ast::var::Flag::eShaderOutput | ast::var::Flag::ePerTask
 			, paramToEntryPoint );
 	}
 
@@ -2471,6 +2513,9 @@ namespace hlsl
 				break;
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
+				break;
+			case ast::type::Kind::eTaskPayloadIn:
+				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 				break;
 			default:
 				{
@@ -3201,6 +3246,32 @@ namespace hlsl
 		}
 
 		m_currentRoutine->initialiseLFOutput( var, meshType );
+	}
+
+	void AdaptationData::registerParam( ast::var::VariablePtr var
+		, ast::type::TaskPayloadIn const & taskType )
+	{
+		assert( m_currentRoutine );
+		auto type = taskType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( isStructType( type ) )
+		{
+			auto & structType = *getStructType( type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
+		}
+
+		m_highFreqInputs.initialiseMainVar( var
+			, ast::type::makeTaskPayloadInType( m_highFreqInputs.paramStruct )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
+			, m_currentRoutine->paramToEntryPoint );
 	}
 
 	void AdaptationData::registerInput( ast::var::VariablePtr var

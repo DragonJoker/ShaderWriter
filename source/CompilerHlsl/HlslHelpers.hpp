@@ -223,6 +223,8 @@ namespace hlsl
 			, ast::type::MeshVertexOutput const & meshType );
 		void initialiseHFOutput( ast::var::VariablePtr var
 			, ast::type::TessellationOutputPatch const & patchType );
+		void initialiseHFOutput( ast::var::VariablePtr var
+			, ast::type::TaskPayload const & taskType );
 		void initialiseLFOutput( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
 
@@ -446,6 +448,8 @@ namespace hlsl
 			, ast::type::MeshVertexOutput const & meshType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TaskPayloadIn const & taskType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, bool isEntryPoint );

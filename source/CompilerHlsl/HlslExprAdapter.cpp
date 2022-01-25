@@ -1094,6 +1094,16 @@ namespace hlsl
 				args.insert( args.begin()
 					, ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().paramVar ) );
 			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMesh )
+			{
+				auto payload = std::move( args.front() );
+				auto localSizeX = std::move( args.back() );
+				args.clear();
+				args.emplace_back( std::move( localSizeX ) );
+				args.emplace_back( ast::expr::makeLiteral( m_cache, 1u ) );
+				args.emplace_back( ast::expr::makeLiteral( m_cache, 1u ) );
+				args.emplace_back( std::move( payload ) );
+			}
 
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEndPrimitive
 				|| expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex
