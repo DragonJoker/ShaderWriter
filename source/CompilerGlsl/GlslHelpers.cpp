@@ -323,6 +323,12 @@ namespace glsl
 		case ast::type::Kind::eTessellationEvaluationInput:
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
 			break;
+		case ast::type::Kind::eTaskPayload:
+			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayload >( type )->getType() );
+			break;
+		case ast::type::Kind::eTaskPayloadIn:
+			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadIn >( type )->getType() );
+			break;
 		case ast::type::Kind::ePointer:
 			result = getTypeName( std::static_pointer_cast< ast::type::Pointer >( type )->getPointerType() );
 			break;

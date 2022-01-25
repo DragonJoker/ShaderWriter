@@ -262,11 +262,11 @@ namespace glsl
 			return stream.str();
 		}
 
-		std::string writeStruct( std::string indent
+		std::string writeBlock( std::string indent
 			, ast::type::Struct const & structType )
 		{
 			std::string result;
-			result += indent + "struct " + structType.getName();
+			result += structType.getName();
 
 			if ( !structType.empty() )
 			{
@@ -279,8 +279,8 @@ namespace glsl
 					result += indent;
 
 					if ( mbr.location != ast::type::Struct::InvalidLocation
-						&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchOutput )
-						&& structType.getFlag() != uint64_t( ast::var::Flag::ePatchInput ) )
+						&& !hasFlag( structType.getFlag(), ast::var::Flag::ePatchOutput )
+						&& !hasFlag( structType.getFlag(), ast::var::Flag::ePatchInput ) )
 					{
 						result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
 						result += ( structType.isShaderInput()
@@ -294,13 +294,26 @@ namespace glsl
 				}
 
 				indent = save;
-				result += indent + "};\n";
-			}
-			else
-			{
-				result += ";\n";
+				result += indent + "}";
 			}
 
+			return result;
+		}
+
+		std::string writeStruct( std::string indent
+			, ast::type::Struct const & structType
+			, std::string const & instanceName )
+		{
+			std::string result;
+			result += indent + "struct ";
+			result += writeBlock( indent, structType );
+
+			if ( !instanceName.empty() )
+			{
+				result += " " + instanceName;
+			}
+
+			result += ";\n";
 			return result;
 		}
 	}
@@ -957,7 +970,7 @@ namespace glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += writeStruct( m_indent, *stmt->getType() );
+		m_result += writeStruct( m_indent, *stmt->getType(), std::string{} );
 	}
 
 	void StmtVisitor::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
@@ -1005,13 +1018,32 @@ namespace glsl
 		if ( !stmt->getVariable()->isBuiltin() )
 		{
 			doAppendLineEnd();
-			m_result += m_indent;
-			join( m_result, getDirectionName( *stmt->getVariable() ), " " );
-			join( m_result, getInterpolationQualifier( *stmt->getVariable() ), " " );
-			join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
-			join( m_result, stmt->getVariable()->getName(), " " );
-			m_result += getTypeArraySize( stmt->getVariable()->getType() );
-			m_result += ";\n";
+			auto var = stmt->getVariable();
+
+			if ( var->isPerTask() )
+			{
+				auto structType = getStructType( var->getType() );
+
+				if ( structType && !structType->empty() )
+				{
+					m_result += m_indent + "taskNV";
+					join( m_result, getDirectionName( *var ), " " );
+					m_result += " " + writeBlock( m_indent
+						, *getStructType( var->getType() ) );
+					join( m_result, var->getName(), " " );
+					m_result += ";\n";
+				}
+			}
+			else
+			{
+				m_result += m_indent;
+				join( m_result, getDirectionName( *var ), " " );
+				join( m_result, getInterpolationQualifier( *var ), " " );
+				join( m_result, getTypeName( var->getType() ), " " );
+				join( m_result, var->getName(), " " );
+				m_result += getTypeArraySize( var->getType() );
+				m_result += ";\n";
+			}
 		}
 	}
 

@@ -117,6 +117,8 @@ namespace glsl
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
 		void doProcess( ast::var::VariablePtr var
+			, ast::type::TaskPayloadIn const & taskType );
+		void doProcess( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
 		void doProcessOutput( ast::var::VariablePtr var
 			, ast::type::IOStructPtr structType

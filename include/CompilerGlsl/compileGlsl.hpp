@@ -83,6 +83,7 @@ namespace glsl
 	makeGlExtension( v4_5, v4_5, vUnk, NV_stereo_view_rendering );
 	makeGlExtension( v4_5, v4_5, vUnk, NVX_multiview_per_view_attributes );
 	makeGlExtension( v4_5, v4_5, vUnk, EXT_nonuniform_qualifier );
+	makeGlExtension( v4_5, v4_5, vUnk, NV_mesh_shader );
 	makeGlExtension( v4_5, v4_6, vUnk, EXT_buffer_reference2 );
 	makeGlExtension( v4_6, v4_6, vUnk, EXT_shader_atomic_float );
 	makeGlExtension( v4_6, v4_6, vUnk, EXT_ray_tracing );
