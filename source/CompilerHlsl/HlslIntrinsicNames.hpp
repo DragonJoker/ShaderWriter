@@ -1072,6 +1072,7 @@ namespace hlsl
 			result = "GroupMemoryBarrier";
 			break;
 
+	// Ray tracing Shader Functions
 		case ast::expr::Intrinsic::eTraceRay:
 			result = "TraceRay";
 			break;
@@ -1084,8 +1085,13 @@ namespace hlsl
 			result = "CallShader";
 			break;
 
+	//Mesh Shader Functions
 		case ast::expr::Intrinsic::eSetMeshOutputCounts:
 			result = "SetMeshOutputCounts";
+			break;
+
+		case ast::expr::Intrinsic::eDispatchMesh:
+			result = "DispatchMesh";
 			break;
 
 		default:
