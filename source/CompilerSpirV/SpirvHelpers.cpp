@@ -249,6 +249,11 @@ namespace spirv
 						|| builtin == ast::Builtin::eLocalInvocationID
 						|| builtin == ast::Builtin::eGlobalInvocationID
 						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
+				|| ( type == ast::ShaderStage::eTask
+					&& ( builtin == ast::Builtin::eWorkGroupID
+						|| builtin == ast::Builtin::eLocalInvocationID
+						|| builtin == ast::Builtin::eGlobalInvocationID
+						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
 				|| ( type == ast::ShaderStage::eFragment
 					&& ( builtin == ast::Builtin::eFragCoord
 						|| builtin == ast::Builtin::eFrontFacing
@@ -527,6 +532,12 @@ namespace spirv
 		case ast::type::Kind::eMeshPrimitiveOutput:
 			checkType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), config );
 			break;
+		case ast::type::Kind::eTaskPayload:
+			checkType( static_cast< ast::type::TaskPayload const & >( *type ).getType(), config );
+			break;
+		case ast::type::Kind::eTaskPayloadIn:
+			checkType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), config );
+			break;
 		case ast::type::Kind::ePointer:
 			checkType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), config );
 			break;
@@ -620,25 +631,25 @@ namespace spirv
 		case ast::Builtin::eWorkGroupSize:
 			break;
 		case ast::Builtin::eWorkGroupID:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( isMeshStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
 			}
 			break;
 		case ast::Builtin::eLocalInvocationID:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( isMeshStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
 			}
 			break;
 		case ast::Builtin::eGlobalInvocationID:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( isMeshStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
 			}
 			break;
 		case ast::Builtin::eLocalInvocationIndex:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( isMeshStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
 			}
@@ -774,6 +785,11 @@ namespace spirv
 		}
 
 		return patchVar;
+	}
+
+	void IOMapping::add( ast::var::VariablePtr var )
+	{
+		m_processed.push_back( var );
 	}
 
 	void IOMapping::addPending( ast::var::VariablePtr pendingVar
@@ -1027,8 +1043,8 @@ namespace spirv
 	{
 		auto compType = getComponentType( type );
 
-		if ( ( ( stage != ast::ShaderStage::eVertex || !isInput )
-				&& stage != ast::ShaderStage::eMesh )
+		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+			&& !isMeshStage( stage )
 			&& !isRayTraceStage( stage )
 			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
@@ -1530,6 +1546,9 @@ namespace spirv
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
+			case ast::type::Kind::eTaskPayloadIn:
+				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
+				break;
 			default:
 				{
 					uint32_t arraySize = ast::type::NotArray;
@@ -1946,6 +1965,12 @@ namespace spirv
 		}
 	}
 
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TaskPayloadIn const & taskType )
+	{
+		addInput( var );
+	}
+
 	void ModuleConfig::registerInput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & structType
 		, uint32_t arraySize
@@ -2209,6 +2234,9 @@ namespace spirv
 			break;
 		case ast::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
+			break;
+		case ast::ShaderStage::eTask:
+			result = spv::ExecutionModelTaskNV;
 			break;
 		case ast::ShaderStage::eMesh:
 			result = spv::ExecutionModelMeshNV;
@@ -3197,6 +3225,48 @@ namespace spirv
 		if ( it == capabilities.end() )
 		{
 			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( capa ) } ) );
+		}
+	}
+
+	void decorateVar( ast::var::Variable const & var
+		, ValueId varId
+		, Module & module )
+	{
+		if ( var.isFlat() )
+		{
+			module.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
+		}
+
+		if ( var.isNoPerspective() )
+		{
+			module.decorate( varId, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
+		}
+
+		if ( var.isCentroid() )
+		{
+			module.decorate( varId, IdList{ spv::Id( spv::DecorationCentroid ) } );
+		}
+
+		if ( var.isPerSample() )
+		{
+			module.decorate( varId, IdList{ spv::Id( spv::DecorationSample ) } );
+		}
+
+		if ( var.isPatch() )
+		{
+			module.decorate( varId, IdList{ spv::Id( spv::DecorationPatch ) } );
+		}
+
+		if ( var.isPerPrimitive()
+			|| var.getType()->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
+		{
+			module.decorate( varId, { spv::Id( spv::DecorationPerPrimitiveNV ) } );
+		}
+
+		if ( var.isPerTask()
+			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadIn )
+		{
+			module.decorate( varId, { spv::Id( spv::DecorationPerTaskNV ) } );
 		}
 	}
 

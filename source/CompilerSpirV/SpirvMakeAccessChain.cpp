@@ -398,6 +398,8 @@ namespace spirv
 							, sourceInfo ).id;
 					}
 
+					decorateVar( *var, m_result, m_module );
+
 					if ( sourceInfo.needsStoreOnPromote() )
 					{
 						m_module.storePromoted( m_result

@@ -418,6 +418,17 @@ namespace spirv
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
 		doTraverseType( stmt->getVariable()->getType() );
+		auto var = stmt->getVariable();
+
+		if ( var->isShaderInput() )
+		{
+			m_result.addInput( var );
+		}
+
+		if ( var->isShaderOutput() )
+		{
+			m_result.addOutput( var );
+		}
 	}
 
 	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )

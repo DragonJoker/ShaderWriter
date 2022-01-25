@@ -251,6 +251,21 @@ namespace spirv
 				, doSubmit( ident.get() )
 				, std::move( numPrimitives ) );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMesh )
+		{
+			auto numTasks = std::move( args.back() );
+			args.pop_back();
+			auto type = numTasks->getType();
+			auto var = ast::var::makeBuiltin( ++m_adaptationData.config.nextVarId
+				, ast::Builtin::eTaskCountNV
+				, type
+				, ast::var::Flag::eShaderOutput );
+			auto ident = ast::expr::makeIdentifier( m_cache, var );
+			m_adaptationData.config.addPendingOutput( var, ast::type::Struct::InvalidLocation );
+			m_result = ast::expr::makeAssign( type
+				, doSubmit( ident.get() )
+				, std::move( numTasks ) );
+		}
 		else
 		{
 			if ( expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay )

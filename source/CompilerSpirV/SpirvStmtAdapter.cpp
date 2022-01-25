@@ -324,6 +324,11 @@ namespace spirv
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TaskPayloadIn const & taskType )
+	{
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationInputPatch const & patchType )
 	{
 		var = m_adaptationData.config.getInputPatch( var );
@@ -419,6 +424,9 @@ namespace spirv
 				break;
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
+				break;
+			case ast::type::Kind::eTaskPayloadIn:
+				doProcess( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 				break;
 			default:
 				break;

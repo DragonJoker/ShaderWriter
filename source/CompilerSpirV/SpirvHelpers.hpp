@@ -68,6 +68,7 @@ namespace spirv
 		void addPatch( ast::var::VariablePtr patchVar
 			, uint32_t location );
 		ast::var::VariablePtr getPatch( ast::var::VariablePtr patchVar );
+		void add( ast::var::VariablePtr var );
 		void addPending( ast::var::VariablePtr pendingVar
 			, uint32_t location );
 		void addPendingMbr( ast::var::VariablePtr outerVar
@@ -191,10 +192,15 @@ namespace spirv
 			return inputs.getVars();
 		}
 
+		void addInput( ast::var::VariablePtr var )
+		{
+			inputs.add( var );
+		}
+
 		void addPendingInput( ast::var::VariablePtr var
 			, uint32_t location )
 		{
-			return inputs.addPending( var, location );
+			inputs.addPending( var, location );
 		}
 
 		void addPendingMbrInput( ast::expr::Expr * outer
@@ -257,10 +263,15 @@ namespace spirv
 			return outputs.getVars();
 		}
 
+		void addOutput( ast::var::VariablePtr var )
+		{
+			outputs.add( var );
+		}
+
 		void addPendingOutput( ast::var::VariablePtr var
 			, uint32_t location )
 		{
-			return outputs.addPending( var, location );
+			outputs.addPending( var, location );
 		}
 
 		void addPendingMbrOutput( ast::expr::Expr * outer
@@ -354,6 +365,8 @@ namespace spirv
 			, ast::type::MeshVertexOutput const & meshType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::TaskPayloadIn const & taskType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize
@@ -472,6 +485,9 @@ namespace spirv
 	bool isPointerParam( ast::var::Variable const & param );
 	void insertCapability( InstructionList & capabilities
 		, spv::Capability capa );
+	void decorateVar( ast::var::Variable const & var
+		, ValueId varId
+		, Module & module );
 }
 
 #endif
