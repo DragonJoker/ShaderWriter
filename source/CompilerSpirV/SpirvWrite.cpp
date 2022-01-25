@@ -1986,10 +1986,6 @@ namespace spirv
 				|| decoration == spv::DecorationInputAttachmentIndex
 				|| decoration == spv::DecorationAlignment
 				|| decoration == spv::DecorationSecondaryViewportRelativeNV
-				|| decoration == spv::DecorationPerPrimitiveNV
-				|| decoration == spv::DecorationPerViewNV
-				|| decoration == spv::DecorationPerTaskNV
-				|| decoration == spv::DecorationPerVertexNV
 				|| decoration == spv::DecorationReferencedIndirectlyINTEL
 				|| decoration == spv::DecorationCounterBuffer
 				|| decoration == spv::DecorationUserSemantic

@@ -81,6 +81,8 @@ namespace spirv
 			, ast::type::MeshVertexOutput const & meshType );
 		void doProcess( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
+		void doProcess( ast::var::VariablePtr var
+			, ast::type::TaskPayloadIn const & taskType );
 		void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt );
 		void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt );
 		void doProcessInOut( ast::type::FunctionPtr funcType

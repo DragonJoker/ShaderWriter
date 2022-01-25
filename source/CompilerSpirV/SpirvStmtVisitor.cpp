@@ -451,14 +451,22 @@ namespace spirv
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
-		m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+
+		if ( stmt->getLocation() != ast::type::Struct::InvalidLocation )
+		{
+			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+		}
 	}
 
 	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
-		m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+
+		if ( stmt->getLocation() != ast::type::Struct::InvalidLocation )
+		{
+			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+		}
 	}
 
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
@@ -470,7 +478,8 @@ namespace spirv
 		{
 			m_result.decorate( varId, { spv::Id( spv::DecorationSpecId ), stmt->getLocation() } );
 		}
-		else if ( !var->isBuiltin() )
+		else if ( !var->isBuiltin()
+			&& stmt->getLocation() != ast::type::Struct::InvalidLocation )
 		{
 			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
 		}
@@ -799,36 +808,7 @@ namespace spirv
 				, info ).id;
 		}
 
-		if ( var->isFlat() )
-		{
-			m_result.decorate( result, IdList{ spv::Id( spv::DecorationFlat ) } );
-		}
-
-		if ( var->isNoPerspective() )
-		{
-			m_result.decorate( result, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
-		}
-
-		if ( var->isCentroid() )
-		{
-			m_result.decorate( result, IdList{ spv::Id( spv::DecorationCentroid ) } );
-		}
-
-		if ( var->isPerSample() )
-		{
-			m_result.decorate( result, IdList{ spv::Id( spv::DecorationSample ) } );
-		}
-
-		if ( var->isPatch() )
-		{
-			m_result.decorate( result, IdList{ spv::Id( spv::DecorationPatch ) } );
-		}
-
-		if ( var->isPerPrimitive() )
-		{
-			m_result.decorate( result, { spv::Id( spv::DecorationPerPrimitiveNV ) } );
-		}
-
+		decorateVar( *var, result, m_result );
 		return result;
 	}
 }

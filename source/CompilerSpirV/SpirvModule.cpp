@@ -1575,6 +1575,22 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
+		else if ( type->getRawKind() == ast::type::Kind::eTaskPayload )
+		{
+			auto & outputType = static_cast< ast::type::TaskPayload const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
+		{
+			auto & outputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else if ( type->getRawKind() == ast::type::Kind::eComputeInput )
 		{
 			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
@@ -1830,6 +1846,7 @@ namespace spirv
 			insertCapability( capabilities, spv::CapabilityShader );
 			insertCapability( capabilities, spv::CapabilityGeometry );
 			break;
+		case spv::ExecutionModelTaskNV:
 		case spv::ExecutionModelMeshNV:
 			insertCapability( capabilities, spv::CapabilityShader );
 			insertCapability( capabilities, spv::CapabilityMeshShadingNV );
