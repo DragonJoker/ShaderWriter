@@ -6,7 +6,7 @@ namespace test
 {
 	bool createGLSLContext( sdw_test::TestCounts & testCounts );
 	void destroyGLSLContext( sdw_test::TestCounts & testCounts );
-	bool compileGlsl( std::string const & shader
+	bool compileGlsl( std::string_view shader
 		, ast::ShaderStage type
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts );

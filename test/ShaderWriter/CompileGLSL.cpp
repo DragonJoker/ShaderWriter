@@ -750,7 +750,7 @@ namespace test
 		bool doCheckCompileErrors( RenderWindow const & window
 			, bool compiled
 			, GLuint shaderName
-			, std::string const & source
+			, std::string_view source
 			, std::string & errors )
 		{
 			auto compilerLog = doRetrieveCompilerLog( window, shaderName );
@@ -829,7 +829,7 @@ namespace test
 		testCounts.glsl.reset();
 	}
 
-	bool compileGlsl( std::string const & source
+	bool compileGlsl( std::string_view source
 		, ast::ShaderStage stage
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
@@ -880,7 +880,7 @@ namespace test
 	{
 	}
 
-	bool compileGlsl( std::string const & source
+	bool compileGlsl( std::string_view source
 		, ast::ShaderStage stage
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts )
