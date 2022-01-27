@@ -110,7 +110,7 @@ namespace sdw
 		template< sdw::StringLiteralT FieldNameT, typename FieldU, typename... FieldsU >
 		constexpr static auto doGetFieldByName()
 		{
-			static_assert( not std::is_same_v<FieldU, EndType>, "That field does not exist in this Ubo" );
+			static_assert( not std::is_same_v<FieldU, EndType>, "That field does not exist in this structure" );
 
 			if constexpr ( std::string_view( FieldNameT.value ) == FieldU::Name )
 			{
