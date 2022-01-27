@@ -64,26 +64,24 @@ namespace sdw
 	};
 
 	template< ast::type::MemoryLayout LayoutT
-		, uint32_t BindT
-		, uint32_t SetT
 		, typename... FieldsT >
 	class UboHelperT
 		: public StructHelperT< Ubo, LayoutT, FieldsT... >
 	{
 	public:
-		static constexpr uint32_t Bind = BindT;
-		static constexpr uint32_t Set = SetT;
-
-		UboHelperT( ShaderWriter & writer, const std::string & name )
-			: StructHelperT< Ubo, LayoutT, FieldsT... >{ writer, name, BindT, SetT, LayoutT }
+		UboHelperT( ShaderWriter & writer
+			, std::string name
+			, uint32_t bind
+			, uint32_t set )
+			: StructHelperT< Ubo, LayoutT, FieldsT... >{ writer, std::move( name ), bind, set, LayoutT }
 		{
 		}
 	};
 
-	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
-	using UboHelperStd140T = UboHelperT< ast::type::MemoryLayout::eStd140, BindT, SetT, FieldsT... >;
-	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
-	using UboHelperStd430T = UboHelperT< ast::type::MemoryLayout::eStd430, BindT, SetT, FieldsT... >;
+	template< typename... FieldsT >
+	using UboHelperStd140T = UboHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
+	template< typename... FieldsT >
+	using UboHelperStd430T = UboHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
 }
 
 #include "Ubo.inl"
