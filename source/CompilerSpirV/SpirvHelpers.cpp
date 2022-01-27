@@ -1410,6 +1410,7 @@ namespace spirv
 		case spv::CapabilityFragmentShaderPixelInterlockEXT:
 			break;
 		case spv::CapabilityDemoteToHelperInvocationEXT:
+			registerExtension( EXT_demote_to_helper_invocation );
 			break;
 		case spv::CapabilitySubgroupShuffleINTEL:
 			break;
@@ -2905,6 +2906,8 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpExecuteCallableKHR > >( returnTypeId, resultId, operands );
 		case spv::OpReportIntersectionKHR:
 			return makeInstruction< IntrinsicInstructionT< spv::OpReportIntersectionKHR > >( returnTypeId, resultId, operands );
+		case spv::OpIsHelperInvocationEXT:
+			return makeInstruction< IntrinsicInstructionT< spv::OpIsHelperInvocationEXT > >( returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}

@@ -6423,6 +6423,20 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region helperInvocation
+	/**
+	*name
+	*	helperInvocation
+	*/
+	/**@{*/
+	Boolean helperInvocation( ShaderWriter & writer )
+	{
+		return Boolean{ *findWriter( writer )
+			, expr::makeHelperInvocation( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region memoryBarrier
 	/**
 	*name

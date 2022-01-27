@@ -71,6 +71,10 @@ namespace hlsl
 	{
 	}
 
+	void StmtConfigFiller::visitDemoteStmt( ast::stmt::Demote * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 	}

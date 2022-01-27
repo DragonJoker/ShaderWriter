@@ -155,6 +155,11 @@ namespace spirv
 			, spv::DecorationBlock );
 	}
 
+	void StmtVisitor::visitDemoteStmt( ast::stmt::Demote * stmt )
+	{
+		m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >() );
+	}
+
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 		interruptBlock( m_currentBlock

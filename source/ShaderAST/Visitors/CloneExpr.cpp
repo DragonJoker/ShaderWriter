@@ -58,9 +58,12 @@ namespace ast
 		{
 			auto result = doSubmit( expr.get() );
 
-			if ( expr->isNonUniform() )
+			if ( result )
 			{
-				result->updateFlag( ast::expr::Flag::eNonUniform );
+				if ( expr->isNonUniform() )
+				{
+					result->updateFlag( ast::expr::Flag::eNonUniform );
+				}
 			}
 
 			return result;
@@ -71,16 +74,28 @@ namespace ast
 
 	void ExprCloner::visitAddExpr( expr::Add * expr )
 	{
-		m_result = expr::makeAdd( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeAdd( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitAddAssignExpr( expr::AddAssign * expr )
 	{
-		m_result = expr::makeAddAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeAddAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitAggrInitExpr( expr::AggrInit * expr )
@@ -106,68 +121,133 @@ namespace ast
 
 	void ExprCloner::visitAliasExpr( expr::Alias * expr )
 	{
-		m_result = expr::makeAlias( expr->getType()
-			, std::make_unique< expr::Identifier >( static_cast< expr::Identifier const & >( *expr->getLHS() ) )
-			, doSubmit( expr->getRHS() ) );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs )
+		{
+			m_result = expr::makeAlias( expr->getType()
+				, std::make_unique< expr::Identifier >( static_cast< expr::Identifier const & >( *expr->getLHS() ) )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitAndAssignExpr( expr::AndAssign * expr )
 	{
-		m_result = expr::makeAndAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeAndAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitArrayAccessExpr( expr::ArrayAccess * expr )
 	{
-		m_result = std::make_unique< expr::ArrayAccess >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::ArrayAccess >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitAssignExpr( expr::Assign * expr )
 	{
-		m_result = expr::makeAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitBitAndExpr( expr::BitAnd * expr )
 	{
-		m_result = expr::makeBitAnd( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeBitAnd( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitBitNotExpr( expr::BitNot * expr )
 	{
-		m_result = expr::makeBitNot( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = ast::expr::makeBitNot( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitBitOrExpr( expr::BitOr * expr )
 	{
-		m_result = expr::makeBitOr( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeBitOr( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitBitXorExpr( expr::BitXor * expr )
 	{
-		m_result = expr::makeBitXor( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeBitXor( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitCastExpr( expr::Cast * expr )
 	{
-		m_result = expr::makeCast( expr->getType()
-			, doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makeCast( expr->getType()
+				, std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitCommaExpr( expr::Comma * expr )
 	{
-		m_result = expr::makeComma( doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeComma( std::move( lhs )
+				, std::move( rhs ) );
+		}
+		else if ( lhs )
+		{
+			m_result = std::move( lhs );
+		}
+		else if ( rhs )
+		{
+			m_result = std::move( rhs );
+		}
 	}
 
 	void ExprCloner::visitCompositeConstructExpr( expr::CompositeConstruct * expr )
@@ -186,28 +266,51 @@ namespace ast
 
 	void ExprCloner::visitCopyExpr( expr::Copy * expr )
 	{
-		m_result = expr::makeCopy( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makeCopy( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitDivideExpr( expr::Divide * expr )
 	{
-		m_result = expr::makeDivide( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeDivide( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitDivideAssignExpr( expr::DivideAssign * expr )
 	{
-		m_result = expr::makeDivideAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeDivideAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitEqualExpr( expr::Equal * expr )
 	{
-		m_result = std::make_unique< expr::Equal >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::Equal >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitFnCallExpr( expr::FnCall * expr )
@@ -236,16 +339,28 @@ namespace ast
 
 	void ExprCloner::visitGreaterExpr( expr::Greater * expr )
 	{
-		m_result = std::make_unique< expr::Greater >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::Greater >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitGreaterEqualExpr( expr::GreaterEqual * expr )
 	{
-		m_result = std::make_unique< expr::GreaterEqual >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::GreaterEqual >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitIdentifierExpr( expr::Identifier * expr )
@@ -289,16 +404,28 @@ namespace ast
 
 	void ExprCloner::visitLessExpr( expr::Less * expr )
 	{
-		m_result = std::make_unique< expr::Less >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::Less >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitLessEqualExpr( expr::LessEqual * expr )
 	{
-		m_result = std::make_unique< expr::LessEqual >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::LessEqual >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitLiteralExpr( expr::Literal * expr )
@@ -308,36 +435,65 @@ namespace ast
 
 	void ExprCloner::visitLogAndExpr( expr::LogAnd * expr )
 	{
-		m_result = std::make_unique< expr::LogAnd >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::LogAnd >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitLogNotExpr( expr::LogNot * expr )
 	{
-		m_result = std::make_unique< expr::LogNot >( expr->getType()
-			, doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = std::make_unique< expr::LogNot >( expr->getType()
+				, std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitLogOrExpr( expr::LogOr * expr )
 	{
-		m_result = std::make_unique< expr::LogOr >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = std::make_unique< expr::LogOr >( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitLShiftExpr( expr::LShift * expr )
 	{
-		m_result = expr::makeLShift( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeLShift( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitLShiftAssignExpr( expr::LShiftAssign * expr )
 	{
-		m_result = expr::makeLShiftAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeLShiftAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitMbrSelectExpr( expr::MbrSelect * expr )
@@ -349,64 +505,120 @@ namespace ast
 
 	void ExprCloner::visitMinusExpr( expr::Minus * expr )
 	{
-		m_result = expr::makeMinus( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeMinus( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitMinusAssignExpr( expr::MinusAssign * expr )
 	{
-		m_result = expr::makeMinusAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeMinusAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitModuloExpr( expr::Modulo * expr )
 	{
-		m_result = expr::makeModulo( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeModulo( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitModuloAssignExpr( expr::ModuloAssign * expr )
 	{
-		m_result = expr::makeModuloAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeModuloAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitNotEqualExpr( expr::NotEqual * expr )
 	{
-		m_result = std::make_unique< expr::NotEqual >( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeNotEqual( expr->getType()->getCache()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitOrAssignExpr( expr::OrAssign * expr )
 	{
-		m_result = expr::makeOrAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeOrAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitPostDecrementExpr( expr::PostDecrement * expr )
 	{
-		m_result = expr::makePostDecrement( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makePostDecrement( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitPostIncrementExpr( expr::PostIncrement * expr )
 	{
-		m_result = expr::makePostIncrement( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makePostIncrement( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitPreDecrementExpr( expr::PreDecrement * expr )
 	{
-		m_result = expr::makePreDecrement( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makePreDecrement( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitPreIncrementExpr( expr::PreIncrement * expr )
 	{
-		m_result = expr::makePreIncrement( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makePreIncrement( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitQuestionExpr( expr::Question * expr )
@@ -419,21 +631,38 @@ namespace ast
 
 	void ExprCloner::visitRShiftExpr( expr::RShift * expr )
 	{
-		m_result = expr::makeRShift( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeRShift( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitRShiftAssignExpr( expr::RShiftAssign * expr )
 	{
-		m_result = expr::makeRShiftAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeRShiftAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitStreamAppendExpr( expr::StreamAppend * expr )
 	{
-		m_result = expr::makeStreamAppend( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makeStreamAppend( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitSwitchCaseExpr( expr::SwitchCase * expr )
@@ -468,32 +697,60 @@ namespace ast
 
 	void ExprCloner::visitTimesExpr( expr::Times * expr )
 	{
-		m_result = expr::makeTimes( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeTimes( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitTimesAssignExpr( expr::TimesAssign * expr )
 	{
-		m_result = expr::makeTimesAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeTimesAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 
 	void ExprCloner::visitUnaryMinusExpr( expr::UnaryMinus * expr )
 	{
-		m_result = expr::makeUnaryMinus( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makeUnaryMinus( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitUnaryPlusExpr( expr::UnaryPlus * expr )
 	{
-		m_result = expr::makeUnaryPlus( doSubmit( expr->getOperand() ) );
+		auto op = doSubmit( expr->getOperand() );
+
+		if ( op )
+		{
+			m_result = expr::makeUnaryPlus( std::move( op ) );
+		}
 	}
 
 	void ExprCloner::visitXorAssignExpr( expr::XorAssign * expr )
 	{
-		m_result = expr::makeXorAssign( expr->getType()
-			, doSubmit( expr->getLHS() )
-			, doSubmit( expr->getRHS() ) );
+		auto lhs = doSubmit( expr->getLHS() );
+		auto rhs = doSubmit( expr->getRHS() );
+
+		if ( rhs && lhs )
+		{
+			m_result = expr::makeXorAssign( expr->getType()
+				, std::move( lhs )
+				, std::move( rhs ) );
+		}
 	}
 }

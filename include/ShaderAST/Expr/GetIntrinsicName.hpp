@@ -2698,6 +2698,12 @@ namespace ast::expr
 			break;
 
 
+	// Miscellaneous FUnctions
+		case Intrinsic::eHelperInvocation:
+			result = "HELPERINVOCATION";
+			break;
+
+
 	// Shader Memory Control Functions
 		case Intrinsic::eMemoryBarrier:
 			result = "MEMORYBARRIER";

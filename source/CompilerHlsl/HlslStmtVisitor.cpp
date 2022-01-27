@@ -388,6 +388,12 @@ namespace hlsl
 		}
 	}
 
+	void StmtVisitor::visitDemoteStmt( ast::stmt::Demote * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "discard;\n";
+	}
+
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 		doAppendLineEnd();

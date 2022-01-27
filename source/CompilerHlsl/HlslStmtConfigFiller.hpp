@@ -33,6 +33,7 @@ namespace hlsl
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitContainerStmt( ast::stmt::Container * cont )override;
 		void visitContinueStmt( ast::stmt::Continue * cont )override;
+		void visitDemoteStmt( ast::stmt::Demote * stmt )override;
 		void visitDiscardStmt( ast::stmt::Discard * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitCommentStmt( ast::stmt::Comment * stmt )override;

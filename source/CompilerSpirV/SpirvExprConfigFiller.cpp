@@ -227,6 +227,10 @@ namespace spirv
 		{
 			m_config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 		}
+		else if ( kind == ast::expr::Intrinsic::eHelperInvocation )
+		{
+			m_config.registerCapability( spv::CapabilityDemoteToHelperInvocation );
+		}
 	}
 
 	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )

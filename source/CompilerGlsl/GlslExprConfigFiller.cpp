@@ -136,6 +136,9 @@ namespace glsl
 		case ast::expr::Intrinsic::eTraceRay:
 			m_config.requiresRayDescDecl = true;
 			break;
+		case ast::expr::Intrinsic::eHelperInvocation:
+			m_config.requiredExtensions.insert( EXT_demote_to_helper_invocation );
+			break;
 		default:
 			break;
 		}

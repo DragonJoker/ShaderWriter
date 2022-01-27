@@ -745,6 +745,17 @@ namespace
 		testEnd();
 	}
 
+	void testDemote( test::TestCounts & testCounts )
+	{
+		testBegin( "testDemote" );
+		ast::type::TypesCache cache;
+		auto stmt = ast::stmt::makeDemote();
+		testCounts << "StmtDemote:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eDemote );
+		testEnd();
+	}
+
 	void testDiscard( test::TestCounts & testCounts )
 	{
 		testBegin( "testDiscard" );
@@ -1103,6 +1114,7 @@ testSuiteMain( TestASTStatements )
 	testDoWhile( testCounts );
 	testSwitch( testCounts );
 	testReturn( testCounts );
+	testDemote( testCounts );
 	testDiscard( testCounts );
 	testInputGeometryLayout( testCounts );
 	testOutputGeometryLayout( testCounts );

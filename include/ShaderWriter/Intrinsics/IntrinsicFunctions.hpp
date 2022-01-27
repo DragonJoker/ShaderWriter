@@ -1605,6 +1605,15 @@ namespace sdw
 	SDW_API Void barrier( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
+#pragma region helperInvocation
+	/**
+	*name
+	*	helperInvocation
+	*/
+	/**@{*/
+	SDW_API Boolean helperInvocation( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
 #pragma region memoryBarrier
 	/**
 	*name

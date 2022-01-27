@@ -398,6 +398,21 @@ namespace glsl
 		}
 	}
 
+	void StmtVisitor::visitDemoteStmt( ast::stmt::Demote * stmt )
+	{
+		doAppendLineEnd();
+
+		if ( !m_writerConfig.availableExtensions
+			|| m_writerConfig.availableExtensions->end() !=  m_writerConfig.availableExtensions->find( EXT_demote_to_helper_invocation ) )
+		{
+			m_result += m_indent + "demote;\n";
+		}
+		else
+		{
+			m_result += m_indent + "discard;\n";
+		}
+	}
+
 	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 		doAppendLineEnd();

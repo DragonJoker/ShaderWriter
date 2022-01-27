@@ -103,6 +103,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eContinue:
 				result = "STCONTINUE";
 				break;
+			case ast::stmt::Kind::eDemote:
+				result = "STDEMOTE";
+				break;
 			case ast::stmt::Kind::eDiscard:
 				result = "STDISCARD";
 				break;
@@ -265,6 +268,11 @@ namespace ast::debug
 	}
 
 	void StmtVisitor::visitContinueStmt( stmt::Continue * stmt )
+	{
+		displayStmtName( stmt, true );
+	}
+
+	void StmtVisitor::visitDemoteStmt( stmt::Demote * stmt )
 	{
 		displayStmtName( stmt, true );
 	}
