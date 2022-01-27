@@ -1,14 +1,17 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma warning( disable:5245 )
+
 namespace
 {
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
 	template< typename T >
-	void testPcb( test::sdw_test::TestCounts & testCounts )
+	void testPcbRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcb" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testPcbRaw" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -29,6 +32,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcbRawArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbRawArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -49,6 +59,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcbRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbRawOptionalDisabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -71,6 +88,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcbRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -93,6 +117,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcbRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbRawOptionalEnabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -115,6 +146,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcbRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -138,6 +176,61 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+	}
+
+	template< typename T >
+	void testPcbHelper( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbHelper" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::PcbHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO" };
+			auto retrieved = bo.template getMember< "member" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::ePushConstantsBufferDecl );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcbHelperArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testPcbHelperArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::PcbHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO" };
+			auto retrieved = bo.template getMember< "member" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == 4u );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::ePushConstantsBufferDecl );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testPcb( test::sdw_test::TestCounts & testCounts )
+	{
+		testPcbRaw< T >( testCounts );
+		testPcbRawArray< T >( testCounts );
+		testPcbRawOptionalDisabled< T >( testCounts );
+		testPcbRawOptionalDisabledArray< T >( testCounts );
+		testPcbRawOptionalEnabled< T >( testCounts );
+		testPcbRawOptionalEnabledArray< T >( testCounts );
+		testPcbHelper< T >( testCounts );
+		testPcbHelperArray< T >( testCounts );
 	}
 }
 

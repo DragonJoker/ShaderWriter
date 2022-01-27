@@ -3,6 +3,9 @@
 
 #include <ShaderWriter/CompositeTypes/Ubo.hpp>
 
+#pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma warning( disable:5245 )
+
 namespace
 {
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
@@ -201,6 +204,7 @@ namespace
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
@@ -218,11 +222,12 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::UboHelperStd140T< 1u, 1u, sdw::StructFieldArrayT< T, "memberArray", 4u > > bo{ writer, "UBO" };
-			auto retrieved = bo.template getMember< "memberArray" >();
+			sdw::UboHelperStd140T< 1u, 1u, sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO" };
+			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
