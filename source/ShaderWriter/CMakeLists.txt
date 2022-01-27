@@ -198,6 +198,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/StructHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.inl
+	${INCLUDE_DIR}/CompositeTypes/StructInstanceHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ubo.hpp
 	${INCLUDE_DIR}/CompositeTypes/Ubo.inl
 )

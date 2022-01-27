@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_StructInstance_H___
 
 #include "ShaderWriter/Value.hpp"
+#include "ShaderWriter/CompositeTypes/StructHelper.hpp"
 
 #include <ShaderAST/Type/TypeStruct.hpp>
 
@@ -95,5 +96,6 @@ namespace sdw
 	expdecl name( name && rhs ) = default
 
 #include "StructInstance.inl"
+#include "StructInstanceHelper.hpp"
 
 #endif

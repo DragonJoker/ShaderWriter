@@ -460,7 +460,10 @@ namespace test
 						displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay, true );
 					}
 				};
+				testCounts.incIndent();
+				testCounts << "GLSL" << endl;
 				checkNoThrow( validate() );
+				testCounts.decIndent();
 			}
 
 #endif
@@ -494,7 +497,10 @@ namespace test
 						testCounts << errors << endl;
 					}
 				};
+				testCounts.incIndent();
+				testCounts << "HLSL" << endl;
 				checkNoThrow( validate() );
+				testCounts.decIndent();
 			}
 
 #endif
