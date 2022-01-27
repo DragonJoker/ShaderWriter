@@ -592,7 +592,7 @@ add_library( sdw::${_FOLDER_NAME}
 )
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
-		CXX_STANDARD 17
+		CXX_STANDARD 20
 		PREFIX ${SDW_LIB_PREFIX}
 		FOLDER "${SDW_BASE_DIR}/Core"
 )

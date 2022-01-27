@@ -975,11 +975,11 @@ namespace
 			MeshWriter writer;
 
 			auto Globals = writer.declUniformBuffer( "bufferGlobals", 0u, 0u );
-			auto globals = Globals.declStructMember< Constants >( "globals" );
+			auto globals = Globals.declMember< Constants >( "globals" );
 			Globals.end();
 
 			auto MeshInfos = writer.declUniformBuffer( "bufferMeshInfos", 1u, 0u );
-			auto meshInfo = MeshInfos.declStructMember< MeshInfo >( "meshInfo" );
+			auto meshInfo = MeshInfos.declMember< MeshInfo >( "meshInfo" );
 			MeshInfos.end();
 
 			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
@@ -1098,15 +1098,15 @@ namespace
 			MeshWriter writer;
 
 			auto Globals = writer.declUniformBuffer( "bufferGlobals", 0u, 0u );
-			auto globals = Globals.declStructMember< Constants >( "globals" );
+			auto globals = Globals.declMember< Constants >( "globals" );
 			Globals.end();
 
 			auto DrawParam = writer.declUniformBuffer( "bufferDrawParams", 1u, 0u );
-			auto drawParams = DrawParam.declStructMember< DrawParams >( "drawParams" );
+			auto drawParams = DrawParam.declMember< DrawParams >( "drawParams" );
 			DrawParam.end();
 
 			auto MeshInfos = writer.declUniformBuffer( "bufferMeshInfos", 2u, 0u );
-			auto meshInfos = MeshInfos.declStructMember< MeshInfo >( "meshInfos" );
+			auto meshInfos = MeshInfos.declMember< MeshInfo >( "meshInfos" );
 			MeshInfos.end();
 
 			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
@@ -1266,7 +1266,7 @@ namespace
 			MeshWriter writer;
 
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
-			auto constants = Globals.declStructMember< Constants >( "constants" );
+			auto constants = Globals.declMember< Constants >( "constants" );
 			Globals.end();
 
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
@@ -1295,15 +1295,15 @@ namespace
 			MeshWriter writer;
 
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
-			auto constants = Globals.declStructMember< Constants >( "constants" );
+			auto constants = Globals.declMember< Constants >( "constants" );
 			Globals.end();
 
 			auto MeshInfos = writer.declUniformBuffer( "bufferMeshInfos", 1u, 0u );
-			auto meshInfos = MeshInfos.declStructMember< MeshInfo >( "meshInfos" );
+			auto meshInfos = MeshInfos.declMember< MeshInfo >( "meshInfos" );
 			MeshInfos.end();
 
 			auto Instances = writer.declUniformBuffer( "bufferInstance", 2u, 0u );
-			auto instance = Instances.declStructMember< Instance >( "instance" );
+			auto instance = Instances.declMember< Instance >( "instance" );
 			Instances.end();
 
 			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );

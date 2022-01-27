@@ -8,9 +8,9 @@ namespace
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
 	template< typename T >
-	void testUbo( test::sdw_test::TestCounts & testCounts )
+	void testUboRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUbo" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRaw" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -33,6 +33,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUboRawArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboRawArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -55,6 +62,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUboRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboRawOptionalDisabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -79,6 +93,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUboRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -103,6 +124,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUboRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboRawOptionalEnabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -127,6 +155,13 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUboRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -152,6 +187,63 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+	}
+
+	template< typename T >
+	void testUboHelper( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboHelper" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::UboHelperStd140T< 1u, 1u, sdw::StructFieldT< T, "member" > > bo{ writer, "UBO" };
+			auto retrieved = bo.template getMember< "member" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUboHelperArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testUboHelperArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::UboHelperStd140T< 1u, 1u, sdw::StructFieldArrayT< T, "memberArray", 4u > > bo{ writer, "UBO" };
+			auto retrieved = bo.template getMember< "memberArray" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == 4u );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testUbo( test::sdw_test::TestCounts & testCounts )
+	{
+		testUboRaw< T >( testCounts );
+		testUboRawArray< T >( testCounts );
+		testUboRawOptionalDisabled< T >( testCounts );
+		testUboRawOptionalDisabledArray< T >( testCounts );
+		testUboRawOptionalEnabled< T >( testCounts );
+		testUboRawOptionalEnabledArray< T >( testCounts );
+		testUboHelper< T >( testCounts );
+		testUboHelperArray< T >( testCounts );
 	}
 }
 

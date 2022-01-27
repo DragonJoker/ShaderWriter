@@ -108,7 +108,7 @@ namespace
 			FragmentWriter writer;
 			writer.declType< Light >();
 			auto lightUbo = writer.declUniformBuffer<>( "LightUbo", 0u, 0u );
-			auto light = lightUbo.declStructMember< Light >( "light" );
+			auto light = lightUbo.declMember< Light >( "light" );
 			lightUbo.end();
 
 			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
@@ -139,7 +139,7 @@ namespace
 
 		writer.declType< Light >();
 		auto lightsUbo = writer.declUniformBuffer<>( "LightsUbo", 0u, 0u );
-		auto lights = lightsUbo.declStructMember< Light >( "lights"
+		auto lights = lightsUbo.declMember< Light >( "lights"
 			, 2u );
 		lightsUbo.end();
 
@@ -181,7 +181,7 @@ namespace
 			FragmentWriter writer;
 			writer.declType< Light >();
 			auto lightSsbo = writer.declUniformBuffer<>( "LightSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
-			auto light = lightSsbo.declStructMember< Light >( "light" );
+			auto light = lightSsbo.declMember< Light >( "light" );
 			lightSsbo.end();
 
 			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
@@ -212,7 +212,7 @@ namespace
 
 		writer.declType< Light >();
 		auto lightsSsbo = writer.declUniformBuffer<>( "LightsSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
-		auto lights = lightsSsbo.declStructMember< Light >( "lights"
+		auto lights = lightsSsbo.declMember< Light >( "lights"
 			, 2u );
 		lightsSsbo.end();
 

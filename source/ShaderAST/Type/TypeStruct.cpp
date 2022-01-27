@@ -687,11 +687,42 @@ namespace ast::type
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name
-		, TypePtr type )
+		, TypePtr type
+		, uint32_t arraySize )
 	{
+		if ( type->getKind() == Kind::eArray )
+		{
+			return declMember( std::move( name )
+				, std::static_pointer_cast< Array >( type )
+				, arraySize );
+		}
+
+		if ( type->getKind() == Kind::eStruct )
+		{
+			auto structType = getStructType( type );
+
+			if ( structType->getFlag() == 0u )
+			{
+				return declMember( std::move( name )
+					, std::static_pointer_cast< BaseStruct >( structType )
+					, arraySize );
+			}
+
+			return declMember( std::move( name )
+				, std::static_pointer_cast< IOStruct >( structType )
+				, arraySize );
+		}
+
+		if ( arraySize == NotArray )
+		{
+			return declMember( std::move( name )
+				, getNonArrayKind( type )
+				, getArraySize( type ) );
+		}
+
 		return declMember( std::move( name )
-			, getNonArrayKind( type )
-			, getArraySize( type ) );
+			, type->getKind()
+			, arraySize );
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name

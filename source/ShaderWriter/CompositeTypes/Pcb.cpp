@@ -32,12 +32,12 @@ namespace sdw
 		}
 	}
 
-	StructInstance Pcb::declMember( std::string name
+	StructInstance Pcb::declStructMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
 		auto type = m_info.registerMember( name, s.getType() );
-		auto var = registerMember( m_writer, m_var, std::move( name ), type );
+		auto var = registerMember( m_writer, m_var, name, type );
 
 		if ( isEnabled() && enabled )
 		{
@@ -45,6 +45,24 @@ namespace sdw
 		}
 
 		return StructInstance{ m_writer
+			, makeExpr( m_writer, var )
+			, isEnabled() && enabled };
+	}
+
+	Array< StructInstance > Pcb::declStructMember( std::string name
+		, Struct const & s
+		, uint32_t dimension
+		, bool enabled )
+	{
+		auto type = m_info.registerMember( name, s.getType(), dimension );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
+
+		if ( isEnabled() && enabled )
+		{
+			m_stmt->add( stmt::makeVariableDecl( var ) );
+		}
+
+		return Array< StructInstance >{ m_writer
 			, makeExpr( m_writer, var )
 			, isEnabled() && enabled };
 	}

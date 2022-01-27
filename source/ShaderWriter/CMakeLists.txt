@@ -195,6 +195,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/Ssbo.inl
 	${INCLUDE_DIR}/CompositeTypes/Struct.hpp
 	${INCLUDE_DIR}/CompositeTypes/Struct.inl
+	${INCLUDE_DIR}/CompositeTypes/StructHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.inl
 	${INCLUDE_DIR}/CompositeTypes/Ubo.hpp
@@ -368,7 +369,7 @@ set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
 		VERSION ${PROJECT_VERSION}
 		SOVERSION ${PROJECT_SOVERSION}
-		CXX_STANDARD 17
+		CXX_STANDARD 20
 		PREFIX ${SDW_LIB_PREFIX}
 		FOLDER "${SDW_BASE_DIR}/Core"
 )

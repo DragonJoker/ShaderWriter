@@ -177,7 +177,7 @@ if ( EXISTS ${SPIRV_CROSS_DIR}/spirv.hpp )
 	)
 	set_target_properties( SdwSpirvCross
 		PROPERTIES
-			CXX_STANDARD 17
+			CXX_STANDARD 20
 			FOLDER "Tests/ShaderWriter"
 	)
 	set( TargetLinkLibraries
@@ -233,7 +233,7 @@ target_include_directories( TestWriterCommon
 target_add_compilation_flags( TestWriterCommon )
 set_target_properties( TestWriterCommon
 	PROPERTIES
-		CXX_STANDARD 17
+		CXX_STANDARD 20
 		FOLDER "Tests/ShaderWriter"
 )
 set( TargetLinkLibraries
@@ -275,7 +275,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	)
 	target_add_compilation_flags( ${TEST_NAME} )
 	set_target_properties( ${TEST_NAME} PROPERTIES
-		CXX_STANDARD 17
+		CXX_STANDARD 20
 		FOLDER "Tests/ShaderWriter"
 	)
 

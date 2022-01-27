@@ -37,7 +37,7 @@ target_include_directories( TestCommon
 target_add_compilation_flags( TestCommon )
 set_target_properties( TestCommon
 	PROPERTIES
-		CXX_STANDARD 17
+		CXX_STANDARD 20
 		FOLDER "Tests"
 )
 
