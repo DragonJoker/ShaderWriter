@@ -73,7 +73,8 @@ namespace sdw
 		static_assert( sizeof...( FieldsT ) > 0
 			, "A structure must have at least one field" );
 
-	public:
+		struct EndType {};
+
 		using StructT::declMember;
 		using StructT::declStructMember;
 		using StructT::end;
@@ -84,21 +85,16 @@ namespace sdw
 		template< sdw::StringLiteralT FieldNameT >
 		constexpr static auto getFieldByName()
 		{
-			return doGetFieldByName<FieldNameT, FieldsT...>();
+			return doGetFieldByName< FieldNameT, FieldsT..., EndType >();
 		}
 
 		template< sdw::StringLiteralT FieldNameT >
-		constexpr static bool hasFieldByName()
-		{
-			return ( ... || ( std::string_view( FieldNameT.value ) == FieldsT::Name ) );
-		}
+		using Field = decltype( getFieldByName< FieldNameT >() );
 
 		template< sdw::StringLiteralT FieldNameT >
 		auto getMember()
 		{
-			static_assert( hasFieldByName< FieldNameT >() );
-			using FieldT = decltype( getFieldByName< FieldNameT >() );
-			return FieldT::template get( *this );
+			return Field< FieldNameT >::template get< StructT >( *this );
 		}
 
 	protected:
@@ -106,21 +102,16 @@ namespace sdw
 		StructHelperT( ParamsT && ... params )
 			: StructT{ std::forward< ParamsT >( params )... }
 		{
-			( FieldsT::template decl( *this ), ... );
+			( FieldsT::template decl< StructT >( *this ), ... );
 			end();
 		}
 
 	private:
-		template< sdw::StringLiteralT FieldNameT >
-		constexpr static auto doGetFieldByName()
-		{
-			//static_assert( false, "That field does not exist in this Ubo" );
-			return sdw::Void{};
-		}
-
 		template< sdw::StringLiteralT FieldNameT, typename FieldU, typename... FieldsU >
 		constexpr static auto doGetFieldByName()
 		{
+			static_assert( not std::is_same_v<FieldU, EndType>, "That field does not exist in this Ubo" );
+
 			if constexpr ( std::string_view( FieldNameT.value ) == FieldU::Name )
 			{
 				return FieldU{};

@@ -64,28 +64,23 @@ namespace sdw
 	};
 
 	template< ast::type::MemoryLayout LayoutT
-		, uint32_t BindT
-		, uint32_t SetT
 		, typename ... FieldsT >
 	class SsboHelperT
 		: public StructHelperT< Ssbo, LayoutT, FieldsT... >
 	{
 	public:
-		static constexpr uint32_t Bind = BindT;
-		static constexpr uint32_t Set = SetT;
-
-		SsboHelperT( ShaderWriter & writer, const std::string & name )
-			: StructHelperT< Ssbo, LayoutT, FieldsT... >{ writer, name, BindT, SetT, LayoutT }
+		SsboHelperT( ShaderWriter & writer, const std::string & name, uint32_t bind, uint32_t set )
+			: StructHelperT< Ssbo, LayoutT, FieldsT... >{ writer, name, bind, set, LayoutT }
 		{
 		}
 	};
 
-	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
-	using SsboHelperStd140T = SsboHelperT< ast::type::MemoryLayout::eStd140, BindT, SetT, FieldsT... >;
-	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
-	using SsboHelperStd430T = SsboHelperT< ast::type::MemoryLayout::eStd430, BindT, SetT, FieldsT... >;
-	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
-	using SsboHelperScalarT = SsboHelperT< ast::type::MemoryLayout::eScalar, BindT, SetT, FieldsT... >;
+	template< typename... FieldsT >
+	using SsboHelperStd140T = SsboHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
+	template< typename... FieldsT >
+	using SsboHelperStd430T = SsboHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
+	template< typename... FieldsT >
+	using SsboHelperScalarT = SsboHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
 }
 
 #include "Ssbo.inl"
