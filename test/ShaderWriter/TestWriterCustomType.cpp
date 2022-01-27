@@ -89,19 +89,6 @@ namespace
 		{
 		}
 
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
-				, "Light" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "colorIntensity", ast::type::Kind::eVec4F );
-			}
-
-			return result;
-		}
-
 		auto colorIntensity() { return getMember< "colorIntensity" >(); }
 		auto color() { return colorIntensity().xyz(); }
 		auto intensity() { return colorIntensity().w(); }
