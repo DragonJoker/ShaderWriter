@@ -175,6 +175,7 @@ namespace sdw
 		*	Control statements.
 		*/
 		/**@{*/
+		SDW_API void demote();
 		SDW_API void discard();
 		SDW_API void returnStmt();
 		template< typename RetType >

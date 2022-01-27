@@ -688,6 +688,9 @@ ASTIntrDecl( Intrinsic )
 	// Shader Invocation Control Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( barrier, Barrier ) )
 
+	// Miscellaneous FUnctions
+	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( helperInvocation, HelperInvocation ) )
+
 	// Shader Memory Control Functions
 	ASTIntrValue( type::Kind::eUInt, ASTIntrName( memoryBarrier, MemoryBarrier ) )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( memoryBarrierBuffer, MemoryBarrierBuffer ) )

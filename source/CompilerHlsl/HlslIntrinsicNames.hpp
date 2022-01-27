@@ -1045,6 +1045,12 @@ namespace hlsl
 			break;
 
 
+	// Miscellaneous Functions
+		case ast::expr::Intrinsic::eHelperInvocation:
+			result = "HelperInvocation";
+			break;
+
+
 	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eBarrier:
 			result = "AllMemoryBarrierWithGroupSync";

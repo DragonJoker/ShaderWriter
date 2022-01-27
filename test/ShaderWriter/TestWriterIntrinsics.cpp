@@ -10525,6 +10525,25 @@ namespace
 		}
 		testEnd();
 	}
+
+	void testHelperInvocation( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testHelperInvocation" );
+		using namespace sdw;
+		{
+			FragmentWriter writer;
+
+			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
+				, sdw::FragmentOutT< sdw::VoidT > )
+				{
+					auto isHelper = writer.declLocale( "isHelper"
+						, helperInvocation( writer ) );
+				} );
+			test::writeShader( writer
+				, testCounts, Compilers_SPIRV );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterIntrinsics )
@@ -11194,6 +11213,7 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	//testExecuteCallable( testCounts );
 	testSetMeshOutputCounts( testCounts );
 	testDispatchMesh( testCounts );
+	testHelperInvocation( testCounts );
 	sdwTestSuiteEnd();
 }
 

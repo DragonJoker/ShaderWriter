@@ -322,6 +322,10 @@ namespace spirv
 			{
 			}
 
+			void visitDemoteStmt( ast::stmt::Demote * stmt )override
+			{
+			}
+
 			void visitDiscardStmt( ast::stmt::Discard * stmt )override
 			{
 			}

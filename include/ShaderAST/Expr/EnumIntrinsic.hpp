@@ -699,6 +699,9 @@ namespace ast::expr
 	// Shader Invocation Control Functions
 		eBarrier,
 
+	// Miscellaneous FUnctions
+		eHelperInvocation,
+
 	// Shader Memory Control Functions
 		eMemoryBarrier,
 		eMemoryBarrierBuffer,

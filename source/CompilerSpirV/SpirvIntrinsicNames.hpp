@@ -1105,6 +1105,12 @@ namespace spirv
 			break;
 
 
+	// Miscellaneous Functions
+		case ast::expr::Intrinsic::eHelperInvocation:
+			result = spv::Id( spv::OpIsHelperInvocationEXT );
+			break;
+
+
 	// Shader Memory Control Functions
 		case ast::expr::Intrinsic::eMemoryBarrier:
 		case ast::expr::Intrinsic::eMemoryBarrierBuffer:

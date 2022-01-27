@@ -1070,7 +1070,7 @@ namespace hlsl
 			// The resulting expression is now the alias.
 			m_result = ast::expr::makeIdentifier( m_cache, aliasVar );
 		}
-		else
+		else if ( expr->getIntrinsic() != ast::expr::Intrinsic::eHelperInvocation )
 		{
 			ast::expr::ExprList args;
 			m_preventVarTypeReplacement = expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay

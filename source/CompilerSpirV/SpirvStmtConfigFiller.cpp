@@ -85,6 +85,11 @@ namespace spirv
 	{
 	}
 
+	void StmtConfigFiller::visitDemoteStmt( ast::stmt::Demote * stmt )
+	{
+		m_result.registerCapability( spv::CapabilityDemoteToHelperInvocation );
+	}
+
 	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )
 	{
 	}

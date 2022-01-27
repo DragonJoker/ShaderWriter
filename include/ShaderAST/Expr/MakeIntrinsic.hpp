@@ -11454,6 +11454,17 @@ namespace ast::expr
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eBarrier );
 	}
+	// Miscellaneous FUnctions
+
+	/**
+	*@return
+	*	boolean
+	*/
+	inline IntrinsicCallPtr makeHelperInvocation( type::TypesCache & cache )
+	{
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eHelperInvocation );
+	}
 	// Shader Memory Control Functions
 
 	/**

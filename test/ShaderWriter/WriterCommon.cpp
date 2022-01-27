@@ -563,6 +563,7 @@ namespace test
 						{
 							if ( config.specVersion >= spirv::v1_4 )
 							{
+								extensions.emplace( spirv::EXT_demote_to_helper_invocation );
 								extensions.emplace( spirv::KHR_ray_tracing );
 							}
 

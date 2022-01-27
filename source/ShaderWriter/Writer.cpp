@@ -124,8 +124,15 @@ namespace sdw
 	{
 	}
 
+	void ShaderWriter::demote()
+	{
+		assert( m_shader->getType() == ast::ShaderStage::eFragment );
+		addStmt( stmt::makeDemote() );
+	}
+
 	void ShaderWriter::discard()
 	{
+		assert( m_shader->getType() == ast::ShaderStage::eFragment );
 		addStmt( stmt::makeDiscard() );
 	}
 

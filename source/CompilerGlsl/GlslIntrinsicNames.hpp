@@ -1043,6 +1043,12 @@ namespace glsl
 			break;
 
 
+	// Miscellaneous Functions
+		case ast::expr::Intrinsic::eHelperInvocation:
+			result = "helperInvocationEXT";
+			break;
+
+
 	// Shader Memory Control Functions
 		case ast::expr::Intrinsic::eMemoryBarrier:
 			result = "memoryBarrier";

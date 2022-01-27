@@ -69,6 +69,11 @@ namespace ast
 		m_current->addStmt( std::move( cont ) );
 	}
 
+	void StmtCloner::visitDemoteStmt( stmt::Demote * stmt )
+	{
+		m_current->addStmt( stmt::makeDemote() );
+	}
+
 	void StmtCloner::visitDiscardStmt( stmt::Discard * stmt )
 	{
 		m_current->addStmt( stmt::makeDiscard() );

@@ -434,7 +434,7 @@ namespace glsl
 				, ast::expr::makeIdentifier( m_cache, var )
 				, std::move( numTasks ) );
 		}
-		else
+		else if ( expr->getIntrinsic() != ast::expr::Intrinsic::eHelperInvocation )
 		{
 			ast::expr::ExprList args;
 

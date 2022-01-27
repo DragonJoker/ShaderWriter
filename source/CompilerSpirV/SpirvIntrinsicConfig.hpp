@@ -1034,6 +1034,12 @@ namespace spirv
 			break;
 
 
+	// Miscellaneous Functions
+		case ast::expr::Intrinsic::eHelperInvocation:
+			config.isExtension = false;
+			break;
+
+
 	// Shader Invocation Control Functions
 		case ast::expr::Intrinsic::eBarrier:
 			config.isAtomic = true;
