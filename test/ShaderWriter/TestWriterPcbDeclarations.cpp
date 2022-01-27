@@ -181,6 +181,8 @@ namespace
 	template< typename T >
 	void testPcbHelper( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "testPcbHelper" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
@@ -197,11 +199,15 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+
+#endif
 	}
 
 	template< typename T >
 	void testPcbHelperArray( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "testPcbHelperArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
@@ -218,6 +224,8 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+
+#endif
 	}
 
 	template< typename T >

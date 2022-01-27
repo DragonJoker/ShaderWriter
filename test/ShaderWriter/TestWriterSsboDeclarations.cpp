@@ -108,6 +108,8 @@ namespace
 	template< typename T >
 	void testSsboHelper( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "testSsboHelper" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
@@ -129,11 +131,15 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+
+#endif
 	}
 
 	template< typename T >
 	void testSsboHelperArray( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "testSsboHelperArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
@@ -155,11 +161,15 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+
+#endif
 	}
 
 	template< typename T >
 	void testSsboHelperArrayRuntime( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "testSsboHelperArrayRuntime" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
@@ -181,6 +191,8 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+
+#endif
 	}
 
 	template< typename T >

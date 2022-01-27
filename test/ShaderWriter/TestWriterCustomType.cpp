@@ -79,6 +79,10 @@ namespace
 		using sdw::StructInstance::getMemberArray;
 	};
 
+	Writer_Parameter( Light );
+
+#if SDW_EnableStructHelper
+
 	struct Light2
 		: public sdw::StructInstanceHelperT< "Light"
 			, ast::type::MemoryLayout::eStd140
@@ -94,8 +98,9 @@ namespace
 		auto intensity() { return colorIntensity().w(); }
 	};
 
-	Writer_Parameter( Light );
 	Writer_Parameter( Light2 );
+
+#endif
 }
 
 namespace
@@ -250,6 +255,8 @@ namespace
 
 	void singleLight2Ubo( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "singleLight2Ubo" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
@@ -286,10 +293,14 @@ namespace
 			, testCounts
 			, CurrentCompilers );
 		testEnd();
+
+#endif
 	}
 		
 	void light2ArrayUbo( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "light2ArrayUbo" );
 		using namespace sdw;
 
@@ -310,10 +321,14 @@ namespace
 			, testCounts
 			, CurrentCompilers );
 		testEnd();
+
+#endif
 	}
 
 	void singleLight2Ssbo( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "singleLight2Ssbo" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
@@ -350,10 +365,14 @@ namespace
 			, testCounts
 			, CurrentCompilers );
 		testEnd();
+
+#endif
 	}
 
 	void light2ArraySsbo( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "light2ArraySsbo" );
 		using namespace sdw;
 
@@ -374,10 +393,14 @@ namespace
 			, testCounts
 			, CurrentCompilers );
 		testEnd();
+
+#endif
 	}
 
 	void arraySsboLight2( test::sdw_test::TestCounts & testCounts )
 	{
+#if SDW_EnableStructHelper
+
 		testBegin( "arraySsboLight2" );
 		using namespace sdw;
 
@@ -394,6 +417,8 @@ namespace
 			, testCounts
 			, CurrentCompilers );
 		testEnd();
+
+#endif
 	}
 }
 
