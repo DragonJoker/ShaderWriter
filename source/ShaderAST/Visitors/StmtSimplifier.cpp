@@ -1445,11 +1445,21 @@ namespace ast
 			{
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eSwizzle )
 				{
-					auto & outer = static_cast< expr::Swizzle & >( *expr->getOuterExpr() );
-					auto values = getSwizzleValues( outer.getSwizzle() );
-					auto indices = getSwizzleIndices( expr->getSwizzle() );
-					m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
-						, getFinalSwizzle( values, indices ) );
+					auto & outer = static_cast< ast::expr::Swizzle const & >( *expr->getOuterExpr() );
+
+					if ( ast::expr::SwizzleKind::Value( expr->getSwizzle() ) == ast::expr::SwizzleKind::Value( outer.getSwizzle() )
+						&& expr->getType() == outer.getType() )
+					{
+						m_result = ast::expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
+							, outer.getSwizzle() );
+					}
+					else
+					{
+						auto values = getSwizzleValues( outer.getSwizzle() );
+						auto indices = getSwizzleIndices( expr->getSwizzle() );
+						m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
+							, getFinalSwizzle( values, indices ) );
+					}
 				}
 
 				if ( !m_result )
