@@ -63,6 +63,8 @@ namespace sdw
 		bool m_enabled;
 	};
 
+#if SDW_EnableStructHelper
+
 	template< ast::type::MemoryLayout LayoutT
 		, typename... FieldsT >
 	class UboHelperT
@@ -82,6 +84,8 @@ namespace sdw
 	using UboHelperStd140T = UboHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
 	template< typename... FieldsT >
 	using UboHelperStd430T = UboHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
+
+#endif
 }
 
 #include "Ubo.inl"

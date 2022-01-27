@@ -63,6 +63,8 @@ namespace sdw
 		bool m_enabled;
 	};
 
+#if SDW_EnableStructHelper
+
 	template< ast::type::MemoryLayout LayoutT
 		, typename ... FieldsT >
 	class SsboHelperT
@@ -81,6 +83,8 @@ namespace sdw
 	using SsboHelperStd430T = SsboHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
 	template< typename... FieldsT >
 	using SsboHelperScalarT = SsboHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
+
+#endif
 }
 
 #include "Ssbo.inl"

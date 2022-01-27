@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_StructInstanceHelper_H___
 #pragma once
 
+#if SDW_EnableStructHelper
 namespace sdw
 {
 	template< StringLiteralT StructNameT
@@ -100,5 +101,6 @@ namespace sdw
 		}
 	};
 }
+#endif
 
 #endif

@@ -383,6 +383,28 @@ target_include_directories( ${PROJECT_NAME}
 		${INCLUDE_DIR}
 		${SOURCE_DIR}
 )
+if ( PROJECTS_COMPILER_GCC )
+	if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10 )
+		target_compile_definitions( ${PROJECT_NAME}
+			PUBLIC
+				SDW_EnableStructHelper=1
+		)
+	endif ()
+elseif ( PROJECTS_COMPILER_CLANG )
+	if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 12 )
+		target_compile_definitions( ${PROJECT_NAME}
+			PUBLIC
+				SDW_EnableStructHelper=1
+		)
+	endif ()
+elseif ( PROJECTS_COMPILER_MSVC )
+	if ( MSVC_VERSION GREATER_EQUAL 1930 )
+		target_compile_definitions( ${PROJECT_NAME}
+			PUBLIC
+				SDW_EnableStructHelper=1
+		)
+	endif ()
+endif ()
 target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}
 	ShaderWriter

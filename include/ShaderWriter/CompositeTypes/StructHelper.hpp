@@ -6,6 +6,8 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/Void.hpp"
 
+#if SDW_EnableStructHelper
+
 namespace sdw
 {
 	template< size_t N >
@@ -123,5 +125,7 @@ namespace sdw
 		}
 	};
 }
+
+#endif
 
 #endif

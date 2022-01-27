@@ -60,6 +60,8 @@ namespace sdw
 		bool m_enabled;
 	};
 
+#if SDW_EnableStructHelper
+
 	template< ast::type::MemoryLayout LayoutT
 		, typename... FieldsT >
 	class PcbHelperT
@@ -80,6 +82,8 @@ namespace sdw
 	using PcbHelperScalarT = PcbHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
 	template< typename... FieldsT >
 	using PcbHelperCT = PcbHelperT< ast::type::MemoryLayout::eC, FieldsT... >;
+
+#endif
 }
 
 #include "Pcb.inl"
