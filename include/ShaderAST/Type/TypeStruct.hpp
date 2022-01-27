@@ -231,7 +231,8 @@ namespace ast::type
 			, Kind kind
 			, uint32_t arraySize = NotArray );
 		SDAST_API Member declMember( std::string name
-			, TypePtr type );
+			, TypePtr type
+			, uint32_t arraySize = NotArray );
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type
 			, uint32_t arraySize );

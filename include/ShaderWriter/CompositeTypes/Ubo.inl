@@ -4,7 +4,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename T >
-	T Ubo::declStructMember( std::string name
+	inline T Ubo::declMember( std::string name
 		, bool enabled )
 	{
 		auto type = m_interface.registerMember( name
@@ -22,7 +22,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > Ubo::declStructMember( std::string name
+	inline Array< T > Ubo::declMember( std::string name
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -42,28 +42,10 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T Ubo::declMember( std::string name
+	inline Array< T > Ubo::declMemberArray( std::string name
 		, bool enabled )
 	{
-		auto type = m_interface.registerMember< typeEnum< T > >( name );
-		auto var = registerMember( m_writer, m_var, std::move( name ), type );
-
-		if ( isEnabled() && enabled )
-		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
-		}
-
-		return T{ m_writer
-			, makeExpr( m_writer, var )
-			, isEnabled() && enabled };
-	}
-
-	template< typename T >
-	inline Array< T > Ubo::declMember( std::string name
-		, uint32_t dimension
-		, bool enabled )
-	{
-		auto type = m_interface.registerMember< typeEnum< T > >( name, dimension );
+		auto type = m_interface.registerMember< typeEnum< T > >( name, type::UnknownArraySize );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled )

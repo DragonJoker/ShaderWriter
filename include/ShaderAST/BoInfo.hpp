@@ -39,11 +39,11 @@ namespace ast
 			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );
-			return m_type->declMember( std::move( name ), Kind, arraySize ).type;
+			return registerMember( name, m_type->getCache().getBasicType( Kind ), arraySize );
 		}
 
 		type::TypePtr registerMember( std::string name
-			, type::BaseStructPtr type
+			, type::TypePtr type
 			, uint32_t arraySize = ast::type::NotArray )
 		{
 			return m_type->declMember( std::move( name ), type, arraySize ).type;

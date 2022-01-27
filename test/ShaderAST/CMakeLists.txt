@@ -40,7 +40,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		endif ()
 	endif ()
 
-	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 17 )
+	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 20 )
 	set_property( TARGET ${TEST_NAME} PROPERTY FOLDER "Tests/ShaderAST" )
 
 	add_test(

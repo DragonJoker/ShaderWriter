@@ -3,8 +3,9 @@ See LICENSE file in root folder
 */
 #ifndef ___SDW_Ssbo_H___
 #define ___SDW_Ssbo_H___
+#pragma once
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+#include "ShaderWriter/CompositeTypes/StructHelper.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
@@ -27,13 +28,6 @@ namespace sdw
 			, bool enabled = true );
 		SDW_API Array< StructInstance > declStructMember( std::string name
 			, Struct const & s
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
-		inline T declStructMember( std::string name
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declStructMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
@@ -68,6 +62,30 @@ namespace sdw
 		stmt::ShaderBufferDeclPtr m_stmt;
 		bool m_enabled;
 	};
+
+	template< ast::type::MemoryLayout LayoutT
+		, uint32_t BindT
+		, uint32_t SetT
+		, typename ... FieldsT >
+	class SsboHelperT
+		: public StructHelperT< Ssbo, LayoutT, FieldsT... >
+	{
+	public:
+		static constexpr uint32_t Bind = BindT;
+		static constexpr uint32_t Set = SetT;
+
+		SsboHelperT( ShaderWriter & writer, const std::string & name )
+			: StructHelperT< Ssbo, LayoutT, FieldsT... >{ writer, name, BindT, SetT, LayoutT }
+		{
+		}
+	};
+
+	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
+	using SsboHelperStd140T = SsboHelperT< ast::type::MemoryLayout::eStd140, BindT, SetT, FieldsT... >;
+	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
+	using SsboHelperStd430T = SsboHelperT< ast::type::MemoryLayout::eStd430, BindT, SetT, FieldsT... >;
+	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
+	using SsboHelperScalarT = SsboHelperT< ast::type::MemoryLayout::eScalar, BindT, SetT, FieldsT... >;
 }
 
 #include "Ssbo.inl"

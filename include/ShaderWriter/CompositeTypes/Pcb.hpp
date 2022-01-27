@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Pcb_H___
 #pragma once
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+#include "ShaderWriter/CompositeTypes/StructHelper.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtPushConstantsBufferDecl.hpp>
@@ -21,8 +21,12 @@ namespace sdw
 			, bool enabled = true );
 		SDW_API void end();
 
-		SDW_API StructInstance declMember( std::string name
+		SDW_API StructInstance declStructMember( std::string name
 			, Struct const & s
+			, bool enabled = true );
+		SDW_API Array< StructInstance > declStructMember( std::string name
+			, Struct const & s
+			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
 		inline T declMember( std::string name
@@ -30,6 +34,9 @@ namespace sdw
 		template< typename T >
 		inline Array< T > declMember( std::string name
 			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declMemberArray( std::string name
 			, bool enabled = true );
 		template< typename T >
 		inline T getMember( std::string_view name
@@ -52,6 +59,27 @@ namespace sdw
 		var::VariablePtr m_var;
 		bool m_enabled;
 	};
+
+	template< ast::type::MemoryLayout LayoutT
+		, typename... FieldsT >
+	class PcbHelperT
+		: public StructHelperT< Pcb, LayoutT, FieldsT... >
+	{
+	public:
+		PcbHelperT( ShaderWriter & writer, const std::string & name )
+			: StructHelperT< Pcb, LayoutT, FieldsT... >{ writer, name, LayoutT }
+		{
+		}
+	};
+
+	template< typename... FieldsT >
+	using PcbHelperStd140T = PcbHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
+	template< typename... FieldsT >
+	using PcbHelperStd430T = PcbHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
+	template< typename... FieldsT >
+	using PcbHelperScalarT = PcbHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
+	template< typename... FieldsT >
+	using PcbHelperCT = PcbHelperT< ast::type::MemoryLayout::eC, FieldsT... >;
 }
 
 #include "Pcb.inl"

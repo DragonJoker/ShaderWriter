@@ -3,8 +3,9 @@ See LICENSE file in root folder
 */
 #ifndef ___SDW_Ubo_H___
 #define ___SDW_Ubo_H___
+#pragma once
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+#include "ShaderWriter/CompositeTypes/StructHelper.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtConstantBufferDecl.hpp>
@@ -30,18 +31,14 @@ namespace sdw
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline T declStructMember( std::string name
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declStructMember( std::string name
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
 		inline T declMember( std::string name
 			, bool enabled = true );
 		template< typename T >
 		inline Array< T > declMember( std::string name
 			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declMemberArray( std::string name
 			, bool enabled = true );
 		template< typename T >
 		inline T getMember( std::string_view name
@@ -65,6 +62,28 @@ namespace sdw
 		var::VariablePtr m_var;
 		bool m_enabled;
 	};
+
+	template< ast::type::MemoryLayout LayoutT
+		, uint32_t BindT
+		, uint32_t SetT
+		, typename... FieldsT >
+	class UboHelperT
+		: public StructHelperT< Ubo, LayoutT, FieldsT... >
+	{
+	public:
+		static constexpr uint32_t Bind = BindT;
+		static constexpr uint32_t Set = SetT;
+
+		UboHelperT( ShaderWriter & writer, const std::string & name )
+			: StructHelperT< Ubo, LayoutT, FieldsT... >{ writer, name, BindT, SetT, LayoutT }
+		{
+		}
+	};
+
+	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
+	using UboHelperStd140T = UboHelperT< ast::type::MemoryLayout::eStd140, BindT, SetT, FieldsT... >;
+	template< uint32_t BindT, uint32_t SetT, typename... FieldsT >
+	using UboHelperStd430T = UboHelperT< ast::type::MemoryLayout::eStd430, BindT, SetT, FieldsT... >;
 }
 
 #include "Ubo.inl"

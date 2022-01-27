@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Void.hpp"
+#include "ShaderWriter/BaseTypes/Int.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
@@ -21,6 +22,11 @@ namespace sdw
 
 	Void::Void( Value rhs )
 		: Value{ std::move( rhs ) }
+	{
+	}
+
+	Void::Void()
+		: Void{ 0_i }
 	{
 	}
 

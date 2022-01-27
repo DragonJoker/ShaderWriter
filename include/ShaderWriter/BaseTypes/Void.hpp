@@ -12,6 +12,7 @@ namespace sdw
 	struct Void
 		: public Value
 	{
+		SDW_API Void();
 		SDW_API Void( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool writeStmt = true );

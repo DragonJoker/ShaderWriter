@@ -7,7 +7,8 @@ namespace sdw
 	inline T Pcb::declMember( std::string name
 		, bool enabled )
 	{
-		auto type = m_info.registerMember< typeEnum< T > >( name );
+		auto type = m_info.registerMember( name
+			, T::makeType( getTypesCache( m_writer ) ) );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled )
@@ -25,7 +26,26 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = m_info.registerMember< typeEnum< T > >( name, dimension );
+		auto type = m_info.registerMember( name
+			, T::makeType( getTypesCache( m_writer ) )
+			, dimension );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
+
+		if ( isEnabled() && enabled )
+		{
+			m_stmt->add( stmt::makeVariableDecl( var ) );
+		}
+
+		return Array< T >{ m_writer
+			, makeExpr( m_writer, var )
+			, isEnabled() && enabled };
+	}
+
+	template< typename T >
+	inline Array< T > Pcb::declMemberArray( std::string name
+		, bool enabled )
+	{
+		auto type = m_info.registerMember< typeEnum< T > >( name, type::UnknownArraySize );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled )

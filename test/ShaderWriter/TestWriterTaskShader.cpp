@@ -481,15 +481,15 @@ namespace
 			auto payload = writer.declTaskPayload< PayloadT >( "payload" );
 
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
-			auto constants = Globals.declStructMember< Constants >( "constants" );
+			auto constants = Globals.declMember< Constants >( "constants" );
 			Globals.end();
 
 			auto MeshInfos = writer.declUniformBuffer( "bufferMeshInfos", 1u, 0u );
-			auto meshInfos = MeshInfos.declStructMember< MeshInfo >( "meshInfos" );
+			auto meshInfos = MeshInfos.declMember< MeshInfo >( "meshInfos" );
 			MeshInfos.end();
 
 			auto Instances = writer.declUniformBuffer( "bufferInstance", 2u, 0u );
-			auto instance = Instances.declStructMember< Instance >( "instance" );
+			auto instance = Instances.declMember< Instance >( "instance" );
 			Instances.end();
 
 			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );

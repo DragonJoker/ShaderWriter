@@ -1620,9 +1620,6 @@ namespace
 				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
-		test::validateShaders( shaders
-			, testCounts
-			, CurrentCompilers );
 		testEnd();
 	}
 }
@@ -1644,7 +1641,7 @@ sdwTestSuiteMain( TestWriterShader )
 	clipDistance( testCounts );
 	basicPipeline( testCounts );
 	voxelPipeline( testCounts );
-	//tessellationPipeline( testCounts );
+	tessellationPipeline( testCounts );
 	sdwTestSuiteEnd();
 }
 
