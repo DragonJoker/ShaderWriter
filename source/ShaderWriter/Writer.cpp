@@ -11,6 +11,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/PreprocVersion.hpp>
 #include <ShaderAST/Stmt/StmtBreak.hpp>
 #include <ShaderAST/Stmt/StmtContinue.hpp>
+#include <ShaderAST/Stmt/StmtDemote.hpp>
 #include <ShaderAST/Stmt/StmtDiscard.hpp>
 #include <ShaderAST/Stmt/StmtDoWhile.hpp>
 #include <ShaderAST/Stmt/StmtElse.hpp>
