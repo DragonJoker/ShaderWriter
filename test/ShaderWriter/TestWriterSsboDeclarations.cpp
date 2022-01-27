@@ -1,16 +1,22 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma warning( disable:5245 )
+
+#undef CurrentCompilers
+#define CurrentCompilers Compilers_NoHLSL
+
 namespace
 {
 	template< typename T >
-	void testSsbo( test::sdw_test::TestCounts & testCounts )
+	void testSsboRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSsbo" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testSsboRaw" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
@@ -30,12 +36,19 @@ namespace
 				{
 					retrieved = test::getDefault< T >( writer );
 				} );
-			test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testSsboRawArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSsboRawArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
@@ -55,12 +68,19 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-			test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testSsboRawArrayRuntime( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSsboRawArrayRuntime" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArrayUnknown" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
 			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
@@ -80,9 +100,97 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-			test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+	}
+
+	template< typename T >
+	void testSsboHelper( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSsboHelper" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::SsboHelperStd430T< 1u, 1u, sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO" };
+			auto retrieved = bo.template getMember< "member" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == ast::type::NotArray );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+				{
+					retrieved[0] = test::getDefault< T >( writer );
+				} );
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testSsboHelperArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSsboHelperArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::SsboHelperStd430T< 1u, 1u, sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO" };
+			auto retrieved = bo.template getMember< "member" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == 4u );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+				{
+					retrieved[0] = test::getDefault< T >( writer );
+				} );
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testSsboHelperArrayRuntime( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSsboHelperArrayRuntime" + ast::debug::getName( sdw::typeEnum< T > ) );
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			sdw::SsboHelperStd430T< 1u, 1u, sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO" };
+			auto retrieved = bo.template getMember< "member" >();
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
+			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+				{
+					retrieved[0] = test::getDefault< T >( writer );
+				} );
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testSsbo( test::sdw_test::TestCounts & testCounts )
+	{
+		testSsboRaw< T >( testCounts );
+		testSsboRawArray< T >( testCounts );
+		testSsboRawArrayRuntime< T >( testCounts );
+		testSsboHelperArray< T >( testCounts );
+		testSsboHelperArrayRuntime< T >( testCounts );
 	}
 }
 
