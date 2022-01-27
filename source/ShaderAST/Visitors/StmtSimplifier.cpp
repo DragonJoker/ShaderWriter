@@ -35,11 +35,9 @@ namespace ast
 
 		std::vector< expr::SwizzleKind > getSwizzleValues( expr::SwizzleKind swizzle )
 		{
-			assert( !swizzle.isOneComponent()
-				&& "Invalid swizzle for components listing" );
+			auto count = swizzle.getComponentsCount();
 			std::vector< expr::SwizzleKind > result;
 			result.push_back( swizzle.getFirstValue() );
-			auto count = swizzle.getComponentsCount();
 
 			if ( count >= 2u )
 			{
@@ -105,6 +103,7 @@ namespace ast
 
 			for ( auto & index : indices )
 			{
+				assert( index < values.size() );
 				result |= values[index] >> shift;
 				shift += 4u;
 			}
