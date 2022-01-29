@@ -106,8 +106,8 @@ namespace ast::debug
 			case ast::stmt::Kind::eDemote:
 				result = "STDEMOTE";
 				break;
-			case ast::stmt::Kind::eDiscard:
-				result = "STDISCARD";
+			case ast::stmt::Kind::eTerminateInvocation:
+				result = "STDTERMINVOC";
 				break;
 			case ast::stmt::Kind::eInputGeometryLayout:
 				result = "STINGEOMLAYOUT";
@@ -277,7 +277,7 @@ namespace ast::debug
 		displayStmtName( stmt, true );
 	}
 
-	void StmtVisitor::visitDiscardStmt( stmt::Discard * stmt )
+	void StmtVisitor::visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )
 	{
 		displayStmtName( stmt, true );
 	}

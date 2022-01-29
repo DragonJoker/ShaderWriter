@@ -75,7 +75,7 @@ namespace hlsl
 	{
 	}
 
-	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )
+	void StmtConfigFiller::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
 	}
 

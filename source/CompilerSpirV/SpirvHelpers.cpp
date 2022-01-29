@@ -1128,7 +1128,7 @@ namespace spirv
 
 	void ModuleConfig::registerCapability( spv::Capability capability )
 	{
-		requiredCapabilities.insert( capability );
+		bool add = true;
 
 		switch ( capability )
 		{
@@ -1410,7 +1410,7 @@ namespace spirv
 		case spv::CapabilityFragmentShaderPixelInterlockEXT:
 			break;
 		case spv::CapabilityDemoteToHelperInvocationEXT:
-			registerExtension( EXT_demote_to_helper_invocation );
+			add = registerExtension( EXT_demote_to_helper_invocation, true );
 			break;
 		case spv::CapabilitySubgroupShuffleINTEL:
 			break;
@@ -1464,10 +1464,30 @@ namespace spirv
 		default:
 			break;
 		}
+
+		if ( add )
+		{
+			requiredCapabilities.insert( capability );
+		}
 	}
 
-	void ModuleConfig::registerExtension( SpirVExtension extension )
+	bool ModuleConfig::registerExtension( SpirVExtension extension
+		, bool optional )
 	{
+		if ( optional )
+		{
+			if ( spirvConfig.specVersion >= extension.specVersion 
+				&& ( !spirvConfig.availableExtensions
+					|| spirvConfig.availableExtensions->end() != spirvConfig.availableExtensions->find( extension ) ) )
+			{
+				requiredExtensions.insert( extension );
+				spirvConfig.requiredExtensions.insert( std::move( extension ) );
+				return true;
+			}
+
+			return false;
+		}
+
 		if ( spirvConfig.specVersion < extension.specVersion )
 		{
 			throw std::runtime_error{ "SPIR-V specification version (" + printSpvVersion( spirvConfig.specVersion )
@@ -1484,7 +1504,13 @@ namespace spirv
 		}
 
 		requiredExtensions.insert( extension );
-		spirvConfig.requiredExtensions.insert( extension );
+		spirvConfig.requiredExtensions.insert( std::move( extension ) );
+		return true;
+	}
+
+	bool ModuleConfig::hasExtension( SpirVExtension extension )const
+	{
+		return requiredExtensions.find( extension ) != requiredExtensions.end();
 	}
 
 	void ModuleConfig::fillModule( Module & module )const

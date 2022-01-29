@@ -68,7 +68,6 @@ namespace glsl
 	makeGlExtension( v1_4, v4_5, vUnk, KHR_vulkan_glsl );
 	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int64 );
 	makeGlExtension( v1_4, v4_5, vUnk, EXT_multiview );
-	makeGlExtension( v1_4, v4_5, vUnk, EXT_demote_to_helper_invocation );
 	makeGlExtension( v1_5, v1_5, vUnk, ARB_explicit_attrib_location );
 	makeGlExtension( v1_5, v1_5, vUnk, NV_gpu_shader5 );
 	makeGlExtension( v4_0, v4_0, v4_1, ARB_separate_shader_objects );

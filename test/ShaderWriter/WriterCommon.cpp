@@ -139,11 +139,12 @@ namespace test
 		}
 
 		void doSetupOptions( ast::ShaderStage stage
+			, bool vulkanSemantics
 			, spirv_cross::CompilerGLSL & compiler )
 		{
 			auto options = compiler.get_common_options();
 			options.separate_shader_objects = true;
-			options.vulkan_semantics = isRayTraceStage( stage );
+			options.vulkan_semantics = vulkanSemantics || isRayTraceStage( stage );
 			compiler.set_common_options( options );
 		}
 
@@ -184,11 +185,12 @@ namespace test
 
 		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
 			, ast::ShaderStage stage
-			, test::TestCounts & testCounts )
+			, test::TestCounts & testCounts
+			, bool vulkanSemantics )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
-			doSetupOptions( stage, *compiler );
+			doSetupOptions( stage, vulkanSemantics, *compiler );
 			return compileSpirV( "GLSL", *compiler, testCounts );
 		}
 
@@ -199,7 +201,7 @@ namespace test
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
 			doSetEntryPoint( stage, *compiler );
 			doSetupHlslOptions( *compiler );
-			doSetupOptions( stage, *compiler );
+			doSetupOptions( stage, false, *compiler );
 			return compileSpirV( "HLSL", *compiler, testCounts );
 		}
 #endif
@@ -308,6 +310,7 @@ namespace test
 		void validateSpirV( ::ast::Shader const & shader
 			, std::vector< uint32_t > const & spirv
 			, std::string const & text
+			, spirv::SpirVExtensionSet const & requiredExtensions
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts
@@ -378,19 +381,26 @@ namespace test
 			}
 
 #if SDW_Test_HasSpirVCross
-			if ( compilers.glsl )
+
+			if ( compilers.glsl
+				&& requiredExtensions.end() == requiredExtensions.find( spirv::KHR_terminate_invocation ) )
 			{
-				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts );
+				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts
+					, ( requiredExtensions.end() != requiredExtensions.find( spirv::KHR_terminate_invocation )
+						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_demote_to_helper_invocation ) ) );
 				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay && display, true );
 			}
 
 			if ( compilers.hlsl
 				&& !isRayTraceStage( shader.getType() )
-				&& !isMeshStage( shader.getType() ) )
+				&& !isMeshStage( shader.getType() )
+				&& requiredExtensions.end() == requiredExtensions.find( spirv::KHR_terminate_invocation )
+				&& requiredExtensions.end() == requiredExtensions.find( spirv::EXT_demote_to_helper_invocation ) )
 			{
 				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
 				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay && display, true );
 			}
+
 #endif
 		}
 
@@ -561,6 +571,11 @@ namespace test
 
 						if ( availableExtensions )
 						{
+							if ( config.specVersion >= spirv::v1_5 )
+							{
+								extensions.emplace( spirv::KHR_terminate_invocation );
+							}
+
 							if ( config.specVersion >= spirv::v1_4 )
 							{
 								extensions.emplace( spirv::EXT_demote_to_helper_invocation );
@@ -605,6 +620,7 @@ namespace test
 							test::validateSpirV( shader
 								, spirv
 								, textSpirv
+								, config.requiredExtensions
 								, specialisation
 								, compilers
 								, testCounts
@@ -763,7 +779,8 @@ namespace test
 						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 							, shader.getType()
-							, testCounts );
+							, testCounts
+							, true );
 						auto textSpirv = spirv::writeSpirv( shader, config );
 						displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 						displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
@@ -824,7 +841,8 @@ namespace test
 						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 							, shader.getType()
-							, testCounts );
+							, testCounts
+							, true );
 						auto textSpirv = spirv::writeSpirv( shader, config );
 						displayShader( "SPIR-V"
 							, textSpirv

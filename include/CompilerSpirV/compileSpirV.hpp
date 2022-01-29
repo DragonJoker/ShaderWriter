@@ -36,6 +36,7 @@ namespace spirv
 	static uint32_t constexpr v1_3 = makeVersion( 1u, 3u );
 	static uint32_t constexpr v1_4 = makeVersion( 1u, 4u );
 	static uint32_t constexpr v1_5 = makeVersion( 1u, 5u );
+	static uint32_t constexpr v1_6 = makeVersion( 1u, 6u );
 
 	struct SpirVExtension
 	{
@@ -64,12 +65,13 @@ namespace spirv
 	makeSpirVExtension( v1_0, v1_1, v1_5, KHR_shader_ballot );
 	makeSpirVExtension( v1_0, v1_2, v1_5, EXT_shader_viewport_index_layer );
 	makeSpirVExtension( v1_0, v1_3, v1_5, EXT_descriptor_indexing );
+	makeSpirVExtension( v1_0, v1_5, v1_6, KHR_terminate_invocation );
 	makeSpirVExtension( v1_0, v1_1, vUnk, EXT_shader_stencil_export );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_viewport_array2 );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_stereo_view_rendering );
 	makeSpirVExtension( v1_0, v1_1, vUnk, NVX_multiview_per_view_attributes );
 	makeSpirVExtension( v1_0, v1_3, vUnk, NV_mesh_shader );
-	makeSpirVExtension( v1_0, v1_4, vUnk, EXT_demote_to_helper_invocation );
+	makeSpirVExtension( v1_0, v1_4, v1_6, EXT_demote_to_helper_invocation );
 	makeSpirVExtension( v1_0, v1_5, vUnk, EXT_shader_atomic_float_add );
 	makeSpirVExtension( v1_0, v1_5, vUnk, KHR_ray_query );
 	makeSpirVExtension( v1_3, v1_3, v1_5, EXT_physical_storage_buffer );

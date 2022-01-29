@@ -394,7 +394,7 @@ namespace hlsl
 		m_result += m_indent + "discard;\n";
 	}
 
-	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
+	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "discard;\n";

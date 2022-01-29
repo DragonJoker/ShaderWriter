@@ -42,7 +42,7 @@ namespace ast::stmt
 		eBreak,
 		eContinue,
 		eDemote,
-		eDiscard,
+		eTerminateInvocation,
 		eInputGeometryLayout,
 		eOutputGeometryLayout,
 		eInputComputeLayout,

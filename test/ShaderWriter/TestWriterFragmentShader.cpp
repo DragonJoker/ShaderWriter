@@ -634,6 +634,54 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
+
+	void terminate( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "terminate" );
+		using namespace sdw;
+
+		FragmentWriter writer;
+		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
+
+		writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
+			, FragmentOutT< ColourT > out )
+			{
+				IF( writer, offpos.x() > 0.0_f )
+				{
+					writer.terminate();
+				}
+				FI;
+
+				out.colour = vec4( in.position, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void demote( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "demote" );
+		using namespace sdw;
+
+		FragmentWriter writer;
+		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
+
+		writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
+			, FragmentOutT< ColourT > out )
+			{
+				IF( writer, offpos.x() > 0.0_f )
+				{
+					writer.demote();
+				}
+				FI;
+
+				out.colour = vec4( in.position, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterFragmentShader )
@@ -654,6 +702,8 @@ sdwTestSuiteMain( TestWriterFragmentShader )
 	textureOffset( testCounts );
 	skybox( testCounts );
 	reference( testCounts );
+	terminate( testCounts );
+	demote( testCounts );
 	sdwTestSuiteEnd();
 }
 
