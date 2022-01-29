@@ -59,22 +59,45 @@ namespace spirv
 #define makeSpirVExtension( reqVersion, specVersion, coreInVersion, name )\
 	static SpirVExtension const name{ reqVersion, specVersion, coreInVersion, "SPV_"#name }
 
+	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_device_group );
+	// Enable this extension if you need baseVertex, baseInstance or drawIndex builtins.
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_shader_draw_parameters );
+	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_multiview );
+	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, v1_5, KHR_shader_ballot );
+	// Enable this extension if you need layer built-in from any shader stage other than mesh or geometry.
 	makeSpirVExtension( v1_0, v1_2, v1_5, EXT_shader_viewport_index_layer );
+	// Enable this extension if you need sampled images or image runtime arrays.
 	makeSpirVExtension( v1_0, v1_3, v1_5, EXT_descriptor_indexing );
+	// Enable this extension to prevent mapping of terminate instruction to discard instruction.
 	makeSpirVExtension( v1_0, v1_5, v1_6, KHR_terminate_invocation );
+	// Not used yet
 	makeSpirVExtension( v1_0, v1_1, vUnk, EXT_shader_stencil_export );
+	// Enable this extension if you need to use viewportMask builtin.
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_viewport_array2 );
+	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_stereo_view_rendering );
+	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, vUnk, NVX_multiview_per_view_attributes );
+	// Enable this extension to be able to use Mesh and Task shader stages
 	makeSpirVExtension( v1_0, v1_3, vUnk, NV_mesh_shader );
+	// Enable this extension to prevent mapping of demote instruction to discard instruction.
 	makeSpirVExtension( v1_0, v1_4, v1_6, EXT_demote_to_helper_invocation );
+	// Enable this extension if you need any of the following intrinsic functions:
+	// atomicAddF, atomicAdd2H, atomicAdd4H
+	// atomicExchangeF, atomicExchange2H, atomicExchange4H
+	// imageAtomicAdd1DF, imageAtomicAdd2DF, imageAtomicAdd3DF, imageAtomicAdd2DRectF, imageAtomicAddCubeF, imageAtomicAddBufferF, imageAtomicAdd2DMSF
+	// imageAtomicAdd1DArrayF, imageAtomicAdd2DArrayF, imageAtomicAddCubeArrayF, imageAtomicAdd2DMSArrayF
+	// imageAtomicExchange1DF, imageAtomicExchange2DF, imageAtomicExchange3DF, imageAtomicExchange2DRectF, imageAtomicExchangeCubeF, imageAtomicExchangeBufferF
+	// imageAtomicExchange1DArrayF, imageAtomicExchange2DArrayF, imageAtomicExchangeCubeArrayF, imageAtomicExchange2DMSF, imageAtomicExchange2DMSArrayF
 	makeSpirVExtension( v1_0, v1_5, vUnk, EXT_shader_atomic_float_add );
+	// Not used yet.
 	makeSpirVExtension( v1_0, v1_5, vUnk, KHR_ray_query );
+	// Enable this extension to be able to use buffer references.
 	makeSpirVExtension( v1_3, v1_3, v1_5, EXT_physical_storage_buffer );
+	// Enable this extension to be able to use any ray tracing shader stage.
 	makeSpirVExtension( v1_4, v1_5, vUnk, KHR_ray_tracing );
 
 #undef makeSpirVExtension
