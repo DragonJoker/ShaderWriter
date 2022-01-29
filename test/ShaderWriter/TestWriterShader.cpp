@@ -1267,7 +1267,7 @@ namespace
 						|| in.position.x() > in.aabb.z()
 						|| in.position.y() > in.aabb.w() )
 					{
-						writer.discard();
+						writer.terminate();
 					}
 					FI;
 

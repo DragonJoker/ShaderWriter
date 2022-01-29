@@ -90,8 +90,9 @@ namespace spirv
 		m_result.registerCapability( spv::CapabilityDemoteToHelperInvocation );
 	}
 
-	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )
+	void StmtConfigFiller::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
+		m_result.registerExtension( KHR_terminate_invocation, true );
 	}
 
 	void StmtConfigFiller::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )

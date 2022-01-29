@@ -160,7 +160,9 @@ namespace spirv
 		std::set< spv::ExecutionMode > executionModes;
 
 		void registerCapability( spv::Capability capability );
-		void registerExtension( SpirVExtension extension );
+		bool registerExtension( SpirVExtension extension
+			, bool optional = false );
+		bool hasExtension( SpirVExtension extension )const;
 		void fillModule( Module & module )const;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );

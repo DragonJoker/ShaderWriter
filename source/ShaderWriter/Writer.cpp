@@ -12,7 +12,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtBreak.hpp>
 #include <ShaderAST/Stmt/StmtContinue.hpp>
 #include <ShaderAST/Stmt/StmtDemote.hpp>
-#include <ShaderAST/Stmt/StmtDiscard.hpp>
+#include <ShaderAST/Stmt/StmtTerminateInvocation.hpp>
 #include <ShaderAST/Stmt/StmtDoWhile.hpp>
 #include <ShaderAST/Stmt/StmtElse.hpp>
 #include <ShaderAST/Stmt/StmtElseIf.hpp>
@@ -131,10 +131,10 @@ namespace sdw
 		addStmt( stmt::makeDemote() );
 	}
 
-	void ShaderWriter::discard()
+	void ShaderWriter::terminate()
 	{
 		assert( m_shader->getType() == ast::ShaderStage::eFragment );
-		addStmt( stmt::makeDiscard() );
+		addStmt( stmt::makeTerminateInvocation() );
 	}
 
 	void ShaderWriter::returnStmt()

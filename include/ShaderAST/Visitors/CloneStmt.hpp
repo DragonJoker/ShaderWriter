@@ -28,7 +28,7 @@ namespace ast
 		SDAST_API void visitContinueStmt( stmt::Continue * stmt )override;
 		SDAST_API void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override;
 		SDAST_API void visitDemoteStmt( stmt::Demote * stmt )override;
-		SDAST_API void visitDiscardStmt( stmt::Discard * stmt )override;
+		SDAST_API void visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )override;
 		SDAST_API void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;
 		SDAST_API void visitCommentStmt( stmt::Comment * stmt )override;
 		SDAST_API void visitCompoundStmt( stmt::Compound * stmt )override;

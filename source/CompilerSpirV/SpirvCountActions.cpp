@@ -326,7 +326,7 @@ namespace spirv
 			{
 			}
 
-			void visitDiscardStmt( ast::stmt::Discard * stmt )override
+			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
 			{
 			}
 

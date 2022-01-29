@@ -408,6 +408,7 @@ namespace spirv
 
 	using DemoteInstruction = InstructionT< spv::OpDemoteToHelperInvocation, false, false, 0u, false, false >;
 	using KillInstruction = InstructionT< spv::OpKill, false, false, 0u, false, false >;
+	using TerminateInvocationInstruction = InstructionT< spv::OpTerminateInvocation, false, false, 0u, false, false >;
 	using BranchInstruction = InstructionT< spv::OpBranch, false, false, 1u, false, false >;
 	using BranchConditionalInstruction = VariadicInstructionT< spv::OpBranchConditional, false, false >;
 	using SelectionMergeInstruction = InstructionT< spv::OpSelectionMerge, false, false, 2u, false, false >;

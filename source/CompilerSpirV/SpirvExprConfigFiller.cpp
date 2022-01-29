@@ -230,6 +230,8 @@ namespace spirv
 		else if ( kind == ast::expr::Intrinsic::eHelperInvocation )
 		{
 			m_config.registerCapability( spv::CapabilityDemoteToHelperInvocation );
+			// The extension is not optional, when using helperInvocation intrinsic.
+			m_config.registerExtension( EXT_demote_to_helper_invocation );
 		}
 	}
 
