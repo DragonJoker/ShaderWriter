@@ -157,14 +157,32 @@ namespace spirv
 
 	void StmtVisitor::visitDemoteStmt( ast::stmt::Demote * stmt )
 	{
-		m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >() );
+		if ( m_moduleConfig.hasExtension( EXT_demote_to_helper_invocation ) )
+		{
+			m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >() );
+		}
+		else
+		{
+			interruptBlock( m_currentBlock
+				, makeInstruction< KillInstruction >()
+				, true );
+		}
 	}
 
-	void StmtVisitor::visitDiscardStmt( ast::stmt::Discard * stmt )
+	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
-		interruptBlock( m_currentBlock
-			, makeInstruction< KillInstruction >()
-			, true );
+		if ( m_moduleConfig.hasExtension( KHR_terminate_invocation ) )
+		{
+			interruptBlock( m_currentBlock
+				, makeInstruction< TerminateInvocationInstruction >()
+				, true );
+		}
+		else
+		{
+			interruptBlock( m_currentBlock
+				, makeInstruction< KillInstruction >()
+				, true );
+		}
 	}
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )

@@ -47,10 +47,9 @@ namespace glsl
 
 	void StmtConfigFiller::visitDemoteStmt( ast::stmt::Demote * stmt )
 	{
-		m_result.requiredExtensions.insert( EXT_demote_to_helper_invocation );
 	}
 
-	void StmtConfigFiller::visitDiscardStmt( ast::stmt::Discard * stmt )
+	void StmtConfigFiller::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
 	}
 

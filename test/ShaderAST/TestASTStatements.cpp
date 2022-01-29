@@ -756,14 +756,14 @@ namespace
 		testEnd();
 	}
 
-	void testDiscard( test::TestCounts & testCounts )
+	void testTerminateInvocation( test::TestCounts & testCounts )
 	{
-		testBegin( "testDiscard" );
+		testBegin( "testTerminateInvocation" );
 		ast::type::TypesCache cache;
-		auto stmt = ast::stmt::makeDiscard();
-		testCounts << "StmtDiscard:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+		auto stmt = ast::stmt::makeTerminateInvocation();
+		testCounts << "StmtTerminateInvocation:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
 
-		require( stmt->getKind() == ast::stmt::Kind::eDiscard );
+		require( stmt->getKind() == ast::stmt::Kind::eTerminateInvocation );
 		testEnd();
 	}
 
@@ -1115,7 +1115,7 @@ testSuiteMain( TestASTStatements )
 	testSwitch( testCounts );
 	testReturn( testCounts );
 	testDemote( testCounts );
-	testDiscard( testCounts );
+	testTerminateInvocation( testCounts );
 	testInputGeometryLayout( testCounts );
 	testOutputGeometryLayout( testCounts );
 	testOutputMeshLayout( testCounts );

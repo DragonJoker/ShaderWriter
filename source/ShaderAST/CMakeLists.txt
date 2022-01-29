@@ -248,7 +248,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtContainer.hpp
 	${INCLUDE_DIR}/Stmt/StmtContinue.hpp
 	${INCLUDE_DIR}/Stmt/StmtDemote.hpp
-	${INCLUDE_DIR}/Stmt/StmtDiscard.hpp
 	${INCLUDE_DIR}/Stmt/StmtDoWhile.hpp
 	${INCLUDE_DIR}/Stmt/StmtElse.hpp
 	${INCLUDE_DIR}/Stmt/StmtElseIf.hpp
@@ -283,6 +282,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtStructureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtSwitch.hpp
 	${INCLUDE_DIR}/Stmt/StmtSwitchCase.hpp
+	${INCLUDE_DIR}/Stmt/StmtTerminateInvocation.hpp
 	${INCLUDE_DIR}/Stmt/StmtTerminateRay.hpp
 	${INCLUDE_DIR}/Stmt/StmtVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtVisitor.hpp
@@ -307,7 +307,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtContainer.cpp
 	${SOURCE_DIR}/Stmt/StmtContinue.cpp
 	${SOURCE_DIR}/Stmt/StmtDemote.cpp
-	${SOURCE_DIR}/Stmt/StmtDiscard.cpp
 	${SOURCE_DIR}/Stmt/StmtDoWhile.cpp
 	${SOURCE_DIR}/Stmt/StmtElse.cpp
 	${SOURCE_DIR}/Stmt/StmtElseIf.cpp
@@ -341,6 +340,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtSwitch.cpp
 	${SOURCE_DIR}/Stmt/StmtSwitchCase.cpp
+	${SOURCE_DIR}/Stmt/StmtTerminateInvocation.cpp
 	${SOURCE_DIR}/Stmt/StmtTerminateRay.cpp
 	${SOURCE_DIR}/Stmt/StmtVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtWhile.cpp

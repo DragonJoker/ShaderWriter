@@ -34,7 +34,7 @@ namespace glsl
 		void visitContinueStmt( ast::stmt::Continue * stmt )override;
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitDemoteStmt( ast::stmt::Demote * stmt )override;
-		void visitDiscardStmt( ast::stmt::Discard * stmt )override;
+		void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitCommentStmt( ast::stmt::Comment * stmt )override;
 		void visitCompoundStmt( ast::stmt::Compound * stmt )override;

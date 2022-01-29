@@ -74,9 +74,9 @@ namespace ast
 		m_current->addStmt( stmt::makeDemote() );
 	}
 
-	void StmtCloner::visitDiscardStmt( stmt::Discard * stmt )
+	void StmtCloner::visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )
 	{
-		m_current->addStmt( stmt::makeDiscard() );
+		m_current->addStmt( stmt::makeTerminateInvocation() );
 	}
 
 	void StmtCloner::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )

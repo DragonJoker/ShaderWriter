@@ -22,7 +22,6 @@ See LICENSE file in root folder
 #include "StmtContinue.hpp"
 #include "StmtConstantBufferDecl.hpp"
 #include "StmtDemote.hpp"
-#include "StmtDiscard.hpp"
 #include "StmtDoWhile.hpp"
 #include "StmtElse.hpp"
 #include "StmtElseIf.hpp"
@@ -55,6 +54,7 @@ See LICENSE file in root folder
 #include "StmtStructureDecl.hpp"
 #include "StmtSwitchCase.hpp"
 #include "StmtSwitch.hpp"
+#include "StmtTerminateInvocation.hpp"
 #include "StmtTerminateRay.hpp"
 #include "StmtVariableDecl.hpp"
 #include "StmtWhile.hpp"
@@ -80,7 +80,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitContinueStmt( Continue * ) = 0;
 		SDAST_API virtual void visitConstantBufferDeclStmt( ConstantBufferDecl * ) = 0;
 		SDAST_API virtual void visitDemoteStmt( Demote * ) = 0;
-		SDAST_API virtual void visitDiscardStmt( Discard * ) = 0;
+		SDAST_API virtual void visitTerminateInvocationStmt( TerminateInvocation * ) = 0;
 		SDAST_API virtual void visitDoWhileStmt( DoWhile * ) = 0;
 		SDAST_API virtual void visitElseIfStmt( ElseIf * ) = 0;
 		SDAST_API virtual void visitElseStmt( Else * ) = 0;

@@ -31,7 +31,7 @@ namespace ast::debug
 		SDAST_API void visitContainerStmt( stmt::Container * stmt )override;
 		SDAST_API void visitContinueStmt( stmt::Continue * stmt )override;
 		SDAST_API void visitDemoteStmt( stmt::Demote * stmt )override;
-		SDAST_API void visitDiscardStmt( stmt::Discard * stmt )override;
+		SDAST_API void visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )override;
 		SDAST_API void visitDoWhileStmt( stmt::DoWhile * stmt )override;
 		SDAST_API void visitElseIfStmt( stmt::ElseIf * stmt )override;
 		SDAST_API void visitElseStmt( stmt::Else * stmt )override;
