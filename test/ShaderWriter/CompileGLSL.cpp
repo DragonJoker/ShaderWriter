@@ -22,6 +22,8 @@
 
 namespace test
 {
+	using GLSLVersions = std::array< uint32_t, 8u >;
+
 #if _WIN32 || __APPLE__
 
 	enum ContextFlag
@@ -271,7 +273,7 @@ namespace test
 	class RenderWindow
 	{
 	public:
-		RenderWindow()
+		RenderWindow( GLSLVersions const & versions )
 		{
 			try
 			{
@@ -329,7 +331,8 @@ namespace test
 				getFunction( "glGetShaderiv", glGetShaderiv );
 				getFunction( "glShaderSource", glShaderSource );
 				endCurrent();
-				doCreateGl3Context( version );
+				doCreateModernContext( version );
+				initialiseGLSLVersions( version, versions );
 			}
 			catch ( std::exception & )
 			{
@@ -367,6 +370,11 @@ namespace test
 			wglMakeCurrent( nullptr, nullptr );
 		}
 
+		std::vector< uint32_t > getGLSLVersions()
+		{
+			return m_glslVersions;
+		}
+
 		PFN_glCompileShader glCompileShader;
 		PFN_glCreateShader glCreateShader;
 		PFN_glDeleteShader glDeleteShader;
@@ -380,6 +388,20 @@ namespace test
 			auto ext = ( char const * )glGetString( GL_EXTENSIONS );
 			std::string extensions = ext ? ext : "";
 			getFunction( "glDebugMessageCallback", glDebugMessageCallback );
+		}
+
+		void initialiseGLSLVersions( Version const & glVersion
+			, GLSLVersions const & glslVersions )
+		{
+			auto v = glVersion.major * 100u + glVersion.minor * 10u;
+
+			for ( auto & glslV : glslVersions )
+			{
+				if ( glslV <= v )
+				{
+					m_glslVersions.push_back( glslV );
+				}
+			}
 		}
 
 		void initialiseDebugFunctions()
@@ -419,7 +441,7 @@ namespace test
 			return result;
 		}
 
-		void doCreateGl3Context( Version const & version )
+		void doCreateModernContext( Version const & version )
 		{
 			using PFNGLCREATECONTEXTATTRIBS = HGLRC( *)( HDC hDC, HGLRC hShareContext, int const * attribList );
 			PFNGLCREATECONTEXTATTRIBS glCreateContextAttribs;
@@ -470,6 +492,7 @@ namespace test
 		HDC m_hDC{ nullptr };
 		HGLRC m_hContext{ nullptr };
 		WNDCLASSA m_wc{};
+		std::vector< uint32_t > m_glslVersions;
 	};
 
 #elif defined( __linux__ )
@@ -488,7 +511,7 @@ namespace test
 	class RenderWindow
 	{
 	public:
-		RenderWindow() try
+		RenderWindow( GLSLVersions const & versions ) try
 		{
 			m_display = XOpenDisplay( NULL );
 
@@ -595,7 +618,8 @@ namespace test
 			XFree( vi );
 
 			auto version = checkGLVersion();
-			doCreateGl3Context( version );
+			doCreateModernContext( version );
+			initialiseGLSLVersions( version, versions );
 
 			setCurrent();
 			getFunction( "glCompileShader", glCompileShader );
@@ -609,6 +633,11 @@ namespace test
 		catch ( std::exception & p_exc )
 		{
 			endCurrent();
+
+			if ( m_glxContext )
+			{
+				glXDestroyContext( m_display, m_glxContext );
+			}
 
 			if ( m_xWindow )
 			{
@@ -659,6 +688,11 @@ namespace test
 			glXMakeCurrent( m_display, 0, nullptr );
 		}
 
+		std::vector< uint32_t > getGLSLVersions()
+		{
+			return m_glslVersions;
+		}
+
 		PFN_glCompileShader glCompileShader;
 		PFN_glCreateShader glCreateShader;
 		PFN_glDeleteShader glDeleteShader;
@@ -667,7 +701,7 @@ namespace test
 		PFN_glShaderSource glShaderSource;
 
 	private:
-		void doCreateGl3Context( Version const & version )
+		void doCreateModernContext( Version const & version )
 		{
 			using PFNGLCREATECONTEXTATTRIBS = GLXContext( *)( Display *dpy, GLXFBConfig, GLXContext, Bool, const int * );
 			PFNGLCREATECONTEXTATTRIBS glCreateContextAttribs;
@@ -700,6 +734,22 @@ namespace test
 				stream << "Failed to create an OpenGL " << version.major << "." << version.minor << " context.";
 				throw std::runtime_error{ stream.str() };
 			}
+
+			m_glslVersion = version.major * 100u + version.minor * 10u;
+		}
+
+		void initialiseGLSLVersions( Version const & glVersion
+			, GLSLVersions const & glslVersions )
+		{
+			auto v = glVersion.major * 100u + glVersion.minor * 10u;
+
+			for ( auto & glslV : glslVersions )
+			{
+				if ( glslV <= v )
+				{
+					m_glslVersions.push_back( glslV );
+				}
+			}
 		}
 
 	private:
@@ -709,6 +759,7 @@ namespace test
 		GLXWindow m_glxWindow{ 0 };
 		GLXFBConfig m_fbConfig{ nullptr };
 		GLXContext m_glxContext;
+		std::vector< uint32_t > m_glslVersions;
 	};
 
 #else
@@ -794,17 +845,43 @@ namespace test
 		}
 	}
 
-	std::shared_ptr< RenderWindow > createWindow()
-	{
-		return std::make_shared< RenderWindow >();
-	}
-
 	namespace sdw_test
 	{
 		struct GLSLContext
 		{
+			static constexpr GLSLVersions glslVersions{ 330u
+				, 400u
+				, 410u
+				, 420u
+				, 430u
+				, 440u
+				, 450u
+				, 460u };
+
+			GLSLContext()
+				: window{ glslVersions }
+			{
+			}
+
 			RenderWindow window;
 		};
+	}
+
+	bool retrieveIsGLSLInitialised( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return true;
+	}
+
+	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return testCounts.glsl->window.getGLSLVersions()[infoIndex];
+	}
+
+	uint32_t retrieveGLSLInfosSize( sdw_test::TestCounts const & testCounts )
+	{
+		return uint32_t( testCounts.glsl->window.getGLSLVersions().size() );
 	}
 
 	bool createGLSLContext( sdw_test::TestCounts & testCounts )
@@ -842,7 +919,7 @@ namespace test
 		bool result = false;
 		auto & window = testCounts.glsl->window;
 
-		testCounts.glsl->window.setCurrent();
+		window.setCurrent();
 		auto length = int( source.size() );
 		char const * data = source.data();
 		auto shader = window.glCreateShader( convert( stage ) );
@@ -871,6 +948,23 @@ namespace test
 
 namespace test
 {
+	bool retrieveIsGLSLInitialised( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return false;
+	}
+
+	uint32_t retrieveGLSLInfosSize( sdw_test::TestCounts const & testCounts )
+	{
+		return 0u;
+	}
+
+	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return 450u;
+	}
+
 	bool createGLSLContext( sdw_test::TestCounts & testCounts )
 	{
 		return true;

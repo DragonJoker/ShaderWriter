@@ -24,47 +24,46 @@ namespace test
 {
 	namespace
 	{
-		std::string getShaderModelA( ast::ShaderStage type )
+		std::string getShaderModelA( ast::ShaderStage type
+			, uint32_t shaderModel )
 		{
-			std::string model;
+			auto major = shaderModel / 10u;
+			auto minor = shaderModel % 10u;
+			auto model = std::to_string( major ) + "_" + std::to_string( minor );
 
 			switch ( type )
 			{
 			case ast::ShaderStage::eVertex:
-				model = "vs_5_0";
+				model = "vs_" + model;
 				break;
 			case ast::ShaderStage::eTessellationControl:
-				model = "hs_5_0";
+				model = "hs_" + model;
 				break;
 			case ast::ShaderStage::eTessellationEvaluation:
-				model = "ds_5_0";
+				model = "ds_" + model;
 				break;
 			case ast::ShaderStage::eGeometry:
-				model = "gs_5_0";
+				model = "gs_" + model;
 				break;
 			case ast::ShaderStage::eCompute:
-				model = "cs_5_0";
+				model = "cs_" + model;
 				break;
 			case ast::ShaderStage::eFragment:
-				model = "ps_5_0";
+				model = "ps_" + model;
+				break;
+			case ast::ShaderStage::eMesh:
+				model = "ms_" + model;
+				break;
+			case ast::ShaderStage::eTask:
+				model = "as_" + model;
 				break;
 			case ast::ShaderStage::eCallable:
-				model = "ps_6_6";
-				break;
 			case ast::ShaderStage::eRayGeneration:
-				model = "ps_6_6";
-				break;
 			case ast::ShaderStage::eRayIntersection:
-				model = "ps_6_6";
-				break;
 			case ast::ShaderStage::eRayMiss:
-				model = "ps_6_6";
-				break;
 			case ast::ShaderStage::eRayAnyHit:
-				model = "ps_6_6";
-				break;
 			case ast::ShaderStage::eRayClosestHit:
-				model = "ps_6_6";
+				model = "lib_" + model;
 				break;
 			default:
 				break;
@@ -73,53 +72,46 @@ namespace test
 			return model;
 		}
 
-		std::wstring getShaderModelW( ast::ShaderStage type )
+		std::wstring getShaderModelW( ast::ShaderStage type
+			, uint32_t shaderModel )
 		{
-			std::wstring model;
+			auto major = shaderModel / 10u;
+			auto minor = shaderModel % 10u;
+			auto model = std::to_wstring( major ) + L"_" + std::to_wstring( minor );
 
 			switch ( type )
 			{
 			case ast::ShaderStage::eVertex:
-				model = L"vs_5_0";
+				model = L"vs_" + model;
 				break;
 			case ast::ShaderStage::eTessellationControl:
-				model = L"hs_5_0";
+				model = L"hs_" + model;
 				break;
 			case ast::ShaderStage::eTessellationEvaluation:
-				model = L"ds_5_0";
+				model = L"ds_" + model;
 				break;
 			case ast::ShaderStage::eGeometry:
-				model = L"gs_5_0";
+				model = L"gs_" + model;
 				break;
 			case ast::ShaderStage::eCompute:
-				model = L"cs_5_0";
+				model = L"cs_" + model;
 				break;
 			case ast::ShaderStage::eFragment:
-				model = L"ps_5_0";
+				model = L"ps_" + model;
 				break;
 			case ast::ShaderStage::eTask:
-				model = L"as_6_5";
+				model = L"as_" + model;
 				break;
 			case ast::ShaderStage::eMesh:
-				model = L"ms_6_5";
+				model = L"ms_" + model;
 				break;
 			case ast::ShaderStage::eCallable:
-				model = L"lib_6_6";
-				break;
 			case ast::ShaderStage::eRayGeneration:
-				model = L"lib_6_6";
-				break;
 			case ast::ShaderStage::eRayIntersection:
-				model = L"lib_6_6";
-				break;
 			case ast::ShaderStage::eRayMiss:
-				model = L"lib_6_6";
-				break;
 			case ast::ShaderStage::eRayAnyHit:
-				model = L"lib_6_6";
-				break;
 			case ast::ShaderStage::eRayClosestHit:
-				model = L"lib_6_6";
+				model = L"lib_" + model;
 				break;
 			default:
 				break;
@@ -259,34 +251,74 @@ namespace test
 	{
 		struct HLSLContext
 		{
+			std::vector< uint32_t > getShaderModels()
+			{
+				return m_shaderModels;
+			}
+
+			std::vector< uint32_t > m_shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u };
 		};
 	}
 
-	bool createHLSLContext( sdw_test::TestCounts & testCounts )
+	bool retrieveIsHLSLInitialised( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
 	{
 		return true;
 	}
 
+	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return testCounts.hlsl->getShaderModels()[infoIndex];
+	}
+
+	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
+	{
+		return uint32_t( testCounts.hlsl->getShaderModels().size() );
+	}
+
+	bool createHLSLContext( sdw_test::TestCounts & testCounts )
+	{
+		bool result = false;
+
+		try
+		{
+			testCounts.hlsl = std::make_shared< sdw_test::HLSLContext >();
+			result = true;
+		}
+		catch ( std::exception & exc )
+		{
+			testCounts << exc.what() << endl;
+		}
+
+		return result;
+	}
+
 	void destroyHLSLContext( sdw_test::TestCounts & testCounts )
 	{
+		testCounts.hlsl.reset();
 	}
 
 	bool compileHlsl( std::string_view shader
 		, ast::ShaderStage type
 		, std::string & errors
-		, sdw_test::TestCounts & testCounts )
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
+		auto shaderModel = testCounts.hlsl->getShaderModels()[infoIndex];
+
 		if ( isRayTraceStage( type )
-			|| isMeshStage( type ) )
+			|| isMeshStage( type )
+			|| shaderModel >= 60u )
 		{
 			return compileHlslDXC( shader
-				, getShaderModelW( type )
+				, getShaderModelW( type, shaderModel )
 				, errors
 				, testCounts );
 		}
 
 		return compileHlslD3D11( shader
-			, getShaderModelA( type )
+			, getShaderModelA( type, shaderModel )
 			, errors
 			, testCounts );
 	}
@@ -296,6 +328,23 @@ namespace test
 
 namespace test
 {
+	bool retrieveIsHLSLInitialised( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return false;
+	}
+
+	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		return 6u;
+	}
+
+	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
+	{
+		return 0u;
+	}
+
 	bool createHLSLContext( sdw_test::TestCounts & testCounts )
 	{
 		return true;
@@ -308,7 +357,8 @@ namespace test
 	bool compileHlsl( std::string_view shader
 		, ast::ShaderStage type
 		, std::string & errors
-		, sdw_test::TestCounts & testCounts )
+		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex )
 	{
 		return true;
 	}
