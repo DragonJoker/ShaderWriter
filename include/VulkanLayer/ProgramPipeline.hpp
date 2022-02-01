@@ -16,9 +16,15 @@ namespace ast::vk
 	class ProgramPipeline
 	{
 	public:
-		ProgramPipeline( ShaderRefArray const & shaders );
-		ProgramPipeline( ShaderArray const & shaders );
-		ProgramPipeline( Shader const & shader );
+		ProgramPipeline( uint32_t vkVersion
+			, uint32_t spvVersion
+			, ShaderRefArray const & shaders );
+		ProgramPipeline( uint32_t vkVersion
+			, uint32_t spvVersion
+			, ShaderArray const & shaders );
+		ProgramPipeline( uint32_t vkVersion
+			, uint32_t spvVersion
+			, Shader const & shader );
 		/**
 		*\return
 		*	Pre-filled array of ast::vk:SpecializationInfo.
@@ -136,7 +142,9 @@ namespace ast::vk
 		}
 
 	private:
-		std::vector< uint32_t > createShaderSource( Shader const & shader );
+		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
+			, uint32_t spvVersion
+			, Shader const & shader );
 		SpecializationInfoOpt createSpecializationInfo( Shader const & shader );
 		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader );
 		ShaderDataPtr createShaderData( Shader const & shader );
@@ -153,13 +161,23 @@ namespace ast::vk
 		bool checkSpecializationInfos( std::vector< VkSpecializationInfoOpt > const & infos )const;
 
 		template< typename ShaderItT >
-		std::vector< std::vector< uint32_t > > createShaderSources( ShaderItT begin, ShaderItT end )
+		std::vector< std::vector< uint32_t > > createShaderSources( uint32_t vkVersion
+			, uint32_t spvVersion
+			, ShaderItT begin
+			, ShaderItT end )
 		{
 			std::vector< std::vector< uint32_t > > result;
 
 			while ( begin != end )
 			{
-				result.emplace_back( createShaderSource( *begin ) );
+				auto spirv = createShaderSource( vkVersion, spvVersion, *begin );
+
+				if ( spirv.empty() )
+				{
+					throw std::runtime_error{ "Shader serialization failed." };
+				}
+
+				result.push_back( std::move( spirv ) );
 				++begin;
 			}
 

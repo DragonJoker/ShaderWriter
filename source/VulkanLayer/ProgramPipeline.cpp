@@ -514,8 +514,10 @@ namespace ast::vk
 
 	//*********************************************************************************************
 
-	ProgramPipeline::ProgramPipeline( ShaderRefArray const & shaders )
-		: m_sources{ createShaderSources( shaders.begin(), shaders.end() ) }
+	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
+		, uint32_t spvVersion
+		, ShaderRefArray const & shaders )
+		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
 		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
 		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
@@ -530,8 +532,10 @@ namespace ast::vk
 	{
 	}
 
-	ProgramPipeline::ProgramPipeline( ShaderArray const & shaders )
-		: m_sources{ createShaderSources( shaders.begin(), shaders.end() ) }
+	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
+		, uint32_t spvVersion
+		, ShaderArray const & shaders )
+		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
 		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
 		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
@@ -546,8 +550,10 @@ namespace ast::vk
 	{
 	}
 
-	ProgramPipeline::ProgramPipeline( Shader const & shader )
-		: m_sources{ createShaderSource( shader ) }
+	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
+		, uint32_t spvVersion
+		, Shader const & shader )
+		: m_sources{ createShaderSource( vkVersion, spvVersion, shader ) }
 		, m_specializationInfos{ createSpecializationInfo( shader ) }
 		, m_stages{ createShaderStage( shader ) }
 		, m_data{ createShaderData( shader ) }
@@ -736,13 +742,42 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< uint32_t > ProgramPipeline::createShaderSource( Shader const & shader )
+	std::vector< uint32_t > ProgramPipeline::createShaderSource( uint32_t vkVersion
+		, uint32_t spvVersion
+		, Shader const & shader )
 	{
 		auto size = uint32_t( m_indices.size() );
 		m_stageFlags |= getShaderStage( shader.getType() );
 		m_indices[shader.getType()] = size;
 		m_revIndices[size] = shader.getType();
 		spirv::SpirVConfig config;
+		spirv::SpirVExtensionSet extensions;
+		config.specVersion = spvVersion;
+
+		if ( config.specVersion >= spirv::v1_5 )
+		{
+			extensions.emplace( spirv::KHR_terminate_invocation );
+		}
+
+		if ( config.specVersion >= spirv::v1_4 )
+		{
+			extensions.emplace( spirv::EXT_demote_to_helper_invocation );
+			extensions.emplace( spirv::KHR_ray_tracing );
+		}
+
+		if ( config.specVersion >= spirv::v1_3 )
+		{
+			extensions.emplace( spirv::NV_mesh_shader );
+			extensions.emplace( spirv::EXT_descriptor_indexing );
+			extensions.emplace( spirv::EXT_physical_storage_buffer );
+		}
+
+		if ( config.specVersion >= spirv::v1_1 )
+		{
+			extensions.emplace( spirv::KHR_shader_draw_parameters );
+		}
+
+		config.availableExtensions = &extensions;
 		return spirv::serialiseSpirv( shader, config );
 	}
 

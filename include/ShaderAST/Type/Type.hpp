@@ -194,7 +194,9 @@ namespace ast::type
 	SDAST_API bool isFloatType( Kind kind );
 	SDAST_API bool isDoubleType( Kind kind );
 	SDAST_API bool isScalarType( Kind kind );
+	SDAST_API bool isScalarType( TypePtr type );
 	SDAST_API bool isVectorType( Kind kind );
+	SDAST_API bool isVectorType( TypePtr type );
 	SDAST_API bool isMatrixType( Kind kind );
 	SDAST_API bool isArrayType( Kind kind );
 	SDAST_API bool isStructType( Kind kind );

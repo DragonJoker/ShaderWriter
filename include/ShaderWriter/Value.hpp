@@ -33,7 +33,7 @@ namespace sdw
 			return m_expr->getType();
 		}
 
-		inline expr::Expr * getExpr()const
+		virtual expr::Expr * getExpr()const
 		{
 			return m_expr.get();
 		}
