@@ -28,17 +28,29 @@ namespace sdw
 	template< typename ValueT >
 	ReturnWrapperT< ValueT >::~ReturnWrapperT()
 	{
-		if ( this->getExpr() && this->isEnabled() )
+		if ( this->m_expr.get() && this->isEnabled() )
 		{
-			addStmt( *this->getWriter(), makeSimple( release() ) );
+			ast::expr::ExprPtr expr = release();
+
+			if ( expr->getKind() != ast::expr::Kind::eIdentifier
+				&& expr->getKind() != ast::expr::Kind::eLiteral )
+			{
+				addStmt( *this->getWriter(), makeSimple( std::move( expr ) ) );
+			}
 		}
+	}
+	template< typename ValueT >
+	expr::Expr * ReturnWrapperT< ValueT >::getExpr()const
+	{
+		m_remnExpr = std::move( release() );
+		return m_remnExpr.get();
 	}
 
 	template< typename ValueT >
 	sdw::expr::ExprPtr ReturnWrapperT< ValueT >::release()const
 	{
-		assert( this->getExpr() );
-		auto result = makeExpr( *this->getWriter(), this->getExpr() );
+		assert( this->m_expr.get() );
+		auto result = makeExpr( *this->getWriter(), this->m_expr );
 		const_cast< ReturnWrapperT< ValueT > & >( *this ).updateExpr( nullptr );
 		return result;
 	}
@@ -50,7 +62,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT >::operator ValueT()
+	ReturnWrapperT< ValueT >::operator ValueT &&()
 	{
 		return ValueT{ *this->getWriter(), release(), this->isEnabled() };
 	}

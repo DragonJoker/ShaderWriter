@@ -24,12 +24,17 @@ namespace sdw
 		ReturnWrapperT( ReturnWrapperT && rhs );
 		~ReturnWrapperT()override;
 
+		expr::Expr * getExpr()const override;
+
 		sdw::expr::ExprPtr release()const;
 		expr::ExprPtr makeCondition();
 
-		operator ValueT();
+		operator ValueT &&();
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+
+	private:
+		mutable ast::expr::ExprPtr m_remnExpr;
 	};
 
 	template< typename ValueT >
