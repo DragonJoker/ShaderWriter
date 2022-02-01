@@ -184,25 +184,45 @@ namespace glsl
 			}
 		}
 
+		bool hasExtension( GlslConfig const & writerConfig
+			, GlslExtension const & extension )
+		{
+			return writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( extension );
+		}
+
 		std::string getInOutLayout( GlslConfig const & writerConfig
 			, ast::stmt::InOutVariableDecl const & stmt )
 		{
 			std::string result = "layout(";
-			result += getLocationName( *stmt.getVariable() ) + "=" + std::to_string( stmt.getLocation() );
+			std::string sep;
+
+			if ( hasExtension( writerConfig, ARB_explicit_attrib_location )
+				&& hasExtension( writerConfig, ARB_separate_shader_objects ) )
+			{
+				result += getLocationName( *stmt.getVariable() ) + "=" + std::to_string( stmt.getLocation() );
+				sep = ", ";
+			}
 
 			if ( writerConfig.shaderStage == ast::ShaderStage::eGeometry
 				&& stmt.getVariable()->isGeometryStream() )
 			{
-				result += ", stream=" + std::to_string( stmt.getStreamIndex() );
+				result += sep + "stream=" + std::to_string( stmt.getStreamIndex() );
+				sep = ", ";
 			}
 
 			if ( writerConfig.shaderStage == ast::ShaderStage::eFragment
 				&& stmt.getVariable()->isBlendIndex() )
 			{
-				result += ", index=" + std::to_string( stmt.getBlendIndex() );
+				result += sep + "index=" + std::to_string( stmt.getBlendIndex() );
 			}
 
 			result += ")";
+
+			if ( result == "layout()" )
+			{
+				result.clear();
+			}
+
 			return result;
 		}
 
@@ -721,11 +741,17 @@ namespace glsl
 		m_result += m_indent;
 		m_result += "layout(";
 		m_result += getFormatName( image->getConfig().format );
-		doWriteBinding( stmt->getBindingPoint()
-			, stmt->getDescriptorSet()
-			, ", " );
 
-		m_result += ") uniform ";
+		if ( hasExtension( m_writerConfig, ARB_shading_language_420pack )
+			|| m_writerConfig.wantedVersion >= v4_2 )
+		{
+			doWriteBinding( stmt->getBindingPoint()
+				, stmt->getDescriptorSet()
+				, ", " );
+		}
+
+		m_result += ") ";
+		m_result += "uniform ";
 		//m_result += getAccessQualifierName( image->getConfig() ) + " ";
 		m_result += getQualifiedName( ast::type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
@@ -899,13 +925,19 @@ namespace glsl
 		}
 
 		m_result += m_indent;
-		m_result += "layout(";
 
-		doWriteBinding( stmt->getBindingPoint()
-			, stmt->getDescriptorSet()
-			, "" );
+		if ( hasExtension( m_writerConfig, ARB_shading_language_420pack )
+			|| m_writerConfig.wantedVersion >= v4_2 )
+		{
+			m_result += "layout(";
 
-		m_result += ") ";
+			doWriteBinding( stmt->getBindingPoint()
+				, stmt->getDescriptorSet()
+				, "" );
+
+			m_result += ") ";
+		}
+
 		assert( type->getKind() == ast::type::Kind::eSampledImage );
 		auto sampledImage = std::static_pointer_cast< ast::type::SampledImage >( type );
 		m_result += "uniform " + getQualifiedName( ast::type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
@@ -1125,15 +1157,16 @@ namespace glsl
 		, uint32_t set
 		, std::string sep )
 	{
-		if ( binding != InvalidIndex )
+		if ( binding != InvalidIndex
+			&& hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
 		{
 			m_result += sep + "binding=" + std::to_string( binding );
 			sep = ", ";
-		}
 
-		if ( set != InvalidIndex && m_writerConfig.wantedVersion >= v4_6 )
-		{
-			m_result += sep + "set=" + std::to_string( set );
+			if ( set != InvalidIndex && m_writerConfig.wantedVersion >= v4_6 )
+			{
+				m_result += sep + "set=" + std::to_string( set );
+			}
 		}
 	}
 

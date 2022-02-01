@@ -38,6 +38,8 @@ namespace glsl
 
 	struct IntrinsicsConfig
 	{
+		ast::ShaderStage stage;
+
 		bool requiresFma1F{ false };
 		bool requiresFma2F{ false };
 		bool requiresFma3F{ false };
@@ -47,10 +49,11 @@ namespace glsl
 		bool requiresFma3D{ false };
 		bool requiresFma4D{ false };
 		bool requiresRayDescDecl{ false };
+		bool requiresBlendIndex{ false };
 
 		GlslExtensionSet requiredExtensions{};
 	};
-	void checkType( ast::type::Type const & type
+	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );
 }
 
