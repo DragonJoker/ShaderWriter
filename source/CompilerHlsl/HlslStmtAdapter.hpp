@@ -68,6 +68,7 @@ namespace hlsl
 		AdaptationData & m_adaptationData;
 		HlslShader & m_shader;
 		ast::type::TypesCache & m_cache;
+		ast::type::TypesCache m_rtCache;
 		ast::stmt::Container * m_intrinsics;
 		ast::stmt::Container * m_inOutDeclarations;
 		std::unordered_set< std::string > m_declaredStructs;

@@ -23,6 +23,7 @@ namespace hlsl
 			bool isAtomic{ false };
 			uint32_t outputIndex;
 		} atomicChange;
+		bool isStrictFloat{ false };
 	};
 
 	inline IntrinsicAdaptationInfo getAdaptationInfo( ast::expr::Intrinsic value )
@@ -184,6 +185,61 @@ namespace hlsl
 		case ast::expr::Intrinsic::eAtomicCompSwapU:
 			result.atomicChange.isAtomic = true;
 			result.atomicChange.outputIndex = 3u;
+			break;
+
+		case ast::expr::Intrinsic::eSqrt1D:
+		case ast::expr::Intrinsic::eSqrt2D:
+		case ast::expr::Intrinsic::eSqrt3D:
+		case ast::expr::Intrinsic::eSqrt4D:
+		case ast::expr::Intrinsic::eInverseSqrt1D:
+		case ast::expr::Intrinsic::eInverseSqrt2D:
+		case ast::expr::Intrinsic::eInverseSqrt3D:
+		case ast::expr::Intrinsic::eInverseSqrt4D:
+		case ast::expr::Intrinsic::eFloor1D:
+		case ast::expr::Intrinsic::eFloor2D:
+		case ast::expr::Intrinsic::eFloor3D:
+		case ast::expr::Intrinsic::eFloor4D:
+		case ast::expr::Intrinsic::eTrunc1D:
+		case ast::expr::Intrinsic::eTrunc2D:
+		case ast::expr::Intrinsic::eTrunc3D:
+		case ast::expr::Intrinsic::eTrunc4D:
+		case ast::expr::Intrinsic::eRound1D:
+		case ast::expr::Intrinsic::eRound2D:
+		case ast::expr::Intrinsic::eRound3D:
+		case ast::expr::Intrinsic::eRound4D:
+		case ast::expr::Intrinsic::eCeil1D:
+		case ast::expr::Intrinsic::eCeil2D:
+		case ast::expr::Intrinsic::eCeil3D:
+		case ast::expr::Intrinsic::eCeil4D:
+		case ast::expr::Intrinsic::eFract1D:
+		case ast::expr::Intrinsic::eFract2D:
+		case ast::expr::Intrinsic::eFract3D:
+		case ast::expr::Intrinsic::eFract4D:
+		case ast::expr::Intrinsic::eMod1D:
+		case ast::expr::Intrinsic::eMod2D:
+		case ast::expr::Intrinsic::eMod3D:
+		case ast::expr::Intrinsic::eMod4D:
+		case ast::expr::Intrinsic::eMix1D:
+		case ast::expr::Intrinsic::eMix2D:
+		case ast::expr::Intrinsic::eMix3D:
+		case ast::expr::Intrinsic::eMix4D:
+		case ast::expr::Intrinsic::eStep1D:
+		case ast::expr::Intrinsic::eStep2D:
+		case ast::expr::Intrinsic::eStep3D:
+		case ast::expr::Intrinsic::eStep4D:
+		case ast::expr::Intrinsic::eSmoothStep1D:
+		case ast::expr::Intrinsic::eSmoothStep2D:
+		case ast::expr::Intrinsic::eSmoothStep3D:
+		case ast::expr::Intrinsic::eSmoothStep4D:
+		case ast::expr::Intrinsic::eFrexp1D:
+		case ast::expr::Intrinsic::eFrexp2D:
+		case ast::expr::Intrinsic::eFrexp3D:
+		case ast::expr::Intrinsic::eFrexp4D:
+		case ast::expr::Intrinsic::eLdexp1D:
+		case ast::expr::Intrinsic::eLdexp2D:
+		case ast::expr::Intrinsic::eLdexp3D:
+		case ast::expr::Intrinsic::eLdexp4D:
+			result.isStrictFloat = true;
 			break;
 
 		default:
@@ -492,6 +548,22 @@ namespace hlsl
 
 		case ast::expr::Intrinsic::eBitfieldReverse4I:
 			config.requiresBitfieldReverse4I = true;
+			break;
+
+		case ast::expr::Intrinsic::eModf1D:
+			config.requiresModf1D = true;
+			break;
+
+		case ast::expr::Intrinsic::eModf2D:
+			config.requiresModf2D = true;
+			break;
+
+		case ast::expr::Intrinsic::eModf3D:
+			config.requiresModf3D = true;
+			break;
+
+		case ast::expr::Intrinsic::eModf4D:
+			config.requiresModf4D = true;
 			break;
 
 		default:

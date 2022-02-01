@@ -298,11 +298,14 @@ namespace hlsl
 		case ast::expr::Intrinsic::eModf2F:
 		case ast::expr::Intrinsic::eModf3F:
 		case ast::expr::Intrinsic::eModf4F:
+			result = "modf";
+			break;
+
 		case ast::expr::Intrinsic::eModf1D:
 		case ast::expr::Intrinsic::eModf2D:
 		case ast::expr::Intrinsic::eModf3D:
 		case ast::expr::Intrinsic::eModf4D:
-			result = "modf";
+			result = "SDW_modf";
 			break;
 
 		case ast::expr::Intrinsic::eMin1F:
