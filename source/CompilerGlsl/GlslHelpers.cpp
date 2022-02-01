@@ -1002,25 +1002,45 @@ namespace glsl
 		return result;
 	}
 
-	void checkType( ast::type::Type const & type
+	void checkType( ast::type::TypePtr ptype
 		, IntrinsicsConfig & config )
 	{
-		if ( getComponentType( type ) == ast::type::Kind::eHalf )
-		{
-			config.requiredExtensions.insert( NV_gpu_shader5 );
-		}
-
-		if ( getComponentType( type ) == ast::type::Kind::eUInt64 )
-		{
-			config.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
-		}
-
-		if ( auto structType = getStructType( type ) )
-		{
-			if ( structType->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
+		ast::type::traverseType( ptype, 1u
+			, [&config]( ast::type::TypePtr type
+				, uint32_t arraySize )
 			{
-				config.requiredExtensions.insert( EXT_scalar_block_layout );
-			}
-		}
+				switch ( type->getRawKind() )
+				{
+				case ast::type::Kind::eImage:
+				case ast::type::Kind::eSampler:
+				case ast::type::Kind::eSampledImage:
+				case ast::type::Kind::eAccelerationStructure:
+					return;
+				default:
+					break;
+				}
+
+				auto component = getComponentType( type );
+
+				while ( !isScalarType( component ) )
+				{
+					component = getComponentType( component );
+				}
+
+				if ( component == ast::type::Kind::eHalf )
+				{
+					config.requiredExtensions.insert( NV_gpu_shader5 );
+				}
+
+				if ( component == ast::type::Kind::eDouble )
+				{
+					config.requiredExtensions.insert( ARB_gpu_shader_fp64 );
+				}
+
+				if ( component == ast::type::Kind::eUInt64 )
+				{
+					config.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
+				}
+			} );
 	}
 }
