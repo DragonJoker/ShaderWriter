@@ -1042,6 +1042,7 @@ namespace test
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex )
 		{
+			bool hasTessellation = ( program.getStageFlags() & ( VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT | VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT ) ) != 0u;
 			auto attachmentsMap = program.getAttachmentDescriptions();
 
 			// Pipeline shader stage states
@@ -1063,117 +1064,98 @@ namespace test
 				size += getSize( attribute.format );
 			}
 
-			VkVertexInputBindingDescription binding
-			{
-				0u,
-				size,
-				VK_VERTEX_INPUT_RATE_VERTEX,
-			};
-			VkPipelineVertexInputStateCreateInfo vertexInputState
-			{
-				VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
-				nullptr,
-				0u,
-				size ? 1u : 0u,
-				size ? &binding : nullptr,
-				size ? uint32_t( vertexAttributes.size() ) : 0u,
-				size ? vertexAttributes.data() : nullptr,
-			};
+			VkVertexInputBindingDescription binding{ 0u
+				, size
+				, VK_VERTEX_INPUT_RATE_VERTEX };
+			VkPipelineVertexInputStateCreateInfo vertexInputState{ VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, size ? 1u : 0u
+				, size ? &binding : nullptr
+				, size ? uint32_t( vertexAttributes.size() ) : 0u
+				, size ? vertexAttributes.data() : nullptr };
 
 			// Pipeline input assembly state
-			VkPipelineInputAssemblyStateCreateInfo inputAssemblyState
-			{
-				VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO,
-				nullptr,
-				0u,
-				VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
-				VK_FALSE,
-			};
+			VkPipelineInputAssemblyStateCreateInfo inputAssemblyState{ VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, hasTessellation ? VK_PRIMITIVE_TOPOLOGY_PATCH_LIST : VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST
+				, VK_FALSE };
 
 			// Pipeline viewport state.
 			VkViewport viewport{ 0.0f, 0.0f, 800.0f, 600.0f, 0.0f, 1.0f };
 			VkRect2D scissor{ { 0, 0 }, { 800u, 600u } };
-			VkPipelineViewportStateCreateInfo viewportState
-			{
-				VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO,
-				nullptr,
-				0u,
-				1u,
-				&viewport,
-				1u,
-				&scissor,
-			};
+			VkPipelineViewportStateCreateInfo viewportState{ VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, 1u
+				, &viewport
+				, 1u
+				, &scissor };
 
 			// Pipeline rasterization state.
-			VkPipelineRasterizationStateCreateInfo rasterizationState
-			{
-				VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
-				nullptr,
-				0u,
-				VK_FALSE,
-				VK_FALSE,
-				VK_POLYGON_MODE_FILL,
-				VK_CULL_MODE_NONE,
-				VK_FRONT_FACE_COUNTER_CLOCKWISE,
-				VK_FALSE,
-				0.0f,
-				0.0f,
-				0.0f,
-				1.0f,
-			};
+			VkPipelineRasterizationStateCreateInfo rasterizationState{ VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, VK_FALSE
+				, VK_FALSE
+				, VK_POLYGON_MODE_FILL
+				, VK_CULL_MODE_NONE
+				, VK_FRONT_FACE_COUNTER_CLOCKWISE
+				, VK_FALSE
+				, 0.0f
+				, 0.0f
+				, 0.0f
+				, 1.0f };
 
 			// Pipeline multisample state.
-			VkPipelineMultisampleStateCreateInfo multisampleState
-			{
-				VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
-				nullptr,
-				0u,
-				VK_SAMPLE_COUNT_1_BIT,
-				VK_FALSE,
-				0.0f,
-				nullptr,
-				VK_FALSE,
-				VK_FALSE,
-			};
+			VkPipelineMultisampleStateCreateInfo multisampleState{ VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, VK_SAMPLE_COUNT_1_BIT
+				, VK_FALSE
+				, 0.0f
+				, nullptr
+				, VK_FALSE
+				, VK_FALSE };
 
 			// Pipeline color blend state
 			std::vector< VkPipelineColorBlendAttachmentState > colorBlendAttachments;
 			colorBlendAttachments.resize( attachmentsMap.size(), VkPipelineColorBlendAttachmentState{} );
-			VkPipelineColorBlendStateCreateInfo colorBlendState
-			{
-				VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
-				nullptr,
-				0u,
-				VK_FALSE,
-				VK_LOGIC_OP_COPY,
-				uint32_t( colorBlendAttachments.size() ),
-				colorBlendAttachments.data(),
-				{ 0.0f, 0.0f, 0.0f, 0.0f },
-		};
+			VkPipelineColorBlendStateCreateInfo colorBlendState{ VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, VK_FALSE
+				, VK_LOGIC_OP_COPY
+				, uint32_t( colorBlendAttachments.size() )
+				, colorBlendAttachments.data()
+				, { 0.0f, 0.0f, 0.0f, 0.0f } };
 
-		// Pipeline
-			VkGraphicsPipelineCreateInfo createInfos
-			{
-				VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
-				nullptr,
-				0u,
-				uint32_t( vkShaderStages.size() ),
-				vkShaderStages.data(),
-				&vertexInputState,
-				&inputAssemblyState,
-				nullptr, //tessellationState,
-				&viewportState,
-				&rasterizationState,
-				&multisampleState,
-				nullptr, //depthStencilState,
-				&colorBlendState,
-				nullptr, //dynamicState,
-				pipelineLayout,
-				renderPass,
-				0u,
-				nullptr,
-				0u,
-			};
+			VkPipelineTessellationStateCreateInfo tessellationState{ VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO
+				, nullptr
+				, 0u
+				, program.getTessellationControlPoints() };
+
+			// Pipeline
+			VkGraphicsPipelineCreateInfo createInfos{ VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO
+				, nullptr
+				, 0u
+				, uint32_t( vkShaderStages.size() )
+				, vkShaderStages.data()
+				, &vertexInputState
+				, &inputAssemblyState
+				, hasTessellation ? &tessellationState : nullptr
+				, &viewportState
+				, &rasterizationState
+				, &multisampleState
+				, nullptr //depthStencilState
+				, &colorBlendState
+				, nullptr //dynamicState
+				, pipelineLayout
+				, renderPass
+				, 0u
+				, nullptr
+				, 0u };
 			VkPipeline pipeline{ nullptr };
 
 			if ( !wrapCall( errors

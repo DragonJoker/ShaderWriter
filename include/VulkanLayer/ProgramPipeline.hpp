@@ -128,7 +128,7 @@ namespace ast::vk
 		*\return
 		*	The VkShaderStageFlagBits combination describing all stages used by this program.
 		*/
-		inline VkShaderStageFlags getStageFlags()const
+		VkShaderStageFlags getStageFlags()const
 		{
 			return m_stageFlags;
 		}
@@ -136,9 +136,17 @@ namespace ast::vk
 		*\return
 		*	The count of shader stages.
 		*/
-		inline uint32_t getStageCount()const
+		uint32_t getStageCount()const
 		{
 			return uint32_t( m_stages.size() );
+		}
+		/**
+		*\return
+		*	The tessellation control points per patch.
+		*/
+		uint32_t getTessellationControlPoints()const
+		{
+			return m_tessellationControlPoints;
 		}
 
 	private:
@@ -275,6 +283,7 @@ namespace ast::vk
 
 	private:
 		VkShaderStageFlags m_stageFlags{ 0u };
+		uint32_t m_tessellationControlPoints{};
 		std::map< ShaderStage, uint32_t > m_indices;
 		std::map< uint32_t, ShaderStage > m_revIndices;
 		std::vector< std::vector< uint32_t > > m_sources;

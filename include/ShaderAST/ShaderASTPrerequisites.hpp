@@ -294,6 +294,18 @@ namespace ast
 		type::TypePtr type;
 	};
 
+	inline bool operator<( ast::InOutInfo const & lhs
+		, ast::InOutInfo const & rhs )
+	{
+		return lhs.type < rhs.type;
+	}
+
+	inline bool operator==( ast::InOutInfo const & lhs
+		, ast::InOutInfo const & rhs )
+	{
+		return lhs.type == rhs.type;
+	}
+
 	struct SpecConstantData
 	{
 		SpecConstantInfo info;

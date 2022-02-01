@@ -1347,7 +1347,7 @@ namespace
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
 
-			auto c3d_mapNormal = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapNormal", 0u, 0u );
+			auto c3d_mapNormal = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapNormal", 1u, 0u );
 
 			auto getTessLevel = writer.implementFunction< Float >( "getTessLevel"
 				, [&]( Float const & a
@@ -1626,6 +1626,9 @@ namespace
 				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
 		testEnd();
 	}
 }

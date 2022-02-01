@@ -57,6 +57,7 @@ namespace ast
 		OutputMap outputs;
 		InOutMap inOuts;
 		AccStructInfo accelerationStruct;
+		uint32_t tessellationControlPoints{};
 		mutable uint32_t nextVarId{};
 	};
 
