@@ -469,6 +469,12 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
+					IF( writer, in.position.x() < 0.0_f )
+					{
+						writer.demote();
+					}
+					FI;
+
 					out.colour = in.colour;
 				} );
 

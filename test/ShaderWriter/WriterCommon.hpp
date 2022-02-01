@@ -39,10 +39,18 @@ namespace test
 		{
 			TestCounts( test::TestSuite & suite );
 
-			bool isInitialised( uint32_t infoIndex )const;
+			bool isSpirVInitialised( uint32_t infoIndex )const;
 			uint32_t getVulkanVersion( uint32_t infoIndex )const;
 			uint32_t getSpirVVersion( uint32_t infoIndex )const;
 			uint32_t getSpirvInfosSize()const;
+
+			bool isHlslInitialised( uint32_t infoIndex )const;
+			uint32_t getHlslVersion( uint32_t infoIndex )const;
+			uint32_t getHlslInfosSize()const;
+
+			bool isGlslInitialised( uint32_t infoIndex )const;
+			uint32_t getGlslVersion( uint32_t infoIndex )const;
+			uint32_t getGlslInfosSize()const;
 
 			std::shared_ptr< GLSLContext > glsl;
 			std::shared_ptr< HLSLContext > hlsl;
