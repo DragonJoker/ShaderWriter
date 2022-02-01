@@ -102,10 +102,10 @@ namespace sdw
 		inline void getCtorCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool & isEnabled
-			, Param const & last )
+			, Param last )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( last );
-			auto lastArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( last ) );
+			auto lastArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( last ) ) );
 
 			for ( auto & expr : lastArgs )
 			{
@@ -117,18 +117,21 @@ namespace sdw
 		inline void getCtorCallParamsRec( ShaderWriter & writer
 			, expr::ExprList & args
 			, bool & isEnabled
-			, Param const & current
-			, Params const & ... params )
+			, Param current
+			, Params ... params )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( current );
-			auto currentArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( current ) );
+			auto currentArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( current ) ) );
 
 			for ( auto & expr : currentArgs )
 			{
 				args.emplace_back( std::move( expr ) );
 			}
 
-			getCtorCallParamsRec< ParamT, CountT >( writer, args, isEnabled, params... );
+			getCtorCallParamsRec< ParamT, CountT >( writer
+				, args
+				, isEnabled
+				, std::forward< Params >( params )... );
 		}
 
 		template< typename ReturnT, typename ParamT, size_t CountT >
@@ -136,11 +139,14 @@ namespace sdw
 		{
 			template< typename ... ParamsT >
 			static inline ReturnT submit( ShaderWriter & writer
-				, ParamsT const & ... params )
+				, ParamsT ... params )
 			{
 				expr::ExprList args;
 				bool isEnabled = true;
-				getCtorCallParamsRec< ParamT, CountT >( writer, args, isEnabled, params... );
+				getCtorCallParamsRec< ParamT, CountT >( writer
+					, args
+					, isEnabled
+					, std::forward< ParamsT >( params )... );
 				return ReturnT{ writer
 					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
 						, type::getScalarType( typeEnum< ReturnT > )
@@ -235,9 +241,10 @@ namespace sdw
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnT getCtorCall( ShaderWriter & writer
-		, ParamsT const & ... params )
+		, ParamsT ... params )
 	{
-		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( writer, params... );
+		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( writer
+			, std::forward< ParamsT >( params )... );
 	}
 
 	//***********************************************************************************************
