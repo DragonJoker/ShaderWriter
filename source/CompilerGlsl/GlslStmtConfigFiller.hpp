@@ -15,7 +15,8 @@ namespace glsl
 		: public ast::stmt::Visitor
 	{
 	public:
-		static IntrinsicsConfig submit( ast::stmt::Container * container );
+		static IntrinsicsConfig submit( ast::ShaderStage stage
+			, ast::stmt::Container * container );
 
 	private:
 		StmtConfigFiller( IntrinsicsConfig & result );

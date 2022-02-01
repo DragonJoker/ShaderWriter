@@ -11,9 +11,21 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-	IntrinsicsConfig StmtConfigFiller::submit( ast::stmt::Container * container )
+	IntrinsicsConfig StmtConfigFiller::submit( ast::ShaderStage stage
+		, ast::stmt::Container * container )
 	{
-		IntrinsicsConfig result;
+		IntrinsicsConfig result{ stage };
+
+		if ( isRayTraceStage( stage ) )
+		{
+			result.requiredExtensions.insert( EXT_ray_tracing );
+		}
+
+		if ( isMeshStage( stage ) )
+		{
+			result.requiredExtensions.insert( NV_mesh_shader );
+		}
+
 		StmtConfigFiller vis{ result };
 		container->accept( &vis );
 		return result;
@@ -107,23 +119,24 @@ namespace glsl
 
 	void StmtConfigFiller::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
-		checkType( *stmt->getType(), m_result );
+		checkType( stmt->getType(), m_result );
 		m_result.requiredExtensions.insert( EXT_buffer_reference2 );
+		m_result.requiredExtensions.insert( EXT_scalar_block_layout );
 	}
 
 	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
-		checkType( *stmt->getVariable()->getType(), m_result );
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
-		checkType( *stmt->getVariable()->getType(), m_result );
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
-		checkType( *stmt->getVariable()->getType(), m_result );
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )
@@ -144,6 +157,7 @@ namespace glsl
 
 	void StmtConfigFiller::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
+		m_result.requiredExtensions.insert( ARB_shader_image_load_store );
 		auto image = std::static_pointer_cast< ast::type::Image >( stmt->getVariable()->getType() );
 		doParseImageConfig( image->getConfig() );
 	}
@@ -154,12 +168,17 @@ namespace glsl
 
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
-		checkType( *stmt->getVariable()->getType(), m_result );
+		checkType( stmt->getVariable()->getType(), m_result );
+
+		if ( stmt->getBlendIndex() )
+		{
+			m_result.requiresBlendIndex = true;
+		}
 	}
 
 	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
-		checkType( *stmt->getVariable()->getType(), m_result );
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
@@ -204,7 +223,7 @@ namespace glsl
 
 	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
-		auto image = std::static_pointer_cast< ast::type::SampledImage >( stmt->getVariable()->getType() );
+		auto image = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 		doParseImageConfig( image->getConfig() );
 	}
 
@@ -214,14 +233,28 @@ namespace glsl
 
 	void StmtConfigFiller::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
+		m_result.requiredExtensions.insert( ARB_shader_storage_buffer_object );
+
+		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
+		{
+			m_result.requiredExtensions.insert( EXT_scalar_block_layout );
+		}
+
 		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
+		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
+		{
+			m_result.requiredExtensions.insert( EXT_scalar_block_layout );
+		}
+
+		m_result.requiredExtensions.insert( ARB_shader_storage_buffer_object );
+
 		for ( auto & type : static_cast< ast::type::Struct const & >( *stmt->getSsboInstance()->getType() ) )
 		{
-			checkType( *type.type, m_result );
+			checkType( type.type, m_result );
 		}
 	}
 
@@ -234,7 +267,7 @@ namespace glsl
 	{
 		for ( auto & type : *stmt->getType() )
 		{
-			checkType( *type.type, m_result );
+			checkType( type.type, m_result );
 		}
 	}
 
@@ -255,7 +288,7 @@ namespace glsl
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		checkType( *stmt->getVariable()->getType(), m_result );
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )

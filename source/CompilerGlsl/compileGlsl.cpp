@@ -29,7 +29,7 @@ namespace glsl
 			, statements.get() );
 		glsl::AdaptationData adaptationData{ shader.getType()
 			, config
-			, glsl::StmtConfigFiller::submit( statements.get() )
+			, glsl::StmtConfigFiller::submit( shader.getType(), statements.get() )
 			, ssaData.nextVarId };
 		statements = glsl::StmtAdapter::submit( shader.getTypesCache()
 			, statements.get()
