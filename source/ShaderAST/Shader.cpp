@@ -112,6 +112,11 @@ namespace ast
 #else
 		block.registered.emplace( var );
 #endif
+
+		if ( var->getType()->getRawKind() == type::Kind::eTessellationControlInput )
+		{
+			m_data.tessellationControlPoints = static_cast< type::TessellationControlInput const & >( *var->getType() ).getInputVertices();
+		}
 	}
 
 	var::VariablePtr Shader::registerName( std::string name
