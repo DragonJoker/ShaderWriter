@@ -104,6 +104,8 @@ namespace spirv
 			{
 			case spv::OpSource:
 				return SourceInstruction::config;
+			case spv::OpSourceExtension:
+				return SourceExtensionInstruction::config;
 			case spv::OpName:
 				return NameInstruction::config;
 			case spv::OpMemberName:

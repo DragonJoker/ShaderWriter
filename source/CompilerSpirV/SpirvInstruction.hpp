@@ -351,6 +351,7 @@ namespace spirv
 	using ExtensionInstruction = InstructionT< spv::OpExtension, false, false, 0u, true, false >;
 	using ExtInstImportInstruction = InstructionT< spv::OpExtInstImport, false, true, 0u, true, false >;
 	using SourceInstruction = InstructionT< spv::OpSource, false, false, 2u, false, false >;
+	using SourceExtensionInstruction = InstructionT< spv::OpSourceExtension, false, false, 0u, true, false >;
 	using MemoryModelInstruction = InstructionT< spv::OpMemoryModel, false, false, 2u, false, false >;
 	using EntryPointInstruction = InstructionT< spv::OpEntryPoint, true, true, dynamicOperandCount, true, false >;
 	using ExecutionModeInstruction = VariadicInstructionT< spv::OpExecutionMode, false, false >;

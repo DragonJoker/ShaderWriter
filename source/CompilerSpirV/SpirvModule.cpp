@@ -1984,6 +1984,7 @@ namespace spirv
 		switch ( opCode )
 		{
 		case spv::OpSource:
+		case spv::OpSourceExtension:
 		case spv::OpName:
 		case spv::OpMemberName:
 			list = &debug;
