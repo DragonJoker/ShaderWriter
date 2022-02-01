@@ -13,13 +13,13 @@ namespace test
 		struct SPIRVContext;
 	}
 
-	bool retrieveIsInitialised( sdw_test::TestCounts const & testCounts
+	bool retrieveIsSpirVInitialised( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex );
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex );
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex );
-	uint32_t retrieveSpirvInfosSize( sdw_test::TestCounts const & testCounts );
+	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts );
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts );
 	void destroySPIRVContext( sdw_test::TestCounts & testCounts );
 	bool compileSpirV( ::ast::Shader const & shader

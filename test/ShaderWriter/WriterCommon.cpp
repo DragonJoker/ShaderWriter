@@ -41,14 +41,84 @@ namespace test
 	{
 #if SDW_HasCompilerGlsl
 
-		glsl::GlslConfig const & getDefaultGlslConfig()
+		glsl::GlslExtensionSet getExtensions( uint32_t glslVersion )
 		{
-			static glsl::GlslConfig const result
+			glsl::GlslExtensionSet result;
+
+			if ( glslVersion >= glsl::v4_6 )
+			{
+				result.insert( glsl::EXT_shader_atomic_float );
+				result.insert( glsl::EXT_ray_tracing );
+				result.insert( glsl::EXT_ray_query );
+				result.insert( glsl::EXT_scalar_block_layout );
+			}
+
+			if ( glslVersion >= glsl::v4_5 )
+			{
+				result.insert( glsl::ARB_shader_ballot );
+				result.insert( glsl::ARB_shader_viewport_layer_array );
+				result.insert( glsl::NV_stereo_view_rendering );
+				result.insert( glsl::NVX_multiview_per_view_attributes );
+				result.insert( glsl::EXT_nonuniform_qualifier );
+				result.insert( glsl::NV_mesh_shader );
+				result.insert( glsl::EXT_buffer_reference2 );
+			}
+
+			if ( glslVersion >= glsl::v4_3 )
+			{
+				result.insert( glsl::NV_viewport_array2 );
+				result.insert( glsl::NV_shader_atomic_fp16_vector );
+			}
+
+			if ( glslVersion >= glsl::v4_2 )
+			{
+				result.insert( glsl::ARB_compute_shader );
+				result.insert( glsl::ARB_explicit_uniform_location );
+				result.insert( glsl::ARB_shading_language_420pack );
+				result.insert( glsl::NV_shader_atomic_float );
+			}
+
+			if ( glslVersion >= glsl::v4_1 )
+			{
+				result.insert( glsl::ARB_shading_language_packing );
+			}
+
+			if ( glslVersion >= glsl::v4_0 )
+			{
+				result.insert( glsl::ARB_separate_shader_objects );
+				result.insert( glsl::ARB_texture_cube_map_array );
+				result.insert( glsl::ARB_texture_gather );
+			}
+
+			if ( glslVersion >= glsl::v3_3 )
+			{
+				result.insert( glsl::ARB_shader_stencil_export );
+				result.insert( glsl::KHR_vulkan_glsl );
+				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int64 );
+				result.insert( glsl::EXT_multiview );
+				result.insert( glsl::ARB_explicit_attrib_location );
+				result.insert( glsl::ARB_shader_image_load_store );
+				result.insert( glsl::EXT_gpu_shader4 );
+				result.insert( glsl::ARB_gpu_shader5 );
+				result.insert( glsl::EXT_gpu_shader4_1 );
+				result.insert( glsl::ARB_texture_query_lod );
+				result.insert( glsl::ARB_texture_query_levels );
+				result.insert( glsl::ARB_shader_draw_parameters );
+				result.insert( glsl::ARB_fragment_layer_viewport );
+				result.insert( glsl::ARB_tessellation_shader );
+			}
+
+			return result;
+		}
+
+		glsl::GlslConfig getGlslConfig( uint32_t glslVersion )
+		{
+			glsl::GlslConfig const result
 			{
 				ast::ShaderStage::eCompute, // shaderStage;
-				glsl::v4_6, // shaderLanguageVersion;
-				nullptr, // availableExtensions;
-				false, // vulkanGlsl;
+				glslVersion, // shaderLanguageVersion;
+				getExtensions( glslVersion ), // availableExtensions;
+				( glslVersion >= glsl::v4_6 ), // vulkanGlsl;
 				false, // flipVertY;
 				false, // fixupClipDepth;
 				true, // hasStd430Layout;
@@ -228,13 +298,16 @@ namespace test
 				if ( lines )
 				{
 					std::stringstream stream{ shader };
+					std::stringstream out;
 					std::string line;
 					uint32_t index = 1u;
 
 					while ( std::getline( stream, line, '\n' ) )
 					{
-						testCounts << printNumber( index++ ) << line << endl;
+						out << printNumber( index++ ) << line << std::endl;
 					}
+
+					testCounts << endl << out.str() << endl;
 				}
 				else
 				{
@@ -331,7 +404,7 @@ namespace test
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 							, specialisation
-							, getDefaultGlslConfig() ) );
+							, getGlslConfig( glsl::v4_6 ) ) );
 						std::string errors;
 						test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 
@@ -413,69 +486,200 @@ namespace test
 			displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
 		}
 
+		void testWriteGlslOnIndex( ::ast::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
+		{
+#if SDW_HasCompilerGlsl
+
+			auto validate = [&]()
+			{
+				std::string errors;
+				auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
+
+				if ( isRayTraceStage( shader.getType() ) )
+				{
+					config.vulkanGlsl = true;
+				}
+
+				std::string glsl;
+
+				try
+				{
+					glsl = glsl::compileGlsl( shader
+						, specialisation
+						, config );
+				}
+				catch ( std::exception & exc )
+				{
+					testCounts << exc.what() << endl;
+					return;
+				}
+
+				bool isCompiled{ false };
+
+				if ( isRayTraceStage( shader.getType() ) )
+				{
+					try
+					{
+						compileGlslToSpv( shader.getType(), glsl, 150 );
+						isCompiled = true;
+					}
+					catch ( std::exception & exc )
+					{
+						errors += exc.what();
+					}
+				}
+				else
+				{
+					isCompiled = compileGlsl( glsl
+						, shader.getType()
+						, errors
+						, testCounts );
+				}
+
+				check( isCompiled );
+
+				if ( !isCompiled )
+				{
+					displayShader( "GLSL", glsl, testCounts, true, true );
+					testCounts << errors << endl;
+				}
+				else
+				{
+					displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay, true );
+				}
+			};
+			testCounts.incIndent();
+			testCounts << "GLSL version " << std::to_string( testCounts.getGlslVersion( infoIndex ) ) << endl;
+			checkNoThrow( validate() );
+			testCounts.decIndent();
+
+#endif
+		}
+
 		void testWriteGlsl( ::ast::Shader const & shader
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
-#if SDW_HasCompilerGlsl
-
 			if ( compilers.glsl )
 			{
-				auto validate = [&]()
+				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getGlslInfosSize(); ++infoIndex )
 				{
-					std::string errors;
-					auto config = getDefaultGlslConfig();
-
-					if ( isRayTraceStage( shader.getType() ) )
-					{
-						config.vulkanGlsl = true;
-						config.wantedVersion = glsl::v4_6;
-					}
-
-					auto glsl = glsl::compileGlsl( shader
+					testWriteGlslOnIndex( shader
 						, specialisation
-						, config );
-					bool isCompiled{ false };
+						, compilers
+						, testCounts
+						, infoIndex );
+				}
+			}
+		}
 
-					if ( isRayTraceStage( shader.getType() ) )
-					{
-						try
-						{
-							compileGlslToSpv( shader.getType(), glsl, 150 );
-							isCompiled = true;
-						}
-						catch ( std::exception & exc )
-						{
-							errors += exc.what();
-						}
-					}
-					else
-					{
-						isCompiled = compileGlsl( glsl
-							, shader.getType()
-							, errors
-							, testCounts );
-					}
+		std::string printHlslModel( ast::ShaderStage type
+			, uint32_t shaderModel )
+		{
+			auto major = shaderModel / 10u;
+			auto minor = shaderModel % 10u;
+			auto model = std::to_string( major ) + "_" + std::to_string( minor );
 
-					check( isCompiled );
-
-					if ( !isCompiled )
-					{
-						displayShader( "GLSL", glsl, testCounts, true, true );
-						testCounts << errors << endl;
-					}
-					else
-					{
-						displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay, true );
-					}
-				};
-				testCounts.incIndent();
-				testCounts << "GLSL" << endl;
-				checkNoThrow( validate() );
-				testCounts.decIndent();
+			switch ( type )
+			{
+			case ast::ShaderStage::eVertex:
+				model = "vs_" + model;
+				break;
+			case ast::ShaderStage::eTessellationControl:
+				model = "hs_" + model;
+				break;
+			case ast::ShaderStage::eTessellationEvaluation:
+				model = "ds_" + model;
+				break;
+			case ast::ShaderStage::eGeometry:
+				model = "gs_" + model;
+				break;
+			case ast::ShaderStage::eCompute:
+				model = "cs_" + model;
+				break;
+			case ast::ShaderStage::eFragment:
+				model = "ps_" + model;
+				break;
+			case ast::ShaderStage::eMesh:
+				model = "ms_" + model;
+				break;
+			case ast::ShaderStage::eTask:
+				model = "as_" + model;
+				break;
+			case ast::ShaderStage::eCallable:
+				model = "lib_" + model;
+				break;
+			case ast::ShaderStage::eRayGeneration:
+				model = "lib_" + model;
+				break;
+			case ast::ShaderStage::eRayIntersection:
+				model = "lib_" + model;
+				break;
+			case ast::ShaderStage::eRayMiss:
+				model = "lib_" + model;
+				break;
+			case ast::ShaderStage::eRayAnyHit:
+				model = "lib_" + model;
+				break;
+			case ast::ShaderStage::eRayClosestHit:
+				model = "lib_" + model;
+				break;
+			default:
+				break;
 			}
 
+			return model;
+		}
+
+		void testWriteHlslOnIndex( ::ast::Shader const & shader
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
+		{
+#if SDW_HasCompilerHlsl
+
+			auto validate = [&]()
+			{
+				std::string errors;
+				std::string hlsl;
+
+				try
+				{
+					hlsl = hlsl::compileHlsl( shader
+						, specialisation
+						, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex )
+							, shader.getType() } );
+				}
+				catch ( std::exception & exc )
+				{
+					testCounts << exc.what() << endl;
+					return;
+				}
+
+				displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
+				bool isCompiled = compileHlsl( hlsl
+					, shader.getType()
+					, errors
+					, testCounts
+					, infoIndex );
+				check( isCompiled );
+
+				if ( !isCompiled )
+				{
+					displayShader( "HLSL", hlsl, testCounts, !compilers.forceDisplay, true );
+					testCounts << errors << endl;
+				}
+			};
+			testCounts.incIndent();
+			testCounts << "HLSL Shader Model " << printHlslModel( shader.getType(), testCounts.getHlslVersion( infoIndex ) ) << endl;
+			checkNoThrow( validate() );
+			testCounts.decIndent();
 #endif
 		}
 
@@ -484,36 +688,17 @@ namespace test
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
-#if SDW_HasCompilerHlsl
-
 			if ( compilers.hlsl )
 			{
-				auto validate = [&]()
+				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getHlslInfosSize(); ++infoIndex )
 				{
-					std::string errors;
-					auto hlsl = hlsl::compileHlsl( shader
+					testWriteHlslOnIndex( shader
 						, specialisation
-						, hlsl::HlslConfig{} );
-					displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
-					bool isCompiled = compileHlsl( hlsl
-						, shader.getType()
-						, errors
-						, testCounts );
-					check( isCompiled );
-
-					if ( !isCompiled )
-					{
-						displayShader( "HLSL", hlsl, testCounts, !compilers.forceDisplay, true );
-						testCounts << errors << endl;
-					}
-				};
-				testCounts.incIndent();
-				testCounts << "HLSL" << endl;
-				checkNoThrow( validate() );
-				testCounts.decIndent();
+						, compilers
+						, testCounts
+						, infoIndex );
+				}
 			}
-
-#endif
 		}
 
 		uint32_t getVkMajor( uint32_t vkVersion )
@@ -558,8 +743,7 @@ namespace test
 		{
 #if SDW_HasCompilerSpirV
 
-			if ( compilers.spirV
-				&& testCounts.isInitialised( infoIndex ) )
+			if ( testCounts.isSpirVInitialised( infoIndex ) )
 			{
 				auto validate = [&]( bool availableExtensions )
 				{
@@ -715,13 +899,16 @@ namespace test
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
 		{
-			for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+			if ( compilers.spirV )
 			{
-				testWriteSpirVOnIndex( shader
-					, specialisation
-					, compilers
-					, testCounts
-					, infoIndex );
+				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+				{
+					testWriteSpirVOnIndex( shader
+						, specialisation
+						, compilers
+						, testCounts
+						, infoIndex );
+				}
 			}
 		}
 
@@ -752,54 +939,67 @@ namespace test
 		{
 #if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
 			if ( compilers.spirV
-				&& testCounts.isInitialised( infoIndex ) )
+				&& testCounts.isSpirVInitialised( infoIndex ) )
 			{
 				testCounts.incIndent();
 				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-				ast::vk::ProgramPipeline program{ shaders };
-				std::string errors;
-				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
-				check( isValidated );
-				check( errors.empty() );
 
-				if ( !isValidated
-					|| !errors.empty() )
+				try
 				{
-					if ( !errors.empty() )
+					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
+						, testCounts.getSpirVVersion( infoIndex )
+						, shaders };
+					std::string errors;
+					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+					check( isValidated );
+					check( errors.empty() );
+
+					if ( !isValidated
+						|| !errors.empty() )
 					{
-						testCounts << errors << endl;
-					}
+						if ( !errors.empty() )
+						{
+							testCounts << errors << endl;
+						}
 
 #if SDW_Test_HasSpirVCross
-					auto validate = [&]( ast::Shader const & shader )
-					{
-						spirv::SpirVConfig config{};
-						config.specVersion = testCounts.getSpirVVersion( infoIndex );
-						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-							, shader.getType()
-							, testCounts
-							, true );
-						auto textSpirv = spirv::writeSpirv( shader, config );
-						displayShader( "SPIR-V", textSpirv, testCounts, true, false );
-						displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
-						auto glslangSpirv = compileGlslToSpv( shader.getType()
-							, glsl::compileGlsl( shader
-								, ast::SpecialisationInfo{}
-								, getDefaultGlslConfig() ) );
-						displayShader( "glslang SPIR-V"
-							, spirv::displaySpirv( glslangSpirv )
-							, testCounts
-							, true
-							, true );
-					};
+						auto validate = [&]( ast::Shader const & shader )
+						{
+							spirv::SpirVConfig config{};
+							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+								, shader.getType()
+								, testCounts
+								, true );
+							auto textSpirv = spirv::writeSpirv( shader, config );
+							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
+							displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
+							auto glslangSpirv = compileGlslToSpv( shader.getType()
+								, glsl::compileGlsl( shader
+									, ast::SpecialisationInfo{}
+									, getGlslConfig( glsl::v4_6 ) ) );
+							displayShader( "glslang SPIR-V"
+								, spirv::displaySpirv( glslangSpirv )
+								, testCounts
+								, true
+								, true );
+						};
 
-					for ( auto & shader : shaders )
-					{
-						checkNoThrow( validate( shader ) );
-					}
+						for ( auto & shader : shaders )
+						{
+							checkNoThrow( validate( shader ) );
+						}
 #endif
+					}
+				}
+				catch ( std::exception & exc )
+				{
+					if ( exc.what() != std::string{ "Shader serialization failed." } )
+					{
+						failure( "Shader validation" );
+					}
 				}
 
 				testCounts.decIndent();
@@ -814,12 +1014,14 @@ namespace test
 		{
 #if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
 			if ( compilers.spirV
-				&& testCounts.isInitialised( infoIndex ) )
+				&& testCounts.isSpirVInitialised( infoIndex ) )
 			{
 				testCounts.incIndent();
 				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-				ast::vk::ProgramPipeline program{ shader };
+				ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
+					, testCounts.getSpirVVersion( infoIndex )
+					, shader };
 				std::string errors;
 				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
 				check( isValidated );
@@ -857,7 +1059,7 @@ namespace test
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 								, ast::SpecialisationInfo{}
-								, getDefaultGlslConfig() ) );
+							, getGlslConfig( glsl::v4_6 ) ) );
 						displayShader( "glslang SPIR-V"
 							, spirv::displaySpirv( glslangSpirv )
 							, testCounts
@@ -906,9 +1108,9 @@ namespace test
 			destroyGLSLContext( *this );
 		}
 
-		bool TestCounts::isInitialised( uint32_t infoIndex )const
+		bool TestCounts::isSpirVInitialised( uint32_t infoIndex )const
 		{
-			return retrieveIsInitialised( *this, infoIndex );
+			return retrieveIsSpirVInitialised( *this, infoIndex );
 		}
 
 		uint32_t TestCounts::getVulkanVersion( uint32_t infoIndex )const
@@ -938,7 +1140,46 @@ namespace test
 		uint32_t TestCounts::getSpirvInfosSize()const
 		{
 			return spirv
-				? retrieveSpirvInfosSize( *this )
+				? retrieveSpirVInfosSize( *this )
+				: 0u;
+		}
+
+		bool TestCounts::isHlslInitialised( uint32_t infoIndex )const
+		{
+			return retrieveIsHLSLInitialised( *this, infoIndex );
+		}
+
+		uint32_t TestCounts::getHlslVersion( uint32_t infoIndex )const
+		{
+			return retrieveHLSLVersion( *this, infoIndex );
+		}
+
+		uint32_t TestCounts::getHlslInfosSize()const
+		{
+			return retrieveHLSLInfosSize( *this );
+		}
+
+		bool TestCounts::isGlslInitialised( uint32_t infoIndex )const
+		{
+			return retrieveIsGLSLInitialised( *this, infoIndex );
+		}
+
+		uint32_t TestCounts::getGlslVersion( uint32_t infoIndex )const
+		{
+			uint32_t ret{ 450u };
+
+			if ( glsl )
+			{
+				ret = retrieveGLSLVersion( *this, infoIndex );
+			}
+
+			return ret;
+		}
+
+		uint32_t TestCounts::getGlslInfosSize()const
+		{
+			return glsl
+				? retrieveGLSLInfosSize( *this )
 				: 0u;
 		}
 	}

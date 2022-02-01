@@ -259,6 +259,7 @@ namespace
 		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
 			, FragmentOutT< VoidT > out )
 			{
+				outa = test::getDefault< ValueT >( writer );
 				test( outa );
 			} );
 		test::writeShader( writer
@@ -784,6 +785,10 @@ namespace
 		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
 			, FragmentOutT< VoidT > out )
 			{
+				outa[0] = test::getDefault< ValueT >( writer );
+				outa[1] = test::getDefault< ValueT >( writer );
+				outa[2] = test::getDefault< ValueT >( writer );
+				outa[3] = test::getDefault< ValueT >( writer );
 				test( outa );
 			} );
 		test::writeShader( writer
@@ -1936,20 +1941,17 @@ namespace
 		testSingleInParamVariable< ValueT >( testCounts );
 		testSingleInParamArrayVariable< ValueT >( testCounts );
 		testSingleInParamInputVariable< ValueT >( testCounts );
-		testSingleInParamOutputVariable< ValueT >( testCounts );
 		testSingleInParamUniformVariable< ValueT >( testCounts );
 		testSingleInParamStorageVariable< ValueT >( testCounts );
 		testSingleInParamStructMember< ValueT >( testCounts );
 
 		testSingleOutParamVariable< ValueT >( testCounts );
 		testSingleOutParamArrayVariable< ValueT >( testCounts );
-		testSingleOutParamOutputVariable< ValueT >( testCounts );
 		testSingleOutParamStorageVariable< ValueT >( testCounts );
 		testSingleOutParamStructMember< ValueT >( testCounts );
 
 		testSingleInOutParamVariable< ValueT >( testCounts );
 		testSingleInOutParamArrayVariable< ValueT >( testCounts );
-		testSingleInOutParamOutputVariable< ValueT >( testCounts );
 		testSingleInOutParamStorageVariable< ValueT >( testCounts );
 		testSingleInOutParamStructMember< ValueT >( testCounts );
 
@@ -1957,8 +1959,11 @@ namespace
 		testArrayInParamConstant< ValueT >( testCounts );
 		testArrayInParamVariable< ValueT >( testCounts );
 
-		if constexpr ( !std::is_same_v< ValueT, sdw::Mat3 > && !std::is_same_v< ValueT, sdw::Mat4 > )
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+			&& !std::is_same_v< ValueT, sdw::Mat3 >
+			&& !std::is_same_v< ValueT, sdw::Mat4 > )
 		{
+			testSingleInParamOutputVariable< ValueT >( testCounts );
 			testArrayInParamInputVariable< ValueT >( testCounts );
 			testArrayInParamOutputVariable< ValueT >( testCounts );
 		}
@@ -1969,8 +1974,11 @@ namespace
 
 		testArrayOutParamVariable< ValueT >( testCounts );
 
-		if constexpr ( !std::is_same_v< ValueT, sdw::Mat3 > && !std::is_same_v< ValueT, sdw::Mat4 > )
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+			&& !std::is_same_v< ValueT, sdw::Mat3 >
+			&& !std::is_same_v< ValueT, sdw::Mat4 > )
 		{
+			testSingleOutParamOutputVariable< ValueT >( testCounts );
 			testArrayOutParamOutputVariable< ValueT >( testCounts );
 		}
 
@@ -1979,8 +1987,11 @@ namespace
 
 		testArrayInOutParamVariable< ValueT >( testCounts );
 
-		if constexpr ( !std::is_same_v< ValueT, sdw::Mat3 > && !std::is_same_v< ValueT, sdw::Mat4 > )
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+			&& !std::is_same_v< ValueT, sdw::Mat3 >
+			&& !std::is_same_v< ValueT, sdw::Mat4 > )
 		{
+			testSingleInOutParamOutputVariable< ValueT >( testCounts );
 			testArrayInOutParamOutputVariable< ValueT >( testCounts );
 		}
 

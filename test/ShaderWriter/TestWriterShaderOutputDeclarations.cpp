@@ -8,9 +8,9 @@ namespace
 #define DummyMainG writer.implementMainT< 1u, sdw::PointList, sdw::PointStream >( [&]( sdw::GeometryIn in, sdw::PointList list, sdw::PointStream out ){ out.vtx.position = list[0].vtx.position;out.append(); } )
 
 	template< typename T >
-	void testShaderOutput( test::sdw_test::TestCounts & testCounts )
+	void testShaderOutputBase( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testShaderOutputBase" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
@@ -27,6 +27,13 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderOutputArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderOutputArray" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
@@ -43,6 +50,13 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderOutputOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderOutputOptionalDisabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
@@ -58,6 +72,13 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderOutputArrayOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
@@ -73,6 +94,13 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderOutputOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderOutputOptionalEnabled" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
@@ -90,6 +118,13 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderOutputArrayOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::VertexWriter writer;
 			auto & shader = writer.getShader();
@@ -107,6 +142,13 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderBlendOutput( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderBlendOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -125,6 +167,13 @@ namespace
 			DummyMainF;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		testEnd();
+	}
+
+	template< typename T >
+	void testShaderStreamOutput( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testShaderStreamOutput" + ast::debug::getName( sdw::typeEnum< T > ) );
 		{
 			sdw::GeometryWriter writer;
 			auto & shader = writer.getShader();
@@ -144,6 +193,19 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		testEnd();
+	}
+
+	template< typename T >
+	void testShaderOutput( test::sdw_test::TestCounts & testCounts )
+	{
+		testShaderOutputBase< T >( testCounts );
+		testShaderOutputArray< T >( testCounts );
+		testShaderOutputOptionalDisabled< T >( testCounts );
+		testShaderOutputArrayOptionalDisabled< T >( testCounts );
+		testShaderOutputOptionalEnabled< T >( testCounts );
+		testShaderOutputArrayOptionalEnabled< T >( testCounts );
+		testShaderBlendOutput< T >( testCounts );
+		testShaderStreamOutput< T >( testCounts );
 	}
 }
 

@@ -179,7 +179,7 @@ namespace
 			sdw::VertexWriter writer;
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 				{
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
@@ -198,7 +198,7 @@ namespace
 			sdw::VertexWriter writer;
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 				{
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
 					{
 					}
 					ROF;
@@ -231,12 +231,12 @@ namespace
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
 					ROF;
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, --ctrlVar )
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
 					ROF;
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar >= 0_i, ctrlVar-- )
+					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
