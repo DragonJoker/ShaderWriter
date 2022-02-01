@@ -488,7 +488,7 @@ namespace hlsl
 		case ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4:
 			result = "SampleGrad";
 			break;
-			
+
 		case ast::expr::TextureAccess::eTextureGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureProjGrad1DShadowF:
 		case ast::expr::TextureAccess::eTextureGrad1DArrayShadowF:

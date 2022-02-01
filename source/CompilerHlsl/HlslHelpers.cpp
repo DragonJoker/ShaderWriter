@@ -3362,5 +3362,37 @@ namespace hlsl
 			, mbrLocation );
 	}
 
+	void checkType( ast::type::TypePtr ptype
+		, IntrinsicsConfig & config )
+	{
+		ast::type::traverseType( ptype, 1u
+			, [&config]( ast::type::TypePtr type
+				, uint32_t arraySize )
+			{
+				switch ( type->getRawKind() )
+				{
+				case ast::type::Kind::eImage:
+				case ast::type::Kind::eSampler:
+				case ast::type::Kind::eSampledImage:
+				case ast::type::Kind::eAccelerationStructure:
+					return;
+				default:
+					break;
+				}
+
+				auto component = getComponentType( type );
+
+				while ( !isScalarType( component ) )
+				{
+					component = getComponentType( component );
+				}
+
+				if ( component == ast::type::Kind::eDouble )
+				{
+					config.requiresDouble = true;
+				}
+			} );
+	}
+
 	//*********************************************************************************************
 }

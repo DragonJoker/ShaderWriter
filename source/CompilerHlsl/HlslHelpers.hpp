@@ -490,6 +490,11 @@ namespace hlsl
 	struct IntrinsicsConfig
 	{
 		bool requiresShadowSampler{ false };
+		bool requiresShadowOnTiled{ false };
+		bool requiresGather{ false };
+		bool requiresDouble{ false };
+		bool requiresSampledIndex{ false };
+		bool requiresUAV{ false };
 
 		bool requiresACosh1F{ false };
 		bool requiresACosh2F{ false };
@@ -565,6 +570,10 @@ namespace hlsl
 		bool requiresBitfieldReverse2I{ false };
 		bool requiresBitfieldReverse3I{ false };
 		bool requiresBitfieldReverse4I{ false };
+		bool requiresModf1D{ false };
+		bool requiresModf2D{ false };
+		bool requiresModf3D{ false };
+		bool requiresModf4D{ false };
 
 		bool requiresTextureSizeBufferF{ false };
 		bool requiresTextureSize1DF{ false };
@@ -898,6 +907,8 @@ namespace hlsl
 		bool requiresImageAtomicCompSwap2DMSI{ false };
 		bool requiresImageAtomicCompSwap2DMSArrayI{ false };
 	};
+	void checkType( ast::type::TypePtr type
+		, IntrinsicsConfig & config );
 }
 
 #endif

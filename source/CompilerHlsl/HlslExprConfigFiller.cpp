@@ -14,6 +14,43 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
+	namespace
+	{
+		void checkBuiltin( ast::Builtin builtin
+			, IntrinsicsConfig & config )
+		{
+			switch ( builtin )
+			{
+			case ast::Builtin::eSampleID:
+				config.requiresSampledIndex = true;
+				break;
+			default:
+				break;
+			}
+		}
+
+		void checkBuiltin( ast::var::Variable const & var
+			, IntrinsicsConfig & config )
+		{
+			if ( var.isBuiltin() )
+			{
+				checkBuiltin( var.getBuiltin(), config );
+			}
+		}
+
+		void checkBuiltin( ast::type::Struct const & type
+			, uint32_t index
+			, IntrinsicsConfig & config )
+		{
+			auto mbr = *std::next( type.begin(), ptrdiff_t( index ) );
+
+			if ( mbr.builtin != ast::Builtin::eNone )
+			{
+				checkBuiltin( mbr.builtin, config );
+			}
+		}
+	}
+
 	void ExprConfigFiller::submit( ast::expr::Expr * expr
 		, AdaptationData & adaptationData
 		, IntrinsicsConfig & config )
@@ -41,17 +78,21 @@ namespace hlsl
 
 	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getOperand()->accept( this );
 	}
 
 	void ExprConfigFiller::visitBinaryExpr( ast::expr::Binary * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getLHS()->accept( this );
 		expr->getRHS()->accept( this );
 	}
 
 	void ExprConfigFiller::visitAggrInitExpr( ast::expr::AggrInit * expr )
 	{
+		checkType( expr->getType(), m_config );
+
 		if ( expr->getIdentifier() )
 		{
 			expr->getIdentifier()->accept( this );
@@ -65,6 +106,8 @@ namespace hlsl
 
 	void ExprConfigFiller::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
+		checkType( expr->getType(), m_config );
+
 		for ( auto & arg : expr->getArgList() )
 		{
 			arg->accept( this );
@@ -73,6 +116,8 @@ namespace hlsl
 
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
+		checkType( expr->getType(), m_config );
+		checkBuiltin( *expr->getOuterType(), expr->getMemberIndex(), m_config );
 		expr->getOuterExpr()->accept( this );
 
 		if ( isRayTraceStage( m_adaptationData.shader->getType() ) )
@@ -120,6 +165,7 @@ namespace hlsl
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getFn()->accept( this );
 
 		for ( auto & arg : expr->getArgList() )
@@ -130,6 +176,7 @@ namespace hlsl
 
 	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
+		checkType( expr->getType(), m_config );
 		getHlslConfig( expr->getImageAccess(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
@@ -140,6 +187,7 @@ namespace hlsl
 
 	void ExprConfigFiller::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
+		checkType( expr->getType(), m_config );
 		getHlslConfig( expr->getIntrinsic(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
@@ -150,6 +198,7 @@ namespace hlsl
 
 	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
+		checkType( expr->getType(), m_config );
 		getHlslConfig( expr->getTextureAccess(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
@@ -160,20 +209,25 @@ namespace hlsl
 
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
+		checkBuiltin( *expr->getVariable(), m_config );
+		checkType( expr->getType(), m_config );
 	}
 
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getIdentifier()->accept( this );
 		expr->getInitialiser()->accept( this );
 	}
 
 	void ExprConfigFiller::visitLiteralExpr( ast::expr::Literal * expr )
 	{
+		checkType( expr->getType(), m_config );
 	}
 
 	void ExprConfigFiller::visitQuestionExpr( ast::expr::Question * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getCtrlExpr()->accept( this );
 		expr->getTrueExpr()->accept( this );
 		expr->getFalseExpr()->accept( this );
@@ -181,21 +235,25 @@ namespace hlsl
 
 	void ExprConfigFiller::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getOperand()->accept( this );
 	}
 
 	void ExprConfigFiller::visitSwitchCaseExpr( ast::expr::SwitchCase * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getLabel()->accept( this );
 	}
 
 	void ExprConfigFiller::visitSwitchTestExpr( ast::expr::SwitchTest * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getValue()->accept( this );
 	}
 
 	void ExprConfigFiller::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
+		checkType( expr->getType(), m_config );
 		expr->getOuterExpr()->accept( this );
 	}
 }

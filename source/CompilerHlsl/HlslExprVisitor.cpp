@@ -29,6 +29,22 @@ namespace hlsl
 
 			return name;
 		}
+
+		bool isNonMatchingOuterProduct( ast::expr::Intrinsic value )
+		{
+			return value == ast::expr::Intrinsic::eOuterProduct2x3F
+				|| value == ast::expr::Intrinsic::eOuterProduct2x4F
+				|| value == ast::expr::Intrinsic::eOuterProduct3x2F
+				|| value == ast::expr::Intrinsic::eOuterProduct3x4F
+				|| value == ast::expr::Intrinsic::eOuterProduct4x2F
+				|| value == ast::expr::Intrinsic::eOuterProduct4x3F
+				|| value == ast::expr::Intrinsic::eOuterProduct2x3D
+				|| value == ast::expr::Intrinsic::eOuterProduct2x4D
+				|| value == ast::expr::Intrinsic::eOuterProduct3x2D
+				|| value == ast::expr::Intrinsic::eOuterProduct3x4D
+				|| value == ast::expr::Intrinsic::eOuterProduct4x2D
+				|| value == ast::expr::Intrinsic::eOuterProduct4x3D;
+		}
 	}
 
 	std::string ExprVisitor::submit( ast::expr::Expr * expr
@@ -343,17 +359,77 @@ namespace hlsl
 		}
 		else
 		{
-			m_result += getHlslName( expr->getIntrinsic() ) + "(";
-			std::string sep;
-
-			for ( auto & arg : expr->getArgList() )
+			if ( isNonMatchingOuterProduct( expr->getIntrinsic() ) )
 			{
-				m_result += sep;
-				m_result += doSubmit( arg.get() );
-				sep = ", ";
-			}
+				m_result += "transpose(" + getHlslName( expr->getIntrinsic() ) + "(";
+				auto lhs = doSubmit( expr->getArgList().front().get() );
+				auto rhs = doSubmit( expr->getArgList().back().get() );
 
-			m_result += ")";
+				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3F )
+				{
+					m_result += "float2x1(" + lhs + "), float1x3(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x4F )
+				{
+					m_result += "float2x1(" + lhs + "), float1x4(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x2F )
+				{
+					m_result += "float3x1(" + lhs + "), float1x2(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x4F )
+				{
+					m_result += "float3x1(" + lhs + "), float1x4(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x2F )
+				{
+					m_result += "float4x1(" + lhs + "), float1x2(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x3F )
+				{
+					m_result += "float4x1(" + lhs + "), float1x3(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3D )
+				{
+					m_result += "double2x1(" + lhs + "), double1x3(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x4D )
+				{
+					m_result += "double2x1(" + lhs + "), double1x4(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x2D )
+				{
+					m_result += "double3x1(" + lhs + "), double1x2(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x4D )
+				{
+					m_result += "double3x1(" + lhs + "), double1x4(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x2D )
+				{
+					m_result += "double4x1(" + lhs + "), double1x2(" + rhs + ")";
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x3D )
+				{
+					m_result += "double4x1(" + lhs + "), double1x3(" + rhs + ")";
+				}
+
+				m_result += "))";
+			}
+			else
+			{
+				m_result += getHlslName( expr->getIntrinsic() ) + "(";
+				std::string sep;
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					m_result += sep;
+					m_result += doSubmit( arg.get() );
+					sep = ", ";
+				}
+
+				m_result += ")";
+			}
 		}
 	}
 
@@ -371,7 +447,7 @@ namespace hlsl
 			: std::string{ "false" } );
 			break;
 		case ast::expr::LiteralType::eInt:
-			stream << expr->getValue< ast::expr::LiteralType::eInt >();
+			stream << expr->getValue< ast::expr::LiteralType::eInt >() << "l";
 			break;
 		case ast::expr::LiteralType::eUInt:
 			stream << expr->getValue< ast::expr::LiteralType::eUInt >() << "u";
