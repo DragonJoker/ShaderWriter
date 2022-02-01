@@ -3211,41 +3211,41 @@ namespace spirv
 		, ValueId varId
 		, Module & module )
 	{
-		if ( var.isFlat() )
+		if ( var.isFlat() && !var.isBuiltin() )
 		{
-			module.decorate( varId, IdList{ spv::Id( spv::DecorationFlat ) } );
+			module.decorate( varId, spv::DecorationFlat );
 		}
 
 		if ( var.isNoPerspective() )
 		{
-			module.decorate( varId, IdList{ spv::Id( spv::DecorationNoPerspective ) } );
+			module.decorate( varId, spv::DecorationNoPerspective );
 		}
 
 		if ( var.isCentroid() )
 		{
-			module.decorate( varId, IdList{ spv::Id( spv::DecorationCentroid ) } );
+			module.decorate( varId, spv::DecorationCentroid );
 		}
 
 		if ( var.isPerSample() )
 		{
-			module.decorate( varId, IdList{ spv::Id( spv::DecorationSample ) } );
+			module.decorate( varId, spv::DecorationSample );
 		}
 
 		if ( var.isPatch() )
 		{
-			module.decorate( varId, IdList{ spv::Id( spv::DecorationPatch ) } );
+			module.decorate( varId, spv::DecorationPatch );
 		}
 
 		if ( var.isPerPrimitive()
 			|| var.getType()->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
 		{
-			module.decorate( varId, { spv::Id( spv::DecorationPerPrimitiveNV ) } );
+			module.decorate( varId, spv::DecorationPerPrimitiveNV );
 		}
 
 		if ( var.isPerTask()
 			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadIn )
 		{
-			module.decorate( varId, { spv::Id( spv::DecorationPerTaskNV ) } );
+			module.decorate( varId, spv::DecorationPerTaskNV );
 		}
 	}
 
