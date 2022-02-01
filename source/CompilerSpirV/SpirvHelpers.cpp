@@ -468,83 +468,33 @@ namespace spirv
 				break;
 			}
 		}
-
-		void checkType( ast::type::Struct const & type
-			, ModuleConfig & config )
-		{
-			for ( auto & mbr : type )
-			{
-				checkType( mbr.type, config );
-			}
-		}
 	}
 
 	//*********************************************************************************************
 
-	void checkType( ast::type::TypePtr type
+	void checkType( ast::type::TypePtr ptype
 		, ModuleConfig & config )
 	{
-		auto arraySize = getArraySize( type );
-		type = getNonArrayType( type );
-
-		switch ( type->getRawKind() )
-		{
-		case ast::type::Kind::eStruct:
-		case ast::type::Kind::eRayDesc:
-			checkType( static_cast< ast::type::Struct const & >( *type ), config );
-			break;
-		case ast::type::Kind::eImage:
-			checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
-			break;
-		case ast::type::Kind::eSampledImage:
-			checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
-			break;
-		case ast::type::Kind::eArray:
-			checkType( static_cast< ast::type::Array const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eRayPayload:
-			checkType( static_cast< ast::type::RayPayload const & >( *type ).getDataType(), config );
-			break;
-		case ast::type::Kind::eCallableData:
-			checkType( static_cast< ast::type::CallableData const & >( *type ).getDataType(), config );
-			break;
-		case ast::type::Kind::eHitAttribute:
-			checkType( static_cast< ast::type::HitAttribute const & >( *type ).getDataType(), config );
-			break;
-		case ast::type::Kind::eTessellationInputPatch:
-			checkType( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eTessellationOutputPatch:
-			checkType( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eTessellationControlInput:
-			checkType( static_cast< ast::type::TessellationControlInput const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eTessellationControlOutput:
-			checkType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eTessellationEvaluationInput:
-			checkType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eMeshVertexOutput:
-			checkType( static_cast< ast::type::MeshVertexOutput const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eMeshPrimitiveOutput:
-			checkType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eTaskPayload:
-			checkType( static_cast< ast::type::TaskPayload const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::eTaskPayloadIn:
-			checkType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), config );
-			break;
-		case ast::type::Kind::ePointer:
-			checkType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), config );
-			break;
-		default:
-			checkType( type->getKind(), config );
-			break;
-		}
+		traverseType( ptype, 1u
+			, [&config]( ast::type::TypePtr type
+				, uint32_t arraySize )
+			{
+				switch ( type->getRawKind() )
+				{
+				case ast::type::Kind::eImage:
+					checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
+					break;
+				case ast::type::Kind::eSampledImage:
+					checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
+					break;
+				case ast::type::Kind::eSampler:
+				case ast::type::Kind::eAccelerationStructure:
+					return;
+				default:
+					checkType( type->getKind(), config );
+					break;
+				}
+			} );
 	}
 
 	void checkBuiltin( ast::Builtin builtin
