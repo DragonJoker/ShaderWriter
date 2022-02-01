@@ -220,6 +220,11 @@ namespace ast::type
 		}
 	}
 
+	bool isScalarType( TypePtr type )
+	{
+		return isScalarType( type->getKind() );
+	}
+
 	bool isVectorType( Kind kind )
 	{
 		switch ( kind )
@@ -249,6 +254,11 @@ namespace ast::type
 		default:
 			return false;
 		}
+	}
+
+	bool isVectorType( TypePtr type )
+	{
+		return isVectorType( type->getKind() );
 	}
 
 	bool isMatrixType( Kind kind )

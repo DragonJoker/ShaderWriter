@@ -134,8 +134,8 @@ namespace ast::type
 		SDAST_API MeshPrimitiveOutputPtr getMeshPrimitiveOutput( TypePtr type, OutputTopology topology, uint32_t maxPrimitives );
 		SDAST_API TaskPayloadPtr getTaskPayload( TypePtr type );
 		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
-		SDAST_API ImagePtr getImage( ImageConfiguration const & config );
-		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & config );
+		SDAST_API ImagePtr getImage( ImageConfiguration const & func );
+		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & func );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );
@@ -178,6 +178,101 @@ namespace ast::type
 		};
 		std::map< TypePtr, MemberTypeInfo > m_memberTypes;
 	};
+
+	template< typename Func >
+	void traverseType( ast::type::TypePtr type
+		, uint32_t arrayDim
+		, Func func )
+	{
+		switch ( type->getRawKind() )
+		{
+		case ast::type::Kind::eArray:
+			traverseType( getNonArrayType( type )
+				, getArraySize( type ) * ( ( arrayDim == NotArray || arrayDim == UnknownArraySize )
+					? 1u
+					: arrayDim )
+				, func );
+			break;
+		case ast::type::Kind::eFunction:
+			{
+				auto funcType = static_cast< Function const & >( *type );
+				traverseType( funcType.getReturnType(), arrayDim, func );
+
+				for ( auto & arg : funcType )
+				{
+					traverseType( arg->getType(), arrayDim, func );
+				}
+			}
+			break;
+		case ast::type::Kind::eStruct:
+		case ast::type::Kind::eRayDesc:
+			if ( auto structType = getStructType( type ) )
+			{
+				for ( auto & mbr : *structType )
+				{
+					traverseType( mbr.type, arrayDim, func );
+				}
+			}
+			break;
+		case ast::type::Kind::eRayPayload:
+			traverseType( static_cast< ast::type::RayPayload const & >( *type ).getDataType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eCallableData:
+			traverseType( static_cast< ast::type::CallableData const & >( *type ).getDataType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eHitAttribute:
+			traverseType( static_cast< ast::type::HitAttribute const & >( *type ).getDataType(), arrayDim, func );
+			break;
+		case ast::type::Kind::ePointer:
+			traverseType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eGeometryInput:
+			traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eGeometryOutput:
+			traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTessellationInputPatch:
+			traverseType( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTessellationOutputPatch:
+			traverseType( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTessellationControlInput:
+			traverseType( static_cast< ast::type::TessellationControlInput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTessellationControlOutput:
+			traverseType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTessellationEvaluationInput:
+			traverseType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eFragmentInput:
+			traverseType( static_cast< ast::type::FragmentInput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eComputeInput:
+			traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eMeshVertexOutput:
+			traverseType( static_cast< ast::type::MeshVertexOutput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eMeshPrimitiveOutput:
+			traverseType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTaskPayload:
+			traverseType( static_cast< ast::type::TaskPayload const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTaskPayloadIn:
+			traverseType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eVoid:
+		case ast::type::Kind::eUndefined:
+			break;
+		default:
+			func( type, arrayDim );
+			break;
+		}
+	}
 }
 
 #endif

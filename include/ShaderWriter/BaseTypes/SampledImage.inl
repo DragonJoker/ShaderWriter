@@ -1450,14 +1450,14 @@ namespace sdw
 			, bool MsT
 			, expr::TextureAccess TextureAccessT
 			, typename ... ParamsT >
-		ReturnT writeTextureAccessCall( SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & image
+		ReturnWrapperT< ReturnT > writeTextureAccessCall( SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & image
 			, ParamsT const & ... params )
 		{
 			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
 			static_assert( TextureAccessT != expr::TextureAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
-			return ReturnT{ findWriterMandat( image, params... )
+			return ReturnWrapperT< ReturnT >{ findWriterMandat( image, params... )
 				, expr::makeTextureAccessCall( ReturnT::makeType( cache )
 					, TextureAccessT
 					, makeExpr( image )
@@ -1476,7 +1476,7 @@ namespace sdw
 		{
 			using SizeT = SampledImageSizeT< DimT, ArrayedT >;
 
-			SizeT getSize()const
+			auto getSize()const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
@@ -1500,7 +1500,7 @@ namespace sdw
 		{
 			using SizeT = SampledImageSizeT< DimT, ArrayedT >;
 
-			SizeT getSize( Int const & level )const
+			auto getSize( Int const & level )const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
@@ -1525,7 +1525,7 @@ namespace sdw
 		{
 			using QueryLodT = SampledImageQueryLodT< DimT, ArrayedT >;
 
-			Vec2 getLod( QueryLodT const & coord )const
+			auto getLod( QueryLodT const & coord )const
 			{
 				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureQueryLod[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
@@ -1548,7 +1548,7 @@ namespace sdw
 			, bool MsT >
 		struct QueryLevelsFuncT
 		{
-			Int getLevels()const
+			auto getLevels()const
 			{
 				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, DepthT, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureQueryLevels[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
@@ -1571,7 +1571,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord )const
+			auto sample( SampleT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1595,7 +1595,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
@@ -1621,7 +1621,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
@@ -1647,7 +1647,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, Float const & ref
 				, Float const & bias )const
 			{
@@ -1676,7 +1676,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
@@ -1704,7 +1704,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
@@ -1734,7 +1734,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, OffsetT const & offset
 				, Float const & bias )const
 			{
@@ -1764,7 +1764,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > sample( SampleT const & coord
+			auto sample( SampleT const & coord
 				, Float const & ref
 				, OffsetT const & offset
 				, Float const & bias )const
@@ -1795,7 +1795,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > lod( SampleT const & coord
+			auto lod( SampleT const & coord
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
@@ -1821,7 +1821,7 @@ namespace sdw
 		{
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > lod( SampleT const & coord
+			auto lod( SampleT const & coord
 				, Float const & ref
 				, Float const & lod )const
 			{
@@ -1850,7 +1850,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > lod( SampleT const & coord
+			auto lod( SampleT const & coord
 				, Float const & lod
 				, OffsetT const & offset )const
 			{
@@ -1880,7 +1880,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > lod( SampleT const & coord
+			auto lod( SampleT const & coord
 				, Float const & ref
 				, Float const & lod
 				, OffsetT const & offset )const
@@ -1911,7 +1911,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord )const
+			auto proj( SampleProjT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -1935,7 +1935,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
@@ -1961,7 +1961,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
@@ -1987,7 +1987,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, Float const & ref
 				, Float const & bias )const
 			{
@@ -2016,7 +2016,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
@@ -2044,7 +2044,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
@@ -2074,7 +2074,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, OffsetT const & offset
 				, Float const & bias )const
 			{
@@ -2104,7 +2104,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > proj( SampleProjT const & coord
+			auto proj( SampleProjT const & coord
 				, Float const & ref
 				, OffsetT const & offset
 				, Float const & bias )const
@@ -2135,7 +2135,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+			auto projLod( SampleProjT const & coord
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
@@ -2161,7 +2161,7 @@ namespace sdw
 		{
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+			auto projLod( SampleProjT const & coord
 				, Float const & ref
 				, Float const & lod )const
 			{
@@ -2190,7 +2190,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+			auto projLod( SampleProjT const & coord
 				, Float const & lod
 				, OffsetT const & offset )const
 			{
@@ -2220,7 +2220,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projLod( SampleProjT const & coord
+			auto projLod( SampleProjT const & coord
 				, Float const & ref
 				, Float const & lod
 				, OffsetT const & offset )const
@@ -2251,7 +2251,7 @@ namespace sdw
 		{
 			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > fetch( FetchT const & coord )const
+			auto fetch( FetchT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
 					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2275,7 +2275,7 @@ namespace sdw
 		{
 			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > fetch( FetchT const & coord
+			auto fetch( FetchT const & coord
 				, Int const & level )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
@@ -2302,7 +2302,7 @@ namespace sdw
 			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > fetch( FetchT const & coord
+			auto fetch( FetchT const & coord
 				, Int const & level
 				, OffsetT const & offset )const
 			{
@@ -2332,7 +2332,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > grad( SampleT const & coord
+			auto grad( SampleT const & coord
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
@@ -2361,7 +2361,7 @@ namespace sdw
 			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > grad( SampleT const & coord
+			auto grad( SampleT const & coord
 				, Float const & ref
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
@@ -2393,7 +2393,7 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > grad( SampleT const & coord
+			auto grad( SampleT const & coord
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy
 				, OffsetT const & offset )const
@@ -2426,7 +2426,7 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > grad( SampleT const & coord
+			auto grad( SampleT const & coord
 				, Float const & ref
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy
@@ -2460,7 +2460,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+			auto projGrad( SampleProjT const & coord
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
@@ -2489,7 +2489,7 @@ namespace sdw
 			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+			auto projGrad( SampleProjT const & coord
 				, Float const & ref
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
@@ -2521,7 +2521,7 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+			auto projGrad( SampleProjT const & coord
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy
 				, OffsetT const & offset )const
@@ -2553,7 +2553,7 @@ namespace sdw
 			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageSampleT< FormatT > projGrad( SampleProjT const & coord
+			auto projGrad( SampleProjT const & coord
 				, Float const & ref
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy
@@ -2586,7 +2586,7 @@ namespace sdw
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord
+			auto gather( GatherT const & coord
 				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
@@ -2612,7 +2612,7 @@ namespace sdw
 		{
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord
+			auto gather( GatherT const & coord
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
@@ -2639,7 +2639,7 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord
+			auto gather( GatherT const & coord
 				, Int const & comp
 				, OffsetT const & offset )const
 			{
@@ -2668,7 +2668,7 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord
+			auto gather( GatherT const & coord
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
@@ -2697,7 +2697,7 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord
+			auto gather( GatherT const & coord
 				, Int const & comp
 				, Array< OffsetT > const & offsets )const
 			{
@@ -2726,7 +2726,7 @@ namespace sdw
 			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
 			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
 
-			ImageGatherT< FormatT > gather( GatherT const & coord
+			auto gather( GatherT const & coord
 				, Float const & ref
 				, Array< OffsetT > const & offsets )const
 			{

@@ -37,6 +37,11 @@ namespace ast::expr
 	};
 	using TextureAccessCallPtr = std::unique_ptr< TextureAccessCall >;
 
+	SDAST_API bool isBiasAndOffset( TextureAccess value );
+	SDAST_API bool isProj( ast::expr::TextureAccess access );
+	SDAST_API bool isShadow( TextureAccess value );
+	SDAST_API bool isShadowLodOffset( TextureAccess value );
+
 	inline TextureAccessCallPtr makeTextureAccessCall( type::TypePtr type
 		, TextureAccess texelAccess
 		, ExprList && argList )

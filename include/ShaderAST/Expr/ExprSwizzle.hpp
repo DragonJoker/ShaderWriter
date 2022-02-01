@@ -38,8 +38,8 @@ namespace ast::expr
 	inline SwizzlePtr makeSwizzle( ExprPtr outer
 		, SwizzleKind swizzle )
 	{
-		assert( type::isVectorType( outer->getType()->getKind() )
-			|| ( type::isScalarType( outer->getType()->getKind() )
+		assert( type::isVectorType( outer->getType() )
+			|| ( type::isScalarType( outer->getType() )
 				&& ( swizzle == SwizzleKind::e0
 					|| swizzle == SwizzleKind::e00
 					|| swizzle == SwizzleKind::e000
