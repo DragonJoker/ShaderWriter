@@ -259,6 +259,11 @@ namespace spirv
 		std::map< spv::Id, IdSet > m_varDecorations;
 		std::map< spv::Id, IdSet > m_mbrDecorations;
 		ValueIdSet m_entryPointIO;
+		using DecorationSet = std::unordered_set< ValueIdList, ValueIdListHasher >;
+		using DecorationSetIdMap = std::map< ValueId, DecorationSet >;
+		DecorationSetIdMap varDecorations;
+		using DecorationSetMbrMap = std::unordered_map< ValueIdList, DecorationSet, ValueIdListHasher >;
+		DecorationSetMbrMap mbrDecorations;
 	};
 }
 

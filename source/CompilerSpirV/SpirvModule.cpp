@@ -307,17 +307,22 @@ namespace spirv
 
 	void Module::decorate( ValueId id, spv::Decoration decoration )
 	{
-		decorate( id, IdList{ spv::Id( decoration ) } );
+		decorate( id, { spv::Id( decoration ) } );
 	}
 
 	void Module::decorate( ValueId id
 		, IdList const & pdecorations )
 	{
-		ValueIdList operands;
-		operands.push_back( id );
+		auto it = varDecorations.emplace( id, DecorationSet{} ).first;
 		auto decos = convert( pdecorations );
-		operands.insert( operands.end(), decos.begin(), decos.end() );
-		decorations.push_back( makeInstruction< DecorateInstruction >( operands ) );
+
+		if ( it->second.insert( decos ).second )
+		{
+			ValueIdList operands;
+			operands.push_back( id );
+			operands.insert( operands.end(), decos.begin(), decos.end() );
+			decorations.push_back( makeInstruction< DecorateInstruction >( operands ) );
+		}
 	}
 
 	void Module::decorateMember( ValueId id
@@ -331,12 +336,17 @@ namespace spirv
 		, uint32_t index
 		, IdList const & pdecorations )
 	{
-		ValueIdList operands;
-		operands.push_back( id );
-		operands.push_back( { index } );
+		auto it = mbrDecorations.emplace( ValueIdList{ id, ValueId{ index } }, DecorationSet{} ).first;
 		auto decos = convert( pdecorations );
-		operands.insert( operands.end(), decos.begin(), decos.end() );
-		decorations.push_back( makeInstruction< MemberDecorateInstruction >( operands ) );
+
+		if ( it->second.insert( decos ).second )
+		{
+			ValueIdList operands;
+			operands.push_back( id );
+			operands.push_back( { index } );
+			operands.insert( operands.end(), decos.begin(), decos.end() );
+			decorations.push_back( makeInstruction< MemberDecorateInstruction >( operands ) );
+		}
 	}
 
 	ValueId Module::getVariablePointer( ValueId varId
