@@ -31,6 +31,7 @@ namespace ast::vk
 		using SpecConstantsMap = std::map< AttributeInfo, SpecConstantInfo const * >;
 		using InputMap = std::map< AttributeInfo, InputInfo const * >;
 		using OutputMap = std::map< AttributeInfo, OutputInfo const * >;
+		using InOutMap = std::map< InOutInfo, InOutInfo const * >;
 
 		ShaderDataPtr( ShaderData const & rhs
 			, ShaderStageFlags stages );
@@ -48,6 +49,9 @@ namespace ast::vk
 		SpecConstantsMap specConstants;
 		InputMap inputs;
 		OutputMap outputs;
+		InOutMap inOuts;
+		AccStructInfo const * accelerationStruct;
+		uint32_t tessellationControlPoints{};
 
 	private:
 		DescriptorsMap gatherDescriptors( ShaderStageFlags stages );

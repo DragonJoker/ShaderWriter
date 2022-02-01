@@ -841,6 +841,7 @@ namespace ast::vk
 	{
 		ShaderDataPtr result{ shader.getData()
 			, makeFlag( shader.getType() ) };
+		m_tessellationControlPoints = std::max( m_tessellationControlPoints, result.tessellationControlPoints );
 		return result;
 	}
 

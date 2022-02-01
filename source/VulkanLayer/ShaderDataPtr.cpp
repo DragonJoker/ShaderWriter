@@ -289,6 +289,30 @@ namespace ast::vk
 			return result;
 		}
 
+		template< typename ResT, typename LhsT, typename RhsT >
+		std::map< InOutInfo, ResT const * > unionAttributes( std::map< InOutInfo, LhsT const * > const & lhs
+			, std::map< InOutInfo, RhsT const * > const & rhs )
+		{
+			std::map< InOutInfo, ResT const * > result;
+
+			if ( lhs.empty() )
+			{
+				for ( auto & rit : rhs )
+				{
+					result.emplace( rit.first, static_cast< ResT const * >( rit.second ) );
+				}
+
+				return result;
+			}
+
+			for ( auto & lit : lhs )
+			{
+				result.emplace( *lit.second, static_cast< ResT const * >( lit.second ) );
+			}
+
+			return result;
+		}
+
 		template< typename DescT >
 		static std::map< DescriptorBinding, DescT const * > getPtr( std::map< std::string, DescT > const & rhs )
 		{
@@ -338,6 +362,18 @@ namespace ast::vk
 
 			return result;
 		}
+
+		static inline ShaderDataPtr::InOutMap getPtr( ShaderData::InOutMap const & rhs )
+		{
+			ShaderDataPtr::InOutMap result;
+
+			for ( auto & v : rhs )
+			{
+				result.emplace( v.second, &v.second );
+			}
+
+			return result;
+		}
 	}
 
 	//*********************************************************************************************
@@ -354,6 +390,9 @@ namespace ast::vk
 		, pcbs{ getPtr( rhs.pcbs ) }
 		, inputs{ getPtr( rhs.inputs ) }
 		, outputs{ getPtr( rhs.outputs ) }
+		, inOuts{ getPtr( rhs.inOuts ) }
+		, accelerationStruct{ &rhs.accelerationStruct }
+		, tessellationControlPoints{ rhs.tessellationControlPoints }
 	{
 	}
 
@@ -382,6 +421,17 @@ namespace ast::vk
 		outputs = unionAttributes< OutputInfo >( outputs, rhs.outputs );
 
 		specConstants = unionAttributes< SpecConstantInfo >( specConstants, rhs.specConstants );
+		inOuts = unionAttributes< InOutInfo >( inOuts, rhs.inOuts );
+
+		if ( rhs.accelerationStruct && !accelerationStruct )
+		{
+			accelerationStruct = rhs.accelerationStruct;
+		}
+
+		if ( rhs.tessellationControlPoints && !tessellationControlPoints )
+		{
+			tessellationControlPoints = rhs.tessellationControlPoints;
+		}
 	}
 
 	ShaderDataPtr::DescriptorsMap ShaderDataPtr::gatherDescriptors( ShaderStageFlags stages )
