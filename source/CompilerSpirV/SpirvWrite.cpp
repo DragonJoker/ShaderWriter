@@ -1879,7 +1879,8 @@ namespace spirv
 			auto opCode = spv::Op( instruction->op.opData.opCode );
 			assert( opCode == spv::OpName
 				|| opCode == spv::OpMemberName
-				|| opCode == spv::OpSource );
+				|| opCode == spv::OpSource
+				|| opCode == spv::OpSourceExtension );
 			stream << "        " << spirv::getOperatorName( opCode );
 
 			if ( opCode == spv::OpName )
@@ -1907,6 +1908,16 @@ namespace spirv
 				{
 					stream << " " << instruction->operands[2];
 				}
+
+				if ( bool( instruction->name ) )
+				{
+					stream << " \"" << instruction->name.value() << "\"";
+				}
+			}
+			else if ( opCode == spv::OpSourceExtension )
+			{
+				checkType< SourceExtensionInstruction >( *instruction );
+				assert( instruction->operands.empty() );
 
 				if ( bool( instruction->name ) )
 				{
