@@ -16,12 +16,63 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
+	namespace
+	{
+		void checkSupport( ast::ShaderStage stage
+			, IntrinsicsConfig const & intrinsicsConfig
+			, HlslConfig const & writerConfig )
+		{
+			if ( isRayTraceStage( stage ) && writerConfig.shaderModel < hlsl::v6_3 )
+			{
+				throw std::runtime_error{ "Unsupported Ray Tracing stage for this shader model" };
+			}
+
+			if ( isMeshStage( stage ) && writerConfig.shaderModel < hlsl::v6_5 )
+			{
+				throw std::runtime_error{ "Unsupported Mesh/Amplification stage for this shader model" };
+			}
+
+			if ( writerConfig.shaderModel < hlsl::v5_0
+				&& ( stage == ast::ShaderStage::eTessellationControl
+					|| stage == ast::ShaderStage::eTessellationEvaluation ) )
+			{
+				throw std::runtime_error{ "Unsupported Tessellation stage for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresDouble && writerConfig.shaderModel <= hlsl::v4_1 )
+			{
+				throw std::runtime_error{ "Unsupported double type for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )
+			{
+				throw std::runtime_error{ "Unsupported UAV for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresShadowOnTiled && writerConfig.shaderModel < hlsl::v5_0 )
+			{
+				throw std::runtime_error{ "Unsupported sample shadow for tiled resource, for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresGather && writerConfig.shaderModel < hlsl::v5_0 )
+			{
+				throw std::runtime_error{ "Unsupported gather, for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresSampledIndex && writerConfig.shaderModel < hlsl::v4_1 )
+			{
+				throw std::runtime_error{ "Unsupported SV_SampleIndex for this shader model" };
+			}
+		}
+	}
+
 	ast::stmt::ContainerPtr StmtAdapter::submit( HlslShader & shader
 		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData )
 	{
+		checkSupport( shader.getType(), intrinsicsConfig, writerConfig );
 		auto result = ast::stmt::makeContainer();
 		StmtAdapter vis{ shader, intrinsicsConfig, writerConfig, adaptationData, result };
 		container->accept( &vis );
@@ -94,7 +145,39 @@ namespace hlsl
 				// Push the other parameters like any other function.
 				while ( it != funcType->end() )
 				{
-					params.push_back( *it );
+					auto type = ( *it )->getType();
+
+					if ( type->getRawKind() == ast::type::Kind::eHitAttribute
+						&& !isStructType( type ) )
+					{
+						auto & hitAttrType = static_cast< ast::type::HitAttribute const & >( *type );
+						// HLSL HitAttribute must be a structure
+						auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
+							, std::string{ "SDW_HLSL_InHitAttribute" } );
+
+						if ( !structType->hasMember( "d" ) )
+						{
+							structType->declMember( "d", hitAttrType.getDataType() );
+							m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+						}
+
+						auto newType = m_rtCache.getHitAttribute( structType );
+						m_adaptationData.setHlslType( type, newType );
+						auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+							, newType
+							, ( *it )->getName()
+							, ast::var::Flag::eShaderInput | ast::var::Flag::eInputParam | ( *it )->getFlags() );
+						params.push_back( var );
+						m_adaptationData.replacedVars.emplace( *it
+							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, var )
+								, 0u
+								, var->getFlags() ) );
+					}
+					else
+					{
+						params.push_back( *it );
+					}
+
 					++it;
 				}
 
@@ -154,18 +237,31 @@ namespace hlsl
 		{
 			auto & hitAttrType = static_cast< ast::type::HitAttribute const & >( *type );
 			// HLSL HitAttribute must be a structure
-			auto structType = m_cache.getStruct( ast::type::MemoryLayout::eC
+			auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
 				, std::string{ "SDW_HLSL_HitAttribute" } );
-			structType->declMember( "d", hitAttrType.getDataType() );
-			m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
-			auto newType = m_cache.getHitAttribute( structType );
+
+			if ( !structType->hasMember( "d" ) )
+			{
+				structType->declMember( "d", hitAttrType.getDataType() );
+				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			}
+
+			auto newType = m_rtCache.getHitAttribute( structType );
 			m_adaptationData.setHlslType( type, newType );
-			var->updateType( newType );
+			auto replVar = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, newType
+				, var->getName()
+				, var->getFlags() );
+			m_adaptationData.replacedVars.emplace( var
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, replVar )
+					, 0u
+					, replVar->getFlags() ) );
+			var = replVar;
 		}
 
 		if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayIntersection )
 		{
-			StmtCloner::visitHitAttributeVariableDeclStmt( stmt );
+			m_current->addStmt( ast::stmt::makeHitAttributeVariableDecl( var ) );
 		}
 	}
 
@@ -180,19 +276,33 @@ namespace hlsl
 		{
 			auto & callDataType = static_cast< ast::type::CallableData const & >( *type );
 			// HLSL CallableData must be a structure
-			auto structType = m_cache.getStruct( ast::type::MemoryLayout::eC
+			auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
 				, var->isCallableData() ? std::string{ "SDW_HLSL_CallableData" } : std::string{ "SDW_HLSL_CallableDataIn" } );
-			structType->declMember( "d", callDataType.getDataType() );
-			m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
-			auto newType = m_cache.getCallableData( structType
+
+			if ( !structType->hasMember( "d" ) )
+			{
+				structType->declMember( "d", callDataType.getDataType() );
+				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			}
+
+			auto newType = m_rtCache.getCallableData( structType
 				, callDataType.getLocation() );
 			m_adaptationData.setHlslType( type, newType );
-			var->updateType( newType );
+			auto replVar = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, newType
+				, var->getName()
+				, var->getFlags() );
+			m_adaptationData.replacedVars.emplace( var
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, replVar )
+					, 0u
+					, replVar->getFlags() ) );
+			var = replVar;
 		}
 
 		if ( stmt->getVariable()->isCallableData() )
 		{
-			StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt );
+			m_current->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( var
+				, stmt->getLocation() ) );
 		}
 	}
 
@@ -207,19 +317,33 @@ namespace hlsl
 		{
 			auto & rayPayloadType = static_cast< ast::type::RayPayload const & >( *type );
 			// HLSL RayPayload must be a structure
-			auto structType = m_cache.getStruct( ast::type::MemoryLayout::eC
+			auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
 				, var->isRayPayload() ? std::string{ "SDW_HLSL_RayPayload" } : std::string{ "SDW_HLSL_RayPayloadIn" } );
-			structType->declMember( "d", rayPayloadType.getDataType() );
-			m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
-			auto newType = m_cache.getRayPayload( structType
+
+			if ( !structType->hasMember( "d" ) )
+			{
+				structType->declMember( "d", rayPayloadType.getDataType() );
+				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			}
+
+			auto newType = m_rtCache.getRayPayload( structType
 				, rayPayloadType.getLocation() );
 			m_adaptationData.setHlslType( type, newType );
-			var->updateType( newType );
+			auto replVar = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, newType
+				, var->getName()
+				, var->getFlags() );
+			m_adaptationData.replacedVars.emplace( var
+				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, replVar )
+					, 0u
+					, replVar->getFlags() ) );
+			var = replVar;
 		}
 
 		if ( var->isRayPayload() )
 		{
-			StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt );
+			m_current->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( var
+				, stmt->getLocation() ) );
 		}
 	}
 
@@ -387,8 +511,9 @@ namespace hlsl
 
 	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		declareType( stmt->getVariable()->getType() );
-		m_current->addStmt( ast::stmt::makeVariableDecl( stmt->getVariable() ) );
+		auto var = stmt->getVariable();
+		declareType( var->getType() );
+		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )

@@ -152,14 +152,17 @@ namespace hlsl
 
 	void StmtConfigFiller::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitIfStmt( ast::stmt::If * stmt )
@@ -180,6 +183,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
+		m_result.requiresUAV = true;
 	}
 
 	void StmtConfigFiller::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
@@ -188,6 +192,8 @@ namespace hlsl
 
 	void StmtConfigFiller::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		checkType( stmt->getVariable()->getType(), m_result );
+
 		auto var = stmt->getVariable();
 
 		if ( var->isShaderInput() )
@@ -205,6 +211,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
@@ -298,11 +305,18 @@ namespace hlsl
 
 	void StmtConfigFiller::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
+		m_result.requiresUAV = true;
 		visitContainerStmt( stmt );
 	}
 
 	void StmtConfigFiller::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
+		m_result.requiresUAV = true;
+
+		for ( auto & type : static_cast< ast::type::Struct const & >( *stmt->getSsboInstance()->getType() ) )
+		{
+			checkType( type.type, m_result );
+		}
 	}
 
 	void StmtConfigFiller::visitSimpleStmt( ast::stmt::Simple * stmt )
@@ -312,6 +326,10 @@ namespace hlsl
 
 	void StmtConfigFiller::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
 	{
+		for ( auto & type : *stmt->getType() )
+		{
+			checkType( type.type, m_result );
+		}
 	}
 
 	void StmtConfigFiller::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
@@ -331,6 +349,7 @@ namespace hlsl
 
 	void StmtConfigFiller::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
+		checkType( stmt->getVariable()->getType(), m_result );
 	}
 
 	void StmtConfigFiller::visitWhileStmt( ast::stmt::While * stmt )
