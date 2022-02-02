@@ -420,7 +420,7 @@ namespace spirv
 			}
 		}
 
-		void checkType( ast::type::SampledImage const & type
+		void checkType( ast::type::Texture const & type
 			, uint32_t arraySize
 			, ModuleConfig & config )
 		{
@@ -484,8 +484,8 @@ namespace spirv
 				case ast::type::Kind::eImage:
 					checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
 					break;
-				case ast::type::Kind::eSampledImage:
-					checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
+				case ast::type::Kind::eTexture:
+					checkType( static_cast< ast::type::Texture const & >( *type ), arraySize, config );
 					break;
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eAccelerationStructure:

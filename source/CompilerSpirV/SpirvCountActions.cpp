@@ -402,7 +402,7 @@ namespace spirv
 			{
 			}
 
-			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
+			void visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )override
 			{
 			}
 

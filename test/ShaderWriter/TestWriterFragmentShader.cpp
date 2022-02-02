@@ -395,7 +395,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapDiffuse = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapDiffuse", 1u, 0u );
+		auto c3d_mapDiffuse = writer.declTexture< FImg2DRgba32 >( "c3d_mapDiffuse", 1u, 0u );
 
 		auto applyGamma = writer.implementFunction< Vec3 >( "applyGamma"
 			, [&]( Float const & gamma
@@ -432,12 +432,12 @@ namespace
 			, InVec3{ writer, "x" } );
 
 		auto sampleTex = writer.implementFunction< Vec3 >( "sampleTex"
-			, [&]( SampledImage2DRgba32 const & tex
+			, [&]( Texture2DRgba32 const & tex
 				, Vec2 const & coords )
 			{
 				writer.returnStmt( tex.sample( coords ).rgb() );
 			}
-			, InSampledImage2DRgba32{ writer, "tex" }
+			, InTexture2DRgba32{ writer, "tex" }
 			, InVec2{ writer, "coords" } );
 
 		writer.implementMainT< PosTexT, ColourT >( [&]( FragmentInT< PosTexT > in
@@ -470,7 +470,7 @@ namespace
 		FragmentWriter writer;
 
 		// Inputs
-		auto c3d_mapEnvironment = writer.declSampledImage< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
+		auto c3d_mapEnvironment = writer.declTexture< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
 
 		writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 			, FragmentOutT< ColourT > out )
@@ -530,7 +530,7 @@ namespace
 			auto tex = writer.declInput< Vec2 >( "tex", 0u );
 			auto r = writer.declInput< Float >( "r", 1u );
 			auto d = writer.declInput< Vec2 >( "d", 2u );
-			auto s = writer.declSampledImage< FImg2DRgba32 >( "s", 0u, 0u );
+			auto s = writer.declTexture< FImg2DRgba32 >( "s", 0u, 0u );
 
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT >
 				, FragmentOutT< VoidT > )
@@ -557,7 +557,7 @@ namespace
 		auto c3d_gamma = hdrConfig.declMember< Float >( "c3d_gamma" );
 		hdrConfig.end();
 
-		auto c3d_mapSkybox = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapSkybox", 1u, 0u );
+		auto c3d_mapSkybox = writer.declTexture< FImg2DRgba32 >( "c3d_mapSkybox", 1u, 0u );
 
 		auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
 			, [&]( Float const & gamma

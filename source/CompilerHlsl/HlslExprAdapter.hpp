@@ -58,7 +58,7 @@ namespace hlsl
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 
-		bool doProcessSampledImageArg( ast::expr::Expr & arg
+		bool doProcessTextureArg( ast::expr::Expr & arg
 			, bool writeSampler
 			, ast::expr::ExprList & args );
 		void doProcessImageSize( ast::expr::ImageAccessCall * expr );

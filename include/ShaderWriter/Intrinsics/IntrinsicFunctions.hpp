@@ -13,7 +13,7 @@ This file is generated, don't modify it!
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/Image.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
-#include "ShaderWriter/BaseTypes/SampledImage.hpp"
+#include "ShaderWriter/BaseTypes/Texture.hpp"
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"

@@ -275,12 +275,12 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > declSampledImage( std::string name
+		inline TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > declTexture( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declSampledImage( std::string name
+		inline T declTexture( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -289,13 +289,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > declSampledImageArray( std::string name
+		inline Array< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > > declTextureArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declSampledImageArray( std::string name
+		inline Array< T > declTextureArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -659,7 +659,7 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDW_API var::VariablePtr registerSampledImage( std::string name
+		SDW_API var::VariablePtr registerTexture( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set

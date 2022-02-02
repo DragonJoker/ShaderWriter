@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Type/TypeCache.hpp"
 
 #include "ShaderAST/Type/TypeImage.hpp"
-#include "ShaderAST/Type/TypeSampledImage.hpp"
+#include "ShaderAST/Type/TypeTexture.hpp"
 #include "ShaderAST/Type/TypeSampler.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
 
@@ -26,7 +26,7 @@ namespace ast::type
 			} }
 		, m_sampledImage{ [this]( ImageConfiguration config )
 			{
-				return std::make_shared< SampledImage >( *this, std::move( config ) );
+				return std::make_shared< Texture >( *this, std::move( config ) );
 			}
 			, []( ImageConfiguration const & config )noexcept
 			{
@@ -683,7 +683,7 @@ namespace ast::type
 		return m_image.getType( config );
 	}
 
-	SampledImagePtr TypesCache::getSampledImage( ImageConfiguration const & config )
+	TexturePtr TypesCache::getTexture( ImageConfiguration const & config )
 	{
 		return m_sampledImage.getType( config );
 	}

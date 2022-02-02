@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <stdexcept>
@@ -282,14 +282,14 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declSampledImage( std::string name
+		inline TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declTexture( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerSampledImage( std::move( name )
+		auto var = registerTexture( std::move( name )
 			, type
 			, binding
 			, set
@@ -308,12 +308,12 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T ShaderWriter::declSampledImage( std::string name
+		inline T ShaderWriter::declTexture( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		return declSampledImage < T::Format
+		return declTexture < T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
@@ -328,16 +328,16 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-		inline Array< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declSampledImageArray( std::string name
+		inline Array< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declTextureArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		using T = SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerSampledImage( std::move( name )
+		auto var = registerTexture( std::move( name )
 			, type
 			, binding
 			, set
@@ -356,13 +356,13 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline Array< T > ShaderWriter::declSampledImageArray( std::string name
+		inline Array< T > ShaderWriter::declTextureArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		return declSampledImageArray < T::Format
+		return declTextureArray < T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Depth

@@ -8,7 +8,7 @@ See LICENSE file in root folder
 #include "SpirvWrite.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 
 #include <algorithm>
@@ -70,14 +70,14 @@ namespace spirv
 			return cache.getSampler( qualified.isComparison() );
 		}
 
-		ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & cache
-			, ast::type::SampledImage const & qualified )
+		ast::type::TexturePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::Texture const & qualified )
 		{
 			auto config = qualified.getConfig();
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return cache.getSampledImage( config );
+			return cache.getTexture( config );
 		}
 
 		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & cache
@@ -108,9 +108,9 @@ namespace spirv
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Image const & >( qualified ) );
 			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eSampledImage )
+			else if ( qualified.getRawKind() == ast::type::Kind::eTexture )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::SampledImage const & >( qualified ) );
+				result = getUnqualifiedType( cache, static_cast< ast::type::Texture const & >( qualified ) );
 			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eSampler )
 			{
@@ -141,7 +141,7 @@ namespace spirv
 			auto kind = getNonArrayKind( elementType );
 
 			if ( kind != ast::type::Kind::eImage
-				&& kind != ast::type::Kind::eSampledImage
+				&& kind != ast::type::Kind::eTexture
 				&& kind != ast::type::Kind::eSampler )
 			{
 				if ( !arrayStride )
@@ -1627,7 +1627,7 @@ namespace spirv
 		assert( kind != ast::type::Kind::eStruct );
 		assert( kind != ast::type::Kind::eRayDesc );
 		assert( kind != ast::type::Kind::eImage );
-		assert( kind != ast::type::Kind::eSampledImage );
+		assert( kind != ast::type::Kind::eTexture );
 
 		auto type = m_cache->getBasicType( kind );
 		ValueId result{ 0u, type };
@@ -1660,13 +1660,13 @@ namespace spirv
 		return result;
 	}
 
-	ValueId Module::registerBaseType( ast::type::SampledImagePtr type
+	ValueId Module::registerBaseType( ast::type::TexturePtr type
 		, uint32_t mbrIndex
 		, ValueId parentId )
 	{
-		auto imgTypeId = registerType( std::static_pointer_cast< ast::type::SampledImage >( type )->getImageType() );
+		auto imgTypeId = registerType( std::static_pointer_cast< ast::type::Texture >( type )->getImageType() );
 		ValueId result{ getNextId(), type };
-		globalDeclarations.push_back( makeInstruction< SampledImageTypeInstruction >( result
+		globalDeclarations.push_back( makeInstruction< TextureTypeInstruction >( result
 			, imgTypeId ) );
 		return result;
 	}
@@ -1777,9 +1777,9 @@ namespace spirv
 
 		auto kind = type->getRawKind();
 
-		if ( kind == ast::type::Kind::eSampledImage )
+		if ( kind == ast::type::Kind::eTexture )
 		{
-			result = registerBaseType( std::static_pointer_cast< ast::type::SampledImage >( type )
+			result = registerBaseType( std::static_pointer_cast< ast::type::Texture >( type )
 				, mbrIndex
 				, parentId );
 		}

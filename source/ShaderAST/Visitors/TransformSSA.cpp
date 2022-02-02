@@ -1071,7 +1071,7 @@ namespace ast
 						}
 						else
 						{
-							// Images/Samplers/SampledImages are uniform constant pointers.
+							// Images/Samplers/Textures are uniform constant pointers.
 							args.emplace_back( doSubmit( arg.get() ) );
 						}
 					}

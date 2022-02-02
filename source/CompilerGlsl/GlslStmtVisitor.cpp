@@ -7,7 +7,7 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
@@ -91,7 +91,7 @@ namespace glsl
 		std::string getType( ast::type::Kind kind
 			, ast::type::ImageConfiguration const & config )
 		{
-			return ( kind == ast::type::Kind::eSampledImage )
+			return ( kind == ast::type::Kind::eTexture )
 				? "sampler"
 				: "image";
 		}
@@ -914,7 +914,7 @@ namespace glsl
 		}
 	}
 
-	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	void StmtVisitor::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
 		doAppendLineEnd();
 		auto type = stmt->getVariable()->getType();
@@ -938,9 +938,9 @@ namespace glsl
 			m_result += ") ";
 		}
 
-		assert( type->getKind() == ast::type::Kind::eSampledImage );
-		auto sampledImage = std::static_pointer_cast< ast::type::SampledImage >( type );
-		m_result += "uniform " + getQualifiedName( ast::type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
+		assert( type->getKind() == ast::type::Kind::eTexture );
+		auto sampledImage = std::static_pointer_cast< ast::type::Texture >( type );
+		m_result += "uniform " + getQualifiedName( ast::type::Kind::eTexture, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}

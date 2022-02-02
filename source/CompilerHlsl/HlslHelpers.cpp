@@ -464,7 +464,7 @@ namespace hlsl
 		case ast::type::Kind::eSampler:
 			AST_Failure( "Unsupported ast::type::Kind" );
 			break;
-		case ast::type::Kind::eSampledImage:
+		case ast::type::Kind::eTexture:
 			result = "SampledImage";
 			break;
 		case ast::type::Kind::eHalf:
@@ -1348,10 +1348,10 @@ namespace hlsl
 		auto it = linkedVars.find( var );
 		auto type = getNonArrayType( var->getType() );
 
-		if ( isSampledImageType( type->getKind() )
+		if ( isTextureType( type->getKind() )
 			&& it == linkedVars.end() )
 		{
-			auto sampledType = std::static_pointer_cast< ast::type::SampledImage >( type );
+			auto sampledType = std::static_pointer_cast< ast::type::Texture >( type );
 
 			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
 			{
@@ -3373,7 +3373,7 @@ namespace hlsl
 				{
 				case ast::type::Kind::eImage:
 				case ast::type::Kind::eSampler:
-				case ast::type::Kind::eSampledImage:
+				case ast::type::Kind::eTexture:
 				case ast::type::Kind::eAccelerationStructure:
 					return;
 				default:

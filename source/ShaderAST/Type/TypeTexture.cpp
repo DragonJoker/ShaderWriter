@@ -1,15 +1,15 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderAST/Type/TypeSampledImage.hpp"
+#include "ShaderAST/Type/TypeTexture.hpp"
 
 #include "ShaderAST/Type/TypeCache.hpp"
 
 namespace ast::type
 {
-	SampledImage::SampledImage( TypesCache & cache
+	Texture::Texture( TypesCache & cache
 		, ImageConfiguration config )
-		: Type{ cache, Kind::eSampledImage }
+		: Type{ cache, Kind::eTexture }
 		, m_imageType{ cache.getImage( std::move( config ) ) }
 		, m_samplerType{ cache.getSampler( getConfig().isDepth == Trinary::eTrue ) }
 	{

@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 
 #include <stdexcept>
@@ -367,7 +367,7 @@ namespace spirv
 		}
 	}
 
-	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	void StmtConfigFiller::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
 		doTraverseType( stmt->getVariable()->getType() );
 	}

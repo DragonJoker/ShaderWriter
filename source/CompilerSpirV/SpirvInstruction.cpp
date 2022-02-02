@@ -141,7 +141,7 @@ namespace spirv
 			case spv::OpTypeSampler:
 				return SamplerTypeInstruction::config;
 			case spv::OpTypeSampledImage:
-				return SampledImageTypeInstruction::config;
+				return TextureTypeInstruction::config;
 			case spv::OpTypeArray:
 				return ArrayTypeInstruction::config;
 			case spv::OpTypeRuntimeArray:

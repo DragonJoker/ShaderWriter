@@ -27,8 +27,8 @@ namespace
 		case ast::type::Kind::eImage:
 			type = cache.getImage( ast::type::ImageConfiguration{} );
 			break;
-		case ast::type::Kind::eSampledImage:
-			type = cache.getSampledImage( ast::type::ImageConfiguration{} );
+		case ast::type::Kind::eTexture:
+			type = cache.getTexture( ast::type::ImageConfiguration{} );
 			break;
 		case ast::type::Kind::eSampler:
 			type = cache.getSampler();
