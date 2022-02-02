@@ -101,7 +101,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		auto c3d_mapDepth = writer.declSampledImage< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
+		auto c3d_mapDepth = writer.declTexture< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
 
 		auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
 			, [&]( Vec4 const & rtMetrics

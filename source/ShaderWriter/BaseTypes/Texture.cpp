@@ -1,11 +1,11 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/BaseTypes/SampledImage.hpp"
+#include "ShaderWriter/BaseTypes/Texture.hpp"
 
 namespace sdw
 {
-	SampledImage::SampledImage( ast::type::ImageFormat /*format*/
+	Texture::Texture( ast::type::ImageFormat /*format*/
 		, ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
@@ -13,7 +13,7 @@ namespace sdw
 	{
 	}
 
-	SampledImage::operator uint32_t()
+	Texture::operator uint32_t()
 	{
 		return 0u;
 	}

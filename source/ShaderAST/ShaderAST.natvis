@@ -85,7 +85,7 @@
 			<Item Name="dataType">*m_dataType</Item>
 		</Expand>
 	</Type>
-	<Type Name="ast::type::SampledImage">
+	<Type Name="ast::type::Texture">
 		<DisplayString>combined [{*m_imageType}, {*m_samplerType}]</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>

@@ -2129,7 +2129,7 @@ namespace spirv
 			}
 			else if ( opCode == spv::OpTypeSampledImage )
 			{
-				checkType< SampledImageTypeInstruction >( *instruction );
+				checkType< TextureTypeInstruction >( *instruction );
 				names.addType( instruction->resultId.value(), "simg" );
 				// Image type.
 				writeStream( instruction->operands[0], names, stream );

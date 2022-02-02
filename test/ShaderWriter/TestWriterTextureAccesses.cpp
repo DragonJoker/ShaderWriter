@@ -64,7 +64,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -92,7 +92,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -133,7 +133,7 @@ namespace
 	struct TextureQueryLodTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< hasLodV< DimT, ArrayedT, DepthT > > >
 	{
-		using QueryLodT = typename sdw::SampledImageQueryLodT< DimT, ArrayedT >;
+		using QueryLodT = typename sdw::TextureQueryLodT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -142,7 +142,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -203,7 +203,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -250,7 +250,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -259,7 +259,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -280,7 +280,7 @@ namespace
 	struct TextureTester< FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< isShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -289,7 +289,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -337,7 +337,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -346,7 +346,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -371,7 +371,7 @@ namespace
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -380,7 +380,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -425,7 +425,7 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -434,7 +434,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -457,7 +457,7 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -466,7 +466,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -510,7 +510,7 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -519,7 +519,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -542,7 +542,7 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -551,7 +551,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -600,7 +600,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -609,7 +609,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -633,7 +633,7 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -642,7 +642,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -689,8 +689,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -699,7 +699,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -725,8 +725,8 @@ namespace
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -735,7 +735,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -782,8 +782,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -792,7 +792,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -816,8 +816,8 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -826,7 +826,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -874,7 +874,7 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+		using FetchT = typename sdw::TextureFetchT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -883,7 +883,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -905,7 +905,7 @@ namespace
 	struct TexelFetchTester < FormatT, DimT, ArrayedT, DepthT, MsT
 		, std::enable_if_t< sdw::isBufferV< DimT, ArrayedT, DepthT > > >
 	{
-		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
+		using FetchT = typename sdw::TextureFetchT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -914,7 +914,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -959,8 +959,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using FetchT = typename sdw::SampledImageFetchT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using FetchT = typename sdw::TextureFetchT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -969,7 +969,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1014,8 +1014,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1024,7 +1024,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1048,8 +1048,8 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1058,7 +1058,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1103,8 +1103,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1113,7 +1113,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1137,8 +1137,8 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1147,7 +1147,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1195,8 +1195,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1205,7 +1205,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1230,8 +1230,8 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1240,7 +1240,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1286,7 +1286,7 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1295,7 +1295,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1318,7 +1318,7 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1327,7 +1327,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1372,8 +1372,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1382,7 +1382,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1406,8 +1406,8 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1416,7 +1416,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1466,8 +1466,8 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1476,7 +1476,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1502,8 +1502,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1512,7 +1512,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1560,9 +1560,9 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1571,7 +1571,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1599,9 +1599,9 @@ namespace
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::TextureSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1610,7 +1610,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1657,8 +1657,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1667,7 +1667,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1692,8 +1692,8 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1702,7 +1702,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1748,9 +1748,9 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1759,7 +1759,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1785,9 +1785,9 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::TextureSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::TextureDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1796,7 +1796,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1844,7 +1844,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1853,7 +1853,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1879,7 +1879,7 @@ namespace
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1888,7 +1888,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1931,8 +1931,8 @@ namespace
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1941,7 +1941,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1966,8 +1966,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1976,7 +1976,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -2013,8 +2013,8 @@ namespace
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -2023,7 +2023,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto o = writer.declLocale< OffsetT >( "o" );
@@ -2049,8 +2049,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -2059,7 +2059,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto o = writer.declLocale< OffsetT >( "o" );
@@ -2104,8 +2104,8 @@ namespace
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -2114,7 +2114,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -2141,8 +2141,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::TextureGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::TextureOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -2151,7 +2151,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declSampledImage< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
+				auto s = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )

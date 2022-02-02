@@ -55,7 +55,7 @@ namespace ast
 		SDAST_API void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl * stmt )override;
 		SDAST_API void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override;
 		SDAST_API void visitReturnStmt( stmt::Return * stmt )override;
-		SDAST_API void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
+		SDAST_API void visitTextureDeclStmt( stmt::TextureDecl * stmt )override;
 		SDAST_API void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		SDAST_API void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
 		SDAST_API void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override;

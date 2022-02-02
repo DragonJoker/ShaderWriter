@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 
 namespace glsl
 {
@@ -221,9 +221,9 @@ namespace glsl
 		}
 	}
 
-	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	void StmtConfigFiller::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
-		auto image = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+		auto image = std::static_pointer_cast< ast::type::Texture >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 		doParseImageConfig( image->getConfig() );
 	}
 

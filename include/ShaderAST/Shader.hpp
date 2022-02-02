@@ -21,7 +21,7 @@ namespace ast
 	{
 		eUniformBuffer,
 		eStorageBuffer,
-		eCombinedSamplerImage,
+		eTexture,
 		eStorageImage,
 		eUniformTexelBuffer,
 		eStorageTexelBuffer,
@@ -108,7 +108,7 @@ namespace ast
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDAST_API var::VariablePtr registerSampledImage( std::string name
+		SDAST_API var::VariablePtr registerTexture( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set

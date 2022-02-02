@@ -240,7 +240,7 @@ namespace ast
 		return result;
 	}
 
-	var::VariablePtr Shader::registerSampledImage( std::string name
+	var::VariablePtr Shader::registerTexture( std::string name
 		, type::TypePtr type
 		, uint32_t binding
 		, uint32_t set
@@ -255,9 +255,9 @@ namespace ast
 				, var::Flag::eUniform | var::Flag::eConstant );
 
 			auto imgType = getNonArrayType( type );
-			assert( imgType->getKind() == ast::type::Kind::eSampledImage );
+			assert( imgType->getKind() == ast::type::Kind::eTexture );
 
-			if ( static_cast< ast::type::SampledImage const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
+			if ( static_cast< ast::type::Texture const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
 			{
 				m_data.uniformTexels.emplace( std::move( name ), SamplerInfo{ { type, { binding, set } } } );
 			}

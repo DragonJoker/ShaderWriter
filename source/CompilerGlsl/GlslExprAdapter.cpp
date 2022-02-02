@@ -8,7 +8,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 
 namespace glsl
 {
@@ -654,7 +654,7 @@ namespace glsl
 
 	void ExprAdapter::doProcessTextureSample( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto callRetType = m_cache.getSampledType( config.format );
 		ast::expr::ExprList args;
@@ -678,7 +678,7 @@ namespace glsl
 
 	void ExprAdapter::doProcessTextureGather( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )

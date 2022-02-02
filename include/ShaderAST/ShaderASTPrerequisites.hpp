@@ -249,8 +249,8 @@ namespace ast
 		struct ImageConfiguration;
 		class Image;
 		using ImagePtr = std::shared_ptr< Image >;
-		class SampledImage;
-		using SampledImagePtr = std::shared_ptr< SampledImage >;
+		class Texture;
+		using TexturePtr = std::shared_ptr< Texture >;
 		class Sampler;
 		using SamplerPtr = std::shared_ptr< Sampler >;
 	}

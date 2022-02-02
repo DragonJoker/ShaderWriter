@@ -243,6 +243,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtBreak.hpp
 	${INCLUDE_DIR}/Stmt/StmtBufferReferenceDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtComment.hpp
+	${INCLUDE_DIR}/Stmt/StmtTextureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtCompound.hpp
 	${INCLUDE_DIR}/Stmt/StmtConstantBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtContainer.hpp
@@ -273,7 +274,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtPerVertexDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPushConstantsBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtReturn.hpp
-	${INCLUDE_DIR}/Stmt/StmtSampledImageDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtSamplerDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtShaderBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtShaderStructBufferDecl.hpp
@@ -301,6 +301,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtAccelerationStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtBreak.cpp
 	${SOURCE_DIR}/Stmt/StmtBufferReferenceDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtTextureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtComment.cpp
 	${SOURCE_DIR}/Stmt/StmtCompound.cpp
 	${SOURCE_DIR}/Stmt/StmtConstantBufferDecl.cpp
@@ -331,7 +332,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtPerVertexDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPushConstantsBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtReturn.cpp
-	${SOURCE_DIR}/Stmt/StmtSampledImageDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtSamplerDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtShaderBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtShaderStructBufferDecl.cpp
@@ -379,7 +379,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeMeshIO.hpp
 	${INCLUDE_DIR}/Type/TypePointer.hpp
 	${INCLUDE_DIR}/Type/TypeRayPayload.hpp
-	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
+	${INCLUDE_DIR}/Type/TypeTexture.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
 	${INCLUDE_DIR}/Type/TypeTaskIO.hpp
@@ -402,7 +402,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeMeshIO.cpp
 	${SOURCE_DIR}/Type/TypePointer.cpp
 	${SOURCE_DIR}/Type/TypeRayPayload.cpp
-	${SOURCE_DIR}/Type/TypeSampledImage.cpp
+	${SOURCE_DIR}/Type/TypeTexture.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
 	${SOURCE_DIR}/Type/TypeTaskIO.cpp

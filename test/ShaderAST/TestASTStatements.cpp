@@ -331,18 +331,18 @@ namespace
 		testEnd();
 	}
 
-	void testSampledImageDecl( test::TestCounts & testCounts )
+	void testTextureDecl( test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledImageDecl" );
+		testBegin( "testTextureDecl" );
 		ast::type::TypesCache cache;
 		ast::type::ImageConfiguration config{};
-		auto stmt = ast::stmt::makeSampledImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getSampledImage( config ), "lhs" ), 1u, 2u );
+		auto stmt = ast::stmt::makeTextureDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getTexture( config ), "lhs" ), 1u, 2u );
 		testCounts << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
 
-		require( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eTextureDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getDescriptorSet() == 2u );
-		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampledImage );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eTexture );
 		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}
@@ -1102,7 +1102,7 @@ testSuiteMain( TestASTStatements )
 	testShaderStructBufferDecl( testCounts );
 	testSamplerDecl( testCounts );
 	testImageDecl( testCounts );
-	testSampledImageDecl( testCounts );
+	testTextureDecl( testCounts );
 	testFunctionDecl( testCounts );
 	testStructureDecl( testCounts );
 	testIf( testCounts );

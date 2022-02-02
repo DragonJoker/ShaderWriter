@@ -360,106 +360,106 @@ namespace sdw
 	*/
 	/**@{*/
 	struct Sampler;
-	struct SampledImage;
+	struct Texture;
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	struct SampledImageT;
+	struct TextureT;
 
 	template< ast::type::ImageFormat FormatT >
-	using SampledImageBufferT = SampledImageT< FormatT
+	using TextureBufferT = TextureT< FormatT
 		, ast::type::ImageDim::eBuffer
 		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage1DT = SampledImageT< FormatT
+	using Texture1DT = TextureT< FormatT
 		, ast::type::ImageDim::e1D
 		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage2DT = SampledImageT< FormatT
+	using Texture2DT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage3DT = SampledImageT< FormatT
+	using Texture3DT = TextureT< FormatT
 		, ast::type::ImageDim::e3D
 		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImageCubeT = SampledImageT< FormatT
+	using TextureCubeT = TextureT< FormatT
 		, ast::type::ImageDim::eCube
 		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage1DArrayT = SampledImageT< FormatT
+	using Texture1DArrayT = TextureT< FormatT
 		, ast::type::ImageDim::e1D
 		, true
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage2DArrayT = SampledImageT< FormatT
+	using Texture2DArrayT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, true
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImageCubeArrayT = SampledImageT< FormatT
+	using TextureCubeArrayT = TextureT< FormatT
 		, ast::type::ImageDim::eCube
 		, true
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage1DShadowT = SampledImageT< FormatT
+	using Texture1DShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e1D
 		, false
 		, true
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage2DShadowT = SampledImageT< FormatT
+	using Texture2DShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, false
 		, true
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImageCubeShadowT = SampledImageT< FormatT
+	using TextureCubeShadowT = TextureT< FormatT
 		, ast::type::ImageDim::eCube
 		, false
 		, true
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage1DArrayShadowT = SampledImageT< FormatT
+	using Texture1DArrayShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e1D
 		, true
 		, true
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage2DArrayShadowT = SampledImageT< FormatT
+	using Texture2DArrayShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, true
 		, true
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImageCubeArrayShadowT = SampledImageT< FormatT
+	using TextureCubeArrayShadowT = TextureT< FormatT
 		, ast::type::ImageDim::eCube
 		, true
 		, true
 		, false >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage2DMST = SampledImageT< FormatT
+	using Texture2DMST = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, false
 		, false
 		, true >;
 	template< ast::type::ImageFormat FormatT >
-	using SampledImage2DMSArrayT = SampledImageT< FormatT
+	using Texture2DMSArrayT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, true
 		, false
@@ -585,7 +585,7 @@ namespace sdw
 		Writer_Parameter( RW##Prefix##TypeName##Format );\
 		Writer_ArrayParameter( RW##Prefix##TypeName##Format )
 
-#	define Writer_SampledImage( Prefix, TypeName, Format, Postfix )\
+#	define Writer_Texture( Prefix, TypeName, Format, Postfix )\
 		using Prefix##TypeName##Format = TypeName##T< ast::type::ImageFormat::e##Format##Postfix >;\
 		Writer_Parameter( Prefix##TypeName##Format );\
 		Writer_ArrayParameter( Prefix##TypeName##Format )
@@ -600,16 +600,16 @@ namespace sdw
 	Writer_Image( , ImageCubeArray, Rgba32, f );
 	Writer_Image( , Image2DMS, Rgba32, f );
 	Writer_Image( , Image2DMSArray, Rgba32, f );
-	Writer_SampledImage( , SampledImageBuffer, Rgba32, f );
-	Writer_SampledImage( , SampledImage1D, Rgba32, f );
-	Writer_SampledImage( , SampledImage2D, Rgba32, f );
-	Writer_SampledImage( , SampledImage3D, Rgba32, f );
-	Writer_SampledImage( , SampledImageCube, Rgba32, f );
-	Writer_SampledImage( , SampledImage1DArray, Rgba32, f );
-	Writer_SampledImage( , SampledImage2DArray, Rgba32, f );
-	Writer_SampledImage( , SampledImageCubeArray, Rgba32, f );
-	Writer_SampledImage( , SampledImage2DMS, Rgba32, f );
-	Writer_SampledImage( , SampledImage2DMSArray, Rgba32, f );
+	Writer_Texture( , TextureBuffer, Rgba32, f );
+	Writer_Texture( , Texture1D, Rgba32, f );
+	Writer_Texture( , Texture2D, Rgba32, f );
+	Writer_Texture( , Texture3D, Rgba32, f );
+	Writer_Texture( , TextureCube, Rgba32, f );
+	Writer_Texture( , Texture1DArray, Rgba32, f );
+	Writer_Texture( , Texture2DArray, Rgba32, f );
+	Writer_Texture( , TextureCubeArray, Rgba32, f );
+	Writer_Texture( , Texture2DMS, Rgba32, f );
+	Writer_Texture( , Texture2DMSArray, Rgba32, f );
 	Writer_Image( , ImageBuffer, Rgba16, f );
 	Writer_Image( , Image1D, Rgba16, f );
 	Writer_Image( , Image2D, Rgba16, f );
@@ -620,16 +620,16 @@ namespace sdw
 	Writer_Image( , ImageCubeArray, Rgba16, f );
 	Writer_Image( , Image2DMS, Rgba16, f );
 	Writer_Image( , Image2DMSArray, Rgba16, f );
-	Writer_SampledImage( , SampledImageBuffer, Rgba16, f );
-	Writer_SampledImage( , SampledImage1D, Rgba16, f );
-	Writer_SampledImage( , SampledImage2D, Rgba16, f );
-	Writer_SampledImage( , SampledImage3D, Rgba16, f );
-	Writer_SampledImage( , SampledImageCube, Rgba16, f );
-	Writer_SampledImage( , SampledImage1DArray, Rgba16, f );
-	Writer_SampledImage( , SampledImage2DArray, Rgba16, f );
-	Writer_SampledImage( , SampledImageCubeArray, Rgba16, f );
-	Writer_SampledImage( , SampledImage2DMS, Rgba16, f );
-	Writer_SampledImage( , SampledImage2DMSArray, Rgba16, f );
+	Writer_Texture( , TextureBuffer, Rgba16, f );
+	Writer_Texture( , Texture1D, Rgba16, f );
+	Writer_Texture( , Texture2D, Rgba16, f );
+	Writer_Texture( , Texture3D, Rgba16, f );
+	Writer_Texture( , TextureCube, Rgba16, f );
+	Writer_Texture( , Texture1DArray, Rgba16, f );
+	Writer_Texture( , Texture2DArray, Rgba16, f );
+	Writer_Texture( , TextureCubeArray, Rgba16, f );
+	Writer_Texture( , Texture2DMS, Rgba16, f );
+	Writer_Texture( , Texture2DMSArray, Rgba16, f );
 	Writer_Image( , ImageBuffer, Rg32, f );
 	Writer_Image( , Image1D, Rg32, f );
 	Writer_Image( , Image2D, Rg32, f );
@@ -640,16 +640,16 @@ namespace sdw
 	Writer_Image( , ImageCubeArray, Rg32, f );
 	Writer_Image( , Image2DMS, Rg32, f );
 	Writer_Image( , Image2DMSArray, Rg32, f );
-	Writer_SampledImage( , SampledImageBuffer, Rg32, f );
-	Writer_SampledImage( , SampledImage1D, Rg32, f );
-	Writer_SampledImage( , SampledImage2D, Rg32, f );
-	Writer_SampledImage( , SampledImage3D, Rg32, f );
-	Writer_SampledImage( , SampledImageCube, Rg32, f );
-	Writer_SampledImage( , SampledImage1DArray, Rg32, f );
-	Writer_SampledImage( , SampledImage2DArray, Rg32, f );
-	Writer_SampledImage( , SampledImageCubeArray, Rg32, f );
-	Writer_SampledImage( , SampledImage2DMS, Rg32, f );
-	Writer_SampledImage( , SampledImage2DMSArray, Rg32, f );
+	Writer_Texture( , TextureBuffer, Rg32, f );
+	Writer_Texture( , Texture1D, Rg32, f );
+	Writer_Texture( , Texture2D, Rg32, f );
+	Writer_Texture( , Texture3D, Rg32, f );
+	Writer_Texture( , TextureCube, Rg32, f );
+	Writer_Texture( , Texture1DArray, Rg32, f );
+	Writer_Texture( , Texture2DArray, Rg32, f );
+	Writer_Texture( , TextureCubeArray, Rg32, f );
+	Writer_Texture( , Texture2DMS, Rg32, f );
+	Writer_Texture( , Texture2DMSArray, Rg32, f );
 	Writer_Image( , ImageBuffer, Rg16, f );
 	Writer_Image( , Image1D, Rg16, f );
 	Writer_Image( , Image2D, Rg16, f );
@@ -660,16 +660,16 @@ namespace sdw
 	Writer_Image( , ImageCubeArray, Rg16, f );
 	Writer_Image( , Image2DMS, Rg16, f );
 	Writer_Image( , Image2DMSArray, Rg16, f );
-	Writer_SampledImage( , SampledImageBuffer, Rg16, f );
-	Writer_SampledImage( , SampledImage1D, Rg16, f );
-	Writer_SampledImage( , SampledImage2D, Rg16, f );
-	Writer_SampledImage( , SampledImage3D, Rg16, f );
-	Writer_SampledImage( , SampledImageCube, Rg16, f );
-	Writer_SampledImage( , SampledImage1DArray, Rg16, f );
-	Writer_SampledImage( , SampledImage2DArray, Rg16, f );
-	Writer_SampledImage( , SampledImageCubeArray, Rg16, f );
-	Writer_SampledImage( , SampledImage2DMS, Rg16, f );
-	Writer_SampledImage( , SampledImage2DMSArray, Rg16, f );
+	Writer_Texture( , TextureBuffer, Rg16, f );
+	Writer_Texture( , Texture1D, Rg16, f );
+	Writer_Texture( , Texture2D, Rg16, f );
+	Writer_Texture( , Texture3D, Rg16, f );
+	Writer_Texture( , TextureCube, Rg16, f );
+	Writer_Texture( , Texture1DArray, Rg16, f );
+	Writer_Texture( , Texture2DArray, Rg16, f );
+	Writer_Texture( , TextureCubeArray, Rg16, f );
+	Writer_Texture( , Texture2DMS, Rg16, f );
+	Writer_Texture( , Texture2DMSArray, Rg16, f );
 	Writer_Image( , ImageBuffer, R32, f );
 	Writer_Image( , Image1D, R32, f );
 	Writer_Image( , Image2D, R32, f );
@@ -680,16 +680,16 @@ namespace sdw
 	Writer_Image( , ImageCubeArray, R32, f );
 	Writer_Image( , Image2DMS, R32, f );
 	Writer_Image( , Image2DMSArray, R32, f );
-	Writer_SampledImage( , SampledImageBuffer, R32, f );
-	Writer_SampledImage( , SampledImage1D, R32, f );
-	Writer_SampledImage( , SampledImage2D, R32, f );
-	Writer_SampledImage( , SampledImage3D, R32, f );
-	Writer_SampledImage( , SampledImageCube, R32, f );
-	Writer_SampledImage( , SampledImage1DArray, R32, f );
-	Writer_SampledImage( , SampledImage2DArray, R32, f );
-	Writer_SampledImage( , SampledImageCubeArray, R32, f );
-	Writer_SampledImage( , SampledImage2DMS, R32, f );
-	Writer_SampledImage( , SampledImage2DMSArray, R32, f );
+	Writer_Texture( , TextureBuffer, R32, f );
+	Writer_Texture( , Texture1D, R32, f );
+	Writer_Texture( , Texture2D, R32, f );
+	Writer_Texture( , Texture3D, R32, f );
+	Writer_Texture( , TextureCube, R32, f );
+	Writer_Texture( , Texture1DArray, R32, f );
+	Writer_Texture( , Texture2DArray, R32, f );
+	Writer_Texture( , TextureCubeArray, R32, f );
+	Writer_Texture( , Texture2DMS, R32, f );
+	Writer_Texture( , Texture2DMSArray, R32, f );
 	Writer_Image( , ImageBuffer, R16, f );
 	Writer_Image( , Image1D, R16, f );
 	Writer_Image( , Image2D, R16, f );
@@ -700,28 +700,28 @@ namespace sdw
 	Writer_Image( , ImageCubeArray, R16, f );
 	Writer_Image( , Image2DMS, R16, f );
 	Writer_Image( , Image2DMSArray, R16, f );
-	Writer_SampledImage( , SampledImageBuffer, R16, f );
-	Writer_SampledImage( , SampledImage1D, R16, f );
-	Writer_SampledImage( , SampledImage2D, R16, f );
-	Writer_SampledImage( , SampledImage3D, R16, f );
-	Writer_SampledImage( , SampledImageCube, R16, f );
-	Writer_SampledImage( , SampledImage1DArray, R16, f );
-	Writer_SampledImage( , SampledImage2DArray, R16, f );
-	Writer_SampledImage( , SampledImageCubeArray, R16, f );
-	Writer_SampledImage( , SampledImage2DMS, R16, f );
-	Writer_SampledImage( , SampledImage2DMSArray, R16, f );
-	Writer_SampledImage( , SampledImage1DShadow, R32, f );
-	Writer_SampledImage( , SampledImage2DShadow, R32, f );
-	Writer_SampledImage( , SampledImageCubeShadow, R32, f );
-	Writer_SampledImage( , SampledImage1DArrayShadow, R32, f );
-	Writer_SampledImage( , SampledImage2DArrayShadow, R32, f );
-	Writer_SampledImage( , SampledImageCubeArrayShadow, R32, f );
-	Writer_SampledImage( , SampledImage1DShadow, R16, f );
-	Writer_SampledImage( , SampledImage2DShadow, R16, f );
-	Writer_SampledImage( , SampledImageCubeShadow, R16, f );
-	Writer_SampledImage( , SampledImage1DArrayShadow, R16, f );
-	Writer_SampledImage( , SampledImage2DArrayShadow, R16, f );
-	Writer_SampledImage( , SampledImageCubeArrayShadow, R16, f );
+	Writer_Texture( , TextureBuffer, R16, f );
+	Writer_Texture( , Texture1D, R16, f );
+	Writer_Texture( , Texture2D, R16, f );
+	Writer_Texture( , Texture3D, R16, f );
+	Writer_Texture( , TextureCube, R16, f );
+	Writer_Texture( , Texture1DArray, R16, f );
+	Writer_Texture( , Texture2DArray, R16, f );
+	Writer_Texture( , TextureCubeArray, R16, f );
+	Writer_Texture( , Texture2DMS, R16, f );
+	Writer_Texture( , Texture2DMSArray, R16, f );
+	Writer_Texture( , Texture1DShadow, R32, f );
+	Writer_Texture( , Texture2DShadow, R32, f );
+	Writer_Texture( , TextureCubeShadow, R32, f );
+	Writer_Texture( , Texture1DArrayShadow, R32, f );
+	Writer_Texture( , Texture2DArrayShadow, R32, f );
+	Writer_Texture( , TextureCubeArrayShadow, R32, f );
+	Writer_Texture( , Texture1DShadow, R16, f );
+	Writer_Texture( , Texture2DShadow, R16, f );
+	Writer_Texture( , TextureCubeShadow, R16, f );
+	Writer_Texture( , Texture1DArrayShadow, R16, f );
+	Writer_Texture( , Texture2DArrayShadow, R16, f );
+	Writer_Texture( , TextureCubeArrayShadow, R16, f );
 	Writer_Image( I, ImageBuffer, Rgba32, i );
 	Writer_Image( I, Image1D, Rgba32, i );
 	Writer_Image( I, Image2D, Rgba32, i );
@@ -732,16 +732,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, Rgba32, i );
 	Writer_Image( I, Image2DMS, Rgba32, i );
 	Writer_Image( I, Image2DMSArray, Rgba32, i );
-	Writer_SampledImage( I, SampledImageBuffer, Rgba32, i );
-	Writer_SampledImage( I, SampledImage1D, Rgba32, i );
-	Writer_SampledImage( I, SampledImage2D, Rgba32, i );
-	Writer_SampledImage( I, SampledImage3D, Rgba32, i );
-	Writer_SampledImage( I, SampledImageCube, Rgba32, i );
-	Writer_SampledImage( I, SampledImage1DArray, Rgba32, i );
-	Writer_SampledImage( I, SampledImage2DArray, Rgba32, i );
-	Writer_SampledImage( I, SampledImageCubeArray, Rgba32, i );
-	Writer_SampledImage( I, SampledImage2DMS, Rgba32, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, Rgba32, i );
+	Writer_Texture( I, TextureBuffer, Rgba32, i );
+	Writer_Texture( I, Texture1D, Rgba32, i );
+	Writer_Texture( I, Texture2D, Rgba32, i );
+	Writer_Texture( I, Texture3D, Rgba32, i );
+	Writer_Texture( I, TextureCube, Rgba32, i );
+	Writer_Texture( I, Texture1DArray, Rgba32, i );
+	Writer_Texture( I, Texture2DArray, Rgba32, i );
+	Writer_Texture( I, TextureCubeArray, Rgba32, i );
+	Writer_Texture( I, Texture2DMS, Rgba32, i );
+	Writer_Texture( I, Texture2DMSArray, Rgba32, i );
 	Writer_Image( I, ImageBuffer, Rgba16, i );
 	Writer_Image( I, Image1D, Rgba16, i );
 	Writer_Image( I, Image2D, Rgba16, i );
@@ -752,16 +752,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, Rgba16, i );
 	Writer_Image( I, Image2DMS, Rgba16, i );
 	Writer_Image( I, Image2DMSArray, Rgba16, i );
-	Writer_SampledImage( I, SampledImageBuffer, Rgba16, i );
-	Writer_SampledImage( I, SampledImage1D, Rgba16, i );
-	Writer_SampledImage( I, SampledImage2D, Rgba16, i );
-	Writer_SampledImage( I, SampledImage3D, Rgba16, i );
-	Writer_SampledImage( I, SampledImageCube, Rgba16, i );
-	Writer_SampledImage( I, SampledImage1DArray, Rgba16, i );
-	Writer_SampledImage( I, SampledImage2DArray, Rgba16, i );
-	Writer_SampledImage( I, SampledImageCubeArray, Rgba16, i );
-	Writer_SampledImage( I, SampledImage2DMS, Rgba16, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, Rgba16, i );
+	Writer_Texture( I, TextureBuffer, Rgba16, i );
+	Writer_Texture( I, Texture1D, Rgba16, i );
+	Writer_Texture( I, Texture2D, Rgba16, i );
+	Writer_Texture( I, Texture3D, Rgba16, i );
+	Writer_Texture( I, TextureCube, Rgba16, i );
+	Writer_Texture( I, Texture1DArray, Rgba16, i );
+	Writer_Texture( I, Texture2DArray, Rgba16, i );
+	Writer_Texture( I, TextureCubeArray, Rgba16, i );
+	Writer_Texture( I, Texture2DMS, Rgba16, i );
+	Writer_Texture( I, Texture2DMSArray, Rgba16, i );
 	Writer_Image( I, ImageBuffer, Rgba8, i );
 	Writer_Image( I, Image1D, Rgba8, i );
 	Writer_Image( I, Image2D, Rgba8, i );
@@ -772,16 +772,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, Rgba8, i );
 	Writer_Image( I, Image2DMS, Rgba8, i );
 	Writer_Image( I, Image2DMSArray, Rgba8, i );
-	Writer_SampledImage( I, SampledImageBuffer, Rgba8, i );
-	Writer_SampledImage( I, SampledImage1D, Rgba8, i );
-	Writer_SampledImage( I, SampledImage2D, Rgba8, i );
-	Writer_SampledImage( I, SampledImage3D, Rgba8, i );
-	Writer_SampledImage( I, SampledImageCube, Rgba8, i );
-	Writer_SampledImage( I, SampledImage1DArray, Rgba8, i );
-	Writer_SampledImage( I, SampledImage2DArray, Rgba8, i );
-	Writer_SampledImage( I, SampledImageCubeArray, Rgba8, i );
-	Writer_SampledImage( I, SampledImage2DMS, Rgba8, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, Rgba8, i );
+	Writer_Texture( I, TextureBuffer, Rgba8, i );
+	Writer_Texture( I, Texture1D, Rgba8, i );
+	Writer_Texture( I, Texture2D, Rgba8, i );
+	Writer_Texture( I, Texture3D, Rgba8, i );
+	Writer_Texture( I, TextureCube, Rgba8, i );
+	Writer_Texture( I, Texture1DArray, Rgba8, i );
+	Writer_Texture( I, Texture2DArray, Rgba8, i );
+	Writer_Texture( I, TextureCubeArray, Rgba8, i );
+	Writer_Texture( I, Texture2DMS, Rgba8, i );
+	Writer_Texture( I, Texture2DMSArray, Rgba8, i );
 	Writer_Image( I, ImageBuffer, Rg32, i );
 	Writer_Image( I, Image1D, Rg32, i );
 	Writer_Image( I, Image2D, Rg32, i );
@@ -792,16 +792,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, Rg32, i );
 	Writer_Image( I, Image2DMS, Rg32, i );
 	Writer_Image( I, Image2DMSArray, Rg32, i );
-	Writer_SampledImage( I, SampledImageBuffer, Rg32, i );
-	Writer_SampledImage( I, SampledImage1D, Rg32, i );
-	Writer_SampledImage( I, SampledImage2D, Rg32, i );
-	Writer_SampledImage( I, SampledImage3D, Rg32, i );
-	Writer_SampledImage( I, SampledImageCube, Rg32, i );
-	Writer_SampledImage( I, SampledImage1DArray, Rg32, i );
-	Writer_SampledImage( I, SampledImage2DArray, Rg32, i );
-	Writer_SampledImage( I, SampledImageCubeArray, Rg32, i );
-	Writer_SampledImage( I, SampledImage2DMS, Rg32, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, Rg32, i );
+	Writer_Texture( I, TextureBuffer, Rg32, i );
+	Writer_Texture( I, Texture1D, Rg32, i );
+	Writer_Texture( I, Texture2D, Rg32, i );
+	Writer_Texture( I, Texture3D, Rg32, i );
+	Writer_Texture( I, TextureCube, Rg32, i );
+	Writer_Texture( I, Texture1DArray, Rg32, i );
+	Writer_Texture( I, Texture2DArray, Rg32, i );
+	Writer_Texture( I, TextureCubeArray, Rg32, i );
+	Writer_Texture( I, Texture2DMS, Rg32, i );
+	Writer_Texture( I, Texture2DMSArray, Rg32, i );
 	Writer_Image( I, ImageBuffer, Rg16, i );
 	Writer_Image( I, Image1D, Rg16, i );
 	Writer_Image( I, Image2D, Rg16, i );
@@ -812,16 +812,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, Rg16, i );
 	Writer_Image( I, Image2DMS, Rg16, i );
 	Writer_Image( I, Image2DMSArray, Rg16, i );
-	Writer_SampledImage( I, SampledImageBuffer, Rg16, i );
-	Writer_SampledImage( I, SampledImage1D, Rg16, i );
-	Writer_SampledImage( I, SampledImage2D, Rg16, i );
-	Writer_SampledImage( I, SampledImage3D, Rg16, i );
-	Writer_SampledImage( I, SampledImageCube, Rg16, i );
-	Writer_SampledImage( I, SampledImage1DArray, Rg16, i );
-	Writer_SampledImage( I, SampledImage2DArray, Rg16, i );
-	Writer_SampledImage( I, SampledImageCubeArray, Rg16, i );
-	Writer_SampledImage( I, SampledImage2DMS, Rg16, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, Rg16, i );
+	Writer_Texture( I, TextureBuffer, Rg16, i );
+	Writer_Texture( I, Texture1D, Rg16, i );
+	Writer_Texture( I, Texture2D, Rg16, i );
+	Writer_Texture( I, Texture3D, Rg16, i );
+	Writer_Texture( I, TextureCube, Rg16, i );
+	Writer_Texture( I, Texture1DArray, Rg16, i );
+	Writer_Texture( I, Texture2DArray, Rg16, i );
+	Writer_Texture( I, TextureCubeArray, Rg16, i );
+	Writer_Texture( I, Texture2DMS, Rg16, i );
+	Writer_Texture( I, Texture2DMSArray, Rg16, i );
 	Writer_Image( I, ImageBuffer, Rg8, i );
 	Writer_Image( I, Image1D, Rg8, i );
 	Writer_Image( I, Image2D, Rg8, i );
@@ -832,16 +832,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, Rg8, i );
 	Writer_Image( I, Image2DMS, Rg8, i );
 	Writer_Image( I, Image2DMSArray, Rg8, i );
-	Writer_SampledImage( I, SampledImageBuffer, Rg8, i );
-	Writer_SampledImage( I, SampledImage1D, Rg8, i );
-	Writer_SampledImage( I, SampledImage2D, Rg8, i );
-	Writer_SampledImage( I, SampledImage3D, Rg8, i );
-	Writer_SampledImage( I, SampledImageCube, Rg8, i );
-	Writer_SampledImage( I, SampledImage1DArray, Rg8, i );
-	Writer_SampledImage( I, SampledImage2DArray, Rg8, i );
-	Writer_SampledImage( I, SampledImageCubeArray, Rg8, i );
-	Writer_SampledImage( I, SampledImage2DMS, Rg8, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, Rg8, i );
+	Writer_Texture( I, TextureBuffer, Rg8, i );
+	Writer_Texture( I, Texture1D, Rg8, i );
+	Writer_Texture( I, Texture2D, Rg8, i );
+	Writer_Texture( I, Texture3D, Rg8, i );
+	Writer_Texture( I, TextureCube, Rg8, i );
+	Writer_Texture( I, Texture1DArray, Rg8, i );
+	Writer_Texture( I, Texture2DArray, Rg8, i );
+	Writer_Texture( I, TextureCubeArray, Rg8, i );
+	Writer_Texture( I, Texture2DMS, Rg8, i );
+	Writer_Texture( I, Texture2DMSArray, Rg8, i );
 	Writer_Image( I, ImageBuffer, R32, i );
 	Writer_Image( I, Image1D, R32, i );
 	Writer_Image( I, Image2D, R32, i );
@@ -852,16 +852,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, R32, i );
 	Writer_Image( I, Image2DMS, R32, i );
 	Writer_Image( I, Image2DMSArray, R32, i );
-	Writer_SampledImage( I, SampledImageBuffer, R32, i );
-	Writer_SampledImage( I, SampledImage1D, R32, i );
-	Writer_SampledImage( I, SampledImage2D, R32, i );
-	Writer_SampledImage( I, SampledImage3D, R32, i );
-	Writer_SampledImage( I, SampledImageCube, R32, i );
-	Writer_SampledImage( I, SampledImage1DArray, R32, i );
-	Writer_SampledImage( I, SampledImage2DArray, R32, i );
-	Writer_SampledImage( I, SampledImageCubeArray, R32, i );
-	Writer_SampledImage( I, SampledImage2DMS, R32, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, R32, i );
+	Writer_Texture( I, TextureBuffer, R32, i );
+	Writer_Texture( I, Texture1D, R32, i );
+	Writer_Texture( I, Texture2D, R32, i );
+	Writer_Texture( I, Texture3D, R32, i );
+	Writer_Texture( I, TextureCube, R32, i );
+	Writer_Texture( I, Texture1DArray, R32, i );
+	Writer_Texture( I, Texture2DArray, R32, i );
+	Writer_Texture( I, TextureCubeArray, R32, i );
+	Writer_Texture( I, Texture2DMS, R32, i );
+	Writer_Texture( I, Texture2DMSArray, R32, i );
 	Writer_Image( I, ImageBuffer, R16, i );
 	Writer_Image( I, Image1D, R16, i );
 	Writer_Image( I, Image2D, R16, i );
@@ -872,16 +872,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, R16, i );
 	Writer_Image( I, Image2DMS, R16, i );
 	Writer_Image( I, Image2DMSArray, R16, i );
-	Writer_SampledImage( I, SampledImageBuffer, R16, i );
-	Writer_SampledImage( I, SampledImage1D, R16, i );
-	Writer_SampledImage( I, SampledImage2D, R16, i );
-	Writer_SampledImage( I, SampledImage3D, R16, i );
-	Writer_SampledImage( I, SampledImageCube, R16, i );
-	Writer_SampledImage( I, SampledImage1DArray, R16, i );
-	Writer_SampledImage( I, SampledImage2DArray, R16, i );
-	Writer_SampledImage( I, SampledImageCubeArray, R16, i );
-	Writer_SampledImage( I, SampledImage2DMS, R16, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, R16, i );
+	Writer_Texture( I, TextureBuffer, R16, i );
+	Writer_Texture( I, Texture1D, R16, i );
+	Writer_Texture( I, Texture2D, R16, i );
+	Writer_Texture( I, Texture3D, R16, i );
+	Writer_Texture( I, TextureCube, R16, i );
+	Writer_Texture( I, Texture1DArray, R16, i );
+	Writer_Texture( I, Texture2DArray, R16, i );
+	Writer_Texture( I, TextureCubeArray, R16, i );
+	Writer_Texture( I, Texture2DMS, R16, i );
+	Writer_Texture( I, Texture2DMSArray, R16, i );
 	Writer_Image( I, ImageBuffer, R8, i );
 	Writer_Image( I, Image1D, R8, i );
 	Writer_Image( I, Image2D, R8, i );
@@ -892,16 +892,16 @@ namespace sdw
 	Writer_Image( I, ImageCubeArray, R8, i );
 	Writer_Image( I, Image2DMS, R8, i );
 	Writer_Image( I, Image2DMSArray, R8, i );
-	Writer_SampledImage( I, SampledImageBuffer, R8, i );
-	Writer_SampledImage( I, SampledImage1D, R8, i );
-	Writer_SampledImage( I, SampledImage2D, R8, i );
-	Writer_SampledImage( I, SampledImage3D, R8, i );
-	Writer_SampledImage( I, SampledImageCube, R8, i );
-	Writer_SampledImage( I, SampledImage1DArray, R8, i );
-	Writer_SampledImage( I, SampledImage2DArray, R8, i );
-	Writer_SampledImage( I, SampledImageCubeArray, R8, i );
-	Writer_SampledImage( I, SampledImage2DMS, R8, i );
-	Writer_SampledImage( I, SampledImage2DMSArray, R8, i );
+	Writer_Texture( I, TextureBuffer, R8, i );
+	Writer_Texture( I, Texture1D, R8, i );
+	Writer_Texture( I, Texture2D, R8, i );
+	Writer_Texture( I, Texture3D, R8, i );
+	Writer_Texture( I, TextureCube, R8, i );
+	Writer_Texture( I, Texture1DArray, R8, i );
+	Writer_Texture( I, Texture2DArray, R8, i );
+	Writer_Texture( I, TextureCubeArray, R8, i );
+	Writer_Texture( I, Texture2DMS, R8, i );
+	Writer_Texture( I, Texture2DMSArray, R8, i );
 	Writer_Image( U, ImageBuffer, Rgba32, u );
 	Writer_Image( U, Image1D, Rgba32, u );
 	Writer_Image( U, Image2D, Rgba32, u );
@@ -912,16 +912,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, Rgba32, u );
 	Writer_Image( U, Image2DMS, Rgba32, u );
 	Writer_Image( U, Image2DMSArray, Rgba32, u );
-	Writer_SampledImage( U, SampledImageBuffer, Rgba32, u );
-	Writer_SampledImage( U, SampledImage1D, Rgba32, u );
-	Writer_SampledImage( U, SampledImage2D, Rgba32, u );
-	Writer_SampledImage( U, SampledImage3D, Rgba32, u );
-	Writer_SampledImage( U, SampledImageCube, Rgba32, u );
-	Writer_SampledImage( U, SampledImage1DArray, Rgba32, u );
-	Writer_SampledImage( U, SampledImage2DArray, Rgba32, u );
-	Writer_SampledImage( U, SampledImageCubeArray, Rgba32, u );
-	Writer_SampledImage( U, SampledImage2DMS, Rgba32, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, Rgba32, u );
+	Writer_Texture( U, TextureBuffer, Rgba32, u );
+	Writer_Texture( U, Texture1D, Rgba32, u );
+	Writer_Texture( U, Texture2D, Rgba32, u );
+	Writer_Texture( U, Texture3D, Rgba32, u );
+	Writer_Texture( U, TextureCube, Rgba32, u );
+	Writer_Texture( U, Texture1DArray, Rgba32, u );
+	Writer_Texture( U, Texture2DArray, Rgba32, u );
+	Writer_Texture( U, TextureCubeArray, Rgba32, u );
+	Writer_Texture( U, Texture2DMS, Rgba32, u );
+	Writer_Texture( U, Texture2DMSArray, Rgba32, u );
 	Writer_Image( U, ImageBuffer, Rgba16, u );
 	Writer_Image( U, Image1D, Rgba16, u );
 	Writer_Image( U, Image2D, Rgba16, u );
@@ -932,16 +932,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, Rgba16, u );
 	Writer_Image( U, Image2DMS, Rgba16, u );
 	Writer_Image( U, Image2DMSArray, Rgba16, u );
-	Writer_SampledImage( U, SampledImageBuffer, Rgba16, u );
-	Writer_SampledImage( U, SampledImage1D, Rgba16, u );
-	Writer_SampledImage( U, SampledImage2D, Rgba16, u );
-	Writer_SampledImage( U, SampledImage3D, Rgba16, u );
-	Writer_SampledImage( U, SampledImageCube, Rgba16, u );
-	Writer_SampledImage( U, SampledImage1DArray, Rgba16, u );
-	Writer_SampledImage( U, SampledImage2DArray, Rgba16, u );
-	Writer_SampledImage( U, SampledImageCubeArray, Rgba16, u );
-	Writer_SampledImage( U, SampledImage2DMS, Rgba16, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, Rgba16, u );
+	Writer_Texture( U, TextureBuffer, Rgba16, u );
+	Writer_Texture( U, Texture1D, Rgba16, u );
+	Writer_Texture( U, Texture2D, Rgba16, u );
+	Writer_Texture( U, Texture3D, Rgba16, u );
+	Writer_Texture( U, TextureCube, Rgba16, u );
+	Writer_Texture( U, Texture1DArray, Rgba16, u );
+	Writer_Texture( U, Texture2DArray, Rgba16, u );
+	Writer_Texture( U, TextureCubeArray, Rgba16, u );
+	Writer_Texture( U, Texture2DMS, Rgba16, u );
+	Writer_Texture( U, Texture2DMSArray, Rgba16, u );
 	Writer_Image( U, ImageBuffer, Rgba8, u );
 	Writer_Image( U, Image1D, Rgba8, u );
 	Writer_Image( U, Image2D, Rgba8, u );
@@ -952,16 +952,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, Rgba8, u );
 	Writer_Image( U, Image2DMS, Rgba8, u );
 	Writer_Image( U, Image2DMSArray, Rgba8, u );
-	Writer_SampledImage( U, SampledImageBuffer, Rgba8, u );
-	Writer_SampledImage( U, SampledImage1D, Rgba8, u );
-	Writer_SampledImage( U, SampledImage2D, Rgba8, u );
-	Writer_SampledImage( U, SampledImage3D, Rgba8, u );
-	Writer_SampledImage( U, SampledImageCube, Rgba8, u );
-	Writer_SampledImage( U, SampledImage1DArray, Rgba8, u );
-	Writer_SampledImage( U, SampledImage2DArray, Rgba8, u );
-	Writer_SampledImage( U, SampledImageCubeArray, Rgba8, u );
-	Writer_SampledImage( U, SampledImage2DMS, Rgba8, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, Rgba8, u );
+	Writer_Texture( U, TextureBuffer, Rgba8, u );
+	Writer_Texture( U, Texture1D, Rgba8, u );
+	Writer_Texture( U, Texture2D, Rgba8, u );
+	Writer_Texture( U, Texture3D, Rgba8, u );
+	Writer_Texture( U, TextureCube, Rgba8, u );
+	Writer_Texture( U, Texture1DArray, Rgba8, u );
+	Writer_Texture( U, Texture2DArray, Rgba8, u );
+	Writer_Texture( U, TextureCubeArray, Rgba8, u );
+	Writer_Texture( U, Texture2DMS, Rgba8, u );
+	Writer_Texture( U, Texture2DMSArray, Rgba8, u );
 	Writer_Image( U, ImageBuffer, Rg32, u );
 	Writer_Image( U, Image1D, Rg32, u );
 	Writer_Image( U, Image2D, Rg32, u );
@@ -972,16 +972,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, Rg32, u );
 	Writer_Image( U, Image2DMS, Rg32, u );
 	Writer_Image( U, Image2DMSArray, Rg32, u );
-	Writer_SampledImage( U, SampledImageBuffer, Rg32, u );
-	Writer_SampledImage( U, SampledImage1D, Rg32, u );
-	Writer_SampledImage( U, SampledImage2D, Rg32, u );
-	Writer_SampledImage( U, SampledImage3D, Rg32, u );
-	Writer_SampledImage( U, SampledImageCube, Rg32, u );
-	Writer_SampledImage( U, SampledImage1DArray, Rg32, u );
-	Writer_SampledImage( U, SampledImage2DArray, Rg32, u );
-	Writer_SampledImage( U, SampledImageCubeArray, Rg32, u );
-	Writer_SampledImage( U, SampledImage2DMS, Rg32, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, Rg32, u );
+	Writer_Texture( U, TextureBuffer, Rg32, u );
+	Writer_Texture( U, Texture1D, Rg32, u );
+	Writer_Texture( U, Texture2D, Rg32, u );
+	Writer_Texture( U, Texture3D, Rg32, u );
+	Writer_Texture( U, TextureCube, Rg32, u );
+	Writer_Texture( U, Texture1DArray, Rg32, u );
+	Writer_Texture( U, Texture2DArray, Rg32, u );
+	Writer_Texture( U, TextureCubeArray, Rg32, u );
+	Writer_Texture( U, Texture2DMS, Rg32, u );
+	Writer_Texture( U, Texture2DMSArray, Rg32, u );
 	Writer_Image( U, ImageBuffer, Rg16, u );
 	Writer_Image( U, Image1D, Rg16, u );
 	Writer_Image( U, Image2D, Rg16, u );
@@ -992,16 +992,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, Rg16, u );
 	Writer_Image( U, Image2DMS, Rg16, u );
 	Writer_Image( U, Image2DMSArray, Rg16, u );
-	Writer_SampledImage( U, SampledImageBuffer, Rg16, u );
-	Writer_SampledImage( U, SampledImage1D, Rg16, u );
-	Writer_SampledImage( U, SampledImage2D, Rg16, u );
-	Writer_SampledImage( U, SampledImage3D, Rg16, u );
-	Writer_SampledImage( U, SampledImageCube, Rg16, u );
-	Writer_SampledImage( U, SampledImage1DArray, Rg16, u );
-	Writer_SampledImage( U, SampledImage2DArray, Rg16, u );
-	Writer_SampledImage( U, SampledImageCubeArray, Rg16, u );
-	Writer_SampledImage( U, SampledImage2DMS, Rg16, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, Rg16, u );
+	Writer_Texture( U, TextureBuffer, Rg16, u );
+	Writer_Texture( U, Texture1D, Rg16, u );
+	Writer_Texture( U, Texture2D, Rg16, u );
+	Writer_Texture( U, Texture3D, Rg16, u );
+	Writer_Texture( U, TextureCube, Rg16, u );
+	Writer_Texture( U, Texture1DArray, Rg16, u );
+	Writer_Texture( U, Texture2DArray, Rg16, u );
+	Writer_Texture( U, TextureCubeArray, Rg16, u );
+	Writer_Texture( U, Texture2DMS, Rg16, u );
+	Writer_Texture( U, Texture2DMSArray, Rg16, u );
 	Writer_Image( U, ImageBuffer, Rg8, u );
 	Writer_Image( U, Image1D, Rg8, u );
 	Writer_Image( U, Image2D, Rg8, u );
@@ -1012,16 +1012,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, Rg8, u );
 	Writer_Image( U, Image2DMS, Rg8, u );
 	Writer_Image( U, Image2DMSArray, Rg8, u );
-	Writer_SampledImage( U, SampledImageBuffer, Rg8, u );
-	Writer_SampledImage( U, SampledImage1D, Rg8, u );
-	Writer_SampledImage( U, SampledImage2D, Rg8, u );
-	Writer_SampledImage( U, SampledImage3D, Rg8, u );
-	Writer_SampledImage( U, SampledImageCube, Rg8, u );
-	Writer_SampledImage( U, SampledImage1DArray, Rg8, u );
-	Writer_SampledImage( U, SampledImage2DArray, Rg8, u );
-	Writer_SampledImage( U, SampledImageCubeArray, Rg8, u );
-	Writer_SampledImage( U, SampledImage2DMS, Rg8, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, Rg8, u );
+	Writer_Texture( U, TextureBuffer, Rg8, u );
+	Writer_Texture( U, Texture1D, Rg8, u );
+	Writer_Texture( U, Texture2D, Rg8, u );
+	Writer_Texture( U, Texture3D, Rg8, u );
+	Writer_Texture( U, TextureCube, Rg8, u );
+	Writer_Texture( U, Texture1DArray, Rg8, u );
+	Writer_Texture( U, Texture2DArray, Rg8, u );
+	Writer_Texture( U, TextureCubeArray, Rg8, u );
+	Writer_Texture( U, Texture2DMS, Rg8, u );
+	Writer_Texture( U, Texture2DMSArray, Rg8, u );
 	Writer_Image( U, ImageBuffer, R32, u );
 	Writer_Image( U, Image1D, R32, u );
 	Writer_Image( U, Image2D, R32, u );
@@ -1032,16 +1032,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, R32, u );
 	Writer_Image( U, Image2DMS, R32, u );
 	Writer_Image( U, Image2DMSArray, R32, u );
-	Writer_SampledImage( U, SampledImageBuffer, R32, u );
-	Writer_SampledImage( U, SampledImage1D, R32, u );
-	Writer_SampledImage( U, SampledImage2D, R32, u );
-	Writer_SampledImage( U, SampledImage3D, R32, u );
-	Writer_SampledImage( U, SampledImageCube, R32, u );
-	Writer_SampledImage( U, SampledImage1DArray, R32, u );
-	Writer_SampledImage( U, SampledImage2DArray, R32, u );
-	Writer_SampledImage( U, SampledImageCubeArray, R32, u );
-	Writer_SampledImage( U, SampledImage2DMS, R32, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, R32, u );
+	Writer_Texture( U, TextureBuffer, R32, u );
+	Writer_Texture( U, Texture1D, R32, u );
+	Writer_Texture( U, Texture2D, R32, u );
+	Writer_Texture( U, Texture3D, R32, u );
+	Writer_Texture( U, TextureCube, R32, u );
+	Writer_Texture( U, Texture1DArray, R32, u );
+	Writer_Texture( U, Texture2DArray, R32, u );
+	Writer_Texture( U, TextureCubeArray, R32, u );
+	Writer_Texture( U, Texture2DMS, R32, u );
+	Writer_Texture( U, Texture2DMSArray, R32, u );
 	Writer_Image( U, ImageBuffer, R16, u );
 	Writer_Image( U, Image1D, R16, u );
 	Writer_Image( U, Image2D, R16, u );
@@ -1052,16 +1052,16 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, R16, u );
 	Writer_Image( U, Image2DMS, R16, u );
 	Writer_Image( U, Image2DMSArray, R16, u );
-	Writer_SampledImage( U, SampledImageBuffer, R16, u );
-	Writer_SampledImage( U, SampledImage1D, R16, u );
-	Writer_SampledImage( U, SampledImage2D, R16, u );
-	Writer_SampledImage( U, SampledImage3D, R16, u );
-	Writer_SampledImage( U, SampledImageCube, R16, u );
-	Writer_SampledImage( U, SampledImage1DArray, R16, u );
-	Writer_SampledImage( U, SampledImage2DArray, R16, u );
-	Writer_SampledImage( U, SampledImageCubeArray, R16, u );
-	Writer_SampledImage( U, SampledImage2DMS, R16, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, R16, u );
+	Writer_Texture( U, TextureBuffer, R16, u );
+	Writer_Texture( U, Texture1D, R16, u );
+	Writer_Texture( U, Texture2D, R16, u );
+	Writer_Texture( U, Texture3D, R16, u );
+	Writer_Texture( U, TextureCube, R16, u );
+	Writer_Texture( U, Texture1DArray, R16, u );
+	Writer_Texture( U, Texture2DArray, R16, u );
+	Writer_Texture( U, TextureCubeArray, R16, u );
+	Writer_Texture( U, Texture2DMS, R16, u );
+	Writer_Texture( U, Texture2DMSArray, R16, u );
 	Writer_Image( U, ImageBuffer, R8, u );
 	Writer_Image( U, Image1D, R8, u );
 	Writer_Image( U, Image2D, R8, u );
@@ -1072,18 +1072,18 @@ namespace sdw
 	Writer_Image( U, ImageCubeArray, R8, u );
 	Writer_Image( U, Image2DMS, R8, u );
 	Writer_Image( U, Image2DMSArray, R8, u );
-	Writer_SampledImage( U, SampledImageBuffer, R8, u );
-	Writer_SampledImage( U, SampledImage1D, R8, u );
-	Writer_SampledImage( U, SampledImage2D, R8, u );
-	Writer_SampledImage( U, SampledImage3D, R8, u );
-	Writer_SampledImage( U, SampledImageCube, R8, u );
-	Writer_SampledImage( U, SampledImage1DArray, R8, u );
-	Writer_SampledImage( U, SampledImage2DArray, R8, u );
-	Writer_SampledImage( U, SampledImageCubeArray, R8, u );
-	Writer_SampledImage( U, SampledImage2DMS, R8, u );
-	Writer_SampledImage( U, SampledImage2DMSArray, R8, u );
+	Writer_Texture( U, TextureBuffer, R8, u );
+	Writer_Texture( U, Texture1D, R8, u );
+	Writer_Texture( U, Texture2D, R8, u );
+	Writer_Texture( U, Texture3D, R8, u );
+	Writer_Texture( U, TextureCube, R8, u );
+	Writer_Texture( U, Texture1DArray, R8, u );
+	Writer_Texture( U, Texture2DArray, R8, u );
+	Writer_Texture( U, TextureCubeArray, R8, u );
+	Writer_Texture( U, Texture2DMS, R8, u );
+	Writer_Texture( U, Texture2DMSArray, R8, u );
 
-#	undef Writer_SampledImage
+#	undef Writer_Texture
 #	undef Writer_Image
 	/**@}*/
 #pragma endregion

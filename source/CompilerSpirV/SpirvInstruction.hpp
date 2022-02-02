@@ -368,7 +368,7 @@ namespace spirv
 	using VectorTypeInstruction = InstructionT< spv::OpTypeVector, false, true, 2u, false, false >;
 	using MatrixTypeInstruction = InstructionT< spv::OpTypeMatrix, false, true, 2u, false, false >;
 	using SamplerTypeInstruction = InstructionT< spv::OpTypeSampler, false, true, 0u, false, false >;
-	using SampledImageTypeInstruction = InstructionT< spv::OpTypeSampledImage, false, true, 1u, false, false >;
+	using TextureTypeInstruction = InstructionT< spv::OpTypeSampledImage, false, true, 1u, false, false >;
 	using RuntimeArrayTypeInstruction = InstructionT< spv::OpTypeRuntimeArray, false, true, 1u, false, false >;
 	using ArrayTypeInstruction = InstructionT< spv::OpTypeArray, false, true, 2u, false, false >;
 	using ForwardPointerTypeInstruction = InstructionT< spv::OpTypeForwardPointer, false, true, 1u, false, false >;

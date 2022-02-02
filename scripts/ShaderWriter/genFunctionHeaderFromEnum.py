@@ -57,7 +57,7 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/BaseTypes/HitAttribute.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Image.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/RayPayload.hpp"' )
-	outs.write( '\n#include "ShaderWriter/BaseTypes/SampledImage.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/Texture.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/TaskPayload.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )
@@ -539,7 +539,7 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 					if enumName == "TextureAccess":
-						imageType = "SampledImage"
+						imageType = "Texture"
 				elif resultValue:
 					returnGroup = resultValue.group( 1 )
 					functionGroup = resultValue.group( 2 )
