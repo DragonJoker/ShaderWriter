@@ -19,7 +19,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -37,7 +37,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -55,7 +55,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -73,7 +73,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -91,7 +91,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -109,7 +109,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -127,7 +127,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -145,7 +145,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -163,7 +163,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -181,7 +181,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -199,7 +199,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -217,7 +217,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -235,7 +235,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -253,7 +253,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -271,7 +271,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -289,7 +289,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -307,7 +307,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -325,7 +325,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -343,7 +343,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -361,7 +361,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -379,7 +379,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -397,7 +397,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -415,7 +415,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -433,7 +433,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -451,7 +451,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -469,7 +469,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -487,7 +487,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -505,7 +505,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -523,7 +523,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -541,7 +541,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -559,7 +559,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -577,7 +577,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -595,7 +595,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -613,7 +613,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -631,7 +631,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -649,7 +649,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -667,7 +667,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -685,7 +685,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -703,7 +703,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -716,7 +716,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -729,7 +729,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -742,7 +742,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -755,7 +755,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -768,7 +768,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -781,7 +781,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -794,7 +794,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -807,7 +807,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -825,7 +825,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -843,7 +843,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -861,7 +861,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -879,7 +879,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -897,7 +897,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -915,7 +915,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -933,7 +933,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -951,7 +951,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -969,7 +969,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -987,7 +987,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1005,7 +1005,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1023,7 +1023,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -1041,7 +1041,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -1059,7 +1059,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -1077,7 +1077,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] lod
 	*	int
 	*/
@@ -1095,7 +1095,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -1108,7 +1108,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -1121,7 +1121,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -1134,7 +1134,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -1147,7 +1147,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -1160,7 +1160,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -1173,7 +1173,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1191,7 +1191,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1209,7 +1209,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1227,7 +1227,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1245,7 +1245,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1263,7 +1263,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1281,7 +1281,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1299,7 +1299,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1317,7 +1317,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1335,7 +1335,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1353,7 +1353,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1371,7 +1371,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1389,7 +1389,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1407,7 +1407,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1425,7 +1425,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1443,7 +1443,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1461,7 +1461,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1479,7 +1479,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1497,7 +1497,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1515,7 +1515,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1533,7 +1533,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1551,7 +1551,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1569,7 +1569,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1587,7 +1587,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1605,7 +1605,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1623,7 +1623,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1641,7 +1641,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -1659,7 +1659,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1677,7 +1677,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1695,7 +1695,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1713,7 +1713,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1731,7 +1731,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1749,7 +1749,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1767,7 +1767,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1785,7 +1785,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1803,7 +1803,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -1821,7 +1821,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1839,7 +1839,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1857,7 +1857,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1875,7 +1875,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1893,7 +1893,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1911,7 +1911,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1929,7 +1929,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1947,7 +1947,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1965,7 +1965,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -1983,7 +1983,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -1996,7 +1996,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -2009,7 +2009,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -2022,7 +2022,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -2035,7 +2035,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -2048,7 +2048,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -2061,7 +2061,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -2074,7 +2074,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -2087,7 +2087,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -2100,7 +2100,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2118,7 +2118,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2136,7 +2136,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2154,7 +2154,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2172,7 +2172,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2190,7 +2190,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2208,7 +2208,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2226,7 +2226,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2244,7 +2244,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2262,7 +2262,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2280,7 +2280,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2298,7 +2298,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2316,7 +2316,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2334,7 +2334,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2352,7 +2352,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2370,7 +2370,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2388,7 +2388,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2406,7 +2406,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -2424,7 +2424,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -2437,7 +2437,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -2450,7 +2450,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -2463,7 +2463,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -2476,7 +2476,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -2489,7 +2489,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -2502,7 +2502,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -2515,7 +2515,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -2528,7 +2528,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -2541,7 +2541,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2559,7 +2559,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2577,7 +2577,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2595,7 +2595,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2613,7 +2613,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2631,7 +2631,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2649,7 +2649,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2667,7 +2667,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2685,7 +2685,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2703,7 +2703,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2721,7 +2721,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2739,7 +2739,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2757,7 +2757,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2775,7 +2775,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2793,7 +2793,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2811,7 +2811,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2829,7 +2829,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2847,7 +2847,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2865,7 +2865,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2883,7 +2883,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2901,7 +2901,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2919,7 +2919,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2937,7 +2937,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2955,7 +2955,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2973,7 +2973,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -2991,7 +2991,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -3009,7 +3009,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] lod
 	*	int
 	*/
@@ -3027,7 +3027,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3045,7 +3045,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3063,7 +3063,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3081,7 +3081,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3099,7 +3099,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3117,7 +3117,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3135,7 +3135,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3153,7 +3153,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3171,7 +3171,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] lod
 	*	int
 	*/
@@ -3189,7 +3189,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3207,7 +3207,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3225,7 +3225,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3243,7 +3243,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3261,7 +3261,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3279,7 +3279,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3297,7 +3297,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3315,7 +3315,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3333,7 +3333,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3351,7 +3351,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -3364,7 +3364,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -3377,7 +3377,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -3390,7 +3390,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -3403,7 +3403,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -3416,7 +3416,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -3429,7 +3429,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -3442,7 +3442,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -3455,7 +3455,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*/
 	inline TextureAccessCallPtr makeTextureSize2DRectUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -3468,7 +3468,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3486,7 +3486,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3504,7 +3504,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3522,7 +3522,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3540,7 +3540,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3558,7 +3558,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3576,7 +3576,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3594,7 +3594,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3612,7 +3612,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3630,7 +3630,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3648,7 +3648,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3666,7 +3666,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3684,7 +3684,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3702,7 +3702,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3720,7 +3720,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3738,7 +3738,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3756,7 +3756,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3774,7 +3774,7 @@ namespace ast::expr
 	*@return
 	*	vec3i
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] lod
 	*	int
 	*/
@@ -3792,7 +3792,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -3805,7 +3805,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -3818,7 +3818,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -3831,7 +3831,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -3844,7 +3844,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -3857,7 +3857,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -3870,7 +3870,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -3883,7 +3883,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -3896,7 +3896,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*/
 	inline TextureAccessCallPtr makeTextureSizeBufferUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -3909,7 +3909,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -3927,7 +3927,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -3945,7 +3945,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -3963,7 +3963,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -3981,7 +3981,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -3999,7 +3999,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4017,7 +4017,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4035,7 +4035,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4053,7 +4053,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4071,7 +4071,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4089,7 +4089,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4107,7 +4107,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4125,7 +4125,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4143,7 +4143,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4161,7 +4161,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4179,7 +4179,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4197,7 +4197,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4215,7 +4215,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4233,7 +4233,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4251,7 +4251,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4269,7 +4269,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4287,7 +4287,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4305,7 +4305,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4323,7 +4323,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4341,7 +4341,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -4359,7 +4359,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -4377,7 +4377,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -4395,7 +4395,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -4413,7 +4413,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -4431,7 +4431,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -4449,7 +4449,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4467,7 +4467,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4485,7 +4485,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4503,7 +4503,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4521,7 +4521,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4539,7 +4539,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4557,7 +4557,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4575,7 +4575,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4593,7 +4593,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4611,7 +4611,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4629,7 +4629,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4647,7 +4647,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4665,7 +4665,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*/
@@ -4683,7 +4683,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*/
@@ -4701,7 +4701,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4719,7 +4719,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4737,7 +4737,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4755,7 +4755,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4773,7 +4773,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	float
 	*/
@@ -4791,7 +4791,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	float
 	*/
@@ -4809,7 +4809,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4827,7 +4827,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -4845,7 +4845,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4863,7 +4863,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -4881,7 +4881,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4899,7 +4899,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4917,7 +4917,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4935,7 +4935,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4953,7 +4953,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4971,7 +4971,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -4989,7 +4989,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -5007,7 +5007,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -5025,7 +5025,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -5043,7 +5043,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5061,7 +5061,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5079,7 +5079,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5097,7 +5097,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5115,7 +5115,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5133,7 +5133,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5151,7 +5151,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5169,7 +5169,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5187,7 +5187,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5205,7 +5205,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5223,7 +5223,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5241,7 +5241,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5259,7 +5259,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5277,7 +5277,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5295,7 +5295,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5313,7 +5313,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5331,7 +5331,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5349,7 +5349,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5367,7 +5367,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5385,7 +5385,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5403,7 +5403,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5421,7 +5421,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5439,7 +5439,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5457,7 +5457,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5475,7 +5475,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5493,7 +5493,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5511,7 +5511,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5529,7 +5529,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5547,7 +5547,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5565,7 +5565,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5583,7 +5583,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5601,7 +5601,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5619,7 +5619,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5637,7 +5637,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5655,7 +5655,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5673,7 +5673,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -5691,7 +5691,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5709,7 +5709,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5727,7 +5727,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5745,7 +5745,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5763,7 +5763,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5781,7 +5781,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5799,7 +5799,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5817,7 +5817,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5835,7 +5835,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -5853,7 +5853,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5871,7 +5871,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5889,7 +5889,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5907,7 +5907,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5925,7 +5925,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5943,7 +5943,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5961,7 +5961,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5979,7 +5979,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -5997,7 +5997,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6015,7 +6015,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6033,7 +6033,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6051,7 +6051,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6069,7 +6069,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6087,7 +6087,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6105,7 +6105,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6123,7 +6123,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6141,7 +6141,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6159,7 +6159,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -6177,7 +6177,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6195,7 +6195,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6213,7 +6213,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6231,7 +6231,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6249,7 +6249,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6267,7 +6267,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6285,7 +6285,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6303,7 +6303,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6321,7 +6321,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6339,7 +6339,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6357,7 +6357,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6375,7 +6375,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6393,7 +6393,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6411,7 +6411,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6429,7 +6429,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6447,7 +6447,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6465,7 +6465,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6483,7 +6483,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6501,7 +6501,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6519,7 +6519,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6537,7 +6537,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6555,7 +6555,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6573,7 +6573,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6591,7 +6591,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6609,7 +6609,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6627,7 +6627,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6645,7 +6645,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -6663,7 +6663,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6681,7 +6681,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6699,7 +6699,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6717,7 +6717,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6735,7 +6735,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6753,7 +6753,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6771,7 +6771,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6789,7 +6789,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6807,7 +6807,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	float
 	*/
@@ -6825,7 +6825,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6843,7 +6843,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6861,7 +6861,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6879,7 +6879,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6897,7 +6897,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6915,7 +6915,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6933,7 +6933,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6951,7 +6951,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6969,7 +6969,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -6987,7 +6987,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7005,7 +7005,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7023,7 +7023,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7041,7 +7041,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7059,7 +7059,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7077,7 +7077,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7095,7 +7095,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7113,7 +7113,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7131,7 +7131,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -7149,7 +7149,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7162,7 +7162,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7175,7 +7175,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7188,7 +7188,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7201,7 +7201,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7214,7 +7214,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7227,7 +7227,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7240,7 +7240,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7253,7 +7253,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7266,7 +7266,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7279,7 +7279,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7292,7 +7292,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7305,7 +7305,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7318,7 +7318,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7331,7 +7331,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7344,7 +7344,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7357,7 +7357,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7370,7 +7370,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7383,7 +7383,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7396,7 +7396,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7409,7 +7409,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7422,7 +7422,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7435,7 +7435,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7448,7 +7448,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7461,7 +7461,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7474,7 +7474,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7487,7 +7487,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7500,7 +7500,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7513,7 +7513,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7526,7 +7526,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7539,7 +7539,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7552,7 +7552,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7565,7 +7565,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7578,7 +7578,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7591,7 +7591,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7604,7 +7604,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7617,7 +7617,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayFRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7630,7 +7630,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayFRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7643,7 +7643,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayFRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7656,7 +7656,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayFRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7669,7 +7669,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7682,7 +7682,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7695,7 +7695,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7708,7 +7708,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7721,7 +7721,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7734,7 +7734,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7747,7 +7747,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7760,7 +7760,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7773,7 +7773,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7786,7 +7786,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7799,7 +7799,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7812,7 +7812,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7825,7 +7825,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayShadowFR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7838,7 +7838,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayShadowFR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7851,7 +7851,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7864,7 +7864,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7877,7 +7877,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -7890,7 +7890,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7903,7 +7903,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7916,7 +7916,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -7929,7 +7929,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7942,7 +7942,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7955,7 +7955,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -7968,7 +7968,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -7981,7 +7981,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -7994,7 +7994,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8007,7 +8007,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8020,7 +8020,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8033,7 +8033,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8046,7 +8046,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8059,7 +8059,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8072,7 +8072,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8085,7 +8085,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8098,7 +8098,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8111,7 +8111,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8124,7 +8124,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8137,7 +8137,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8150,7 +8150,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8163,7 +8163,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8176,7 +8176,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8189,7 +8189,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8202,7 +8202,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8215,7 +8215,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8228,7 +8228,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8241,7 +8241,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8254,7 +8254,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8267,7 +8267,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8280,7 +8280,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8293,7 +8293,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8306,7 +8306,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8319,7 +8319,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8332,7 +8332,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8345,7 +8345,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8358,7 +8358,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8371,7 +8371,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8384,7 +8384,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8397,7 +8397,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8410,7 +8410,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8423,7 +8423,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8436,7 +8436,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8449,7 +8449,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8462,7 +8462,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8475,7 +8475,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8488,7 +8488,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8501,7 +8501,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8514,7 +8514,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8527,7 +8527,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8540,7 +8540,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8553,7 +8553,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIRgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8566,7 +8566,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIRgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8579,7 +8579,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIRgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8592,7 +8592,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIRg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8605,7 +8605,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIRg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8618,7 +8618,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIRg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8631,7 +8631,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8644,7 +8644,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8657,7 +8657,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayIR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8670,7 +8670,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8683,7 +8683,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8696,7 +8696,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8709,7 +8709,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8722,7 +8722,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8735,7 +8735,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8748,7 +8748,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8761,7 +8761,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8774,7 +8774,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8787,7 +8787,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8800,7 +8800,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8813,7 +8813,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8826,7 +8826,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8839,7 +8839,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8852,7 +8852,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8865,7 +8865,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8878,7 +8878,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8891,7 +8891,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8904,7 +8904,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8917,7 +8917,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8930,7 +8930,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8943,7 +8943,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8956,7 +8956,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -8969,7 +8969,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -8982,7 +8982,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -8995,7 +8995,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9008,7 +9008,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels3DUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9021,7 +9021,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9034,7 +9034,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9047,7 +9047,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9060,7 +9060,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9073,7 +9073,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9086,7 +9086,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9099,7 +9099,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9112,7 +9112,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9125,7 +9125,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9138,7 +9138,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9151,7 +9151,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9164,7 +9164,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9177,7 +9177,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9190,7 +9190,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9203,7 +9203,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9216,7 +9216,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9229,7 +9229,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9242,7 +9242,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels1DArrayUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9255,7 +9255,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9268,7 +9268,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9281,7 +9281,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9294,7 +9294,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9307,7 +9307,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9320,7 +9320,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9333,7 +9333,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9346,7 +9346,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9359,7 +9359,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevels2DArrayUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9372,7 +9372,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayURgba32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9385,7 +9385,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayURgba16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9398,7 +9398,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayURgba8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9411,7 +9411,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayURg32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9424,7 +9424,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayURg16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9437,7 +9437,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayURg8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9450,7 +9450,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayUR32( type::TypesCache & cache
 		, ExprPtr image )
@@ -9463,7 +9463,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayUR16( type::TypesCache & cache
 		, ExprPtr image )
@@ -9476,7 +9476,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*/
 	inline TextureAccessCallPtr makeTextureQueryLevelsCubeArrayUR8( type::TypesCache & cache
 		, ExprPtr image )
@@ -9491,7 +9491,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -9509,7 +9509,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -9527,7 +9527,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -9545,7 +9545,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -9563,7 +9563,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -9581,7 +9581,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -9599,7 +9599,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -9622,7 +9622,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -9645,7 +9645,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -9668,7 +9668,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -9691,7 +9691,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -9714,7 +9714,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -9737,7 +9737,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -9755,7 +9755,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -9773,7 +9773,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -9791,7 +9791,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -9809,7 +9809,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -9827,7 +9827,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -9845,7 +9845,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -9868,7 +9868,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -9891,7 +9891,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -9914,7 +9914,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -9937,7 +9937,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -9960,7 +9960,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -9983,7 +9983,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10001,7 +10001,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10019,7 +10019,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10037,7 +10037,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10055,7 +10055,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10073,7 +10073,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10091,7 +10091,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10114,7 +10114,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10137,7 +10137,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10160,7 +10160,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10183,7 +10183,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10206,7 +10206,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10229,7 +10229,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10247,7 +10247,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10265,7 +10265,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10283,7 +10283,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10301,7 +10301,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10319,7 +10319,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10337,7 +10337,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10360,7 +10360,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10383,7 +10383,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10406,7 +10406,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10429,7 +10429,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10452,7 +10452,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10475,7 +10475,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -10493,7 +10493,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -10511,7 +10511,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -10529,7 +10529,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -10547,7 +10547,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -10565,7 +10565,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -10583,7 +10583,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -10606,7 +10606,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -10629,7 +10629,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -10652,7 +10652,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -10675,7 +10675,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -10698,7 +10698,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -10721,7 +10721,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10739,7 +10739,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10757,7 +10757,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10775,7 +10775,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10793,7 +10793,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10811,7 +10811,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -10829,7 +10829,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10852,7 +10852,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10875,7 +10875,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10898,7 +10898,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10921,7 +10921,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10944,7 +10944,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -10967,7 +10967,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -10985,7 +10985,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -11003,7 +11003,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -11021,7 +11021,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -11039,7 +11039,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -11057,7 +11057,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -11075,7 +11075,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -11098,7 +11098,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -11121,7 +11121,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -11144,7 +11144,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -11167,7 +11167,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -11190,7 +11190,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -11213,7 +11213,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11231,7 +11231,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11249,7 +11249,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11267,7 +11267,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11285,7 +11285,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11303,7 +11303,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11321,7 +11321,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11339,7 +11339,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11357,7 +11357,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11375,7 +11375,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11393,7 +11393,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11411,7 +11411,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11429,7 +11429,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11447,7 +11447,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11465,7 +11465,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -11483,7 +11483,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11506,7 +11506,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11529,7 +11529,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11552,7 +11552,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11575,7 +11575,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11598,7 +11598,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11621,7 +11621,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11644,7 +11644,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11667,7 +11667,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -11690,7 +11690,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11708,7 +11708,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11726,7 +11726,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11744,7 +11744,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11762,7 +11762,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11780,7 +11780,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11798,7 +11798,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11816,7 +11816,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11834,7 +11834,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -11852,7 +11852,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -11875,7 +11875,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -11898,7 +11898,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -11921,7 +11921,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -11944,7 +11944,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -11967,7 +11967,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -11990,7 +11990,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -12013,7 +12013,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -12036,7 +12036,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -12059,7 +12059,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12077,7 +12077,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12095,7 +12095,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12113,7 +12113,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12131,7 +12131,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12149,7 +12149,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12167,7 +12167,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12185,7 +12185,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12203,7 +12203,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12221,7 +12221,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12244,7 +12244,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12267,7 +12267,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12290,7 +12290,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12313,7 +12313,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12336,7 +12336,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12359,7 +12359,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12382,7 +12382,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12405,7 +12405,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12428,7 +12428,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12446,7 +12446,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12464,7 +12464,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12482,7 +12482,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12500,7 +12500,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12518,7 +12518,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12536,7 +12536,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12554,7 +12554,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12572,7 +12572,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -12590,7 +12590,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12613,7 +12613,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12636,7 +12636,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12659,7 +12659,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12682,7 +12682,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12705,7 +12705,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12728,7 +12728,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12751,7 +12751,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12774,7 +12774,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -12797,7 +12797,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12815,7 +12815,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12833,7 +12833,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12851,7 +12851,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12869,7 +12869,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12887,7 +12887,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12905,7 +12905,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12923,7 +12923,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12941,7 +12941,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -12959,7 +12959,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -12982,7 +12982,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13005,7 +13005,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13028,7 +13028,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13051,7 +13051,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13074,7 +13074,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13097,7 +13097,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13120,7 +13120,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13143,7 +13143,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -13166,7 +13166,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13184,7 +13184,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13202,7 +13202,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13220,7 +13220,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13238,7 +13238,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13256,7 +13256,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13274,7 +13274,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13292,7 +13292,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13310,7 +13310,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -13328,7 +13328,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13351,7 +13351,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13374,7 +13374,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13397,7 +13397,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13420,7 +13420,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13443,7 +13443,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13466,7 +13466,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13489,7 +13489,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13512,7 +13512,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -13535,7 +13535,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13553,7 +13553,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13571,7 +13571,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13589,7 +13589,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13607,7 +13607,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13625,7 +13625,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13643,7 +13643,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13661,7 +13661,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13679,7 +13679,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -13697,7 +13697,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13720,7 +13720,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13743,7 +13743,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13766,7 +13766,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13789,7 +13789,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13812,7 +13812,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13835,7 +13835,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13858,7 +13858,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13881,7 +13881,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -13904,7 +13904,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -13922,7 +13922,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -13940,7 +13940,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -13958,7 +13958,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -13976,7 +13976,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -13994,7 +13994,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14012,7 +14012,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14030,7 +14030,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14048,7 +14048,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14066,7 +14066,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14084,7 +14084,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14102,7 +14102,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14120,7 +14120,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14138,7 +14138,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14156,7 +14156,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14174,7 +14174,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14192,7 +14192,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14210,7 +14210,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*/
@@ -14228,7 +14228,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14251,7 +14251,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14274,7 +14274,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14297,7 +14297,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14320,7 +14320,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14343,7 +14343,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14366,7 +14366,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14389,7 +14389,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14412,7 +14412,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] bias
@@ -14435,7 +14435,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14453,7 +14453,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14471,7 +14471,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14489,7 +14489,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14507,7 +14507,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14525,7 +14525,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14543,7 +14543,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14561,7 +14561,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14579,7 +14579,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -14597,7 +14597,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14620,7 +14620,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14643,7 +14643,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14666,7 +14666,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14689,7 +14689,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14712,7 +14712,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14735,7 +14735,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14758,7 +14758,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14781,7 +14781,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -14804,7 +14804,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14822,7 +14822,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14840,7 +14840,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14858,7 +14858,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14876,7 +14876,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14894,7 +14894,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14912,7 +14912,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14930,7 +14930,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14948,7 +14948,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -14966,7 +14966,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -14989,7 +14989,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15012,7 +15012,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15035,7 +15035,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15058,7 +15058,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15081,7 +15081,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15104,7 +15104,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15127,7 +15127,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15150,7 +15150,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15173,7 +15173,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15191,7 +15191,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15209,7 +15209,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15227,7 +15227,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15245,7 +15245,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15263,7 +15263,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15281,7 +15281,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15299,7 +15299,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15317,7 +15317,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15335,7 +15335,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15358,7 +15358,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15381,7 +15381,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15404,7 +15404,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15427,7 +15427,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15450,7 +15450,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15473,7 +15473,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15496,7 +15496,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15519,7 +15519,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -15542,7 +15542,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15560,7 +15560,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15578,7 +15578,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15596,7 +15596,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15614,7 +15614,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15632,7 +15632,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15650,7 +15650,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15668,7 +15668,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15686,7 +15686,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -15704,7 +15704,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15727,7 +15727,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15750,7 +15750,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15773,7 +15773,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15796,7 +15796,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15819,7 +15819,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15842,7 +15842,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15865,7 +15865,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15888,7 +15888,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -15911,7 +15911,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15929,7 +15929,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15947,7 +15947,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15965,7 +15965,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -15983,7 +15983,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -16001,7 +16001,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -16019,7 +16019,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -16037,7 +16037,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -16055,7 +16055,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -16073,7 +16073,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16096,7 +16096,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16119,7 +16119,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16142,7 +16142,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16165,7 +16165,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16188,7 +16188,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16211,7 +16211,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16234,7 +16234,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16257,7 +16257,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -16280,7 +16280,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16298,7 +16298,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16316,7 +16316,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16334,7 +16334,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16352,7 +16352,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16370,7 +16370,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16388,7 +16388,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16406,7 +16406,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16424,7 +16424,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -16442,7 +16442,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16465,7 +16465,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16488,7 +16488,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16511,7 +16511,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16534,7 +16534,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16557,7 +16557,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16580,7 +16580,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16603,7 +16603,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16626,7 +16626,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -16649,7 +16649,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16667,7 +16667,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16685,7 +16685,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16703,7 +16703,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16721,7 +16721,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16739,7 +16739,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16757,7 +16757,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16775,7 +16775,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16793,7 +16793,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16811,7 +16811,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16829,7 +16829,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16847,7 +16847,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16865,7 +16865,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16883,7 +16883,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16901,7 +16901,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -16919,7 +16919,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -16942,7 +16942,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -16965,7 +16965,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -16988,7 +16988,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -17011,7 +17011,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -17034,7 +17034,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -17057,7 +17057,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17075,7 +17075,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17093,7 +17093,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17111,7 +17111,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17129,7 +17129,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17147,7 +17147,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17165,7 +17165,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17188,7 +17188,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17211,7 +17211,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17234,7 +17234,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17257,7 +17257,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17280,7 +17280,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17303,7 +17303,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -17321,7 +17321,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -17339,7 +17339,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -17357,7 +17357,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -17375,7 +17375,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -17393,7 +17393,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -17411,7 +17411,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -17434,7 +17434,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -17457,7 +17457,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -17480,7 +17480,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -17503,7 +17503,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -17526,7 +17526,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -17549,7 +17549,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17567,7 +17567,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17585,7 +17585,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17603,7 +17603,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17621,7 +17621,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17639,7 +17639,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17657,7 +17657,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17680,7 +17680,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17703,7 +17703,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17726,7 +17726,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17749,7 +17749,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17772,7 +17772,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17795,7 +17795,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17813,7 +17813,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17831,7 +17831,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17849,7 +17849,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17867,7 +17867,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17885,7 +17885,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -17903,7 +17903,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17926,7 +17926,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17949,7 +17949,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17972,7 +17972,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -17995,7 +17995,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18018,7 +18018,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18041,7 +18041,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -18059,7 +18059,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -18077,7 +18077,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -18095,7 +18095,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -18113,7 +18113,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -18131,7 +18131,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -18149,7 +18149,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18167,7 +18167,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18185,7 +18185,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18203,7 +18203,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18221,7 +18221,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18239,7 +18239,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18257,7 +18257,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18275,7 +18275,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18293,7 +18293,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18311,7 +18311,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18329,7 +18329,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18347,7 +18347,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18365,7 +18365,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18383,7 +18383,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18401,7 +18401,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -18419,7 +18419,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18442,7 +18442,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18465,7 +18465,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18488,7 +18488,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18511,7 +18511,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18534,7 +18534,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18557,7 +18557,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18580,7 +18580,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18603,7 +18603,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -18626,7 +18626,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18644,7 +18644,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18662,7 +18662,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18680,7 +18680,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18698,7 +18698,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18716,7 +18716,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18734,7 +18734,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18752,7 +18752,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18770,7 +18770,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -18788,7 +18788,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18811,7 +18811,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18834,7 +18834,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18857,7 +18857,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18880,7 +18880,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18903,7 +18903,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18926,7 +18926,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18949,7 +18949,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18972,7 +18972,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -18995,7 +18995,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19013,7 +19013,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19031,7 +19031,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19049,7 +19049,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19067,7 +19067,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19085,7 +19085,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19103,7 +19103,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19121,7 +19121,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19139,7 +19139,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -19157,7 +19157,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19180,7 +19180,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19203,7 +19203,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19226,7 +19226,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19249,7 +19249,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19272,7 +19272,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19295,7 +19295,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19318,7 +19318,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19341,7 +19341,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -19364,7 +19364,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19382,7 +19382,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19400,7 +19400,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19418,7 +19418,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19436,7 +19436,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19454,7 +19454,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19472,7 +19472,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19490,7 +19490,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19508,7 +19508,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19526,7 +19526,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19549,7 +19549,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19572,7 +19572,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19595,7 +19595,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19618,7 +19618,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19641,7 +19641,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19664,7 +19664,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19687,7 +19687,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19710,7 +19710,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19733,7 +19733,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19751,7 +19751,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19769,7 +19769,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19787,7 +19787,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19805,7 +19805,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19823,7 +19823,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19841,7 +19841,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19859,7 +19859,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19877,7 +19877,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -19895,7 +19895,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19918,7 +19918,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19941,7 +19941,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19964,7 +19964,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -19987,7 +19987,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -20010,7 +20010,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -20033,7 +20033,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -20056,7 +20056,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -20079,7 +20079,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -20102,7 +20102,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20120,7 +20120,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20138,7 +20138,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20156,7 +20156,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20174,7 +20174,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20192,7 +20192,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20210,7 +20210,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20228,7 +20228,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20246,7 +20246,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -20264,7 +20264,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20282,7 +20282,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20300,7 +20300,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20318,7 +20318,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20336,7 +20336,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20354,7 +20354,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20372,7 +20372,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20390,7 +20390,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20408,7 +20408,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20426,7 +20426,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20444,7 +20444,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20462,7 +20462,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20480,7 +20480,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20498,7 +20498,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20516,7 +20516,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20534,7 +20534,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20552,7 +20552,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20570,7 +20570,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*/
@@ -20588,7 +20588,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20611,7 +20611,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20634,7 +20634,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20657,7 +20657,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20680,7 +20680,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20703,7 +20703,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20726,7 +20726,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20749,7 +20749,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20772,7 +20772,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] bias
@@ -20795,7 +20795,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20813,7 +20813,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20831,7 +20831,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20849,7 +20849,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20867,7 +20867,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20885,7 +20885,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20903,7 +20903,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20921,7 +20921,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20939,7 +20939,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -20957,7 +20957,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -20980,7 +20980,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21003,7 +21003,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21026,7 +21026,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21049,7 +21049,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21072,7 +21072,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21095,7 +21095,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21118,7 +21118,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21141,7 +21141,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21164,7 +21164,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21182,7 +21182,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21200,7 +21200,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21218,7 +21218,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21236,7 +21236,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21254,7 +21254,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21272,7 +21272,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21290,7 +21290,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21308,7 +21308,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -21326,7 +21326,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21349,7 +21349,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21372,7 +21372,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21395,7 +21395,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21418,7 +21418,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21441,7 +21441,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21464,7 +21464,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21487,7 +21487,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21510,7 +21510,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] bias
@@ -21533,7 +21533,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21551,7 +21551,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21569,7 +21569,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21587,7 +21587,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21605,7 +21605,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21623,7 +21623,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21641,7 +21641,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21659,7 +21659,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21677,7 +21677,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21695,7 +21695,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21718,7 +21718,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21741,7 +21741,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21764,7 +21764,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21787,7 +21787,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21810,7 +21810,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21833,7 +21833,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21856,7 +21856,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21879,7 +21879,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -21902,7 +21902,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21920,7 +21920,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21938,7 +21938,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21956,7 +21956,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21974,7 +21974,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -21992,7 +21992,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22010,7 +22010,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22028,7 +22028,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22046,7 +22046,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22064,7 +22064,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22087,7 +22087,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22110,7 +22110,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22133,7 +22133,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22156,7 +22156,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22179,7 +22179,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22202,7 +22202,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22225,7 +22225,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22248,7 +22248,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] bias
@@ -22271,7 +22271,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22289,7 +22289,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22307,7 +22307,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22325,7 +22325,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22343,7 +22343,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22361,7 +22361,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22379,7 +22379,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22397,7 +22397,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22415,7 +22415,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*/
@@ -22433,7 +22433,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22451,7 +22451,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22469,7 +22469,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22487,7 +22487,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22505,7 +22505,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22523,7 +22523,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22541,7 +22541,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22559,7 +22559,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22577,7 +22577,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*/
@@ -22595,7 +22595,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -22618,7 +22618,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -22641,7 +22641,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -22664,7 +22664,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -22687,7 +22687,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -22710,7 +22710,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -22733,7 +22733,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -22756,7 +22756,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -22779,7 +22779,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -22802,7 +22802,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -22825,7 +22825,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -22848,7 +22848,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -22871,7 +22871,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -22894,7 +22894,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -22917,7 +22917,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -22940,7 +22940,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -22963,7 +22963,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -22986,7 +22986,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23009,7 +23009,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23032,7 +23032,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23055,7 +23055,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23078,7 +23078,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23101,7 +23101,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23124,7 +23124,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23147,7 +23147,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23170,7 +23170,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23193,7 +23193,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23216,7 +23216,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23239,7 +23239,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23262,7 +23262,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23285,7 +23285,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23308,7 +23308,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23331,7 +23331,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23354,7 +23354,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23377,7 +23377,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23400,7 +23400,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23423,7 +23423,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -23446,7 +23446,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -23469,7 +23469,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -23492,7 +23492,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -23515,7 +23515,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -23538,7 +23538,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -23561,7 +23561,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23584,7 +23584,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23607,7 +23607,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23630,7 +23630,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23653,7 +23653,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23676,7 +23676,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23699,7 +23699,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23722,7 +23722,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23745,7 +23745,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -23768,7 +23768,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23791,7 +23791,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23814,7 +23814,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23837,7 +23837,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23860,7 +23860,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23883,7 +23883,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23906,7 +23906,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23929,7 +23929,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23952,7 +23952,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -23975,7 +23975,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -23998,7 +23998,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24021,7 +24021,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24044,7 +24044,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24067,7 +24067,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24090,7 +24090,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24113,7 +24113,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24136,7 +24136,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24159,7 +24159,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24182,7 +24182,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24205,7 +24205,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24228,7 +24228,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24251,7 +24251,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24274,7 +24274,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24297,7 +24297,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24320,7 +24320,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24343,7 +24343,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24366,7 +24366,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24389,7 +24389,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24412,7 +24412,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24435,7 +24435,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24458,7 +24458,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24481,7 +24481,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24504,7 +24504,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24527,7 +24527,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24550,7 +24550,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24573,7 +24573,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -24596,7 +24596,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24619,7 +24619,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24642,7 +24642,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24665,7 +24665,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24688,7 +24688,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24711,7 +24711,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24734,7 +24734,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24757,7 +24757,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24780,7 +24780,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -24803,7 +24803,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24826,7 +24826,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24849,7 +24849,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24872,7 +24872,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24895,7 +24895,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24918,7 +24918,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24941,7 +24941,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24964,7 +24964,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -24987,7 +24987,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -25010,7 +25010,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25033,7 +25033,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25056,7 +25056,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25079,7 +25079,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25102,7 +25102,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25125,7 +25125,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25148,7 +25148,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25171,7 +25171,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25194,7 +25194,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -25217,7 +25217,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25240,7 +25240,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25263,7 +25263,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25286,7 +25286,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25309,7 +25309,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25332,7 +25332,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25355,7 +25355,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25378,7 +25378,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25401,7 +25401,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25424,7 +25424,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25447,7 +25447,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25470,7 +25470,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25493,7 +25493,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25516,7 +25516,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25539,7 +25539,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25562,7 +25562,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25585,7 +25585,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25608,7 +25608,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25631,7 +25631,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25654,7 +25654,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25677,7 +25677,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25700,7 +25700,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25723,7 +25723,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25746,7 +25746,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25769,7 +25769,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25792,7 +25792,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25815,7 +25815,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -25838,7 +25838,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25861,7 +25861,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25884,7 +25884,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25907,7 +25907,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25930,7 +25930,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25953,7 +25953,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25976,7 +25976,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -25999,7 +25999,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -26022,7 +26022,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -26045,7 +26045,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26068,7 +26068,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26091,7 +26091,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26114,7 +26114,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26137,7 +26137,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26160,7 +26160,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26183,7 +26183,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26206,7 +26206,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26229,7 +26229,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -26252,7 +26252,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26275,7 +26275,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26298,7 +26298,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26321,7 +26321,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26344,7 +26344,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26367,7 +26367,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26390,7 +26390,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26413,7 +26413,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26436,7 +26436,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -26459,7 +26459,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26482,7 +26482,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26505,7 +26505,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26528,7 +26528,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26551,7 +26551,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26574,7 +26574,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26597,7 +26597,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26625,7 +26625,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26653,7 +26653,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26681,7 +26681,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26709,7 +26709,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26737,7 +26737,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -26765,7 +26765,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26788,7 +26788,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26811,7 +26811,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26834,7 +26834,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26857,7 +26857,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26880,7 +26880,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26903,7 +26903,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26931,7 +26931,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26959,7 +26959,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -26987,7 +26987,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27015,7 +27015,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27043,7 +27043,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27071,7 +27071,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27094,7 +27094,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27117,7 +27117,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27140,7 +27140,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27163,7 +27163,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27186,7 +27186,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27209,7 +27209,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27237,7 +27237,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27265,7 +27265,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27293,7 +27293,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27321,7 +27321,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27349,7 +27349,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27377,7 +27377,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27400,7 +27400,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27423,7 +27423,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27446,7 +27446,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27469,7 +27469,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27492,7 +27492,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27515,7 +27515,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27538,7 +27538,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27561,7 +27561,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27584,7 +27584,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27607,7 +27607,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27630,7 +27630,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27653,7 +27653,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27681,7 +27681,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27709,7 +27709,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27737,7 +27737,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27765,7 +27765,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27793,7 +27793,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -27821,7 +27821,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27844,7 +27844,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27867,7 +27867,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27890,7 +27890,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27913,7 +27913,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27936,7 +27936,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27959,7 +27959,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -27987,7 +27987,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -28015,7 +28015,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -28043,7 +28043,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -28071,7 +28071,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -28099,7 +28099,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -28127,7 +28127,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28150,7 +28150,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28173,7 +28173,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28196,7 +28196,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28219,7 +28219,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28242,7 +28242,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28265,7 +28265,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28288,7 +28288,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28311,7 +28311,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28334,7 +28334,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28362,7 +28362,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28390,7 +28390,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28418,7 +28418,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28446,7 +28446,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28474,7 +28474,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28502,7 +28502,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28530,7 +28530,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28558,7 +28558,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -28586,7 +28586,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28609,7 +28609,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28632,7 +28632,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28655,7 +28655,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28678,7 +28678,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28701,7 +28701,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28724,7 +28724,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28747,7 +28747,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28770,7 +28770,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28793,7 +28793,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28821,7 +28821,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28849,7 +28849,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28877,7 +28877,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28905,7 +28905,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28933,7 +28933,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28961,7 +28961,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -28989,7 +28989,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29017,7 +29017,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29045,7 +29045,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29068,7 +29068,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29091,7 +29091,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29114,7 +29114,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29137,7 +29137,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29160,7 +29160,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29183,7 +29183,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29206,7 +29206,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29229,7 +29229,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29252,7 +29252,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29280,7 +29280,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29308,7 +29308,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29336,7 +29336,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29364,7 +29364,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29392,7 +29392,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29420,7 +29420,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29448,7 +29448,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29476,7 +29476,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -29504,7 +29504,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29527,7 +29527,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29550,7 +29550,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29573,7 +29573,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29596,7 +29596,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29619,7 +29619,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29642,7 +29642,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29665,7 +29665,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29688,7 +29688,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29711,7 +29711,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29734,7 +29734,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29757,7 +29757,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29780,7 +29780,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29803,7 +29803,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29826,7 +29826,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29849,7 +29849,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29872,7 +29872,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29895,7 +29895,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29918,7 +29918,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29946,7 +29946,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -29974,7 +29974,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30002,7 +30002,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30030,7 +30030,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30058,7 +30058,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30086,7 +30086,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30114,7 +30114,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30142,7 +30142,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -30170,7 +30170,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30193,7 +30193,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30216,7 +30216,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30239,7 +30239,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30262,7 +30262,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30285,7 +30285,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30308,7 +30308,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30331,7 +30331,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30354,7 +30354,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30377,7 +30377,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30405,7 +30405,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30433,7 +30433,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30461,7 +30461,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30489,7 +30489,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30517,7 +30517,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30545,7 +30545,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30573,7 +30573,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30601,7 +30601,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -30629,7 +30629,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30652,7 +30652,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30675,7 +30675,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30698,7 +30698,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30721,7 +30721,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30744,7 +30744,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30767,7 +30767,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30790,7 +30790,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30813,7 +30813,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30836,7 +30836,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30864,7 +30864,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30892,7 +30892,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30920,7 +30920,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30948,7 +30948,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -30976,7 +30976,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -31004,7 +31004,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -31032,7 +31032,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -31060,7 +31060,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] offset
@@ -31088,7 +31088,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31111,7 +31111,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31134,7 +31134,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31157,7 +31157,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31180,7 +31180,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31203,7 +31203,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31226,7 +31226,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31249,7 +31249,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31272,7 +31272,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31295,7 +31295,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31323,7 +31323,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31351,7 +31351,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31379,7 +31379,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31407,7 +31407,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31435,7 +31435,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31463,7 +31463,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31491,7 +31491,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31519,7 +31519,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -31547,7 +31547,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31570,7 +31570,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31593,7 +31593,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31616,7 +31616,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31639,7 +31639,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31662,7 +31662,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31685,7 +31685,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31708,7 +31708,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31731,7 +31731,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31754,7 +31754,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31782,7 +31782,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31810,7 +31810,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31838,7 +31838,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31866,7 +31866,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31894,7 +31894,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31922,7 +31922,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31950,7 +31950,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -31978,7 +31978,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32006,7 +32006,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32029,7 +32029,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32052,7 +32052,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32075,7 +32075,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32098,7 +32098,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32121,7 +32121,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32144,7 +32144,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32167,7 +32167,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32190,7 +32190,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32213,7 +32213,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32236,7 +32236,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32259,7 +32259,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32282,7 +32282,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32305,7 +32305,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32328,7 +32328,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32351,7 +32351,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32374,7 +32374,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32397,7 +32397,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32420,7 +32420,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32448,7 +32448,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32476,7 +32476,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32504,7 +32504,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32532,7 +32532,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32560,7 +32560,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32588,7 +32588,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32616,7 +32616,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32644,7 +32644,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -32672,7 +32672,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32695,7 +32695,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32718,7 +32718,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32741,7 +32741,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32764,7 +32764,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32787,7 +32787,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32810,7 +32810,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32833,7 +32833,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32856,7 +32856,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32879,7 +32879,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32907,7 +32907,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32935,7 +32935,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32963,7 +32963,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -32991,7 +32991,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -33019,7 +33019,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -33047,7 +33047,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -33075,7 +33075,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -33103,7 +33103,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -33131,7 +33131,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -33154,7 +33154,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -33177,7 +33177,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -33200,7 +33200,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -33223,7 +33223,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -33246,7 +33246,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -33269,7 +33269,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33292,7 +33292,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33315,7 +33315,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33338,7 +33338,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33361,7 +33361,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33384,7 +33384,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33407,7 +33407,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33430,7 +33430,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33453,7 +33453,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33476,7 +33476,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33499,7 +33499,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33522,7 +33522,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33545,7 +33545,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -33563,7 +33563,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -33581,7 +33581,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -33599,7 +33599,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -33617,7 +33617,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -33635,7 +33635,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -33653,7 +33653,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33676,7 +33676,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33699,7 +33699,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33722,7 +33722,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33745,7 +33745,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33768,7 +33768,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -33791,7 +33791,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33814,7 +33814,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33837,7 +33837,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33860,7 +33860,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33883,7 +33883,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33906,7 +33906,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -33929,7 +33929,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -33947,7 +33947,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -33965,7 +33965,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -33983,7 +33983,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -34001,7 +34001,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -34019,7 +34019,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Buffer>
+	*	Texture<Float, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -34037,7 +34037,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34060,7 +34060,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34083,7 +34083,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34106,7 +34106,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34129,7 +34129,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34152,7 +34152,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34175,7 +34175,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34198,7 +34198,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34221,7 +34221,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -34244,7 +34244,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34267,7 +34267,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34290,7 +34290,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34313,7 +34313,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34336,7 +34336,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34359,7 +34359,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34382,7 +34382,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34405,7 +34405,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34428,7 +34428,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34451,7 +34451,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34474,7 +34474,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34497,7 +34497,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34520,7 +34520,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34543,7 +34543,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34566,7 +34566,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34589,7 +34589,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34612,7 +34612,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34635,7 +34635,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -34658,7 +34658,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34676,7 +34676,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34694,7 +34694,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34712,7 +34712,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34730,7 +34730,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34748,7 +34748,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34766,7 +34766,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34784,7 +34784,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34802,7 +34802,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -34820,7 +34820,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34843,7 +34843,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34866,7 +34866,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34889,7 +34889,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34912,7 +34912,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34935,7 +34935,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34958,7 +34958,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -34981,7 +34981,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35004,7 +35004,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35027,7 +35027,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35050,7 +35050,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35073,7 +35073,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35096,7 +35096,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35119,7 +35119,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35142,7 +35142,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35165,7 +35165,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35188,7 +35188,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35211,7 +35211,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35234,7 +35234,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35252,7 +35252,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35270,7 +35270,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35288,7 +35288,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35306,7 +35306,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35324,7 +35324,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35342,7 +35342,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35360,7 +35360,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35378,7 +35378,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Buffer>
+	*	Texture<Int, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -35396,7 +35396,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35419,7 +35419,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35442,7 +35442,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35465,7 +35465,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35488,7 +35488,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35511,7 +35511,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35534,7 +35534,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35557,7 +35557,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35580,7 +35580,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -35603,7 +35603,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35626,7 +35626,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35649,7 +35649,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35672,7 +35672,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35695,7 +35695,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35718,7 +35718,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35741,7 +35741,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35764,7 +35764,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35787,7 +35787,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -35810,7 +35810,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35833,7 +35833,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35856,7 +35856,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35879,7 +35879,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35902,7 +35902,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35925,7 +35925,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35948,7 +35948,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35971,7 +35971,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -35994,7 +35994,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36017,7 +36017,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36035,7 +36035,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36053,7 +36053,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36071,7 +36071,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36089,7 +36089,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36107,7 +36107,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36125,7 +36125,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36143,7 +36143,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36161,7 +36161,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*/
@@ -36179,7 +36179,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36202,7 +36202,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36225,7 +36225,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36248,7 +36248,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36271,7 +36271,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36294,7 +36294,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36317,7 +36317,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36340,7 +36340,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36363,7 +36363,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36386,7 +36386,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36409,7 +36409,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36432,7 +36432,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36455,7 +36455,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36478,7 +36478,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36501,7 +36501,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36524,7 +36524,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36547,7 +36547,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36570,7 +36570,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -36593,7 +36593,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36611,7 +36611,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36629,7 +36629,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36647,7 +36647,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36665,7 +36665,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36683,7 +36683,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36701,7 +36701,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36719,7 +36719,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36737,7 +36737,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Buffer>
+	*	Texture<UInt, Buffer>
 	*@param[in] P
 	*	int
 	*/
@@ -36755,7 +36755,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -36783,7 +36783,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -36811,7 +36811,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -36839,7 +36839,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -36867,7 +36867,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -36895,7 +36895,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -36923,7 +36923,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36951,7 +36951,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -36979,7 +36979,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37007,7 +37007,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37035,7 +37035,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37063,7 +37063,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37091,7 +37091,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37119,7 +37119,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37147,7 +37147,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37175,7 +37175,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37203,7 +37203,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37231,7 +37231,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37259,7 +37259,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -37282,7 +37282,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -37305,7 +37305,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -37328,7 +37328,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -37351,7 +37351,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -37374,7 +37374,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -37397,7 +37397,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37425,7 +37425,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37453,7 +37453,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37481,7 +37481,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37509,7 +37509,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37537,7 +37537,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -37565,7 +37565,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37593,7 +37593,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37621,7 +37621,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37649,7 +37649,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37677,7 +37677,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37705,7 +37705,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -37733,7 +37733,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37761,7 +37761,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37789,7 +37789,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37817,7 +37817,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37845,7 +37845,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37873,7 +37873,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37901,7 +37901,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37929,7 +37929,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37957,7 +37957,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -37985,7 +37985,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38013,7 +38013,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38041,7 +38041,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38069,7 +38069,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38097,7 +38097,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38125,7 +38125,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38153,7 +38153,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38181,7 +38181,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38209,7 +38209,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38237,7 +38237,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38265,7 +38265,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38293,7 +38293,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38321,7 +38321,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38349,7 +38349,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38377,7 +38377,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38405,7 +38405,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38433,7 +38433,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38461,7 +38461,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38489,7 +38489,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38512,7 +38512,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38535,7 +38535,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38558,7 +38558,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38581,7 +38581,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38604,7 +38604,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38627,7 +38627,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38650,7 +38650,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38673,7 +38673,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -38696,7 +38696,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38724,7 +38724,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38752,7 +38752,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38780,7 +38780,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38808,7 +38808,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38836,7 +38836,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38864,7 +38864,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38892,7 +38892,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38920,7 +38920,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -38948,7 +38948,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -38976,7 +38976,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39004,7 +39004,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39032,7 +39032,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39060,7 +39060,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39088,7 +39088,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39116,7 +39116,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39144,7 +39144,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39172,7 +39172,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39200,7 +39200,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39228,7 +39228,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39256,7 +39256,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39284,7 +39284,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39312,7 +39312,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39340,7 +39340,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39368,7 +39368,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39396,7 +39396,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39424,7 +39424,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	int
 	*@param[in] lod
@@ -39452,7 +39452,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39480,7 +39480,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39508,7 +39508,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39536,7 +39536,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39564,7 +39564,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39592,7 +39592,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39620,7 +39620,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39648,7 +39648,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39676,7 +39676,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -39704,7 +39704,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39732,7 +39732,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39760,7 +39760,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39788,7 +39788,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39816,7 +39816,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39844,7 +39844,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39872,7 +39872,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39900,7 +39900,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39928,7 +39928,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -39956,7 +39956,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -39979,7 +39979,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40002,7 +40002,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40025,7 +40025,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40048,7 +40048,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40071,7 +40071,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40094,7 +40094,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40117,7 +40117,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40140,7 +40140,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2i
 	*@param[in] offset
@@ -40163,7 +40163,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40191,7 +40191,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40219,7 +40219,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40247,7 +40247,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40275,7 +40275,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40303,7 +40303,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40331,7 +40331,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40359,7 +40359,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40387,7 +40387,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2i
 	*@param[in] lod
@@ -40415,7 +40415,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40443,7 +40443,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40471,7 +40471,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40499,7 +40499,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40527,7 +40527,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40555,7 +40555,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40583,7 +40583,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40611,7 +40611,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40639,7 +40639,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3i
 	*@param[in] lod
@@ -40667,7 +40667,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40690,7 +40690,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40713,7 +40713,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40736,7 +40736,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40759,7 +40759,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40782,7 +40782,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40805,7 +40805,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40833,7 +40833,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40861,7 +40861,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40889,7 +40889,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40917,7 +40917,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40945,7 +40945,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -40973,7 +40973,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -40996,7 +40996,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41019,7 +41019,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41042,7 +41042,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41065,7 +41065,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41088,7 +41088,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41111,7 +41111,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41139,7 +41139,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41167,7 +41167,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41195,7 +41195,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41223,7 +41223,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41251,7 +41251,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41279,7 +41279,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41302,7 +41302,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41325,7 +41325,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41348,7 +41348,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41371,7 +41371,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41394,7 +41394,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41417,7 +41417,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41445,7 +41445,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41473,7 +41473,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41501,7 +41501,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41529,7 +41529,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41557,7 +41557,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -41585,7 +41585,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41608,7 +41608,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41631,7 +41631,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41654,7 +41654,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41677,7 +41677,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41700,7 +41700,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41723,7 +41723,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41751,7 +41751,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41779,7 +41779,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41807,7 +41807,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41835,7 +41835,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41863,7 +41863,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41891,7 +41891,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41914,7 +41914,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41937,7 +41937,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41960,7 +41960,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -41983,7 +41983,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42006,7 +42006,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42029,7 +42029,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42057,7 +42057,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42085,7 +42085,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42113,7 +42113,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42141,7 +42141,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42169,7 +42169,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42197,7 +42197,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -42220,7 +42220,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -42243,7 +42243,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -42266,7 +42266,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -42289,7 +42289,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -42312,7 +42312,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -42335,7 +42335,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42358,7 +42358,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42381,7 +42381,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42404,7 +42404,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42427,7 +42427,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42450,7 +42450,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42473,7 +42473,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42496,7 +42496,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42519,7 +42519,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42542,7 +42542,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42565,7 +42565,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42588,7 +42588,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42611,7 +42611,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42634,7 +42634,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42657,7 +42657,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42680,7 +42680,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42708,7 +42708,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42736,7 +42736,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42764,7 +42764,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42792,7 +42792,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42820,7 +42820,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42848,7 +42848,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42876,7 +42876,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42904,7 +42904,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -42932,7 +42932,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42955,7 +42955,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -42978,7 +42978,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43001,7 +43001,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43024,7 +43024,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43047,7 +43047,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43070,7 +43070,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43093,7 +43093,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43116,7 +43116,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43139,7 +43139,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43167,7 +43167,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43195,7 +43195,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43223,7 +43223,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43251,7 +43251,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43279,7 +43279,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43307,7 +43307,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43335,7 +43335,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43363,7 +43363,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43391,7 +43391,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43414,7 +43414,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43437,7 +43437,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43460,7 +43460,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43483,7 +43483,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43506,7 +43506,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43529,7 +43529,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43552,7 +43552,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43575,7 +43575,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43598,7 +43598,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43626,7 +43626,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43654,7 +43654,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43682,7 +43682,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43710,7 +43710,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43738,7 +43738,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43766,7 +43766,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43794,7 +43794,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43822,7 +43822,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -43850,7 +43850,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43873,7 +43873,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43896,7 +43896,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43919,7 +43919,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43942,7 +43942,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43965,7 +43965,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -43988,7 +43988,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44011,7 +44011,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44034,7 +44034,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44057,7 +44057,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44085,7 +44085,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44113,7 +44113,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44141,7 +44141,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44169,7 +44169,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44197,7 +44197,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44225,7 +44225,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44253,7 +44253,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44281,7 +44281,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44309,7 +44309,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44332,7 +44332,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44355,7 +44355,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44378,7 +44378,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44401,7 +44401,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44424,7 +44424,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44447,7 +44447,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44470,7 +44470,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44493,7 +44493,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44516,7 +44516,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44544,7 +44544,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44572,7 +44572,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44600,7 +44600,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44628,7 +44628,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44656,7 +44656,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44684,7 +44684,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44712,7 +44712,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44740,7 +44740,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44768,7 +44768,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44791,7 +44791,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44814,7 +44814,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44837,7 +44837,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44860,7 +44860,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44883,7 +44883,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44906,7 +44906,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44929,7 +44929,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44952,7 +44952,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -44975,7 +44975,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -44998,7 +44998,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45021,7 +45021,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45044,7 +45044,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45067,7 +45067,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45090,7 +45090,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45113,7 +45113,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45136,7 +45136,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45159,7 +45159,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45182,7 +45182,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45205,7 +45205,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45228,7 +45228,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45251,7 +45251,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45274,7 +45274,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45297,7 +45297,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45320,7 +45320,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45343,7 +45343,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45366,7 +45366,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45389,7 +45389,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45417,7 +45417,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45445,7 +45445,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45473,7 +45473,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45501,7 +45501,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45529,7 +45529,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45557,7 +45557,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45585,7 +45585,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45613,7 +45613,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] offset
@@ -45641,7 +45641,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45664,7 +45664,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45687,7 +45687,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45710,7 +45710,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45733,7 +45733,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45756,7 +45756,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45779,7 +45779,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45802,7 +45802,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45825,7 +45825,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45848,7 +45848,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45876,7 +45876,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45904,7 +45904,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45932,7 +45932,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45960,7 +45960,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -45988,7 +45988,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46016,7 +46016,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46044,7 +46044,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46072,7 +46072,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46100,7 +46100,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46123,7 +46123,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46146,7 +46146,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46169,7 +46169,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46192,7 +46192,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46215,7 +46215,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46238,7 +46238,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46261,7 +46261,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46284,7 +46284,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46307,7 +46307,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46335,7 +46335,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46363,7 +46363,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46391,7 +46391,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46419,7 +46419,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46447,7 +46447,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46475,7 +46475,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46503,7 +46503,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46531,7 +46531,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -46559,7 +46559,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46582,7 +46582,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46605,7 +46605,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46628,7 +46628,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46651,7 +46651,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46674,7 +46674,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46697,7 +46697,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46720,7 +46720,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46743,7 +46743,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46766,7 +46766,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46794,7 +46794,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46822,7 +46822,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46850,7 +46850,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46878,7 +46878,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46906,7 +46906,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46934,7 +46934,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46962,7 +46962,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -46990,7 +46990,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47018,7 +47018,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47041,7 +47041,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47064,7 +47064,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47087,7 +47087,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47110,7 +47110,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47133,7 +47133,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47156,7 +47156,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47179,7 +47179,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47202,7 +47202,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47225,7 +47225,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47253,7 +47253,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47281,7 +47281,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47309,7 +47309,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47337,7 +47337,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47365,7 +47365,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47393,7 +47393,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47421,7 +47421,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47449,7 +47449,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47477,7 +47477,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47500,7 +47500,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47523,7 +47523,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47546,7 +47546,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47569,7 +47569,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47592,7 +47592,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47615,7 +47615,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47638,7 +47638,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47661,7 +47661,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] offset
@@ -47684,7 +47684,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47707,7 +47707,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47730,7 +47730,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47753,7 +47753,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47776,7 +47776,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47799,7 +47799,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47822,7 +47822,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47845,7 +47845,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47868,7 +47868,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] offset
@@ -47891,7 +47891,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -47919,7 +47919,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -47947,7 +47947,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -47975,7 +47975,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48003,7 +48003,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48031,7 +48031,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48059,7 +48059,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48087,7 +48087,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48115,7 +48115,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48143,7 +48143,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48171,7 +48171,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48199,7 +48199,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48227,7 +48227,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48255,7 +48255,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48283,7 +48283,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48311,7 +48311,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48339,7 +48339,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48367,7 +48367,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48395,7 +48395,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48423,7 +48423,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48451,7 +48451,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48479,7 +48479,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48507,7 +48507,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48535,7 +48535,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -48563,7 +48563,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48591,7 +48591,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48619,7 +48619,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48647,7 +48647,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48675,7 +48675,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48703,7 +48703,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -48731,7 +48731,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48759,7 +48759,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48787,7 +48787,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48815,7 +48815,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48843,7 +48843,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48871,7 +48871,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48899,7 +48899,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48927,7 +48927,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48955,7 +48955,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -48983,7 +48983,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49011,7 +49011,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49039,7 +49039,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49067,7 +49067,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49095,7 +49095,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49123,7 +49123,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49151,7 +49151,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49179,7 +49179,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49207,7 +49207,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49235,7 +49235,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49263,7 +49263,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49291,7 +49291,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49319,7 +49319,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49347,7 +49347,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49375,7 +49375,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49403,7 +49403,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49431,7 +49431,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49459,7 +49459,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49487,7 +49487,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49515,7 +49515,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49543,7 +49543,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49571,7 +49571,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49599,7 +49599,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49627,7 +49627,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49655,7 +49655,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49683,7 +49683,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49711,7 +49711,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -49739,7 +49739,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49767,7 +49767,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49795,7 +49795,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49823,7 +49823,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49851,7 +49851,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49879,7 +49879,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49907,7 +49907,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49935,7 +49935,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49963,7 +49963,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -49991,7 +49991,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50019,7 +50019,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50047,7 +50047,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50075,7 +50075,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50103,7 +50103,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50131,7 +50131,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50159,7 +50159,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50187,7 +50187,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50215,7 +50215,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] lod
@@ -50243,7 +50243,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50271,7 +50271,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50299,7 +50299,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50327,7 +50327,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50355,7 +50355,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50383,7 +50383,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50411,7 +50411,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50439,7 +50439,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50467,7 +50467,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50495,7 +50495,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50523,7 +50523,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50551,7 +50551,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50579,7 +50579,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50607,7 +50607,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50635,7 +50635,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50663,7 +50663,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50691,7 +50691,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50719,7 +50719,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -50747,7 +50747,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50775,7 +50775,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50803,7 +50803,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50831,7 +50831,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50859,7 +50859,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50887,7 +50887,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50915,7 +50915,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50943,7 +50943,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50971,7 +50971,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -50999,7 +50999,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51027,7 +51027,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51055,7 +51055,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51083,7 +51083,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51111,7 +51111,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51139,7 +51139,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51167,7 +51167,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51195,7 +51195,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51223,7 +51223,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51251,7 +51251,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51274,7 +51274,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51297,7 +51297,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51320,7 +51320,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51343,7 +51343,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51366,7 +51366,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51389,7 +51389,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51412,7 +51412,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51435,7 +51435,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51458,7 +51458,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51481,7 +51481,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51504,7 +51504,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51527,7 +51527,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51550,7 +51550,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51573,7 +51573,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51596,7 +51596,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51619,7 +51619,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51642,7 +51642,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -51665,7 +51665,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51688,7 +51688,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51711,7 +51711,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51734,7 +51734,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51757,7 +51757,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51780,7 +51780,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51803,7 +51803,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51826,7 +51826,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51849,7 +51849,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51872,7 +51872,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51895,7 +51895,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51918,7 +51918,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -51941,7 +51941,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51964,7 +51964,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -51987,7 +51987,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52010,7 +52010,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52033,7 +52033,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52056,7 +52056,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52079,7 +52079,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52102,7 +52102,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52125,7 +52125,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52148,7 +52148,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52171,7 +52171,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52194,7 +52194,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52217,7 +52217,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52240,7 +52240,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52263,7 +52263,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52286,7 +52286,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52309,7 +52309,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52332,7 +52332,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52355,7 +52355,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52378,7 +52378,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52401,7 +52401,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52424,7 +52424,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52447,7 +52447,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52470,7 +52470,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52493,7 +52493,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52516,7 +52516,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52539,7 +52539,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -52562,7 +52562,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52585,7 +52585,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52608,7 +52608,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52631,7 +52631,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52654,7 +52654,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52677,7 +52677,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52700,7 +52700,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52723,7 +52723,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52746,7 +52746,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52769,7 +52769,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52792,7 +52792,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52815,7 +52815,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52838,7 +52838,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52861,7 +52861,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52884,7 +52884,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52907,7 +52907,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52930,7 +52930,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52953,7 +52953,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -52976,7 +52976,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -52999,7 +52999,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53022,7 +53022,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53045,7 +53045,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53068,7 +53068,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53091,7 +53091,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53114,7 +53114,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53137,7 +53137,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53160,7 +53160,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -53183,7 +53183,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53206,7 +53206,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53229,7 +53229,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53252,7 +53252,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53275,7 +53275,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53298,7 +53298,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53321,7 +53321,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53344,7 +53344,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53367,7 +53367,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53390,7 +53390,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53413,7 +53413,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53436,7 +53436,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53459,7 +53459,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53482,7 +53482,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53505,7 +53505,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53528,7 +53528,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53551,7 +53551,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53574,7 +53574,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -53597,7 +53597,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53620,7 +53620,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53643,7 +53643,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53666,7 +53666,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53689,7 +53689,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53712,7 +53712,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53735,7 +53735,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53758,7 +53758,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53781,7 +53781,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53804,7 +53804,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53827,7 +53827,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53850,7 +53850,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53873,7 +53873,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53896,7 +53896,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53919,7 +53919,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53942,7 +53942,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53965,7 +53965,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -53988,7 +53988,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54011,7 +54011,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54039,7 +54039,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54067,7 +54067,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54095,7 +54095,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54123,7 +54123,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54151,7 +54151,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54179,7 +54179,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54207,7 +54207,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54235,7 +54235,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54263,7 +54263,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54291,7 +54291,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54319,7 +54319,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54347,7 +54347,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -54375,7 +54375,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -54403,7 +54403,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -54431,7 +54431,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -54459,7 +54459,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -54487,7 +54487,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -54515,7 +54515,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54543,7 +54543,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54571,7 +54571,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54599,7 +54599,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54627,7 +54627,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54655,7 +54655,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54683,7 +54683,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54711,7 +54711,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54739,7 +54739,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54767,7 +54767,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54795,7 +54795,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54823,7 +54823,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -54851,7 +54851,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54879,7 +54879,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54907,7 +54907,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54935,7 +54935,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54963,7 +54963,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -54991,7 +54991,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -55019,7 +55019,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -55047,7 +55047,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -55075,7 +55075,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -55103,7 +55103,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55131,7 +55131,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55159,7 +55159,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55187,7 +55187,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55215,7 +55215,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55243,7 +55243,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55271,7 +55271,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55299,7 +55299,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55327,7 +55327,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55355,7 +55355,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55383,7 +55383,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55411,7 +55411,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55439,7 +55439,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55467,7 +55467,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55495,7 +55495,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55523,7 +55523,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55551,7 +55551,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55579,7 +55579,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -55607,7 +55607,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55635,7 +55635,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55663,7 +55663,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55691,7 +55691,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55719,7 +55719,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55747,7 +55747,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55775,7 +55775,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55803,7 +55803,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55831,7 +55831,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55859,7 +55859,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55887,7 +55887,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55915,7 +55915,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55943,7 +55943,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55971,7 +55971,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -55999,7 +55999,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56027,7 +56027,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56055,7 +56055,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56083,7 +56083,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56111,7 +56111,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56139,7 +56139,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56167,7 +56167,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56195,7 +56195,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56223,7 +56223,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56251,7 +56251,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56279,7 +56279,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56307,7 +56307,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56335,7 +56335,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] lod
@@ -56363,7 +56363,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56391,7 +56391,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56419,7 +56419,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56447,7 +56447,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56475,7 +56475,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56503,7 +56503,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56531,7 +56531,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56559,7 +56559,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56587,7 +56587,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56615,7 +56615,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56643,7 +56643,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56671,7 +56671,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56699,7 +56699,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56727,7 +56727,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56755,7 +56755,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56783,7 +56783,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56811,7 +56811,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56839,7 +56839,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] lod
@@ -56867,7 +56867,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56895,7 +56895,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56923,7 +56923,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56951,7 +56951,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -56979,7 +56979,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57007,7 +57007,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57035,7 +57035,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57063,7 +57063,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57091,7 +57091,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57119,7 +57119,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57147,7 +57147,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57175,7 +57175,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57203,7 +57203,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57231,7 +57231,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57259,7 +57259,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57287,7 +57287,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57315,7 +57315,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57343,7 +57343,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] lod
@@ -57371,7 +57371,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -57399,7 +57399,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -57427,7 +57427,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -57455,7 +57455,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -57483,7 +57483,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -57511,7 +57511,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -57539,7 +57539,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -57567,7 +57567,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -57595,7 +57595,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -57623,7 +57623,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -57651,7 +57651,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -57679,7 +57679,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -57707,7 +57707,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57735,7 +57735,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57763,7 +57763,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57791,7 +57791,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57819,7 +57819,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57847,7 +57847,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57875,7 +57875,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57903,7 +57903,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57931,7 +57931,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57959,7 +57959,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -57987,7 +57987,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58015,7 +58015,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58043,7 +58043,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58071,7 +58071,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58099,7 +58099,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58127,7 +58127,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58155,7 +58155,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58183,7 +58183,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58211,7 +58211,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58239,7 +58239,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58267,7 +58267,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58295,7 +58295,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58323,7 +58323,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58351,7 +58351,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58379,7 +58379,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58407,7 +58407,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58435,7 +58435,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58463,7 +58463,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58491,7 +58491,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58519,7 +58519,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -58547,7 +58547,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -58575,7 +58575,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -58603,7 +58603,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -58631,7 +58631,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -58659,7 +58659,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -58687,7 +58687,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -58715,7 +58715,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58743,7 +58743,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58771,7 +58771,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58799,7 +58799,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58827,7 +58827,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58855,7 +58855,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58883,7 +58883,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58911,7 +58911,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58939,7 +58939,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -58967,7 +58967,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -58995,7 +58995,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59023,7 +59023,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59051,7 +59051,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59079,7 +59079,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59107,7 +59107,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59135,7 +59135,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59163,7 +59163,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59191,7 +59191,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59219,7 +59219,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59247,7 +59247,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59275,7 +59275,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59303,7 +59303,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59331,7 +59331,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59359,7 +59359,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59387,7 +59387,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59415,7 +59415,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59443,7 +59443,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59471,7 +59471,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59499,7 +59499,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59527,7 +59527,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59555,7 +59555,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59583,7 +59583,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59611,7 +59611,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59639,7 +59639,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59667,7 +59667,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59695,7 +59695,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -59723,7 +59723,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59751,7 +59751,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59779,7 +59779,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59807,7 +59807,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59835,7 +59835,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59863,7 +59863,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59891,7 +59891,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59919,7 +59919,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59947,7 +59947,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -59975,7 +59975,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60003,7 +60003,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60031,7 +60031,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60059,7 +60059,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60087,7 +60087,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60115,7 +60115,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60143,7 +60143,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60171,7 +60171,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60199,7 +60199,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -60227,7 +60227,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60255,7 +60255,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60283,7 +60283,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60311,7 +60311,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60339,7 +60339,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60367,7 +60367,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60395,7 +60395,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60423,7 +60423,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60451,7 +60451,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -60479,7 +60479,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60507,7 +60507,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60535,7 +60535,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60563,7 +60563,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60591,7 +60591,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60619,7 +60619,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60647,7 +60647,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60675,7 +60675,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60703,7 +60703,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -60731,7 +60731,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60759,7 +60759,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60787,7 +60787,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60815,7 +60815,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60843,7 +60843,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60871,7 +60871,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60899,7 +60899,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60927,7 +60927,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60955,7 +60955,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -60983,7 +60983,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61011,7 +61011,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61039,7 +61039,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61067,7 +61067,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61095,7 +61095,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61123,7 +61123,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61151,7 +61151,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61179,7 +61179,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61207,7 +61207,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61235,7 +61235,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61263,7 +61263,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61291,7 +61291,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61319,7 +61319,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61347,7 +61347,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61375,7 +61375,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61403,7 +61403,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61431,7 +61431,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61459,7 +61459,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61487,7 +61487,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61515,7 +61515,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61543,7 +61543,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61571,7 +61571,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61599,7 +61599,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61627,7 +61627,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61655,7 +61655,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61683,7 +61683,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61711,7 +61711,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -61739,7 +61739,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61767,7 +61767,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61795,7 +61795,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61823,7 +61823,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61851,7 +61851,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61879,7 +61879,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61907,7 +61907,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61935,7 +61935,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61963,7 +61963,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -61991,7 +61991,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62019,7 +62019,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62047,7 +62047,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62075,7 +62075,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62103,7 +62103,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62131,7 +62131,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62159,7 +62159,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62187,7 +62187,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62215,7 +62215,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62243,7 +62243,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62271,7 +62271,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62299,7 +62299,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62327,7 +62327,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62355,7 +62355,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62383,7 +62383,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62411,7 +62411,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62439,7 +62439,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62467,7 +62467,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -62495,7 +62495,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62523,7 +62523,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62551,7 +62551,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62579,7 +62579,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62607,7 +62607,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62635,7 +62635,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62663,7 +62663,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62691,7 +62691,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62719,7 +62719,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -62747,7 +62747,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -62780,7 +62780,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -62813,7 +62813,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -62846,7 +62846,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -62879,7 +62879,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -62912,7 +62912,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -62945,7 +62945,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -62978,7 +62978,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63011,7 +63011,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63044,7 +63044,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63077,7 +63077,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63110,7 +63110,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63143,7 +63143,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63176,7 +63176,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63209,7 +63209,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63242,7 +63242,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63275,7 +63275,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63308,7 +63308,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63341,7 +63341,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63374,7 +63374,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63407,7 +63407,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63440,7 +63440,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63473,7 +63473,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63506,7 +63506,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63539,7 +63539,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63572,7 +63572,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63605,7 +63605,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63638,7 +63638,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63671,7 +63671,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63704,7 +63704,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array>
+	*	Texture<Float, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -63737,7 +63737,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63770,7 +63770,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63803,7 +63803,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63836,7 +63836,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63869,7 +63869,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63902,7 +63902,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -63935,7 +63935,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -63968,7 +63968,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64001,7 +64001,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64034,7 +64034,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64067,7 +64067,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64100,7 +64100,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64133,7 +64133,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64166,7 +64166,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64199,7 +64199,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -64232,7 +64232,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64265,7 +64265,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64298,7 +64298,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64331,7 +64331,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64364,7 +64364,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64397,7 +64397,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64430,7 +64430,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64463,7 +64463,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64496,7 +64496,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64529,7 +64529,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64562,7 +64562,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64595,7 +64595,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64628,7 +64628,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64661,7 +64661,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64694,7 +64694,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64727,7 +64727,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64760,7 +64760,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64793,7 +64793,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -64826,7 +64826,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64859,7 +64859,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64892,7 +64892,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64925,7 +64925,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64958,7 +64958,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -64991,7 +64991,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65024,7 +65024,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65057,7 +65057,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65090,7 +65090,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65123,7 +65123,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65156,7 +65156,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65189,7 +65189,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65222,7 +65222,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65255,7 +65255,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65288,7 +65288,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65321,7 +65321,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65354,7 +65354,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65387,7 +65387,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D, Array>
+	*	Texture<Int, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -65420,7 +65420,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65453,7 +65453,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65486,7 +65486,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65519,7 +65519,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65552,7 +65552,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65585,7 +65585,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65618,7 +65618,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65651,7 +65651,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65684,7 +65684,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -65717,7 +65717,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65750,7 +65750,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65783,7 +65783,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65816,7 +65816,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65849,7 +65849,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65882,7 +65882,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65915,7 +65915,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65948,7 +65948,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -65981,7 +65981,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	float
 	*@param[in] dPdx
@@ -66014,7 +66014,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66047,7 +66047,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66080,7 +66080,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66113,7 +66113,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66146,7 +66146,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66179,7 +66179,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66212,7 +66212,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66245,7 +66245,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66278,7 +66278,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66311,7 +66311,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66344,7 +66344,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66377,7 +66377,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66410,7 +66410,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66443,7 +66443,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66476,7 +66476,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66509,7 +66509,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66542,7 +66542,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66575,7 +66575,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -66608,7 +66608,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66641,7 +66641,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66674,7 +66674,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66707,7 +66707,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66740,7 +66740,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66773,7 +66773,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66806,7 +66806,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66839,7 +66839,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66872,7 +66872,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66905,7 +66905,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66938,7 +66938,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -66971,7 +66971,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67004,7 +67004,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67037,7 +67037,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67070,7 +67070,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67103,7 +67103,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67136,7 +67136,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67169,7 +67169,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D, Array>
+	*	Texture<UInt, 1D, Array>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -67202,7 +67202,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67235,7 +67235,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67268,7 +67268,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67301,7 +67301,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67334,7 +67334,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67367,7 +67367,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67400,7 +67400,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67433,7 +67433,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67466,7 +67466,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -67499,7 +67499,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -67527,7 +67527,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -67555,7 +67555,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -67583,7 +67583,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -67611,7 +67611,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -67639,7 +67639,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -67667,7 +67667,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -67695,7 +67695,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -67723,7 +67723,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -67751,7 +67751,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -67779,7 +67779,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -67807,7 +67807,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -67835,7 +67835,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -67863,7 +67863,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -67891,7 +67891,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -67919,7 +67919,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -67947,7 +67947,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -67975,7 +67975,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68003,7 +68003,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68031,7 +68031,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68059,7 +68059,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68087,7 +68087,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68115,7 +68115,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68143,7 +68143,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68171,7 +68171,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68199,7 +68199,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68227,7 +68227,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68255,7 +68255,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68283,7 +68283,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68311,7 +68311,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68339,7 +68339,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68367,7 +68367,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68395,7 +68395,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68423,7 +68423,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68451,7 +68451,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68479,7 +68479,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -68507,7 +68507,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68535,7 +68535,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68563,7 +68563,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68591,7 +68591,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68619,7 +68619,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68647,7 +68647,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68675,7 +68675,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68703,7 +68703,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68731,7 +68731,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68759,7 +68759,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68787,7 +68787,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68815,7 +68815,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68843,7 +68843,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68871,7 +68871,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68899,7 +68899,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -68927,7 +68927,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68955,7 +68955,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -68983,7 +68983,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69011,7 +69011,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69039,7 +69039,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69067,7 +69067,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69095,7 +69095,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69123,7 +69123,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69151,7 +69151,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69179,7 +69179,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69207,7 +69207,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69235,7 +69235,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69263,7 +69263,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69291,7 +69291,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69319,7 +69319,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69347,7 +69347,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69375,7 +69375,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69403,7 +69403,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69431,7 +69431,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69459,7 +69459,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69487,7 +69487,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69515,7 +69515,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69543,7 +69543,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69571,7 +69571,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69599,7 +69599,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69627,7 +69627,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69655,7 +69655,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69683,7 +69683,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69711,7 +69711,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69739,7 +69739,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69767,7 +69767,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69795,7 +69795,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69823,7 +69823,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69851,7 +69851,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69879,7 +69879,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69907,7 +69907,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -69935,7 +69935,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69963,7 +69963,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -69991,7 +69991,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70019,7 +70019,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70047,7 +70047,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70075,7 +70075,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70103,7 +70103,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70131,7 +70131,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70159,7 +70159,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70187,7 +70187,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70215,7 +70215,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70243,7 +70243,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70271,7 +70271,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70299,7 +70299,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70327,7 +70327,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70355,7 +70355,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70383,7 +70383,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70411,7 +70411,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70439,7 +70439,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70467,7 +70467,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70495,7 +70495,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70523,7 +70523,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70551,7 +70551,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70579,7 +70579,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70607,7 +70607,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70635,7 +70635,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70663,7 +70663,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] pDx
@@ -70691,7 +70691,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70719,7 +70719,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70747,7 +70747,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70775,7 +70775,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70803,7 +70803,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70831,7 +70831,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70859,7 +70859,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70887,7 +70887,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70915,7 +70915,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -70943,7 +70943,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70971,7 +70971,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -70999,7 +70999,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71027,7 +71027,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71055,7 +71055,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71083,7 +71083,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71111,7 +71111,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71139,7 +71139,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71167,7 +71167,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71195,7 +71195,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71223,7 +71223,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71251,7 +71251,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71279,7 +71279,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71307,7 +71307,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71335,7 +71335,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71363,7 +71363,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71391,7 +71391,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71419,7 +71419,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71447,7 +71447,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71475,7 +71475,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71503,7 +71503,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71531,7 +71531,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71559,7 +71559,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71587,7 +71587,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71615,7 +71615,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71643,7 +71643,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71671,7 +71671,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71699,7 +71699,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71727,7 +71727,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71755,7 +71755,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71783,7 +71783,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71811,7 +71811,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71839,7 +71839,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71867,7 +71867,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71895,7 +71895,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71923,7 +71923,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] pDx
@@ -71951,7 +71951,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -71979,7 +71979,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72007,7 +72007,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72035,7 +72035,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72063,7 +72063,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72091,7 +72091,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72119,7 +72119,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72147,7 +72147,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72175,7 +72175,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] pDx
@@ -72203,7 +72203,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -72236,7 +72236,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -72269,7 +72269,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -72302,7 +72302,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -72335,7 +72335,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -72368,7 +72368,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -72401,7 +72401,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72434,7 +72434,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72467,7 +72467,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72500,7 +72500,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72533,7 +72533,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72566,7 +72566,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D>
+	*	Texture<Float, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72599,7 +72599,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -72632,7 +72632,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -72665,7 +72665,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -72698,7 +72698,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -72731,7 +72731,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -72764,7 +72764,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -72797,7 +72797,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72830,7 +72830,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72863,7 +72863,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72896,7 +72896,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72929,7 +72929,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72962,7 +72962,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -72995,7 +72995,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73028,7 +73028,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73061,7 +73061,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73094,7 +73094,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73127,7 +73127,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73160,7 +73160,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 3D>
+	*	Texture<Float, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73193,7 +73193,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -73226,7 +73226,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -73259,7 +73259,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -73292,7 +73292,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -73325,7 +73325,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -73358,7 +73358,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -73391,7 +73391,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73424,7 +73424,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73457,7 +73457,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73490,7 +73490,7 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73523,7 +73523,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73556,7 +73556,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73589,7 +73589,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73622,7 +73622,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73655,7 +73655,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73688,7 +73688,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73721,7 +73721,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73754,7 +73754,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73787,7 +73787,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73820,7 +73820,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73853,7 +73853,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -73886,7 +73886,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73919,7 +73919,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73952,7 +73952,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -73985,7 +73985,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74018,7 +74018,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74051,7 +74051,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74084,7 +74084,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74117,7 +74117,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74150,7 +74150,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 1D>
+	*	Texture<Int, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74183,7 +74183,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74216,7 +74216,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74249,7 +74249,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74282,7 +74282,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74315,7 +74315,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74348,7 +74348,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74381,7 +74381,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74414,7 +74414,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74447,7 +74447,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -74480,7 +74480,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74513,7 +74513,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74546,7 +74546,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74579,7 +74579,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74612,7 +74612,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74645,7 +74645,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74678,7 +74678,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74711,7 +74711,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74744,7 +74744,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74777,7 +74777,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74810,7 +74810,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74843,7 +74843,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74876,7 +74876,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74909,7 +74909,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74942,7 +74942,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -74975,7 +74975,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75008,7 +75008,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75041,7 +75041,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, 3D>
+	*	Texture<Int, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75074,7 +75074,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75107,7 +75107,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75140,7 +75140,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75173,7 +75173,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75206,7 +75206,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75239,7 +75239,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75272,7 +75272,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75305,7 +75305,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75338,7 +75338,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -75371,7 +75371,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75404,7 +75404,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75437,7 +75437,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75470,7 +75470,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75503,7 +75503,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75536,7 +75536,7 @@ namespace ast::expr
 	*@return
 	*	vec2i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75569,7 +75569,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75602,7 +75602,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75635,7 +75635,7 @@ namespace ast::expr
 	*@return
 	*	int
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75668,7 +75668,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75701,7 +75701,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75734,7 +75734,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75767,7 +75767,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75800,7 +75800,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75833,7 +75833,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75866,7 +75866,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75899,7 +75899,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75932,7 +75932,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] dPdx
@@ -75965,7 +75965,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -75998,7 +75998,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76031,7 +76031,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76064,7 +76064,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76097,7 +76097,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76130,7 +76130,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76163,7 +76163,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76196,7 +76196,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76229,7 +76229,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 1D>
+	*	Texture<UInt, 1D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76262,7 +76262,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76295,7 +76295,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76328,7 +76328,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76361,7 +76361,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76394,7 +76394,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76427,7 +76427,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76460,7 +76460,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76493,7 +76493,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76526,7 +76526,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -76559,7 +76559,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76592,7 +76592,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76625,7 +76625,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76658,7 +76658,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76691,7 +76691,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76724,7 +76724,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76757,7 +76757,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76790,7 +76790,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76823,7 +76823,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76856,7 +76856,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76889,7 +76889,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76922,7 +76922,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76955,7 +76955,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -76988,7 +76988,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77021,7 +77021,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77054,7 +77054,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77087,7 +77087,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77120,7 +77120,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, 3D>
+	*	Texture<UInt, 3D>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77153,7 +77153,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77186,7 +77186,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77219,7 +77219,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77252,7 +77252,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77285,7 +77285,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77318,7 +77318,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77351,7 +77351,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77384,7 +77384,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77417,7 +77417,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec3f
 	*@param[in] dPdx
@@ -77450,7 +77450,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77483,7 +77483,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77516,7 +77516,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77549,7 +77549,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77582,7 +77582,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77615,7 +77615,7 @@ namespace ast::expr
 	*@return
 	*	vec2u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77648,7 +77648,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77681,7 +77681,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77714,7 +77714,7 @@ namespace ast::expr
 	*@return
 	*	uint
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec4f
 	*@param[in] dPdx
@@ -77749,7 +77749,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -77772,7 +77772,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -77795,7 +77795,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -77823,7 +77823,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -77851,7 +77851,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -77874,7 +77874,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -77897,7 +77897,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -77925,7 +77925,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -77953,7 +77953,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -77976,7 +77976,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -77999,7 +77999,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78027,7 +78027,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78055,7 +78055,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78078,7 +78078,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78101,7 +78101,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78129,7 +78129,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78157,7 +78157,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78180,7 +78180,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78203,7 +78203,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78226,7 +78226,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78249,7 +78249,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] P
 	*	vec4f
 	*@param[in] refZ
@@ -78272,7 +78272,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] P
 	*	vec4f
 	*@param[in] refZ
@@ -78295,7 +78295,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78318,7 +78318,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78341,7 +78341,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78369,7 +78369,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78397,7 +78397,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78420,7 +78420,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78443,7 +78443,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78471,7 +78471,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78499,7 +78499,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78522,7 +78522,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -78545,7 +78545,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -78573,7 +78573,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -78601,7 +78601,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78629,7 +78629,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78657,7 +78657,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78685,7 +78685,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78713,7 +78713,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78741,7 +78741,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78769,7 +78769,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -78797,7 +78797,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -78825,7 +78825,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -78858,7 +78858,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -78891,7 +78891,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78919,7 +78919,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78947,7 +78947,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -78980,7 +78980,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79013,7 +79013,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79041,7 +79041,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79069,7 +79069,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79097,7 +79097,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79125,7 +79125,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79153,7 +79153,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79181,7 +79181,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79214,7 +79214,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79247,7 +79247,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79275,7 +79275,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79303,7 +79303,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79336,7 +79336,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79369,7 +79369,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79397,7 +79397,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79425,7 +79425,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -79458,7 +79458,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -79491,7 +79491,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79524,7 +79524,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79557,7 +79557,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79590,7 +79590,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79623,7 +79623,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79651,7 +79651,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79679,7 +79679,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79707,7 +79707,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79735,7 +79735,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79768,7 +79768,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79801,7 +79801,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79834,7 +79834,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -79867,7 +79867,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79900,7 +79900,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -79933,7 +79933,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -79966,7 +79966,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -79999,7 +79999,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80032,7 +80032,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80065,7 +80065,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80098,7 +80098,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80131,7 +80131,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80169,7 +80169,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80207,7 +80207,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -80245,7 +80245,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	float
 	*@param[in] refZ
@@ -80283,7 +80283,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80321,7 +80321,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80359,7 +80359,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80397,7 +80397,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Array, Shadow>
+	*	Texture<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80435,7 +80435,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80473,7 +80473,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80511,7 +80511,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80544,7 +80544,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80577,7 +80577,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80610,7 +80610,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80643,7 +80643,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80676,7 +80676,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80709,7 +80709,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80747,7 +80747,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 1D, Shadow>
+	*	Texture<Float, 1D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -80785,7 +80785,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80823,7 +80823,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80861,7 +80861,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80899,7 +80899,7 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -80939,7 +80939,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -80962,7 +80962,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -80985,7 +80985,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81008,7 +81008,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81031,7 +81031,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81054,7 +81054,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81077,7 +81077,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81100,7 +81100,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81123,7 +81123,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81146,7 +81146,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81169,7 +81169,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81192,7 +81192,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81215,7 +81215,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81238,7 +81238,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81261,7 +81261,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81284,7 +81284,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81307,7 +81307,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81330,7 +81330,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube>
+	*	Texture<Float, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81353,7 +81353,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -81376,7 +81376,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -81399,7 +81399,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -81422,7 +81422,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -81445,7 +81445,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -81468,7 +81468,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array>
+	*	Texture<Float, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -81491,7 +81491,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81514,7 +81514,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81537,7 +81537,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81560,7 +81560,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81583,7 +81583,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81606,7 +81606,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81629,7 +81629,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81652,7 +81652,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81675,7 +81675,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81698,7 +81698,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81721,7 +81721,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81744,7 +81744,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81767,7 +81767,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81790,7 +81790,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81813,7 +81813,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -81836,7 +81836,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81859,7 +81859,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81882,7 +81882,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81905,7 +81905,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81928,7 +81928,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81951,7 +81951,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81974,7 +81974,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -81997,7 +81997,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82020,7 +82020,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82043,7 +82043,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82066,7 +82066,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82089,7 +82089,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82112,7 +82112,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82135,7 +82135,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82158,7 +82158,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82181,7 +82181,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82204,7 +82204,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82227,7 +82227,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube>
+	*	Texture<Int, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82250,7 +82250,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82273,7 +82273,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82296,7 +82296,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82319,7 +82319,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82342,7 +82342,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82365,7 +82365,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82388,7 +82388,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82411,7 +82411,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82434,7 +82434,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Cube, Array>
+	*	Texture<Int, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -82457,7 +82457,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82480,7 +82480,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82503,7 +82503,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82526,7 +82526,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82549,7 +82549,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82572,7 +82572,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82595,7 +82595,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82618,7 +82618,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82641,7 +82641,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82664,7 +82664,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82687,7 +82687,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82710,7 +82710,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82733,7 +82733,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82756,7 +82756,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82779,7 +82779,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82802,7 +82802,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82825,7 +82825,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82848,7 +82848,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -82871,7 +82871,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82894,7 +82894,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82917,7 +82917,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82940,7 +82940,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82963,7 +82963,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -82986,7 +82986,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83009,7 +83009,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83032,7 +83032,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83055,7 +83055,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83078,7 +83078,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83101,7 +83101,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83124,7 +83124,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83147,7 +83147,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83170,7 +83170,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83193,7 +83193,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83216,7 +83216,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83239,7 +83239,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83262,7 +83262,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube>
+	*	Texture<UInt, Cube>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83285,7 +83285,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83308,7 +83308,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83331,7 +83331,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83354,7 +83354,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83377,7 +83377,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83400,7 +83400,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83423,7 +83423,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83446,7 +83446,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83469,7 +83469,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Cube, Array>
+	*	Texture<UInt, Cube, Array>
 	*@param[in] P
 	*	vec4f
 	*@param[in] comp
@@ -83492,7 +83492,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83515,7 +83515,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83538,7 +83538,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83561,7 +83561,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83584,7 +83584,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83607,7 +83607,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83630,7 +83630,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83653,7 +83653,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83676,7 +83676,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83699,7 +83699,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83727,7 +83727,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83755,7 +83755,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83783,7 +83783,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83811,7 +83811,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83839,7 +83839,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -83867,7 +83867,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83895,7 +83895,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83923,7 +83923,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83951,7 +83951,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -83979,7 +83979,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84007,7 +84007,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84035,7 +84035,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84063,7 +84063,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84091,7 +84091,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84119,7 +84119,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84147,7 +84147,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84175,7 +84175,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84203,7 +84203,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84231,7 +84231,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84259,7 +84259,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84287,7 +84287,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84315,7 +84315,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84343,7 +84343,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84371,7 +84371,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84399,7 +84399,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84427,7 +84427,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84455,7 +84455,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84483,7 +84483,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84511,7 +84511,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84539,7 +84539,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84567,7 +84567,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84595,7 +84595,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84623,7 +84623,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84651,7 +84651,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84679,7 +84679,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -84707,7 +84707,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84735,7 +84735,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84763,7 +84763,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84791,7 +84791,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84819,7 +84819,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84847,7 +84847,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84875,7 +84875,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84903,7 +84903,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84931,7 +84931,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84959,7 +84959,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -84987,7 +84987,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85015,7 +85015,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85043,7 +85043,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85071,7 +85071,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85099,7 +85099,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85127,7 +85127,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85155,7 +85155,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85183,7 +85183,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85211,7 +85211,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85239,7 +85239,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85267,7 +85267,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85295,7 +85295,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85323,7 +85323,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85351,7 +85351,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85379,7 +85379,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85407,7 +85407,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85435,7 +85435,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85463,7 +85463,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85491,7 +85491,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85519,7 +85519,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85547,7 +85547,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85575,7 +85575,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85603,7 +85603,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85631,7 +85631,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85659,7 +85659,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85687,7 +85687,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85715,7 +85715,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85744,7 +85744,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85773,7 +85773,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85802,7 +85802,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85831,7 +85831,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85860,7 +85860,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D>
+	*	Texture<Float, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -85889,7 +85889,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85918,7 +85918,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85947,7 +85947,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -85976,7 +85976,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86005,7 +86005,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86034,7 +86034,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array>
+	*	Texture<Float, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86063,7 +86063,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86092,7 +86092,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86121,7 +86121,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86150,7 +86150,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86179,7 +86179,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86208,7 +86208,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect>
+	*	Texture<Float, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86237,7 +86237,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86266,7 +86266,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86295,7 +86295,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86324,7 +86324,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86353,7 +86353,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86382,7 +86382,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86411,7 +86411,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86440,7 +86440,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86469,7 +86469,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D>
+	*	Texture<Int, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86498,7 +86498,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86527,7 +86527,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86556,7 +86556,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86585,7 +86585,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86614,7 +86614,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86643,7 +86643,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86672,7 +86672,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86701,7 +86701,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86730,7 +86730,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, 2D, Array>
+	*	Texture<Int, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -86759,7 +86759,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86788,7 +86788,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86817,7 +86817,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86846,7 +86846,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86875,7 +86875,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86904,7 +86904,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86933,7 +86933,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86962,7 +86962,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -86991,7 +86991,7 @@ namespace ast::expr
 	*@return
 	*	vec4i
 	*@param image
-	*	SampledImage<Int, Rect>
+	*	Texture<Int, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87020,7 +87020,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87049,7 +87049,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87078,7 +87078,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87107,7 +87107,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87136,7 +87136,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87165,7 +87165,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87194,7 +87194,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87223,7 +87223,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87252,7 +87252,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D>
+	*	Texture<UInt, 2D>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87281,7 +87281,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87310,7 +87310,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87339,7 +87339,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87368,7 +87368,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87397,7 +87397,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87426,7 +87426,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87455,7 +87455,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87484,7 +87484,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87513,7 +87513,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, 2D, Array>
+	*	Texture<UInt, 2D, Array>
 	*@param[in] P
 	*	vec3f
 	*@param[in] comp
@@ -87542,7 +87542,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87571,7 +87571,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87600,7 +87600,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87629,7 +87629,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87658,7 +87658,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87687,7 +87687,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87716,7 +87716,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87745,7 +87745,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87774,7 +87774,7 @@ namespace ast::expr
 	*@return
 	*	vec4u
 	*@param image
-	*	SampledImage<UInt, Rect>
+	*	Texture<UInt, Rect>
 	*@param[in] P
 	*	vec2f
 	*@param[in] comp
@@ -87805,7 +87805,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -87828,7 +87828,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -87851,7 +87851,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -87874,7 +87874,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -87897,7 +87897,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -87920,7 +87920,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Shadow>
+	*	Texture<Float, Cube, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -87943,7 +87943,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] P
 	*	vec4f
 	*@param[in] refZ
@@ -87966,7 +87966,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Cube, Array, Shadow>
+	*	Texture<Float, Cube, Array, Shadow>
 	*@param[in] P
 	*	vec4f
 	*@param[in] refZ
@@ -87989,7 +87989,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88012,7 +88012,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88035,7 +88035,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88063,7 +88063,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88091,7 +88091,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -88119,7 +88119,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -88147,7 +88147,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88175,7 +88175,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88203,7 +88203,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88232,7 +88232,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Shadow>
+	*	Texture<Float, 2D, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88261,7 +88261,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -88290,7 +88290,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, 2D, Array, Shadow>
+	*	Texture<Float, 2D, Array, Shadow>
 	*@param[in] P
 	*	vec3f
 	*@param[in] refZ
@@ -88319,7 +88319,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ
@@ -88348,7 +88348,7 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param image
-	*	SampledImage<Float, Rect, Shadow>
+	*	Texture<Float, Rect, Shadow>
 	*@param[in] P
 	*	vec2f
 	*@param[in] refZ

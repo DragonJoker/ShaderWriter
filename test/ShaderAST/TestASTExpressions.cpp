@@ -1127,7 +1127,7 @@ namespace
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
-			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getSampledImage( config ), "x" ) ) );
+			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getTexture( config ), "x" ) ) );
 			auto expr = ast::expr::makeTextureAccessCall( cache.getInt(), ast::expr::TextureAccess::eTextureSize1DI, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eTextureAccessCall );
@@ -1137,7 +1137,7 @@ namespace
 
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
-			check( expr->getArgList().back()->getType() == cache.getSampledImage( config ) );
+			check( expr->getArgList().back()->getType() == cache.getTexture( config ) );
 			testCounts << "ExprTextureAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();

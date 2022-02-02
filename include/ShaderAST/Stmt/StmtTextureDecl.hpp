@@ -1,19 +1,19 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_StmtSampledImageDecl_H___
-#define ___AST_StmtSampledImageDecl_H___
+#ifndef ___AST_StmtTextureDecl_H___
+#define ___AST_StmtTextureDecl_H___
 #pragma once
 
 #include "Stmt.hpp"
 
 namespace ast::stmt
 {
-	class SampledImageDecl
+	class TextureDecl
 		: public Stmt
 	{
 	public:
-		SDAST_API SampledImageDecl( var::VariablePtr variable
+		SDAST_API TextureDecl( var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
@@ -39,13 +39,13 @@ namespace ast::stmt
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
-	using SampledImageDeclPtr = std::unique_ptr< SampledImageDecl >;
+	using TextureDeclPtr = std::unique_ptr< TextureDecl >;
 
-	inline SampledImageDeclPtr makeSampledImageDecl( var::VariablePtr variable
+	inline TextureDeclPtr makeTextureDecl( var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return std::make_unique< SampledImageDecl >( std::move( variable )
+		return std::make_unique< TextureDecl >( std::move( variable )
 			, bindingPoint
 			, bindingSet );
 	}

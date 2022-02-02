@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <algorithm>
@@ -1115,7 +1115,7 @@ namespace hlsl
 		}
 	}
 
-	bool ExprAdapter::doProcessSampledImageArg( ast::expr::Expr & arg
+	bool ExprAdapter::doProcessTextureArg( ast::expr::Expr & arg
 		, bool writeSampler
 		, ast::expr::ExprList & args )
 	{
@@ -1574,7 +1574,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessTextureSize( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_textureSize", config );
 		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
@@ -1722,7 +1722,7 @@ namespace hlsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			if ( !doProcessSampledImageArg( *arg, false, argList ) )
+			if ( !doProcessTextureArg( *arg, false, argList ) )
 			{
 				argList.emplace_back( doSubmit( arg.get() ) );
 			}
@@ -1737,7 +1737,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessTextureQueryLod( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_textureQueryLod", config );
 		auto it = m_adaptationData.funcs.imageLodFuncs.find( funcName );
@@ -1797,7 +1797,7 @@ namespace hlsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			if ( !doProcessSampledImageArg( *arg, true, argList ) )
+			if ( !doProcessTextureArg( *arg, true, argList ) )
 			{
 				argList.emplace_back( doSubmit( arg.get() ) );
 			}
@@ -1812,7 +1812,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessTextureQueryLevels( ast::expr::TextureAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = getName( "SDW_textureQueryLevels", config );
 		auto it = m_adaptationData.funcs.imageLevelsFuncs.find( funcName );
@@ -1928,7 +1928,7 @@ namespace hlsl
 		}
 
 		ast::expr::ExprList argList;
-		doProcessSampledImageArg( *expr->getArgList()[0], false, argList );
+		doProcessTextureArg( *expr->getArgList()[0], false, argList );
 
 		m_result = ast::expr::makeFnCall( it->second->getReturnType()
 			, ast::expr::makeIdentifier( m_cache, ast::var::makeFunction( ++m_adaptationData.nextVarId
@@ -1942,10 +1942,10 @@ namespace hlsl
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
 #if !defined( NDEBUG )
-		auto isImage = doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+		auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
 		assert( isImage );
 #else
-		( void )doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+		( void )doProcessTextureArg( *expr->getArgList()[0], false, args );
 #endif
 
 		if ( expr->getTextureAccess() == ast::expr::TextureAccess::eTexelFetchBufferF
@@ -2021,10 +2021,10 @@ namespace hlsl
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
 #if !defined( NDEBUG )
-		auto isImage = doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+		auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
 		assert( isImage );
 #else
-		( void )doProcessSampledImageArg( *expr->getArgList()[0], false, args );
+		( void )doProcessTextureArg( *expr->getArgList()[0], false, args );
 #endif
 		assert( expr->getArgList().size() >= 5u );
 		// Second param is texcoord
@@ -2055,10 +2055,10 @@ namespace hlsl
 		ast::expr::ExprList args;
 		// Image
 #if !defined( NDEBUG )
-		auto isImage = doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		auto isImage = doProcessTextureArg( *expr->getArgList()[index++], true, args );
 		assert( isImage );
 #else
-		( void )doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		( void )doProcessTextureArg( *expr->getArgList()[index++], true, args );
 #endif
 
 		auto coord = doSubmit( expr->getArgList()[index++].get() );
@@ -2097,10 +2097,10 @@ namespace hlsl
 		ast::expr::ExprList args;
 		// Image
 #if !defined( NDEBUG )
-		auto isImage = doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		auto isImage = doProcessTextureArg( *expr->getArgList()[index++], true, args );
 		assert( isImage );
 #else
-		( void )doProcessSampledImageArg( *expr->getArgList()[index++], true, args );
+		( void )doProcessTextureArg( *expr->getArgList()[index++], true, args );
 #endif
 
 		if ( !isShadow( kind ) )
@@ -2149,7 +2149,7 @@ namespace hlsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			if ( doProcessSampledImageArg( *arg, true, args ) )
+			if ( doProcessTextureArg( *arg, true, args ) )
 			{
 				sampler = index;
 			}

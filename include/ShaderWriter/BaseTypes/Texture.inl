@@ -23,7 +23,7 @@ namespace sdw
 		template< type::ImageDim DimT
 			, bool ArrayedT
 			, bool DepthT >
-			constexpr size_t getIndex()
+		constexpr size_t getIndex()
 		{
 			if constexpr ( DepthT )
 			{
@@ -1260,7 +1260,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< type::ImageFormat FormatT >
-	struct SampledImageFormatTraitsT< FormatT, std::enable_if_t< isFloatFormatV< FormatT > > >
+	struct TextureFormatTraitsT< FormatT, std::enable_if_t< isFloatFormatV< FormatT > > >
 	{
 		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeF;
 		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodF;
@@ -1289,7 +1289,7 @@ namespace sdw
 	};
 
 	template< type::ImageFormat FormatT >
-	struct SampledImageFormatTraitsT< FormatT, std::enable_if_t< isSIntFormatV< FormatT > > >
+	struct TextureFormatTraitsT< FormatT, std::enable_if_t< isSIntFormatV< FormatT > > >
 	{
 		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeI;
 		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodI;
@@ -1318,7 +1318,7 @@ namespace sdw
 	};
 
 	template< type::ImageFormat FormatT >
-	struct SampledImageFormatTraitsT< FormatT, std::enable_if_t< isUIntFormatV< FormatT > > >
+	struct TextureFormatTraitsT< FormatT, std::enable_if_t< isUIntFormatV< FormatT > > >
 	{
 		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeU;
 		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodU;
@@ -1349,7 +1349,7 @@ namespace sdw
 	//*************************************************************************
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::eBuffer, false >
+	struct TextureCoordsGetterT< ast::type::ImageDim::eBuffer, false >
 	{
 		using SampleType = sdw::Int;
 		using FetchType = sdw::Int;
@@ -1357,7 +1357,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::e1D, false >
+	struct TextureCoordsGetterT< ast::type::ImageDim::e1D, false >
 	{
 		using QueryLodType = sdw::Float;
 		using SampleType = sdw::Float;
@@ -1369,7 +1369,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::e2D, false >
+	struct TextureCoordsGetterT< ast::type::ImageDim::e2D, false >
 	{
 		using QueryLodType = sdw::Vec2;
 		using SampleType = sdw::Vec2;
@@ -1382,7 +1382,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::e3D, false >
+	struct TextureCoordsGetterT< ast::type::ImageDim::e3D, false >
 	{
 		using QueryLodType = sdw::Vec3;
 		using SampleType = sdw::Vec3;
@@ -1394,7 +1394,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::eCube, false >
+	struct TextureCoordsGetterT< ast::type::ImageDim::eCube, false >
 	{
 		using QueryLodType = sdw::Vec3;
 		using SampleType = sdw::Vec3;
@@ -1405,7 +1405,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::e1D, true >
+	struct TextureCoordsGetterT< ast::type::ImageDim::e1D, true >
 	{
 		using QueryLodType = sdw::Float;
 		using SampleType = sdw::Vec2;
@@ -1416,7 +1416,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::e2D, true >
+	struct TextureCoordsGetterT< ast::type::ImageDim::e2D, true >
 	{
 		using QueryLodType = sdw::Vec2;
 		using SampleType = sdw::Vec3;
@@ -1428,7 +1428,7 @@ namespace sdw
 	};
 
 	template<>
-	struct SampledImageCoordsGetterT< ast::type::ImageDim::eCube, true >
+	struct TextureCoordsGetterT< ast::type::ImageDim::eCube, true >
 	{
 		using QueryLodType = sdw::Vec3;
 		using SampleType = sdw::Vec4;
@@ -1450,7 +1450,7 @@ namespace sdw
 			, bool MsT
 			, expr::TextureAccess TextureAccessT
 			, typename ... ParamsT >
-		ReturnWrapperT< ReturnT > writeTextureAccessCall( SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & image
+		ReturnWrapperT< ReturnT > writeTextureAccessCall( TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & image
 			, ParamsT const & ... params )
 		{
 			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
@@ -1474,18 +1474,18 @@ namespace sdw
 			, bool MsT >
 		struct TexSizeFuncT
 		{
-			using SizeT = SampledImageSizeT< DimT, ArrayedT >;
+			using SizeT = TextureSizeT< DimT, ArrayedT >;
 
 			auto getSize()const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
+					, TextureFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
 			}
 		};
 
@@ -1498,19 +1498,19 @@ namespace sdw
 			, bool MsT >
 		struct TexSizeLevelFuncT
 		{
-			using SizeT = SampledImageSizeT< DimT, ArrayedT >;
+			using SizeT = TextureSizeT< DimT, ArrayedT >;
 
 			auto getSize( Int const & level )const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
 						, level );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
 			}
 		};
 
@@ -1523,19 +1523,19 @@ namespace sdw
 			, bool MsT >
 		struct QueryLodFuncT
 		{
-			using QueryLodT = SampledImageQueryLodT< DimT, ArrayedT >;
+			using QueryLodT = TextureQueryLodT< DimT, ArrayedT >;
 
 			auto getLod( QueryLodT const & coord )const
 			{
 				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, DepthT, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureQueryLod[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureQueryLod[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
 						, coord );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
 			}
 		};
 
@@ -1551,13 +1551,13 @@ namespace sdw
 			auto getLevels()const
 			{
 				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, DepthT, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureQueryLevels[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
+					, TextureFormatTraitsT< FormatT >::textureQueryLevels[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
 			}
 		};
 
@@ -1569,19 +1569,19 @@ namespace sdw
 			, bool MsT >
 		struct SampleFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1593,21 +1593,21 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1619,21 +1619,21 @@ namespace sdw
 			, bool MsT >
 		struct SampleBiasFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, bias );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1645,23 +1645,23 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefBiasFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, Float const & ref
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, bias );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1673,23 +1673,23 @@ namespace sdw
 			, bool MsT >
 		struct SampleOffsetFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1701,8 +1701,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefOffsetFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, Float const & ref
@@ -1710,16 +1710,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1731,8 +1731,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleOffsetBiasFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, OffsetT const & offset
@@ -1740,16 +1740,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset
 						, bias );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1761,8 +1761,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefOffsetBiasFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto sample( SampleT const & coord
 				, Float const & ref
@@ -1771,7 +1771,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset
@@ -1779,9 +1779,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1793,21 +1793,21 @@ namespace sdw
 			, bool MsT >
 		struct SampleLodFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
 
 			auto lod( SampleT const & coord
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1819,23 +1819,23 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefLodFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
 
 			auto lod( SampleT const & coord
 				, Float const & ref
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1847,8 +1847,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleLodOffsetFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto lod( SampleT const & coord
 				, Float const & lod
@@ -1856,16 +1856,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1877,8 +1877,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefLodOffsetFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto lod( SampleT const & coord
 				, Float const & ref
@@ -1887,7 +1887,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod
@@ -1895,9 +1895,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1909,19 +1909,19 @@ namespace sdw
 			, bool MsT >
 		struct SampleProjFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1933,21 +1933,21 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefProjFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -1959,21 +1959,21 @@ namespace sdw
 			, bool MsT >
 		struct SampleProjBiasFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, bias );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -1985,23 +1985,23 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefProjBiasFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, Float const & ref
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, bias );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2013,23 +2013,23 @@ namespace sdw
 			, bool MsT >
 		struct SampleProjOffsetFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2041,8 +2041,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefProjOffsetFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, Float const & ref
@@ -2050,16 +2050,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2071,8 +2071,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleProjOffsetBiasFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, OffsetT const & offset
@@ -2080,16 +2080,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset
 						, bias );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2101,8 +2101,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefProjOffsetBiasFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto proj( SampleProjT const & coord
 				, Float const & ref
@@ -2111,7 +2111,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset
@@ -2119,9 +2119,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2133,21 +2133,21 @@ namespace sdw
 			, bool MsT >
 		struct SampleProjLodFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
 
 			auto projLod( SampleProjT const & coord
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2159,23 +2159,23 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefProjLodFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
 
 			auto projLod( SampleProjT const & coord
 				, Float const & ref
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2187,8 +2187,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleProjLodOffsetFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto projLod( SampleProjT const & coord
 				, Float const & lod
@@ -2196,16 +2196,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2217,8 +2217,8 @@ namespace sdw
 			, bool MsT >
 		struct SampleRefProjLodOffsetFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto projLod( SampleProjT const & coord
 				, Float const & ref
@@ -2227,7 +2227,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod
@@ -2235,9 +2235,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2249,19 +2249,19 @@ namespace sdw
 			, bool MsT >
 		struct FetchFuncT
 		{
-			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
+			using FetchT = TextureFetchT< DimT, ArrayedT >;
 
 			auto fetch( FetchT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2273,21 +2273,21 @@ namespace sdw
 			, bool MsT >
 		struct FetchLevelFuncT
 		{
-			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
+			using FetchT = TextureFetchT< DimT, ArrayedT >;
 
 			auto fetch( FetchT const & coord
 				, Int const & level )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, level );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2299,8 +2299,8 @@ namespace sdw
 			, bool MsT >
 		struct FetchLevelOffsetFuncT
 		{
-			using FetchT = SampledImageFetchT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using FetchT = TextureFetchT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto fetch( FetchT const & coord
 				, Int const & level
@@ -2308,16 +2308,16 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::texelFetchOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texelFetchOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, level
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2329,24 +2329,24 @@ namespace sdw
 			, bool MsT >
 		struct GradFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
 
 			auto grad( SampleT const & coord
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2358,8 +2358,8 @@ namespace sdw
 			, bool MsT >
 		struct GradRefFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
 
 			auto grad( SampleT const & coord
 				, Float const & ref
@@ -2367,7 +2367,7 @@ namespace sdw
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2375,9 +2375,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2389,9 +2389,9 @@ namespace sdw
 			, bool MsT >
 		struct GradOffsetFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto grad( SampleT const & coord
 				, DerivativeT const & dPdx
@@ -2400,7 +2400,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy
@@ -2408,9 +2408,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2422,9 +2422,9 @@ namespace sdw
 			, bool MsT >
 		struct GradRefOffsetFuncT
 		{
-			using SampleT = SampledImageSampleT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleT = TextureSampleT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto grad( SampleT const & coord
 				, Float const & ref
@@ -2434,7 +2434,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2443,9 +2443,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2457,24 +2457,24 @@ namespace sdw
 			, bool MsT >
 		struct GradProjFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
 
 			auto projGrad( SampleProjT const & coord
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2486,8 +2486,8 @@ namespace sdw
 			, bool MsT >
 		struct GradRefProjFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
 
 			auto projGrad( SampleProjT const & coord
 				, Float const & ref
@@ -2495,7 +2495,7 @@ namespace sdw
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2503,9 +2503,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2517,9 +2517,9 @@ namespace sdw
 			, bool MsT >
 		struct GradProjOffsetFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto projGrad( SampleProjT const & coord
 				, DerivativeT const & dPdx
@@ -2528,7 +2528,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy
@@ -2536,9 +2536,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 		//*************************************************************************
@@ -2549,9 +2549,9 @@ namespace sdw
 			, bool MsT >
 		struct GradRefProjOffsetFuncT
 		{
-			using SampleProjT = SampledImageSampleProjT< DimT, ArrayedT >;
-			using DerivativeT = SampledImageDerivativeT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using SampleProjT = TextureSampleProjT< DimT, ArrayedT >;
+			using DerivativeT = TextureDerivativeT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto projGrad( SampleProjT const & coord
 				, Float const & ref
@@ -2561,7 +2561,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2570,9 +2570,9 @@ namespace sdw
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2584,21 +2584,21 @@ namespace sdw
 			, bool MsT >
 			struct GatherFuncT
 		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
+			using GatherT = TextureGatherT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
 				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2610,21 +2610,21 @@ namespace sdw
 			, bool MsT >
 		struct GatherRefFuncT
 		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
+			using GatherT = TextureGatherT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2636,24 +2636,24 @@ namespace sdw
 			, bool MsT >
 		struct GatherOffsetFuncT
 		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using GatherT = TextureGatherT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
 				, Int const & comp
 				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2665,24 +2665,24 @@ namespace sdw
 			, bool MsT >
 		struct GatherRefOffsetFuncT
 		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using GatherT = TextureGatherT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2694,24 +2694,24 @@ namespace sdw
 			, bool MsT >
 		struct GatherOffsetsFuncT
 		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using GatherT = TextureGatherT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
 				, Int const & comp
 				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp
 						, offsets );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
 			}
 		};
 
@@ -2723,24 +2723,24 @@ namespace sdw
 			, bool MsT >
 		struct GatherRefOffsetsFuncT
 		{
-			using GatherT = SampledImageGatherT< DimT, ArrayedT >;
-			using OffsetT = SampledImageOffsetT< DimT, ArrayedT >;
+			using GatherT = TextureGatherT< DimT, ArrayedT >;
+			using OffsetT = TextureOffsetT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
 				, Float const & ref
 				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, SampledImageFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offsets );
 			}
 
 		private:
-			SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
 			{
-				return static_cast< SampledImageT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
 			}
 		};
 
@@ -2751,13 +2751,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is2dV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -2783,7 +2783,7 @@ namespace sdw
 			, public GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2807,17 +2807,17 @@ namespace sdw
 			using GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -2829,14 +2829,14 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -2859,7 +2859,7 @@ namespace sdw
 			, public GradProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2880,17 +2880,17 @@ namespace sdw
 			using GradProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 			using GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -2902,13 +2902,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is1dArrayV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -2923,7 +2923,7 @@ namespace sdw
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2936,17 +2936,17 @@ namespace sdw
 			using GradFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -2958,13 +2958,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -2982,7 +2982,7 @@ namespace sdw
 			, public GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2998,17 +2998,17 @@ namespace sdw
 			using GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3020,14 +3020,14 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -3037,23 +3037,23 @@ namespace sdw
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using GatherFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3065,13 +3065,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is1dShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -3092,7 +3092,7 @@ namespace sdw
 			, public GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3111,17 +3111,17 @@ namespace sdw
 			using GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 			using GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3133,13 +3133,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -3163,7 +3163,7 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3185,17 +3185,17 @@ namespace sdw
 			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3207,13 +3207,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::isRectShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3227,7 +3227,7 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3241,17 +3241,17 @@ namespace sdw
 			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3263,13 +3263,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -3281,7 +3281,7 @@ namespace sdw
 			, public GradRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3291,17 +3291,17 @@ namespace sdw
 			using GradRefFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3313,13 +3313,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -3334,7 +3334,7 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3347,17 +3347,17 @@ namespace sdw
 			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3369,14 +3369,14 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
@@ -3384,22 +3384,22 @@ namespace sdw
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3411,29 +3411,29 @@ namespace sdw
 			, bool ArrayedT
 			, bool DepthT
 			, bool MsT >
-		struct SampledImageFuncsT< FormatT
+		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
 			, DepthT
 			, MsT
 			, std::enable_if_t< ( sdw::isBufferV< DimT, ArrayedT, DepthT > ) > >
-			: public SampledImage
+			: public Texture
 			, public TexSizeFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
 			, public FetchFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , SampledImageFuncsT );
+			SDW_DeclValue( , TextureFuncsT );
 
-			SampledImageFuncsT( ShaderWriter & writer
+			TextureFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+				: Texture{ FormatT, writer, std::move( expr ), enabled }
 			{
 			}
 
 			template< typename T >
-			SampledImageFuncsT & operator=( T const & rhs )
+			TextureFuncsT & operator=( T const & rhs )
 			{
-				SampledImage::operator=( rhs );
+				Texture::operator=( rhs );
 				return *this;
 			}
 		};
@@ -3442,7 +3442,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	SampledImage & SampledImage::operator=( T const & rhs )
+	Texture & Texture::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
 		auto & shader = findWriterMandat( *this, rhs );
@@ -3465,10 +3465,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::SampledImageT( ShaderWriter & writer
+	TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::TextureT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
+		: sampledImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -3478,9 +3478,9 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	template< typename T >
-	SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT > & SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
+	TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > & TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
-		sampledImg::SampledImageFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
+		sampledImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
 		return *this;
 	}
 
@@ -3489,7 +3489,7 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	ast::type::ImageConfiguration SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
+	ast::type::ImageConfiguration TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
 	{
 		return ast::type::makeConfig< FormatT, ast::type::AccessKind::eRead, DimT, ArrayedT, DepthT, MsT >( true );
 	}
@@ -3499,9 +3499,9 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT
 		, bool MsT >
-	inline ast::type::TypePtr SampledImageT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
+	inline ast::type::TypePtr TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
 	{
-		return cache.getSampledImage( makeConfig() );
+		return cache.getTexture( makeConfig() );
 	}
 
 	//*************************************************************************

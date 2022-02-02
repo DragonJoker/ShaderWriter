@@ -18,7 +18,7 @@ See LICENSE file in root folder
 #include "TypeMeshIO.hpp"
 #include "TypePointer.hpp"
 #include "TypeRayPayload.hpp"
-#include "TypeSampledImage.hpp"
+#include "TypeTexture.hpp"
 #include "TypeSampler.hpp"
 #include "TypeStruct.hpp"
 #include "TypeTaskIO.hpp"
@@ -135,7 +135,7 @@ namespace ast::type
 		SDAST_API TaskPayloadPtr getTaskPayload( TypePtr type );
 		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
 		SDAST_API ImagePtr getImage( ImageConfiguration const & func );
-		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & func );
+		SDAST_API TexturePtr getTexture( ImageConfiguration const & func );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );
@@ -155,7 +155,7 @@ namespace ast::type
 		AccelerationStructurePtr m_accelerationStructure;
 		RayDescPtr m_rayDesc;
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
-		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
+		TypeCache< Texture, std::function< TexturePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;
 		TypeCache< Function, std::function< FunctionPtr( TypePtr, var::VariableList ) >, std::function< size_t( TypePtr, var::VariableList ) > > m_function;
 		TypeCache< BaseStruct, std::function< BaseStructPtr( MemoryLayout, std::string ) >, std::function< size_t( MemoryLayout, std::string const & ) > > m_struct;

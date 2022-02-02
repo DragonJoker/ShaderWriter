@@ -477,7 +477,7 @@ namespace ast::vk
 				return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			case ast::DescriptorType::eStorageBuffer:
 				return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-			case ast::DescriptorType::eCombinedSamplerImage:
+			case ast::DescriptorType::eTexture:
 				return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 			case ast::DescriptorType::eStorageImage:
 				return VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;

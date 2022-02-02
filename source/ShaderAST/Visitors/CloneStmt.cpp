@@ -293,9 +293,9 @@ namespace ast
 		}
 	}
 
-	void StmtCloner::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	void StmtCloner::visitTextureDeclStmt( stmt::TextureDecl * stmt )
 	{
-		m_current->addStmt( stmt::makeSampledImageDecl( stmt->getVariable()
+		m_current->addStmt( stmt::makeTextureDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}

@@ -557,7 +557,7 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 					if enumName == "TextureAccess":
-						imageType = "SampledImage"
+						imageType = "Texture"
 				elif resultValue:
 					returnGroup = resultValue.group( 1 )
 					functionGroup = resultValue.group( 2 )

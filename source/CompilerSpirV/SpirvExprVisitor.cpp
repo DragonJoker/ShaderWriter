@@ -14,7 +14,7 @@ See LICENSE file in root folder
 #include "SpirvTextureAccessNames.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Visitors/GetOutermostExpr.hpp>
 
@@ -1214,7 +1214,7 @@ namespace spirv
 
 		// Load the sampled image variable
 		auto sampledImageType = expr->getArgList()[0]->getType();
-		assert( sampledImageType->getKind() == ast::type::Kind::eSampledImage );
+		assert( sampledImageType->getKind() == ast::type::Kind::eTexture );
 		args[0] = loadVariable( args[0] );
 
 		if ( expr->getArgList().front().get()->isNonUniform() )
@@ -1225,7 +1225,7 @@ namespace spirv
 		if ( config.needsImage )
 		{
 			// We need to extract the image from the sampled image, to give it to the final instruction.
-			auto imageType = std::static_pointer_cast< ast::type::SampledImage >( sampledImageType )->getImageType();
+			auto imageType = std::static_pointer_cast< ast::type::Texture >( sampledImageType )->getImageType();
 			auto imageTypeId = m_module.registerType( imageType );
 			auto imageId = ValueId{ m_module.getIntermediateResult(), imageTypeId.type };
 			m_currentBlock.instructions.emplace_back( makeInstruction< ImageInstruction >( imageTypeId

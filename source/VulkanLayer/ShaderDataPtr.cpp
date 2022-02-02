@@ -32,8 +32,8 @@ namespace ast::vk
 			case DescriptorType::eStorageBuffer:
 				stream << "StorageBuffer";
 				break;
-			case DescriptorType::eCombinedSamplerImage:
-				stream << "CombinedSamplerImage";
+			case DescriptorType::eTexture:
+				stream << "Texture";
 				break;
 			case DescriptorType::eStorageImage:
 				stream << "StorageImage";
@@ -461,7 +461,7 @@ namespace ast::vk
 		{
 			auto arraySize = getArraySize( desc.second->type );
 			all.emplace( desc.first
-				, DescriptorData{ DescriptorType::eCombinedSamplerImage
+				, DescriptorData{ DescriptorType::eTexture
 					, ( arraySize != type::NotArray ? arraySize : 1u )
 					, stages } );
 		}

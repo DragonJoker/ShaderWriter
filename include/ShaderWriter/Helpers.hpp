@@ -18,7 +18,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtPerVertexDecl.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>

@@ -1857,7 +1857,7 @@ namespace spirv
 		case ast::type::Kind::eImage:
 			result = spv::OpTypeImage;
 			break;
-		case ast::type::Kind::eSampledImage:
+		case ast::type::Kind::eTexture:
 			result = spv::OpTypeSampledImage;
 			break;
 		case ast::type::Kind::eSampler:

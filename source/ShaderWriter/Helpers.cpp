@@ -64,14 +64,14 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInOutRayPayloadVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtReturn.hpp>
-#include <ShaderAST/Stmt/StmtSampledImageDecl.hpp>
+#include <ShaderAST/Stmt/StmtTextureDecl.hpp>
 #include <ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Stmt/StmtSpecialisationConstantDecl.hpp>
 #include <ShaderAST/Stmt/StmtStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtVariableDecl.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Type/TypeTexture.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Shader.hpp>
@@ -862,7 +862,7 @@ namespace sdw
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeSampledImageDecl( std::move( var )
+		return stmt::makeTextureDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}

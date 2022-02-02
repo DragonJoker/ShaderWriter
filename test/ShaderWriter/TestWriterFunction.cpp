@@ -1275,15 +1275,15 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+		auto c3d_maps = writer.declTextureArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( SampledImage2DRgba32 const & sim
+			, [&]( Texture2DRgba32 const & sim
 				, Vec2 const & pos )
 			{
 				writer.returnStmt( sim.sample( pos ) );
 			}
-			, InSampledImage2DRgba32{ writer, "sim" }
+			, InTexture2DRgba32{ writer, "sim" }
 			, InVec2{ writer, "pos" } );
 
 		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
@@ -1332,7 +1332,7 @@ namespace
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 
-		auto c3d_maps = writer.declSampledImageArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+		auto c3d_maps = writer.declTextureArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto st = St::declare( writer );
 
@@ -1373,12 +1373,12 @@ namespace
 			, InVec4{ writer, "pos" } );
 
 		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( SampledImage2DRgba32 const & sim
+			, [&]( Texture2DRgba32 const & sim
 				, Vec2 const & pos )
 			{
 				writer.returnStmt( sim.sample( pos ) );
 			}
-			, InSampledImage2DRgba32{ writer, "sim" }
+			, InTexture2DRgba32{ writer, "sim" }
 			, InVec2{ writer, "pos" } );
 
 		auto foo06 = writer.implementFunction< Vec2 >( "foo06"

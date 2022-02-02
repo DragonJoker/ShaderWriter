@@ -315,9 +315,9 @@ namespace ast::type
 		return kind == Kind::eImage;
 	}
 
-	bool isSampledImageType( Kind kind )
+	bool isTextureType( Kind kind )
 	{
-		return kind == Kind::eSampledImage;
+		return kind == Kind::eTexture;
 	}
 
 	bool isAccelerationStructureType( Kind kind )
@@ -358,7 +358,7 @@ namespace ast::type
 	bool isOpaqueType( Kind kind )
 	{
 		return isImageType( kind )
-			|| isSampledImageType( kind )
+			|| isTextureType( kind )
 			|| isSamplerType( kind )
 			|| isAccelerationStructureType( kind );
 	}
