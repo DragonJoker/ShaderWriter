@@ -229,6 +229,7 @@ namespace glsl
 
 	void StmtConfigFiller::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
+		m_result.requiresSeparateSamplers = true;
 	}
 
 	void StmtConfigFiller::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )

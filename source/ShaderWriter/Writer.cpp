@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 #include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
+#include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/VecTypes/Vec2.hpp"
 
 #include <ShaderAST/Stmt/PreprocExtension.hpp>
@@ -378,6 +379,30 @@ namespace sdw
 			, enabled };
 	}
 
+	Sampler ShaderWriter::declSampler( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, bool isComparison
+		, bool enabled )
+	{
+		auto type = Sampler::makeType( getTypesCache(), isComparison );
+		auto var = registerSampler( std::move( name )
+			, type
+			, binding
+			, set );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSamplerDecl( var
+				, binding
+				, set ) );
+		}
+
+		return Sampler{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
 	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string name
 		, uint32_t binding
 		, uint32_t set
@@ -453,6 +478,15 @@ namespace sdw
 		, bool enabled )
 	{
 		return m_shader->registerAccelerationStructure( std::move( name ), type, binding, set, enabled );
+	}
+
+	var::VariablePtr ShaderWriter::registerSampler( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return m_shader->registerSampler( std::move( name ), type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerTexture( std::string name

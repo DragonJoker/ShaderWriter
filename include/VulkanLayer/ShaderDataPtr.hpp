@@ -27,6 +27,7 @@ namespace ast::vk
 		using UboMap = std::map< DescriptorBinding, UboInfo const * >;
 		using PcbMap = std::vector< PcbInfo const * >;
 		using SamplerMap = std::map< DescriptorBinding, SamplerInfo const * >;
+		using TextureMap = std::map< DescriptorBinding, TextureInfo const * >;
 		using ImageMap = std::map< DescriptorBinding, ImageInfo const * >;
 		using SpecConstantsMap = std::map< AttributeInfo, SpecConstantInfo const * >;
 		using InputMap = std::map< AttributeInfo, InputInfo const * >;
@@ -41,7 +42,8 @@ namespace ast::vk
 		SsboMap ssbos;
 		UboMap ubos;
 		SamplerMap samplers;
-		SamplerMap uniformTexels;
+		TextureMap textures;
+		TextureMap uniformTexels;
 		ImageMap images;
 		ImageMap storageTexels;
 		DescriptorsMap descriptors;

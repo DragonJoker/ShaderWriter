@@ -32,6 +32,9 @@ namespace ast::vk
 			case DescriptorType::eStorageBuffer:
 				stream << "StorageBuffer";
 				break;
+			case DescriptorType::eSampler:
+				stream << "Sampler";
+				break;
 			case DescriptorType::eTexture:
 				stream << "Texture";
 				break;
@@ -383,6 +386,7 @@ namespace ast::vk
 		: ssbos{ getPtr( rhs.ssbos ) }
 		, ubos{ getPtr( rhs.ubos ) }
 		, samplers{ getPtr( rhs.samplers ) }
+		, textures{ getPtr( rhs.textures ) }
 		, uniformTexels{ getPtr( rhs.uniformTexels ) }
 		, images{ getPtr( rhs.images ) }
 		, storageTexels{ getPtr( rhs.storageTexels ) }
@@ -399,6 +403,7 @@ namespace ast::vk
 	void ShaderDataPtr::merge( ShaderDataPtr const & rhs )
 	{
 		images = mergeDescriptors( images, rhs.images );
+		textures = mergeDescriptors( textures, rhs.textures );
 		samplers = mergeDescriptors( samplers, rhs.samplers );
 		storageTexels = mergeDescriptors( storageTexels, rhs.storageTexels );
 		uniformTexels = mergeDescriptors( uniformTexels, rhs.uniformTexels );
@@ -458,6 +463,15 @@ namespace ast::vk
 		}
 
 		for ( auto & desc : samplers )
+		{
+			auto arraySize = getArraySize( desc.second->type );
+			all.emplace( desc.first
+				, DescriptorData{ DescriptorType::eSampler
+					, ( arraySize != type::NotArray ? arraySize : 1u )
+					, stages } );
+		}
+
+		for ( auto & desc : textures )
 		{
 			auto arraySize = getArraySize( desc.second->type );
 			all.emplace( desc.first

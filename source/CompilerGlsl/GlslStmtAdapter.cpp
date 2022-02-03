@@ -307,6 +307,13 @@ namespace glsl
 				adaptationData.intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
 			}
 
+			if ( adaptationData.intrinsicsConfig.requiresSeparateSamplers
+				&& ( ( !adaptationData.writerConfig.vulkanGlsl )
+					|| adaptationData.writerConfig.availableExtensions.end() == adaptationData.writerConfig.availableExtensions.find( KHR_vulkan_glsl ) ) )
+			{
+				throw std::runtime_error{ "Separate Samplers are only supported with extension [" + KHR_vulkan_glsl.name + "] which is not available" };
+			}
+
 			if ( adaptationData.stage == ast::ShaderStage::eTessellationControl
 				|| adaptationData.stage == ast::ShaderStage::eTessellationEvaluation )
 			{

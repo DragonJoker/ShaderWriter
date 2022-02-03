@@ -462,7 +462,7 @@ namespace hlsl
 			result = "Texture";
 			break;
 		case ast::type::Kind::eSampler:
-			AST_Failure( "Unsupported ast::type::Kind" );
+			result = "SamplerState";
 			break;
 		case ast::type::Kind::eTexture:
 			result = "SampledImage";

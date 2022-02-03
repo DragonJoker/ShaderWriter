@@ -363,7 +363,7 @@ namespace ast::debug
 	void StmtVisitor::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " B(";
+		m_result += "B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
@@ -413,7 +413,7 @@ namespace ast::debug
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += "SPECCONST";
+		m_result += "SC";
 		m_result += "(" + std::to_string( stmt->getLocation() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
 		m_result += ExprVisitor::submit( stmt->getValue() );
@@ -527,7 +527,7 @@ namespace ast::debug
 	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " L(";
+		m_result += "L(";
 		m_result += std::to_string( stmt->getLocation() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
@@ -536,7 +536,7 @@ namespace ast::debug
 	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " L(";
+		m_result += "L(";
 		m_result += std::to_string( stmt->getLocation() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
 		m_result += "\n";
@@ -557,7 +557,7 @@ namespace ast::debug
 	void StmtVisitor::visitTextureDeclStmt( stmt::TextureDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " B(";
+		m_result += "B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
@@ -567,7 +567,7 @@ namespace ast::debug
 	void StmtVisitor::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " B(";
+		m_result += "B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
 		m_result += displayVar( stmt->getVariable() );
@@ -577,7 +577,7 @@ namespace ast::debug
 	void StmtVisitor::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " B(";
+		m_result += "B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
 		m_result += getName( stmt->getMemoryLayout() ) + ") ";
@@ -590,7 +590,7 @@ namespace ast::debug
 	void StmtVisitor::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
 	{
 		displayStmtName( stmt, false );
-		m_result += " B(";
+		m_result += "B(";
 		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
 		m_result += std::to_string( stmt->getDescriptorSet() ) + ") L(";
 		m_result += getName( stmt->getMemoryLayout() ) + ") ";

@@ -264,10 +264,23 @@ namespace sdw
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
-#pragma region Sampled Image declaration
+#pragma region Sampler declaration
 		/**
 		*name
-		*	Sampled Image declaration.
+		*	Sampler declaration.
+		*/
+		/**@{*/
+		SDW_API Sampler declSampler( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, bool isComparison
+			, bool enabled = true );
+		/**@}*/
+#pragma endregion
+#pragma region Combined Sampler and Image declaration
+		/**
+		*name
+		*	Combined Sampler and Image declaration.
 		*/
 		/**@{*/
 		template< ast::type::ImageFormat FormatT
@@ -302,10 +315,10 @@ namespace sdw
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
-#pragma region Image declaration
+#pragma region Storage Image declaration
 		/**
 		*name
-		*	Image declaration.
+		*	Storage Image declaration.
 		*/
 		/**@{*/
 		template< ast::type::ImageFormat FormatT
@@ -655,6 +668,11 @@ namespace sdw
 			, uint32_t location
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerAccelerationStructure( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		SDW_API var::VariablePtr registerSampler( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set

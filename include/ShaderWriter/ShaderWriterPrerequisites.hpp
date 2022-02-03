@@ -353,13 +353,21 @@ namespace sdw
 	using RWImage2DMSArrayT = Image2DMSArrayT< FormatT, ast::type::AccessKind::eReadWrite >;
 	/**@}*/
 #pragma endregion
+#pragma region Samplers
+	/**
+	*name
+	*	Samplers.
+	*/
+	/**@{*/
+	struct Sampler;
+	/**@}*/
+#pragma endregion
 #pragma region Sampled images
 	/**
 	*name
 	*	Sampled images.
 	*/
 	/**@{*/
-	struct Sampler;
 	struct Texture;
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT

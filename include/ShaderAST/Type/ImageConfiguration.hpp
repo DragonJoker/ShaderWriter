@@ -169,10 +169,6 @@ namespace ast::type
 		, bool MsT >
 	inline ImageConfiguration makeConfig( bool sampled
 		, bool readOnly )noexcept;
-
-	template< typename T >
-	inline size_t hashCombine( size_t & hash
-		, T const & rhs )noexcept;
 }
 
 #define Img1D ast::type::ImageDim::e1D, false, false, false
