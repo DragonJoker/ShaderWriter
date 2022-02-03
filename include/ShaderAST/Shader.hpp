@@ -21,6 +21,7 @@ namespace ast
 	{
 		eUniformBuffer,
 		eStorageBuffer,
+		eSampler,
 		eTexture,
 		eStorageImage,
 		eUniformTexelBuffer,
@@ -38,6 +39,7 @@ namespace ast
 		using ConstantsMap = std::map< std::string, type::TypePtr >;
 		using SpecConstantsMap = std::map< std::string, SpecConstantInfo >;
 		using SamplerMap = std::map< std::string, SamplerInfo >;
+		using TextureMap = std::map< std::string, TextureInfo >;
 		using ImageMap = std::map< std::string, ImageInfo >;
 		using InputMap = std::map< std::string, InputInfo >;
 		using OutputMap = std::map< std::string, OutputInfo >;
@@ -50,7 +52,8 @@ namespace ast
 		ConstantsMap constants;
 		SpecConstantsMap specConstants;
 		SamplerMap samplers;
-		SamplerMap uniformTexels;
+		TextureMap textures;
+		TextureMap uniformTexels;
 		ImageMap images;
 		ImageMap storageTexels;
 		InputMap inputs;
@@ -104,6 +107,11 @@ namespace ast
 			, uint32_t location
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerAccelerationStructure( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		SDAST_API var::VariablePtr registerSampler( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
@@ -218,7 +226,12 @@ namespace ast
 			return m_data.samplers;
 		}
 
-		std::map< std::string, SamplerInfo > const & getUniformTexelBuffers()const
+		std::map< std::string, TextureInfo > const & getTextures()const
+		{
+			return m_data.textures;
+		}
+
+		std::map< std::string, TextureInfo > const & getUniformTexelBuffers()const
 		{
 			return m_data.uniformTexels;
 		}

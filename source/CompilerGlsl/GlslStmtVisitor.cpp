@@ -947,6 +947,15 @@ namespace glsl
 
 	void StmtVisitor::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
+		doAppendLineEnd();
+		m_result += m_indent;
+		m_result += "layout(";
+		doWriteBinding( stmt->getBindingPoint()
+			, stmt->getDescriptorSet()
+			, "" );
+		m_result += ") uniform sampler " + stmt->getVariable()->getName();
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
+		m_result += ";\n";
 	}
 
 	void StmtVisitor::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )

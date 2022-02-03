@@ -1626,6 +1626,7 @@ namespace spirv
 	{
 		assert( kind != ast::type::Kind::eStruct );
 		assert( kind != ast::type::Kind::eRayDesc );
+		assert( kind != ast::type::Kind::eSampler );
 		assert( kind != ast::type::Kind::eImage );
 		assert( kind != ast::type::Kind::eTexture );
 
@@ -1660,11 +1661,20 @@ namespace spirv
 		return result;
 	}
 
+	ValueId Module::registerBaseType( ast::type::SamplerPtr type
+		, uint32_t mbrIndex
+		, ValueId parentId )
+	{
+		ValueId result{ getNextId(), type };
+		globalDeclarations.push_back( makeInstruction< SamplerTypeInstruction >( result ) );
+		return result;
+	}
+
 	ValueId Module::registerBaseType( ast::type::TexturePtr type
 		, uint32_t mbrIndex
 		, ValueId parentId )
 	{
-		auto imgTypeId = registerType( std::static_pointer_cast< ast::type::Texture >( type )->getImageType() );
+		auto imgTypeId = registerType( type->getImageType() );
 		ValueId result{ getNextId(), type };
 		globalDeclarations.push_back( makeInstruction< TextureTypeInstruction >( result
 			, imgTypeId ) );
@@ -1777,7 +1787,13 @@ namespace spirv
 
 		auto kind = type->getRawKind();
 
-		if ( kind == ast::type::Kind::eTexture )
+		if ( kind == ast::type::Kind::eSampler )
+		{
+			result = registerBaseType( std::static_pointer_cast< ast::type::Sampler >( type )
+				, mbrIndex
+				, parentId );
+		}
+		else if ( kind == ast::type::Kind::eTexture )
 		{
 			result = registerBaseType( std::static_pointer_cast< ast::type::Texture >( type )
 				, mbrIndex

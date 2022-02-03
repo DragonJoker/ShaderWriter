@@ -134,8 +134,8 @@ namespace ast::type
 		SDAST_API MeshPrimitiveOutputPtr getMeshPrimitiveOutput( TypePtr type, OutputTopology topology, uint32_t maxPrimitives );
 		SDAST_API TaskPayloadPtr getTaskPayload( TypePtr type );
 		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
-		SDAST_API ImagePtr getImage( ImageConfiguration const & func );
-		SDAST_API TexturePtr getTexture( ImageConfiguration const & func );
+		SDAST_API ImagePtr getImage( ImageConfiguration func );
+		SDAST_API TexturePtr getTexture( ImageConfiguration func );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );

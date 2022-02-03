@@ -131,12 +131,12 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/RayPayload.inl
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.hpp
 	${INCLUDE_DIR}/BaseTypes/ReturnWrapper.inl
-	${INCLUDE_DIR}/BaseTypes/Texture.hpp
-	${INCLUDE_DIR}/BaseTypes/Texture.inl
 	${INCLUDE_DIR}/BaseTypes/Sampler.hpp
 	${INCLUDE_DIR}/BaseTypes/Sampler.inl
 	${INCLUDE_DIR}/BaseTypes/TaskPayload.hpp
 	${INCLUDE_DIR}/BaseTypes/TaskPayload.inl
+	${INCLUDE_DIR}/BaseTypes/Texture.hpp
+	${INCLUDE_DIR}/BaseTypes/Texture.inl
 	${INCLUDE_DIR}/BaseTypes/UInt.hpp
 	${INCLUDE_DIR}/BaseTypes/UInt.inl
 	${INCLUDE_DIR}/BaseTypes/Void.hpp
@@ -153,8 +153,8 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/Int.cpp
 	${SOURCE_DIR}/BaseTypes/RayPayload.cpp
 	${SOURCE_DIR}/BaseTypes/TaskPayload.cpp
-	${SOURCE_DIR}/BaseTypes/Texture.cpp
 	${SOURCE_DIR}/BaseTypes/Sampler.cpp
+	${SOURCE_DIR}/BaseTypes/Texture.cpp
 	${SOURCE_DIR}/BaseTypes/UInt.cpp
 	${SOURCE_DIR}/BaseTypes/Void.cpp
 )
