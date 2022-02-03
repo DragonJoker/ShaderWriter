@@ -515,6 +515,27 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating MakeImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
 	)
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/EnumSampledImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumSampledImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
+		COMMENT "Generating EnumSampledImageAccess.hpp"
+		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
+	)
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/GetSampledImageAccessName.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetSampledImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
+		COMMENT "Generating GetSampledImageAccessName.hpp"
+		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
+	)
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/MakeSampledImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeSampledImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
+		COMMENT "Generating MakeSampledImageAccess.hpp"
+		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
+	)
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/EnumTextureAccess.hpp
