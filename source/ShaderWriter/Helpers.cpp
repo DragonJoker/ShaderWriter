@@ -64,6 +64,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInOutRayPayloadVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtReturn.hpp>
+#include <ShaderAST/Stmt/StmtSamplerDecl.hpp>
 #include <ShaderAST/Stmt/StmtTextureDecl.hpp>
 #include <ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
@@ -881,6 +882,15 @@ namespace sdw
 		, uint32_t bindingSet )
 	{
 		return stmt::makeAccelerationStructureDecl( std::move( var )
+			, bindingPoint
+			, bindingSet );
+	}
+
+	stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
+		return stmt::makeSamplerDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}

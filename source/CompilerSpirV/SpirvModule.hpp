@@ -191,6 +191,9 @@ namespace spirv
 		ValueId registerBaseType( ast::type::StructPtr type
 			, uint32_t mbrIndex
 			, ValueId parentId );
+		ValueId registerBaseType( ast::type::SamplerPtr type
+			, uint32_t mbrIndex
+			, ValueId parentId );
 		ValueId registerBaseType( ast::type::TexturePtr type
 			, uint32_t mbrIndex
 			, ValueId parentId );

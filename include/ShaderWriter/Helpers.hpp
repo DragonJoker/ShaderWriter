@@ -283,6 +283,9 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeAccelerationStructureDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
+	SDW_API stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet );
 	SDW_API stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type
 		, std::string name );
 

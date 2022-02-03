@@ -477,6 +477,8 @@ namespace ast::vk
 				return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			case ast::DescriptorType::eStorageBuffer:
 				return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+			case ast::DescriptorType::eSampler:
+				return VK_DESCRIPTOR_TYPE_SAMPLER;
 			case ast::DescriptorType::eTexture:
 				return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 			case ast::DescriptorType::eStorageImage:
@@ -964,6 +966,22 @@ namespace ast::vk
 			{
 				result.push_back( VkDescriptorPoolSize
 					{
+						VK_DESCRIPTOR_TYPE_SAMPLER,
+						count,
+					} );
+			}
+
+			count = uint32_t( std::count_if( m_data.textures.begin()
+				, m_data.textures.end()
+				, [i]( auto & lookup )
+				{
+					return lookup.first.set == i;
+				} ) );
+
+			if ( count )
+			{
+				result.push_back( VkDescriptorPoolSize
+					{
 						VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
 						count,
 					} );
@@ -1032,6 +1050,20 @@ namespace ast::vk
 			}
 
 			for ( auto & desc : m_data.samplers )
+			{
+				if ( desc.first.set == i )
+				{
+					ImageWriteDescriptorSet write
+					{
+						makeWrite( desc.first.binding
+							, 1u
+							, VK_DESCRIPTOR_TYPE_SAMPLER )
+					};
+					setWrites.emplace_back( std::move( write ) );
+				}
+			}
+
+			for ( auto & desc : m_data.textures )
 			{
 				if ( desc.first.set == i )
 				{

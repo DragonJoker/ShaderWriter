@@ -880,7 +880,7 @@ namespace test
 			case ast::ShaderStage::eRayGeneration:
 				return "Ray Generation";
 			case ast::ShaderStage::eRayClosestHit:
-				return "Ray Closet Hit";
+				return "Ray Closest Hit";
 			case ast::ShaderStage::eRayMiss:
 				return "Ray Miss";
 			case ast::ShaderStage::eRayIntersection:

@@ -50,6 +50,7 @@ namespace glsl
 		bool requiresFma4D{ false };
 		bool requiresRayDescDecl{ false };
 		bool requiresBlendIndex{ false };
+		bool requiresSeparateSamplers{ false };
 
 		GlslExtensionSet requiredExtensions{};
 	};

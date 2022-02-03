@@ -247,6 +247,8 @@ namespace ast
 		class Array;
 		using ArrayPtr = std::shared_ptr< Array >;
 		struct ImageConfiguration;
+		class Sampler;
+		using SamplerPtr = std::shared_ptr< Sampler >;
 		class Image;
 		using ImagePtr = std::shared_ptr< Image >;
 		class Texture;
@@ -348,6 +350,11 @@ namespace ast
 	using DescriptorInfo = DescriptorInfoT<>;
 
 	struct SamplerInfo
+		: DescriptorInfo
+	{
+	};
+
+	struct TextureInfo
 		: DescriptorInfo
 	{
 	};

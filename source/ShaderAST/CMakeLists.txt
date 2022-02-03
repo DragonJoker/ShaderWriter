@@ -243,7 +243,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtBreak.hpp
 	${INCLUDE_DIR}/Stmt/StmtBufferReferenceDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtComment.hpp
-	${INCLUDE_DIR}/Stmt/StmtTextureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtCompound.hpp
 	${INCLUDE_DIR}/Stmt/StmtConstantBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtContainer.hpp
@@ -284,6 +283,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtSwitchCase.hpp
 	${INCLUDE_DIR}/Stmt/StmtTerminateInvocation.hpp
 	${INCLUDE_DIR}/Stmt/StmtTerminateRay.hpp
+	${INCLUDE_DIR}/Stmt/StmtTextureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtVisitor.hpp
 	${INCLUDE_DIR}/Stmt/StmtWhile.hpp
@@ -301,7 +301,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtAccelerationStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtBreak.cpp
 	${SOURCE_DIR}/Stmt/StmtBufferReferenceDecl.cpp
-	${SOURCE_DIR}/Stmt/StmtTextureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtComment.cpp
 	${SOURCE_DIR}/Stmt/StmtCompound.cpp
 	${SOURCE_DIR}/Stmt/StmtConstantBufferDecl.cpp
@@ -342,6 +341,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtSwitchCase.cpp
 	${SOURCE_DIR}/Stmt/StmtTerminateInvocation.cpp
 	${SOURCE_DIR}/Stmt/StmtTerminateRay.cpp
+	${SOURCE_DIR}/Stmt/StmtTextureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtWhile.cpp
 )
@@ -379,12 +379,12 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeMeshIO.hpp
 	${INCLUDE_DIR}/Type/TypePointer.hpp
 	${INCLUDE_DIR}/Type/TypeRayPayload.hpp
-	${INCLUDE_DIR}/Type/TypeTexture.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
 	${INCLUDE_DIR}/Type/TypeTaskIO.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationControlIO.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationEvaluationIO.hpp
+	${INCLUDE_DIR}/Type/TypeTexture.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/ImageConfiguration.cpp
@@ -402,12 +402,12 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeMeshIO.cpp
 	${SOURCE_DIR}/Type/TypePointer.cpp
 	${SOURCE_DIR}/Type/TypeRayPayload.cpp
-	${SOURCE_DIR}/Type/TypeTexture.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
 	${SOURCE_DIR}/Type/TypeTaskIO.cpp
 	${SOURCE_DIR}/Type/TypeTessellationControlIO.cpp
 	${SOURCE_DIR}/Type/TypeTessellationEvaluationIO.cpp
+	${SOURCE_DIR}/Type/TypeTexture.cpp
 )
 source_group( "Header Files\\Type"
 	FILES
