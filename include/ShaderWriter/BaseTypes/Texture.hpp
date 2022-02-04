@@ -50,82 +50,82 @@ namespace sdw
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is1dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is2dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is3dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e3D );
+	static bool constexpr is3dV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e3D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isRectV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
+	static bool constexpr isRectV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isBufferV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eBuffer );
+	static bool constexpr isBufferV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eBuffer );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isCubeV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is1dArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is2dArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isCubeArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is1dShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is2dShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isRectShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
+	static bool constexpr isRectShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isCubeShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is1dArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr is2dArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-		static bool constexpr isCubeArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
 	struct Texture
 		: public Value
@@ -142,7 +142,7 @@ namespace sdw
 		SDW_API operator uint32_t();
 	};
 
-	namespace sampledImg
+	namespace combinedSmplImg
 	{
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
@@ -170,7 +170,7 @@ namespace sdw
 		, bool DepthT
 		, bool MsT >
 	struct TextureT
-		: public sampledImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
+		: public combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
 	{
 		SDW_DeclValue( , TextureT );
 

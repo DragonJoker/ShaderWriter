@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Int.hpp"
+#include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 
 #include <ShaderAST/Expr/EnumTextureAccess.hpp>
@@ -11,7 +12,7 @@ namespace sdw
 {
 	//*****************************************************************************************
 
-	namespace sampledImg
+	namespace combinedSmplImg
 	{
 		size_t constexpr ImgBaseCount = size_t( type::ImageDim::eBuffer ) + 1u;
 		size_t constexpr ArrayImgCount = 3u;
@@ -1262,88 +1263,88 @@ namespace sdw
 	template< type::ImageFormat FormatT >
 	struct TextureFormatTraitsT< FormatT, std::enable_if_t< isFloatFormatV< FormatT > > >
 	{
-		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeF;
-		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodF;
-		static constexpr sampledImg::IntrinsicsList const & textureQueryLevels = sampledImg::textureQueryLevelsF;
-		static constexpr sampledImg::IntrinsicsList const & texture = sampledImg::textureF;
-		static constexpr sampledImg::IntrinsicsList const & textureBias = sampledImg::textureBiasF;
-		static constexpr sampledImg::IntrinsicsList const & textureOffset = sampledImg::textureOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureOffsetBias = sampledImg::textureOffsetBiasF;
-		static constexpr sampledImg::IntrinsicsList const & textureProj = sampledImg::textureProjF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjBias = sampledImg::textureProjBiasF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjOffset = sampledImg::textureProjOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjOffsetBias = sampledImg::textureProjOffsetBiasF;
-		static constexpr sampledImg::IntrinsicsList const & textureLod = sampledImg::textureLodF;
-		static constexpr sampledImg::IntrinsicsList const & textureLodOffset = sampledImg::textureLodOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjLod = sampledImg::textureProjLodF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjLodOffset = sampledImg::textureProjLodOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & texelFetch = sampledImg::texelFetchF;
-		static constexpr sampledImg::IntrinsicsList const & texelFetchOffset = sampledImg::texelFetchOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureGrad = sampledImg::textureGradF;
-		static constexpr sampledImg::IntrinsicsList const & textureGradOffset = sampledImg::textureGradOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradF;
-		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherF;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetF;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureSize = combinedSmplImg::textureSizeF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLod = combinedSmplImg::textureQueryLodF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLevels = combinedSmplImg::textureQueryLevelsF;
+		static constexpr combinedSmplImg::IntrinsicsList const & texture = combinedSmplImg::textureF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureBias = combinedSmplImg::textureBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffset = combinedSmplImg::textureOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffsetBias = combinedSmplImg::textureOffsetBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProj = combinedSmplImg::textureProjF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjBias = combinedSmplImg::textureProjBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffset = combinedSmplImg::textureProjOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffsetBias = combinedSmplImg::textureProjOffsetBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLod = combinedSmplImg::textureLodF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLodOffset = combinedSmplImg::textureLodOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLod = combinedSmplImg::textureProjLodF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLodOffset = combinedSmplImg::textureProjLodOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetch = combinedSmplImg::texelFetchF;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetchOffset = combinedSmplImg::texelFetchOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGrad = combinedSmplImg::textureGradF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGradOffset = combinedSmplImg::textureGradOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGrad = combinedSmplImg::textureProjGradF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGradOffset = combinedSmplImg::textureProjGradOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGather = combinedSmplImg::textureGatherF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffset = combinedSmplImg::textureGatherOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffsets = combinedSmplImg::textureGatherOffsetsF;
 	};
 
 	template< type::ImageFormat FormatT >
 	struct TextureFormatTraitsT< FormatT, std::enable_if_t< isSIntFormatV< FormatT > > >
 	{
-		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeI;
-		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodI;
-		static constexpr sampledImg::IntrinsicsList const & textureQueryLevels = sampledImg::textureQueryLevelsI;
-		static constexpr sampledImg::IntrinsicsList const & texture = sampledImg::textureI;
-		static constexpr sampledImg::IntrinsicsList const & textureBias = sampledImg::textureBiasI;
-		static constexpr sampledImg::IntrinsicsList const & textureOffset = sampledImg::textureOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureOffsetBias = sampledImg::textureOffsetBiasI;
-		static constexpr sampledImg::IntrinsicsList const & textureProj = sampledImg::textureProjI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjBias = sampledImg::textureProjBiasI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjOffset = sampledImg::textureProjOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjOffsetBias = sampledImg::textureProjOffsetBiasI;
-		static constexpr sampledImg::IntrinsicsList const & textureLod = sampledImg::textureLodI;
-		static constexpr sampledImg::IntrinsicsList const & textureLodOffset = sampledImg::textureLodOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjLod = sampledImg::textureProjLodI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjLodOffset = sampledImg::textureProjLodOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & texelFetch = sampledImg::texelFetchI;
-		static constexpr sampledImg::IntrinsicsList const & texelFetchOffset = sampledImg::texelFetchOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureGrad = sampledImg::textureGradI;
-		static constexpr sampledImg::IntrinsicsList const & textureGradOffset = sampledImg::textureGradOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradI;
-		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherI;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetI;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureSize = combinedSmplImg::textureSizeI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLod = combinedSmplImg::textureQueryLodI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLevels = combinedSmplImg::textureQueryLevelsI;
+		static constexpr combinedSmplImg::IntrinsicsList const & texture = combinedSmplImg::textureI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureBias = combinedSmplImg::textureBiasI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffset = combinedSmplImg::textureOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffsetBias = combinedSmplImg::textureOffsetBiasI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProj = combinedSmplImg::textureProjI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjBias = combinedSmplImg::textureProjBiasI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffset = combinedSmplImg::textureProjOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffsetBias = combinedSmplImg::textureProjOffsetBiasI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLod = combinedSmplImg::textureLodI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLodOffset = combinedSmplImg::textureLodOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLod = combinedSmplImg::textureProjLodI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLodOffset = combinedSmplImg::textureProjLodOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetch = combinedSmplImg::texelFetchI;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetchOffset = combinedSmplImg::texelFetchOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGrad = combinedSmplImg::textureGradI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGradOffset = combinedSmplImg::textureGradOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGrad = combinedSmplImg::textureProjGradI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGradOffset = combinedSmplImg::textureProjGradOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGather = combinedSmplImg::textureGatherI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffset = combinedSmplImg::textureGatherOffsetI;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffsets = combinedSmplImg::textureGatherOffsetsI;
 	};
 
 	template< type::ImageFormat FormatT >
 	struct TextureFormatTraitsT< FormatT, std::enable_if_t< isUIntFormatV< FormatT > > >
 	{
-		static constexpr sampledImg::IntrinsicsList const & textureSize = sampledImg::textureSizeU;
-		static constexpr sampledImg::IntrinsicsList const & textureQueryLod = sampledImg::textureQueryLodU;
-		static constexpr sampledImg::IntrinsicsList const & textureQueryLevels = sampledImg::textureQueryLevelsU;
-		static constexpr sampledImg::IntrinsicsList const & texture = sampledImg::textureU;
-		static constexpr sampledImg::IntrinsicsList const & textureBias = sampledImg::textureBiasU;
-		static constexpr sampledImg::IntrinsicsList const & textureOffset = sampledImg::textureOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureOffsetBias = sampledImg::textureOffsetBiasU;
-		static constexpr sampledImg::IntrinsicsList const & textureProj = sampledImg::textureProjU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjBias = sampledImg::textureProjBiasU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjOffset = sampledImg::textureProjOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjOffsetBias = sampledImg::textureProjOffsetBiasU;
-		static constexpr sampledImg::IntrinsicsList const & textureLod = sampledImg::textureLodU;
-		static constexpr sampledImg::IntrinsicsList const & textureLodOffset = sampledImg::textureLodOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjLod = sampledImg::textureProjLodU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjLodOffset = sampledImg::textureProjLodOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & texelFetch = sampledImg::texelFetchU;
-		static constexpr sampledImg::IntrinsicsList const & texelFetchOffset = sampledImg::texelFetchOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureGrad = sampledImg::textureGradU;
-		static constexpr sampledImg::IntrinsicsList const & textureGradOffset = sampledImg::textureGradOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjGrad = sampledImg::textureProjGradU;
-		static constexpr sampledImg::IntrinsicsList const & textureProjGradOffset = sampledImg::textureProjGradOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureGather = sampledImg::textureGatherU;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffset = sampledImg::textureGatherOffsetU;
-		static constexpr sampledImg::IntrinsicsList const & textureGatherOffsets = sampledImg::textureGatherOffsetsU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureSize = combinedSmplImg::textureSizeU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLod = combinedSmplImg::textureQueryLodU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLevels = combinedSmplImg::textureQueryLevelsU;
+		static constexpr combinedSmplImg::IntrinsicsList const & texture = combinedSmplImg::textureU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureBias = combinedSmplImg::textureBiasU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffset = combinedSmplImg::textureOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffsetBias = combinedSmplImg::textureOffsetBiasU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProj = combinedSmplImg::textureProjU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjBias = combinedSmplImg::textureProjBiasU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffset = combinedSmplImg::textureProjOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffsetBias = combinedSmplImg::textureProjOffsetBiasU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLod = combinedSmplImg::textureLodU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLodOffset = combinedSmplImg::textureLodOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLod = combinedSmplImg::textureProjLodU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLodOffset = combinedSmplImg::textureProjLodOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetch = combinedSmplImg::texelFetchU;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetchOffset = combinedSmplImg::texelFetchOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGrad = combinedSmplImg::textureGradU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGradOffset = combinedSmplImg::textureGradOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGrad = combinedSmplImg::textureProjGradU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGradOffset = combinedSmplImg::textureProjGradOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGather = combinedSmplImg::textureGatherU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffset = combinedSmplImg::textureGatherOffsetU;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffsets = combinedSmplImg::textureGatherOffsetsU;
 	};
 	
 	//*************************************************************************
@@ -1438,7 +1439,7 @@ namespace sdw
 		using SizeType = sdw::IVec3;
 	};
 
-	namespace sampledImg
+	namespace combinedSmplImg
 	{
 		//*****************************************************************************************
 
@@ -1479,7 +1480,7 @@ namespace sdw
 			auto getSize()const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
-					, TextureFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
+					, TextureFormatTraitsT< FormatT >::textureSize[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
@@ -1503,7 +1504,7 @@ namespace sdw
 			auto getSize( Int const & level )const
 			{
 				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
-					, TextureFormatTraitsT< FormatT >::textureSize[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureSize[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
 						, level );
 			}
 
@@ -1528,7 +1529,7 @@ namespace sdw
 			auto getLod( QueryLodT const & coord )const
 			{
 				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, DepthT, MsT
-					, TextureFormatTraitsT< FormatT >::textureQueryLod[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureQueryLod[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
 						, coord );
 			}
 
@@ -1551,7 +1552,7 @@ namespace sdw
 			auto getLevels()const
 			{
 				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, DepthT, MsT
-					, TextureFormatTraitsT< FormatT >::textureQueryLevels[sampledImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
+					, TextureFormatTraitsT< FormatT >::textureQueryLevels[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
@@ -1574,7 +1575,7 @@ namespace sdw
 			auto sample( SampleT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texture[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
@@ -1599,7 +1600,7 @@ namespace sdw
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::texture[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texture[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
@@ -1625,7 +1626,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, bias );
 			}
@@ -1652,7 +1653,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, bias );
@@ -1681,7 +1682,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset );
 			}
@@ -1710,7 +1711,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset );
@@ -1740,7 +1741,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset
 						, bias );
@@ -1771,7 +1772,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset
@@ -1799,7 +1800,7 @@ namespace sdw
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLod[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod );
 			}
@@ -1826,7 +1827,7 @@ namespace sdw
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLod[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod );
@@ -1856,7 +1857,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod
 						, offset );
@@ -1887,7 +1888,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod
@@ -1914,7 +1915,7 @@ namespace sdw
 			auto proj( SampleProjT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProj[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
@@ -1939,7 +1940,7 @@ namespace sdw
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProj[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProj[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
@@ -1965,7 +1966,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, bias );
 			}
@@ -1992,7 +1993,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, bias );
@@ -2021,7 +2022,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset );
 			}
@@ -2050,7 +2051,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset );
@@ -2080,7 +2081,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset
 						, bias );
@@ -2111,7 +2112,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset
@@ -2139,7 +2140,7 @@ namespace sdw
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLod[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod );
 			}
@@ -2166,7 +2167,7 @@ namespace sdw
 				, Float const & lod )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjLod[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLod[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod );
@@ -2196,7 +2197,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod
 						, offset );
@@ -2227,7 +2228,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, lod
@@ -2254,7 +2255,7 @@ namespace sdw
 			auto fetch( FetchT const & coord )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texelFetch[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
@@ -2279,7 +2280,7 @@ namespace sdw
 				, Int const & level )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::texelFetch[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texelFetch[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, level );
 			}
@@ -2308,7 +2309,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::texelFetchOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::texelFetchOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, level
 						, offset );
@@ -2337,7 +2338,7 @@ namespace sdw
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGrad[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy );
@@ -2367,7 +2368,7 @@ namespace sdw
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGrad[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2400,7 +2401,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy
@@ -2434,7 +2435,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2465,7 +2466,7 @@ namespace sdw
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGrad[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy );
@@ -2495,7 +2496,7 @@ namespace sdw
 				, DerivativeT const & dPdy )const
 			{
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjGrad[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGrad[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2528,7 +2529,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
 						, dPdy
@@ -2561,7 +2562,7 @@ namespace sdw
 			{
 				assert( offset.getExpr()->isConstant() );
 				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, dPdx
@@ -2590,7 +2591,7 @@ namespace sdw
 				, Int const & comp )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGather[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp );
 			}
@@ -2616,7 +2617,7 @@ namespace sdw
 				, Float const & ref )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureGather[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGather[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
@@ -2644,7 +2645,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp
 						, offset );
@@ -2673,7 +2674,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureGatherOffset[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offset );
@@ -2702,7 +2703,7 @@ namespace sdw
 				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
-					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, false >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp
 						, offsets );
@@ -2731,7 +2732,7 @@ namespace sdw
 				, Array< OffsetT > const & offsets )const
 			{
 				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
-					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[sampledImg::getIndex< DimT, ArrayedT, true >()] >( get()
+					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
 						, offsets );
@@ -3468,7 +3469,7 @@ namespace sdw
 	TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::TextureT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: sampledImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
+		: combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -3480,7 +3481,7 @@ namespace sdw
 	template< typename T >
 	TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > & TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
 	{
-		sampledImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
+		combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
 		return *this;
 	}
 
