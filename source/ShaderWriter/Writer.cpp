@@ -465,6 +465,15 @@ namespace sdw
 		return m_shader->registerSampler( std::move( name ), type, binding, set, enabled );
 	}
 
+	var::VariablePtr ShaderWriter::registerSampledImage( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return m_shader->registerSampledImage( std::move( name ), type, binding, set, enabled );
+	}
+
 	var::VariablePtr ShaderWriter::registerTexture( std::string name
 		, type::TypePtr type
 		, uint32_t binding

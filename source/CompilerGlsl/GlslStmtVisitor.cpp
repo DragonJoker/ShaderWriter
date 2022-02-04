@@ -20,100 +20,6 @@ namespace glsl
 
 	namespace
 	{
-		std::string getDimension( ast::type::ImageDim value )
-		{
-			switch ( value )
-			{
-			case ast::type::ImageDim::e1D:
-				return "1D";
-			case ast::type::ImageDim::e2D:
-				return "2D";
-			case ast::type::ImageDim::e3D:
-				return "3D";
-			case ast::type::ImageDim::eCube:
-				return "Cube";
-			case ast::type::ImageDim::eRect:
-				return "2DRect";
-			case ast::type::ImageDim::eBuffer:
-				return "Buffer";
-			default:
-				AST_Failure( "Unsupported ast::type::ImageDim" );
-				return "Undefined";
-			}
-		}
-		
-		std::string getPrefix( ast::type::Kind value )
-		{
-			switch ( value )
-			{
-			case ast::type::Kind::eInt:
-				return "i";
-
-			case ast::type::Kind::eUInt:
-				return "u";
-
-			case ast::type::Kind::eUInt64:
-				return "ul";
-
-			case ast::type::Kind::eFloat:
-				return std::string{};
-				
-			case ast::type::Kind::eHalf:
-				return "h";
-
-			default:
-				AST_Failure( "Unsupported ast::type::Kind" );
-				return std::string{};
-			}
-		}
-
-		std::string getArray( bool value )
-		{
-			return value
-				? "Array"
-				: std::string{};
-		}
-
-		std::string getMS( bool value )
-		{
-			return value
-				? "MS"
-				: std::string{};
-		}
-
-		std::string getShadow( bool isComparison )
-		{
-			return isComparison
-				? "Shadow"
-				: std::string{};
-		}
-
-		std::string getType( ast::type::Kind kind
-			, ast::type::ImageConfiguration const & config )
-		{
-			return ( kind == ast::type::Kind::eImage )
-				? "image"
-				: "sampler";
-		}
-
-		std::string getQualifiedName( ast::type::Kind kind
-			, ast::type::ImageConfiguration const & config )
-		{
-			return getPrefix( config.sampledType )
-				+ getType( kind, config )
-				+ getDimension( config.dimension )
-				+ getMS( config.isMS )
-				+ getArray( config.isArrayed );
-		}
-
-		std::string getQualifiedName( ast::type::Kind kind
-			, ast::type::ImageConfiguration const & config
-			, bool isComparison )
-		{
-			return getQualifiedName( kind, config )
-				+ getShadow( isComparison );
-		}
-
 		std::string getFormatName( ast::type::ImageFormat format )
 		{
 			switch ( format )
@@ -991,7 +897,14 @@ namespace glsl
 		doWriteBinding( stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
 			, "" );
-		m_result += ") uniform sampler " + stmt->getVariable()->getName();
+		m_result += ") uniform sampler";
+		
+		if ( static_cast< ast::type::Sampler const & >( *stmt->getVariable()->getType() ).isComparison() )
+		{
+			m_result += "Shadow";
+		}
+
+		m_result += " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}

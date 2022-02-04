@@ -232,6 +232,7 @@ namespace test
 			std::string result;
 			try
 			{
+				compiler.build_combined_image_samplers();
 				result = compiler.compile();
 			}
 			catch ( spirv_cross::CompilerError & exc )
@@ -401,10 +402,11 @@ namespace test
 				{
 					try
 					{
+						auto cfg = getGlslConfig( glsl::v4_6 );
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 							, specialisation
-							, getGlslConfig( glsl::v4_6 ) ) );
+							, cfg ) );
 						std::string errors;
 						test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 
@@ -520,7 +522,8 @@ namespace test
 
 				bool isCompiled{ false };
 
-				if ( isRayTraceStage( shader.getType() ) )
+				if ( isRayTraceStage( shader.getType() )
+					|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
 				{
 					try
 					{
@@ -976,10 +979,11 @@ namespace test
 							auto textSpirv = spirv::writeSpirv( shader, config );
 							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 							displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
+							auto cfg = getGlslConfig( glsl::v4_6 );
 							auto glslangSpirv = compileGlslToSpv( shader.getType()
 								, glsl::compileGlsl( shader
 									, ast::SpecialisationInfo{}
-									, getGlslConfig( glsl::v4_6 ) ) );
+									, cfg ) );
 							displayShader( "glslang SPIR-V"
 								, spirv::displaySpirv( glslangSpirv )
 								, testCounts
@@ -1056,10 +1060,11 @@ namespace test
 							, testCounts
 							, true
 							, true );
+						auto cfg = getGlslConfig( glsl::v4_6 );
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 								, ast::SpecialisationInfo{}
-							, getGlslConfig( glsl::v4_6 ) ) );
+							, cfg ) );
 						displayShader( "glslang SPIR-V"
 							, spirv::displaySpirv( glslangSpirv )
 							, testCounts

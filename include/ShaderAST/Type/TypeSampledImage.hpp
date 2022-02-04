@@ -9,6 +9,11 @@ See LICENSE file in root folder
 
 #include <vector>
 
+namespace ast::expr
+{
+	class SampledImageAccessCall;
+}
+
 namespace ast::type
 {
 	class SampledImage
@@ -16,7 +21,8 @@ namespace ast::type
 	{
 	public:
 		SDAST_API SampledImage( TypesCache & cache
-			, ImageConfiguration config );
+			, ImageConfiguration config
+			, Trinary comparison = Trinary::eDontCare );
 
 		ImagePtr getImageType()const
 		{
@@ -28,8 +34,16 @@ namespace ast::type
 			return m_imageType->getConfig();
 		}
 
+		Trinary const & getDepth()const
+		{
+			return m_depth;
+		}
+
 	private:
 		ImagePtr m_imageType;
+		Trinary m_depth;
+
+		friend class ast::expr::SampledImageAccessCall;
 	};
 	using SampledImagePtr = std::shared_ptr< SampledImage >;
 }

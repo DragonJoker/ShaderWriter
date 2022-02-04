@@ -85,7 +85,7 @@ namespace glsl
 		{
 			std::string result;
 			auto config = type->getConfig();
-			result += "sampler";
+			result += "texture";
 			result += getName( config.dimension );
 
 			if ( config.isArrayed )
@@ -276,10 +276,8 @@ namespace glsl
 			result = "sampler";
 			break;
 		case ast::type::Kind::eSampledImage:
-			result = "sampledImage";
-			break;
 		case ast::type::Kind::eTexture:
-			result = "sampledImage";
+			result = "texture";
 			break;
 		case ast::type::Kind::ePointer:
 			result = "pointer";
@@ -1027,10 +1025,12 @@ namespace glsl
 				switch ( type->getRawKind() )
 				{
 				case ast::type::Kind::eImage:
-				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eTexture:
-				case ast::type::Kind::eSampledImage:
 				case ast::type::Kind::eAccelerationStructure:
+					return;
+				case ast::type::Kind::eSampler:
+				case ast::type::Kind::eSampledImage:
+					config.requiresSeparateSamplers = true;
 					return;
 				default:
 					break;

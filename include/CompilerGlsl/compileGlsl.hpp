@@ -105,6 +105,7 @@ namespace glsl
 	makeGlExtension( v4_6, v4_6, vUnk, EXT_ray_query );
 	makeGlExtension( v4_6, v4_6, vUnk, EXT_scalar_block_layout );
 	makeGlExtension( v4_6, v4_6, vUnk, ARB_shader_draw_parameters );
+	makeGlExtension( vUnk, vUnk, vUnk, EXT_separate_samplers );
 
 #undef makeGlExtension
 
@@ -127,7 +128,7 @@ namespace glsl
 
 	SDWGLSL_API std::string compileGlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
-		, GlslConfig const & config );
+		, GlslConfig & config );
 }
 
 #endif

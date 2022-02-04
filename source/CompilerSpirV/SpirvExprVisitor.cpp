@@ -1207,7 +1207,8 @@ namespace spirv
 		uint32_t index = 0u;
 		args.emplace_back( loadVariable( doSubmit( expr->getArgList()[index++].get() ) ) );
 		args[0] = m_module.mergeSamplerImage( args[0]
-			, loadVariable( doSubmit( expr->getArgList()[index++].get() ) ) );
+			, loadVariable( doSubmit( expr->getArgList()[index++].get() ) )
+			, m_currentBlock );
 
 		for ( ; index < expr->getArgList().size(); ++index )
 		{

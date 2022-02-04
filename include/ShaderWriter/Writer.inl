@@ -331,7 +331,7 @@ namespace sdw
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, MsT >;
 		auto type = T::makeType( getTypesCache() );
-		auto var = registerTexture( std::move( name )
+		auto var = registerSampledImage( std::move( name )
 			, type
 			, binding
 			, set
@@ -377,7 +377,7 @@ namespace sdw
 		using T = SampledImageT< FormatT, DimT, ArrayedT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
-		auto var = registerTexture( std::move( name )
+		auto var = registerSampledImage( std::move( name )
 			, type
 			, binding
 			, set

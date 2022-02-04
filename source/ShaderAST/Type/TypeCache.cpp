@@ -32,11 +32,11 @@ namespace ast::type
 			{
 				return ast::type::getHash( config, isComparison );
 			} }
-		, m_sampledImage{ [this]( ImageConfiguration config )
+		, m_sampledImage{ [this]( ImageConfiguration config, Trinary comparison )
 			{
-				return std::make_shared< SampledImage >( *this, std::move( config ) );
+				return std::make_shared< SampledImage >( *this, std::move( config ), comparison );
 			}
-			, []( ImageConfiguration const & config )noexcept
+			, []( ImageConfiguration const & config, Trinary )noexcept
 			{
 				return ast::type::getHash( config );
 			} }
@@ -691,9 +691,9 @@ namespace ast::type
 		return m_image.getType( std::move( config ) );
 	}
 
-	SampledImagePtr TypesCache::getSampledImage( ImageConfiguration config )
+	SampledImagePtr TypesCache::getSampledImage( ImageConfiguration config, Trinary comparison )
 	{
-		return m_sampledImage.getType( std::move( config ) );
+		return m_sampledImage.getType( std::move( config ), comparison );
 	}
 
 	TexturePtr TypesCache::getTexture( ImageConfiguration config

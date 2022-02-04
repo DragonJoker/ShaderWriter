@@ -34,6 +34,7 @@ namespace spirv
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
+		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 
