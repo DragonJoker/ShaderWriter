@@ -304,6 +304,9 @@ namespace spirv
 	using ImageAccessInstructionT = VariadicInstructionT< Operator, true, true >;
 
 	template< spv::Op Operator >
+	using SampledImageAccessInstructionT = VariadicInstructionT< Operator, true, true >;
+
+	template< spv::Op Operator >
 	using TextureAccessInstructionT = VariadicInstructionT< Operator, true, true >;
 
 	template< spv::Op Operator >

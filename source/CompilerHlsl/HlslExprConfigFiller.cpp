@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "HlslVariableReplacer.hpp"
 #include "HlslImageAccessConfig.hpp"
 #include "HlslIntrinsicConfig.hpp"
+#include "HlslSampledImageAccessConfig.hpp"
 #include "HlslTextureAccessConfig.hpp"
 
 #include <ShaderAST/Visitors/GetExprName.hpp>
@@ -189,6 +190,17 @@ namespace hlsl
 	{
 		checkType( expr->getType(), m_config );
 		getHlslConfig( expr->getIntrinsic(), m_config );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			arg->accept( this );
+		}
+	}
+
+	void ExprConfigFiller::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
+	{
+		checkType( expr->getType(), m_config );
+		getHlslConfig( expr->getSampledImageAccess(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{

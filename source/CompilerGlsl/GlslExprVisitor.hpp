@@ -53,6 +53,7 @@ namespace glsl
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;
 		void visitQuestionExpr( ast::expr::Question *expr )override;
+		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitSwitchCaseExpr( ast::expr::SwitchCase *expr )override;
 		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;

@@ -45,4 +45,12 @@ namespace ast::type
 		result = hashCombine( result, isComparison );
 		return result;
 	}
+
+	size_t getHash( type::ImageConfiguration const & config
+		, Trinary isComparison )noexcept
+	{
+		auto result = getHash( config );
+		result = hashCombine( result, isComparison );
+		return result;
+	}
 }

@@ -266,6 +266,11 @@ namespace spirv
 				AST_Failure( "Unexpected Question expression" );
 			}
 
+			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override
+			{
+				AST_Failure( "Unexpected SampledImageAccessCall expression" );
+			}
+
 			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
 			{
 				AST_Failure( "Unexpected StreamAppend expression" );

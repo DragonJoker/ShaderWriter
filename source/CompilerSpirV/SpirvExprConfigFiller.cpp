@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "SpirvHelpers.hpp"
 #include "SpirvImageAccessConfig.hpp"
 #include "SpirvIntrinsicConfig.hpp"
+#include "SpirvSampledImageAccessConfig.hpp"
 #include "SpirvTextureAccessConfig.hpp"
 
 namespace spirv
@@ -232,6 +233,48 @@ namespace spirv
 			m_config.registerCapability( spv::CapabilityDemoteToHelperInvocation );
 			// The extension is not optional, when using helperInvocation intrinsic.
 			m_config.registerExtension( EXT_demote_to_helper_invocation );
+		}
+	}
+
+	void ExprConfigFiller::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
+	{
+		checkType( expr, m_config );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			doSubmit( arg.get() );
+
+			if ( arg->isNonUniform() )
+			{
+				m_config.registerCapability( spv::CapabilitySampledImageArrayNonUniformIndexing );
+			}
+		}
+
+		auto kind = expr->getSampledImageAccess();
+
+		if ( ( kind >= ast::expr::SampledImageAccess::eSampleGather2DShadowF
+			&& kind <= ast::expr::SampledImageAccess::eSampleGatherOffsets2DRectShadowF ) )
+		{
+			m_config.registerCapability( spv::CapabilityImageGatherExtended );
+		}
+
+		if ( getConstOffsets( kind ) == spv::ImageOperandsConstOffsetsMask )
+		{
+			m_config.registerCapability( spv::CapabilityImageGatherExtended );
+		}
+
+		IntrinsicConfig config;
+		getSpirVConfig( kind, config );
+
+		if ( config.offsetIndex )
+		{
+			assert( expr->getArgList().size() >= config.offsetIndex );
+			bool constOffset = expr->getArgList()[config.offsetIndex - 1u]->isConstant();
+
+			if ( getOffset( kind, constOffset ) == spv::ImageOperandsOffsetMask )
+			{
+				m_config.registerCapability( spv::CapabilityImageGatherExtended );
+			}
 		}
 	}
 

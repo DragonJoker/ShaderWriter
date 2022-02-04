@@ -145,6 +145,17 @@ namespace ast
 				}
 			}
 
+			void visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )override
+			{
+				if ( checkToVisit() )
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+			}
+
 			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
 			{
 				if ( checkToVisit() )

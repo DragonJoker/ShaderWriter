@@ -11,7 +11,7 @@ namespace hlsl
 {
 	namespace details
 	{
-		inline void writeProjectTexCoords2( ast::stmt::Container * container )
+		void writeProjectTexCoords2( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();
 			cont->addStmt( ast::stmt::makeComment( "float SDW_projectTexCoords2(float2 texCoords)" ) );
@@ -21,7 +21,7 @@ namespace hlsl
 			container->addStmt( std::move( cont ) );
 		}
 
-		inline void writeProjectTexCoords3( ast::stmt::Container * container )
+		void writeProjectTexCoords3( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();
 			cont->addStmt( ast::stmt::makeComment( "float2 SDW_projectTexCoords3(float3 texCoords)" ) );
@@ -31,7 +31,7 @@ namespace hlsl
 			container->addStmt( std::move( cont ) );
 		}
 
-		inline void writeProjectTexCoords4To1( ast::stmt::Container * container )
+		void writeProjectTexCoords4To1( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();
 			cont->addStmt( ast::stmt::makeComment( "float SDW_projectTexCoords4to1(float4 texCoords)" ) );
@@ -41,7 +41,7 @@ namespace hlsl
 			container->addStmt( std::move( cont ) );
 		}
 
-		inline void writeProjectTexCoords4To2( ast::stmt::Container * container )
+		void writeProjectTexCoords4To2( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();
 			cont->addStmt( ast::stmt::makeComment( "float2 SDW_projectTexCoords4To2(float4 texCoords)" ) );
@@ -51,7 +51,7 @@ namespace hlsl
 			container->addStmt( std::move( cont ) );
 		}
 
-		inline void writeProjectTexCoords4( ast::stmt::Container * container )
+		void writeProjectTexCoords4( ast::stmt::Container * container )
 		{
 			auto cont = ast::stmt::makeContainer();
 			cont->addStmt( ast::stmt::makeComment( "float3 SDW_projectTexCoords4(float4 texCoords)" ) );

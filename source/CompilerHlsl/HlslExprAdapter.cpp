@@ -335,6 +335,193 @@ namespace hlsl
 			}
 		}
 
+		ast::expr::ExprPtr writeProjTexCoords( ast::type::TypesCache & cache
+			, uint32_t & nextVarId
+			, ast::expr::SampledImageAccess access
+			, ast::expr::ExprPtr texcoords )
+		{
+			switch ( access )
+			{
+			case ast::expr::SampledImageAccess::eSampleProj1DF2:
+			case ast::expr::SampledImageAccess::eSampleProj1DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProj1DI2:
+			case ast::expr::SampledImageAccess::eSampleProj1DU2:
+			case ast::expr::SampledImageAccess::eSampleProj1DF2Bias:
+			case ast::expr::SampledImageAccess::eSampleProj1DShadowFBias:
+			case ast::expr::SampledImageAccess::eSampleProj1DI2Bias:
+			case ast::expr::SampledImageAccess::eSampleProj1DU2Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DF2:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DI2:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DU2:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DF2Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DShadowFBias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DI2Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DU2Bias:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DF2:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DI2:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DU2:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DF2:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DI2:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DU2:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DF2:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DI2:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DU2:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DF2:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DI2:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DU2:
+				return writeProjectTexCoords2( cache, nextVarId, std::move( texcoords ) );
+
+			case ast::expr::SampledImageAccess::eSampleProj1DF4:
+			case ast::expr::SampledImageAccess::eSampleProj1DI4:
+			case ast::expr::SampledImageAccess::eSampleProj1DU4:
+			case ast::expr::SampledImageAccess::eSampleProj1DF4Bias:
+			case ast::expr::SampledImageAccess::eSampleProj1DI4Bias:
+			case ast::expr::SampledImageAccess::eSampleProj1DU4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DF4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DI4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DU4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DF4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DI4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset1DU4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DF4:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DI4:
+			case ast::expr::SampledImageAccess::eSampleProjLod1DU4:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DF4:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DI4:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset1DU4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DF4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DI4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DU4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DF4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DI4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DU4:
+				return writeProjectTexCoords4To1( cache, nextVarId, std::move( texcoords ) );
+
+			case ast::expr::SampledImageAccess::eSampleProj2DF3:
+			case ast::expr::SampledImageAccess::eSampleProj2DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectF3:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectShadowF:
+			case ast::expr::SampledImageAccess::eSampleProj2DI3:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectI3:
+			case ast::expr::SampledImageAccess::eSampleProj2DU3:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectU3:
+			case ast::expr::SampledImageAccess::eSampleProj2DF3Bias:
+			case ast::expr::SampledImageAccess::eSampleProj2DShadowFBias:
+			case ast::expr::SampledImageAccess::eSampleProj2DI3Bias:
+			case ast::expr::SampledImageAccess::eSampleProj2DU3Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DF3:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectF3:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DI3:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectI3:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DU3:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectU3:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DF3Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DShadowFBias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DI3Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DU3Bias:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DF3:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DI3:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DU3:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DF3:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DI3:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DU3:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DF3:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectF3:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DI3:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectI3:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DU3:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectU3:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DF3:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectF3:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectShadowF:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DI3:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectI3:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DU3:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectU3:
+				return writeProjectTexCoords3( cache, nextVarId, std::move( texcoords ) );
+
+			case ast::expr::SampledImageAccess::eSampleProj2DF4:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectF4:
+			case ast::expr::SampledImageAccess::eSampleProj2DI4:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectI4:
+			case ast::expr::SampledImageAccess::eSampleProj2DU4:
+			case ast::expr::SampledImageAccess::eSampleProj2DRectU4:
+			case ast::expr::SampledImageAccess::eSampleProj2DF4Bias:
+			case ast::expr::SampledImageAccess::eSampleProj2DI4Bias:
+			case ast::expr::SampledImageAccess::eSampleProj2DU4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DF4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectF4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DI4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectI4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DU4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DRectU4:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DF4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DI4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset2DU4Bias:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DF4:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DI4:
+			case ast::expr::SampledImageAccess::eSampleProjLod2DU4:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DF4:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DI4:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset2DU4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DF4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectF4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DI4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectI4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DU4:
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectU4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DF4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectF4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DI4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectI4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DU4:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectU4:
+				return writeProjectTexCoords4To2( cache, nextVarId, std::move( texcoords ) );
+
+			case ast::expr::SampledImageAccess::eSampleProj3DF:
+			case ast::expr::SampledImageAccess::eSampleProj3DI:
+			case ast::expr::SampledImageAccess::eSampleProj3DU:
+			case ast::expr::SampledImageAccess::eSampleProj3DFBias:
+			case ast::expr::SampledImageAccess::eSampleProj3DIBias:
+			case ast::expr::SampledImageAccess::eSampleProj3DUBias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset3DF:
+			case ast::expr::SampledImageAccess::eSampleProjOffset3DI:
+			case ast::expr::SampledImageAccess::eSampleProjOffset3DU:
+			case ast::expr::SampledImageAccess::eSampleProjOffset3DFBias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset3DIBias:
+			case ast::expr::SampledImageAccess::eSampleProjOffset3DUBias:
+			case ast::expr::SampledImageAccess::eSampleProjLod3DF:
+			case ast::expr::SampledImageAccess::eSampleProjLod3DI:
+			case ast::expr::SampledImageAccess::eSampleProjLod3DU:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset3DF:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset3DI:
+			case ast::expr::SampledImageAccess::eSampleProjLodOffset3DU:
+			case ast::expr::SampledImageAccess::eSampleProjGrad3DF:
+			case ast::expr::SampledImageAccess::eSampleProjGrad3DI:
+			case ast::expr::SampledImageAccess::eSampleProjGrad3DU:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset3DF:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset3DI:
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset3DU:
+				return writeProjectTexCoords4( cache, nextVarId, std::move( texcoords ) );
+
+			default:
+				AST_Failure( "Expected a textureProj access function" );
+				return nullptr;
+			}
+		}
+
 		ast::expr::TextureAccess getSampleCmp( ast::expr::TextureAccess value )
 		{
 			assert( value >= ast::expr::TextureAccess::eTextureGrad2DRectShadowF
@@ -387,6 +574,66 @@ namespace hlsl
 				break;
 			case ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF:
 				result = ast::expr::TextureAccess::eTextureProjOffset2DRectShadowF;
+				break;
+			default:
+				break;
+			}
+
+			return result;
+		}
+
+		ast::expr::SampledImageAccess getSampleCmp( ast::expr::SampledImageAccess value )
+		{
+			assert( value >= ast::expr::SampledImageAccess::eSampleGrad2DRectShadowF
+				&& value <= ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectShadowF );
+			ast::expr::SampledImageAccess result{};
+
+			switch ( value )
+			{
+			case ast::expr::SampledImageAccess::eSampleGrad2DRectShadowF:
+				result = ast::expr::SampledImageAccess::eSample2DRectShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGrad1DShadowF:
+				result = ast::expr::SampledImageAccess::eSample1DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGrad2DShadowF:
+				result = ast::expr::SampledImageAccess::eSample2DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGrad1DArrayShadowF:
+				result = ast::expr::SampledImageAccess::eSample1DArrayShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGradOffset2DRectShadowF:
+				result = ast::expr::SampledImageAccess::eSampleOffset2DRectShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGradOffset1DShadowF:
+				result = ast::expr::SampledImageAccess::eSampleOffset1DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGradOffset2DShadowF:
+				result = ast::expr::SampledImageAccess::eSampleOffset2DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGradOffset1DArrayShadowF:
+				result = ast::expr::SampledImageAccess::eSampleOffset1DArrayShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleGradOffset2DArrayShadowF:
+				result = ast::expr::SampledImageAccess::eSampleOffset2DArrayShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleProjGrad1DShadowF:
+				result = ast::expr::SampledImageAccess::eSampleProj1DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DShadowF:
+				result = ast::expr::SampledImageAccess::eSampleProj2DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleProjGrad2DRectShadowF:
+				result = ast::expr::SampledImageAccess::eSampleProj2DRectShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset1DShadowF:
+				result = ast::expr::SampledImageAccess::eSampleProjOffset1DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DShadowF:
+				result = ast::expr::SampledImageAccess::eSampleProjOffset2DShadowF;
+				break;
+			case ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectShadowF:
+				result = ast::expr::SampledImageAccess::eSampleProjOffset2DRectShadowF;
 				break;
 			default:
 				break;
@@ -1037,6 +1284,34 @@ namespace hlsl
 		}
 	}
 
+	void ExprAdapter::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
+	{
+		if ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGrad2DRectShadowF
+			&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectShadowF
+			&& m_intrinsicsConfig.requiresShadowSampler )
+		{
+			doProcessSampledImageGradShadow( expr );
+		}
+		else if ( ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGather2DF
+				&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleGatherOffset2DRectU )
+			|| ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGather2DShadowF
+				&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleGatherOffset2DRectShadowF ) )
+		{
+			doProcessSampledImageGather( expr );
+		}
+		else if ( ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGatherOffsets2DF
+				&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleGatherOffsets2DRectU )
+			|| ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGatherOffsets2DShadowF
+				&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleGatherOffsets2DRectShadowF ) )
+		{
+			doProcessSampledImageGatherOffsets( expr );
+		}
+		else
+		{
+			doProcessSampledImage( expr );
+		}
+	}
+
 	void ExprAdapter::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
 		if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureSize1DF
@@ -1115,6 +1390,39 @@ namespace hlsl
 		}
 	}
 
+	void ExprAdapter::doPushSplImgArg( ast::expr::Expr & imageArg
+		, ast::var::VariablePtr imageVar
+		, ast::expr::Expr & samplerArg
+		, ast::var::VariablePtr samplerVar
+		, bool writeSampler
+		, ast::expr::ExprList & args )
+	{
+		if ( imageArg.getKind() == ast::expr::Kind::eArrayAccess )
+		{
+			args.emplace_back( ast::expr::makeArrayAccess( imageVar->getType()
+				, ast::expr::makeIdentifier( m_cache, imageVar )
+				, doSubmit( static_cast< ast::expr::ArrayAccess const & >( imageArg ).getRHS() ) ) );
+		}
+		else
+		{
+			args.emplace_back( ast::expr::makeIdentifier( m_cache, imageVar ) );
+		}
+
+		if ( writeSampler )
+		{
+			if ( samplerArg.getKind() == ast::expr::Kind::eArrayAccess )
+			{
+				args.emplace_back( ast::expr::makeArrayAccess( samplerVar->getType()
+					, ast::expr::makeIdentifier( m_cache, samplerVar )
+					, doSubmit( static_cast< ast::expr::ArrayAccess const & >( samplerArg ).getRHS() ) ) );
+			}
+			else
+			{
+				args.emplace_back( ast::expr::makeIdentifier( m_cache, samplerVar ) );
+			}
+		}
+	}
+
 	bool ExprAdapter::doProcessTextureArg( ast::expr::Expr & arg
 		, bool writeSampler
 		, ast::expr::ExprList & args )
@@ -1129,28 +1437,9 @@ namespace hlsl
 
 			if ( m_adaptationData.linkedVars.end() != it )
 			{
-				if ( arg.getKind() == ast::expr::Kind::eArrayAccess )
-				{
-					args.emplace_back( ast::expr::makeArrayAccess( it->second.first->getType()
-						, ast::expr::makeIdentifier( m_cache, it->second.first )
-						, doSubmit( static_cast< ast::expr::ArrayAccess const & >( arg ).getRHS() ) ) );
-
-					if ( writeSampler )
-					{
-						args.emplace_back( ast::expr::makeArrayAccess( it->second.second->getType()
-							, ast::expr::makeIdentifier( m_cache, it->second.second )
-							, doSubmit( static_cast< ast::expr::ArrayAccess const & >( arg ).getRHS() ) ) );
-					}
-				}
-				else
-				{
-					args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.first ) );
-
-					if ( writeSampler )
-					{
-						args.emplace_back( ast::expr::makeIdentifier( m_cache, it->second.second ) );
-					}
-				}
+				doPushSplImgArg( arg, it->second.first
+					, arg, it->second.second
+					, writeSampler, args );
 			}
 			else
 			{
@@ -1184,16 +1473,13 @@ namespace hlsl
 			switch ( getComponentCount( expr->getType()->getKind() ) )
 			{
 			case 1:
-			{
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eScalar;
-			}
-			break;
+				break;
 			case 2:
-			{
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
@@ -1203,10 +1489,8 @@ namespace hlsl
 					, "dimY" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec2;
-			}
-			break;
+				break;
 			case 3:
-			{
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
@@ -1220,8 +1504,7 @@ namespace hlsl
 					, "dimZ" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec3;
-			}
-			break;
+				break;
 			}
 
 			// The call to image.GetDimensions
@@ -1606,16 +1889,13 @@ namespace hlsl
 			switch ( getComponentCount( expr->getType()->getKind() ) )
 			{
 			case 1:
-			{
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eScalar;
-			}
-			break;
+				break;
 			case 2:
-			{
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
@@ -1625,10 +1905,8 @@ namespace hlsl
 					, "dimY" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec2;
-			}
-			break;
+				break;
 			case 3:
-			{
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
@@ -1642,8 +1920,7 @@ namespace hlsl
 					, "dimZ" ) );
 				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec3;
-			}
-			break;
+				break;
 			}
 
 			// The call to image.GetDimensions
@@ -1941,12 +2218,12 @@ namespace hlsl
 	{
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
-#if !defined( NDEBUG )
 		auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
-		assert( isImage );
-#else
-		( void )doProcessTextureArg( *expr->getArgList()[0], false, args );
-#endif
+
+		if ( !isImage )
+		{
+			AST_Failure( "First parameter should be sampled image" );
+		}
 
 		if ( expr->getTextureAccess() == ast::expr::TextureAccess::eTexelFetchBufferF
 			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTexelFetchBufferI
@@ -2020,12 +2297,13 @@ namespace hlsl
 		// Sample grad doesn't support SampleComparisonState, replace it with a SampleCmp.
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
-#if !defined( NDEBUG )
 		auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
-		assert( isImage );
-#else
-		( void )doProcessTextureArg( *expr->getArgList()[0], false, args );
-#endif
+
+		if ( !isImage )
+		{
+			AST_Failure( "First parameter should be sampled image" );
+		}
+
 		assert( expr->getArgList().size() >= 5u );
 		// Second param is texcoord
 		args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
@@ -2053,13 +2331,13 @@ namespace hlsl
 		assert( expr->getArgList().size() >= 2u );
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
-		// Image
-#if !defined( NDEBUG )
+		// First parameter should be sampled image
 		auto isImage = doProcessTextureArg( *expr->getArgList()[index++], true, args );
-		assert( isImage );
-#else
-		( void )doProcessTextureArg( *expr->getArgList()[index++], true, args );
-#endif
+
+		if ( !isImage )
+		{
+			AST_Failure( "First parameter should be sampled image" );
+		}
 
 		auto coord = doSubmit( expr->getArgList()[index++].get() );
 
@@ -2095,13 +2373,13 @@ namespace hlsl
 		assert( expr->getArgList().size() >= 3u );
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
-		// Image
-#if !defined( NDEBUG )
+		// First parameter should be sampled image
 		auto isImage = doProcessTextureArg( *expr->getArgList()[index++], true, args );
-		assert( isImage );
-#else
-		( void )doProcessTextureArg( *expr->getArgList()[index++], true, args );
-#endif
+
+		if ( !isImage )
+		{
+			AST_Failure( "First parameter should be sampled image" );
+		}
 
 		if ( !isShadow( kind ) )
 		{
@@ -2183,6 +2461,205 @@ namespace hlsl
 		m_result = ast::expr::makeTextureAccessCall( expr->getType()
 			, expr->getTextureAccess()
 			, std::move( args ) );
+	}
+
+	void ExprAdapter::doProcessSampledImageGradShadow( ast::expr::SampledImageAccessCall * expr )
+	{
+		// Sample grad doesn't support SampleComparisonState, replace it with a SampleCmp.
+		ast::expr::ExprList args;
+		uint32_t index = 0u;
+		auto & image = *expr->getArgList()[index++];
+		auto & sampler = *expr->getArgList()[index++];
+
+		bool ret = ( image.getKind() == ast::expr::Kind::eIdentifier
+			|| image.getKind() == ast::expr::Kind::eArrayAccess )
+			&& ( sampler.getKind() == ast::expr::Kind::eIdentifier
+				|| sampler.getKind() == ast::expr::Kind::eArrayAccess );
+
+		if ( ret )
+		{
+			assert( expr->getArgList().size() >= 6u );
+			// Second param is texcoord
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			// Third param is dref value
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			// Fourth and fifth params ard dPdx and dPdy, drop them
+			index++;
+			index++;
+
+			// Other parameters remain unchanged.
+			for ( ; index < expr->getArgList().size(); ++index )
+			{
+				args.emplace_back( doSubmit( expr->getArgList()[index].get() ) );
+			}
+
+			auto result = ast::expr::makeSampledImageAccessCall( expr->getType()
+				, getSampleCmp( expr->getSampledImageAccess() )
+				, std::move( args ) );
+
+			// Reparse the created expression, textureProj cases.
+			visitSampledImageAccessCallExpr( result.get() );
+		}
+	}
+
+	void ExprAdapter::doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr )
+	{
+		auto kind = expr->getSampledImageAccess();
+		assert( expr->getArgList().size() >= 3u );
+		ast::expr::ExprList args;
+		uint32_t index = 0u;
+		auto & image = *expr->getArgList()[index++];
+		auto & sampler = *expr->getArgList()[index++];
+
+		bool result = ( image.getKind() == ast::expr::Kind::eIdentifier
+			|| image.getKind() == ast::expr::Kind::eArrayAccess )
+			&& ( sampler.getKind() == ast::expr::Kind::eIdentifier
+				|| sampler.getKind() == ast::expr::Kind::eArrayAccess );
+
+		if ( result )
+		{
+			auto coord = doSubmit( expr->getArgList()[index++].get() );
+
+			if ( !isShadow( kind ) )
+			{
+				// Component
+				args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			}
+
+			// Coord
+			args.emplace_back( std::move( coord ) );
+
+			if ( isShadow( kind ) )
+			{
+				// Dref value
+				assert( expr->getArgList().size() >= 4u );
+				args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			}
+
+			while ( index < expr->getArgList().size() )
+			{
+				args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			}
+
+			m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
+				, kind
+				, std::move( args ) );
+		}
+	}
+
+	void ExprAdapter::doProcessSampledImageGatherOffsets( ast::expr::SampledImageAccessCall * expr )
+	{
+		auto kind = expr->getSampledImageAccess();
+		assert( expr->getArgList().size() >= 4u );
+		ast::expr::ExprList args;
+		uint32_t index = 0u;
+		auto & image = *expr->getArgList()[index++];
+		auto & sampler = *expr->getArgList()[index++];
+
+		bool result = ( image.getKind() == ast::expr::Kind::eIdentifier
+			|| image.getKind() == ast::expr::Kind::eArrayAccess )
+			&& ( sampler.getKind() == ast::expr::Kind::eIdentifier
+				|| sampler.getKind() == ast::expr::Kind::eArrayAccess );
+
+		if ( result )
+		{
+			doPushSplImgArg( image, ast::findIdentifier( &image )->getVariable()
+				, sampler, ast::findIdentifier( &sampler )->getVariable()
+				, true, args );
+
+			if ( !isShadow( kind ) )
+			{
+				// Component
+				args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			}
+
+			// Coord
+			args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+
+			if ( isShadow( kind ) )
+			{
+				// Dref value
+				assert( expr->getArgList().size() >= 5u );
+				args.emplace_back( doSubmit( expr->getArgList()[index++].get() ) );
+			}
+
+			// Next parameter contains the 4 offsets.
+			auto & offset = *expr->getArgList()[index++];
+			assert( getArraySize( offset.getType() ) == 4u );
+			auto arrayType = std::static_pointer_cast< ast::type::Array >( offset.getType() );
+			args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( &offset )
+				, ast::expr::makeLiteral( m_cache, 0u ) ) );
+			args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( &offset )
+				, ast::expr::makeLiteral( m_cache, 1u ) ) );
+			args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( &offset )
+				, ast::expr::makeLiteral( m_cache, 2u ) ) );
+			args.emplace_back( ast::expr::makeArrayAccess( m_cache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( &offset )
+				, ast::expr::makeLiteral( m_cache, 3u ) ) );
+
+			m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
+				, kind
+				, std::move( args ) );
+		}
+	}
+
+	void ExprAdapter::doProcessSampledImage( ast::expr::SampledImageAccessCall * expr )
+	{
+		ast::expr::ExprList args;
+		uint32_t index = 0u;
+		uint32_t samplerIdx = 1u;
+		auto & image = *expr->getArgList()[index++];
+		auto & sampler = *expr->getArgList()[index++];
+
+		bool result = ( image.getKind() == ast::expr::Kind::eIdentifier
+			|| image.getKind() == ast::expr::Kind::eArrayAccess )
+			&& ( sampler.getKind() == ast::expr::Kind::eIdentifier
+				|| sampler.getKind() == ast::expr::Kind::eArrayAccess );
+
+		if ( result )
+		{
+			doPushSplImgArg( image, ast::findIdentifier( &image )->getVariable()
+				, sampler, ast::findIdentifier( &sampler )->getVariable()
+				, true, args );
+
+			for ( ; index < expr->getArgList().size(); ++index )
+			{
+				auto & arg = *expr->getArgList()[index];
+
+				if ( index == samplerIdx + 1
+					&& isProj( expr->getSampledImageAccess() ) )
+				{
+					args.emplace_back( writeProjTexCoords( m_cache
+						, m_adaptationData.nextVarId
+						, expr->getSampledImageAccess()
+						, doSubmit( &arg ) ) );
+				}
+				else
+				{
+					args.emplace_back( doSubmit( &arg ) );
+				}
+
+				++index;
+			}
+
+			if ( isBiasAndOffset( expr->getSampledImageAccess() )
+				|| isShadowLodOffset( expr->getSampledImageAccess() ) )
+			{
+				auto biasOrOffset = std::move( args.back() );
+				args.pop_back();
+				auto offsetOrLod = std::move( args.back() );
+				args.pop_back();
+				args.emplace_back( std::move( biasOrOffset ) );
+				args.emplace_back( std::move( offsetOrLod ) );
+			}
+
+			m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
+				, expr->getSampledImageAccess()
+				, std::move( args ) );
+		}
 	}
 
 	ast::var::VariablePtr ExprAdapter::doMakeAlias( ast::type::TypePtr type )

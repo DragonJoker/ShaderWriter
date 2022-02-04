@@ -52,6 +52,7 @@ See LICENSE file in root folder
 #include "ExprQuestion.hpp"
 #include "ExprRShift.hpp"
 #include "ExprRShiftAssign.hpp"
+#include "ExprSampledImageAccessCall.hpp"
 #include "ExprStreamAppend.hpp"
 #include "ExprSwitchCase.hpp"
 #include "ExprSwitchTest.hpp"
@@ -122,6 +123,7 @@ namespace ast::expr
 		SDAST_API virtual void visitQuestionExpr( Question * ) = 0;
 		SDAST_API virtual void visitRShiftExpr( RShift * ) = 0;
 		SDAST_API virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
+		SDAST_API virtual void visitSampledImageAccessCallExpr( SampledImageAccessCall * ) = 0;
 		SDAST_API virtual void visitStreamAppendExpr( StreamAppend * ) = 0;
 		SDAST_API virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
 		SDAST_API virtual void visitSwitchTestExpr( SwitchTest * ) = 0;

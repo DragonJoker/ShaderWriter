@@ -655,6 +655,20 @@ namespace ast
 		}
 	}
 
+	void ExprCloner::visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )
+	{
+		expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			args.emplace_back( doSubmit( arg ) );
+		}
+
+		m_result = expr::makeSampledImageAccessCall( expr->getType()
+			, expr->getSampledImageAccess()
+			, std::move( args ) );
+	}
+
 	void ExprCloner::visitStreamAppendExpr( expr::StreamAppend * expr )
 	{
 		auto op = doSubmit( expr->getOperand() );
