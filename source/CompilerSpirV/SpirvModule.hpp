@@ -47,6 +47,8 @@ namespace spirv
 			, bool writeHeader );
 
 		SDWSPIRV_API ValueId registerType( ast::type::TypePtr type );
+		SDWSPIRV_API ValueId registerImageType( ast::type::ImagePtr image
+			, bool isComparison );
 		SDWSPIRV_API ValueId registerPointerType( ValueId type
 			, spv::StorageClass storage
 			, bool isForward = false );
@@ -198,6 +200,11 @@ namespace spirv
 			, uint32_t mbrIndex
 			, ValueId parentId );
 		ValueId registerBaseType( ast::type::ImagePtr type
+			, ast::type::Trinary isComparison );
+		ValueId registerBaseType( ast::type::ImagePtr type
+			, uint32_t mbrIndex
+			, ValueId parentId );
+		ValueId registerBaseType( ast::type::SampledImagePtr type
 			, uint32_t mbrIndex
 			, ValueId parentId );
 		ValueId registerBaseType( ast::type::AccelerationStructurePtr type
@@ -240,6 +247,8 @@ namespace spirv
 		std::map< ast::type::TypePtr, ValueId > m_registeredTypes;
 		std::map< ast::type::TypePtr, ValueId > m_registeredMemberTypes;
 		std::map< std::string, VariableInfo > m_registeredVariables;
+		std::unordered_map< ValueId, std::unordered_map< ValueId, ValueId, ValueIdHasher >, ValueIdHasher > m_registeredSamplerImages;
+		std::unordered_map< size_t, ValueId > m_registeredImageTypes;
 		std::map< std::string, VariableInfo > * m_currentScopeVariables;
 		std::unordered_map< ValueId, ValueId, ValueIdHasher > m_registeredVariablesTypes;
 		std::map< std::string, std::pair< ValueId, ValueId > > m_registeredMemberVariables;

@@ -88,6 +88,7 @@ namespace glsl
 		void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )override;
+		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;
 		void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override;
 		void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override;

@@ -18,6 +18,8 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	static constexpr uint32_t InvalidComponentCount = ~( 0u );
+
 	struct ModuleConfig;
 	class ExprAdapter;
 
@@ -435,6 +437,7 @@ namespace spirv
 		, ValueId lhs
 		, ValueId rhs );
 	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
+		, ast::type::Trinary isComparison
 		, ValueId resultId
 		, ValueId sampledTypeId );
 	InstructionPtr makeAccelerationStructureTypeInstruction( ValueId resultId );

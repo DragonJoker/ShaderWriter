@@ -528,6 +528,11 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::TextureAccessCall ?" );
 			}
 
+			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * )override
+			{
+				AST_Failure( "Unexpected ast::expr::SampledImageAccessCall ?" );
+			}
+
 		private:
 			ValueId & m_result;
 			PreprocContext const & m_context;

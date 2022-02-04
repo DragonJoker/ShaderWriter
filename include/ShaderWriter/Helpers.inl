@@ -18,26 +18,12 @@ namespace sdw
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
-		struct ConfigMaker< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > >
+		struct ConfigMaker< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >
 		{
 			static ast::type::ImageConfiguration get()
 			{
-				return ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
-			}
-		};
-
-		template< ast::type::ImageFormat FormatT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
-		struct ConfigMaker< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > >
-		{
-			static ast::type::ImageConfiguration get()
-			{
-				return TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig();
+				return ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::makeConfig();
 			}
 		};
 	}
@@ -97,12 +83,15 @@ namespace sdw
 		{
 		case ast::type::Kind::eStruct:
 		case ast::type::Kind::eRayDesc:
+		case ast::type::Kind::eSampler:
 			assert( false );
 			return nullptr;
 		case ast::type::Kind::eImage:
 			return cache.getImage( makeConfig< ValueT >() );
+		case ast::type::Kind::eSampledImage:
+			return cache.getSampledImage( makeConfig< ValueT >() );
 		case ast::type::Kind::eTexture:
-			return cache.getTexture( makeConfig< ValueT >() );
+			return cache.getTexture( makeConfig< ValueT >(), false );
 		default:
 			return cache.getBasicType( kind );
 		}

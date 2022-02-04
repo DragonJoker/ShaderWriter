@@ -26,10 +26,9 @@ namespace hlsl
 {
 	namespace
 	{
-		std::string getTypeName( ast::type::ImagePtr type )
+		std::string getTypeName( ast::type::ImageConfiguration const & config )
 		{
 			std::string result;
-			auto & config = type->getConfig();
 
 			if ( config.isSampled != ast::type::Trinary::eTrue )
 			{
@@ -74,6 +73,16 @@ namespace hlsl
 
 			result += "<" + hlsl::getSampledName( config.format ) + ">";
 			return result;
+		}
+
+		std::string getTypeName( ast::type::ImagePtr type )
+		{
+			return getTypeName( type->getConfig() );
+		}
+
+		std::string getTypeName( ast::type::SampledImagePtr type )
+		{
+			return getTypeName( type->getConfig() );
 		}
 
 		std::string getTypeName( ast::type::SamplerPtr type )
@@ -463,6 +472,9 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eSampler:
 			result = "SamplerState";
+			break;
+		case ast::type::Kind::eSampledImage:
+			result = "SampledImage";
 			break;
 		case ast::type::Kind::eTexture:
 			result = "SampledImage";
@@ -888,6 +900,9 @@ namespace hlsl
 			break;
 		case ast::type::Kind::eSampler:
 			result = getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
+			break;
+		case ast::type::Kind::eSampledImage:
+			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
 			break;
 		case ast::type::Kind::eGeometryInput:
 			result = getLayoutName( static_cast< ast::type::GeometryInput const & >( *type ).getLayout() )
@@ -3374,6 +3389,7 @@ namespace hlsl
 				case ast::type::Kind::eImage:
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eTexture:
+				case ast::type::Kind::eSampledImage:
 				case ast::type::Kind::eAccelerationStructure:
 					return;
 				default:

@@ -24,6 +24,25 @@ namespace sdw
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, bool isComparison = false );
 	};
+
+	template< bool ComparisonT >
+	struct SamplerT
+		: public Sampler
+	{
+		SDW_DeclValue( , SamplerT );
+
+		static constexpr bool Comparison = ComparisonT;
+
+		inline SamplerT( ShaderWriter & writer
+			, expr::ExprPtr expr
+			, bool enabled );
+
+		template< typename T >
+		inline SamplerT & operator=( T const & rhs );
+
+		static inline bool makeConfig();
+		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+	};
 }
 
 #include "Sampler.inl"

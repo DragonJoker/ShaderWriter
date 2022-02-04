@@ -268,6 +268,42 @@ namespace ast
 		return result;
 	}
 
+	var::VariablePtr Shader::registerSampledImage( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		var::VariablePtr result;
+
+		if ( enabled )
+		{
+			result = registerName( name
+				, type
+				, var::Flag::eUniform | var::Flag::eConstant );
+
+			auto splType = getNonArrayType( type );
+			assert( splType->getKind() == ast::type::Kind::eSampledImage );
+
+			if ( static_cast< ast::type::SampledImage const & >( *splType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
+			{
+				m_data.uniformTexels.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
+			}
+			else
+			{
+				m_data.sampled.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
+			}
+		}
+		else
+		{
+			result = registerName( std::move( name )
+				, type
+				, var::Flag::eUniform | var::Flag::eConstant );
+		}
+
+		return result;
+	}
+
 	var::VariablePtr Shader::registerTexture( std::string name
 		, type::TypePtr type
 		, uint32_t binding

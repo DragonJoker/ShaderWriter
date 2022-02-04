@@ -147,8 +147,8 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT
+			, bool DepthT
 			, typename EnableT = void >
 		struct TextureFuncsT
 			: public Texture
@@ -167,18 +167,18 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, bool DepthT >
 	struct TextureT
-		: public combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >
+		: public combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >
 	{
 		SDW_DeclValue( , TextureT );
 
 		static constexpr ast::type::ImageFormat Format = FormatT;
 		static constexpr ast::type::ImageDim Dim = DimT;
 		static constexpr bool Arrayed = ArrayedT;
-		static constexpr bool Depth = DepthT;
 		static constexpr bool Ms = MsT;
+		static constexpr bool Depth = DepthT;
 
 		inline TextureT( ShaderWriter & writer
 			, expr::ExprPtr expr

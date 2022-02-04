@@ -1053,11 +1053,10 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT
 			, expr::ImageAccess ImageAccessT
 			, typename ... ParamsT >
-		ReturnWrapperT< ReturnT > writeImageAccessCall( ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > const & image
+		ReturnWrapperT< ReturnT > writeImageAccessCall( ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > const & image
 			, ParamsT const & ... params )
 		{
 			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
@@ -1078,11 +1077,10 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT
 			, expr::ImageAccess ImageAccessT
 			, typename ... ParamsT >
-		void writeVoidImageAccessCall( ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > const & image
+		void writeVoidImageAccessCall( ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > const & image
 			, ParamsT const & ... params )
 		{
 			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
@@ -1107,7 +1105,6 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImgSizeFuncT
 		{
@@ -1115,14 +1112,14 @@ namespace sdw
 
 			auto getSize()const
 			{
-				return writeImageAccessCall< SizeT, FormatT, AccessT, DimT, ArrayedT, DepthT, MsT
+				return writeImageAccessCall< SizeT, FormatT, AccessT, DimT, ArrayedT, MsT
 					, ImageFormatTraitsT< FormatT >::imageSize[getImgArrayIndex< DimT, ArrayedT, MsT >()] >( get() );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > const & >( *this );
 			}
 		};
 
@@ -1131,20 +1128,19 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgSamplesFuncT
 		{
 			auto getSamples()const
 			{
-				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageSamples[getImgArrayIndex< DimT, ArrayedT, true >()] >( get() );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1153,8 +1149,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgLoadFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1162,15 +1157,15 @@ namespace sdw
 
 			auto load( CoordsT const & coord )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 					, coord );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1179,8 +1174,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsLoadFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1189,16 +1183,16 @@ namespace sdw
 			auto load( CoordsT const & coord
 				, Int const & sample )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 					, coord
 					, sample );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1207,8 +1201,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgStoreFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1217,16 +1210,16 @@ namespace sdw
 			void store( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageStore[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1235,8 +1228,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsStoreFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1246,7 +1238,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageStore[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1254,9 +1246,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1265,8 +1257,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicAddFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1275,16 +1266,16 @@ namespace sdw
 			auto atomicAdd( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicAdd[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1293,8 +1284,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicAddFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1304,7 +1294,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicAdd[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1312,9 +1302,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1323,8 +1313,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicMinFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1333,16 +1322,16 @@ namespace sdw
 			auto atomicMin( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicMin[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1351,8 +1340,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicMinFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1362,7 +1350,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicMin[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1370,9 +1358,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1381,8 +1369,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicMaxFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1391,16 +1378,16 @@ namespace sdw
 			auto atomicMax( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicMax[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1409,8 +1396,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicMaxFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1420,7 +1406,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicMax[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1428,9 +1414,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1439,8 +1425,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicAndFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1449,16 +1434,16 @@ namespace sdw
 			auto atomicAnd( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicAnd[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1467,8 +1452,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicAndFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1478,7 +1462,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicAnd[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1486,9 +1470,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1497,8 +1481,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicOrFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1507,16 +1490,16 @@ namespace sdw
 			auto atomicOr( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicOr[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1525,8 +1508,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicOrFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1536,7 +1518,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicOr[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1544,9 +1526,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1555,8 +1537,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicXorFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1565,16 +1546,16 @@ namespace sdw
 			auto atomicXor( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicXor[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1583,8 +1564,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicXorFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1594,7 +1574,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicXor[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1602,9 +1582,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1613,8 +1593,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicExchangeFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1623,16 +1602,16 @@ namespace sdw
 			auto atomicExchange( CoordsT const & coord
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicExchange[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, value );
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1641,8 +1620,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicExchangeFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1652,7 +1630,7 @@ namespace sdw
 				, Int const & sample
 				, FetchT const & value )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicExchange[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1660,9 +1638,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1671,8 +1649,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgAtomicCompSwapFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1682,7 +1659,7 @@ namespace sdw
 				, FetchT const & compare
 				, FetchT const & data )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, false
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, false
 					, ImageFormatTraitsT< FormatT >::imageAtomicCompSwap[getImgArrayIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, compare
@@ -1690,9 +1667,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, false > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, false > const & >( *this );
 			}
 		};
 
@@ -1701,8 +1678,7 @@ namespace sdw
 		template< type::ImageFormat FormatT
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
-			, bool ArrayedT
-			, bool DepthT >
+			, bool ArrayedT >
 		struct ImgMsAtomicCompSwapFuncT
 		{
 			using CoordsT = ImageCoordsT< DimT, ArrayedT >;
@@ -1713,7 +1689,7 @@ namespace sdw
 				, FetchT const & compare
 				, FetchT const & data )const
 			{
-				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, DepthT, true
+				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, ImageFormatTraitsT< FormatT >::imageAtomicCompSwap[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, sample
@@ -1722,9 +1698,9 @@ namespace sdw
 			}
 
 		private:
-			ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & get()const
+			ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & get()const
 			{
-				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, true > const & >( *this );
+				return static_cast< ImageT< FormatT, AccessT, DimT, ArrayedT, true > const & >( *this );
 			}
 		};
 
@@ -1734,19 +1710,17 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( !isReadableV< AccessT > )
 				&& ( !isWritableV< AccessT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -1771,20 +1745,18 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( !isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -1809,20 +1781,18 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( !isWritableV< AccessT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -1847,22 +1817,20 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
 				&& ( !isSingleInt32FormatV< FormatT > && !isFloatFormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -1900,24 +1868,22 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
 				&& ( isAtomicFloatFormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -1942,13 +1908,11 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( isReadableV< AccessT > )
@@ -1956,9 +1920,9 @@ namespace sdw
 				&& ( isFloatFormatV< FormatT > )
 				&& ( !isAtomicFloatFormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -1983,30 +1947,28 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( !MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
 				&& ( isSingleInt32FormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicMinFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicMaxFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicAndFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicOrFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicXorFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicMinFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicMaxFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicAndFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicOrFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicXorFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2031,20 +1993,18 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( MsT )
 				&& ( !isReadableV< AccessT > )
 				&& ( !isWritableV< AccessT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2069,21 +2029,19 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( MsT )
 				&& ( !isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2108,21 +2066,19 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( !isWritableV< AccessT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2147,23 +2103,21 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
 				&& ( !isSingleInt32FormatV< FormatT > && !isFloatFormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2188,25 +2142,23 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
 				&& ( isFloatFormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2231,31 +2183,29 @@ namespace sdw
 			, type::AccessKind AccessT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
 		struct ImageFuncsT< FormatT
 			, AccessT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
 			, std::enable_if_t< ( ( MsT )
 				&& ( isReadableV< AccessT > )
 				&& ( isWritableV< AccessT > )
 				&& ( isSingleInt32FormatV< FormatT > ) ) > >
 			: public Image
-			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
-			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicMinFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicMaxFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicAndFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicOrFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicXorFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
-			, public ImgMsAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT, DepthT >
+			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
+			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicMinFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicMaxFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicAndFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicOrFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicXorFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
+			, public ImgMsAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
 			SDW_DeclValue( , ImageFuncsT );
 
@@ -2300,12 +2250,11 @@ namespace sdw
 		, type::AccessKind AccessT
 		, type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
-	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::ImageT( ShaderWriter & writer
+	ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::ImageT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
+		: img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -2313,12 +2262,11 @@ namespace sdw
 		, type::AccessKind AccessT
 		, type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	template< typename T >
-	ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > & ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
+	ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > & ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
 	{
-		img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
+		img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( rhs );
 		return *this;
 	}
 
@@ -2326,20 +2274,18 @@ namespace sdw
 		, type::AccessKind AccessT
 		, type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
-	type::ImageConfiguration ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
+	type::ImageConfiguration ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::makeConfig()
 	{
-		return type::makeConfig< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( false );
+		return type::makeConfig< FormatT, AccessT, DimT, ArrayedT, MsT >( false );
 	}
 
 	template< type::ImageFormat FormatT
 		, type::AccessKind AccessT
 		, type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
-	inline type::TypePtr ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >::makeType( type::TypesCache & cache )
+	inline type::TypePtr ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::makeType( type::TypesCache & cache )
 	{
 		return cache.getImage( makeConfig() );
 	}

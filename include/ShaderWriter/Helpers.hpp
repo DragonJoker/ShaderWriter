@@ -277,6 +277,9 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
+	SDW_API stmt::StmtPtr makeTextureDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet );
 	SDW_API stmt::StmtPtr makeImageDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );

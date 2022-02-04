@@ -386,8 +386,9 @@ namespace spirv
 			}
 		}
 
-		void checkType( ast::type::Image const & type
+		void checkType( ast::type::ImageConfiguration const & image
 			, uint32_t arraySize
+			, bool sampled
 			, ModuleConfig & config )
 		{
 			if ( arraySize == ast::type::UnknownArraySize )
@@ -395,7 +396,7 @@ namespace spirv
 				config.registerCapability( spv::CapabilityRuntimeDescriptorArray );
 			}
 
-			switch ( type.getConfig().format )
+			switch ( image.format )
 			{
 			case ast::type::ImageFormat::eRg32f:
 			case ast::type::ImageFormat::eRg16f:
@@ -418,55 +419,45 @@ namespace spirv
 			default:
 				break;
 			}
+
+			if ( sampled )
+			{
+				if ( image.dimension == ast::type::ImageDim::e1D )
+				{
+					config.registerCapability( spv::CapabilitySampled1D );
+				}
+
+				if ( image.dimension == ast::type::ImageDim::eRect )
+				{
+					config.registerCapability( spv::CapabilitySampledRect );
+				}
+
+				if ( image.dimension == ast::type::ImageDim::eBuffer )
+				{
+					config.registerCapability( spv::CapabilitySampledBuffer );
+				}
+			}
+		}
+
+		void checkType( ast::type::Image const & type
+			, uint32_t arraySize
+			, ModuleConfig & config )
+		{
+			checkType( type.getConfig(), arraySize, false, config );
+		}
+
+		void checkType( ast::type::SampledImage const & type
+			, uint32_t arraySize
+			, ModuleConfig & config )
+		{
+			checkType( type.getConfig(), arraySize, true, config );
 		}
 
 		void checkType( ast::type::Texture const & type
 			, uint32_t arraySize
 			, ModuleConfig & config )
 		{
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				config.registerCapability( spv::CapabilityRuntimeDescriptorArray );
-			}
-
-			if ( type.getConfig().dimension == ast::type::ImageDim::e1D )
-			{
-				config.registerCapability( spv::CapabilitySampled1D );
-			}
-
-			if ( type.getConfig().dimension == ast::type::ImageDim::eRect )
-			{
-				config.registerCapability( spv::CapabilitySampledRect );
-			}
-
-			if ( type.getConfig().dimension == ast::type::ImageDim::eBuffer )
-			{
-				config.registerCapability( spv::CapabilitySampledBuffer );
-			}
-
-			switch ( type.getConfig().format )
-			{
-			case ast::type::ImageFormat::eRg32f:
-			case ast::type::ImageFormat::eRg16f:
-			case ast::type::ImageFormat::eR32f:
-			case ast::type::ImageFormat::eR16f:
-			case ast::type::ImageFormat::eRg32i:
-			case ast::type::ImageFormat::eRg16i:
-			case ast::type::ImageFormat::eRg8i:
-			case ast::type::ImageFormat::eR32i:
-			case ast::type::ImageFormat::eR16i:
-			case ast::type::ImageFormat::eR8i:
-			case ast::type::ImageFormat::eRg32u:
-			case ast::type::ImageFormat::eRg16u:
-			case ast::type::ImageFormat::eRg8u:
-			case ast::type::ImageFormat::eR32u:
-			case ast::type::ImageFormat::eR16u:
-			case ast::type::ImageFormat::eR8u:
-				config.registerCapability( spv::CapabilityStorageImageExtendedFormats );
-				break;
-			default:
-				break;
-			}
+			checkType( type.getConfig(), arraySize, true, config );
 		}
 	}
 
@@ -486,6 +477,9 @@ namespace spirv
 					break;
 				case ast::type::Kind::eTexture:
 					checkType( static_cast< ast::type::Texture const & >( *type ), arraySize, config );
+					break;
+				case ast::type::Kind::eSampledImage:
+					checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
 					break;
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eAccelerationStructure:
@@ -2670,22 +2664,23 @@ namespace spirv
 	}
 
 	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
+		, ast::type::Trinary isComparison
 		, ValueId resultId
 		, ValueId sampledTypeId )
 	{
 		ValueIdList operands;
 		operands.push_back( sampledTypeId );
 		operands.push_back( { spv::Id( config.dimension ) } );
-		operands.push_back( { config.isDepth == ast::type::Trinary::eTrue
+		operands.push_back( { isComparison == ast::type::Trinary::eTrue
 			? 1u
-			: ( config.isDepth == ast::type::Trinary::eFalse
+			: ( isComparison == ast::type::Trinary::eFalse
 				? 0u
 				: 2u ) } );
 		operands.push_back( { config.isArrayed ? 1u : 0u } );
 		operands.push_back( { config.isMS ? 1u : 0u } );
 		operands.push_back( { config.isSampled == ast::type::Trinary::eTrue
 			? 1u
-			: ( config.isDepth == ast::type::Trinary::eFalse
+			: ( isComparison == ast::type::Trinary::eFalse
 				? 2u
 				: 0u ) } );
 		operands.push_back( { uint32_t( getImageFormat( config.format ) ) } );

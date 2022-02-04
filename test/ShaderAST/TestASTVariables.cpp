@@ -3,6 +3,9 @@
 #include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 
+#pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma warning( disable:5245 )
+
 namespace
 {
 	std::string printVariable( ast::var::Variable const & var )
@@ -28,7 +31,10 @@ namespace
 			type = cache.getImage( ast::type::ImageConfiguration{} );
 			break;
 		case ast::type::Kind::eTexture:
-			type = cache.getTexture( ast::type::ImageConfiguration{} );
+			type = cache.getTexture( ast::type::ImageConfiguration{}, false );
+			break;
+		case ast::type::Kind::eSampledImage:
+			type = cache.getSampledImage( ast::type::ImageConfiguration{} );
 			break;
 		case ast::type::Kind::eSampler:
 			type = cache.getSampler();

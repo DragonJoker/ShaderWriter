@@ -556,6 +556,16 @@ namespace sdw
 	};
 
 	template<>
+	struct TypeTraits< SampledImage >
+	{
+		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eSampledImage;
+		static bool constexpr HasArithmeticOperators = false;
+		static size_t constexpr Size = 0;
+		static size_t constexpr ComponentCount = 1;
+		using CppType = void;
+	};
+
+	template<>
 	struct TypeTraits< Image >
 	{
 		static ast::type::Kind constexpr TypeEnum = ast::type::Kind::eImage;

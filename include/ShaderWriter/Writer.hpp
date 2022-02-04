@@ -6,6 +6,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
+#include "ShaderWriter/BaseTypes/SampledImage.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
 #include "ShaderWriter/CompositeTypes/BufferReference.hpp"
@@ -270,10 +271,51 @@ namespace sdw
 		*	Sampler declaration.
 		*/
 		/**@{*/
-		SDW_API Sampler declSampler( std::string name
+		template< bool ComparisonT >
+		inline SamplerT< ComparisonT > declSampler( std::string name
 			, uint32_t binding
 			, uint32_t set
-			, bool isComparison
+			, bool enabled = true );
+		template< typename T >
+		inline T declSampler( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		/**@}*/
+#pragma endregion
+#pragma region Sampled Image declaration
+		/**
+		*name
+		*	Combined Sampler and Image declaration.
+		*/
+		/**@{*/
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > declSampled( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		template< typename T >
+		inline T declSampled( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledArray( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSampledArray( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -286,9 +328,9 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
-		inline TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > declTexture( std::string name
+			, bool MsT
+			, bool DepthT = false >
+		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > declTexture( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -300,9 +342,9 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
-		inline Array< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > > declTextureArray( std::string name
+			, bool MsT
+			, bool DepthT = false >
+		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > declTextureArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -325,9 +367,8 @@ namespace sdw
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
-		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > declImage( std::string name
+		inline ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > declImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -340,9 +381,8 @@ namespace sdw
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT >
-		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > declImageArray( std::string name
+		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension

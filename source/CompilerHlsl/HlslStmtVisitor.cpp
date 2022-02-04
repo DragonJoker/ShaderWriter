@@ -891,6 +891,14 @@ namespace hlsl
 		AST_Failure( "ast::stmt::TextureDecl unexpected at that point" );
 	}
 
+	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
+		m_result += ": register(t" + std::to_string( stmt->getBindingPoint() ) + ");\n";
+	}
+
 	void StmtVisitor::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
 		doAppendLineEnd();

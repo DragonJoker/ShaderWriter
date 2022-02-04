@@ -207,7 +207,6 @@ namespace ast::type
 		, AccessKind AccessT
 		, ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	inline ImageConfiguration makeConfig( bool sampled )noexcept
 	{
@@ -216,7 +215,6 @@ namespace ast::type
 			sampledBaseType< FormatT >,
 			DimT,
 			FormatT,
-			DepthT ? Trinary::eTrue : Trinary::eFalse,
 			sampled ? Trinary::eTrue : Trinary::eFalse,
 			ArrayedT,
 			MsT,

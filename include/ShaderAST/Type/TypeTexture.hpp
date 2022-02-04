@@ -17,7 +17,8 @@ namespace ast::type
 	{
 	public:
 		SDAST_API Texture( TypesCache & cache
-			, ImageConfiguration config );
+			, ImageConfiguration config
+			, bool isComparison );
 
 		ImagePtr getImageType()const
 		{
@@ -32,6 +33,11 @@ namespace ast::type
 		ImageConfiguration getConfig()const
 		{
 			return m_imageType->getConfig();
+		}
+
+		bool isComparison()const
+		{
+			return m_samplerType->isComparison();
 		}
 
 	private:
