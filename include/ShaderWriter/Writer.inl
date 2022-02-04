@@ -307,7 +307,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return declTexture < T::Comparison >( std::move( name )
+		return declSampler< T::Comparison >( std::move( name )
 			, binding
 			, set
 			, enabled );
@@ -355,7 +355,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return declTexture < T::Format
+		return declSampled< T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Ms >( std::move( name )
@@ -402,7 +402,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		return declTextureArray < T::Format
+		return declSampledArray< T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Ms >( std::move( name )
@@ -424,7 +424,7 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declTexture( std::string name
+		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declCombined( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
@@ -450,12 +450,12 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T ShaderWriter::declTexture( std::string name
+		inline T ShaderWriter::declCombined( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		return declTexture < T::Format
+		return declCombined< T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
@@ -470,7 +470,7 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declTextureArray( std::string name
+		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -498,13 +498,13 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline Array< T > ShaderWriter::declTextureArray( std::string name
+		inline Array< T > ShaderWriter::declCombinedArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		return declTextureArray < T::Format
+		return declCombinedArray< T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Depth
