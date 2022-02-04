@@ -24,9 +24,17 @@ namespace ast::type
 			{
 				return ast::type::getHash( config );
 			} }
+		, m_texture{ [this]( ImageConfiguration config, bool isComparison )
+			{
+				return std::make_shared< Texture >( *this, std::move( config ), isComparison );
+			}
+			, []( ImageConfiguration const & config, bool isComparison )noexcept
+			{
+				return ast::type::getHash( config, isComparison );
+			} }
 		, m_sampledImage{ [this]( ImageConfiguration config )
 			{
-				return std::make_shared< Texture >( *this, std::move( config ) );
+				return std::make_shared< SampledImage >( *this, std::move( config ) );
 			}
 			, []( ImageConfiguration const & config )noexcept
 			{
@@ -678,14 +686,20 @@ namespace ast::type
 		return m_taskPayloadIn.getType( type );
 	}
 
-	ImagePtr TypesCache::getImage( ImageConfiguration const & config )
+	ImagePtr TypesCache::getImage( ImageConfiguration config )
 	{
-		return m_image.getType( config );
+		return m_image.getType( std::move( config ) );
 	}
 
-	TexturePtr TypesCache::getTexture( ImageConfiguration const & config )
+	SampledImagePtr TypesCache::getSampledImage( ImageConfiguration config )
 	{
-		return m_sampledImage.getType( config );
+		return m_sampledImage.getType( std::move( config ) );
+	}
+
+	TexturePtr TypesCache::getTexture( ImageConfiguration config
+		, bool isComparison )
+	{
+		return m_texture.getType( std::move( config ), isComparison );
 	}
 
 	SamplerPtr TypesCache::getSampler( bool comparison )

@@ -214,7 +214,6 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageT;
 
@@ -223,13 +222,11 @@ namespace sdw
 		, AccessT
 		, ast::type::ImageDim::eBuffer
 		, false
-		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using Image1DT = ImageT< FormatT
 		, AccessT
 		, ast::type::ImageDim::e1D
-		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
@@ -237,13 +234,11 @@ namespace sdw
 		, AccessT
 		, ast::type::ImageDim::e2D
 		, false
-		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using Image3DT = ImageT< FormatT
 		, AccessT
 		, ast::type::ImageDim::e3D
-		, false
 		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
@@ -251,34 +246,29 @@ namespace sdw
 		, AccessT
 		, ast::type::ImageDim::eCube
 		, false
-		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using Image1DArrayT = ImageT< FormatT
 		, AccessT
 		, ast::type::ImageDim::e1D
 		, true
-		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using Image2DArrayT = ImageT< FormatT
 		, AccessT
 		, ast::type::ImageDim::e2D
 		, true
-		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using ImageCubeArrayT = ImageT< FormatT
 		, AccessT
 		, ast::type::ImageDim::eCube
 		, true
-		, false
 		, false >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
 	using Image2DMST = ImageT< FormatT
 		, AccessT
 		, ast::type::ImageDim::e2D
-		, false
 		, false
 		, true >;
 	template< ast::type::ImageFormat FormatT, ast::type::AccessKind AccessT >
@@ -286,7 +276,6 @@ namespace sdw
 		, AccessT
 		, ast::type::ImageDim::e2D
 		, true
-		, false
 		, true >;
 
 	template< ast::type::ImageFormat FormatT >
@@ -368,12 +357,77 @@ namespace sdw
 	*	Sampled images.
 	*/
 	/**@{*/
+	struct SampledImage;
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+	struct SampledImageT;
+
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageBufferT = SampledImageT< FormatT
+		, ast::type::ImageDim::eBuffer
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage1DT = SampledImageT< FormatT
+		, ast::type::ImageDim::e1D
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DT = SampledImageT< FormatT
+		, ast::type::ImageDim::e2D
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage3DT = SampledImageT< FormatT
+		, ast::type::ImageDim::e3D
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageCubeT = SampledImageT< FormatT
+		, ast::type::ImageDim::eCube
+		, false
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage1DArrayT = SampledImageT< FormatT
+		, ast::type::ImageDim::e1D
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DArrayT = SampledImageT< FormatT
+		, ast::type::ImageDim::e2D
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImageCubeArrayT = SampledImageT< FormatT
+		, ast::type::ImageDim::eCube
+		, true
+		, false >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DMST = SampledImageT< FormatT
+		, ast::type::ImageDim::e2D
+		, false
+		, true >;
+	template< ast::type::ImageFormat FormatT >
+	using SampledImage2DMSArrayT = SampledImageT< FormatT
+		, ast::type::ImageDim::e2D
+		, true
+		, true >;
+	/**@}*/
+#pragma endregion
+#pragma region Combined Sampler and Images
+	/**
+	*name
+	*	Combined Sampler and Images.
+	*/
+	/**@{*/
 	struct Texture;
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, bool DepthT >
 	struct TextureT;
 
 	template< ast::type::ImageFormat FormatT >
@@ -428,50 +482,50 @@ namespace sdw
 	using Texture1DShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e1D
 		, false
-		, true
-		, false >;
+		, false
+		, true >;
 	template< ast::type::ImageFormat FormatT >
 	using Texture2DShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, false
-		, true
-		, false >;
+		, false
+		, true >;
 	template< ast::type::ImageFormat FormatT >
 	using TextureCubeShadowT = TextureT< FormatT
 		, ast::type::ImageDim::eCube
 		, false
-		, true
-		, false >;
+		, false
+		, true >;
 	template< ast::type::ImageFormat FormatT >
 	using Texture1DArrayShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e1D
 		, true
-		, true
-		, false >;
+		, false
+		, true >;
 	template< ast::type::ImageFormat FormatT >
 	using Texture2DArrayShadowT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, true
-		, true
-		, false >;
+		, false
+		, true >;
 	template< ast::type::ImageFormat FormatT >
 	using TextureCubeArrayShadowT = TextureT< FormatT
 		, ast::type::ImageDim::eCube
 		, true
-		, true
-		, false >;
+		, false
+		, true >;
 	template< ast::type::ImageFormat FormatT >
 	using Texture2DMST = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, false
-		, false
-		, true >;
+		, true
+		, false >;
 	template< ast::type::ImageFormat FormatT >
 	using Texture2DMSArrayT = TextureT< FormatT
 		, ast::type::ImageDim::e2D
 		, true
-		, false
-		, true >;
+		, true
+		, false >;
 	/**@}*/
 #pragma endregion
 #pragma region Function related

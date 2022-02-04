@@ -273,6 +273,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtPerVertexDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtPushConstantsBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtReturn.hpp
+	${INCLUDE_DIR}/Stmt/StmtSampledImageDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtSamplerDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtShaderBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtShaderStructBufferDecl.hpp
@@ -331,6 +332,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtPerVertexDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtPushConstantsBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtReturn.cpp
+	${SOURCE_DIR}/Stmt/StmtSampledImageDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtSamplerDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtShaderBufferDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtShaderStructBufferDecl.cpp
@@ -379,6 +381,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeMeshIO.hpp
 	${INCLUDE_DIR}/Type/TypePointer.hpp
 	${INCLUDE_DIR}/Type/TypeRayPayload.hpp
+	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
 	${INCLUDE_DIR}/Type/TypeTaskIO.hpp
@@ -402,6 +405,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeMeshIO.cpp
 	${SOURCE_DIR}/Type/TypePointer.cpp
 	${SOURCE_DIR}/Type/TypeRayPayload.cpp
+	${SOURCE_DIR}/Type/TypeSampledImage.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
 	${SOURCE_DIR}/Type/TypeTaskIO.cpp
@@ -501,6 +505,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating EnumImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/GetImageAccessName.hpp
@@ -508,6 +513,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating GetImageAccessName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
 	)
+	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/GetImageAccessName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.hpp
@@ -515,6 +521,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating MakeImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
 	)
+	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/EnumSampledImageAccess.hpp
@@ -522,6 +529,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating EnumSampledImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/GetSampledImageAccessName.hpp
@@ -529,6 +537,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating GetSampledImageAccessName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/MakeSampledImageAccess.hpp
@@ -536,6 +545,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating MakeSampledImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/EnumTextureAccess.hpp
@@ -543,6 +553,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating EnumTextureAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/GetTextureAccessName.hpp
@@ -550,6 +561,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating GetTextureAccessName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.hpp
@@ -557,6 +569,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating MakeTextureAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/EnumIntrinsic.hpp
@@ -564,6 +577,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating EnumIntrinsic.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/GetIntrinsicName.hpp
@@ -571,6 +585,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating GetIntrinsicName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
@@ -578,6 +593,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		COMMENT "Generating MakeIntrinsic.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 	)
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp )
 	source_group( "Script Files" FILES
 		${${PROJECT_NAME}_SCRIPT_FILES}
 	)

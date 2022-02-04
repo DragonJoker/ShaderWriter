@@ -8,7 +8,6 @@ namespace ast::type
 	ImageConfiguration::ImageConfiguration( type::Kind newSampledType
 		, ImageDim newDimension
 		, ImageFormat newFormat
-		, Trinary newIsDepth
 		, Trinary newIsSampled
 		, bool newIsArrayed
 		, bool newIsMS
@@ -16,7 +15,6 @@ namespace ast::type
 		: sampledType{ newSampledType }
 		, dimension{ newDimension }
 		, format{ newFormat }
-		, isDepth{ newIsDepth }
 		, isSampled{ newIsSampled }
 		, isArrayed{ newIsArrayed }
 		, isMS{ newIsMS }
@@ -33,11 +31,18 @@ namespace ast::type
 	{
 		size_t result = std::hash< type::ImageDim >{}( config.dimension );
 		result = hashCombine( result, config.format );
-		result = hashCombine( result, config.isDepth );
 		result = hashCombine( result, config.isSampled );
 		result = hashCombine( result, config.isArrayed );
 		result = hashCombine( result, config.isMS );
 		result = hashCombine( result, config.accessKind );
+		return result;
+	}
+
+	size_t getHash( type::ImageConfiguration const & config
+		, bool isComparison )noexcept
+	{
+		auto result = getHash( config );
+		result = hashCombine( result, isComparison );
 		return result;
 	}
 }

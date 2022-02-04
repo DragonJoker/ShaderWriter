@@ -85,7 +85,6 @@ namespace sdw
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT
 			, typename EnableT = void >
 		struct ImageFuncsT
@@ -106,10 +105,9 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageT
-		: public img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >
+		: public img::ImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >
 	{
 		SDW_DeclValue( , ImageT );
 
@@ -117,7 +115,6 @@ namespace sdw
 		static constexpr ast::type::AccessKind Access = AccessT;
 		static constexpr ast::type::ImageDim Dim = DimT;
 		static constexpr bool Arrayed = ArrayedT;
-		static constexpr bool Depth = DepthT;
 		static constexpr bool Ms = MsT;
 
 		inline ImageT( ShaderWriter & writer

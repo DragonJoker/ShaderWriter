@@ -57,12 +57,6 @@ namespace glsl
 				result += "Array";
 			}
 
-			if ( config.isDepth == ast::type::Trinary::eTrue )
-			{
-				assert( config.isSampled == ast::type::Trinary::eTrue );
-				result += "Shadow";
-			}
-
 			return result;
 		}
 
@@ -78,10 +72,25 @@ namespace glsl
 				result += "Array";
 			}
 
-			if ( config.isDepth == ast::type::Trinary::eTrue )
+			if ( type->isComparison() )
 			{
 				assert( config.isSampled == ast::type::Trinary::eTrue );
 				result += "Shadow";
+			}
+
+			return result;
+		}
+
+		std::string getTypeName( ast::type::SampledImagePtr type )
+		{
+			std::string result;
+			auto config = type->getConfig();
+			result += "sampler";
+			result += getName( config.dimension );
+
+			if ( config.isArrayed )
+			{
+				result += "Array";
 			}
 
 			return result;
@@ -266,6 +275,9 @@ namespace glsl
 		case ast::type::Kind::eSampler:
 			result = "sampler";
 			break;
+		case ast::type::Kind::eSampledImage:
+			result = "sampledImage";
+			break;
 		case ast::type::Kind::eTexture:
 			result = "sampledImage";
 			break;
@@ -295,6 +307,9 @@ namespace glsl
 			break;
 		case ast::type::Kind::eTexture:
 			result = getTypeName( std::static_pointer_cast< ast::type::Texture >( type ) );
+			break;
+		case ast::type::Kind::eSampledImage:
+			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
 			break;
 		case ast::type::Kind::eArray:
 			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
@@ -1014,6 +1029,7 @@ namespace glsl
 				case ast::type::Kind::eImage:
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eTexture:
+				case ast::type::Kind::eSampledImage:
 				case ast::type::Kind::eAccelerationStructure:
 					return;
 				default:

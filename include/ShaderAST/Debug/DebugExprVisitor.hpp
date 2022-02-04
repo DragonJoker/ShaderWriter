@@ -29,6 +29,7 @@ namespace ast::debug
 		SDAST_API void visitMbrSelectExpr( expr::MbrSelect * expr )override;
 		SDAST_API void visitFnCallExpr( expr::FnCall * expr )override;
 		SDAST_API void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override;
+		SDAST_API void visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )override;
 		SDAST_API void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
 		SDAST_API void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
 		SDAST_API void visitIdentifierExpr( expr::Identifier * expr )override;

@@ -57,6 +57,7 @@ namespace ast::debug
 		SDAST_API void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;
 		SDAST_API void visitReturnStmt( stmt::Return * stmt )override;
 		SDAST_API void visitTextureDeclStmt( stmt::TextureDecl * stmt )override;
+		SDAST_API void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override;
 		SDAST_API void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override;
 		SDAST_API void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override;
 		SDAST_API void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override;

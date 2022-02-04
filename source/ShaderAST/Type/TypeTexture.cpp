@@ -8,10 +8,11 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	Texture::Texture( TypesCache & cache
-		, ImageConfiguration config )
+		, ImageConfiguration config
+		, bool isComparison )
 		: Type{ cache, Kind::eTexture }
 		, m_imageType{ cache.getImage( std::move( config ) ) }
-		, m_samplerType{ cache.getSampler( getConfig().isDepth == Trinary::eTrue ) }
+		, m_samplerType{ cache.getSampler( isComparison ) }
 	{
 	}
 }

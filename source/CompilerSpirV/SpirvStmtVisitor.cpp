@@ -605,6 +605,13 @@ namespace spirv
 		}
 	}
 
+	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		m_result.bindVariable( visitVariable( stmt->getVariable() )
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() );
+	}
+
 	void StmtVisitor::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
 		m_result.bindVariable( visitVariable( stmt->getVariable() )

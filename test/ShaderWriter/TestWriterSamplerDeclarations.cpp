@@ -18,19 +18,19 @@ namespace
 		check( stmt.getDescriptorSet() == set );
 	}
 
+	template< bool ComparisonT >
 	void checkSampler( sdw::type::Sampler const & sampler
-		, bool isComparison
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		check( sampler.isComparison() == isComparison );
+		check( sampler.isComparison() == ComparisonT );
 	}
 
-	void testSampler( bool isComparison
-		, test::sdw_test::TestCounts & testCounts )
+	template< bool ComparisonT >
+	void testSampler( test::sdw_test::TestCounts & testCounts )
 	{
 		std::string nameBase;
 
-		if ( isComparison )
+		if ( ComparisonT )
 		{
 			nameBase = "Comp";
 		}
@@ -40,18 +40,16 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = "Value";
-			auto value = writer.declSampler( name
+			auto value = writer.declSampler< ComparisonT >( name
 				, binding
-				, set
-				, isComparison );
+				, set );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
 			check( var->getName() == name );
 			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
-			checkSampler( static_cast< sdw::type::Sampler const & >( *var->getType() )
-				, isComparison
+			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
@@ -62,12 +60,12 @@ namespace
 		testEnd();
 	}
 
-	void testSamplerOptionalDisabled( bool isComparison
-		, test::sdw_test::TestCounts & testCounts )
+	template< bool ComparisonT >
+	void testSamplerOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
 		std::string nameBase;
 
-		if ( isComparison )
+		if ( ComparisonT )
 		{
 			nameBase = "Comp";
 		}
@@ -78,10 +76,9 @@ namespace
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto name = "Value_dis";
-			auto value = writer.declSampler( name
+			auto value = writer.declSampler< ComparisonT >( name
 				, binding
 				, set
-				, isComparison
 				, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
@@ -90,8 +87,7 @@ namespace
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
 			check( var->getName() == name );
 			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
-			checkSampler( static_cast< sdw::type::Sampler const & >( *var->getType() )
-				, isComparison
+			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			check( shader.getStatements()->size() == count );
 			DummyMain;
@@ -100,12 +96,12 @@ namespace
 		testEnd();
 	}
 
-	void testSamplerOptionalEnabled( bool isComparison
-		, test::sdw_test::TestCounts & testCounts )
+	template< bool ComparisonT >
+	void testSamplerOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
 		std::string nameBase;
 
-		if ( isComparison )
+		if ( ComparisonT )
 		{
 			nameBase = "Comp";
 		}
@@ -115,10 +111,9 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
-			auto value = writer.declSampler( name
+			auto value = writer.declSampler< ComparisonT >( name
 				, binding
 				, set
-				, isComparison
 				, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
@@ -127,8 +122,7 @@ namespace
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
 			check( var->getName() == name );
 			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
-			checkSampler( static_cast< sdw::type::Sampler const & >( *var->getType() )
-				, isComparison
+			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
 			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
@@ -139,20 +133,20 @@ namespace
 		testEnd();
 	}
 
-	void testSamplerComp( bool isComparison
-		, test::sdw_test::TestCounts & testCounts )
+	template< bool ComparisonT >
+	void testSamplerComp( test::sdw_test::TestCounts & testCounts )
 	{
-		testSampler( isComparison, testCounts );
-		testSamplerOptionalDisabled( isComparison, testCounts );
-		testSamplerOptionalEnabled( isComparison, testCounts );
+		testSampler< ComparisonT >( testCounts );
+		testSamplerOptionalDisabled< ComparisonT >( testCounts );
+		testSamplerOptionalEnabled< ComparisonT >( testCounts );
 	}
 }
 
 sdwTestSuiteMain( TestWriterSamplerDeclarations )
 {
 	sdwTestSuiteBegin();
-	testSamplerComp( false, testCounts );
-	testSamplerComp( true, testCounts );
+	testSamplerComp< false >( testCounts );
+	testSamplerComp< true >( testCounts );
 	sdwTestSuiteEnd();
 }
 

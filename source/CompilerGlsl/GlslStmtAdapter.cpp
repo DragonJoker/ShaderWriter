@@ -647,6 +647,20 @@ namespace glsl
 		}
 	}
 
+	void StmtAdapter::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		if ( m_adaptationData.writerConfig.hasDescriptorSets )
+		{
+			ast::StmtCloner::visitSampledImageDeclStmt( stmt );
+		}
+		else
+		{
+			m_current->addStmt( ast::stmt::makeSampledImageDecl( stmt->getVariable()
+				, stmt->getBindingPoint()
+				, InvalidIndex ) );
+		}
+	}
+
 	void StmtAdapter::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
 		if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430

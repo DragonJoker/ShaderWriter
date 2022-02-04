@@ -8,17 +8,17 @@ namespace
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, bool DepthT >
 	void testTexture( test::sdw_test::TestCounts & testCounts )
 	{
 		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Texture > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, DepthT, MsT );
+			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
-			auto value = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
+			auto value = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -34,7 +34,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
-			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u );
+			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -50,7 +50,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
+			auto value = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -64,7 +64,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 6u, false );
+			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -78,7 +78,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
-			auto value = writer.declTexture< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
+			auto value = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -95,7 +95,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
-			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u, true );
+			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -116,53 +116,53 @@ namespace
 		testBegin( "testTexture" + ast::debug::getName( FormatT ) );
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
-			testTexture< FormatT, Img1D >( testCounts );
-			testTexture< FormatT, Img2D >( testCounts );
-			testTexture< FormatT, Img3D >( testCounts );
-			testTexture< FormatT, ImgCube >( testCounts );
-			testTexture< FormatT, ImgBuffer >( testCounts );
-			testTexture< FormatT, Img1DArray >( testCounts );
-			testTexture< FormatT, Img2DArray >( testCounts );
-			testTexture< FormatT, ImgCubeArray >( testCounts );
-			testTexture< FormatT, Img2DMS >( testCounts );
-			testTexture< FormatT, Img2DMSArray >( testCounts );
+			testTexture< FormatT, Img1D, false >( testCounts );
+			testTexture< FormatT, Img2D, false >( testCounts );
+			testTexture< FormatT, Img3D, false >( testCounts );
+			testTexture< FormatT, ImgCube, false >( testCounts );
+			testTexture< FormatT, ImgBuffer, false >( testCounts );
+			testTexture< FormatT, Img1DArray, false >( testCounts );
+			testTexture< FormatT, Img2DArray, false >( testCounts );
+			testTexture< FormatT, ImgCubeArray, false >( testCounts );
+			testTexture< FormatT, Img2DMS, false >( testCounts );
+			testTexture< FormatT, Img2DMSArray, false >( testCounts );
 
 			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
 				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				testTexture< FormatT, Img1DShadow >( testCounts );
-				testTexture< FormatT, Img2DShadow >( testCounts );
-				testTexture< FormatT, ImgCubeShadow >( testCounts );
-				testTexture< FormatT, Img1DArrayShadow >( testCounts );
-				testTexture< FormatT, Img2DArrayShadow >( testCounts );
-				testTexture< FormatT, ImgCubeArrayShadow >( testCounts );
+				testTexture< FormatT, Img1D, true >( testCounts );
+				testTexture< FormatT, Img2D, true >( testCounts );
+				testTexture< FormatT, ImgCube, true >( testCounts );
+				testTexture< FormatT, Img1DArray, true >( testCounts );
+				testTexture< FormatT, Img2DArray, true >( testCounts );
+				testTexture< FormatT, ImgCubeArray, true >( testCounts );
 			}
 		}
 		else if constexpr ( isSIntFormat( FormatT ) )
 		{
-			testTexture< FormatT, Img1D >( testCounts );
-			testTexture< FormatT, Img2D >( testCounts );
-			testTexture< FormatT, Img3D >( testCounts );
-			testTexture< FormatT, ImgCube >( testCounts );
-			testTexture< FormatT, ImgBuffer >( testCounts );
-			testTexture< FormatT, Img1DArray >( testCounts );
-			testTexture< FormatT, Img2DArray >( testCounts );
-			testTexture< FormatT, ImgCubeArray >( testCounts );
-			testTexture< FormatT, Img2DMS >( testCounts );
-			testTexture< FormatT, Img2DMSArray >( testCounts );
+			testTexture< FormatT, Img1D, false >( testCounts );
+			testTexture< FormatT, Img2D, false >( testCounts );
+			testTexture< FormatT, Img3D, false >( testCounts );
+			testTexture< FormatT, ImgCube, false >( testCounts );
+			testTexture< FormatT, ImgBuffer, false >( testCounts );
+			testTexture< FormatT, Img1DArray, false >( testCounts );
+			testTexture< FormatT, Img2DArray, false >( testCounts );
+			testTexture< FormatT, ImgCubeArray, false >( testCounts );
+			testTexture< FormatT, Img2DMS, false >( testCounts );
+			testTexture< FormatT, Img2DMSArray, false >( testCounts );
 		}
 		else if constexpr ( isUIntFormat( FormatT ) )
 		{
-			testTexture< FormatT, Img1D >( testCounts );
-			testTexture< FormatT, Img2D >( testCounts );
-			testTexture< FormatT, Img3D >( testCounts );
-			testTexture< FormatT, ImgCube >( testCounts );
-			testTexture< FormatT, ImgBuffer >( testCounts );
-			testTexture< FormatT, Img1DArray >( testCounts );
-			testTexture< FormatT, Img2DArray >( testCounts );
-			testTexture< FormatT, ImgCubeArray >( testCounts );
-			testTexture< FormatT, Img2DMS >( testCounts );
-			testTexture< FormatT, Img2DMSArray >( testCounts );
+			testTexture< FormatT, Img1D, false >( testCounts );
+			testTexture< FormatT, Img2D, false >( testCounts );
+			testTexture< FormatT, Img3D, false >( testCounts );
+			testTexture< FormatT, ImgCube, false >( testCounts );
+			testTexture< FormatT, ImgBuffer, false >( testCounts );
+			testTexture< FormatT, Img1DArray, false >( testCounts );
+			testTexture< FormatT, Img2DArray, false >( testCounts );
+			testTexture< FormatT, ImgCubeArray, false >( testCounts );
+			testTexture< FormatT, Img2DMS, false >( testCounts );
+			testTexture< FormatT, Img2DMSArray, false >( testCounts );
 		}
 		testEnd();
 	}

@@ -367,6 +367,11 @@ namespace spirv
 		}
 	}
 
+	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		doTraverseType( stmt->getVariable()->getType() );
+	}
+
 	void StmtConfigFiller::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
 		doTraverseType( stmt->getVariable()->getType() );

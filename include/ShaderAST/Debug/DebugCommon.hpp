@@ -27,13 +27,16 @@ namespace ast::debug
 	SDAST_API std::string getName( type::ImageFormat format
 		, type::ImageDim dim
 		, bool arrayed
-		, bool depth
+		, bool ms
+		, bool depth );
+	SDAST_API std::string getName( type::ImageFormat format
+		, type::ImageDim dim
+		, bool arrayed
 		, bool ms );
 	SDAST_API std::string getName( type::ImageFormat format
 		, type::AccessKind access
 		, type::ImageDim dim
 		, bool arrayed
-		, bool depth
 		, bool ms );
 	SDAST_API std::string getName( type::InputLayout value );
 	SDAST_API std::string getName( type::OutputLayout value );

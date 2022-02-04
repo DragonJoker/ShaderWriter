@@ -1447,11 +1447,11 @@ namespace sdw
 			, type::ImageFormat FormatT
 			, type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
 			, bool MsT
+			, bool DepthT
 			, expr::TextureAccess TextureAccessT
 			, typename ... ParamsT >
-		ReturnWrapperT< ReturnT > writeTextureAccessCall( TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & image
+		ReturnWrapperT< ReturnT > writeTextureAccessCall( TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & image
 			, ParamsT const & ... params )
 		{
 			static_assert( TextureAccessT != expr::TextureAccess::eInvalid );
@@ -1471,22 +1471,22 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TexSizeFuncT
 		{
 			using SizeT = TextureSizeT< DimT, ArrayedT >;
 
 			auto getSize()const
 			{
-				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
+				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, MsT, DepthT
 					, TextureFormatTraitsT< FormatT >::textureSize[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & >( *this );
 			}
 		};
 
@@ -1495,23 +1495,23 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TexSizeLevelFuncT
 		{
 			using SizeT = TextureSizeT< DimT, ArrayedT >;
 
 			auto getSize( Int const & level )const
 			{
-				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, DepthT, MsT
+				return writeTextureAccessCall< SizeT, FormatT, DimT, ArrayedT, MsT, DepthT
 					, TextureFormatTraitsT< FormatT >::textureSize[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
 						, level );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & >( *this );
 			}
 		};
 
@@ -1520,23 +1520,23 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct QueryLodFuncT
 		{
 			using QueryLodT = TextureQueryLodT< DimT, ArrayedT >;
 
 			auto getLod( QueryLodT const & coord )const
 			{
-				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, DepthT, MsT
+				return writeTextureAccessCall< Vec2, FormatT, DimT, ArrayedT, MsT, DepthT
 					, TextureFormatTraitsT< FormatT >::textureQueryLod[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
 						, coord );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & >( *this );
 			}
 		};
 
@@ -1545,20 +1545,20 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct QueryLevelsFuncT
 		{
 			auto getLevels()const
 			{
-				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, DepthT, MsT
+				return writeTextureAccessCall< Int, FormatT, DimT, ArrayedT, MsT, DepthT
 					, TextureFormatTraitsT< FormatT >::textureQueryLevels[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > const & >( *this );
 			}
 		};
 
@@ -1574,15 +1574,15 @@ namespace sdw
 
 			auto sample( SampleT const & coord )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::texture[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1599,16 +1599,16 @@ namespace sdw
 			auto sample( SampleT const & coord
 				, Float const & ref )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::texture[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1625,16 +1625,16 @@ namespace sdw
 			auto sample( SampleT const & coord
 				, Float const & bias )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, bias );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1652,7 +1652,7 @@ namespace sdw
 				, Float const & ref
 				, Float const & bias )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -1660,9 +1660,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1681,16 +1681,16 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1710,7 +1710,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -1718,9 +1718,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1740,7 +1740,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset
@@ -1748,9 +1748,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1771,7 +1771,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -1780,9 +1780,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1799,16 +1799,16 @@ namespace sdw
 			auto lod( SampleT const & coord
 				, Float const & lod )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureLod[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1826,7 +1826,7 @@ namespace sdw
 				, Float const & ref
 				, Float const & lod )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureLod[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -1834,9 +1834,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1856,7 +1856,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod
@@ -1864,9 +1864,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1887,7 +1887,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -1896,9 +1896,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1914,15 +1914,15 @@ namespace sdw
 
 			auto proj( SampleProjT const & coord )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProj[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1939,16 +1939,16 @@ namespace sdw
 			auto proj( SampleProjT const & coord
 				, Float const & ref )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProj[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -1965,16 +1965,16 @@ namespace sdw
 			auto proj( SampleProjT const & coord
 				, Float const & bias )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, bias );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -1992,7 +1992,7 @@ namespace sdw
 				, Float const & ref
 				, Float const & bias )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2000,9 +2000,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2021,16 +2021,16 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2050,7 +2050,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2058,9 +2058,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2080,7 +2080,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, offset
@@ -2088,9 +2088,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2111,7 +2111,7 @@ namespace sdw
 				, Float const & bias )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjOffsetBias[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2120,9 +2120,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2139,16 +2139,16 @@ namespace sdw
 			auto projLod( SampleProjT const & coord
 				, Float const & lod )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjLod[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2166,7 +2166,7 @@ namespace sdw
 				, Float const & ref
 				, Float const & lod )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjLod[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2174,9 +2174,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2196,7 +2196,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, lod
@@ -2204,9 +2204,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2227,7 +2227,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjLodOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2236,9 +2236,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2254,15 +2254,15 @@ namespace sdw
 
 			auto fetch( FetchT const & coord )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::texelFetch[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2279,16 +2279,16 @@ namespace sdw
 			auto fetch( FetchT const & coord
 				, Int const & level )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::texelFetch[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, level );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2308,7 +2308,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::texelFetchOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, level
@@ -2316,9 +2316,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2337,7 +2337,7 @@ namespace sdw
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureGrad[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
@@ -2345,9 +2345,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2367,7 +2367,7 @@ namespace sdw
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureGrad[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2376,9 +2376,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2400,7 +2400,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
@@ -2409,9 +2409,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2434,7 +2434,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2444,9 +2444,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2465,7 +2465,7 @@ namespace sdw
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjGrad[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
@@ -2473,9 +2473,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2495,7 +2495,7 @@ namespace sdw
 				, DerivativeT const & dPdx
 				, DerivativeT const & dPdy )const
 			{
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjGrad[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2504,9 +2504,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2528,7 +2528,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, dPdx
@@ -2537,9 +2537,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 		//*************************************************************************
@@ -2561,7 +2561,7 @@ namespace sdw
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
-				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureProjGradOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2571,9 +2571,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2590,16 +2590,16 @@ namespace sdw
 			auto gather( GatherT const & coord
 				, Int const & comp )const
 			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureGather[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2616,16 +2616,16 @@ namespace sdw
 			auto gather( GatherT const & coord
 				, Float const & ref )const
 			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureGather[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref );
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2644,7 +2644,7 @@ namespace sdw
 				, Int const & comp
 				, OffsetT const & offset )const
 			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureGatherOffset[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp
@@ -2652,9 +2652,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2673,7 +2673,7 @@ namespace sdw
 				, Float const & ref
 				, OffsetT const & offset )const
 			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureGatherOffset[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2681,9 +2681,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2702,7 +2702,7 @@ namespace sdw
 				, Int const & comp
 				, Array< OffsetT > const & offsets )const
 			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, false, MsT
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
 						, coord
 						, comp
@@ -2710,9 +2710,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, false, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, false > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, false, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, false > const & >( *this );
 			}
 		};
 
@@ -2731,7 +2731,7 @@ namespace sdw
 				, Float const & ref
 				, Array< OffsetT > const & offsets )const
 			{
-				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, true, MsT
+				return writeTextureAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, true
 					, TextureFormatTraitsT< FormatT >::textureGatherOffsets[combinedSmplImg::getIndex< DimT, ArrayedT, true >()] >( get()
 						, coord
 						, ref
@@ -2739,9 +2739,9 @@ namespace sdw
 			}
 
 		private:
-			TextureT< FormatT, DimT, ArrayedT, true, MsT > const & get()const
+			TextureT< FormatT, DimT, ArrayedT, MsT, true > const & get()const
 			{
-				return static_cast< TextureT< FormatT, DimT, ArrayedT, true, MsT > const & >( *this );
+				return static_cast< TextureT< FormatT, DimT, ArrayedT, MsT, true > const & >( *this );
 			}
 		};
 
@@ -2750,18 +2750,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is2dV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -2828,19 +2828,19 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -2901,18 +2901,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is1dArrayV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -2957,18 +2957,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3019,19 +3019,19 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleLodFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3064,18 +3064,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is1dShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3132,18 +3132,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3206,16 +3206,16 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::isRectShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefProjFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3262,18 +3262,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3312,18 +3312,18 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3368,19 +3368,19 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLodFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
-			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeLevelFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLodFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
+			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >
@@ -3410,16 +3410,16 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool DepthT
-			, bool MsT >
+			, bool MsT
+			, bool DepthT >
 		struct TextureFuncsT< FormatT
 			, DimT
 			, ArrayedT
-			, DepthT
 			, MsT
+			, DepthT
 			, std::enable_if_t< ( sdw::isBufferV< DimT, ArrayedT, DepthT > ) > >
 			: public Texture
-			, public TexSizeFuncT< FormatT, DimT, ArrayedT, DepthT, MsT >
+			, public TexSizeFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public FetchFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
 			SDW_DeclValue( , TextureFuncsT );
@@ -3464,45 +3464,45 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::TextureT( ShaderWriter & writer
+		, bool MsT
+		, bool DepthT >
+	TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >::TextureT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >{ writer, std::move( expr ), enabled }
+		: combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
+		, bool MsT
+		, bool DepthT >
 	template< typename T >
-	TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > & TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( T const & rhs )
+	TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > & TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >::operator=( T const & rhs )
 	{
-		combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, DepthT, MsT >::operator=( rhs );
+		combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >::operator=( rhs );
 		return *this;
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	ast::type::ImageConfiguration TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeConfig()
+		, bool MsT
+		, bool DepthT >
+	ast::type::ImageConfiguration TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >::makeConfig()
 	{
-		return ast::type::makeConfig< FormatT, ast::type::AccessKind::eRead, DimT, ArrayedT, DepthT, MsT >( true );
+		return ast::type::makeConfig< FormatT, ast::type::AccessKind::eRead, DimT, ArrayedT, MsT >( true );
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-	inline ast::type::TypePtr TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >::makeType( ast::type::TypesCache & cache )
+		, bool MsT
+		, bool DepthT >
+	inline ast::type::TypePtr TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >::makeType( ast::type::TypesCache & cache )
 	{
-		return cache.getTexture( makeConfig() );
+		return cache.getTexture( makeConfig(), DepthT );
 	}
 
 	//*************************************************************************

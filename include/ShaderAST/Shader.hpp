@@ -52,6 +52,7 @@ namespace ast
 		ConstantsMap constants;
 		SpecConstantsMap specConstants;
 		SamplerMap samplers;
+		TextureMap sampled;
 		TextureMap textures;
 		TextureMap uniformTexels;
 		ImageMap images;
@@ -112,6 +113,11 @@ namespace ast
 			, uint32_t set
 			, bool enabled = true );
 		SDAST_API var::VariablePtr registerSampler( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		SDAST_API var::VariablePtr registerSampledImage( std::string name
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
@@ -224,6 +230,11 @@ namespace ast
 		std::map< std::string, SamplerInfo > const & getSamplers()const
 		{
 			return m_data.samplers;
+		}
+
+		std::map< std::string, TextureInfo > const & getSampled()const
+		{
+			return m_data.sampled;
 		}
 
 		std::map< std::string, TextureInfo > const & getTextures()const

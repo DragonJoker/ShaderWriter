@@ -61,6 +61,7 @@ namespace hlsl
 		void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override;
 		void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override;
 		void visitReturnStmt( ast::stmt::Return * stmt )override;
+		void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override;
 		void visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )override;
 		void visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )override;
 		void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override;

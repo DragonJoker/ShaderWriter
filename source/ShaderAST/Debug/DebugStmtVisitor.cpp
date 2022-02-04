@@ -55,6 +55,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eShaderStructBufferDecl:
 				result = "STSHADSTRUCTBUFFDECL";
 				break;
+			case ast::stmt::Kind::eSampledImageDecl:
+				result = "STSAPLIMGDECL";
+				break;
 			case ast::stmt::Kind::eSamplerDecl:
 				result = "STSAMPLERDECL";
 				break;
@@ -555,6 +558,16 @@ namespace ast::debug
 	}
 
 	void StmtVisitor::visitTextureDeclStmt( stmt::TextureDecl * stmt )
+	{
+		displayStmtName( stmt, false );
+		m_result += "B(";
+		m_result += std::to_string( stmt->getBindingPoint() ) + ") D(";
+		m_result += std::to_string( stmt->getDescriptorSet() ) + ") ";
+		m_result += displayVar( stmt->getVariable() );
+		m_result += "\n";
+	}
+
+	void StmtVisitor::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		displayStmtName( stmt, false );
 		m_result += "B(";

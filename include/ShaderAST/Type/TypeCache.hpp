@@ -18,8 +18,9 @@ See LICENSE file in root folder
 #include "TypeMeshIO.hpp"
 #include "TypePointer.hpp"
 #include "TypeRayPayload.hpp"
-#include "TypeTexture.hpp"
+#include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
+#include "TypeTexture.hpp"
 #include "TypeStruct.hpp"
 #include "TypeTaskIO.hpp"
 #include "TypeTessellationControlIO.hpp"
@@ -135,7 +136,8 @@ namespace ast::type
 		SDAST_API TaskPayloadPtr getTaskPayload( TypePtr type );
 		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
 		SDAST_API ImagePtr getImage( ImageConfiguration func );
-		SDAST_API TexturePtr getTexture( ImageConfiguration func );
+		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration func );
+		SDAST_API TexturePtr getTexture( ImageConfiguration func, bool isComparison = false );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );
@@ -155,7 +157,8 @@ namespace ast::type
 		AccelerationStructurePtr m_accelerationStructure;
 		RayDescPtr m_rayDesc;
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
-		TypeCache< Texture, std::function< TexturePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
+		TypeCache< Texture, std::function< TexturePtr( ImageConfiguration, bool ) >, std::function< size_t( ImageConfiguration const &, bool ) > > m_texture;
+		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;
 		TypeCache< Function, std::function< FunctionPtr( TypePtr, var::VariableList ) >, std::function< size_t( TypePtr, var::VariableList ) > > m_function;
 		TypeCache< BaseStruct, std::function< BaseStructPtr( MemoryLayout, std::string ) >, std::function< size_t( MemoryLayout, std::string const & ) > > m_struct;
