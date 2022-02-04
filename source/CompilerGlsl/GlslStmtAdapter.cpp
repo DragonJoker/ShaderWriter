@@ -20,13 +20,6 @@ namespace glsl
 			, GlslExtension const & extension
 			, uint32_t shaderVersion )
 		{
-			if ( extension.reqVersion > shaderVersion )
-			{
-				throw std::runtime_error{ "GLSL specification version (" + std::to_string( shaderVersion )
-					+ ") doesn't support extension [" + extension.name
-					+ "] (required version: " + std::to_string( extension.reqVersion ) + ")" };
-			}
-
 			if ( extension.coreVersion > shaderVersion )
 			{
 				cont->addStmt( ast::stmt::makePreprocExtension( extension.name
@@ -300,66 +293,6 @@ namespace glsl
 		if ( it == container->end() )
 		{
 			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( adaptationData.writerConfig.wantedVersion ) ) );
-
-			if ( adaptationData.writerConfig.wantedVersion >= v4_6 )
-			{
-				adaptationData.writerConfig.availableExtensions.insert( KHR_vulkan_glsl );
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresSeparateSamplers
-				&& ( ( !adaptationData.writerConfig.vulkanGlsl )
-					|| adaptationData.writerConfig.availableExtensions.end() == adaptationData.writerConfig.availableExtensions.find( KHR_vulkan_glsl ) ) )
-			{
-				throw std::runtime_error{ "Separate Samplers are only supported with extension [" + KHR_vulkan_glsl.name + "] which is not available" };
-			}
-
-			if ( adaptationData.stage == ast::ShaderStage::eTessellationControl
-				|| adaptationData.stage == ast::ShaderStage::eTessellationEvaluation )
-			{
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( ARB_tessellation_shader );
-			}
-
-			if ( adaptationData.writerConfig.wantedVersion >= ARB_explicit_attrib_location.specVersion )
-			{
-				adaptationData.writerConfig.availableExtensions.insert( ARB_explicit_attrib_location );
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( ARB_explicit_attrib_location );
-			}
-
-			if ( adaptationData.writerConfig.wantedVersion >= ARB_explicit_uniform_location.specVersion )
-			{
-				adaptationData.writerConfig.availableExtensions.insert( ARB_explicit_uniform_location );
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( ARB_explicit_uniform_location );
-			}
-
-			if ( adaptationData.writerConfig.wantedVersion >= ARB_separate_shader_objects.specVersion )
-			{
-				adaptationData.writerConfig.availableExtensions.insert( ARB_separate_shader_objects );
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( ARB_separate_shader_objects );
-			}
-
-			if ( adaptationData.intrinsicsConfig.requiresBlendIndex
-				&& ( adaptationData.writerConfig.wantedVersion < v4_3
-					|| ( adaptationData.writerConfig.availableExtensions.end() == adaptationData.writerConfig.availableExtensions.find( ARB_explicit_attrib_location )
-						&& adaptationData.writerConfig.availableExtensions.end() == adaptationData.writerConfig.availableExtensions.find( ARB_separate_shader_objects ) ) ) )
-			{
-				throw std::runtime_error{ "GLSL specification version (" + std::to_string( adaptationData.writerConfig.wantedVersion )
-					+ ") doesn't support blend index attributes (required version: " + std::to_string( v4_3 ) +
-					+" or extension [" + ARB_explicit_attrib_location.name + "])" };
-			}
-
-			if ( adaptationData.writerConfig.wantedVersion >= ARB_shading_language_420pack.specVersion )
-			{
-				adaptationData.writerConfig.availableExtensions.insert( ARB_shading_language_420pack );
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( ARB_shading_language_420pack );
-			}
-
-			if ( adaptationData.writerConfig.wantedVersion >= KHR_vulkan_glsl.specVersion
-				&& adaptationData.writerConfig.vulkanGlsl )
-			{
-				adaptationData.writerConfig.availableExtensions.insert( KHR_vulkan_glsl );
-				adaptationData.intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
-			}
 
 			for ( auto & extension : adaptationData.intrinsicsConfig.requiredExtensions )
 			{

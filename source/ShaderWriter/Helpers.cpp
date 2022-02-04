@@ -64,6 +64,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInOutRayPayloadVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtReturn.hpp>
+#include <ShaderAST/Stmt/StmtSampledImageDecl.hpp>
 #include <ShaderAST/Stmt/StmtSamplerDecl.hpp>
 #include <ShaderAST/Stmt/StmtTextureDecl.hpp>
 #include <ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp>

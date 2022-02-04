@@ -87,7 +87,7 @@ namespace spirv
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return cache.getSampledImage( config );
+			return cache.getSampledImage( config, qualified.getDepth() );
 		}
 
 		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & cache
@@ -187,6 +187,18 @@ namespace spirv
 			instructions.push_back( makeVariableInstruction( varTypeId
 				, varId
 				, initialiser ) );
+			return result;
+		}
+
+		size_t myHash( ast::type::ImageConfiguration const & config
+			, ast::type::Trinary isComparison )noexcept
+		{
+			size_t result = std::hash< ast::type::ImageDim >{}( config.dimension );
+			result = ast::type::hashCombine( result, config.format );
+			result = ast::type::hashCombine( result, config.isSampled );
+			result = ast::type::hashCombine( result, config.isArrayed );
+			result = ast::type::hashCombine( result, config.isMS );
+			result = ast::type::hashCombine( result, isComparison );
 			return result;
 		}
 	}
@@ -526,9 +538,10 @@ namespace spirv
 	}
 
 	ValueId Module::mergeSamplerImage( ValueId const & image
-		, ValueId const & sampler )
+		, ValueId const & sampler
+		, Block & currentBlock )
 	{
-		auto & imgType = static_cast< ast::type::Texture const & >( *getNonArrayType( image.type ) );
+		auto & imgType = static_cast< ast::type::Image const & >( *getNonArrayType( image.type ) );
 		auto & splType = static_cast< ast::type::Sampler const & >( *getNonArrayType( sampler.type ) );
 		auto lhsIt = m_registeredSamplerImages.emplace( image
 			, std::unordered_map< ValueId, ValueId, ValueIdHasher >{} ).first;
@@ -540,7 +553,7 @@ namespace spirv
 			auto typeId = registerType( image.type->getCache().getTexture( imgType.getConfig()
 				, splType.isComparison() ) );
 			it->second = { getNextId(), typeId.type };
-			m_currentFunction->cfg.blocks.back().instructions.push_back( makeInstruction< SampledImageInstruction >( typeId, it->second, image, sampler ) );
+			currentBlock.instructions.push_back( makeInstruction< SampledImageInstruction >( typeId, it->second, image, sampler ) );
 		}
 
 		return it->second;
@@ -1726,18 +1739,6 @@ namespace spirv
 		return result;
 	}
 
-	size_t myHash( ast::type::ImageConfiguration const & config
-		, ast::type::Trinary isComparison )noexcept
-	{
-		size_t result = std::hash< ast::type::ImageDim >{}( config.dimension );
-		result = ast::type::hashCombine( result, config.format );
-		result = ast::type::hashCombine( result, config.isSampled );
-		result = ast::type::hashCombine( result, config.isArrayed );
-		result = ast::type::hashCombine( result, config.isMS );
-		result = ast::type::hashCombine( result, isComparison );
-		return result;
-	}
-
 	ValueId Module::registerBaseType( ast::type::ImagePtr type
 		, ast::type::Trinary isComparison )
 	{
@@ -1770,7 +1771,7 @@ namespace spirv
 		, uint32_t mbrIndex
 		, ValueId parent )
 	{
-		return registerBaseType( type->getImageType(), ast::type::Trinary::eDontCare );
+		return registerBaseType( type->getImageType(), type->getDepth() );
 	}
 
 	ValueId Module::registerBaseType( ast::type::AccelerationStructurePtr type

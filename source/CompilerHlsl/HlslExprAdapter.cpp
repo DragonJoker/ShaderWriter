@@ -2518,6 +2518,10 @@ namespace hlsl
 
 		if ( result )
 		{
+			doPushSplImgArg( image, ast::findIdentifier( &image )->getVariable()
+				, sampler, ast::findIdentifier( &sampler )->getVariable()
+				, true, args );
+
 			auto coord = doSubmit( expr->getArgList()[index++].get() );
 
 			if ( !isShadow( kind ) )
@@ -2641,8 +2645,6 @@ namespace hlsl
 				{
 					args.emplace_back( doSubmit( &arg ) );
 				}
-
-				++index;
 			}
 
 			if ( isBiasAndOffset( expr->getSampledImageAccess() )

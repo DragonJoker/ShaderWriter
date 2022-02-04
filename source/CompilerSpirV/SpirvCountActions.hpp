@@ -19,6 +19,7 @@ namespace spirv
 		uint32_t uses{};
 		uint32_t usesThroughMember{};
 		uint32_t sets{};
+		ast::type::TypePtr realType;
 	};
 
 	struct EntityNameLess
