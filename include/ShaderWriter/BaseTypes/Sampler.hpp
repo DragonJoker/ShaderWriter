@@ -21,7 +21,8 @@ namespace sdw
 		inline Sampler & operator=( T const & rhs );
 		SDW_API operator uint32_t();
 
-		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache
+			, bool isComparison = false );
 	};
 }
 
