@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "GlslHelpers.hpp"
 #include "GlslTextureAccessConfig.hpp"
+#include "GlslSampledImageAccessConfig.hpp"
 
 namespace glsl
 {
@@ -335,6 +336,17 @@ namespace glsl
 	{
 		checkType( expr->getType(), m_config );
 		getGlslConfig( expr->getTextureAccess(), m_config );
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			doSubmit( arg.get() );
+		}
+	}
+
+	void ExprConfigFiller::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
+	{
+		checkType( expr->getType(), m_config );
+		getGlslConfig( expr->getSampledImageAccess(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{

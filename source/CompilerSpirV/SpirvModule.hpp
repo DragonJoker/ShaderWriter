@@ -144,6 +144,8 @@ namespace spirv
 			, InstructionList & instructions );
 		SDWSPIRV_API ValueId loadVariable( ValueId variable
 			, Block & currentBlock );
+		SDWSPIRV_API ValueId mergeSamplerImage( ValueId const & image
+			, ValueId const & sampler );
 		SDWSPIRV_API void bindVariable( ValueId varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );

@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 #include "GlslImageAccessNames.hpp"
 #include "GlslIntrinsicNames.hpp"
+#include "GlslSampledImageAccessNames.hpp"
 #include "GlslTextureAccessNames.hpp"
 
 #include <cmath>
@@ -478,6 +479,21 @@ namespace glsl
 	{
 		wrap( expr->getOuterExpr() );
 		m_result += "." + getName( expr->getSwizzle() );
+	}
+
+	void ExprVisitor::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
+	{
+		m_result += getGlslName( expr->getSampledImageAccess() ) + "(";
+		std::string sep;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			m_result += sep;
+			m_result += doSubmit( arg.get() );
+			sep = ", ";
+		}
+
+		m_result += ")";
 	}
 
 	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )

@@ -2886,6 +2886,40 @@ namespace spirv
 		return nullptr;
 	}
 
+	InstructionPtr makeSampledImageAccessInstruction( ValueId returnTypeId
+		, ValueId resultId
+		, spv::Op op
+		, ValueIdList const & operands )
+	{
+		switch ( op )
+		{
+		case spv::OpImageSampleImplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleDrefImplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleDrefImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleProjImplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleProjDrefImplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleExplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleDrefExplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleDrefExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleProjExplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageSampleProjDrefExplicitLod:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod > >( returnTypeId, resultId, operands );
+		case spv::OpImageGather:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageGather > >( returnTypeId, resultId, operands );
+		case spv::OpImageDrefGather:
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageDrefGather > >( returnTypeId, resultId, operands );
+		default:
+			AST_Failure( "Unexpected texture access Op" );
+		}
+
+		return nullptr;
+	}
+
 	InstructionPtr makeTextureAccessInstruction( ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op

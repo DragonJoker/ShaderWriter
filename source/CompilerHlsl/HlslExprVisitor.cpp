@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "HlslImageAccessNames.hpp"
 #include "HlslIntrinsicNames.hpp"
+#include "HlslSampledImageAccessNames.hpp"
 #include "HlslTextureAccessNames.hpp"
 
 #include <cmath>
@@ -527,6 +528,19 @@ namespace hlsl
 		m_result += "." + getName( expr->getSwizzle() );
 	}
 
+	void ExprVisitor::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
+	{
+		if ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGather2DF
+				&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleGatherOffsets2DRectU )
+		{
+			doProcessSampledImageGather( expr );
+		}
+		else
+		{
+			doProcessMemberSampledImage( expr );
+		}
+	}
+
 	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
 	{
 		if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureSize1DF
@@ -623,6 +637,83 @@ namespace hlsl
 		}
 
 		auto name = getHlslName( expr->getTextureAccess() );
+
+		switch ( compValue )
+		{
+		case 0:
+			name = "GatherRed";
+			break;
+		case 1:
+			name = "GatherGreen";
+			break;
+		case 2:
+			name = "GatherBlue";
+			break;
+		case 3:
+			name = "GatherAlpha";
+			break;
+		}
+
+		m_result += "." + name + "(";
+		// Sampler
+		m_result += doSubmit( expr->getArgList()[1].get() );
+		// Coord
+		m_result += ", ";
+		m_result += doSubmit( expr->getArgList()[3].get() );
+		auto index = 4u;
+
+		while ( index < expr->getArgList().size() )
+		{
+			auto & arg = expr->getArgList()[index];
+			m_result += ", ";
+			m_result += doSubmit( arg.get() );
+			++index;
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::doProcessMemberSampledImage( ast::expr::SampledImageAccessCall * expr )
+	{
+		m_result += doSubmit( expr->getArgList()[0].get() );
+		m_result += "." + getHlslName( expr->getSampledImageAccess() ) + "(";
+		m_result += doSubmit( expr->getArgList()[1].get() );
+
+		for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+		{
+			auto & arg = expr->getArgList()[i];
+			m_result += ", ";
+			m_result += doSubmit( arg.get() );
+		}
+
+		m_result += ")";
+	}
+
+	void ExprVisitor::doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr )
+	{
+		// Image
+		m_result += doSubmit( expr->getArgList()[0].get() );
+		uint32_t compValue = 0u;
+
+		// Component value will determine Gather function name.
+		auto component = expr->getArgList()[2].get();
+
+		if ( component->getKind() == ast::expr::Kind::eLiteral )
+		{
+			auto lit = static_cast< ast::expr::Literal const * >( component );
+
+			if ( lit->getLiteralType() == ast::expr::LiteralType::eInt )
+			{
+				compValue = uint32_t( lit->getValue< ast::expr::LiteralType::eInt >() );
+			}
+			else
+			{
+				assert( lit->getLiteralType() == ast::expr::LiteralType::eUInt );
+				compValue = lit->getValue< ast::expr::LiteralType::eUInt >();
+			}
+		}
+
+		auto name = getHlslName( expr->getSampledImageAccess() );
 
 		switch ( compValue )
 		{
