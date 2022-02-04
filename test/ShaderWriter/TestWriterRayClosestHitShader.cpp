@@ -515,7 +515,7 @@ namespace
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
 			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto textureSamplers = writer.declTextureArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
+			auto textureSamplers = writer.declCombinedArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
 				, HitAttributeT< Vec2 >{ writer }
@@ -549,7 +549,7 @@ namespace
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
-			auto textureSamplers = writer.declTextureArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
+			auto textureSamplers = writer.declCombinedArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
 
 			auto pcb = writer.declPushConstantsBuffer( "pcb" );
 			auto pcClearColor = pcb.declMember< Vec4 >( "pcClearColor" );
@@ -686,7 +686,7 @@ namespace
 			auto indices = writer.declArrayShaderStorageBuffer< Index >( "Indices", 2u, 1u );
 			auto materials = writer.declArrayShaderStorageBuffer< WaveFrontMaterialScalar >( "Materials", 3u, 1u );
 			auto matIndices = writer.declArrayShaderStorageBuffer< MatIndex >( "MatIndices", 4u, 1u );
-			auto textureSamplers = writer.declTextureArray< FImg2DRgba32 >( "textureSamplers", 5u, 1u, ast::type::UnknownArraySize );
+			auto textureSamplers = writer.declCombinedArray< FImg2DRgba32 >( "textureSamplers", 5u, 1u, ast::type::UnknownArraySize );
 
 			auto pcb = writer.declPushConstantsBuffer( "pcb" );
 			auto pcClearColor = pcb.declMember< Vec4 >( "pcClearColor" );
@@ -798,7 +798,7 @@ namespace
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
 			auto objDescs = writer.declArrayShaderStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
-			auto textureSamplers = writer.declTextureArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
+			auto textureSamplers = writer.declCombinedArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
 
 			auto pcb = writer.declPushConstantsBuffer( "pcb" );
 			auto pcClearColor = pcb.declMember< Vec4 >( "pcClearColor" );

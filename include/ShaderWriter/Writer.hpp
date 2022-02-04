@@ -330,12 +330,12 @@ namespace sdw
 			, bool ArrayedT
 			, bool MsT
 			, bool DepthT = false >
-		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > declTexture( std::string name
+		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > declCombined( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declTexture( std::string name
+		inline T declCombined( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -344,13 +344,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool MsT
 			, bool DepthT = false >
-		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > declTextureArray( std::string name
+		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declTextureArray( std::string name
+		inline Array< T > declCombinedArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension

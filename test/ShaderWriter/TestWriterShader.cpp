@@ -766,7 +766,7 @@ namespace
 				auto color = writer.declOutput<Vec4>( "color", 0 );
 
 				TextureType fontTexture =
-					writer.declTexture<TextureType>( "fontTexture", 0, 0 );
+					writer.declCombined<TextureType>( "fontTexture", 0, 0 );
 
 				writer.implementMain(
 					[&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -813,9 +813,10 @@ namespace
 		}
 		{
 			auto writer = sdw::FragmentWriter{};
-			auto base_color_sampler = writer.declTexture<FImg2DRgba32>( "base_color_sampler", 0, 2 );
+			auto base_color_sampler = writer.declCombined< FImg2DRgba32 >( "base_color_sampler", 0, 2 );
 
-			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor", [&]()
+			auto getEmissiveColor = writer.implementFunction< sdw::Vec4 >( "getEmissiveColor"
+				, [&]()
 				{
 					writer.returnStmt( sdw::vec4( 0._f, 0.f, 0.f, 0.f ) );
 				} );
@@ -897,13 +898,13 @@ namespace
 			material.declMember<sdw::Float>( "PAD0" );
 			material.end();
 
-			auto base_color_sampler = writer.declTexture<FImg2DRgba32>( "base_color_sampler", 0, 2 );
-			auto normal_sampler = writer.declTexture<FImg2DRgba32>( "normal_sampler", 1, 2 );
+			auto base_color_sampler = writer.declCombined<FImg2DRgba32>( "base_color_sampler", 0, 2 );
+			auto normal_sampler = writer.declCombined<FImg2DRgba32>( "normal_sampler", 1, 2 );
 			auto metallic_roughness_sampler =
-				writer.declTexture<FImg2DRgba32>( "metallic_roughness_sampler", 2, 2 );
+				writer.declCombined<FImg2DRgba32>( "metallic_roughness_sampler", 2, 2 );
 			auto ambiant_occlusion_sampler =
-				writer.declTexture<FImg2DRgba32>( "ambiant_occlusion_sampler", 3, 2 );
-			auto emissive_sampler = writer.declTexture<FImg2DRgba32>( "emissive_sampler", 4, 2 );
+				writer.declCombined<FImg2DRgba32>( "ambiant_occlusion_sampler", 3, 2 );
+			auto emissive_sampler = writer.declCombined<FImg2DRgba32>( "emissive_sampler", 4, 2 );
 
 			auto getEmissiveColor = writer.implementFunction<sdw::Vec4>( "getEmissiveColor"
 				, [&]( sdw::Vec2 const & texcoord )
@@ -1347,7 +1348,7 @@ namespace
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
 
-			auto c3d_mapNormal = writer.declTexture< FImg2DRgba32 >( "c3d_mapNormal", 1u, 0u );
+			auto c3d_mapNormal = writer.declCombined< FImg2DRgba32 >( "c3d_mapNormal", 1u, 0u );
 
 			auto getTessLevel = writer.implementFunction< Float >( "getTessLevel"
 				, [&]( Float const & a
