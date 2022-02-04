@@ -71,6 +71,7 @@ namespace ast
 		SDAST_API void visitQuestionExpr( expr::Question * expr )override;
 		SDAST_API void visitRShiftExpr( expr::RShift * expr )override;
 		SDAST_API void visitRShiftAssignExpr( expr::RShiftAssign * expr )override;
+		SDAST_API void visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )override;
 		SDAST_API void visitStreamAppendExpr( expr::StreamAppend * expr )override;
 		SDAST_API void visitSwitchCaseExpr( expr::SwitchCase * expr )override;
 		SDAST_API void visitSwitchTestExpr( expr::SwitchTest * expr )override;

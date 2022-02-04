@@ -525,6 +525,27 @@ namespace spirv
 			, currentBlock.instructions );
 	}
 
+	ValueId Module::mergeSamplerImage( ValueId const & image
+		, ValueId const & sampler )
+	{
+		auto & imgType = static_cast< ast::type::Texture const & >( *getNonArrayType( image.type ) );
+		auto & splType = static_cast< ast::type::Sampler const & >( *getNonArrayType( sampler.type ) );
+		auto lhsIt = m_registeredSamplerImages.emplace( image
+			, std::unordered_map< ValueId, ValueId, ValueIdHasher >{} ).first;
+		auto ires = lhsIt->second.emplace( sampler, ValueId{} );
+		auto it = ires.first;
+
+		if ( ires.second )
+		{
+			auto typeId = registerType( image.type->getCache().getTexture( imgType.getConfig()
+				, splType.isComparison() ) );
+			it->second = { getNextId(), typeId.type };
+			m_currentFunction->cfg.blocks.back().instructions.push_back( makeInstruction< SampledImageInstruction >( typeId, it->second, image, sampler ) );
+		}
+
+		return it->second;
+	}
+
 	void Module::bindVariable( ValueId varId
 		, uint32_t bindingPoint
 		, uint32_t descriptorSet )

@@ -206,6 +206,11 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::TextureAccessCall ?" );
 			}
 
+			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * )override
+			{
+				AST_Failure( "Unexpected ast::expr::SampledImageAccessCall ?" );
+			}
+
 		private:
 			ast::type::TypesCache & m_cache;
 			AccessChainExprArray & m_result;

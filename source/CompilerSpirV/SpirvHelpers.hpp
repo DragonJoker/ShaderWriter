@@ -449,6 +449,10 @@ namespace spirv
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands );
+	InstructionPtr makeSampledImageAccessInstruction( ValueId returnTypeId
+		, ValueId resultId
+		, spv::Op op
+		, ValueIdList const & operands );
 	InstructionPtr makeTextureAccessInstruction( ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op

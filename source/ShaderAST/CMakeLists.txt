@@ -62,11 +62,13 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 set( ${PROJECT_NAME}_FOLDER_ENUM_FILES
 	${INCLUDE_DIR}/Expr/ImageAccess.enum
 	${INCLUDE_DIR}/Expr/Intrinsic.enum
+	${INCLUDE_DIR}/Expr/SampledImageAccess.enum
 	${INCLUDE_DIR}/Expr/TextureAccess.enum
 )
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
 	${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
+	${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
 	${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
 	${INCLUDE_DIR}/Expr/Expr.hpp
 	${INCLUDE_DIR}/Expr/ExprAdd.hpp
@@ -119,6 +121,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprQuestion.hpp
 	${INCLUDE_DIR}/Expr/ExprRShift.hpp
 	${INCLUDE_DIR}/Expr/ExprRShiftAssign.hpp
+	${INCLUDE_DIR}/Expr/ExprSampledImageAccessCall.hpp
 	${INCLUDE_DIR}/Expr/ExprStreamAppend.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchCase.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchTest.hpp
@@ -133,10 +136,12 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprXorAssign.hpp
 	${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
+	${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp
 	${INCLUDE_DIR}/Expr/IntrinsicCallHelpers.hpp
 	${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 	${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
+	${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
 	${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
 	${INCLUDE_DIR}/Expr/SwizzleKind.hpp
 )
@@ -191,6 +196,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprQuestion.cpp
 	${SOURCE_DIR}/Expr/ExprRShift.cpp
 	${SOURCE_DIR}/Expr/ExprRShiftAssign.cpp
+	${SOURCE_DIR}/Expr/ExprSampledImageAccessCall.cpp
 	${SOURCE_DIR}/Expr/ExprStreamAppend.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchCase.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchTest.cpp

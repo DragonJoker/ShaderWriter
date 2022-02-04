@@ -54,10 +54,17 @@ namespace hlsl
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
+		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 
+		void doPushSplImgArg( ast::expr::Expr & imageArg
+			, ast::var::VariablePtr imageVar
+			, ast::expr::Expr & samplerArg
+			, ast::var::VariablePtr samplerVar
+			, bool writeSampler
+			, ast::expr::ExprList & args );
 		bool doProcessTextureArg( ast::expr::Expr & arg
 			, bool writeSampler
 			, ast::expr::ExprList & args );
@@ -84,6 +91,10 @@ namespace hlsl
 		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
 		void doProcessTextureGatherOffsets( ast::expr::TextureAccessCall * expr );
 		void doProcessTexture( ast::expr::TextureAccessCall * expr );
+		void doProcessSampledImageGradShadow( ast::expr::SampledImageAccessCall * expr );
+		void doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr );
+		void doProcessSampledImageGatherOffsets( ast::expr::SampledImageAccessCall * expr );
+		void doProcessSampledImage( ast::expr::SampledImageAccessCall * expr );
 
 		ast::var::VariablePtr doMakeAlias( ast::type::TypePtr type );
 
