@@ -1275,7 +1275,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		auto c3d_maps = writer.declTextureArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+		auto c3d_maps = writer.declCombinedArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
 			, [&]( Texture2DRgba32 const & sim
@@ -1332,7 +1332,7 @@ namespace
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 
-		auto c3d_maps = writer.declTextureArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+		auto c3d_maps = writer.declCombinedArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto st = St::declare( writer );
 

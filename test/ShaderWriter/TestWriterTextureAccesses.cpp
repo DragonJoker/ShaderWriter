@@ -67,7 +67,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -95,7 +95,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -145,7 +145,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -206,7 +206,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto j = writer.declLocale( "j"
@@ -262,7 +262,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -292,7 +292,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -349,7 +349,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -383,7 +383,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -437,7 +437,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -469,7 +469,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -522,7 +522,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -554,7 +554,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -612,7 +612,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -645,7 +645,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -702,7 +702,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -738,7 +738,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -795,7 +795,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -829,7 +829,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -886,7 +886,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -917,7 +917,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -972,7 +972,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1027,7 +1027,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1061,7 +1061,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1116,7 +1116,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1150,7 +1150,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1208,7 +1208,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1243,7 +1243,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1298,7 +1298,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1330,7 +1330,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1385,7 +1385,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1419,7 +1419,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1479,7 +1479,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1515,7 +1515,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1574,7 +1574,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1613,7 +1613,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1670,7 +1670,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1705,7 +1705,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1762,7 +1762,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1799,7 +1799,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1856,7 +1856,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1891,7 +1891,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1944,7 +1944,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -1979,7 +1979,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto d = writer.declLocale( "d"
@@ -2026,7 +2026,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto o = writer.declLocale< OffsetT >( "o" );
@@ -2062,7 +2062,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
 						auto o = writer.declLocale< OffsetT >( "o" );
@@ -2117,7 +2117,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -2154,7 +2154,7 @@ namespace
 			using namespace sdw;
 			{
 				FragmentWriter writer;
-				auto s = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+				auto s = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
 					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )

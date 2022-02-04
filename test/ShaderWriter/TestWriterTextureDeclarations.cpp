@@ -18,7 +18,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
-			auto value = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u );
+			auto value = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -34,7 +34,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
-			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
+			auto value = writer.declCombinedArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -50,7 +50,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, false );
+			auto value = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -64,7 +64,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, 6u, false );
+			auto value = writer.declCombinedArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -78,7 +78,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
-			auto value = writer.declTexture< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u, true );
+			auto value = writer.declCombined< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -95,7 +95,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
-			auto value = writer.declTextureArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u, true );
+			auto value = writer.declCombinedArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Texture > );
 			check( getArraySize( value.getType() ) == 6u );
