@@ -16,63 +16,12 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	namespace
-	{
-		void checkSupport( ast::ShaderStage stage
-			, IntrinsicsConfig const & intrinsicsConfig
-			, HlslConfig const & writerConfig )
-		{
-			if ( isRayTraceStage( stage ) && writerConfig.shaderModel < hlsl::v6_3 )
-			{
-				throw std::runtime_error{ "Unsupported Ray Tracing stage for this shader model" };
-			}
-
-			if ( isMeshStage( stage ) && writerConfig.shaderModel < hlsl::v6_5 )
-			{
-				throw std::runtime_error{ "Unsupported Mesh/Amplification stage for this shader model" };
-			}
-
-			if ( writerConfig.shaderModel < hlsl::v5_0
-				&& ( stage == ast::ShaderStage::eTessellationControl
-					|| stage == ast::ShaderStage::eTessellationEvaluation ) )
-			{
-				throw std::runtime_error{ "Unsupported Tessellation stage for this shader model" };
-			}
-
-			if ( intrinsicsConfig.requiresDouble && writerConfig.shaderModel <= hlsl::v4_1 )
-			{
-				throw std::runtime_error{ "Unsupported double type for this shader model" };
-			}
-
-			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )
-			{
-				throw std::runtime_error{ "Unsupported UAV for this shader model" };
-			}
-
-			if ( intrinsicsConfig.requiresShadowOnTiled && writerConfig.shaderModel < hlsl::v5_0 )
-			{
-				throw std::runtime_error{ "Unsupported sample shadow for tiled resource, for this shader model" };
-			}
-
-			if ( intrinsicsConfig.requiresGather && writerConfig.shaderModel < hlsl::v5_0 )
-			{
-				throw std::runtime_error{ "Unsupported gather, for this shader model" };
-			}
-
-			if ( intrinsicsConfig.requiresSampledIndex && writerConfig.shaderModel < hlsl::v4_1 )
-			{
-				throw std::runtime_error{ "Unsupported SV_SampleIndex for this shader model" };
-			}
-		}
-	}
-
 	ast::stmt::ContainerPtr StmtAdapter::submit( HlslShader & shader
 		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData )
 	{
-		checkSupport( shader.getType(), intrinsicsConfig, writerConfig );
 		auto result = ast::stmt::makeContainer();
 		StmtAdapter vis{ shader, intrinsicsConfig, writerConfig, adaptationData, result };
 		container->accept( &vis );

@@ -230,7 +230,7 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterTextureDeclarations )
+sdwTestSuiteMain( TestWriterSampledImageDeclarations )
 {
 	sdwTestSuiteBegin();
 	testSampledFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
@@ -260,4 +260,4 @@ sdwTestSuiteMain( TestWriterTextureDeclarations )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterTextureDeclarations )
+sdwTestSuiteLaunch( TestWriterSampledImageDeclarations )

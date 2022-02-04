@@ -717,6 +717,11 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
+		SDW_API var::VariablePtr registerSampledImage( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
 		SDW_API var::VariablePtr registerTexture( std::string name
 			, type::TypePtr type
 			, uint32_t binding

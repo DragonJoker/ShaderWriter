@@ -345,6 +345,8 @@ namespace glsl
 
 	void ExprConfigFiller::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
 	{
+		m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+		m_config.requiresSeparateSamplers = true;
 		checkType( expr->getType(), m_config );
 		getGlslConfig( expr->getSampledImageAccess(), m_config );
 

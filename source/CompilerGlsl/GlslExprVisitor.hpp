@@ -11,6 +11,15 @@ See LICENSE file in root folder
 
 namespace glsl
 {
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config );
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config
+		, bool isComparison );
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config
+		, ast::type::Trinary comparison );
+
 	class ExprVisitor
 		: public ast::expr::SimpleVisitor
 	{

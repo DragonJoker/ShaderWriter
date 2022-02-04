@@ -229,12 +229,15 @@ namespace glsl
 
 	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
+		m_result.requiredExtensions.insert( KHR_vulkan_glsl );
+		m_result.requiresSeparateSamplers = true;
 		auto image = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 		doParseImageConfig( image->getConfig() );
 	}
 
 	void StmtConfigFiller::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
+		m_result.requiredExtensions.insert( KHR_vulkan_glsl );
 		m_result.requiresSeparateSamplers = true;
 	}
 

@@ -16,6 +16,10 @@ namespace ast::expr
 		, m_sampledImageAccess{ sampledImageAccess }
 		, m_argList{ std::move( argList ) }
 	{
+		auto it = m_argList.begin();
+		auto imageType = std::static_pointer_cast< ast::type::SampledImage >( ( *it++ )->getType() );
+		auto samplerType = std::static_pointer_cast< ast::type::Sampler >( ( *it )->getType() );
+		imageType->m_depth = samplerType->isComparison() ? type::Trinary::eTrue : type::Trinary::eFalse;
 	}
 
 	void SampledImageAccessCall::accept( VisitorPtr vis )
