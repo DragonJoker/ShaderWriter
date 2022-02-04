@@ -295,6 +295,10 @@ namespace hlsl
 		}
 	}
 
+	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
 	}

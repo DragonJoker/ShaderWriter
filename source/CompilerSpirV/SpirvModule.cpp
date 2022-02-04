@@ -77,7 +77,17 @@ namespace spirv
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return cache.getTexture( config );
+			return cache.getTexture( config, qualified.isComparison() );
+		}
+
+		ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & cache
+			, ast::type::SampledImage const & qualified )
+		{
+			auto config = qualified.getConfig();
+			// Ignore access kind, since it's not handled in non Kernel programs.
+			// Prevents generating duplicate types in SPIRV programs.
+			config.accessKind = ast::type::AccessKind::eReadWrite;
+			return cache.getSampledImage( config );
 		}
 
 		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & cache
@@ -112,6 +122,10 @@ namespace spirv
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Texture const & >( qualified ) );
 			}
+			else if ( qualified.getRawKind() == ast::type::Kind::eSampledImage )
+			{
+				result = getUnqualifiedType( cache, static_cast< ast::type::SampledImage const & >( qualified ) );
+			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eSampler )
 			{
 				result = getUnqualifiedType( cache, static_cast< ast::type::Sampler const & >( qualified ) );
@@ -142,7 +156,8 @@ namespace spirv
 
 			if ( kind != ast::type::Kind::eImage
 				&& kind != ast::type::Kind::eTexture
-				&& kind != ast::type::Kind::eSampler )
+				&& kind != ast::type::Kind::eSampler
+				&& kind != ast::type::Kind::eSampledImage )
 			{
 				if ( !arrayStride )
 				{
@@ -264,6 +279,13 @@ namespace spirv
 			, ast::type::NotMember
 			, ValueId{}
 			, 0u );
+	}
+
+	ValueId Module::registerImageType( ast::type::ImagePtr image
+		, bool isComparison )
+	{
+		return registerBaseType( image
+			, isComparison ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
 	}
 
 	ValueId Module::registerPointerType( ValueId type
@@ -1628,6 +1650,7 @@ namespace spirv
 		assert( kind != ast::type::Kind::eRayDesc );
 		assert( kind != ast::type::Kind::eSampler );
 		assert( kind != ast::type::Kind::eImage );
+		assert( kind != ast::type::Kind::eSampledImage );
 		assert( kind != ast::type::Kind::eTexture );
 
 		auto type = m_cache->getBasicType( kind );
@@ -1674,25 +1697,59 @@ namespace spirv
 		, uint32_t mbrIndex
 		, ValueId parentId )
 	{
-		auto imgTypeId = registerType( type->getImageType() );
+		auto imgTypeId = registerBaseType( type->getImageType()
+			, type->isComparison() ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
 		ValueId result{ getNextId(), type };
 		globalDeclarations.push_back( makeInstruction< TextureTypeInstruction >( result
 			, imgTypeId ) );
 		return result;
 	}
 
+	size_t myHash( ast::type::ImageConfiguration const & config
+		, ast::type::Trinary isComparison )noexcept
+	{
+		size_t result = std::hash< ast::type::ImageDim >{}( config.dimension );
+		result = ast::type::hashCombine( result, config.format );
+		result = ast::type::hashCombine( result, config.isSampled );
+		result = ast::type::hashCombine( result, config.isArrayed );
+		result = ast::type::hashCombine( result, config.isMS );
+		result = ast::type::hashCombine( result, isComparison );
+		return result;
+	}
+
+	ValueId Module::registerBaseType( ast::type::ImagePtr type
+		, ast::type::Trinary isComparison )
+	{
+		auto ires = m_registeredImageTypes.emplace( myHash( type->getConfig(), isComparison ), ValueId{} );
+		auto it = ires.first;
+
+		if ( ires.second )
+		{
+			// The Sampled Type.
+			auto sampledTypeId = registerType( m_cache->getBasicType( type->getConfig().sampledType ) );
+			// The Image Type.
+			it->second = { getNextId(), type };
+			globalDeclarations.push_back( makeImageTypeInstruction( type->getConfig()
+				, isComparison
+				, it->second
+				, sampledTypeId ) );
+		}
+
+		return it->second;
+	}
+
 	ValueId Module::registerBaseType( ast::type::ImagePtr type
 		, uint32_t mbrIndex
 		, ValueId parent )
 	{
-		// The Sampled Type.
-		auto sampledTypeId = registerType( m_cache->getBasicType( type->getConfig().sampledType ) );
-		// The Image Type.
-		ValueId result{ getNextId(), type };
-		globalDeclarations.push_back( makeImageTypeInstruction( type->getConfig()
-			, result
-			, sampledTypeId ) );
-		return result;
+		return registerBaseType( type, ast::type::Trinary::eFalse );
+	}
+
+	ValueId Module::registerBaseType( ast::type::SampledImagePtr type
+		, uint32_t mbrIndex
+		, ValueId parent )
+	{
+		return registerBaseType( type->getImageType(), ast::type::Trinary::eDontCare );
 	}
 
 	ValueId Module::registerBaseType( ast::type::AccelerationStructurePtr type
@@ -1802,6 +1859,12 @@ namespace spirv
 		else if ( kind == ast::type::Kind::eImage )
 		{
 			result = registerBaseType( std::static_pointer_cast< ast::type::Image >( type )
+				, mbrIndex
+				, parentId );
+		}
+		else if ( kind == ast::type::Kind::eSampledImage )
+		{
+			result = registerBaseType( std::static_pointer_cast< ast::type::SampledImage >( type )
 				, mbrIndex
 				, parentId );
 		}

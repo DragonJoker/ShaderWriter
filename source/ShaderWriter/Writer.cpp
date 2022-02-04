@@ -379,30 +379,6 @@ namespace sdw
 			, enabled };
 	}
 
-	Sampler ShaderWriter::declSampler( std::string name
-		, uint32_t binding
-		, uint32_t set
-		, bool isComparison
-		, bool enabled )
-	{
-		auto type = Sampler::makeType( getTypesCache(), isComparison );
-		auto var = registerSampler( std::move( name )
-			, type
-			, binding
-			, set );
-
-		if ( enabled )
-		{
-			addStmt( sdw::makeSamplerDecl( var
-				, binding
-				, set ) );
-		}
-
-		return Sampler{ *this
-			, makeExpr( *this, var )
-			, enabled };
-	}
-
 	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string name
 		, uint32_t binding
 		, uint32_t set

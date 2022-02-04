@@ -4,6 +4,9 @@
 #include <ShaderAST/Debug/DebugExprVisitor.hpp>
 #include <ShaderAST/Debug/DebugStmtVisitor.hpp>
 
+#pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma warning( disable:5245 )
+
 namespace
 {
 	void testSimple( test::TestCounts & testCounts )
@@ -331,13 +334,29 @@ namespace
 		testEnd();
 	}
 
+	void testSampledImageDecl( test::TestCounts & testCounts )
+	{
+		testBegin( "testSampledImageDecl" );
+		ast::type::TypesCache cache;
+		ast::type::ImageConfiguration config{};
+		auto stmt = ast::stmt::makeSampledImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getSampledImage( config ), "lhs" ), 1u, 2u );
+		testCounts << "StmtSampledImageDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
+		check( stmt->getBindingPoint() == 1u );
+		check( stmt->getDescriptorSet() == 2u );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eSampledImage );
+		check( stmt->getVariable()->getName() == "lhs" );
+		testEnd();
+	}
+
 	void testTextureDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testTextureDecl" );
 		ast::type::TypesCache cache;
 		ast::type::ImageConfiguration config{};
-		auto stmt = ast::stmt::makeTextureDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getTexture( config ), "lhs" ), 1u, 2u );
-		testCounts << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+		auto stmt = ast::stmt::makeTextureDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getTexture( config, true ), "lhs" ), 1u, 2u );
+		testCounts << "StmtTextureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eTextureDecl );
 		check( stmt->getBindingPoint() == 1u );
@@ -1101,6 +1120,7 @@ testSuiteMain( TestASTStatements )
 	testShaderBufferDecl( testCounts );
 	testShaderStructBufferDecl( testCounts );
 	testSamplerDecl( testCounts );
+	testSampledImageDecl( testCounts );
 	testImageDecl( testCounts );
 	testTextureDecl( testCounts );
 	testFunctionDecl( testCounts );

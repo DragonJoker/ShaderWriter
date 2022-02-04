@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Stmt/StmtInOutVariableDecl.hpp"
 #include "ShaderAST/Type/TypeArray.hpp"
 #include "ShaderAST/Type/TypeImage.hpp"
+#include "ShaderAST/Type/TypeSampledImage.hpp"
 #include "ShaderAST/Type/TypeTexture.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
 #include "ShaderAST/Var/Variable.hpp"
@@ -98,7 +99,6 @@ namespace ast::debug
 			std::string result;
 			result += getName( config.dimension );
 			result += "," + debug::getName( config.format );
-			result += join( ",", getName( config.isDepth, "Depth", empty, empty ) );
 			result += join( ",", getName( config.isSampled, "Sampled", empty, empty ) );
 			result += join( ",", getName( config.isArrayed, "Array", empty ) );
 			result += join( ",", getName( config.isMS, "MS", empty ) );
@@ -315,6 +315,9 @@ namespace ast::debug
 			result = "SAMPLER";
 			break;
 		case type::Kind::eTexture:
+			result = "COMBSPLIMG";
+			break;
+		case type::Kind::eSampledImage:
 			result = "SAMPLEDIMG";
 			break;
 		case type::Kind::eArray:
@@ -448,28 +451,31 @@ namespace ast::debug
 	std::string getName( ast::type::ImageFormat format
 		, ast::type::ImageDim dim
 		, bool arrayed
-		, bool depth
 		, bool ms )
 	{
 		return getName( dim )
 			+ getName( format )
 			+ getName( arrayed, "Array", "" )
-			+ getName( depth, "Shadow", "" )
 			+ getName( ms, "MS", "" );
+	}
+
+	std::string getName( ast::type::ImageFormat format
+		, ast::type::ImageDim dim
+		, bool arrayed
+		, bool ms
+		, bool depth )
+	{
+		return getName( format, dim, arrayed, ms )
+			+ getName( depth, "Shadow", "" );
 	}
 
 	std::string getName( ast::type::ImageFormat format
 		, ast::type::AccessKind access
 		, ast::type::ImageDim dim
 		, bool arrayed
-		, bool depth
 		, bool ms )
 	{
-		return getName( dim )
-			+ getName( format )
-			+ getName( arrayed, "Array", "" )
-			+ getName( depth, "Shadow", "" )
-			+ getName( ms, "MS", "" )
+		return getName( format, dim, arrayed, ms )
 			+ getName( access );
 	}
 
@@ -521,6 +527,11 @@ namespace ast::debug
 		case type::Kind::eTexture:
 			result = getName( getNonArrayKind( type ) );
 			result += "(" + getName( static_cast< type::Texture const & >( type ).getConfig() );
+			result += ")";
+			break;
+		case type::Kind::eSampledImage:
+			result = getName( getNonArrayKind( type ) );
+			result += "(" + getName( static_cast< type::SampledImage const & >( type ).getConfig() );
 			result += ")";
 			break;
 		case type::Kind::eFragmentInput:

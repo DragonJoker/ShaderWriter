@@ -10,17 +10,16 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	void testImage( test::sdw_test::TestCounts & testCounts )
 	{
 		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Image > )
-			+ sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, DepthT, MsT );
+			+ sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
-			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u );
+			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -37,7 +36,7 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
-			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u );
+			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -54,7 +53,7 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, false );
+			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -69,7 +68,7 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( "value", 1u, 1u, 6u, false );
+			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -84,7 +83,7 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
-			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( name, 1u, 1u, true );
+			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -102,7 +101,7 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
-			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >( name, 2u, 2u, 6u, true );
+			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
 			check( getArraySize( value.getType() ) == 6u );

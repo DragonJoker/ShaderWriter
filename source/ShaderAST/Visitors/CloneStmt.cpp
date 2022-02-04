@@ -293,6 +293,13 @@ namespace ast
 		}
 	}
 
+	void StmtCloner::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
+	{
+		m_current->addStmt( stmt::makeSampledImageDecl( stmt->getVariable()
+			, stmt->getBindingPoint()
+			, stmt->getDescriptorSet() ) );
+	}
+
 	void StmtCloner::visitTextureDeclStmt( stmt::TextureDecl * stmt )
 	{
 		m_current->addStmt( stmt::makeTextureDecl( stmt->getVariable()

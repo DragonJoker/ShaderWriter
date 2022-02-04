@@ -863,6 +863,15 @@ namespace sdw
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
+		return stmt::makeSampledImageDecl( std::move( var )
+			, bindingPoint
+			, bindingSet );
+	}
+
+	stmt::StmtPtr makeTextureDecl( var::VariablePtr var
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
 		return stmt::makeTextureDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );

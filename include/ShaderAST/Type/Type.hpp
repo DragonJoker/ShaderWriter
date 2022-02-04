@@ -67,6 +67,7 @@ namespace ast::type
 		eSampler,
 		eImage,
 		eTexture,
+		eSampledImage,
 		eAccelerationStructure,// Submitted to extension enabling
 		eRayPayload,// Submitted to extension enabling
 		eCallableData,// Submitted to extension enabling
@@ -202,6 +203,7 @@ namespace ast::type
 	SDAST_API bool isStructType( Kind kind );
 	SDAST_API bool isPointerType( Kind kind );
 	SDAST_API bool isSamplerType( Kind kind );
+	SDAST_API bool isSampledImageType( Kind kind );
 	SDAST_API bool isImageType( Kind kind );
 	SDAST_API bool isTextureType( Kind kind );
 	SDAST_API bool isAccelerationStructureType( Kind kind );

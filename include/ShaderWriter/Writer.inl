@@ -271,6 +271,49 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region Sampler declaration
+	/**
+	*name
+	*	Sampler declaration.
+	*/
+	/**@{*/
+	template< bool ComparisonT >
+	inline SamplerT< ComparisonT > ShaderWriter::declSampler( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		auto type = SamplerT< ComparisonT >::makeType( getTypesCache() );
+		auto var = registerSampler( std::move( name )
+			, type
+			, binding
+			, set );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSamplerDecl( var
+				, binding
+				, set ) );
+		}
+
+		return SamplerT< ComparisonT >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declSampler( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return declTexture < T::Comparison >( std::move( name )
+			, binding
+			, set
+			, enabled );
+	}
+	/**@}*/
+#pragma endregion
 #pragma region Sampled Image declaration
 	/**
 	*name
@@ -280,14 +323,13 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
-		inline TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declTexture( std::string name
+		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > ShaderWriter::declSampled( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		using T = TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = SampledImageT< FormatT, DimT, ArrayedT, MsT >;
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerTexture( std::move( name )
 			, type
@@ -298,6 +340,106 @@ namespace sdw
 		if ( enabled )
 		{
 			addStmt( sdw::makeSampledImgDecl( var
+				, binding
+				, set ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declSampled( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		return declTexture < T::Format
+			, T::Dim
+			, T::Arrayed
+			, T::Ms >( std::move( name )
+				, binding
+				, set
+				, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledArray( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled )
+	{
+		using T = SampledImageT< FormatT, DimT, ArrayedT, MsT >;
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerTexture( std::move( name )
+			, type
+			, binding
+			, set
+			, enabled );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSampledImgDecl( var
+				, binding
+				, set ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declSampledArray( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declTextureArray < T::Format
+			, T::Dim
+			, T::Arrayed
+			, T::Ms >( std::move( name )
+				, binding
+				, set
+				, dimension
+				, enabled );
+	}
+	/**@}*/
+#pragma endregion
+#pragma region Combined Sampler and Image declaration
+	/**
+	*name
+	*	Combined Sampler and Image declaration.
+	*/
+	/**@{*/
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declTexture( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled )
+	{
+		using T = TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >;
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerTexture( std::move( name )
+			, type
+			, binding
+			, set
+			, enabled );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeTextureDecl( var
 				, binding
 				, set ) );
 		}
@@ -326,15 +468,15 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
-		, bool MsT >
-		inline Array< TextureT< FormatT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declTextureArray( std::string name
+		, bool MsT
+		, bool DepthT >
+		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declTextureArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		using T = TextureT< FormatT, DimT, ArrayedT, DepthT, MsT >;
+		using T = TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerTexture( std::move( name )
@@ -345,7 +487,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSampledImgDecl( var
+			addStmt( sdw::makeTextureDecl( var
 				, binding
 				, set ) );
 		}
@@ -384,14 +526,13 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
-		inline ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > ShaderWriter::declImage( std::string name
+		inline ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > ShaderWriter::declImage( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( std::move( name )
 			, type
@@ -432,15 +573,14 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
-		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT > > ShaderWriter::declImageArray( std::string name
+		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declImageArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, DepthT, MsT >;
+		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerImage( std::move( name )

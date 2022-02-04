@@ -401,6 +401,7 @@ namespace spirv
 	using ImageTexelPointerInstruction = VariadicInstructionT< spv::OpImageTexelPointer, true, true >;
 	using ImageInstruction = InstructionT< spv::OpImage, true, true, 1u, false, false >;
 	using ImageStoreInstruction = VariadicInstructionT< spv::OpImageWrite, false, false >;
+	using SampledImageInstruction = InstructionT< spv::OpSampledImage, true, true, 2u, false, false >;
 	using ExtInstInstruction = VariadicInstructionT< spv::OpExtInst, true, true >;
 	using FunctionParameterInstruction = InstructionT< spv::OpFunctionParameter, true, true, 0u, false, false >;
 	using LabelInstruction = InstructionT< spv::OpLabel, false, true, 0u, false, false >;

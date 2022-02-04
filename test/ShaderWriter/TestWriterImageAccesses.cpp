@@ -17,18 +17,17 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageSizeTester
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageSize" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+			auto name = "testImageSize" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
 				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 				writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 					{
 						auto j = writer.declLocale( "j"
@@ -59,7 +58,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageSamplesTester
 	{
@@ -67,12 +65,12 @@ namespace
 		{
 			if constexpr ( MsT )
 			{
-				auto name = "testImageSamples" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageSamples" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							auto j = writer.declLocale( "j"
@@ -104,7 +102,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageLoadTester
 	{
@@ -114,12 +111,12 @@ namespace
 		{
 			if constexpr ( sdw::isReadableV< AccessT > )
 			{
-				auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -160,7 +157,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageStoreTester
 	{
@@ -171,12 +167,12 @@ namespace
 		{
 			if constexpr ( sdw::isWritableV< AccessT > )
 			{
-				auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -217,7 +213,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicAddTester
 	{
@@ -230,12 +225,12 @@ namespace
 				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -298,7 +293,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicMinTester
 	{
@@ -310,12 +304,12 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -373,7 +367,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicMaxTester
 	{
@@ -385,12 +378,12 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -448,7 +441,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicAndTester
 	{
@@ -460,12 +452,12 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -523,7 +515,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicOrTester
 	{
@@ -535,12 +526,12 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -598,7 +589,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicXorTester
 	{
@@ -610,12 +600,12 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -673,7 +663,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicExchangeTester
 	{
@@ -686,12 +675,12 @@ namespace
 				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -754,7 +743,6 @@ namespace
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool DepthT
 		, bool MsT >
 	struct ImageAtomicCompSwapTester
 	{
@@ -766,12 +754,12 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, false, MsT );
+				auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, false, MsT >( "s", 0u, 0u );
+					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -829,7 +817,7 @@ namespace
 
 	template< ast::type::AccessKind AccessT
 		, ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImageFormats( test::sdw_test::TestCounts & testCounts )
 	{
 		if constexpr ( isFloatFormat( FormatT ) )
@@ -842,17 +830,6 @@ namespace
 			TesterT< FormatT, AccessT, Img1DArray >::test( testCounts );
 			TesterT< FormatT, AccessT, Img2DArray >::test( testCounts );
 			TesterT< FormatT, AccessT, ImgCubeArray >::test( testCounts );
-
-			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
-				|| FormatT == ast::type::ImageFormat::eR16f )
-			{
-				TesterT< FormatT, AccessT, Img1DShadow >::test( testCounts );
-				TesterT< FormatT, AccessT, Img2DShadow >::test( testCounts );
-				TesterT< FormatT, AccessT, ImgCubeShadow >::test( testCounts );
-				TesterT< FormatT, AccessT, Img1DArrayShadow >::test( testCounts );
-				TesterT< FormatT, AccessT, Img2DArrayShadow >::test( testCounts );
-				TesterT< FormatT, AccessT, ImgCubeArrayShadow >::test( testCounts );
-			}
 		}
 		else if constexpr ( isSIntFormat( FormatT ) )
 		{
@@ -878,7 +855,7 @@ namespace
 		}
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImage( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
@@ -955,7 +932,7 @@ namespace
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR8u, TesterT >( testCounts );
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool, bool > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32f, TesterT >( testCounts );

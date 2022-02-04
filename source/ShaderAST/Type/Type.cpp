@@ -310,6 +310,11 @@ namespace ast::type
 		return kind == Kind::eSampler;
 	}
 
+	bool isSampledImageType( Kind kind )
+	{
+		return kind == Kind::eSampledImage;
+	}
+
 	bool isImageType( Kind kind )
 	{
 		return kind == Kind::eImage;

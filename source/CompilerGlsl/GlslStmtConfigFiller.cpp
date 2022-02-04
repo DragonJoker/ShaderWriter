@@ -227,6 +227,12 @@ namespace glsl
 		doParseImageConfig( image->getConfig() );
 	}
 
+	void StmtConfigFiller::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		auto image = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+		doParseImageConfig( image->getConfig() );
+	}
+
 	void StmtConfigFiller::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
 		m_result.requiresSeparateSamplers = true;

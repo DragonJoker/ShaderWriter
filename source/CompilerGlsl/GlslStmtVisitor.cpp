@@ -81,9 +81,9 @@ namespace glsl
 				: std::string{};
 		}
 
-		std::string getShadow( ast::type::Trinary value )
+		std::string getShadow( bool isComparison )
 		{
-			return value == ast::type::Trinary::eTrue
+			return isComparison
 				? "Shadow"
 				: std::string{};
 		}
@@ -91,9 +91,9 @@ namespace glsl
 		std::string getType( ast::type::Kind kind
 			, ast::type::ImageConfiguration const & config )
 		{
-			return ( kind == ast::type::Kind::eTexture )
-				? "sampler"
-				: "image";
+			return ( kind == ast::type::Kind::eImage )
+				? "image"
+				: "sampler";
 		}
 
 		std::string getQualifiedName( ast::type::Kind kind
@@ -103,8 +103,15 @@ namespace glsl
 				+ getType( kind, config )
 				+ getDimension( config.dimension )
 				+ getMS( config.isMS )
-				+ getArray( config.isArrayed )
-				+ getShadow( config.isDepth );
+				+ getArray( config.isArrayed );
+		}
+
+		std::string getQualifiedName( ast::type::Kind kind
+			, ast::type::ImageConfiguration const & config
+			, bool isComparison )
+		{
+			return getQualifiedName( kind, config )
+				+ getShadow( isComparison );
 		}
 
 		std::string getFormatName( ast::type::ImageFormat format )
@@ -914,6 +921,37 @@ namespace glsl
 		}
 	}
 
+	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
+	{
+		doAppendLineEnd();
+		auto type = stmt->getVariable()->getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+		}
+
+		m_result += m_indent;
+
+		if ( hasExtension( m_writerConfig, ARB_shading_language_420pack )
+			|| m_writerConfig.wantedVersion >= v4_2 )
+		{
+			m_result += "layout(";
+
+			doWriteBinding( stmt->getBindingPoint()
+				, stmt->getDescriptorSet()
+				, "" );
+
+			m_result += ") ";
+		}
+
+		assert( type->getKind() == ast::type::Kind::eSampledImage );
+		auto sampledImage = std::static_pointer_cast< ast::type::SampledImage >( type );
+		m_result += "uniform " + getQualifiedName( ast::type::Kind::eSampledImage, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
+		m_result += getTypeArraySize( stmt->getVariable()->getType() );
+		m_result += ";\n";
+	}
+
 	void StmtVisitor::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
 	{
 		doAppendLineEnd();
@@ -940,7 +978,7 @@ namespace glsl
 
 		assert( type->getKind() == ast::type::Kind::eTexture );
 		auto sampledImage = std::static_pointer_cast< ast::type::Texture >( type );
-		m_result += "uniform " + getQualifiedName( ast::type::Kind::eTexture, sampledImage->getConfig() ) + " " + stmt->getVariable()->getName();
+		m_result += "uniform " + getQualifiedName( ast::type::Kind::eTexture, sampledImage->getConfig(), sampledImage->isComparison() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
