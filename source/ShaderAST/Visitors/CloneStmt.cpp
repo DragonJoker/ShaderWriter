@@ -300,9 +300,9 @@ namespace ast
 			, stmt->getDescriptorSet() ) );
 	}
 
-	void StmtCloner::visitTextureDeclStmt( stmt::TextureDecl * stmt )
+	void StmtCloner::visitCombinedImageDeclStmt( stmt::CombinedImageDecl * stmt )
 	{
-		m_current->addStmt( stmt::makeTextureDecl( stmt->getVariable()
+		m_current->addStmt( stmt::makeCombinedImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}

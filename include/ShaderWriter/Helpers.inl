@@ -19,11 +19,11 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		struct ConfigMaker< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >
+		struct ConfigMaker< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >
 		{
 			static ast::type::ImageConfiguration get()
 			{
-				return ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::makeConfig();
+				return StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::makeConfig();
 			}
 		};
 	}
@@ -90,8 +90,8 @@ namespace sdw
 			return cache.getImage( makeConfig< ValueT >() );
 		case ast::type::Kind::eSampledImage:
 			return cache.getSampledImage( makeConfig< ValueT >() );
-		case ast::type::Kind::eTexture:
-			return cache.getTexture( makeConfig< ValueT >(), false );
+		case ast::type::Kind::eCombinedImage:
+			return cache.getCombinedImage( makeConfig< ValueT >(), false );
 		default:
 			return cache.getBasicType( kind );
 		}

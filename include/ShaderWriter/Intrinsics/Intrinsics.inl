@@ -360,4 +360,18 @@ namespace sdw
 			, makeExpr( value )
 			, value.isEnabled() };
 	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+	inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > combine( SampledImageT< FormatT, DimT, ArrayedT, MsT > const & image
+		, SamplerT< DepthT > const & sampler )
+	{
+		auto & writer = findWriterMandat( image, sampler );
+		return getCombineCall< FormatT, DimT, ArrayedT, MsT, DepthT >( writer
+			, image
+			, sampler );
+	}
 }

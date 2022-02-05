@@ -17,6 +17,8 @@ namespace ast::expr
 		SDAST_API CompositeConstruct( CompositeType composite
 			, type::Kind component
 			, ExprList && argList );
+		SDAST_API CompositeConstruct( ExprPtr image
+			, ExprPtr sampler );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -46,6 +48,11 @@ namespace ast::expr
 	type::TypePtr getCompositeType( type::TypesCache & cache
 		, CompositeType composite
 		, type::Kind component );
+	type::TypePtr getCompositeType( type::TypesCache & cache
+		, type::ImageConfiguration config
+		, bool isComparison );
+	type::TypePtr getCombinedType( type::TypePtr image
+		, type::TypePtr sampler );
 
 	inline CompositeConstructPtr makeCompositeConstruct( CompositeType composite
 		, type::Kind component
@@ -54,6 +61,13 @@ namespace ast::expr
 		return std::make_unique< CompositeConstruct >( composite
 			, component
 			, std::move( argList ) );
+	}
+
+	inline CompositeConstructPtr makeCompositeConstruct( ExprPtr image
+		, ExprPtr sampler )
+	{
+		return std::make_unique< CompositeConstruct >( std::move( image )
+			, std::move( sampler ) );
 	}
 }
 

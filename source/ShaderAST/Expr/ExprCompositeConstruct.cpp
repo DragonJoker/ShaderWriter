@@ -34,15 +34,12 @@ namespace ast::expr
 	CompositeConstruct::CompositeConstruct( CompositeType composite
 		, type::Kind component
 		, ExprList && argList )
-		: Expr
-		{
-			getExprTypesCache( argList ),
-			getCompositeType( getExprTypesCache( argList ), composite, component ),
-			Kind::eCompositeConstruct,
-			( isExprConstant( argList )
+		: Expr{ getExprTypesCache( argList )
+			, getCompositeType( getExprTypesCache( argList ), composite, component )
+			, Kind::eCompositeConstruct
+			, ( isExprConstant( argList )
 				? Flag::eConstant
-				: Flag::eNone )
-		}
+				: Flag::eNone ) }
 		, m_composite{ composite }
 		, m_component{ component }
 		, m_argList{ std::move( argList ) }
@@ -61,6 +58,21 @@ namespace ast::expr
 		}
 	}
 
+	CompositeConstruct::CompositeConstruct( ExprPtr image
+		, ExprPtr sampler )
+		: Expr{ getExprTypesCache( image, sampler )
+			, getCombinedType( image->getType(), sampler->getType() )
+			, Kind::eCompositeConstruct
+			, ( isExprConstant( image, sampler )
+				? Flag::eConstant
+				: Flag::eNone ) }
+		, m_composite{ CompositeType::eCombine }
+		, m_component{ type::Kind::eCombinedImage }
+	{
+		m_argList.emplace_back( std::move( image ) );
+		m_argList.emplace_back( std::move( sampler ) );
+	}
+
 	void CompositeConstruct::accept( VisitorPtr vis )
 	{
 		vis->visitCompositeConstructExpr( this );
@@ -75,6 +87,7 @@ namespace ast::expr
 		switch ( value )
 		{
 		case ast::expr::CompositeType::eScalar:
+		case ast::expr::CompositeType::eCombine:
 			result = 1u;
 			break;
 		case ast::expr::CompositeType::eVec2:
@@ -119,10 +132,40 @@ namespace ast::expr
 	}
 
 	type::TypePtr getCompositeType( type::TypesCache & cache
+		, type::ImageConfiguration config
+		, bool isComparison )
+	{
+		return cache.getCombinedImage( config, isComparison );
+	}
+
+	type::TypePtr getCombinedType( type::TypePtr image
+		, type::TypePtr sampler )
+	{
+		image = getNonArrayTypeRec( image );
+		sampler = getNonArrayTypeRec( sampler );
+
+		if ( image->getKind() != type::Kind::eSampledImage )
+		{
+			throw std::runtime_error{ "combine(splImage, sampler): Missing sampled image 1st parameter." };
+		}
+
+		if ( sampler->getKind() != type::Kind::eSampler )
+		{
+			throw std::runtime_error{ "combine(splImage, sampler): Missing sampler 2nd parameter" };
+		}
+
+		auto & imgType = static_cast< ast::type::SampledImage const & >( *image );
+		auto & splType = static_cast< ast::type::Sampler const & >( *sampler );
+		return getCompositeType( image->getCache()
+			, imgType.getConfig()
+			, splType.isComparison() );
+	}
+
+	type::TypePtr getCompositeType( type::TypesCache & cache
 		, CompositeType composite
 		, type::Kind component )
 	{
-		assert( isScalarType( component ) );
+		assert( composite != CompositeType::eCombine && isScalarType( component ) );
 		type::TypePtr result;
 
 		switch ( composite )

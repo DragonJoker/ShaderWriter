@@ -208,10 +208,10 @@ namespace hlsl
 		}
 	}
 
-	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprConfigFiller::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
 		checkType( expr->getType(), m_config );
-		getHlslConfig( expr->getTextureAccess(), m_config );
+		getHlslConfig( expr->getCombinedImageAccess(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{

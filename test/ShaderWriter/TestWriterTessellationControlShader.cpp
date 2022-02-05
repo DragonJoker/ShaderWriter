@@ -1014,8 +1014,8 @@ namespace
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
 
-			auto c3d_mapNormal = writer.declCombined< FImg2DRgba32 >( "c3d_mapNormal", 0u, 0u );
-			auto c3d_mapHeight = writer.declCombined< FImg2DRgba32 >( "c3d_mapHeight", 1u, 0u );
+			auto c3d_mapNormal = writer.declCombinedImg< FImg2DRgba32 >( "c3d_mapNormal", 0u, 0u );
+			auto c3d_mapHeight = writer.declCombinedImg< FImg2DRgba32 >( "c3d_mapHeight", 1u, 0u );
 
 			auto getTessLevel = writer.implementFunction< Float >( "getTessLevel"
 				, [&]( Float const & a

@@ -63,13 +63,13 @@ set( ${PROJECT_NAME}_FOLDER_ENUM_FILES
 	${INCLUDE_DIR}/Expr/ImageAccess.enum
 	${INCLUDE_DIR}/Expr/Intrinsic.enum
 	${INCLUDE_DIR}/Expr/SampledImageAccess.enum
-	${INCLUDE_DIR}/Expr/TextureAccess.enum
+	${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
 )
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
 	${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 	${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
-	${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
+	${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
 	${INCLUDE_DIR}/Expr/Expr.hpp
 	${INCLUDE_DIR}/Expr/ExprAdd.hpp
 	${INCLUDE_DIR}/Expr/ExprAddAssign.hpp
@@ -84,6 +84,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprBitOr.hpp
 	${INCLUDE_DIR}/Expr/ExprBitXor.hpp
 	${INCLUDE_DIR}/Expr/ExprCast.hpp
+	${INCLUDE_DIR}/Expr/ExprCombinedImageAccessCall.hpp
 	${INCLUDE_DIR}/Expr/ExprComma.hpp
 	${INCLUDE_DIR}/Expr/ExprCompositeConstruct.hpp
 	${INCLUDE_DIR}/Expr/ExprCopy.hpp
@@ -126,7 +127,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprSwitchCase.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchTest.hpp
 	${INCLUDE_DIR}/Expr/ExprSwizzle.hpp
-	${INCLUDE_DIR}/Expr/ExprTextureAccessCall.hpp
 	${INCLUDE_DIR}/Expr/ExprTimes.hpp
 	${INCLUDE_DIR}/Expr/ExprTimesAssign.hpp
 	${INCLUDE_DIR}/Expr/ExprUnary.hpp
@@ -137,12 +137,12 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
 	${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
-	${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp
+	${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/IntrinsicCallHelpers.hpp
 	${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 	${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 	${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
-	${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
+	${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp
 	${INCLUDE_DIR}/Expr/SwizzleKind.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
@@ -160,6 +160,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprBitOr.cpp
 	${SOURCE_DIR}/Expr/ExprBitXor.cpp
 	${SOURCE_DIR}/Expr/ExprCast.cpp
+	${SOURCE_DIR}/Expr/ExprCombinedImageAccessCall.cpp
 	${SOURCE_DIR}/Expr/ExprComma.cpp
 	${SOURCE_DIR}/Expr/ExprCompositeConstruct.cpp
 	${SOURCE_DIR}/Expr/ExprCopy.cpp
@@ -201,7 +202,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprSwitchCase.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchTest.cpp
 	${SOURCE_DIR}/Expr/ExprSwizzle.cpp
-	${SOURCE_DIR}/Expr/ExprTextureAccessCall.cpp
 	${SOURCE_DIR}/Expr/ExprTimes.cpp
 	${SOURCE_DIR}/Expr/ExprTimesAssign.cpp
 	${SOURCE_DIR}/Expr/ExprUnary.cpp
@@ -248,6 +248,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtAccelerationStructureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtBreak.hpp
 	${INCLUDE_DIR}/Stmt/StmtBufferReferenceDecl.hpp
+	${INCLUDE_DIR}/Stmt/StmtCombinedImageDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtComment.hpp
 	${INCLUDE_DIR}/Stmt/StmtCompound.hpp
 	${INCLUDE_DIR}/Stmt/StmtConstantBufferDecl.hpp
@@ -290,7 +291,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtSwitchCase.hpp
 	${INCLUDE_DIR}/Stmt/StmtTerminateInvocation.hpp
 	${INCLUDE_DIR}/Stmt/StmtTerminateRay.hpp
-	${INCLUDE_DIR}/Stmt/StmtTextureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtVariableDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtVisitor.hpp
 	${INCLUDE_DIR}/Stmt/StmtWhile.hpp
@@ -308,6 +308,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtAccelerationStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtBreak.cpp
 	${SOURCE_DIR}/Stmt/StmtBufferReferenceDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtCombinedImageDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtComment.cpp
 	${SOURCE_DIR}/Stmt/StmtCompound.cpp
 	${SOURCE_DIR}/Stmt/StmtConstantBufferDecl.cpp
@@ -349,7 +350,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtSwitchCase.cpp
 	${SOURCE_DIR}/Stmt/StmtTerminateInvocation.cpp
 	${SOURCE_DIR}/Stmt/StmtTerminateRay.cpp
-	${SOURCE_DIR}/Stmt/StmtTextureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtVariableDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtWhile.cpp
 )
@@ -378,6 +378,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeArray.hpp
 	${INCLUDE_DIR}/Type/TypeCache.hpp
 	${INCLUDE_DIR}/Type/TypeCallableData.hpp
+	${INCLUDE_DIR}/Type/TypeCombinedImage.hpp
 	${INCLUDE_DIR}/Type/TypeComputeIO.hpp
 	${INCLUDE_DIR}/Type/TypeFragmentIO.hpp
 	${INCLUDE_DIR}/Type/TypeFunction.hpp
@@ -393,7 +394,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeTaskIO.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationControlIO.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationEvaluationIO.hpp
-	${INCLUDE_DIR}/Type/TypeTexture.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/ImageConfiguration.cpp
@@ -402,6 +402,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeArray.cpp
 	${SOURCE_DIR}/Type/TypeCache.cpp
 	${SOURCE_DIR}/Type/TypeCallableData.cpp
+	${SOURCE_DIR}/Type/TypeCombinedImage.cpp
 	${SOURCE_DIR}/Type/TypeComputeIO.cpp
 	${SOURCE_DIR}/Type/TypeFragmentIO.cpp
 	${SOURCE_DIR}/Type/TypeFunction.cpp
@@ -417,7 +418,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeTaskIO.cpp
 	${SOURCE_DIR}/Type/TypeTessellationControlIO.cpp
 	${SOURCE_DIR}/Type/TypeTessellationEvaluationIO.cpp
-	${SOURCE_DIR}/Type/TypeTexture.cpp
 )
 source_group( "Header Files\\Type"
 	FILES
@@ -552,30 +552,30 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
 	)
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/EnumTextureAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumTextureAccess.hpp ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp
-		COMMENT "Generating EnumTextureAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/EnumCombinedImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumCombinedImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
+		COMMENT "Generating EnumCombinedImageAccess.hpp"
+		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
 	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumTextureAccess.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp )
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/GetTextureAccessName.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetTextureAccessName.hpp ${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp
-		COMMENT "Generating GetTextureAccessName.hpp"
-		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/GetCombinedImageAccessName.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetCombinedImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp
+		COMMENT "Generating GetCombinedImageAccessName.hpp"
+		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
 	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetTextureAccessName.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp )
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum ${GENERATED_DIR}/MakeTextureAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeTextureAccess.hpp ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp
-		COMMENT "Generating MakeTextureAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/TextureAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/MakeCombinedImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeCombinedImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp
+		COMMENT "Generating MakeCombinedImageAccess.hpp"
+		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
 	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeTextureAccess.hpp )
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/EnumIntrinsic.hpp

@@ -66,7 +66,7 @@ namespace ast::type
 		eStruct,
 		eSampler,
 		eImage,
-		eTexture,
+		eCombinedImage,
 		eSampledImage,
 		eAccelerationStructure,// Submitted to extension enabling
 		eRayPayload,// Submitted to extension enabling

@@ -2127,6 +2127,11 @@ namespace spirv
 					stream << " " << getName( spv::AccessQualifier( instruction->operands[7] ) );
 				}
 			}
+			else if ( opCode == spv::OpTypeSampler )
+			{
+				checkType< SamplerTypeInstruction >( *instruction );
+				names.addType( instruction->resultId.value(), "splr" );
+			}
 			else if ( opCode == spv::OpTypeSampledImage )
 			{
 				checkType< TextureTypeInstruction >( *instruction );

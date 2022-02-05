@@ -281,6 +281,18 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
+		template< bool ComparisonT >
+		inline Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
+				, uint32_t binding
+				, uint32_t set
+				, uint32_t dimension
+				, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSamplerArray( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Sampled Image declaration
@@ -293,12 +305,12 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > declSampled( std::string name
+		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > declSampledImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declSampled( std::string name
+		inline T declSampledImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -306,13 +318,13 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledArray( std::string name
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declSampledArray( std::string name
+		inline Array< T > declSampledImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -330,12 +342,12 @@ namespace sdw
 			, bool ArrayedT
 			, bool MsT
 			, bool DepthT = false >
-		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > declCombined( std::string name
+		inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > declCombinedImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declCombined( std::string name
+		inline T declCombinedImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -344,13 +356,13 @@ namespace sdw
 			, bool ArrayedT
 			, bool MsT
 			, bool DepthT = false >
-		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedArray( std::string name
+		inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declCombinedArray( std::string name
+		inline Array< T > declCombinedImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -368,12 +380,12 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		inline ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > declImage( std::string name
+		inline StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > declStorageImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
 		template< typename T >
-		inline T declImage( std::string name
+		inline T declStorageImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
@@ -382,13 +394,13 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT >
-		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declImageArray( std::string name
+		inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declStorageImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declImageArray( std::string name
+		inline Array< T > declStorageImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -525,13 +537,13 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T = Ssbo >
-		inline T declShaderStorageBuffer( std::string name
+		inline T declStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
 		template< typename T >
-		inline ArraySsboT< T > declArrayShaderStorageBuffer( std::string name
+		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );

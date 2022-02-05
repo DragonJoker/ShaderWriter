@@ -134,7 +134,7 @@ namespace ast
 				}
 			}
 
-			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
 			{
 				if ( checkToVisit() )
 				{

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_TypeTexture_H___
-#define ___AST_TypeTexture_H___
+#ifndef ___AST_TypeCombinedImage_H___
+#define ___AST_TypeCombinedImage_H___
 #pragma once
 
 #include "TypeImage.hpp"
@@ -12,11 +12,11 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	class Texture
+	class CombinedImage
 		: public Type
 	{
 	public:
-		SDAST_API Texture( TypesCache & cache
+		SDAST_API CombinedImage( TypesCache & cache
 			, ImageConfiguration config
 			, bool isComparison );
 
@@ -44,7 +44,7 @@ namespace ast::type
 		ImagePtr m_imageType;
 		SamplerPtr m_samplerType;
 	};
-	using TexturePtr = std::shared_ptr< Texture >;
+	using CombinedImagePtr = std::shared_ptr< CombinedImage >;
 }
 
 #endif

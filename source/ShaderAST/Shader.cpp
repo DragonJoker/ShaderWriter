@@ -319,9 +319,9 @@ namespace ast
 				, var::Flag::eUniform | var::Flag::eConstant );
 
 			auto imgType = getNonArrayType( type );
-			assert( imgType->getKind() == ast::type::Kind::eTexture );
+			assert( imgType->getKind() == ast::type::Kind::eCombinedImage );
 
-			if ( static_cast< ast::type::Texture const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
+			if ( static_cast< ast::type::CombinedImage const & >( *imgType ).getConfig().dimension == ast::type::ImageDim::eBuffer )
 			{
 				m_data.uniformTexels.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
 			}

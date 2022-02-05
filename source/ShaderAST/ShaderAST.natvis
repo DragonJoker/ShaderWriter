@@ -85,7 +85,7 @@
 			<Item Name="dataType">*m_dataType</Item>
 		</Expand>
 	</Type>
-	<Type Name="ast::type::Texture">
+	<Type Name="ast::type::CombinedImage">
 		<DisplayString>combined [{*m_imageType}, {*m_samplerType}]</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>
@@ -965,7 +965,7 @@
 			<Item Name="outer">m_outer</Item>
 		</Expand>
 	</Type>
-	<Type Name="ast::expr::TextureAccessCall">
+	<Type Name="ast::expr::CombinedImageAccessCall">
 		<DisplayString>{*m_type} {m_textureAccess}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>

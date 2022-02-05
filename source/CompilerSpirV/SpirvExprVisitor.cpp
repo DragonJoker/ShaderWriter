@@ -16,7 +16,7 @@ See LICENSE file in root folder
 #include "SpirvTextureAccessNames.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Visitors/GetOutermostExpr.hpp>
 
@@ -117,7 +117,7 @@ namespace spirv
 				m_result = true;
 			}
 
-			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
 			{
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -704,7 +704,7 @@ namespace spirv
 
 				if ( expr->getRHS()->getKind() == ast::expr::Kind::eSwizzle
 					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eIntrinsicCall
-					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eTextureAccessCall
+					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eCombinedImageAccessCall
 					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eImageAccessCall )
 				{
 					rhsSwizzleKind = static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getSwizzle();
@@ -809,40 +809,55 @@ namespace spirv
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
-		ValueIdList params;
 		bool allLiterals = true;
-		auto paramsCount = 0u;
 
-		for ( auto & arg : expr->getArgList() )
+		if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
 		{
+			auto it = expr->getArgList().begin();
+			auto imageId = loadVariable( doSubmit( ( it++ )->get(), allLiterals ) );
+
 			bool allLitsInit = true;
-			auto id = loadVariable( doSubmit( arg.get(), allLitsInit ) );
-			params.push_back( id );
+			auto samplerId = loadVariable( doSubmit( it->get(), allLitsInit ) );
 			allLiterals = allLiterals && allLitsInit;
-			paramsCount += ast::type::getComponentCount( arg->getType()->getKind() );
-		}
 
-		auto retCount = ast::type::getComponentCount( expr->getType()->getKind() )
-			* ast::type::getComponentCount( ast::type::getComponentType( expr->getType()->getKind() ) );
-		auto typeId = m_module.registerType( expr->getType() );
-
-		if ( paramsCount == 1u && retCount != 1u )
-		{
-			params.resize( retCount, params.back() );
-			paramsCount = retCount;
-		}
-
-		if ( allLiterals )
-		{
-			assert( paramsCount == retCount );
-			m_result = { m_module.registerLiteral( params, expr->getType() ) };
+			m_result = m_module.mergeSamplerImage( imageId, samplerId, m_currentBlock );
 		}
 		else
 		{
-			m_result = ValueId{ m_module.getIntermediateResult(), typeId.type };
-			m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( typeId
-				, m_result
-				, params ) );
+			ValueIdList params;
+			auto paramsCount = 0u;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				bool allLitsInit = true;
+				auto id = loadVariable( doSubmit( arg.get(), allLitsInit ) );
+				params.push_back( id );
+				allLiterals = allLiterals && allLitsInit;
+				paramsCount += ast::type::getComponentCount( arg->getType()->getKind() );
+			}
+
+			auto retCount = ast::type::getComponentCount( expr->getType()->getKind() )
+				* ast::type::getComponentCount( ast::type::getComponentType( expr->getType()->getKind() ) );
+			auto typeId = m_module.registerType( expr->getType() );
+
+			if ( paramsCount == 1u && retCount != 1u )
+			{
+				params.resize( retCount, params.back() );
+				paramsCount = retCount;
+			}
+
+			if ( allLiterals )
+			{
+				assert( paramsCount == retCount );
+				m_result = { m_module.registerLiteral( params, expr->getType() ) };
+			}
+			else
+			{
+				m_result = ValueId{ m_module.getIntermediateResult(), typeId.type };
+				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( typeId
+					, m_result
+					, params ) );
+			}
 		}
 
 		m_allLiterals = m_allLiterals && allLiterals;
@@ -1250,7 +1265,7 @@ namespace spirv
 			, args ) );
 	}
 
-	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprVisitor::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
 		m_allLiterals = false;
 		ValueIdList args;
@@ -1269,14 +1284,14 @@ namespace spirv
 		}
 
 		auto typeId = m_module.registerType( expr->getType() );
-		auto kind = expr->getTextureAccess();
+		auto kind = expr->getCombinedImageAccess();
 		IntrinsicConfig config;
 		getSpirVConfig( kind, config );
 		auto op = getSpirVName( kind );
 
 		// Load the sampled image variable
 		auto sampledImageType = expr->getArgList()[0]->getType();
-		assert( sampledImageType->getKind() == ast::type::Kind::eTexture );
+		assert( sampledImageType->getKind() == ast::type::Kind::eCombinedImage );
 		args[0] = loadVariable( args[0] );
 
 		if ( expr->getArgList().front().get()->isNonUniform() )
@@ -1287,7 +1302,7 @@ namespace spirv
 		if ( config.needsImage )
 		{
 			// We need to extract the image from the sampled image, to give it to the final instruction.
-			auto textureType = std::static_pointer_cast< ast::type::Texture >( sampledImageType );
+			auto textureType = std::static_pointer_cast< ast::type::CombinedImage >( sampledImageType );
 			auto imageTypeId = m_module.registerImageType( textureType->getImageType(), textureType->isComparison() );
 			auto imageId = ValueId{ m_module.getIntermediateResult(), imageTypeId.type };
 			m_currentBlock.instructions.emplace_back( makeInstruction< ImageInstruction >( imageTypeId

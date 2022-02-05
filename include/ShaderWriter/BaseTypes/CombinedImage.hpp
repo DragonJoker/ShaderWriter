@@ -1,51 +1,51 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_Texture_H___
-#define ___SDW_Texture_H___
+#ifndef ___SDW_CombinedImage_H___
+#define ___SDW_CombinedImage_H___
 
 #include "Image.hpp"
 
 namespace sdw
 {
 	template< ast::type::ImageFormat FormatT, typename Enable = void >
-	struct TextureFormatTraitsT;
+	struct CombinedImageFormatTraitsT;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	struct TextureCoordsGetterT;
+	struct CombinedImageCoordsGetterT;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureQueryLodT = typename TextureCoordsGetterT< DimT, ArrayedT >::QueryLodType;
+	using CombinedImageQueryLodT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::QueryLodType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureSampleT = typename TextureCoordsGetterT< DimT, ArrayedT >::SampleType;
+	using CombinedImageSampleT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::SampleType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureSampleProjT = typename TextureCoordsGetterT< DimT, ArrayedT >::ProjType;
+	using CombinedImageSampleProjT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::ProjType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureOffsetT = typename TextureCoordsGetterT< DimT, ArrayedT >::OffsetType;
+	using CombinedImageOffsetT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::OffsetType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureFetchT = typename TextureCoordsGetterT< DimT, ArrayedT >::FetchType;
+	using CombinedImageFetchT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::FetchType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureDerivativeT = typename TextureCoordsGetterT< DimT, ArrayedT >::DerivativeType;
+	using CombinedImageDerivativeT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::DerivativeType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureGatherT = typename TextureCoordsGetterT< DimT, ArrayedT >::GatherType;
+	using CombinedImageGatherT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::GatherType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT >
-	using TextureSizeT = typename TextureCoordsGetterT< DimT, ArrayedT >::SizeType;
+	using CombinedImageSizeT = typename CombinedImageCoordsGetterT< DimT, ArrayedT >::SizeType;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
@@ -127,18 +127,18 @@ namespace sdw
 		, bool DepthT >
 	static bool constexpr isCubeArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
-	struct Texture
+	struct CombinedImage
 		: public Value
 	{
-		SDW_DeclValue( SDW_API, Texture );
+		SDW_DeclValue( SDW_API, CombinedImage );
 
-		SDW_API Texture( ast::type::ImageFormat format
+		SDW_API CombinedImage( ast::type::ImageFormat format
 			, ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename T >
-		inline Texture & operator=( T const & rhs );
+		inline CombinedImage & operator=( T const & rhs );
 		SDW_API operator uint32_t();
 	};
 
@@ -150,17 +150,17 @@ namespace sdw
 			, bool MsT
 			, bool DepthT
 			, typename EnableT = void >
-		struct TextureFuncsT
-			: public Texture
+		struct CombinedImageFuncsT
+			: public CombinedImage
 		{
-			SDW_DeclValue( , TextureFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
-			inline TextureFuncsT( ShaderWriter & writer
+			inline CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
 
 			template< typename T >
-			inline TextureFuncsT & operator=( T const & rhs );
+			inline CombinedImageFuncsT & operator=( T const & rhs );
 		};
 	}
 
@@ -169,10 +169,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureT
-		: public combinedSmplImg::TextureFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >
+	struct CombinedImageT
+		: public combinedSmplImg::CombinedImageFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >
 	{
-		SDW_DeclValue( , TextureT );
+		SDW_DeclValue( , CombinedImageT );
 
 		static constexpr ast::type::ImageFormat Format = FormatT;
 		static constexpr ast::type::ImageDim Dim = DimT;
@@ -180,18 +180,18 @@ namespace sdw
 		static constexpr bool Ms = MsT;
 		static constexpr bool Depth = DepthT;
 
-		inline TextureT( ShaderWriter & writer
+		inline CombinedImageT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename T >
-		inline TextureT & operator=( T const & rhs );
+		inline CombinedImageT & operator=( T const & rhs );
 
 		static inline ast::type::ImageConfiguration makeConfig();
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 
-#include "Texture.inl"
+#include "CombinedImage.inl"
 
 #endif

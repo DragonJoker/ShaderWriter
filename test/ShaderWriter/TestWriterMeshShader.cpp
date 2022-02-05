@@ -982,10 +982,10 @@ namespace
 			auto meshInfo = MeshInfos.declMember< MeshInfo >( "meshInfo" );
 			MeshInfos.end();
 
-			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
-			auto meshlets = writer.declArrayShaderStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
+			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
 
 			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
 				, [&]( UInt primitive )
@@ -1109,11 +1109,11 @@ namespace
 			auto meshInfos = MeshInfos.declMember< MeshInfo >( "meshInfos" );
 			MeshInfos.end();
 
-			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
-			auto meshlets = writer.declArrayShaderStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
-			auto instances = writer.declArrayShaderStorageBuffer< Instance >( "bufferInstances", 4u, 1u );
+			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
+			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto instances = writer.declArrayStorageBuffer< Instance >( "bufferInstances", 4u, 1u );
 
 			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
 				, [&]( UInt primitive )
@@ -1306,11 +1306,11 @@ namespace
 			auto instance = Instances.declMember< Instance >( "instance" );
 			Instances.end();
 
-			auto vertices = writer.declArrayShaderStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
-			auto meshlets = writer.declArrayShaderStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayShaderStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
-			auto meshletCullData = writer.declArrayShaderStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
+			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
+			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
 
 			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
 				, [&]( UInt primitive )

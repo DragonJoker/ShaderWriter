@@ -38,12 +38,12 @@ namespace glsl
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
-		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 
 		void doProcessImageStore( ast::expr::ImageAccessCall * expr );
-		void doProcessTextureShadow( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureSample( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
+		void doProcessTextureShadow( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureSample( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr );
 		void doProcessSampledImageShadow( ast::expr::SampledImageAccessCall * expr );
 		void doProcessSampledImageSample( ast::expr::SampledImageAccessCall * expr );
 		void doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr );

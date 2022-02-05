@@ -84,119 +84,6 @@ namespace glsl
 
 			return name;
 		}
-
-		std::string getDimension( ast::type::ImageDim value )
-		{
-			switch ( value )
-			{
-			case ast::type::ImageDim::e1D:
-				return "1D";
-			case ast::type::ImageDim::e2D:
-				return "2D";
-			case ast::type::ImageDim::e3D:
-				return "3D";
-			case ast::type::ImageDim::eCube:
-				return "Cube";
-			case ast::type::ImageDim::eRect:
-				return "2DRect";
-			case ast::type::ImageDim::eBuffer:
-				return "Buffer";
-			default:
-				AST_Failure( "Unsupported ast::type::ImageDim" );
-				return "Undefined";
-			}
-		}
-
-		std::string getPrefix( ast::type::Kind value )
-		{
-			switch ( value )
-			{
-			case ast::type::Kind::eInt:
-				return "i";
-
-			case ast::type::Kind::eUInt:
-				return "u";
-
-			case ast::type::Kind::eUInt64:
-				return "ul";
-
-			case ast::type::Kind::eFloat:
-				return std::string{};
-
-			case ast::type::Kind::eHalf:
-				return "h";
-
-			default:
-				AST_Failure( "Unsupported ast::type::Kind" );
-				return std::string{};
-			}
-		}
-
-		std::string getArray( bool value )
-		{
-			return value
-				? "Array"
-				: std::string{};
-		}
-
-		std::string getMS( bool value )
-		{
-			return value
-				? "MS"
-				: std::string{};
-		}
-
-		std::string getType( ast::type::Kind kind
-			, ast::type::ImageConfiguration const & config )
-		{
-			return ( kind == ast::type::Kind::eImage )
-				? "image"
-				: ( ( kind == ast::type::Kind::eSampledImage )
-					? "texture"
-					: "sampler" );
-		}
-
-		std::string getShadow( bool isComparison )
-		{
-			return isComparison
-				? "Shadow"
-				: std::string{};
-		}
-
-		std::string getShadow( ast::type::Trinary comparison )
-		{
-			return comparison == ast::type::Trinary::eTrue
-				? "Shadow"
-				: std::string{};
-		}
-	}
-
-	//*************************************************************************
-
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config )
-	{
-		return getPrefix( config.sampledType )
-			+ getType( kind, config )
-			+ getDimension( config.dimension )
-			+ getMS( config.isMS )
-			+ getArray( config.isArrayed );
-	}
-
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config
-		, bool isComparison )
-	{
-		return getQualifiedName( kind, config )
-			+ getShadow( isComparison );
-	}
-
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config
-		, ast::type::Trinary comparison )
-	{
-		return getQualifiedName( kind, config )
-			+ getShadow( comparison );
 	}
 
 	//*************************************************************************
@@ -235,7 +122,7 @@ namespace glsl
 			|| expr->getKind() == ast::expr::Kind::eSwizzle
 			|| expr->getKind() == ast::expr::Kind::eArrayAccess
 			|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
-			|| expr->getKind() == ast::expr::Kind::eTextureAccessCall
+			|| expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall
 			|| expr->getKind() == ast::expr::Kind::eImageAccessCall
 			|| expr->getKind() == ast::expr::Kind::eUnaryMinus
 			|| expr->getKind() == ast::expr::Kind::eUnaryPlus
@@ -394,7 +281,17 @@ namespace glsl
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
-		m_result += getCtorName( expr->getComposite(), expr->getComponent() ) + "(";
+		if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
+		{
+			m_result += getCtorName( *expr->getArgList()[0]
+				, *expr->getArgList()[1] );
+		}
+		else
+		{
+			m_result += getCtorName( expr->getComposite(), expr->getComponent() );
+		}
+
+		m_result += "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )
@@ -598,35 +495,12 @@ namespace glsl
 
 	void ExprVisitor::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
 	{
-		std::string sep;
-		auto & args = expr->getArgList();
-		auto it = args.begin();
-		auto & imageType = static_cast< ast::type::SampledImage const & >( *( *it )->getType() );
-		auto image = doSubmit( ( it++ )->get() );
-		auto & samplerType = static_cast< ast::type::Sampler const & >( *( *it )->getType() );
-		auto sampler = doSubmit( ( it++ )->get() );
-
-		auto & config = imageType.getConfig();
-		m_result += getGlslName( expr->getSampledImageAccess() ) + "(";
-		m_result += getPrefix( config.sampledType )
-			+ getType( ast::type::Kind::eSampler, config )
-			+ getDimension( config.dimension )
-			+ getMS( config.isMS )
-			+ getArray( config.isArrayed )
-			+ getShadow( samplerType.isComparison() );
-		m_result += "(" + image + ", " + sampler + ")";
-
-		for ( ; it != args.end(); ++it )
-		{
-			m_result += ", " + doSubmit( it->get() );
-		}
-
-		m_result += ")";
+		AST_Failure( "Unexpected ast::expr::SampledImageAccessCall expression." );
 	}
 
-	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprVisitor::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
-		m_result += getGlslName( expr->getTextureAccess() ) + "(";
+		m_result += getGlslName( expr->getCombinedImageAccess() ) + "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )

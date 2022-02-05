@@ -55,12 +55,12 @@ namespace hlsl
 		void visitSwitchCaseExpr( ast::expr::SwitchCase *expr )override;
 		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
-		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitAliasExpr( ast::expr::Alias * expr )override;
 
-		void doProcessMemberTexture( ast::expr::TextureAccessCall * expr );
-		void doProcessNonMemberTexture( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
+		void doProcessMemberTexture( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr );
 		void doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr );
 		void doProcessMemberSampledImage( ast::expr::SampledImageAccessCall * expr );
 

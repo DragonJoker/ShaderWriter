@@ -76,7 +76,7 @@ namespace ast
 		SDAST_API void visitSwitchCaseExpr( expr::SwitchCase * expr )override;
 		SDAST_API void visitSwitchTestExpr( expr::SwitchTest * expr )override;
 		SDAST_API void visitSwizzleExpr( expr::Swizzle * expr )override;
-		SDAST_API void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override;
+		SDAST_API void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override;
 		SDAST_API void visitTimesExpr( expr::Times * expr )override;
 		SDAST_API void visitTimesAssignExpr( expr::TimesAssign * expr )override;
 		SDAST_API void visitUnaryMinusExpr( expr::UnaryMinus * expr )override;

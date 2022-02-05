@@ -57,6 +57,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 #include <ShaderAST/Stmt/StmtAccelerationStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtBufferReferenceDecl.hpp>
+#include <ShaderAST/Stmt/StmtCombinedImageDecl.hpp>
 #include <ShaderAST/Stmt/StmtFragmentLayout.hpp>
 #include <ShaderAST/Stmt/StmtHitAttributeVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtImageDecl.hpp>
@@ -66,14 +67,13 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtReturn.hpp>
 #include <ShaderAST/Stmt/StmtSampledImageDecl.hpp>
 #include <ShaderAST/Stmt/StmtSamplerDecl.hpp>
-#include <ShaderAST/Stmt/StmtTextureDecl.hpp>
 #include <ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Stmt/StmtSpecialisationConstantDecl.hpp>
 #include <ShaderAST/Stmt/StmtStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtVariableDecl.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Shader.hpp>
@@ -703,6 +703,13 @@ namespace sdw
 			, std::move( args ) );
 	}
 
+	expr::ExprPtr makeCompositeCtor( expr::ExprPtr image
+		, expr::ExprPtr sampler )
+	{
+		return expr::makeCompositeConstruct( std::move( image )
+			, std::move( sampler ) );
+	}
+
 	expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
 		, uint64_t flags )
@@ -869,11 +876,11 @@ namespace sdw
 			, bindingSet );
 	}
 
-	stmt::StmtPtr makeTextureDecl( var::VariablePtr var
+	stmt::StmtPtr makeCombinedImageDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeTextureDecl( std::move( var )
+		return stmt::makeCombinedImageDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}

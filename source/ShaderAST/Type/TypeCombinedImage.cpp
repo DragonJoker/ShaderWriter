@@ -1,16 +1,16 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderAST/Type/TypeTexture.hpp"
+#include "ShaderAST/Type/TypeCombinedImage.hpp"
 
 #include "ShaderAST/Type/TypeCache.hpp"
 
 namespace ast::type
 {
-	Texture::Texture( TypesCache & cache
+	CombinedImage::CombinedImage( TypesCache & cache
 		, ImageConfiguration config
 		, bool isComparison )
-		: Type{ cache, Kind::eTexture }
+		: Type{ cache, Kind::eCombinedImage }
 		, m_imageType{ cache.getImage( std::move( config ) ) }
 		, m_samplerType{ cache.getSampler( isComparison ) }
 	{

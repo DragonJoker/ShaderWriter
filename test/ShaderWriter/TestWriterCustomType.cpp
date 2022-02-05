@@ -240,7 +240,7 @@ namespace
 
 		FragmentWriter writer;
 
-		auto lights = writer.declArrayShaderStorageBuffer< Light >( "LightsSsbo", 1u, 0u );
+		auto lights = writer.declArrayStorageBuffer< Light >( "LightsSsbo", 1u, 0u );
 
 		writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
 			, FragmentOutT< ColourT > out )
@@ -406,7 +406,7 @@ namespace
 
 		FragmentWriter writer;
 
-		auto lights = writer.declArrayShaderStorageBuffer< Light2 >( "Light2sSsbo", 1u, 0u );
+		auto lights = writer.declArrayStorageBuffer< Light2 >( "Light2sSsbo", 1u, 0u );
 
 		writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
 			, FragmentOutT< ColourT > out )

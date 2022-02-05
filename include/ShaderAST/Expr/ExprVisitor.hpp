@@ -17,6 +17,7 @@ See LICENSE file in root folder
 #include "ExprBitOr.hpp"
 #include "ExprBitXor.hpp"
 #include "ExprCast.hpp"
+#include "ExprCombinedImageAccessCall.hpp"
 #include "ExprComma.hpp"
 #include "ExprCompositeConstruct.hpp"
 #include "ExprCopy.hpp"
@@ -57,7 +58,6 @@ See LICENSE file in root folder
 #include "ExprSwitchCase.hpp"
 #include "ExprSwitchTest.hpp"
 #include "ExprSwizzle.hpp"
-#include "ExprTextureAccessCall.hpp"
 #include "ExprTimes.hpp"
 #include "ExprTimesAssign.hpp"
 #include "ExprUnaryMinus.hpp"
@@ -128,7 +128,7 @@ namespace ast::expr
 		SDAST_API virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
 		SDAST_API virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
 		SDAST_API virtual void visitSwizzleExpr( Swizzle * ) = 0;
-		SDAST_API virtual void visitTextureAccessCallExpr( TextureAccessCall * ) = 0;
+		SDAST_API virtual void visitCombinedImageAccessCallExpr( CombinedImageAccessCall * ) = 0;
 		SDAST_API virtual void visitTimesExpr( Times * ) = 0;
 		SDAST_API virtual void visitTimesAssignExpr( TimesAssign * ) = 0;
 		SDAST_API virtual void visitUnaryMinusExpr( UnaryMinus * ) = 0;
@@ -152,7 +152,7 @@ namespace ast::expr
 	*	- void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override;
 	*	- void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override;
 	*	- void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
-	*	- void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+	*	- void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 	*/
 	class SimpleVisitor
 		: public Visitor

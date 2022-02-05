@@ -247,6 +247,24 @@ namespace sdw
 			, std::forward< ParamsT >( params )... );
 	}
 
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+	inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > getCombineCall( ShaderWriter & writer
+		, SampledImageT< FormatT, DimT, ArrayedT, MsT > const & image
+		, SamplerT< DepthT > const & sampler )
+	{
+		using Return = CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >;
+		using Sampler = SamplerT< DepthT >;
+
+		return Return{ writer
+			, sdw::makeCompositeCtor( std::move( makeFnArg( writer, image ).front() )
+				, std::move( makeFnArg( writer, sampler ).front() ) )
+			, sdw::areOptionalEnabled( image, sampler ) };
+	}
+
 	//***********************************************************************************************
 
 	namespace details

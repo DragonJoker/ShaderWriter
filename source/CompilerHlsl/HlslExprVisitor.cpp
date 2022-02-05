@@ -80,7 +80,7 @@ namespace hlsl
 			|| expr->getKind() == ast::expr::Kind::eSwizzle
 			|| expr->getKind() == ast::expr::Kind::eArrayAccess
 			|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
-			|| expr->getKind() == ast::expr::Kind::eTextureAccessCall
+			|| expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall
 			|| expr->getKind() == ast::expr::Kind::eImageAccessCall
 			|| expr->getKind() == ast::expr::Kind::eUnaryMinus
 			|| expr->getKind() == ast::expr::Kind::eUnaryPlus
@@ -215,6 +215,8 @@ namespace hlsl
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
+		assert( expr->getComposite() != ast::expr::CompositeType::eCombine
+			&& "Unexpected combine() at this point" );
 		m_result += getCtorName( expr->getComposite(), expr->getComponent() ) + "(";
 		std::string sep;
 
@@ -541,15 +543,15 @@ namespace hlsl
 		}
 	}
 
-	void ExprVisitor::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprVisitor::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
-		if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureSize1DF
-				&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureQueryLevelsCubeArrayU )
+		if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureSize1DF
+				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureQueryLevelsCubeArrayU )
 		{
 			doProcessNonMemberTexture( expr );
 		}
-		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureGather2DF
-				&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectU )
+		else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
+				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
 		{
 			doProcessTextureGather( expr );
 		}
@@ -581,10 +583,10 @@ namespace hlsl
 		}
 	}
 
-	void ExprVisitor::doProcessMemberTexture( ast::expr::TextureAccessCall * expr )
+	void ExprVisitor::doProcessMemberTexture( ast::expr::CombinedImageAccessCall * expr )
 	{
 		m_result += doSubmit( expr->getArgList()[0].get() );
-		m_result += "." + getHlslName( expr->getTextureAccess() ) + "(";
+		m_result += "." + getHlslName( expr->getCombinedImageAccess() ) + "(";
 		m_result += doSubmit( expr->getArgList()[1].get() );
 
 		for ( size_t i = 2; i < expr->getArgList().size(); ++i )
@@ -597,9 +599,9 @@ namespace hlsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::doProcessNonMemberTexture( ast::expr::TextureAccessCall * expr )
+	void ExprVisitor::doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall * expr )
 	{
-		m_result += getHlslName( expr->getTextureAccess() ) + "(";
+		m_result += getHlslName( expr->getCombinedImageAccess() ) + "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )
@@ -612,7 +614,7 @@ namespace hlsl
 		m_result += ")";
 	}
 
-	void ExprVisitor::doProcessTextureGather( ast::expr::TextureAccessCall * expr )
+	void ExprVisitor::doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
 	{
 		// Image
 		m_result += doSubmit( expr->getArgList()[0].get() );
@@ -636,7 +638,7 @@ namespace hlsl
 			}
 		}
 
-		auto name = getHlslName( expr->getTextureAccess() );
+		auto name = getHlslName( expr->getCombinedImageAccess() );
 
 		switch ( compValue )
 		{

@@ -278,7 +278,7 @@ namespace spirv
 		}
 	}
 
-	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprConfigFiller::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
 		checkType( expr, m_config );
 
@@ -292,20 +292,20 @@ namespace spirv
 			}
 		}
 
-		auto kind = expr->getTextureAccess();
+		auto kind = expr->getCombinedImageAccess();
 
-		if ( ( kind >= ast::expr::TextureAccess::eTextureSize1DF
-			&& kind <= ast::expr::TextureAccess::eTextureSizeBufferU )
-			|| ( kind >= ast::expr::TextureAccess::eTextureQueryLod1DF
-				&& kind <= ast::expr::TextureAccess::eTextureQueryLodCubeArrayU )
-			|| ( kind >= ast::expr::TextureAccess::eTextureQueryLevels1DF
-				&& kind <= ast::expr::TextureAccess::eTextureQueryLevelsCubeArrayU ) )
+		if ( ( kind >= ast::expr::CombinedImageAccess::eTextureSize1DF
+			&& kind <= ast::expr::CombinedImageAccess::eTextureSizeBufferU )
+			|| ( kind >= ast::expr::CombinedImageAccess::eTextureQueryLod1DF
+				&& kind <= ast::expr::CombinedImageAccess::eTextureQueryLodCubeArrayU )
+			|| ( kind >= ast::expr::CombinedImageAccess::eTextureQueryLevels1DF
+				&& kind <= ast::expr::CombinedImageAccess::eTextureQueryLevelsCubeArrayU ) )
 		{
 			m_config.registerCapability( spv::CapabilityImageQuery );
 		}
 		
-		if ( ( kind >= ast::expr::TextureAccess::eTextureGather2DShadowF
-			&& kind <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectShadowF ) )
+		if ( ( kind >= ast::expr::CombinedImageAccess::eTextureGather2DShadowF
+			&& kind <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF ) )
 		{
 			m_config.registerCapability( spv::CapabilityImageGatherExtended );
 		}

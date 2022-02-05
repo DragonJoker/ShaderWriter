@@ -556,7 +556,7 @@ def main( argv ):
 				resultEnd = intrEnd.match( line )
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
-					if enumName == "TextureAccess":
+					if enumName == "CombinedImageAccess":
 						imageType = "Texture"
 				elif resultValue:
 					returnGroup = resultValue.group( 1 )
@@ -570,7 +570,7 @@ def main( argv ):
 						functionGroups[groupName][paramsList] = list()
 					functionGroups[groupName][paramsList].append( [returnGroup, functionGroup, paramsGroup] )
 				elif resultEnd:
-					if enumName == "TextureAccess":
+					if enumName == "CombinedImageAccess":
 						for functionsName, functionsSubGroup in functionGroups.items():
 							beginFunctionGroup( outs, functionsName )
 							for paramsList, functionsList in functionsSubGroup.items():

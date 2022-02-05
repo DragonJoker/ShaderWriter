@@ -117,6 +117,13 @@ namespace sdw
 		, ValuesT ... values );
 	template< typename ValueT >
 	inline NonUniformT< ValueT > nonuniform( Value const & value );
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+	inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > combine( SampledImageT< FormatT, DimT, ArrayedT, MsT > const & image
+		, SamplerT< DepthT > const & sampler );
 }
 
 #include "Intrinsics.inl"

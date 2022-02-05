@@ -30,8 +30,8 @@ namespace
 		case ast::type::Kind::eImage:
 			type = cache.getImage( ast::type::ImageConfiguration{} );
 			break;
-		case ast::type::Kind::eTexture:
-			type = cache.getTexture( ast::type::ImageConfiguration{}, false );
+		case ast::type::Kind::eCombinedImage:
+			type = cache.getCombinedImage( ast::type::ImageConfiguration{}, false );
 			break;
 		case ast::type::Kind::eSampledImage:
 			type = cache.getSampledImage( ast::type::ImageConfiguration{} );

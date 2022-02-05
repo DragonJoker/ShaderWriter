@@ -14,7 +14,7 @@ namespace
 			RayGenerationWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto image = writer.declImage< WFImg2DRgba32 >( "image", 1u, 0u );
+			auto image = writer.declStorageImg< WFImg2DRgba32 >( "image", 1u, 0u );
 
 			writer.implementMain( [&]( RayGenerationIn in )
 				{
@@ -35,7 +35,7 @@ namespace
 			RayGenerationWriter writer;
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
-			auto image = writer.declImage< WFImg2DRgba32 >( "image", 1u, 0u );
+			auto image = writer.declStorageImg< WFImg2DRgba32 >( "image", 1u, 0u );
 
 			auto ubo = writer.declUniformBuffer( "GlobalUniforms", 2u, 0u );
 			auto viewProj = ubo.declMember< Mat4 >( "viewProj" );

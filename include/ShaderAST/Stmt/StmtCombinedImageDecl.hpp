@@ -1,19 +1,19 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___AST_StmtTextureDecl_H___
-#define ___AST_StmtTextureDecl_H___
+#ifndef ___AST_StmtCombinedImageDecl_H___
+#define ___AST_StmtCombinedImageDecl_H___
 #pragma once
 
 #include "Stmt.hpp"
 
 namespace ast::stmt
 {
-	class TextureDecl
+	class CombinedImageDecl
 		: public Stmt
 	{
 	public:
-		SDAST_API TextureDecl( var::VariablePtr variable
+		SDAST_API CombinedImageDecl( var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
@@ -39,13 +39,13 @@ namespace ast::stmt
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
-	using TextureDeclPtr = std::unique_ptr< TextureDecl >;
+	using CombinedImageDeclPtr = std::unique_ptr< CombinedImageDecl >;
 
-	inline TextureDeclPtr makeTextureDecl( var::VariablePtr variable
+	inline CombinedImageDeclPtr makeCombinedImageDecl( var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return std::make_unique< TextureDecl >( std::move( variable )
+		return std::make_unique< CombinedImageDecl >( std::move( variable )
 			, bindingPoint
 			, bindingSet );
 	}
