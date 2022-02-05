@@ -60,16 +60,14 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 )
 
 set( ${PROJECT_NAME}_FOLDER_ENUM_FILES
-	${INCLUDE_DIR}/Expr/ImageAccess.enum
 	${INCLUDE_DIR}/Expr/Intrinsic.enum
-	${INCLUDE_DIR}/Expr/SampledImageAccess.enum
 	${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
+	${INCLUDE_DIR}/Expr/StorageImageAccess.enum
 )
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
-	${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
 	${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
-	${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
 	${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
+	${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp
 	${INCLUDE_DIR}/Expr/Expr.hpp
 	${INCLUDE_DIR}/Expr/ExprAdd.hpp
 	${INCLUDE_DIR}/Expr/ExprAddAssign.hpp
@@ -95,7 +93,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprGreater.hpp
 	${INCLUDE_DIR}/Expr/ExprGreaterEqual.hpp
 	${INCLUDE_DIR}/Expr/ExprIdentifier.hpp
-	${INCLUDE_DIR}/Expr/ExprImageAccessCall.hpp
 	${INCLUDE_DIR}/Expr/ExprInit.hpp
 	${INCLUDE_DIR}/Expr/ExprIntrinsicCall.hpp
 	${INCLUDE_DIR}/Expr/ExprLess.hpp
@@ -122,7 +119,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprQuestion.hpp
 	${INCLUDE_DIR}/Expr/ExprRShift.hpp
 	${INCLUDE_DIR}/Expr/ExprRShiftAssign.hpp
-	${INCLUDE_DIR}/Expr/ExprSampledImageAccessCall.hpp
+	${INCLUDE_DIR}/Expr/ExprStorageImageAccessCall.hpp
 	${INCLUDE_DIR}/Expr/ExprStreamAppend.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchCase.hpp
 	${INCLUDE_DIR}/Expr/ExprSwitchTest.hpp
@@ -134,15 +131,13 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprUnaryPlus.hpp
 	${INCLUDE_DIR}/Expr/ExprVisitor.hpp
 	${INCLUDE_DIR}/Expr/ExprXorAssign.hpp
-	${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
-	${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp
+	${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp
 	${INCLUDE_DIR}/Expr/IntrinsicCallHelpers.hpp
-	${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
 	${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
-	${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
 	${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp
+	${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp
 	${INCLUDE_DIR}/Expr/SwizzleKind.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
@@ -171,7 +166,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprGreater.cpp
 	${SOURCE_DIR}/Expr/ExprGreaterEqual.cpp
 	${SOURCE_DIR}/Expr/ExprIdentifier.cpp
-	${SOURCE_DIR}/Expr/ExprImageAccessCall.cpp
 	${SOURCE_DIR}/Expr/ExprInit.cpp
 	${SOURCE_DIR}/Expr/ExprIntrinsicCall.cpp
 	${SOURCE_DIR}/Expr/ExprLess.cpp
@@ -197,7 +191,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprQuestion.cpp
 	${SOURCE_DIR}/Expr/ExprRShift.cpp
 	${SOURCE_DIR}/Expr/ExprRShiftAssign.cpp
-	${SOURCE_DIR}/Expr/ExprSampledImageAccessCall.cpp
+	${SOURCE_DIR}/Expr/ExprStorageImageAccessCall.cpp
 	${SOURCE_DIR}/Expr/ExprStreamAppend.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchCase.cpp
 	${SOURCE_DIR}/Expr/ExprSwitchTest.cpp
@@ -504,54 +498,30 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		${SCRIPT_DIR}/*.py
 	)
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/EnumImageAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumImageAccess.hpp
-		COMMENT "Generating EnumImageAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/EnumStorageImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumStorageImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp
+		COMMENT "Generating EnumStorageImageAccess.hpp"
+		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum
 	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumImageAccess.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
+	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp )
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/GetImageAccessName.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetImageAccessName.hpp
-		COMMENT "Generating GetImageAccessName.hpp"
-		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GetStorageImageAccessName.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetStorageImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp
+		COMMENT "Generating GetStorageImageAccessName.hpp"
+		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum
 	)
-	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/GetImageAccessName.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
+	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp )
+	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum ${GENERATED_DIR}/MakeImageAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp
-		COMMENT "Generating MakeImageAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/ImageAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/MakeStorageImageAccess.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeStorageImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp
+		COMMENT "Generating MakeStorageImageAccess.hpp"
+		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum
 	)
-	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/MakeImageAccess.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/EnumSampledImageAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumSampledImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp
-		COMMENT "Generating EnumSampledImageAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
-	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumSampledImageAccess.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/GetSampledImageAccessName.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetSampledImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp
-		COMMENT "Generating GetSampledImageAccessName.hpp"
-		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
-	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetSampledImageAccessName.hpp )
-	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum ${GENERATED_DIR}/MakeSampledImageAccess.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeSampledImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp
-		COMMENT "Generating MakeSampledImageAccess.hpp"
-		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/SampledImageAccess.enum
-	)
-	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeSampledImageAccess.hpp )
+	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/EnumCombinedImageAccess.hpp

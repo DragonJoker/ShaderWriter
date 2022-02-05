@@ -32,25 +32,25 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 		${SCRIPT_DIR}/*.py
 	)
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
-	add_custom_command( OUTPUT ${SOURCE_DIR}/GlslImageAccessNames.hpp
+	add_custom_command( OUTPUT ${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum ${GENERATED_DIR}/GlslImageAccessNames.hpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslImageAccessNames.hpp ${SOURCE_DIR}/GlslImageAccessNames.hpp
-		COMMENT "Generating GlslImageAccessNames.hpp"
-		DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/ImageAccess.enum
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp ${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
+		COMMENT "Generating GlslStorageImageAccessNames.hpp"
+		DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum
 	)
 	source_group( "Script Files" FILES
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
 	)
 	source_group( "Header Files" FILES
-		${SOURCE_DIR}/GLSL/GlslImageAccessNames.hpp
+		${SOURCE_DIR}/GLSL/GlslStorageImageAccessNames.hpp
 	)
 endif ()
 
 if ( SDW_BUILD_STATIC )
 	add_library( ${PROJECT_NAME}
 		STATIC
-		${SOURCE_DIR}/GlslImageAccessNames.hpp
+		${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -63,7 +63,7 @@ if ( SDW_BUILD_STATIC )
 else ()
 	add_library( ${PROJECT_NAME}
 		SHARED
-		${SOURCE_DIR}/GlslImageAccessNames.hpp
+		${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}

@@ -256,10 +256,7 @@ namespace sdw
 		, SampledImageT< FormatT, DimT, ArrayedT, MsT > const & image
 		, SamplerT< DepthT > const & sampler )
 	{
-		using Return = CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >;
-		using Sampler = SamplerT< DepthT >;
-
-		return Return{ writer
+		return CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >{ writer
 			, sdw::makeCompositeCtor( std::move( makeFnArg( writer, image ).front() )
 				, std::move( makeFnArg( writer, sampler ).front() ) )
 			, sdw::areOptionalEnabled( image, sampler ) };

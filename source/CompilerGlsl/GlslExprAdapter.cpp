@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #include "GlslExprAdapter.hpp"
 
 #include "GlslHelpers.hpp"
-#include "GlslTextureAccessConfig.hpp"
+#include "GlslCombinedImageAccessConfig.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
@@ -308,8 +308,8 @@ namespace glsl
 
 	void ExprAdapter::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
-		if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU )
+		if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
+			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU )
 		{
 			doProcessImageStore( expr );
 		}
@@ -464,38 +464,6 @@ namespace glsl
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
 		m_result = ast::expr::makeEmitVertex( m_cache );
-	}
-
-	void ExprAdapter::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
-	{
-		if ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSample1DShadowF
-			&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectShadowF )
-		{
-			doProcessSampledImageShadow( expr );
-		}
-		else if ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSample1DF
-			&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleProjGradOffset2DRectU4 )
-		{
-			doProcessSampledImageSample( expr );
-		}
-		else if ( expr->getSampledImageAccess() >= ast::expr::SampledImageAccess::eSampleGather2DF
-			&& expr->getSampledImageAccess() <= ast::expr::SampledImageAccess::eSampleGatherOffsets2DRectU )
-		{
-			doProcessSampledImageGather( expr );
-		}
-		else
-		{
-			ast::expr::ExprList args;
-
-			for ( auto & arg : expr->getArgList() )
-			{
-				args.emplace_back( doSubmit( arg.get() ) );
-			}
-
-			m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
-				, expr->getSampledImageAccess()
-				, std::move( args ) );
-		}
 	}
 
 	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
@@ -728,166 +696,6 @@ namespace glsl
 
 		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
 			, expr->getCombinedImageAccess()
-			, std::move( args ) );
-	}
-
-	void ExprAdapter::doProcessSampledImageShadow( ast::expr::SampledImageAccessCall * expr )
-	{
-		ast::expr::ExprList args;
-		// First parameter is the sampled image
-		args.emplace_back( doSubmit( expr->getArgList()[0].get() ) );
-		args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-		// For SampledImage shadow functions, dref value is put inside the coords parameter, instead of being aside.
-		assert( expr->getArgList().size() >= 4u );
-		
-		if ( expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSample1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSample1DShadowFBias
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProj1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProj1DShadowFBias
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleLod1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleOffset1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleOffset1DShadowFBias
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProjOffset1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProjOffset1DShadowFBias
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleLodOffset1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProjLod1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProjLodOffset1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleGrad1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleGradOffset1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProjGrad1DShadowF
-			|| expr->getSampledImageAccess() == ast::expr::SampledImageAccess::eSampleProjGradOffset1DShadowF )
-		{
-			ast::expr::ExprList merged;
-
-			switch ( expr->getArgList()[2]->getType()->getKind() )
-			{
-			case ast::type::Kind::eFloat:
-				// SampledImage1DShadow accesses.
-				// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
-				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				merged.emplace_back( doSubmit( expr->getArgList()[3].get() ) );
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
-					, ast::type::Kind::eFloat
-					, std::move( merged ) ) );
-				break;
-			case ast::type::Kind::eVec2F:
-				{
-					// SampledImageProj1DShadow accesses.
-					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[2].get() ), ast::expr::SwizzleKind::e0 ) );
-					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[2].get() ), ast::expr::SwizzleKind::e0 ) );
-					merged.emplace_back( doSubmit( expr->getArgList()[3].get() ) );
-					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[2].get() ), ast::expr::SwizzleKind::e1 ) );
-					args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
-						, ast::type::Kind::eFloat
-						, std::move( merged ) ) );
-				}
-				break;
-			case ast::type::Kind::eVec3F:
-				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				merged.emplace_back( doSubmit( expr->getArgList()[3].get() ) );
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
-					, ast::type::Kind::eFloat
-					, std::move( merged ) ) );
-				break;
-			case ast::type::Kind::eVec4F:
-				// If the first type was a vec4, forget about merging
-				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				args.emplace_back( doSubmit( expr->getArgList()[3].get() ) );
-				break;
-			default:
-				break;
-			}
-		}
-		else
-		{
-			// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
-			ast::expr::ExprList merged;
-			merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-			merged.emplace_back( doSubmit( expr->getArgList()[3].get() ) );
-
-			switch ( merged[0]->getType()->getKind() )
-			{
-			case ast::type::Kind::eFloat:
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
-					, ast::type::Kind::eFloat
-					, std::move( merged ) ) );
-				break;
-			case ast::type::Kind::eVec2F:
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
-					, ast::type::Kind::eFloat
-					, std::move( merged ) ) );
-				break;
-			case ast::type::Kind::eVec3F:
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
-					, ast::type::Kind::eFloat
-					, std::move( merged ) ) );
-				break;
-			case ast::type::Kind::eVec4F:
-				// If the first type was a vec4, forget about merging
-				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				args.emplace_back( doSubmit( expr->getArgList()[3].get() ) );
-				break;
-			default:
-				break;
-			}
-		}
-
-		// Other parameters remain unchanged.
-		for ( size_t i = 4u; i < expr->getArgList().size(); ++i )
-		{
-			args.emplace_back( doSubmit( expr->getArgList()[i].get() ) );
-		}
-
-		m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
-			, expr->getSampledImageAccess()
-			, std::move( args ) );
-	}
-
-	void ExprAdapter::doProcessSampledImageSample( ast::expr::SampledImageAccessCall * expr )
-	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
-		auto config = imgArgType->getConfig();
-		auto callRetType = m_cache.getSampledType( config.format );
-		ast::expr::ExprList args;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			args.emplace_back( doSubmit( arg.get() ) );
-		}
-
-		m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
-			, expr->getSampledImageAccess()
-			, std::move( args ) );
-
-		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
-
-		if ( callRetType != glslRetType )
-		{
-			m_result = swizzleConvert( callRetType, glslRetType, std::move( m_result ) );
-		}
-	}
-
-	void ExprAdapter::doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr )
-	{
-		auto imgArgType = std::static_pointer_cast< ast::type::SampledImage >( expr->getArgList()[0]->getType() );
-		ast::expr::ExprList args;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			args.emplace_back( doSubmit( arg.get() ) );
-		}
-
-		// Component parameter is the last one in GLSL whilst it is the last before
-		// optional ones in SPIR-V, hence we move it to the right place.
-		// 0->img, 1->spl, 2->coord, 3->component
-		auto it = args.begin() + 3u;
-		auto compArg = std::move( *it );
-		args.erase( it );
-		args.emplace_back( std::move( compArg ) );
-
-		m_result = ast::expr::makeSampledImageAccessCall( expr->getType()
-			, expr->getSampledImageAccess()
 			, std::move( args ) );
 	}
 

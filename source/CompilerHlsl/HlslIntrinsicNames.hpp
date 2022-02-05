@@ -9,6 +9,7 @@ See LICENSE file in root folder
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
+#include <stdexcept>
 #include <string>
 #pragma warning( pop )
 

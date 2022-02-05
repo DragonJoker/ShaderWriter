@@ -33,7 +33,6 @@ namespace ast::expr
 		eFnCall,
 		eCompositeConstruct,
 		eIntrinsicCall,
-		eSampledImageAccessCall,
 		eCombinedImageAccessCall,
 		eImageAccessCall,
 		eEqual,

@@ -7,12 +7,12 @@ See LICENSE file in root folder
 
 #include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvHelpers.hpp"
-#include "SpirvImageAccessConfig.hpp"
-#include "SpirvImageAccessNames.hpp"
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvIntrinsicNames.hpp"
-#include "SpirvTextureAccessConfig.hpp"
-#include "SpirvTextureAccessNames.hpp"
+#include "SpirvStorageImageAccessConfig.hpp"
+#include "SpirvStorageImageAccessNames.hpp"
+#include "SpirvCombinedImageAccessConfig.hpp"
+#include "SpirvCombinedImageAccessNames.hpp"
 
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
@@ -204,11 +204,6 @@ namespace spirv
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * )override
 			{
 				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
-			}
-
-			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * )override
-			{
-				AST_Failure( "Unexpected ast::expr::SampledImageAccessCall ?" );
 			}
 
 		private:
@@ -531,11 +526,6 @@ namespace spirv
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * )override
 			{
 				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
-			}
-
-			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * )override
-			{
-				AST_Failure( "Unexpected ast::expr::SampledImageAccessCall ?" );
 			}
 
 		private:

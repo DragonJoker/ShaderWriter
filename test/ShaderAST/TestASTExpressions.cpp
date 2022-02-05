@@ -1105,12 +1105,12 @@ namespace
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getImage( config ), "x" ) ) );
-			auto expr = ast::expr::makeImageAccessCall( cache.getInt(), ast::expr::ImageAccess::eImageSize1DI, std::move( argList ) );
+			auto expr = ast::expr::makeImageAccessCall( cache.getInt(), ast::expr::StorageImageAccess::eImageSize1DI, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eImageAccessCall );
 			check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
-			check( expr->getImageAccess() == ast::expr::ImageAccess::eImageSize1DI );
+			check( expr->getImageAccess() == ast::expr::StorageImageAccess::eImageSize1DI );
 
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );

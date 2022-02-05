@@ -557,7 +557,11 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 					if enumName == "CombinedImageAccess":
-						imageType = "Texture"
+						imageType = "CombinedImage"
+					elif enumName == "SampledImageAccess":
+						imageType = "SampledImage"
+					elif enumName == "StorageImageAccess":
+						imageType = "StorageImage"
 				elif resultValue:
 					returnGroup = resultValue.group( 1 )
 					functionGroup = resultValue.group( 2 )
@@ -580,7 +584,17 @@ def main( argv ):
 									paramsGroup = function[2]
 									printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageType )
 							endFunctionGroup( outs )
-					elif enumName == "ImageAccess":
+					elif enumName == "SampledImageAccess":
+						for functionsName, functionsSubGroup in functionGroups.items():
+							beginFunctionGroup( outs, functionsName )
+							for paramsList, functionsList in functionsSubGroup.items():
+								for function in functionsList:
+									returnGroup = function[0]
+									functionGroup = function[1]
+									paramsGroup = function[2]
+									printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageType )
+							endFunctionGroup( outs )
+					elif enumName == "StorageImageAccess":
 						for functionsName, functionsSubGroup in functionGroups.items():
 							beginFunctionGroup( outs, functionsName )
 							for paramsList, functionsList in functionsSubGroup.items():

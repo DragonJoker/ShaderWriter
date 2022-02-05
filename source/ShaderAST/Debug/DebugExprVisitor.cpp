@@ -7,9 +7,8 @@ See LICENSE file in root folder
 #include "ShaderAST/Var/Variable.hpp"
 
 #include "ShaderAST/Expr/GetCombinedImageAccessName.hpp"
-#include "ShaderAST/Expr/GetImageAccessName.hpp"
 #include "ShaderAST/Expr/GetIntrinsicName.hpp"
-#include "ShaderAST/Expr/GetSampledImageAccessName.hpp"
+#include "ShaderAST/Expr/GetStorageImageAccessName.hpp"
 
 #include <cmath>
 
@@ -90,9 +89,6 @@ namespace ast::debug
 				break;
 			case expr::Kind::eIntrinsicCall:
 				result = "INTRCALL";
-				break;
-			case expr::Kind::eSampledImageAccessCall:
-				result = "SMPIMGINTRCALL";
 				break;
 			case expr::Kind::eCombinedImageAccessCall:
 				result = "TEXINTRCALL";
@@ -386,22 +382,6 @@ namespace ast::debug
 	{
 		m_result += getName( expr->getKind() ) + " ";
 		m_result += getName( expr->getIntrinsic() ) + "(";
-		std::string sep;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			m_result += sep;
-			wrap( arg.get() );
-			sep = ", ";
-		}
-
-		m_result += ")";
-	}
-
-	void ExprVisitor::visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )
-	{
-		m_result += getName( expr->getKind() ) + " ";
-		m_result += getName( expr->getSampledImageAccess() ) + "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )

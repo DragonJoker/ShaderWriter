@@ -325,9 +325,9 @@ def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsG
 		outs.write( "\n\t*@param sampler" )
 		outs.write( "\n\t*\tSampler" )
 		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "ImageAccess":
+	elif enumName == "StorageImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "StorageImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	else:
 		outs.write( computeParamsDoc( paramsGroup ) )
@@ -345,9 +345,9 @@ def printTextureFunctionDocExNR( outs, enumName, lastGroup, functionGroup, param
 		outs.write( "\n\t*@param sampler" )
 		outs.write( "\n\t*\tSampler" )
 		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "ImageAccess":
+	elif enumName == "StorageImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "StorageImage", functionGroup ) )
 		outs.write( computeParamsDocEx( paramsGroup, lastGroup ) )
 	else:
 		outs.write( computeParamsDoc( paramsGroup ) )
@@ -367,7 +367,7 @@ def printTextureFunctionDocEx( outs, enumName, returnGroup, functionGroup, param
 		outs.write( "\n\t*@param sampler" )
 		outs.write( "\n\t*\tSampler" )
 		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "ImageAccess":
+	elif enumName == "StorageImageAccess":
 		outs.write( "\n\t*@param image" )
 		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
 		outs.write( computeParamsDocEx( paramsGroup, returnGroup ) )
@@ -450,7 +450,7 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 			formats.append( ( 'Rg16', retType ) )
 			formats.append( ( 'R32', retType ) )
 			formats.append( ( 'R16', retType ) )
-		elif enumName == "ImageAccess":
+		elif enumName == "StorageImageAccess":
 			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
 			formats.append( ( 'Rgba16', 'type::Kind::eVec4H' ) )
 			formats.append( ( 'Rg32', 'type::Kind::eVec2F' ) )
@@ -507,9 +507,9 @@ def printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
 		outs.write( "\n\t*@param sampler" )
 		outs.write( "\n\t*\tSampler" )
 		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "ImageAccess":
+	elif enumName == "StorageImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "StorageImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	else:
 		outs.write( computeParamsDoc( paramsGroup ) )
@@ -532,7 +532,7 @@ def printIntrinsic( outs, enumName, match ):
 	elif enumName == "SampledImageAccess":
 		outs.write( "\n\t\t\t, std::move( image )" )
 		outs.write( "\n\t\t\t, std::move( sampler )" )
-	elif enumName == "ImageAccess":
+	elif enumName == "StorageImageAccess":
 		outs.write( "\n\t\t\t, std::move( image )" )
 	outs.write( computeArgs( paramsGroup ) + " );\n" )
 	outs.write( "\t}" )
@@ -542,7 +542,7 @@ def printFunction( outs, enumName, match ):
 		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
 	elif enumName == "SampledImageAccess":
 		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
-	elif enumName == "ImageAccess":
+	elif enumName == "StorageImageAccess":
 		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image", "\n\t\t\t, std::move( image )", match )
 	else:
 		printIntrinsic( outs, enumName, match )

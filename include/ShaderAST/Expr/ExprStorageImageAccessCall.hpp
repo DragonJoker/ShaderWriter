@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ExprList.hpp"
-#include "EnumImageAccess.hpp"
+#include "EnumStorageImageAccess.hpp"
 #include "IntrinsicCallHelpers.hpp"
 
 namespace ast::expr
@@ -16,7 +16,7 @@ namespace ast::expr
 	{
 	public:
 		SDAST_API ImageAccessCall( type::TypePtr type
-			, ImageAccess imageAccess
+			, StorageImageAccess imageAccess
 			, ExprList && argList );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -26,19 +26,19 @@ namespace ast::expr
 			return m_argList;
 		}
 
-		inline ImageAccess getImageAccess()const
+		inline StorageImageAccess getImageAccess()const
 		{
 			return m_imageAccess;
 		}
 
 	private:
-		ImageAccess m_imageAccess;
+		StorageImageAccess m_imageAccess;
 		ExprList m_argList;
 	};
 	using ImageAccessCallPtr = std::unique_ptr< ImageAccessCall >;
 
 	inline ImageAccessCallPtr makeImageAccessCall( type::TypePtr type
-		, ImageAccess imageAccess
+		, StorageImageAccess imageAccess
 		, ExprList && argList )
 	{
 		return std::make_unique< ImageAccessCall >( std::move( type )
@@ -48,7 +48,7 @@ namespace ast::expr
 
 	template< typename ... Params >
 	inline ImageAccessCallPtr makeImageAccessCall( type::TypePtr type
-		, ImageAccess imageAccess
+		, StorageImageAccess imageAccess
 		, Params ... args )
 	{
 		ExprList argList;

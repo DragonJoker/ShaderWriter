@@ -4,8 +4,7 @@ See LICENSE file in root folder
 #include "GlslExprConfigFiller.hpp"
 
 #include "GlslHelpers.hpp"
-#include "GlslTextureAccessConfig.hpp"
-#include "GlslSampledImageAccessConfig.hpp"
+#include "GlslCombinedImageAccessConfig.hpp"
 
 namespace glsl
 {
@@ -343,27 +342,14 @@ namespace glsl
 		}
 	}
 
-	void ExprConfigFiller::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
-	{
-		m_config.requiredExtensions.insert( KHR_vulkan_glsl );
-		m_config.requiresSeparateSamplers = true;
-		checkType( expr->getType(), m_config );
-		getGlslConfig( expr->getSampledImageAccess(), m_config );
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			doSubmit( arg.get() );
-		}
-	}
-
 	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		checkType( expr->getType(), m_config );
 
-		if ( ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicAdd1DF
-				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF )
-			|| ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicExchange1DF
-				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF ) )
+		if ( ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicAdd1DF
+				&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicAdd2DMSArrayF )
+			|| ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicExchange1DF
+				&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF ) )
 		{
 			m_config.requiredExtensions.insert( NV_shader_atomic_float );
 
@@ -375,8 +361,8 @@ namespace glsl
 				}
 			}
 		}
-		else if ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageSize1DF
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageSize2DMSArrayU )
+		else if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageSize1DF
+			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageSize2DMSArrayU )
 		{
 			m_config.requiredExtensions.insert( ARB_shader_image_size );
 		}

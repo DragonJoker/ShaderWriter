@@ -35,7 +35,6 @@ namespace glsl
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
-		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitInitExpr( ast::expr::Init * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;

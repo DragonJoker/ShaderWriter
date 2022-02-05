@@ -4,10 +4,9 @@ See LICENSE file in root folder
 #include "SpirvExprConfigFiller.hpp"
 
 #include "SpirvHelpers.hpp"
-#include "SpirvImageAccessConfig.hpp"
 #include "SpirvIntrinsicConfig.hpp"
-#include "SpirvSampledImageAccessConfig.hpp"
-#include "SpirvTextureAccessConfig.hpp"
+#include "SpirvStorageImageAccessConfig.hpp"
+#include "SpirvCombinedImageAccessConfig.hpp"
 
 namespace spirv
 {
@@ -194,17 +193,17 @@ namespace spirv
 			}
 		}
 
-		if ( ( kind >= ast::expr::ImageAccess::eImageSize1DF
-			&& kind <= ast::expr::ImageAccess::eImageSize2DMSArrayU )
-			|| ( kind >= ast::expr::ImageAccess::eImageSamples2DMSF
-				&& kind <= ast::expr::ImageAccess::eImageSamples2DMSArrayU ) )
+		if ( ( kind >= ast::expr::StorageImageAccess::eImageSize1DF
+			&& kind <= ast::expr::StorageImageAccess::eImageSize2DMSArrayU )
+			|| ( kind >= ast::expr::StorageImageAccess::eImageSamples2DMSF
+				&& kind <= ast::expr::StorageImageAccess::eImageSamples2DMSArrayU ) )
 		{
 			m_config.registerCapability( spv::CapabilityImageQuery );
 		}
-		else if ( ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicAdd1DF
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicAdd2DMSArrayF )
-			|| ( expr->getImageAccess() >= ast::expr::ImageAccess::eImageAtomicExchange1DF
-				&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageAtomicExchange2DMSArrayF ) )
+		else if ( ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicAdd1DF
+			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicAdd2DMSArrayF )
+			|| ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicExchange1DF
+				&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF ) )
 		{
 			m_config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 		}
@@ -233,48 +232,6 @@ namespace spirv
 			m_config.registerCapability( spv::CapabilityDemoteToHelperInvocation );
 			// The extension is not optional, when using helperInvocation intrinsic.
 			m_config.registerExtension( EXT_demote_to_helper_invocation );
-		}
-	}
-
-	void ExprConfigFiller::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
-	{
-		checkType( expr, m_config );
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			doSubmit( arg.get() );
-
-			if ( arg->isNonUniform() )
-			{
-				m_config.registerCapability( spv::CapabilitySampledImageArrayNonUniformIndexing );
-			}
-		}
-
-		auto kind = expr->getSampledImageAccess();
-
-		if ( ( kind >= ast::expr::SampledImageAccess::eSampleGather2DShadowF
-			&& kind <= ast::expr::SampledImageAccess::eSampleGatherOffsets2DRectShadowF ) )
-		{
-			m_config.registerCapability( spv::CapabilityImageGatherExtended );
-		}
-
-		if ( getConstOffsets( kind ) == spv::ImageOperandsConstOffsetsMask )
-		{
-			m_config.registerCapability( spv::CapabilityImageGatherExtended );
-		}
-
-		IntrinsicConfig config;
-		getSpirVConfig( kind, config );
-
-		if ( config.offsetIndex )
-		{
-			assert( expr->getArgList().size() >= config.offsetIndex );
-			bool constOffset = expr->getArgList()[config.offsetIndex - 1u]->isConstant();
-
-			if ( getOffset( kind, constOffset ) == spv::ImageOperandsOffsetMask )
-			{
-				m_config.registerCapability( spv::CapabilityImageGatherExtended );
-			}
 		}
 	}
 

@@ -4,10 +4,9 @@ See LICENSE file in root folder
 #include "GlslExprVisitor.hpp"
 
 #include "GlslHelpers.hpp"
-#include "GlslImageAccessNames.hpp"
 #include "GlslIntrinsicNames.hpp"
-#include "GlslSampledImageAccessNames.hpp"
-#include "GlslTextureAccessNames.hpp"
+#include "GlslStorageImageAccessNames.hpp"
+#include "GlslCombinedImageAccessNames.hpp"
 
 #include <cmath>
 #pragma warning( push )
@@ -491,11 +490,6 @@ namespace glsl
 	{
 		wrap( expr->getOuterExpr() );
 		m_result += "." + getName( expr->getSwizzle() );
-	}
-
-	void ExprVisitor::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
-	{
-		AST_Failure( "Unexpected ast::expr::SampledImageAccessCall expression." );
 	}
 
 	void ExprVisitor::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
