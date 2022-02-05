@@ -56,7 +56,7 @@ namespace hlsl
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
 		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
-		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 
 		void doPushSplImgArg( ast::expr::Expr & imageArg
@@ -83,14 +83,14 @@ namespace hlsl
 		void doProcessImageAtomicXor( ast::expr::ImageAccessCall * expr );
 		void doProcessImageAtomicExchange( ast::expr::ImageAccessCall * expr );
 		void doProcessImageAtomicCompSwap( ast::expr::ImageAccessCall * expr );
-		void doProcessTextureSize( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureQueryLod( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureQueryLevels( ast::expr::TextureAccessCall * expr );
-		void doProcessTexelFetch( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureGradShadow( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureGather( ast::expr::TextureAccessCall * expr );
-		void doProcessTextureGatherOffsets( ast::expr::TextureAccessCall * expr );
-		void doProcessTexture( ast::expr::TextureAccessCall * expr );
+		void doProcessTextureSize( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureQueryLod( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureQueryLevels( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTexelFetch( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureGradShadow( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall * expr );
+		void doProcessTexture( ast::expr::CombinedImageAccessCall * expr );
 		void doProcessSampledImageGradShadow( ast::expr::SampledImageAccessCall * expr );
 		void doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr );
 		void doProcessSampledImageGatherOffsets( ast::expr::SampledImageAccessCall * expr );

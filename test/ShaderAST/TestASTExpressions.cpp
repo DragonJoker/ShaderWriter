@@ -1120,25 +1120,25 @@ namespace
 		testEnd();
 	}
 
-	void testExprTextureAccessCall( test::TestCounts & testCounts )
+	void testExprCombinedImageAccessCall( test::TestCounts & testCounts )
 	{
-		testBegin( "testExprTextureAccessCall" );
+		testBegin( "testExprCombinedImageAccessCall" );
 		{
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
-			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getTexture( config ), "x" ) ) );
-			auto expr = ast::expr::makeTextureAccessCall( cache.getInt(), ast::expr::TextureAccess::eTextureSize1DI, std::move( argList ) );
+			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getCombinedImage( config ), "x" ) ) );
+			auto expr = ast::expr::makeCombinedImageAccessCall( cache.getInt(), ast::expr::CombinedImageAccess::eTextureSize1DI, std::move( argList ) );
 
-			require( expr->getKind() == ast::expr::Kind::eTextureAccessCall );
+			require( expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall );
 			check( expr->getType()->getKind() == ast::type::Kind::eInt );
 
-			check( expr->getTextureAccess() == ast::expr::TextureAccess::eTextureSize1DI );
+			check( expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureSize1DI );
 
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
-			check( expr->getArgList().back()->getType() == cache.getTexture( config ) );
-			testCounts << "ExprTextureAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
+			check( expr->getArgList().back()->getType() == cache.getCombinedImage( config ) );
+			testCounts << "ExprCombinedImageAccessCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1376,7 +1376,7 @@ testSuiteMain( TestASTExpressions )
 	testExprCompositeConstruct( testCounts );
 	testExprFnCall( testCounts );
 	testExprIntrinsicCall( testCounts );
-	testExprTextureAccessCall( testCounts );
+	testExprCombinedImageAccessCall( testCounts );
 	testExprImageAccessCall( testCounts );
 	testExprInit( testCounts );
 	testExprAggrInit( testCounts );

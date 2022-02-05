@@ -64,7 +64,7 @@ namespace ast::debug
 			case ast::stmt::Kind::eImageDecl:
 				result = "STIMAGEDECL";
 				break;
-			case ast::stmt::Kind::eTextureDecl:
+			case ast::stmt::Kind::eCombinedImageDecl:
 				result = "STTEXTUREDECL";
 				break;
 			case ast::stmt::Kind::eFunctionDecl:
@@ -557,7 +557,7 @@ namespace ast::debug
 		m_result += "\n";
 	}
 
-	void StmtVisitor::visitTextureDeclStmt( stmt::TextureDecl * stmt )
+	void StmtVisitor::visitCombinedImageDeclStmt( stmt::CombinedImageDecl * stmt )
 	{
 		displayStmtName( stmt, false );
 		m_result += "B(";

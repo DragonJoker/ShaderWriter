@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-ASTIntrDecl( TextureAccess )
+ASTIntrDecl( CombinedImageAccess )
 	// Texture Query Functions
 	ASTIntrValue( type::Kind::eInt, ASTIntrName( textureSize, TextureSize, 1DF ), ASTIntrParams( ASTIntrParam( type::Kind::eInt, lod ) ) )
 	ASTIntrValue( type::Kind::eVec2I, ASTIntrName( textureSize, TextureSize, 2DF ), ASTIntrParams( ASTIntrParam( type::Kind::eInt, lod ) ) )

@@ -200,7 +200,7 @@ namespace spirv
 				submit( expr->getOuterExpr() );
 			}
 
-			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
 			{
 				for ( auto & init : expr->getArgList() )
 				{
@@ -414,7 +414,7 @@ namespace spirv
 			{
 			}
 
-			void visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )override
+			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
 			{
 			}
 

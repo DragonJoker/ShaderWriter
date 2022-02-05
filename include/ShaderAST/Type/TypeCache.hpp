@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "TypeAccelerationStructure.hpp"
 #include "TypeArray.hpp"
 #include "TypeCallableData.hpp"
+#include "TypeCombinedImage.hpp"
 #include "TypeComputeIO.hpp"
 #include "TypeFragmentIO.hpp"
 #include "TypeFunction.hpp"
@@ -20,7 +21,6 @@ See LICENSE file in root folder
 #include "TypeRayPayload.hpp"
 #include "TypeSampledImage.hpp"
 #include "TypeSampler.hpp"
-#include "TypeTexture.hpp"
 #include "TypeStruct.hpp"
 #include "TypeTaskIO.hpp"
 #include "TypeTessellationControlIO.hpp"
@@ -137,7 +137,7 @@ namespace ast::type
 		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
 		SDAST_API ImagePtr getImage( ImageConfiguration func );
 		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration func, Trinary comparison = Trinary::eDontCare );
-		SDAST_API TexturePtr getTexture( ImageConfiguration func, bool isComparison = false );
+		SDAST_API CombinedImagePtr getCombinedImage( ImageConfiguration func, bool isComparison = false );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );
@@ -157,7 +157,7 @@ namespace ast::type
 		AccelerationStructurePtr m_accelerationStructure;
 		RayDescPtr m_rayDesc;
 		TypeCache< Image, std::function< ImagePtr( ImageConfiguration ) >, std::function< size_t( ImageConfiguration const & ) > > m_image;
-		TypeCache< Texture, std::function< TexturePtr( ImageConfiguration, bool ) >, std::function< size_t( ImageConfiguration const &, bool ) > > m_texture;
+		TypeCache< CombinedImage, std::function< CombinedImagePtr( ImageConfiguration, bool ) >, std::function< size_t( ImageConfiguration const &, bool ) > > m_texture;
 		TypeCache< SampledImage, std::function< SampledImagePtr( ImageConfiguration, Trinary ) >, std::function< size_t( ImageConfiguration const &, Trinary ) > > m_sampledImage;
 		TypeCache< Sampler, std::function< SamplerPtr( bool ) >, std::function< size_t( bool ) > > m_sampler;
 		TypeCache< Function, std::function< FunctionPtr( TypePtr, var::VariableList ) >, std::function< size_t( TypePtr, var::VariableList ) > > m_function;

@@ -453,7 +453,7 @@ namespace spirv
 			checkType( type.getConfig(), arraySize, true, config );
 		}
 
-		void checkType( ast::type::Texture const & type
+		void checkType( ast::type::CombinedImage const & type
 			, uint32_t arraySize
 			, ModuleConfig & config )
 		{
@@ -475,8 +475,8 @@ namespace spirv
 				case ast::type::Kind::eImage:
 					checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
 					break;
-				case ast::type::Kind::eTexture:
-					checkType( static_cast< ast::type::Texture const & >( *type ), arraySize, config );
+				case ast::type::Kind::eCombinedImage:
+					checkType( static_cast< ast::type::CombinedImage const & >( *type ), arraySize, config );
 					break;
 				case ast::type::Kind::eSampledImage:
 					checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );

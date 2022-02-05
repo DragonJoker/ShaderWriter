@@ -97,7 +97,7 @@ namespace ast
 				visitOtherExpr( expr );
 			}
 
-			void visitTextureAccessCallExpr( expr::TextureAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
 			{
 				visitOtherExpr( expr );
 			}

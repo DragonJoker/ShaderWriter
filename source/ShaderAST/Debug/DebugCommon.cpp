@@ -9,7 +9,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Type/TypeArray.hpp"
 #include "ShaderAST/Type/TypeImage.hpp"
 #include "ShaderAST/Type/TypeSampledImage.hpp"
-#include "ShaderAST/Type/TypeTexture.hpp"
+#include "ShaderAST/Type/TypeCombinedImage.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
 #include "ShaderAST/Var/Variable.hpp"
 
@@ -314,7 +314,7 @@ namespace ast::debug
 		case type::Kind::eSampler:
 			result = "SAMPLER";
 			break;
-		case type::Kind::eTexture:
+		case type::Kind::eCombinedImage:
 			result = "COMBSPLIMG";
 			break;
 		case type::Kind::eSampledImage:
@@ -524,9 +524,9 @@ namespace ast::debug
 			result += "(" + getName( static_cast< type::Image const & >( type ).getConfig() );
 			result += ")";
 			break;
-		case type::Kind::eTexture:
+		case type::Kind::eCombinedImage:
 			result = getName( getNonArrayKind( type ) );
-			result += "(" + getName( static_cast< type::Texture const & >( type ).getConfig() );
+			result += "(" + getName( static_cast< type::CombinedImage const & >( type ).getConfig() );
 			result += ")";
 			break;
 		case type::Kind::eSampledImage:

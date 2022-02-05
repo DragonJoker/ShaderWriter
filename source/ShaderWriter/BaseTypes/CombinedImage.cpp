@@ -1,11 +1,11 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/BaseTypes/Texture.hpp"
+#include "ShaderWriter/BaseTypes/CombinedImage.hpp"
 
 namespace sdw
 {
-	Texture::Texture( ast::type::ImageFormat /*format*/
+	CombinedImage::CombinedImage( ast::type::ImageFormat /*format*/
 		, ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
@@ -13,7 +13,7 @@ namespace sdw
 	{
 	}
 
-	Texture::operator uint32_t()
+	CombinedImage::operator uint32_t()
 	{
 		return 0u;
 	}

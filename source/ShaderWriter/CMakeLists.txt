@@ -113,6 +113,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/Bool.inl
 	${INCLUDE_DIR}/BaseTypes/CallableData.hpp
 	${INCLUDE_DIR}/BaseTypes/CallableData.inl
+	${INCLUDE_DIR}/BaseTypes/CombinedImage.hpp
+	${INCLUDE_DIR}/BaseTypes/CombinedImage.inl
 	${INCLUDE_DIR}/BaseTypes/Double.hpp
 	${INCLUDE_DIR}/BaseTypes/Double.inl
 	${INCLUDE_DIR}/BaseTypes/Float.hpp
@@ -135,10 +137,10 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/SampledImage.inl
 	${INCLUDE_DIR}/BaseTypes/Sampler.hpp
 	${INCLUDE_DIR}/BaseTypes/Sampler.inl
+	${INCLUDE_DIR}/BaseTypes/StorageImage.hpp
+	${INCLUDE_DIR}/BaseTypes/StorageImage.inl
 	${INCLUDE_DIR}/BaseTypes/TaskPayload.hpp
 	${INCLUDE_DIR}/BaseTypes/TaskPayload.inl
-	${INCLUDE_DIR}/BaseTypes/Texture.hpp
-	${INCLUDE_DIR}/BaseTypes/Texture.inl
 	${INCLUDE_DIR}/BaseTypes/UInt.hpp
 	${INCLUDE_DIR}/BaseTypes/UInt.inl
 	${INCLUDE_DIR}/BaseTypes/Void.hpp
@@ -148,16 +150,16 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/AccelerationStructure.cpp
 	${SOURCE_DIR}/BaseTypes/Bool.cpp
 	${SOURCE_DIR}/BaseTypes/CallableData.cpp
+	${SOURCE_DIR}/BaseTypes/CombinedImage.cpp
 	${SOURCE_DIR}/BaseTypes/Double.cpp
 	${SOURCE_DIR}/BaseTypes/Float.cpp
 	${SOURCE_DIR}/BaseTypes/HitAttribute.cpp
-	${SOURCE_DIR}/BaseTypes/Image.cpp
 	${SOURCE_DIR}/BaseTypes/Int.cpp
 	${SOURCE_DIR}/BaseTypes/RayPayload.cpp
 	${SOURCE_DIR}/BaseTypes/SampledImage.cpp
 	${SOURCE_DIR}/BaseTypes/Sampler.cpp
+	${SOURCE_DIR}/BaseTypes/StorageImage.cpp
 	${SOURCE_DIR}/BaseTypes/TaskPayload.cpp
-	${SOURCE_DIR}/BaseTypes/Texture.cpp
 	${SOURCE_DIR}/BaseTypes/UInt.cpp
 	${SOURCE_DIR}/BaseTypes/Void.cpp
 )

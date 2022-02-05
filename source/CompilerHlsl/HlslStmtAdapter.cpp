@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 
 namespace hlsl
@@ -331,7 +331,7 @@ namespace hlsl
 		declareType( stmt->getType() );
 	}
 
-	void StmtAdapter::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtAdapter::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
 		auto originalVar = stmt->getVariable();
 		ast::type::TypePtr sampledType;
@@ -342,7 +342,7 @@ namespace hlsl
 		if ( originalVar->getType()->getKind() == ast::type::Kind::eArray )
 		{
 			auto arrayType = std::static_pointer_cast< ast::type::Array >( originalVar->getType() );
-			auto realSampledType = std::static_pointer_cast< ast::type::Texture >( arrayType->getType() );
+			auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( arrayType->getType() );
 			imageType = m_cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
 			sampledType = m_cache.getArray( realSampledType, arrayType->getArraySize() );
 			config = realSampledType->getConfig();
@@ -358,7 +358,7 @@ namespace hlsl
 		}
 		else
 		{
-			auto realSampledType = std::static_pointer_cast< ast::type::Texture >( originalVar->getType() );
+			auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( originalVar->getType() );
 			imageType = realSampledType->getImageType();
 			sampledType = realSampledType;
 			config = realSampledType->getConfig();

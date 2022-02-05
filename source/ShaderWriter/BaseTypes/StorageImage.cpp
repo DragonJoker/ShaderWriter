@@ -1,11 +1,11 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/BaseTypes/Image.hpp"
+#include "ShaderWriter/BaseTypes/StorageImage.hpp"
 
 namespace sdw
 {
-	Image::Image( ast::type::ImageFormat format
+	StorageImage::StorageImage( ast::type::ImageFormat format
 		, ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
@@ -13,7 +13,7 @@ namespace sdw
 	{
 	}
 
-	Image::operator uint32_t()
+	StorageImage::operator uint32_t()
 	{
 		return 0u;
 	}

@@ -476,7 +476,7 @@ namespace hlsl
 		case ast::type::Kind::eSampledImage:
 			result = "SampledImage";
 			break;
-		case ast::type::Kind::eTexture:
+		case ast::type::Kind::eCombinedImage:
 			result = "SampledImage";
 			break;
 		case ast::type::Kind::eHalf:
@@ -1366,7 +1366,7 @@ namespace hlsl
 		if ( isTextureType( type->getKind() )
 			&& it == linkedVars.end() )
 		{
-			auto sampledType = std::static_pointer_cast< ast::type::Texture >( type );
+			auto sampledType = std::static_pointer_cast< ast::type::CombinedImage >( type );
 
 			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
 			{
@@ -3388,7 +3388,7 @@ namespace hlsl
 				{
 				case ast::type::Kind::eImage:
 				case ast::type::Kind::eSampler:
-				case ast::type::Kind::eTexture:
+				case ast::type::Kind::eCombinedImage:
 				case ast::type::Kind::eSampledImage:
 				case ast::type::Kind::eAccelerationStructure:
 					return;

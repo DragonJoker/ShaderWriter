@@ -211,6 +211,7 @@ namespace ast
 			eMat4x2,
 			eMat4x3,
 			eMat4x4,
+			eCombine,
 		};
 	}
 
@@ -251,8 +252,8 @@ namespace ast
 		using SamplerPtr = std::shared_ptr< Sampler >;
 		class Image;
 		using ImagePtr = std::shared_ptr< Image >;
-		class Texture;
-		using TexturePtr = std::shared_ptr< Texture >;
+		class CombinedImage;
+		using CombinedImagePtr = std::shared_ptr< CombinedImage >;
 		class Sampler;
 		using SamplerPtr = std::shared_ptr< Sampler >;
 	}

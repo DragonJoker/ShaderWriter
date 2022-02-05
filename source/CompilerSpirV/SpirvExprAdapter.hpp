@@ -36,7 +36,7 @@ namespace spirv
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
 		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
-		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 
 	private:
 		ast::type::TypesCache & m_cache;

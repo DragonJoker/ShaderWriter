@@ -34,7 +34,7 @@ namespace ast::expr
 		eCompositeConstruct,
 		eIntrinsicCall,
 		eSampledImageAccessCall,
-		eTextureAccessCall,
+		eCombinedImageAccessCall,
 		eImageAccessCall,
 		eEqual,
 		eGreater,

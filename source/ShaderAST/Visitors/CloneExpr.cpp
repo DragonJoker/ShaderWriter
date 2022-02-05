@@ -259,9 +259,17 @@ namespace ast
 			args.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = expr::makeCompositeConstruct( expr->getComposite()
-			, expr->getComponent()
-			, std::move( args ) );
+		if ( expr->getComposite() == expr::CompositeType::eCombine )
+		{
+			m_result = expr::makeCompositeConstruct( std::move( args.front() )
+				, std::move( args.back() ) );
+		}
+		else
+		{
+			m_result = expr::makeCompositeConstruct( expr->getComposite()
+				, expr->getComponent()
+				, std::move( args ) );
+		}
 	}
 
 	void ExprCloner::visitCopyExpr( expr::Copy * expr )
@@ -695,7 +703,7 @@ namespace ast
 			, expr->getSwizzle() );
 	}
 
-	void ExprCloner::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
+	void ExprCloner::visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )
 	{
 		expr::ExprList args;
 
@@ -704,8 +712,8 @@ namespace ast
 			args.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = expr::makeTextureAccessCall( expr->getType()
-			, expr->getTextureAccess()
+		m_result = expr::makeCombinedImageAccessCall( expr->getType()
+			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 	}
 

@@ -4,13 +4,13 @@ See LICENSE file in root folder
 /*
 This file is generated, don't modify it!
 */
-#ifndef ___AST_ExprEnumTextureAccess_H___
-#define ___AST_ExprEnumTextureAccess_H___
+#ifndef ___AST_ExprEnumCombinedImageAccess_H___
+#define ___AST_ExprEnumCombinedImageAccess_H___
 #pragma once
 
 namespace ast::expr
 {
-	enum class TextureAccess: uint32_t
+	enum class CombinedImageAccess: uint32_t
 	{
 		eUndefined,
 	// Texture Query Functions

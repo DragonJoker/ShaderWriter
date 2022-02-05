@@ -340,44 +340,12 @@ namespace spirv
 
 	void ExprAdapter::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
 	{
-		auto kind = expr->getSampledImageAccess();
-		IntrinsicConfig config;
-		getSpirVConfig( kind, config );
-		auto returnType = expr->getType();
-
-		ast::expr::ExprList args;
-
-		for ( auto & arg : expr->getArgList() )
-		{
-			args.emplace_back( doSubmit( arg.get() ) );
-		}
-
-		if ( getBias( kind ) == spv::ImageOperandsBiasMask )
-		{
-			// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.
-			if ( args.size() > config.imageOperandsIndex + 2u )
-			{
-				auto biasArg = std::move( args.back() );
-				args.pop_back();
-				args.emplace( args.begin() + config.imageOperandsIndex + 1u, std::move( biasArg ) );
-			}
-		}
-
-#if !defined( NDEBUG )
-		for ( auto & arg : args )
-		{
-			assert( arg != nullptr );
-		}
-#endif
-
-		m_result = ast::expr::makeSampledImageAccessCall( returnType
-			, kind
-			, std::move( args ) );
+		AST_Failure( "Unexpected SampledImageAccessCall at that point" );
 	}
 
-	void ExprAdapter::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
-		auto kind = expr->getTextureAccess();
+		auto kind = expr->getCombinedImageAccess();
 		IntrinsicConfig config;
 		getSpirVConfig( kind, config );
 		auto returnType = expr->getType();
@@ -407,7 +375,7 @@ namespace spirv
 		}
 #endif
 
-		m_result = ast::expr::makeTextureAccessCall( returnType
+		m_result = ast::expr::makeCombinedImageAccessCall( returnType
 			, kind
 			, std::move( args ) );
 	}

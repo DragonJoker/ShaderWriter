@@ -612,7 +612,7 @@ namespace spirv
 			, stmt->getDescriptorSet() );
 	}
 
-	void StmtVisitor::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtVisitor::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
 		m_result.bindVariable( visitVariable( stmt->getVariable() )
 			, stmt->getBindingPoint()

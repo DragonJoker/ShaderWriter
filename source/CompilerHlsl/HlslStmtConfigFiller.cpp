@@ -10,7 +10,7 @@ See LICENSE file in root folder
 #include "HlslTextureAccessFunctions.hpp"
 
 #include <ShaderAST/Shader.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 
 namespace hlsl
@@ -299,7 +299,7 @@ namespace hlsl
 	{
 	}
 
-	void StmtConfigFiller::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtConfigFiller::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
 	}
 

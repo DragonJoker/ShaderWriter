@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <stdexcept>
@@ -312,6 +312,48 @@ namespace sdw
 			, set
 			, enabled );
 	}
+
+	template< bool ComparisonT >
+	inline Array< SamplerT< ComparisonT > > ShaderWriter::declSamplerArray( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, uint32_t dimension
+			, bool enabled )
+	{
+		using T = SamplerT< ComparisonT >;
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerSampler( std::move( name )
+			, type
+			, binding
+			, set
+			, enabled );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSamplerDecl( var
+				, binding
+				, set ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declSamplerArray( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declSamplerArray< T::Comparison >( std::move( name )
+			, binding
+			, set
+			, dimension
+			, enabled );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Sampled Image declaration
@@ -324,7 +366,7 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > ShaderWriter::declSampled( std::string name
+		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > ShaderWriter::declSampledImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
@@ -350,12 +392,12 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T ShaderWriter::declSampled( std::string name
+	inline T ShaderWriter::declSampledImg( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )
 	{
-		return declSampled< T::Format
+		return declSampledImg< T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Ms >( std::move( name )
@@ -368,7 +410,7 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledArray( std::string name
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
@@ -396,13 +438,13 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > ShaderWriter::declSampledArray( std::string name
+	inline Array< T > ShaderWriter::declSampledImgArray( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, uint32_t dimension
 		, bool enabled )
 	{
-		return declSampledArray< T::Format
+		return declSampledImgArray< T::Format
 			, T::Dim
 			, T::Arrayed
 			, T::Ms >( std::move( name )
@@ -424,12 +466,12 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-		inline TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declCombined( std::string name
+		inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declCombinedImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		using T = TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >;
+		using T = CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >;
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerTexture( std::move( name )
 			, type
@@ -439,7 +481,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeTextureDecl( var
+			addStmt( sdw::makeCombinedImageDecl( var
 				, binding
 				, set ) );
 		}
@@ -450,16 +492,16 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T ShaderWriter::declCombined( std::string name
+		inline T ShaderWriter::declCombinedImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		return declCombined< T::Format
+		return declCombinedImg< T::Format
 			, T::Dim
 			, T::Arrayed
-			, T::Depth
-			, T::Ms > ( std::move( name )
+			, T::Ms
+			, T::Depth > ( std::move( name )
 				, binding
 				, set
 				, enabled );
@@ -470,13 +512,13 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-		inline Array< TextureT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedArray( std::string name
+		inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		using T = TextureT< FormatT, DimT, ArrayedT, MsT, DepthT >;
+		using T = CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerTexture( std::move( name )
@@ -487,7 +529,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeTextureDecl( var
+			addStmt( sdw::makeCombinedImageDecl( var
 				, binding
 				, set ) );
 		}
@@ -498,17 +540,17 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline Array< T > ShaderWriter::declCombinedArray( std::string name
+		inline Array< T > ShaderWriter::declCombinedImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		return declCombinedArray< T::Format
+		return declCombinedImgArray< T::Format
 			, T::Dim
 			, T::Arrayed
-			, T::Depth
-			, T::Ms > ( std::move( name )
+			, T::Ms
+			, T::Depth > ( std::move( name )
 				, binding
 				, set
 				, dimension
@@ -527,12 +569,12 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		inline ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > ShaderWriter::declImage( std::string name
+		inline StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > ShaderWriter::declStorageImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
+		using T = StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( std::move( name )
 			, type
@@ -553,16 +595,15 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline T ShaderWriter::declImage( std::string name
+		inline T ShaderWriter::declStorageImg( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled )
 	{
-		return declImage < T::Format
+		return declStorageImg < T::Format
 			, T::Access
 			, T::Dim
 			, T::Arrayed
-			, T::Depth
 			, T::Ms > ( std::move( name )
 				, binding
 				, set
@@ -574,13 +615,13 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		inline Array< ImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declImageArray( std::string name
+		inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declStorageImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		using T = ImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
+		using T = StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerImage( std::move( name )
@@ -602,17 +643,16 @@ namespace sdw
 	}
 
 	template< typename T >
-		inline Array< T > ShaderWriter::declImageArray( std::string name
+		inline Array< T > ShaderWriter::declStorageImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled )
 	{
-		return declImageArray < T::Format
+		return declStorageImgArray < T::Format
 			, T::Access
 			, T::Dim
 			, T::Arrayed
-			, T::Depth
 			, T::Ms > ( std::move( name )
 				, binding
 				, set
@@ -1063,7 +1103,7 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename T >
-	inline T ShaderWriter::declShaderStorageBuffer( std::string name
+	inline T ShaderWriter::declStorageBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, ast::type::MemoryLayout layout
@@ -1073,7 +1113,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline ArraySsboT< T > ShaderWriter::declArrayShaderStorageBuffer( std::string name
+	inline ArraySsboT< T > ShaderWriter::declArrayStorageBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled )

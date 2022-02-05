@@ -92,7 +92,7 @@ namespace spirv
 		void visitLiteralExpr( ast::expr::Literal * expr )override;
 		void visitQuestionExpr( ast::expr::Question *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
-		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitAliasExpr( ast::expr::Alias * expr )override;
 
 		void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override

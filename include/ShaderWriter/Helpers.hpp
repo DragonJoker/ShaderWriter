@@ -18,7 +18,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtPerVertexDecl.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
@@ -225,6 +225,8 @@ namespace sdw
 	SDW_API expr::ExprPtr makeCompositeCtor( expr::CompositeType composite
 		, type::Kind component
 		, expr::ExprList && args );
+	SDW_API expr::ExprPtr makeCompositeCtor( expr::ExprPtr image
+		, expr::ExprPtr sampler );
 	SDW_API expr::ExprPtr makeMbrSelect( expr::ExprPtr outer
 		, uint32_t memberIndex
 		, uint64_t flags );
@@ -277,7 +279,7 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::StmtPtr makeTextureDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeCombinedImageDecl( var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	SDW_API stmt::StmtPtr makeImageDecl( var::VariablePtr var

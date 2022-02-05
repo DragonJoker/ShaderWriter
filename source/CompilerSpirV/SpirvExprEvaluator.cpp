@@ -291,9 +291,9 @@ namespace spirv
 				AST_Failure( "Unexpected Swizzle expression" );
 			}
 
-			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
 			{
-				AST_Failure( "Unexpected TextureAccessCall expression" );
+				AST_Failure( "Unexpected CombinedImageAccessCall expression" );
 			}
 
 		private:

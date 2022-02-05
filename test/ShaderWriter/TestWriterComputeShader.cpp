@@ -72,7 +72,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
-		auto img = writer.declImage< RWUImg2DR32 >( "img", 1u, 0u );
+		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 			{
@@ -101,7 +101,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		auto c3d_mapDepth = writer.declCombined< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
+		auto c3d_mapDepth = writer.declCombinedImg< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
 
 		auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
 			, [&]( Vec4 const & rtMetrics
@@ -178,7 +178,7 @@ namespace
 		{
 			ComputeWriter writer;
 			auto kernelImage =
-				writer.declImage<RWFImg2DRgba32>( "kernelImage", 0, 0 );
+				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
 
 			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
 				{
@@ -264,12 +264,12 @@ namespace
 			auto c3d_voxelResolutionInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelResolutionInverse" );
 			voxelizer.end();
 
-			auto voxels( writer.declArrayShaderStorageBuffer< Voxel >( "voxels"
+			auto voxels( writer.declArrayStorageBuffer< Voxel >( "voxels"
 				, eVoxels
 				, 0u ) );
 
 			// Outputs
-			auto result( writer.declImage< RWFImg3DRgba32 >( "result"
+			auto result( writer.declStorageImg< RWFImg3DRgba32 >( "result"
 				, eResult
 				, 0u ) );
 
@@ -344,8 +344,8 @@ namespace
 		sdw::ShaderArray shaders;
 		{
 			ComputeWriter writer;
-			auto srcImage = writer.declImage<RFImg2DRgba32>( "srcImage", 0, 0 );
-			auto dstImage = writer.declImageArray<RWFImg2DRgba32>( "dstImage", 1, 0, 4u );
+			auto srcImage = writer.declStorageImg<RFImg2DRgba32>( "srcImage", 0, 0 );
+			auto dstImage = writer.declStorageImgArray<RWFImg2DRgba32>( "dstImage", 1, 0, 4u );
 
 			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
 				{

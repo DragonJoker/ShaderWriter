@@ -237,7 +237,7 @@ namespace ast
 			return m_data.sampled;
 		}
 
-		std::map< std::string, TextureInfo > const & getTextures()const
+		std::map< std::string, TextureInfo > const & getCombinedImages()const
 		{
 			return m_data.textures;
 		}

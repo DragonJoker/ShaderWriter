@@ -332,10 +332,10 @@ namespace glsl
 		}
 	}
 
-	void ExprConfigFiller::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprConfigFiller::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
 		checkType( expr->getType(), m_config );
-		getGlslConfig( expr->getTextureAccess(), m_config );
+		getGlslConfig( expr->getCombinedImageAccess(), m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{
