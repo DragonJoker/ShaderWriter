@@ -173,14 +173,6 @@ namespace spirv
 				submit( expr->getFalseExpr() );
 			}
 
-			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override
-			{
-				for ( auto & init : expr->getArgList() )
-				{
-					submit( init.get() );
-				}
-			}
-
 			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
 			{
 				submit( expr->getOperand() );

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-ASTIntrDecl( ImageAccess )
+ASTIntrDecl( StorageImageAccess )
 	// Image Query Functions
 	ASTIntrValue( type::Kind::eInt, ASTIntrName( imageSize, ImageSize, 1DF ) )
 	ASTIntrValue( type::Kind::eVec2I, ASTIntrName( imageSize, ImageSize, 2DF ) )

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "GlslTextureAccessFunctions.hpp"
+#include "GlslCombinedImageAccessFunctions.hpp"
 
 namespace glsl
 {

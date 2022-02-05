@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#include <ShaderAST/Expr/EnumImageAccess.hpp>
-#include <ShaderAST/Expr/ExprImageAccessCall.hpp>
+#include <ShaderAST/Expr/EnumStorageImageAccess.hpp>
+#include <ShaderAST/Expr/ExprStorageImageAccessCall.hpp>
 
 #include <array>
 
@@ -10,13 +10,13 @@ namespace sdw
 {
 	//*****************************************************************************************
 
-	namespace img
+	namespace storageImg
 	{
 		size_t constexpr ImgDimBaseCount = size_t( type::ImageDim::eBuffer ) + 1u;
 		size_t constexpr ArrayImgCount = 3u;
 		size_t constexpr NonMsImgCount = ImgDimBaseCount + ArrayImgCount;
 		size_t constexpr MsImgCount = 2u;
-		using StorateImageAccessIntrList = std::array< expr::ImageAccess, NonMsImgCount + ArrayImgCount >;
+		using StorateImageAccessIntrList = std::array< expr::StorageImageAccess, NonMsImgCount + ArrayImgCount >;
 
 		template< type::ImageDim DimT
 			, bool ArrayedT
@@ -45,7 +45,7 @@ namespace sdw
 				else
 				{
 					assert( false );
-					return size_t( expr::ImageAccess::eInvalid );
+					return size_t( expr::StorageImageAccess::eInvalid );
 				}
 			}
 			else
@@ -56,485 +56,485 @@ namespace sdw
 
 		static constexpr StorateImageAccessIntrList imageSizeF
 		{
-			expr::ImageAccess::eImageSize1DF,
-			expr::ImageAccess::eImageSize2DF,
-			expr::ImageAccess::eImageSize3DF,
-			expr::ImageAccess::eImageSizeCubeF,
-			expr::ImageAccess::eImageSize2DRectF,
-			expr::ImageAccess::eImageSizeBufferF,
+			expr::StorageImageAccess::eImageSize1DF,
+			expr::StorageImageAccess::eImageSize2DF,
+			expr::StorageImageAccess::eImageSize3DF,
+			expr::StorageImageAccess::eImageSizeCubeF,
+			expr::StorageImageAccess::eImageSize2DRectF,
+			expr::StorageImageAccess::eImageSizeBufferF,
 
-			expr::ImageAccess::eImageSize1DArrayF,
-			expr::ImageAccess::eImageSize2DArrayF,
-			expr::ImageAccess::eImageSizeCubeArrayF,
+			expr::StorageImageAccess::eImageSize1DArrayF,
+			expr::StorageImageAccess::eImageSize2DArrayF,
+			expr::StorageImageAccess::eImageSizeCubeArrayF,
 
-			expr::ImageAccess::eImageSize2DMSF,
-			expr::ImageAccess::eImageSize2DMSArrayF,
+			expr::StorageImageAccess::eImageSize2DMSF,
+			expr::StorageImageAccess::eImageSize2DMSArrayF,
 		};
 		static constexpr StorateImageAccessIntrList imageSamplesF
 		{
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
 
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
 
-			expr::ImageAccess::eImageSamples2DMSF,
-			expr::ImageAccess::eImageSamples2DMSArrayF,
+			expr::StorageImageAccess::eImageSamples2DMSF,
+			expr::StorageImageAccess::eImageSamples2DMSArrayF,
 		};
 		static constexpr StorateImageAccessIntrList imageLoadF
 		{
-			expr::ImageAccess::eImageLoad1DF,
-			expr::ImageAccess::eImageLoad2DF,
-			expr::ImageAccess::eImageLoad3DF,
-			expr::ImageAccess::eImageLoadCubeF,
-			expr::ImageAccess::eImageLoad2DRectF,
-			expr::ImageAccess::eImageLoadBufferF,
+			expr::StorageImageAccess::eImageLoad1DF,
+			expr::StorageImageAccess::eImageLoad2DF,
+			expr::StorageImageAccess::eImageLoad3DF,
+			expr::StorageImageAccess::eImageLoadCubeF,
+			expr::StorageImageAccess::eImageLoad2DRectF,
+			expr::StorageImageAccess::eImageLoadBufferF,
 
-			expr::ImageAccess::eImageLoad1DArrayF,
-			expr::ImageAccess::eImageLoad2DArrayF,
-			expr::ImageAccess::eImageLoadCubeArrayF,
+			expr::StorageImageAccess::eImageLoad1DArrayF,
+			expr::StorageImageAccess::eImageLoad2DArrayF,
+			expr::StorageImageAccess::eImageLoadCubeArrayF,
 
-			expr::ImageAccess::eImageLoad2DMSF,
-			expr::ImageAccess::eImageLoad2DMSArrayF,
+			expr::StorageImageAccess::eImageLoad2DMSF,
+			expr::StorageImageAccess::eImageLoad2DMSArrayF,
 		};
 		static constexpr StorateImageAccessIntrList imageStoreF
 		{
-			expr::ImageAccess::eImageStore1DF,
-			expr::ImageAccess::eImageStore2DF,
-			expr::ImageAccess::eImageStore3DF,
-			expr::ImageAccess::eImageStoreCubeF,
-			expr::ImageAccess::eImageStore2DRectF,
-			expr::ImageAccess::eImageStoreBufferF,
+			expr::StorageImageAccess::eImageStore1DF,
+			expr::StorageImageAccess::eImageStore2DF,
+			expr::StorageImageAccess::eImageStore3DF,
+			expr::StorageImageAccess::eImageStoreCubeF,
+			expr::StorageImageAccess::eImageStore2DRectF,
+			expr::StorageImageAccess::eImageStoreBufferF,
 
-			expr::ImageAccess::eImageStore1DArrayF,
-			expr::ImageAccess::eImageStore2DArrayF,
-			expr::ImageAccess::eImageStoreCubeArrayF,
+			expr::StorageImageAccess::eImageStore1DArrayF,
+			expr::StorageImageAccess::eImageStore2DArrayF,
+			expr::StorageImageAccess::eImageStoreCubeArrayF,
 
-			expr::ImageAccess::eImageStore2DMSF,
-			expr::ImageAccess::eImageStore2DMSArrayF,
+			expr::StorageImageAccess::eImageStore2DMSF,
+			expr::StorageImageAccess::eImageStore2DMSArrayF,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicAddF
 		{
-			expr::ImageAccess::eImageAtomicAdd1DF,
-			expr::ImageAccess::eImageAtomicAdd2DF,
-			expr::ImageAccess::eImageAtomicAdd3DF,
-			expr::ImageAccess::eImageAtomicAddCubeF,
-			expr::ImageAccess::eImageAtomicAdd2DRectF,
-			expr::ImageAccess::eImageAtomicAddBufferF,
+			expr::StorageImageAccess::eImageAtomicAdd1DF,
+			expr::StorageImageAccess::eImageAtomicAdd2DF,
+			expr::StorageImageAccess::eImageAtomicAdd3DF,
+			expr::StorageImageAccess::eImageAtomicAddCubeF,
+			expr::StorageImageAccess::eImageAtomicAdd2DRectF,
+			expr::StorageImageAccess::eImageAtomicAddBufferF,
 
-			expr::ImageAccess::eImageAtomicAdd1DArrayF,
-			expr::ImageAccess::eImageAtomicAdd2DArrayF,
-			expr::ImageAccess::eImageAtomicAddCubeArrayF,
+			expr::StorageImageAccess::eImageAtomicAdd1DArrayF,
+			expr::StorageImageAccess::eImageAtomicAdd2DArrayF,
+			expr::StorageImageAccess::eImageAtomicAddCubeArrayF,
 
-			expr::ImageAccess::eImageAtomicAdd2DMSF,
-			expr::ImageAccess::eImageAtomicAdd2DMSArrayF,
+			expr::StorageImageAccess::eImageAtomicAdd2DMSF,
+			expr::StorageImageAccess::eImageAtomicAdd2DMSArrayF,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicExchangeF
 		{
-			expr::ImageAccess::eImageAtomicExchange1DF,
-			expr::ImageAccess::eImageAtomicExchange2DF,
-			expr::ImageAccess::eImageAtomicExchange3DF,
-			expr::ImageAccess::eImageAtomicExchangeCubeF,
-			expr::ImageAccess::eImageAtomicExchange2DRectF,
-			expr::ImageAccess::eImageAtomicExchangeBufferF,
+			expr::StorageImageAccess::eImageAtomicExchange1DF,
+			expr::StorageImageAccess::eImageAtomicExchange2DF,
+			expr::StorageImageAccess::eImageAtomicExchange3DF,
+			expr::StorageImageAccess::eImageAtomicExchangeCubeF,
+			expr::StorageImageAccess::eImageAtomicExchange2DRectF,
+			expr::StorageImageAccess::eImageAtomicExchangeBufferF,
 
-			expr::ImageAccess::eImageAtomicExchange1DArrayF,
-			expr::ImageAccess::eImageAtomicExchange2DArrayF,
-			expr::ImageAccess::eImageAtomicExchangeCubeArrayF,
+			expr::StorageImageAccess::eImageAtomicExchange1DArrayF,
+			expr::StorageImageAccess::eImageAtomicExchange2DArrayF,
+			expr::StorageImageAccess::eImageAtomicExchangeCubeArrayF,
 
-			expr::ImageAccess::eImageAtomicExchange2DMSF,
-			expr::ImageAccess::eImageAtomicExchange2DMSArrayF,
+			expr::StorageImageAccess::eImageAtomicExchange2DMSF,
+			expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF,
 		};
 
 		static constexpr StorateImageAccessIntrList imageSizeI
 		{
-			expr::ImageAccess::eImageSize1DI,
-			expr::ImageAccess::eImageSize2DI,
-			expr::ImageAccess::eImageSize3DI,
-			expr::ImageAccess::eImageSizeCubeI,
-			expr::ImageAccess::eImageSize2DRectI,
-			expr::ImageAccess::eImageSizeBufferI,
+			expr::StorageImageAccess::eImageSize1DI,
+			expr::StorageImageAccess::eImageSize2DI,
+			expr::StorageImageAccess::eImageSize3DI,
+			expr::StorageImageAccess::eImageSizeCubeI,
+			expr::StorageImageAccess::eImageSize2DRectI,
+			expr::StorageImageAccess::eImageSizeBufferI,
 
-			expr::ImageAccess::eImageSize1DArrayI,
-			expr::ImageAccess::eImageSize2DArrayI,
-			expr::ImageAccess::eImageSizeCubeArrayI,
+			expr::StorageImageAccess::eImageSize1DArrayI,
+			expr::StorageImageAccess::eImageSize2DArrayI,
+			expr::StorageImageAccess::eImageSizeCubeArrayI,
 
-			expr::ImageAccess::eImageSize2DMSI,
-			expr::ImageAccess::eImageSize2DMSArrayI,
+			expr::StorageImageAccess::eImageSize2DMSI,
+			expr::StorageImageAccess::eImageSize2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageSamplesI
 		{
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
 
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
 
-			expr::ImageAccess::eImageSamples2DMSI,
-			expr::ImageAccess::eImageSamples2DMSArrayI,
+			expr::StorageImageAccess::eImageSamples2DMSI,
+			expr::StorageImageAccess::eImageSamples2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageLoadI
 		{
-			expr::ImageAccess::eImageLoad1DI,
-			expr::ImageAccess::eImageLoad2DI,
-			expr::ImageAccess::eImageLoad3DI,
-			expr::ImageAccess::eImageLoadCubeI,
-			expr::ImageAccess::eImageLoad2DRectI,
-			expr::ImageAccess::eImageLoadBufferI,
+			expr::StorageImageAccess::eImageLoad1DI,
+			expr::StorageImageAccess::eImageLoad2DI,
+			expr::StorageImageAccess::eImageLoad3DI,
+			expr::StorageImageAccess::eImageLoadCubeI,
+			expr::StorageImageAccess::eImageLoad2DRectI,
+			expr::StorageImageAccess::eImageLoadBufferI,
 
-			expr::ImageAccess::eImageLoad1DArrayI,
-			expr::ImageAccess::eImageLoad2DArrayI,
-			expr::ImageAccess::eImageLoadCubeArrayI,
+			expr::StorageImageAccess::eImageLoad1DArrayI,
+			expr::StorageImageAccess::eImageLoad2DArrayI,
+			expr::StorageImageAccess::eImageLoadCubeArrayI,
 
-			expr::ImageAccess::eImageLoad2DMSI,
-			expr::ImageAccess::eImageLoad2DMSArrayI,
+			expr::StorageImageAccess::eImageLoad2DMSI,
+			expr::StorageImageAccess::eImageLoad2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageStoreI
 		{
-			expr::ImageAccess::eImageStore1DI,
-			expr::ImageAccess::eImageStore2DI,
-			expr::ImageAccess::eImageStore3DI,
-			expr::ImageAccess::eImageStoreCubeI,
-			expr::ImageAccess::eImageStore2DRectI,
-			expr::ImageAccess::eImageStoreBufferI,
+			expr::StorageImageAccess::eImageStore1DI,
+			expr::StorageImageAccess::eImageStore2DI,
+			expr::StorageImageAccess::eImageStore3DI,
+			expr::StorageImageAccess::eImageStoreCubeI,
+			expr::StorageImageAccess::eImageStore2DRectI,
+			expr::StorageImageAccess::eImageStoreBufferI,
 
-			expr::ImageAccess::eImageStore1DArrayI,
-			expr::ImageAccess::eImageStore2DArrayI,
-			expr::ImageAccess::eImageStoreCubeArrayI,
+			expr::StorageImageAccess::eImageStore1DArrayI,
+			expr::StorageImageAccess::eImageStore2DArrayI,
+			expr::StorageImageAccess::eImageStoreCubeArrayI,
 
-			expr::ImageAccess::eImageStore2DMSI,
-			expr::ImageAccess::eImageStore2DMSArrayI,
+			expr::StorageImageAccess::eImageStore2DMSI,
+			expr::StorageImageAccess::eImageStore2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicAddI
 		{
-			expr::ImageAccess::eImageAtomicAdd1DI,
-			expr::ImageAccess::eImageAtomicAdd2DI,
-			expr::ImageAccess::eImageAtomicAdd3DI,
-			expr::ImageAccess::eImageAtomicAddCubeI,
-			expr::ImageAccess::eImageAtomicAdd2DRectI,
-			expr::ImageAccess::eImageAtomicAddBufferI,
+			expr::StorageImageAccess::eImageAtomicAdd1DI,
+			expr::StorageImageAccess::eImageAtomicAdd2DI,
+			expr::StorageImageAccess::eImageAtomicAdd3DI,
+			expr::StorageImageAccess::eImageAtomicAddCubeI,
+			expr::StorageImageAccess::eImageAtomicAdd2DRectI,
+			expr::StorageImageAccess::eImageAtomicAddBufferI,
 
-			expr::ImageAccess::eImageAtomicAdd1DArrayI,
-			expr::ImageAccess::eImageAtomicAdd2DArrayI,
-			expr::ImageAccess::eImageAtomicAddCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicAdd1DArrayI,
+			expr::StorageImageAccess::eImageAtomicAdd2DArrayI,
+			expr::StorageImageAccess::eImageAtomicAddCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicAdd2DMSI,
-			expr::ImageAccess::eImageAtomicAdd2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicAdd2DMSI,
+			expr::StorageImageAccess::eImageAtomicAdd2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicMinI
 		{
-			expr::ImageAccess::eImageAtomicMin1DI,
-			expr::ImageAccess::eImageAtomicMin2DI,
-			expr::ImageAccess::eImageAtomicMin3DI,
-			expr::ImageAccess::eImageAtomicMinCubeI,
-			expr::ImageAccess::eImageAtomicMin2DRectI,
-			expr::ImageAccess::eImageAtomicMinBufferI,
+			expr::StorageImageAccess::eImageAtomicMin1DI,
+			expr::StorageImageAccess::eImageAtomicMin2DI,
+			expr::StorageImageAccess::eImageAtomicMin3DI,
+			expr::StorageImageAccess::eImageAtomicMinCubeI,
+			expr::StorageImageAccess::eImageAtomicMin2DRectI,
+			expr::StorageImageAccess::eImageAtomicMinBufferI,
 
-			expr::ImageAccess::eImageAtomicMin1DArrayI,
-			expr::ImageAccess::eImageAtomicMin2DArrayI,
-			expr::ImageAccess::eImageAtomicMinCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicMin1DArrayI,
+			expr::StorageImageAccess::eImageAtomicMin2DArrayI,
+			expr::StorageImageAccess::eImageAtomicMinCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicMin2DMSI,
-			expr::ImageAccess::eImageAtomicMin2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicMin2DMSI,
+			expr::StorageImageAccess::eImageAtomicMin2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicMaxI
 		{
-			expr::ImageAccess::eImageAtomicMax1DI,
-			expr::ImageAccess::eImageAtomicMax2DI,
-			expr::ImageAccess::eImageAtomicMax3DI,
-			expr::ImageAccess::eImageAtomicMaxCubeI,
-			expr::ImageAccess::eImageAtomicMax2DRectI,
-			expr::ImageAccess::eImageAtomicMaxBufferI,
+			expr::StorageImageAccess::eImageAtomicMax1DI,
+			expr::StorageImageAccess::eImageAtomicMax2DI,
+			expr::StorageImageAccess::eImageAtomicMax3DI,
+			expr::StorageImageAccess::eImageAtomicMaxCubeI,
+			expr::StorageImageAccess::eImageAtomicMax2DRectI,
+			expr::StorageImageAccess::eImageAtomicMaxBufferI,
 
-			expr::ImageAccess::eImageAtomicMax1DArrayI,
-			expr::ImageAccess::eImageAtomicMax2DArrayI,
-			expr::ImageAccess::eImageAtomicMaxCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicMax1DArrayI,
+			expr::StorageImageAccess::eImageAtomicMax2DArrayI,
+			expr::StorageImageAccess::eImageAtomicMaxCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicMax2DMSI,
-			expr::ImageAccess::eImageAtomicMax2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicMax2DMSI,
+			expr::StorageImageAccess::eImageAtomicMax2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicAndI
 		{
-			expr::ImageAccess::eImageAtomicAnd1DI,
-			expr::ImageAccess::eImageAtomicAnd2DI,
-			expr::ImageAccess::eImageAtomicAnd3DI,
-			expr::ImageAccess::eImageAtomicAndCubeI,
-			expr::ImageAccess::eImageAtomicAnd2DRectI,
-			expr::ImageAccess::eImageAtomicAndBufferI,
+			expr::StorageImageAccess::eImageAtomicAnd1DI,
+			expr::StorageImageAccess::eImageAtomicAnd2DI,
+			expr::StorageImageAccess::eImageAtomicAnd3DI,
+			expr::StorageImageAccess::eImageAtomicAndCubeI,
+			expr::StorageImageAccess::eImageAtomicAnd2DRectI,
+			expr::StorageImageAccess::eImageAtomicAndBufferI,
 
-			expr::ImageAccess::eImageAtomicAnd1DArrayI,
-			expr::ImageAccess::eImageAtomicAnd2DArrayI,
-			expr::ImageAccess::eImageAtomicAndCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicAnd1DArrayI,
+			expr::StorageImageAccess::eImageAtomicAnd2DArrayI,
+			expr::StorageImageAccess::eImageAtomicAndCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicAnd2DMSI,
-			expr::ImageAccess::eImageAtomicAnd2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicAnd2DMSI,
+			expr::StorageImageAccess::eImageAtomicAnd2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicOrI
 		{
-			expr::ImageAccess::eImageAtomicOr1DI,
-			expr::ImageAccess::eImageAtomicOr2DI,
-			expr::ImageAccess::eImageAtomicOr3DI,
-			expr::ImageAccess::eImageAtomicOrCubeI,
-			expr::ImageAccess::eImageAtomicOr2DRectI,
-			expr::ImageAccess::eImageAtomicOrBufferI,
+			expr::StorageImageAccess::eImageAtomicOr1DI,
+			expr::StorageImageAccess::eImageAtomicOr2DI,
+			expr::StorageImageAccess::eImageAtomicOr3DI,
+			expr::StorageImageAccess::eImageAtomicOrCubeI,
+			expr::StorageImageAccess::eImageAtomicOr2DRectI,
+			expr::StorageImageAccess::eImageAtomicOrBufferI,
 
-			expr::ImageAccess::eImageAtomicOr1DArrayI,
-			expr::ImageAccess::eImageAtomicOr2DArrayI,
-			expr::ImageAccess::eImageAtomicOrCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicOr1DArrayI,
+			expr::StorageImageAccess::eImageAtomicOr2DArrayI,
+			expr::StorageImageAccess::eImageAtomicOrCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicOr2DMSI,
-			expr::ImageAccess::eImageAtomicOr2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicOr2DMSI,
+			expr::StorageImageAccess::eImageAtomicOr2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicXorI
 		{
-			expr::ImageAccess::eImageAtomicXor1DI,
-			expr::ImageAccess::eImageAtomicXor2DI,
-			expr::ImageAccess::eImageAtomicXor3DI,
-			expr::ImageAccess::eImageAtomicXorCubeI,
-			expr::ImageAccess::eImageAtomicXor2DRectI,
-			expr::ImageAccess::eImageAtomicXorBufferI,
+			expr::StorageImageAccess::eImageAtomicXor1DI,
+			expr::StorageImageAccess::eImageAtomicXor2DI,
+			expr::StorageImageAccess::eImageAtomicXor3DI,
+			expr::StorageImageAccess::eImageAtomicXorCubeI,
+			expr::StorageImageAccess::eImageAtomicXor2DRectI,
+			expr::StorageImageAccess::eImageAtomicXorBufferI,
 
-			expr::ImageAccess::eImageAtomicXor1DArrayI,
-			expr::ImageAccess::eImageAtomicXor2DArrayI,
-			expr::ImageAccess::eImageAtomicXorCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicXor1DArrayI,
+			expr::StorageImageAccess::eImageAtomicXor2DArrayI,
+			expr::StorageImageAccess::eImageAtomicXorCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicXor2DMSI,
-			expr::ImageAccess::eImageAtomicXor2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicXor2DMSI,
+			expr::StorageImageAccess::eImageAtomicXor2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicExchangeI
 		{
-			expr::ImageAccess::eImageAtomicExchange1DI,
-			expr::ImageAccess::eImageAtomicExchange2DI,
-			expr::ImageAccess::eImageAtomicExchange3DI,
-			expr::ImageAccess::eImageAtomicExchangeCubeI,
-			expr::ImageAccess::eImageAtomicExchange2DRectI,
-			expr::ImageAccess::eImageAtomicExchangeBufferI,
+			expr::StorageImageAccess::eImageAtomicExchange1DI,
+			expr::StorageImageAccess::eImageAtomicExchange2DI,
+			expr::StorageImageAccess::eImageAtomicExchange3DI,
+			expr::StorageImageAccess::eImageAtomicExchangeCubeI,
+			expr::StorageImageAccess::eImageAtomicExchange2DRectI,
+			expr::StorageImageAccess::eImageAtomicExchangeBufferI,
 
-			expr::ImageAccess::eImageAtomicExchange1DArrayI,
-			expr::ImageAccess::eImageAtomicExchange2DArrayI,
-			expr::ImageAccess::eImageAtomicExchangeCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicExchange1DArrayI,
+			expr::StorageImageAccess::eImageAtomicExchange2DArrayI,
+			expr::StorageImageAccess::eImageAtomicExchangeCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicExchange2DMSI,
-			expr::ImageAccess::eImageAtomicExchange2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicExchange2DMSI,
+			expr::StorageImageAccess::eImageAtomicExchange2DMSArrayI,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicCompSwapI
 		{
-			expr::ImageAccess::eImageAtomicCompSwap1DI,
-			expr::ImageAccess::eImageAtomicCompSwap2DI,
-			expr::ImageAccess::eImageAtomicCompSwap3DI,
-			expr::ImageAccess::eImageAtomicCompSwapCubeI,
-			expr::ImageAccess::eImageAtomicCompSwap2DRectI,
-			expr::ImageAccess::eImageAtomicCompSwapBufferI,
+			expr::StorageImageAccess::eImageAtomicCompSwap1DI,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DI,
+			expr::StorageImageAccess::eImageAtomicCompSwap3DI,
+			expr::StorageImageAccess::eImageAtomicCompSwapCubeI,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DRectI,
+			expr::StorageImageAccess::eImageAtomicCompSwapBufferI,
 
-			expr::ImageAccess::eImageAtomicCompSwap1DArrayI,
-			expr::ImageAccess::eImageAtomicCompSwap2DArrayI,
-			expr::ImageAccess::eImageAtomicCompSwapCubeArrayI,
+			expr::StorageImageAccess::eImageAtomicCompSwap1DArrayI,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DArrayI,
+			expr::StorageImageAccess::eImageAtomicCompSwapCubeArrayI,
 
-			expr::ImageAccess::eImageAtomicCompSwap2DMSI,
-			expr::ImageAccess::eImageAtomicCompSwap2DMSArrayI,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DMSI,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DMSArrayI,
 		};
 
 		static constexpr StorateImageAccessIntrList imageSizeU
 		{
-			expr::ImageAccess::eImageSize1DU,
-			expr::ImageAccess::eImageSize2DU,
-			expr::ImageAccess::eImageSize3DU,
-			expr::ImageAccess::eImageSizeCubeU,
-			expr::ImageAccess::eImageSize2DRectU,
-			expr::ImageAccess::eImageSizeBufferU,
+			expr::StorageImageAccess::eImageSize1DU,
+			expr::StorageImageAccess::eImageSize2DU,
+			expr::StorageImageAccess::eImageSize3DU,
+			expr::StorageImageAccess::eImageSizeCubeU,
+			expr::StorageImageAccess::eImageSize2DRectU,
+			expr::StorageImageAccess::eImageSizeBufferU,
 
-			expr::ImageAccess::eImageSize1DArrayU,
-			expr::ImageAccess::eImageSize2DArrayU,
-			expr::ImageAccess::eImageSizeCubeArrayU,
+			expr::StorageImageAccess::eImageSize1DArrayU,
+			expr::StorageImageAccess::eImageSize2DArrayU,
+			expr::StorageImageAccess::eImageSizeCubeArrayU,
 
-			expr::ImageAccess::eImageSize2DMSU,
-			expr::ImageAccess::eImageSize2DMSArrayU,
+			expr::StorageImageAccess::eImageSize2DMSU,
+			expr::StorageImageAccess::eImageSize2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageSamplesU
 		{
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
 
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
-			expr::ImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
 
-			expr::ImageAccess::eImageSamples2DMSU,
-			expr::ImageAccess::eImageSamples2DMSArrayU,
+			expr::StorageImageAccess::eImageSamples2DMSU,
+			expr::StorageImageAccess::eImageSamples2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageLoadU
 		{
-			expr::ImageAccess::eImageLoad1DU,
-			expr::ImageAccess::eImageLoad2DU,
-			expr::ImageAccess::eImageLoad3DU,
-			expr::ImageAccess::eImageLoadCubeU,
-			expr::ImageAccess::eImageLoad2DRectU,
-			expr::ImageAccess::eImageLoadBufferU,
+			expr::StorageImageAccess::eImageLoad1DU,
+			expr::StorageImageAccess::eImageLoad2DU,
+			expr::StorageImageAccess::eImageLoad3DU,
+			expr::StorageImageAccess::eImageLoadCubeU,
+			expr::StorageImageAccess::eImageLoad2DRectU,
+			expr::StorageImageAccess::eImageLoadBufferU,
 
-			expr::ImageAccess::eImageLoad1DArrayU,
-			expr::ImageAccess::eImageLoad2DArrayU,
-			expr::ImageAccess::eImageLoadCubeArrayU,
+			expr::StorageImageAccess::eImageLoad1DArrayU,
+			expr::StorageImageAccess::eImageLoad2DArrayU,
+			expr::StorageImageAccess::eImageLoadCubeArrayU,
 
-			expr::ImageAccess::eImageLoad2DMSU,
-			expr::ImageAccess::eImageLoad2DMSArrayU,
+			expr::StorageImageAccess::eImageLoad2DMSU,
+			expr::StorageImageAccess::eImageLoad2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageStoreU
 		{
-			expr::ImageAccess::eImageStore1DU,
-			expr::ImageAccess::eImageStore2DU,
-			expr::ImageAccess::eImageStore3DU,
-			expr::ImageAccess::eImageStoreCubeU,
-			expr::ImageAccess::eImageStore2DRectU,
-			expr::ImageAccess::eImageStoreBufferU,
+			expr::StorageImageAccess::eImageStore1DU,
+			expr::StorageImageAccess::eImageStore2DU,
+			expr::StorageImageAccess::eImageStore3DU,
+			expr::StorageImageAccess::eImageStoreCubeU,
+			expr::StorageImageAccess::eImageStore2DRectU,
+			expr::StorageImageAccess::eImageStoreBufferU,
 
-			expr::ImageAccess::eImageStore1DArrayU,
-			expr::ImageAccess::eImageStore2DArrayU,
-			expr::ImageAccess::eImageStoreCubeArrayU,
+			expr::StorageImageAccess::eImageStore1DArrayU,
+			expr::StorageImageAccess::eImageStore2DArrayU,
+			expr::StorageImageAccess::eImageStoreCubeArrayU,
 
-			expr::ImageAccess::eImageStore2DMSU,
-			expr::ImageAccess::eImageStore2DMSArrayU,
+			expr::StorageImageAccess::eImageStore2DMSU,
+			expr::StorageImageAccess::eImageStore2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicAddU
 		{
-			expr::ImageAccess::eImageAtomicAdd1DU,
-			expr::ImageAccess::eImageAtomicAdd2DU,
-			expr::ImageAccess::eImageAtomicAdd3DU,
-			expr::ImageAccess::eImageAtomicAddCubeU,
-			expr::ImageAccess::eImageAtomicAdd2DRectU,
-			expr::ImageAccess::eImageAtomicAddBufferU,
+			expr::StorageImageAccess::eImageAtomicAdd1DU,
+			expr::StorageImageAccess::eImageAtomicAdd2DU,
+			expr::StorageImageAccess::eImageAtomicAdd3DU,
+			expr::StorageImageAccess::eImageAtomicAddCubeU,
+			expr::StorageImageAccess::eImageAtomicAdd2DRectU,
+			expr::StorageImageAccess::eImageAtomicAddBufferU,
 
-			expr::ImageAccess::eImageAtomicAdd1DArrayU,
-			expr::ImageAccess::eImageAtomicAdd2DArrayU,
-			expr::ImageAccess::eImageAtomicAddCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicAdd1DArrayU,
+			expr::StorageImageAccess::eImageAtomicAdd2DArrayU,
+			expr::StorageImageAccess::eImageAtomicAddCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicAdd2DMSU,
-			expr::ImageAccess::eImageAtomicAdd2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicAdd2DMSU,
+			expr::StorageImageAccess::eImageAtomicAdd2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicMinU
 		{
-			expr::ImageAccess::eImageAtomicMin1DU,
-			expr::ImageAccess::eImageAtomicMin2DU,
-			expr::ImageAccess::eImageAtomicMin3DU,
-			expr::ImageAccess::eImageAtomicMinCubeU,
-			expr::ImageAccess::eImageAtomicMin2DRectU,
-			expr::ImageAccess::eImageAtomicMinBufferU,
+			expr::StorageImageAccess::eImageAtomicMin1DU,
+			expr::StorageImageAccess::eImageAtomicMin2DU,
+			expr::StorageImageAccess::eImageAtomicMin3DU,
+			expr::StorageImageAccess::eImageAtomicMinCubeU,
+			expr::StorageImageAccess::eImageAtomicMin2DRectU,
+			expr::StorageImageAccess::eImageAtomicMinBufferU,
 
-			expr::ImageAccess::eImageAtomicMin1DArrayU,
-			expr::ImageAccess::eImageAtomicMin2DArrayU,
-			expr::ImageAccess::eImageAtomicMinCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicMin1DArrayU,
+			expr::StorageImageAccess::eImageAtomicMin2DArrayU,
+			expr::StorageImageAccess::eImageAtomicMinCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicMin2DMSU,
-			expr::ImageAccess::eImageAtomicMin2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicMin2DMSU,
+			expr::StorageImageAccess::eImageAtomicMin2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicMaxU
 		{
-			expr::ImageAccess::eImageAtomicMax1DU,
-			expr::ImageAccess::eImageAtomicMax2DU,
-			expr::ImageAccess::eImageAtomicMax3DU,
-			expr::ImageAccess::eImageAtomicMaxCubeU,
-			expr::ImageAccess::eImageAtomicMax2DRectU,
-			expr::ImageAccess::eImageAtomicMaxBufferU,
+			expr::StorageImageAccess::eImageAtomicMax1DU,
+			expr::StorageImageAccess::eImageAtomicMax2DU,
+			expr::StorageImageAccess::eImageAtomicMax3DU,
+			expr::StorageImageAccess::eImageAtomicMaxCubeU,
+			expr::StorageImageAccess::eImageAtomicMax2DRectU,
+			expr::StorageImageAccess::eImageAtomicMaxBufferU,
 
-			expr::ImageAccess::eImageAtomicMax1DArrayU,
-			expr::ImageAccess::eImageAtomicMax2DArrayU,
-			expr::ImageAccess::eImageAtomicMaxCubeArrayU,
-			expr::ImageAccess::eImageAtomicMax2DMSU,
+			expr::StorageImageAccess::eImageAtomicMax1DArrayU,
+			expr::StorageImageAccess::eImageAtomicMax2DArrayU,
+			expr::StorageImageAccess::eImageAtomicMaxCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicMax2DMSU,
 
-			expr::ImageAccess::eImageAtomicMax2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicMax2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicAndU
 		{
-			expr::ImageAccess::eImageAtomicAnd1DU,
-			expr::ImageAccess::eImageAtomicAnd2DU,
-			expr::ImageAccess::eImageAtomicAnd3DU,
-			expr::ImageAccess::eImageAtomicAndCubeU,
-			expr::ImageAccess::eImageAtomicAnd2DRectU,
-			expr::ImageAccess::eImageAtomicAndBufferU,
+			expr::StorageImageAccess::eImageAtomicAnd1DU,
+			expr::StorageImageAccess::eImageAtomicAnd2DU,
+			expr::StorageImageAccess::eImageAtomicAnd3DU,
+			expr::StorageImageAccess::eImageAtomicAndCubeU,
+			expr::StorageImageAccess::eImageAtomicAnd2DRectU,
+			expr::StorageImageAccess::eImageAtomicAndBufferU,
 
-			expr::ImageAccess::eImageAtomicAnd1DArrayU,
-			expr::ImageAccess::eImageAtomicAnd2DArrayU,
-			expr::ImageAccess::eImageAtomicAndCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicAnd1DArrayU,
+			expr::StorageImageAccess::eImageAtomicAnd2DArrayU,
+			expr::StorageImageAccess::eImageAtomicAndCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicAnd2DMSU,
-			expr::ImageAccess::eImageAtomicAnd2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicAnd2DMSU,
+			expr::StorageImageAccess::eImageAtomicAnd2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicOrU
 		{
-			expr::ImageAccess::eImageAtomicOr1DU,
-			expr::ImageAccess::eImageAtomicOr2DU,
-			expr::ImageAccess::eImageAtomicOr3DU,
-			expr::ImageAccess::eImageAtomicOrCubeU,
-			expr::ImageAccess::eImageAtomicOr2DRectU,
-			expr::ImageAccess::eImageAtomicOrBufferU,
+			expr::StorageImageAccess::eImageAtomicOr1DU,
+			expr::StorageImageAccess::eImageAtomicOr2DU,
+			expr::StorageImageAccess::eImageAtomicOr3DU,
+			expr::StorageImageAccess::eImageAtomicOrCubeU,
+			expr::StorageImageAccess::eImageAtomicOr2DRectU,
+			expr::StorageImageAccess::eImageAtomicOrBufferU,
 
-			expr::ImageAccess::eImageAtomicOr1DArrayU,
-			expr::ImageAccess::eImageAtomicOr2DArrayU,
-			expr::ImageAccess::eImageAtomicOrCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicOr1DArrayU,
+			expr::StorageImageAccess::eImageAtomicOr2DArrayU,
+			expr::StorageImageAccess::eImageAtomicOrCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicOr2DMSU,
-			expr::ImageAccess::eImageAtomicOr2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicOr2DMSU,
+			expr::StorageImageAccess::eImageAtomicOr2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicXorU
 		{
-			expr::ImageAccess::eImageAtomicXor1DU,
-			expr::ImageAccess::eImageAtomicXor2DU,
-			expr::ImageAccess::eImageAtomicXor3DU,
-			expr::ImageAccess::eImageAtomicXorCubeU,
-			expr::ImageAccess::eImageAtomicXor2DRectU,
-			expr::ImageAccess::eImageAtomicXorBufferU,
+			expr::StorageImageAccess::eImageAtomicXor1DU,
+			expr::StorageImageAccess::eImageAtomicXor2DU,
+			expr::StorageImageAccess::eImageAtomicXor3DU,
+			expr::StorageImageAccess::eImageAtomicXorCubeU,
+			expr::StorageImageAccess::eImageAtomicXor2DRectU,
+			expr::StorageImageAccess::eImageAtomicXorBufferU,
 
-			expr::ImageAccess::eImageAtomicXor1DArrayU,
-			expr::ImageAccess::eImageAtomicXor2DArrayU,
-			expr::ImageAccess::eImageAtomicXorCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicXor1DArrayU,
+			expr::StorageImageAccess::eImageAtomicXor2DArrayU,
+			expr::StorageImageAccess::eImageAtomicXorCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicXor2DMSU,
-			expr::ImageAccess::eImageAtomicXor2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicXor2DMSU,
+			expr::StorageImageAccess::eImageAtomicXor2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicExchangeU
 		{
-			expr::ImageAccess::eImageAtomicExchange1DU,
-			expr::ImageAccess::eImageAtomicExchange2DU,
-			expr::ImageAccess::eImageAtomicExchange3DU,
-			expr::ImageAccess::eImageAtomicExchangeCubeU,
-			expr::ImageAccess::eImageAtomicExchange2DRectU,
-			expr::ImageAccess::eImageAtomicExchangeBufferU,
+			expr::StorageImageAccess::eImageAtomicExchange1DU,
+			expr::StorageImageAccess::eImageAtomicExchange2DU,
+			expr::StorageImageAccess::eImageAtomicExchange3DU,
+			expr::StorageImageAccess::eImageAtomicExchangeCubeU,
+			expr::StorageImageAccess::eImageAtomicExchange2DRectU,
+			expr::StorageImageAccess::eImageAtomicExchangeBufferU,
 
-			expr::ImageAccess::eImageAtomicExchange1DArrayU,
-			expr::ImageAccess::eImageAtomicExchange2DArrayU,
-			expr::ImageAccess::eImageAtomicExchangeCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicExchange1DArrayU,
+			expr::StorageImageAccess::eImageAtomicExchange2DArrayU,
+			expr::StorageImageAccess::eImageAtomicExchangeCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicExchange2DMSU,
-			expr::ImageAccess::eImageAtomicExchange2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicExchange2DMSU,
+			expr::StorageImageAccess::eImageAtomicExchange2DMSArrayU,
 		};
 		static constexpr StorateImageAccessIntrList imageAtomicCompSwapU
 		{
-			expr::ImageAccess::eImageAtomicCompSwap1DU,
-			expr::ImageAccess::eImageAtomicCompSwap2DU,
-			expr::ImageAccess::eImageAtomicCompSwap3DU,
-			expr::ImageAccess::eImageAtomicCompSwapCubeU,
-			expr::ImageAccess::eImageAtomicCompSwap2DRectU,
-			expr::ImageAccess::eImageAtomicCompSwapBufferU,
+			expr::StorageImageAccess::eImageAtomicCompSwap1DU,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DU,
+			expr::StorageImageAccess::eImageAtomicCompSwap3DU,
+			expr::StorageImageAccess::eImageAtomicCompSwapCubeU,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DRectU,
+			expr::StorageImageAccess::eImageAtomicCompSwapBufferU,
 
-			expr::ImageAccess::eImageAtomicCompSwap1DArrayU,
-			expr::ImageAccess::eImageAtomicCompSwap2DArrayU,
-			expr::ImageAccess::eImageAtomicCompSwapCubeArrayU,
+			expr::StorageImageAccess::eImageAtomicCompSwap1DArrayU,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DArrayU,
+			expr::StorageImageAccess::eImageAtomicCompSwapCubeArrayU,
 
-			expr::ImageAccess::eImageAtomicCompSwap2DMSU,
-			expr::ImageAccess::eImageAtomicCompSwap2DMSArrayU,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DMSU,
+			expr::StorageImageAccess::eImageAtomicCompSwap2DMSArrayU,
 		};
 	}
 
@@ -542,270 +542,270 @@ namespace sdw
 	struct StorageImageFormatTraitsT< type::ImageFormat::eUnknown >
 		: public ImageFormatTraitsT< type::ImageFormat::eUnknown >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba32f >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba32f >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba16f >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba16f >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg32f >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg32f >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg16f >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg16f >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddF;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicAdd = storageImg::imageAtomicAddF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicExchange = storageImg::imageAtomicExchangeF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR32f >
 		: public ImageFormatTraitsT< type::ImageFormat::eR32f >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddF;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicAdd = storageImg::imageAtomicAddF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicExchange = storageImg::imageAtomicExchangeF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR16f >
 		: public ImageFormatTraitsT< type::ImageFormat::eR16f >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeF;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesF;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadF;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba32i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba32i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba16i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba16i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba8i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba8i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg32i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg32i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg16i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg16i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg8i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg8i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR32i >
 		: public ImageFormatTraitsT< type::ImageFormat::eR32i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicMin = img::imageAtomicMinI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicMax = img::imageAtomicMaxI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicAnd = img::imageAtomicAndI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicOr = img::imageAtomicOrI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicXor = img::imageAtomicXorI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeI;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicCompSwap = img::imageAtomicCompSwapI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicAdd = storageImg::imageAtomicAddI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicMin = storageImg::imageAtomicMinI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicMax = storageImg::imageAtomicMaxI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicAnd = storageImg::imageAtomicAndI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicOr = storageImg::imageAtomicOrI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicXor = storageImg::imageAtomicXorI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicExchange = storageImg::imageAtomicExchangeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicCompSwap = storageImg::imageAtomicCompSwapI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR16i >
 		: public ImageFormatTraitsT< type::ImageFormat::eR16i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR8i >
 		: public ImageFormatTraitsT< type::ImageFormat::eR8i >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeI;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesI;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadI;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadI;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreI;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba32u >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba32u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba16u >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba16u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba8u >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba8u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg32u >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg32u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg16u >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg16u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRg8u >
 		: public ImageFormatTraitsT< type::ImageFormat::eRg8u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR32u >
 		: public ImageFormatTraitsT< type::ImageFormat::eR32u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicAdd = img::imageAtomicAddU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicMin = img::imageAtomicMinU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicMax = img::imageAtomicMaxU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicAnd = img::imageAtomicAndU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicOr = img::imageAtomicOrU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicXor = img::imageAtomicXorU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicExchange = img::imageAtomicExchangeU;
-		static constexpr img::StorateImageAccessIntrList const & imageAtomicCompSwap = img::imageAtomicCompSwapU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicAdd = storageImg::imageAtomicAddU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicMin = storageImg::imageAtomicMinU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicMax = storageImg::imageAtomicMaxU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicAnd = storageImg::imageAtomicAndU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicOr = storageImg::imageAtomicOrU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicXor = storageImg::imageAtomicXorU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicExchange = storageImg::imageAtomicExchangeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageAtomicCompSwap = storageImg::imageAtomicCompSwapU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR16u >
 		: public ImageFormatTraitsT< type::ImageFormat::eR16u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eR8u >
 		: public ImageFormatTraitsT< type::ImageFormat::eR8u >
 	{
-		static constexpr img::StorateImageAccessIntrList const & imageSize = img::imageSizeU;
-		static constexpr img::StorateImageAccessIntrList const & imageSamples = img::imageSamplesU;
-		static constexpr img::StorateImageAccessIntrList const & imageLoad = img::imageLoadU;
-		static constexpr img::StorateImageAccessIntrList const & imageStore = img::imageStoreU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
 	};
 
 	//*****************************************************************************************
@@ -866,7 +866,7 @@ namespace sdw
 		using SizeType = IVec3;
 	};
 
-	namespace img
+	namespace storageImg
 	{
 		//*****************************************************************************************
 
@@ -876,13 +876,13 @@ namespace sdw
 			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT
-			, expr::ImageAccess ImageAccessT
+			, expr::StorageImageAccess ImageAccessT
 			, typename ... ParamsT >
 		ReturnWrapperT< ReturnT > writeImageAccessCall( StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > const & image
 			, ParamsT const & ... params )
 		{
-			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
-			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
+			static_assert( ImageAccessT != expr::StorageImageAccess::eInvalid );
+			static_assert( ImageAccessT != expr::StorageImageAccess::eUndefined );
 
 			auto & cache = findTypesCache( image, params... );
 			return ReturnWrapperT< ReturnT >{ findWriterMandat( image, params... )
@@ -900,13 +900,13 @@ namespace sdw
 			, type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT
-			, expr::ImageAccess ImageAccessT
+			, expr::StorageImageAccess ImageAccessT
 			, typename ... ParamsT >
 		void writeVoidImageAccessCall( StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > const & image
 			, ParamsT const & ... params )
 		{
-			static_assert( ImageAccessT != expr::ImageAccess::eInvalid );
-			static_assert( ImageAccessT != expr::ImageAccess::eUndefined );
+			static_assert( ImageAccessT != expr::StorageImageAccess::eInvalid );
+			static_assert( ImageAccessT != expr::StorageImageAccess::eUndefined );
 
 			auto & writer = findWriterMandat( image, params... );
 			auto & cache = findTypesCache( writer );
@@ -2076,7 +2076,7 @@ namespace sdw
 	StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::StorageImageT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: img::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >{ writer, std::move( expr ), enabled }
+		: storageImg::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -2088,7 +2088,7 @@ namespace sdw
 	template< typename T >
 	StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > & StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
 	{
-		img::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( rhs );
+		storageImg::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( rhs );
 		return *this;
 	}
 

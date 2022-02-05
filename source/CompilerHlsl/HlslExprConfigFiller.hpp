@@ -35,7 +35,6 @@ namespace hlsl
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
-		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitInitExpr( ast::expr::Init * expr )override;

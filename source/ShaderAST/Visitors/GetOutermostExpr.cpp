@@ -92,11 +92,6 @@ namespace ast
 				visitOtherExpr( expr );
 			}
 
-			void visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )override
-			{
-				visitOtherExpr( expr );
-			}
-
 			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
 			{
 				visitOtherExpr( expr );

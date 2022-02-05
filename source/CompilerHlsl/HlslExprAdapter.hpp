@@ -54,7 +54,6 @@ namespace hlsl
 		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
-		void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override;
 		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
@@ -91,10 +90,6 @@ namespace hlsl
 		void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr );
 		void doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall * expr );
 		void doProcessTexture( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessSampledImageGradShadow( ast::expr::SampledImageAccessCall * expr );
-		void doProcessSampledImageGather( ast::expr::SampledImageAccessCall * expr );
-		void doProcessSampledImageGatherOffsets( ast::expr::SampledImageAccessCall * expr );
-		void doProcessSampledImage( ast::expr::SampledImageAccessCall * expr );
 
 		ast::var::VariablePtr doMakeAlias( ast::type::TypePtr type );
 

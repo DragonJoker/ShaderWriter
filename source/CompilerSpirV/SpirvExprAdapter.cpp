@@ -5,10 +5,8 @@ See LICENSE file in root folder
 #include "SpirvExprEvaluator.hpp"
 
 #include "SpirvGetSwizzleComponents.hpp"
-#include "SpirvSampledImageAccessConfig.hpp"
-#include "SpirvSampledImageAccessNames.hpp"
-#include "SpirvTextureAccessConfig.hpp"
-#include "SpirvTextureAccessNames.hpp"
+#include "SpirvCombinedImageAccessConfig.hpp"
+#include "SpirvCombinedImageAccessNames.hpp"
 #include "SpirvMakeAccessChain.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
@@ -336,11 +334,6 @@ namespace spirv
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
 		m_result = ast::expr::makeEmitVertex( m_cache );
-	}
-
-	void ExprAdapter::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
-	{
-		AST_Failure( "Unexpected SampledImageAccessCall at that point" );
 	}
 
 	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )

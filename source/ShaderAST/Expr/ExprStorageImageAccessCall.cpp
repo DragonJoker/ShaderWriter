@@ -1,14 +1,14 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderAST/Expr/ExprImageAccessCall.hpp"
+#include "ShaderAST/Expr/ExprStorageImageAccessCall.hpp"
 
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 
 namespace ast::expr
 {
 	ImageAccessCall::ImageAccessCall( type::TypePtr type
-		, ImageAccess imageAccess
+		, StorageImageAccess imageAccess
 		, ExprList && argList )
 		: Expr{ getExprTypesCache( argList ), std::move( type ), Kind::eImageAccessCall, Flag::eNone }
 		, m_imageAccess{ imageAccess }

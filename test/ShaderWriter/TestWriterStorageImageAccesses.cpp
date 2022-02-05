@@ -943,7 +943,7 @@ namespace
 
 #endif
 
-sdwTestSuiteMain( TestWriterImageAccesses )
+sdwTestSuiteMain( TestWriterStorageImageAccesses )
 {
 	sdwTestSuiteBegin();
 #if !defined( __APPLE__ )
@@ -965,4 +965,4 @@ sdwTestSuiteMain( TestWriterImageAccesses )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterImageAccesses )
+sdwTestSuiteLaunch( TestWriterStorageImageAccesses )

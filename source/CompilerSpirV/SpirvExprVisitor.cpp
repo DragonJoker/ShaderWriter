@@ -5,15 +5,13 @@ See LICENSE file in root folder
 
 #include "SpirvHelpers.hpp"
 #include "SpirvGetSwizzleComponents.hpp"
-#include "SpirvImageAccessConfig.hpp"
-#include "SpirvImageAccessNames.hpp"
-#include "SpirvSampledImageAccessConfig.hpp"
-#include "SpirvSampledImageAccessNames.hpp"
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvIntrinsicNames.hpp"
 #include "SpirvMakeAccessChain.hpp"
-#include "SpirvTextureAccessConfig.hpp"
-#include "SpirvTextureAccessNames.hpp"
+#include "SpirvStorageImageAccessConfig.hpp"
+#include "SpirvStorageImageAccessNames.hpp"
+#include "SpirvCombinedImageAccessConfig.hpp"
+#include "SpirvCombinedImageAccessNames.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
@@ -98,16 +96,6 @@ namespace spirv
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
-			{
-				for ( auto & arg : expr->getArgList() )
-				{
-					arg->accept( this );
-				}
-
-				m_result = true;
-			}
-
-			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )override
 			{
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -321,11 +309,6 @@ namespace spirv
 	{
 		var = getOutermost( var );
 		spv::StorageClass result = spv::StorageClassFunction;
-
-		if ( var->isLocale() )
-		{
-			result = spv::StorageClassFunction;
-		}
 
 		if ( var->isHitAttribute() )
 		{
@@ -975,8 +958,8 @@ namespace spirv
 	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		m_allLiterals = false;
-		auto isStore = expr->getImageAccess() >= ast::expr::ImageAccess::eImageStore1DF
-			&& expr->getImageAccess() <= ast::expr::ImageAccess::eImageStore2DMSArrayU;
+		auto isStore = expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
+			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU;
 		auto paramType = expr->getArgList()[0]->getType();
 		assert( paramType->getKind() == ast::type::Kind::eImage );
 		auto imageVarId = doSubmit( expr->getArgList()[0].get() );
@@ -1213,56 +1196,6 @@ namespace spirv
 				, m_module
 				, m_currentBlock ) );
 		}
-	}
-
-	void ExprVisitor::visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * expr )
-	{
-		m_allLiterals = false;
-		ValueIdList args;
-		uint32_t index = 0u;
-		args.emplace_back( loadVariable( doSubmit( expr->getArgList()[index++].get() ) ) );
-		args[0] = m_module.mergeSamplerImage( args[0]
-			, loadVariable( doSubmit( expr->getArgList()[index++].get() ) )
-			, m_currentBlock );
-
-		for ( ; index < expr->getArgList().size(); ++index )
-		{
-			args.emplace_back( doSubmit( expr->getArgList()[index].get() ) );
-		}
-
-		auto typeId = m_module.registerType( expr->getType() );
-		auto kind = expr->getSampledImageAccess();
-		IntrinsicConfig config;
-		getSpirVConfig( kind, config );
-		auto op = getSpirVName( kind );
-
-		if ( expr->getArgList().front().get()->isNonUniform() )
-		{
-			m_module.decorate( args[0], spv::DecorationNonUniform );
-		}
-
-		if ( config.imageOperandsIndex )
-		{
-			assert( args.size() >= config.imageOperandsIndex );
-			bool constOffset = false;
-
-			if ( config.offsetIndex )
-			{
-				assert( expr->getArgList().size() >= config.offsetIndex );
-				constOffset = expr->getArgList()[config.offsetIndex - 1u]->isConstant();
-			}
-
-			auto mask = getMask( kind, constOffset );
-			auto it = args.begin() + config.imageOperandsIndex;
-			it = args.insert( it, ValueId{ spv::Id( mask ) } );
-			++it;
-		}
-
-		m_result = ValueId{ m_module.getIntermediateResult(), typeId.type };
-		m_currentBlock.instructions.emplace_back( makeSampledImageAccessInstruction( typeId
-			, m_result
-			, op
-			, args ) );
 	}
 
 	void ExprVisitor::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )

@@ -35,7 +35,7 @@ namespace sdw
 		SDW_API operator uint32_t();
 	};
 
-	namespace img
+	namespace storageImg
 	{
 		template< ast::type::ImageFormat FormatT
 			, ast::type::AccessKind AccessT
@@ -63,7 +63,7 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT >
 	struct StorageImageT
-		: public img::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >
+		: public storageImg::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >
 	{
 		SDW_DeclValue( , StorageImageT );
 

@@ -3,11 +3,11 @@ See LICENSE file in root folder
 */
 #include "HlslStmtConfigFiller.hpp"
 
+#include "HlslCombinedImageAccessFunctions.hpp"
 #include "HlslExprConfigFiller.hpp"
 #include "HlslHelpers.hpp"
-#include "HlslImageAccessFunctions.hpp"
 #include "HlslIntrinsicFunctions.hpp"
-#include "HlslTextureAccessFunctions.hpp"
+#include "HlslStorageImageAccessFunctions.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>

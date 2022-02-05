@@ -2,7 +2,7 @@
 See LICENSE file in root folder
 */
 #include "HlslIntrinsicFunctions.hpp"
-#include "HlslImageAccessFunctions.hpp"
+#include "HlslStorageImageAccessFunctions.hpp"
 #include "HlslExprAdapter.hpp"
 
 #include <ShaderAST/Stmt/StmtContainer.hpp>
