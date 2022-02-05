@@ -59,7 +59,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -72,8 +72,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer ) ) );
 					} );
@@ -92,7 +90,7 @@ namespace
 	struct SampledImageTester< FormatT, DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< isShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -105,9 +103,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, 0.5_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 0.5_f ) );
@@ -153,7 +148,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -166,9 +161,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
@@ -191,7 +183,7 @@ namespace
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -204,10 +196,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -250,7 +238,7 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -263,8 +251,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer ) ) );
 					} );
@@ -285,7 +271,7 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -298,9 +284,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f ) );
@@ -342,7 +325,7 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -355,9 +338,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
@@ -378,7 +358,7 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -391,10 +371,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -441,7 +417,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -454,9 +430,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.lod( s, test::getDefault< SampleT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).lod( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
@@ -478,7 +451,7 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -491,10 +464,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.lod( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).lod( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -539,8 +508,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -553,9 +522,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, test::getDefault < OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, test::getDefault < OffsetT >( writer ) ) );
@@ -579,8 +545,8 @@ namespace
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -593,10 +559,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault < OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -641,8 +603,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -655,10 +617,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, test::getDefault< OffsetT >( writer )
@@ -680,8 +638,8 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -694,11 +652,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.sample( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -742,8 +695,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -756,9 +709,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
@@ -780,8 +730,8 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -794,10 +744,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -840,8 +786,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -854,10 +800,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, test::getDefault< OffsetT >( writer )
@@ -879,8 +821,8 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -893,11 +835,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.proj( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -943,8 +880,8 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -957,10 +894,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.lod( s, test::getDefault< SampleT >( writer )
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).lod( test::getDefault< SampleT >( writer )
 								, 1.0_f
@@ -983,8 +916,8 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -997,11 +930,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.lod( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).lod( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -1045,7 +973,7 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1058,9 +986,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projLod( s, test::getDefault< SampleProjT >( writer )
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projLod( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
@@ -1081,7 +1006,7 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1094,10 +1019,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projLod( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projLod( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -1140,8 +1061,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1154,10 +1075,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projLod( s, test::getDefault< SampleProjT >( writer )
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projLod( test::getDefault< SampleProjT >( writer )
 								, 1.0_f
@@ -1179,8 +1096,8 @@ namespace
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1193,11 +1110,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projLod( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projLod( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -1245,8 +1157,8 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1259,10 +1171,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.grad( s, test::getDefault< SampleT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).grad( test::getDefault< SampleT >( writer )
 								, test::getDefault< DerivativeT >( writer )
@@ -1286,8 +1194,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1300,11 +1208,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.grad( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).grad( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -1350,9 +1253,9 @@ namespace
 			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1365,11 +1268,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.grad( s, test::getDefault< SampleT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).grad( test::getDefault< SampleT >( writer )
 								, test::getDefault< DerivativeT >( writer )
@@ -1395,9 +1293,9 @@ namespace
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleT = typename sdw::SampledImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1410,12 +1308,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.grad( s, test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).grad( test::getDefault< SampleT >( writer )
 								, 0.5_f
@@ -1460,8 +1352,8 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1474,10 +1366,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projGrad( s, test::getDefault< SampleProjT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projGrad( test::getDefault< SampleProjT >( writer )
 								, test::getDefault< DerivativeT >( writer )
@@ -1500,8 +1388,8 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1514,11 +1402,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projGrad( s, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projGrad( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -1562,9 +1445,9 @@ namespace
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1577,11 +1460,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projGrad( s, test::getDefault< SampleProjT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projGrad( test::getDefault< SampleProjT >( writer )
 								, test::getDefault< DerivativeT >( writer )
@@ -1605,9 +1483,9 @@ namespace
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using SampleProjT = typename sdw::SampledImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::SampledImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1620,13 +1498,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.projGrad( s
-								, test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).projGrad( test::getDefault< SampleProjT >( writer )
 								, 0.5_f
@@ -1672,7 +1543,7 @@ namespace
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1685,9 +1556,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 1_i ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 1_i ) );
@@ -1711,7 +1579,7 @@ namespace
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1724,9 +1592,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 0.5_f ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 0.5_f ) );
@@ -1767,8 +1632,8 @@ namespace
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1781,10 +1646,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 1_i
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 1_i
@@ -1807,8 +1668,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1821,10 +1682,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer ) ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 0.5_f
@@ -1859,8 +1716,8 @@ namespace
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1873,12 +1730,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto o = writer.declConstant< OffsetT >( "o"
-							, test::getDefault< OffsetT >( writer ) );
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 1_i
-								, o ) );
 						auto p = writer.declConstant< OffsetT >( "p"
 							, test::getDefault< OffsetT >( writer ) );
 						auto e = writer.declLocale( "e"
@@ -1903,8 +1754,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1917,12 +1768,6 @@ namespace
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto o = writer.declConstant< OffsetT >( "o"
-							, test::getDefault< OffsetT >( writer ) );
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, o ) );
 						auto p = writer.declConstant< OffsetT >( "p"
 							, test::getDefault< OffsetT >( writer ) );
 						auto e = writer.declLocale( "e"
@@ -1966,8 +1811,8 @@ namespace
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -1982,10 +1827,6 @@ namespace
 					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 1_i
-								, offsets ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 1_i
@@ -2008,8 +1849,8 @@ namespace
 			|| sdw::isRectShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
-		using GatherT = typename sdw::SampledImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::SampledImageOffsetT< DimT, ArrayedT >;
+		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -2024,10 +1865,6 @@ namespace
 					, test::getDefaultVector< OffsetT >( writer, 4u ) );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 					{
-						auto d = writer.declLocale( "d"
-							, i.gather( s, test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, offsets ) );
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 0.5_f

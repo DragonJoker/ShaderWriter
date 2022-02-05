@@ -1440,45 +1440,6 @@ namespace ast
 				}
 			}
 
-			void visitSampledImageAccessCallExpr( expr::SampledImageAccessCall * expr )override
-			{
-				assert( expr->getArgList().size() > 2u );
-				auto it = expr->getArgList().begin();
-				auto image = doSubmit( ( it++ )->get() );
-				auto type = getNonArrayTypeRec( image->getType() );
-
-				if ( type->getKind() == type::Kind::eSampledImage )
-				{
-					auto sampler = doSubmit( ( it++ )->get() );
-					type = getNonArrayTypeRec( sampler->getType() );
-
-					if ( type->getKind() == type::Kind::eSampler )
-					{
-						expr::ExprList args;
-						args.emplace_back( expr::makeCompositeConstruct( std::move( image )
-							, std::move( sampler ) ) );
-
-						for ( ; it != expr->getArgList().end(); ++it )
-						{
-							args.emplace_back( doSubmit( it->get() ) );
-						}
-
-						m_result = expr::makeCombinedImageAccessCall( expr->getType()
-							, convert( expr->getSampledImageAccess() )
-							, std::move( args ) );
-					}
-					else
-					{
-						AST_Failure( "Unexpected non sampler type as second parameter" );
-					}
-				}
-				else
-				{
-					AST_Failure( "Unexpected non sampled-image type as first parameter" );
-				}
-
-			}
-
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eSwizzle )

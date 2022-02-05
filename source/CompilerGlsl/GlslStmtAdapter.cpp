@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 #include "GlslExprAdapter.hpp"
 #include "GlslHelpers.hpp"
-#include "GlslTextureAccessFunctions.hpp"
+#include "GlslCombinedImageAccessFunctions.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>

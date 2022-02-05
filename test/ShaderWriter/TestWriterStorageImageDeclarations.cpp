@@ -207,7 +207,7 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterImageDeclarations )
+sdwTestSuiteMain( TestWriterStorageImageDeclarations )
 {
 	sdwTestSuiteBegin();
 	testImageFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
@@ -237,4 +237,4 @@ sdwTestSuiteMain( TestWriterImageDeclarations )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterImageDeclarations )
+sdwTestSuiteLaunch( TestWriterStorageImageDeclarations )

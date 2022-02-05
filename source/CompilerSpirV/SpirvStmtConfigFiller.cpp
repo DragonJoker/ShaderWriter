@@ -5,9 +5,9 @@ See LICENSE file in root folder
 
 #include "SpirvExprConfigFiller.hpp"
 #include "SpirvHelpers.hpp"
-#include "SpirvImageAccessNames.hpp"
 #include "SpirvIntrinsicNames.hpp"
-#include "SpirvTextureAccessNames.hpp"
+#include "SpirvStorageImageAccessNames.hpp"
+#include "SpirvCombinedImageAccessNames.hpp"
 
 #include <ShaderAST/Shader.hpp>
 

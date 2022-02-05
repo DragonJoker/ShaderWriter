@@ -69,6 +69,10 @@ namespace ast::expr
 		, m_composite{ CompositeType::eCombine }
 		, m_component{ type::Kind::eCombinedImage }
 	{
+		auto & imageType = static_cast< ast::type::SampledImage & >( *getNonArrayTypeRec( image->getType() ) );
+		auto & samplerType = static_cast< ast::type::Sampler const & >( *getNonArrayTypeRec( sampler->getType() ) );
+		imageType.updateComparison( samplerType.isComparison() );
+
 		m_argList.emplace_back( std::move( image ) );
 		m_argList.emplace_back( std::move( sampler ) );
 	}

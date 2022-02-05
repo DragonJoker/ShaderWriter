@@ -2261,7 +2261,7 @@ namespace
 
 #endif
 
-sdwTestSuiteMain( TestWriterTextureAccesses )
+sdwTestSuiteMain( TestWriterCombinedImageAccesses )
 {
 	sdwTestSuiteBegin();
 #if !defined( __APPLE__ )
@@ -2296,4 +2296,4 @@ sdwTestSuiteMain( TestWriterTextureAccesses )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterTextureAccesses )
+sdwTestSuiteLaunch( TestWriterCombinedImageAccesses )
