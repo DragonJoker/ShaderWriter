@@ -46,7 +46,7 @@ See LICENSE file in root folder
 #include "StmtPushConstantsBufferDecl.hpp"
 #include "StmtReturn.hpp"
 #include "StmtSampledImageDecl.hpp"
-#include "StmtTextureDecl.hpp"
+#include "StmtCombinedImageDecl.hpp"
 #include "StmtSamplerDecl.hpp"
 #include "StmtShaderBufferDecl.hpp"
 #include "StmtShaderStructBufferDecl.hpp"
@@ -105,7 +105,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitPerVertexDeclStmt( PerVertexDecl * ) = 0;
 		SDAST_API virtual void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl * ) = 0;
 		SDAST_API virtual void visitReturnStmt( Return * ) = 0;
-		SDAST_API virtual void visitTextureDeclStmt( TextureDecl * ) = 0;
+		SDAST_API virtual void visitCombinedImageDeclStmt( CombinedImageDecl * ) = 0;
 		SDAST_API virtual void visitSampledImageDeclStmt( SampledImageDecl * ) = 0;
 		SDAST_API virtual void visitSamplerDeclStmt( SamplerDecl * ) = 0;
 		SDAST_API virtual void visitShaderBufferDeclStmt( ShaderBufferDecl * ) = 0;

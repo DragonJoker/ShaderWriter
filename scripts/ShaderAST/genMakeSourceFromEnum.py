@@ -315,9 +315,9 @@ def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsG
 	outs.write( "\n\t/**" )
 	outs.write( "\n\t*@return" )
 	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
-	if enumName == "TextureAccess":
+	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Texture", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	elif enumName == "SampledImageAccess":
 		outs.write( "\n\t*@param image" )
@@ -335,9 +335,9 @@ def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsG
 
 def printTextureFunctionDocExNR( outs, enumName, lastGroup, functionGroup, paramsGroup ):
 	outs.write( "\n\t/**" )
-	if enumName == "TextureAccess":
+	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Texture", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	elif enumName == "SampledImageAccess":
 		outs.write( "\n\t*@param image" )
@@ -357,9 +357,9 @@ def printTextureFunctionDocEx( outs, enumName, returnGroup, functionGroup, param
 	outs.write( "\n\t/**" )
 	outs.write( "\n\t*@return" )
 	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
-	if enumName == "TextureAccess":
+	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Texture", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	elif enumName == "SampledImageAccess":
 		outs.write( "\n\t*@param image" )
@@ -497,9 +497,9 @@ def printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
 	outs.write( "\n\t/**" )
 	outs.write( "\n\t*@return" )
 	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
-	if enumName == "TextureAccess":
+	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Texture", functionGroup ) )
+		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
 		outs.write( computeParamsDoc( paramsGroup ) )
 	elif enumName == "SampledImageAccess":
 		outs.write( "\n\t*@param image" )
@@ -527,7 +527,7 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( assertParams( paramsGroup, "\t\t" ) )
 	outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + returnGroup + " )\n" )
 	outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
-	if enumName == "TextureAccess":
+	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t\t\t, std::move( texture )" )
 	elif enumName == "SampledImageAccess":
 		outs.write( "\n\t\t\t, std::move( image )" )
@@ -538,7 +538,7 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( "\t}" )
 
 def printFunction( outs, enumName, match ):
-	if enumName == "TextureAccess":
+	if enumName == "CombinedImageAccess":
 		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
 	elif enumName == "SampledImageAccess":
 		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )

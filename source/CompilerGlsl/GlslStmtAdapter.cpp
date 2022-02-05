@@ -566,15 +566,15 @@ namespace glsl
 		}
 	}
 
-	void StmtAdapter::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtAdapter::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
 		if ( m_adaptationData.writerConfig.hasDescriptorSets )
 		{
-			ast::StmtCloner::visitTextureDeclStmt( stmt );
+			ast::StmtCloner::visitCombinedImageDeclStmt( stmt );
 		}
 		else
 		{
-			m_current->addStmt( ast::stmt::makeTextureDecl( stmt->getVariable()
+			m_current->addStmt( ast::stmt::makeCombinedImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, InvalidIndex ) );
 		}

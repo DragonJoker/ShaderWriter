@@ -171,17 +171,29 @@ namespace ast::type
 	inline ImageConfiguration makeConfig( bool sampled )noexcept;
 }
 
-#define Img1D ast::type::ImageDim::e1D, false, false
-#define Img2D ast::type::ImageDim::e2D, false, false
-#define Img3D ast::type::ImageDim::e3D, false, false
-#define ImgRect ast::type::ImageDim::eRect, false, false
-#define ImgCube ast::type::ImageDim::eCube, false, false
-#define ImgBuffer ast::type::ImageDim::eBuffer, false, false
-#define Img1DArray ast::type::ImageDim::e1D, true, false
-#define Img2DArray ast::type::ImageDim::e2D, true, false
-#define ImgCubeArray ast::type::ImageDim::eCube, true, false
-#define Img2DMS ast::type::ImageDim::e2D, false, true
-#define Img2DMSArray ast::type::ImageDim::e2D, true, true
+#define Img1DBase ast::type::ImageDim::e1D, false, false
+#define Img2DBase ast::type::ImageDim::e2D, false, false
+#define Img3DBase ast::type::ImageDim::e3D, false, false
+#define ImgRectBase ast::type::ImageDim::eRect, false, false
+#define ImgCubeBase ast::type::ImageDim::eCube, false, false
+#define ImgBufferBase ast::type::ImageDim::eBuffer, false, false
+#define Img1DArrayBase ast::type::ImageDim::e1D, true, false
+#define Img2DArrayBase ast::type::ImageDim::e2D, true, false
+#define ImgCubeArrayBase ast::type::ImageDim::eCube, true, false
+#define Img2DMSBase ast::type::ImageDim::e2D, false, true
+#define Img2DMSArrayBase ast::type::ImageDim::e2D, true, true
+
+#define Img1D Img1DBase, false
+#define Img2D Img2DBase, false
+#define Img3D Img3DBase, false
+#define ImgRect ImgRectBase, false
+#define ImgCube ImgCubeBase, false
+#define ImgBuffer ImgBufferBase, false
+#define Img1DArray Img1DArrayBase, false
+#define Img2DArray Img2DArrayBase, false
+#define ImgCubeArray ImgCubeArrayBase, false
+#define Img2DMS Img2DMSBase, false
+#define Img2DMSArray Img2DMSArrayBase, false
 
 #define FImg1DRgba16 ast::type::ImageFormat::eRgba16f, Img1D
 #define FImg2DRgba16 ast::type::ImageFormat::eRgba16f, Img2D
@@ -376,13 +388,13 @@ namespace ast::type
 #define FImgCubeArrayR16 ast::type::ImageFormat::eR16f, ImgCubeArray
 #define FImg2DMSR16 ast::type::ImageFormat::eR16f, Img2DMS
 #define FImg2DMSArrayR16 ast::type::ImageFormat::eR16f, Img2DMSArray
-#define FImg1DShadowR16 FImg1DR16, true
-#define FImg2DShadowR16 FImg2DR16, true
-#define FImgRectShadowR16 FImgRectR16, true
-#define FImgCubeShadowR16 FImgCubeR16, true
-#define FImg1DArrayShadowR16 FImg1DArrayR16, true
-#define FImg2DArrayShadowR16 FImg2DArrayR16, true
-#define FImgCubeArrayShadowR16 FImgCubeArrayR16, true
+#define FImg1DShadowR16 ast::type::ImageFormat::eR16f, Img1DBase, true
+#define FImg2DShadowR16 ast::type::ImageFormat::eR16f, Img2DBase, true
+#define FImgRectShadowR16 ast::type::ImageFormat::eR16f, ImgRectBase, true
+#define FImgCubeShadowR16 ast::type::ImageFormat::eR16f, ImgCubeBase, true
+#define FImg1DArrayShadowR16 ast::type::ImageFormat::eR16f, Img1DArrayBase, true
+#define FImg2DArrayShadowR16 ast::type::ImageFormat::eR16f, Img2DArrayBase, true
+#define FImgCubeArrayShadowR16 ast::type::ImageFormat::eR16f, ImgCubeArrayBase, true
 #define FImg1DR32 ast::type::ImageFormat::eR32f, Img1D
 #define FImg2DR32 ast::type::ImageFormat::eR32f, Img2D
 #define FImg3DR32 ast::type::ImageFormat::eR32f, Img3D
@@ -394,13 +406,13 @@ namespace ast::type
 #define FImgCubeArrayR32 ast::type::ImageFormat::eR32f, ImgCubeArray
 #define FImg2DMSR32 ast::type::ImageFormat::eR32f, Img2DMS
 #define FImg2DMSArrayR32 ast::type::ImageFormat::eR32f, Img2DMSArray
-#define FImg1DShadowR32 FImg1DR32, true
-#define FImg2DShadowR32 FImg2DR32, true
-#define FImgRectShadowR32 FImgRectR32, true
-#define FImgCubeShadowR32 FImgCubeR32, true
-#define FImg1DArrayShadowR32 FImg1DArrayR32, true
-#define FImg2DArrayShadowR32 FImg2DArrayR32, true
-#define FImgCubeArrayShadowR32 FImgCubeArrayR32, true
+#define FImg1DShadowR32 ast::type::ImageFormat::eR32f, Img1DBase, true
+#define FImg2DShadowR32 ast::type::ImageFormat::eR32f, Img2DBase, true
+#define FImgRectShadowR32 ast::type::ImageFormat::eR32f, ImgRectBase, true
+#define FImgCubeShadowR32 ast::type::ImageFormat::eR32f, ImgCubeBase, true
+#define FImg1DArrayShadowR32 ast::type::ImageFormat::eR32f, Img1DArrayBase, true
+#define FImg2DArrayShadowR32 ast::type::ImageFormat::eR32f, Img2DArrayBase, true
+#define FImgCubeArrayShadowR32 ast::type::ImageFormat::eR32f, ImgCubeArrayBase, true
 
 #define IImg1DR8 ast::type::ImageFormat::eR8i, Img1D
 #define IImg2DR8 ast::type::ImageFormat::eR8i, Img2D
@@ -470,17 +482,17 @@ namespace ast::type
 #define UImg2DMSR32 ast::type::ImageFormat::eR32u, Img2DMS
 #define UImg2DMSArrayR32 ast::type::ImageFormat::eR32u, Img2DMSArray
 
-#define RImg1D ast::type::AccessKind::eRead, ast::type::ImageDim::e1D, false, false
-#define RImg2D ast::type::AccessKind::eRead, ast::type::ImageDim::e2D, false, false
-#define RImg3D ast::type::AccessKind::eRead, ast::type::ImageDim::e3D, false, false
-#define RImgRect ast::type::AccessKind::eRead, ast::type::ImageDim::eRect, false, false
-#define RImgCube ast::type::AccessKind::eRead, ast::type::ImageDim::eCube, false, false
-#define RImgBuffer ast::type::AccessKind::eRead, ast::type::ImageDim::eBuffer, false, false
-#define RImg1DArray ast::type::AccessKind::eRead, ast::type::ImageDim::e1D, true, false
-#define RImg2DArray ast::type::AccessKind::eRead, ast::type::ImageDim::e2D, true, false
-#define RImgCubeArray ast::type::AccessKind::eRead, ast::type::ImageDim::eCube, true, false
-#define RImg2DMS ast::type::AccessKind::eRead, ast::type::ImageDim::e2D, false, true
-#define RImg2DMSArray ast::type::AccessKind::eRead, ast::type::ImageDim::e2D, true, true
+#define RImg1D ast::type::AccessKind::eRead, Img1DBase
+#define RImg2D ast::type::AccessKind::eRead, Img2DBase
+#define RImg3D ast::type::AccessKind::eRead, Img3DBase
+#define RImgRect ast::type::AccessKind::eRead, ImgRectBase
+#define RImgCube ast::type::AccessKind::eRead, ImgCubeBase
+#define RImgBuffer ast::type::AccessKind::eRead, ImgBufferBase
+#define RImg1DArray ast::type::AccessKind::eRead, Img1DArrayBase
+#define RImg2DArray ast::type::AccessKind::eRead, Img2DArrayBase
+#define RImgCubeArray ast::type::AccessKind::eRead, ImgCubeArrayBase
+#define RImg2DMS ast::type::AccessKind::eRead, Img2DMSBase
+#define RImg2DMSArray ast::type::AccessKind::eRead, Img2DMSArrayBase
 
 #define RFImg1DRgba16 ast::type::ImageFormat::eRgba16f, RImg1D
 #define RFImg2DRgba16 ast::type::ImageFormat::eRgba16f, RImg2D
@@ -755,17 +767,17 @@ namespace ast::type
 #define RUImg2DMSR32 ast::type::ImageFormat::eR32u, RImg2DMS
 #define RUImg2DMSArrayR32 ast::type::ImageFormat::eR32u, RImg2DMSArray
 
-#define WImg1D ast::type::AccessKind::eWrite, ast::type::ImageDim::e1D, false, false
-#define WImg2D ast::type::AccessKind::eWrite, ast::type::ImageDim::e2D, false, false
-#define WImg3D ast::type::AccessKind::eWrite, ast::type::ImageDim::e3D, false, false
-#define WImgRect ast::type::AccessKind::eWrite, ast::type::ImageDim::eRect, false, false
-#define WImgCube ast::type::AccessKind::eWrite, ast::type::ImageDim::eCube, false, false
-#define WImgBuffer ast::type::AccessKind::eWrite, ast::type::ImageDim::eBuffer, false, false
-#define WImg1DArray ast::type::AccessKind::eWrite, ast::type::ImageDim::e1D, true, false
-#define WImg2DArray ast::type::AccessKind::eWrite, ast::type::ImageDim::e2D, true, false
-#define WImgCubeArray ast::type::AccessKind::eWrite, ast::type::ImageDim::eCube, true, false
-#define WImg2DMS ast::type::AccessKind::eWrite, ast::type::ImageDim::e2D, false, true
-#define WImg2DMSArray ast::type::AccessKind::eWrite, ast::type::ImageDim::e2D, true, true
+#define WImg1D ast::type::AccessKind::eWrite, Img1DBase
+#define WImg2D ast::type::AccessKind::eWrite, Img2DBase
+#define WImg3D ast::type::AccessKind::eWrite, Img3DBase
+#define WImgRect ast::type::AccessKind::eWrite, ImgRectBase
+#define WImgCube ast::type::AccessKind::eWrite, ImgCubeBase
+#define WImgBuffer ast::type::AccessKind::eWrite, ImgBufferBase
+#define WImg1DArray ast::type::AccessKind::eWrite, Img1DArrayBase
+#define WImg2DArray ast::type::AccessKind::eWrite, Img2DArrayBase
+#define WImgCubeArray ast::type::AccessKind::eWrite, ImgCubeArrayBase
+#define WImg2DMS ast::type::AccessKind::eWrite, Img2DMSBase
+#define WImg2DMSArray ast::type::AccessKind::eWrite, Img2DMSArrayBase
 
 #define WFImg1DRgba16 ast::type::ImageFormat::eRgba16f, WImg1D
 #define WFImg2DRgba16 ast::type::ImageFormat::eRgba16f, WImg2D
@@ -1040,17 +1052,17 @@ namespace ast::type
 #define WUImg2DMSR32 ast::type::ImageFormat::eR32u, WImg2DMS
 #define WUImg2DMSArrayR32 ast::type::ImageFormat::eR32u, WImg2DMSArray
 
-#define RWimg1D ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e1D, false, false
-#define RWimg2D ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e2D, false, false
-#define RWimg3D ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e3D, false, false
-#define RWimgRect ast::type::AccessKind::eReadWrite, ast::type::ImageDim::eRect, false, false
-#define RWimgCube ast::type::AccessKind::eReadWrite, ast::type::ImageDim::eCube, false, false
-#define RWimgBuffer ast::type::AccessKind::eReadWrite, ast::type::ImageDim::eBuffer, false, false
-#define RWimg1DArray ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e1D, true, false
-#define RWimg2DArray ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e2D, true, false
-#define RWimgCubeArray ast::type::AccessKind::eReadWrite, ast::type::ImageDim::eCube, true, false
-#define RWimg2DMS ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e2D, false, true
-#define RWimg2DMSArray ast::type::AccessKind::eReadWrite, ast::type::ImageDim::e2D, true, true
+#define RWimg1D ast::type::AccessKind::eReadWrite, Img1DBase
+#define RWimg2D ast::type::AccessKind::eReadWrite, Img2DBase
+#define RWimg3D ast::type::AccessKind::eReadWrite, Img3DBase
+#define RWimgRect ast::type::AccessKind::eReadWrite, ImgRectBase
+#define RWimgCube ast::type::AccessKind::eReadWrite, ImgCubeBase
+#define RWimgBuffer ast::type::AccessKind::eReadWrite, ImgBufferBase
+#define RWimg1DArray ast::type::AccessKind::eReadWrite, Img1DArrayBase
+#define RWimg2DArray ast::type::AccessKind::eReadWrite, Img2DArrayBase
+#define RWimgCubeArray ast::type::AccessKind::eReadWrite, ImgCubeArrayBase
+#define RWimg2DMS ast::type::AccessKind::eReadWrite, Img2DMSBase
+#define RWimg2DMSArray ast::type::AccessKind::eReadWrite, Img2DMSArrayBase
 
 #define RWFImg1DRgba16 ast::type::ImageFormat::eRgba16f, RWimg1D
 #define RWFImg2DRgba16 ast::type::ImageFormat::eRgba16f, RWimg2D

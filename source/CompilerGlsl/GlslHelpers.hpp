@@ -34,7 +34,17 @@ namespace glsl
 	std::string getLayoutName( ast::type::OutputTopology value );
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component );
+	std::string getCtorName( ast::expr::Expr const & image
+		, ast::expr::Expr const & sampler );
 	bool isUnaryPre( ast::expr::Kind kind );
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config );
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config
+		, bool isComparison );
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config
+		, ast::type::Trinary comparison );
 
 	struct IntrinsicsConfig
 	{

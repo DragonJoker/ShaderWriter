@@ -54,12 +54,12 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Bool.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/CallableData.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/CombinedImage.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/HitAttribute.hpp"' )
-	outs.write( '\n#include "ShaderWriter/BaseTypes/Image.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/RayPayload.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/SampledImage.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
-	outs.write( '\n#include "ShaderWriter/BaseTypes/Texture.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/StorageImage.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/TaskPayload.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/FunctionParam.hpp"' )
@@ -539,7 +539,7 @@ def main( argv ):
 				resultEnd = intrEnd.match( line )
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
-					if enumName == "TextureAccess":
+					if enumName == "CombinedImageAccess":
 						imageType = "Texture"
 				elif resultValue:
 					returnGroup = resultValue.group( 1 )
@@ -553,7 +553,7 @@ def main( argv ):
 						functionGroups[groupName][paramsList] = list()
 					functionGroups[groupName][paramsList].append( [returnGroup, functionGroup, paramsGroup] )
 				elif resultEnd:
-					if enumName == "TextureAccess":
+					if enumName == "CombinedImageAccess":
 						for functionsName, functionsSubGroup in functionGroups.items():
 							beginFunctionGroup( outs, functionsName )
 							for paramsList, functionsList in functionsSubGroup.items():

@@ -355,13 +355,13 @@ namespace
 		testBegin( "testTextureDecl" );
 		ast::type::TypesCache cache;
 		ast::type::ImageConfiguration config{};
-		auto stmt = ast::stmt::makeTextureDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getTexture( config, true ), "lhs" ), 1u, 2u );
+		auto stmt = ast::stmt::makeCombinedImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, cache.getCombinedImage( config, true ), "lhs" ), 1u, 2u );
 		testCounts << "StmtTextureDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
 
-		require( stmt->getKind() == ast::stmt::Kind::eTextureDecl );
+		require( stmt->getKind() == ast::stmt::Kind::eCombinedImageDecl );
 		check( stmt->getBindingPoint() == 1u );
 		check( stmt->getDescriptorSet() == 2u );
-		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eTexture );
+		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eCombinedImage );
 		check( stmt->getVariable()->getName() == "lhs" );
 		testEnd();
 	}

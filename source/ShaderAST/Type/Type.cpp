@@ -322,7 +322,7 @@ namespace ast::type
 
 	bool isTextureType( Kind kind )
 	{
-		return kind == Kind::eTexture;
+		return kind == Kind::eCombinedImage;
 	}
 
 	bool isAccelerationStructureType( Kind kind )

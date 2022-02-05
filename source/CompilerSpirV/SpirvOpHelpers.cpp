@@ -1858,7 +1858,7 @@ namespace spirv
 			result = spv::OpTypeImage;
 			break;
 		case ast::type::Kind::eSampledImage:
-		case ast::type::Kind::eTexture:
+		case ast::type::Kind::eCombinedImage:
 			result = spv::OpTypeSampledImage;
 			break;
 		case ast::type::Kind::eSampler:
@@ -1905,7 +1905,7 @@ namespace spirv
 		needMatchingVectors = true;
 		assert( exprKind != ast::expr::Kind::eImageAccessCall
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
-			&& exprKind != ast::expr::Kind::eTextureAccessCall
+			&& exprKind != ast::expr::Kind::eCombinedImageAccessCall
 			&& "Unsupported ast::expr::Kind" );
 		spv::Op result{ spv::OpNop };
 
@@ -2116,7 +2116,7 @@ namespace spirv
 	{
 		assert( exprKind != ast::expr::Kind::eImageAccessCall
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
-			&& exprKind != ast::expr::Kind::eTextureAccessCall
+			&& exprKind != ast::expr::Kind::eCombinedImageAccessCall
 			&& "Unsupported ast::expr::Kind" );
 		spv::Op result{ spv::OpNop };
 

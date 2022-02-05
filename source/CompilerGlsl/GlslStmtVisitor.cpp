@@ -7,7 +7,7 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
@@ -858,7 +858,7 @@ namespace glsl
 		m_result += ";\n";
 	}
 
-	void StmtVisitor::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtVisitor::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
 		doAppendLineEnd();
 		auto type = stmt->getVariable()->getType();
@@ -882,9 +882,9 @@ namespace glsl
 			m_result += ") ";
 		}
 
-		assert( type->getKind() == ast::type::Kind::eTexture );
-		auto sampledImage = std::static_pointer_cast< ast::type::Texture >( type );
-		m_result += "uniform " + getQualifiedName( ast::type::Kind::eTexture, sampledImage->getConfig(), sampledImage->isComparison() ) + " " + stmt->getVariable()->getName();
+		assert( type->getKind() == ast::type::Kind::eCombinedImage );
+		auto sampledImage = std::static_pointer_cast< ast::type::CombinedImage >( type );
+		m_result += "uniform " + getQualifiedName( ast::type::Kind::eCombinedImage, sampledImage->getConfig(), sampledImage->isComparison() ) + " " + stmt->getVariable()->getName();
 		m_result += getTypeArraySize( stmt->getVariable()->getType() );
 		m_result += ";\n";
 	}
@@ -899,7 +899,7 @@ namespace glsl
 			, "" );
 		m_result += ") uniform sampler";
 		
-		if ( static_cast< ast::type::Sampler const & >( *stmt->getVariable()->getType() ).isComparison() )
+		if ( static_cast< ast::type::Sampler const & >( *getNonArrayType( stmt->getVariable()->getType() ) ).isComparison() )
 		{
 			m_result += "Shadow";
 		}

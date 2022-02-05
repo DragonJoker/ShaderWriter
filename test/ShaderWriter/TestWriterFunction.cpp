@@ -1275,15 +1275,15 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		auto c3d_maps = writer.declCombinedArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+		auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( Texture2DRgba32 const & sim
+			, [&]( CombinedImage2DRgba32 const & sim
 				, Vec2 const & pos )
 			{
 				writer.returnStmt( sim.sample( pos ) );
 			}
-			, InTexture2DRgba32{ writer, "sim" }
+			, InCombinedImage2DRgba32{ writer, "sim" }
 			, InVec2{ writer, "pos" } );
 
 		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
@@ -1332,7 +1332,7 @@ namespace
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 
-		auto c3d_maps = writer.declCombinedArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+		auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
 		auto st = St::declare( writer );
 
@@ -1373,12 +1373,12 @@ namespace
 			, InVec4{ writer, "pos" } );
 
 		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( Texture2DRgba32 const & sim
+			, [&]( CombinedImage2DRgba32 const & sim
 				, Vec2 const & pos )
 			{
 				writer.returnStmt( sim.sample( pos ) );
 			}
-			, InTexture2DRgba32{ writer, "sim" }
+			, InCombinedImage2DRgba32{ writer, "sim" }
 			, InVec2{ writer, "pos" } );
 
 		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
@@ -1478,7 +1478,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		auto s = writer.declImage< RFImg3DRgba32 >( "s", 0u, 0u );
+		auto s = writer.declStorageImg< RFImg3DRgba32 >( "s", 0u, 0u );
 
 		auto foo01 = writer.implementFunction< Void >( "foo01"
 			, [&]( RImage3DRgba32 const & ps
@@ -1513,7 +1513,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		auto s = writer.declImage< WFImg3DRgba32 >( "s", 0u, 0u );
+		auto s = writer.declStorageImg< WFImg3DRgba32 >( "s", 0u, 0u );
 
 		auto foo01 = writer.implementFunction< Void >( "foo01"
 			, [&]( WImage3DRgba32 const & ps
@@ -1548,7 +1548,7 @@ namespace
 		using namespace sdw;
 		ComputeWriter writer;
 
-		auto s = writer.declImage< RWFImg3DRgba32 >( "s", 0u, 0u );
+		auto s = writer.declStorageImg< RWFImg3DRgba32 >( "s", 0u, 0u );
 
 		auto foo01 = writer.implementFunction< Void >( "foo01"
 			, [&]( RWImage3DRgba32 const & ps

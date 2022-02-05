@@ -27,7 +27,7 @@ namespace
 			using namespace sdw;
 			{
 				ComputeWriter writer;
-				auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+				auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 				writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 					{
 						auto j = writer.declLocale( "j"
@@ -70,7 +70,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							auto j = writer.declLocale( "j"
@@ -105,7 +105,7 @@ namespace
 		, bool MsT >
 	struct ImageLoadTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using Coords = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
@@ -116,7 +116,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -160,7 +160,7 @@ namespace
 		, bool MsT >
 	struct ImageStoreTester
 	{
-		using Coords = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using Coords = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -172,7 +172,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -216,7 +216,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicAddTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -230,7 +230,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -296,7 +296,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicMinTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -309,7 +309,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -370,7 +370,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicMaxTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -383,7 +383,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -444,7 +444,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicAndTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -457,7 +457,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -518,7 +518,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicOrTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -531,7 +531,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -592,7 +592,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicXorTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -605,7 +605,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -666,7 +666,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicExchangeTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -680,7 +680,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -746,7 +746,7 @@ namespace
 		, bool MsT >
 	struct ImageAtomicCompSwapTester
 	{
-		using CoordsT = sdw::ImageCoordsT< DimT, ArrayedT >;
+		using CoordsT = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 		using FetchT = sdw::ImageFetchT< FormatT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
@@ -759,7 +759,7 @@ namespace
 				using namespace sdw;
 				{
 					ComputeWriter writer;
-					auto s = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
+					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
 							if constexpr ( MsT )
@@ -822,36 +822,36 @@ namespace
 	{
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
-			TesterT< FormatT, AccessT, Img1D >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2D >::test( testCounts );
-			TesterT< FormatT, AccessT, Img3D >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCube >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgBuffer >::test( testCounts );
-			TesterT< FormatT, AccessT, Img1DArray >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DArray >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeArray >::test( testCounts );
+			TesterT< FormatT, AccessT, Img1DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img2DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img3DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgCubeBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgBufferBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img1DArrayBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img2DArrayBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgCubeArrayBase >::test( testCounts );
 		}
 		else if constexpr ( isSIntFormat( FormatT ) )
 		{
-			TesterT< FormatT, AccessT, Img1D >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2D >::test( testCounts );
-			TesterT< FormatT, AccessT, Img3D >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCube >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgBuffer >::test( testCounts );
-			TesterT< FormatT, AccessT, Img1DArray >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DArray >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeArray >::test( testCounts );
+			TesterT< FormatT, AccessT, Img1DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img2DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img3DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgCubeBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgBufferBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img1DArrayBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img2DArrayBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgCubeArrayBase >::test( testCounts );
 		}
 		else if constexpr ( isUIntFormat( FormatT ) )
 		{
-			TesterT< FormatT, AccessT, Img1D >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2D >::test( testCounts );
-			TesterT< FormatT, AccessT, Img3D >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCube >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgBuffer >::test( testCounts );
-			TesterT< FormatT, AccessT, Img1DArray >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DArray >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeArray >::test( testCounts );
+			TesterT< FormatT, AccessT, Img1DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img2DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img3DBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgCubeBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgBufferBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img1DArrayBase >::test( testCounts );
+			TesterT< FormatT, AccessT, Img2DArrayBase >::test( testCounts );
+			TesterT< FormatT, AccessT, ImgCubeArrayBase >::test( testCounts );
 		}
 	}
 

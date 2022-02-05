@@ -201,9 +201,9 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
-			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * )override
 			{
-				AST_Failure( "Unexpected ast::expr::TextureAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
 			}
 
 			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * )override
@@ -528,9 +528,9 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
-			void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * )override
 			{
-				AST_Failure( "Unexpected ast::expr::TextureAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
 			}
 
 			void visitSampledImageAccessCallExpr( ast::expr::SampledImageAccessCall * )override

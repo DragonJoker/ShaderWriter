@@ -11,14 +11,6 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config );
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config
-		, bool isComparison );
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config
-		, ast::type::Trinary comparison );
 
 	class ExprVisitor
 		: public ast::expr::SimpleVisitor
@@ -67,7 +59,7 @@ namespace glsl
 		void visitSwitchCaseExpr( ast::expr::SwitchCase *expr )override;
 		void visitSwitchTestExpr( ast::expr::SwitchTest *expr )override;
 		void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
-		void visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitAliasExpr( ast::expr::Alias * expr )override;
 
 	private:

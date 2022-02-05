@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 
 namespace glsl
 {
@@ -221,9 +221,9 @@ namespace glsl
 		}
 	}
 
-	void StmtConfigFiller::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtConfigFiller::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
-		auto image = std::static_pointer_cast< ast::type::Texture >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+		auto image = std::static_pointer_cast< ast::type::CombinedImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 		doParseImageConfig( image->getConfig() );
 	}
 

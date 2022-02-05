@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #include "GlslHelpers.hpp"
 
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 
 #include <stdexcept>
 
@@ -60,7 +60,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string getTypeName( ast::type::TexturePtr type )
+		std::string getTypeName( ast::type::CombinedImagePtr type )
 		{
 			std::string result;
 			auto config = type->getConfig();
@@ -115,6 +115,91 @@ namespace glsl
 
 			return glsl::getTypeArraySize( type->getType() ) + result;
 		}
+		std::string getDimension( ast::type::ImageDim value )
+		{
+			switch ( value )
+			{
+			case ast::type::ImageDim::e1D:
+				return "1D";
+			case ast::type::ImageDim::e2D:
+				return "2D";
+			case ast::type::ImageDim::e3D:
+				return "3D";
+			case ast::type::ImageDim::eCube:
+				return "Cube";
+			case ast::type::ImageDim::eRect:
+				return "2DRect";
+			case ast::type::ImageDim::eBuffer:
+				return "Buffer";
+			default:
+				AST_Failure( "Unsupported ast::type::ImageDim" );
+				return "Undefined";
+			}
+		}
+
+		std::string getPrefix( ast::type::Kind value )
+		{
+			switch ( value )
+			{
+			case ast::type::Kind::eInt:
+				return "i";
+
+			case ast::type::Kind::eUInt:
+				return "u";
+
+			case ast::type::Kind::eUInt64:
+				return "ul";
+
+			case ast::type::Kind::eFloat:
+				return std::string{};
+
+			case ast::type::Kind::eHalf:
+				return "h";
+
+			default:
+				AST_Failure( "Unsupported ast::type::Kind" );
+				return std::string{};
+			}
+		}
+
+		std::string getArray( bool value )
+		{
+			return value
+				? "Array"
+				: std::string{};
+		}
+
+		std::string getMS( bool value )
+		{
+			return value
+				? "MS"
+				: std::string{};
+		}
+
+		std::string getType( ast::type::Kind kind
+			, ast::type::ImageConfiguration const & config )
+		{
+			return ( kind == ast::type::Kind::eImage )
+				? "image"
+				: ( ( kind == ast::type::Kind::eSampledImage )
+					? "texture"
+					: "sampler" );
+		}
+
+		std::string getShadow( bool isComparison )
+		{
+			return isComparison
+				? "Shadow"
+				: std::string{};
+		}
+
+		std::string getShadow( ast::type::Trinary comparison )
+		{
+			return comparison == ast::type::Trinary::eTrue
+				? "Shadow"
+				: std::string{};
+		}
+
 	}
 
 	std::string getTypeName( ast::type::Kind kind )
@@ -276,7 +361,7 @@ namespace glsl
 			result = "sampler";
 			break;
 		case ast::type::Kind::eSampledImage:
-		case ast::type::Kind::eTexture:
+		case ast::type::Kind::eCombinedImage:
 			result = "texture";
 			break;
 		case ast::type::Kind::ePointer:
@@ -303,8 +388,8 @@ namespace glsl
 		case ast::type::Kind::eImage:
 			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
 			break;
-		case ast::type::Kind::eTexture:
-			result = getTypeName( std::static_pointer_cast< ast::type::Texture >( type ) );
+		case ast::type::Kind::eCombinedImage:
+			result = getTypeName( std::static_pointer_cast< ast::type::CombinedImage >( type ) );
 			break;
 		case ast::type::Kind::eSampledImage:
 			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
@@ -759,6 +844,25 @@ namespace glsl
 		}
 	}
 
+	std::string getCtorName( ast::expr::Expr const & image
+		, ast::expr::Expr const & sampler )
+	{
+		if ( image.getType()->getKind() == ast::type::Kind::eSampledImage
+			&& sampler.getType()->getKind() == ast::type::Kind::eSampler )
+		{
+			auto & config = static_cast< ast::type::SampledImage const & >( *image.getType() ).getConfig();
+			auto isComparison = static_cast< ast::type::Sampler const & >( *sampler.getType() ).isComparison();
+			return getPrefix( config.sampledType )
+				+ getType( ast::type::Kind::eSampler, config )
+				+ getDimension( config.dimension )
+				+ getMS( config.isMS )
+				+ getArray( config.isArrayed )
+				+ getShadow( isComparison );
+		}
+
+		return "combine";
+	}
+
 	std::string getCtorName( ast::expr::CompositeType composite
 		, ast::type::Kind component )
 	{
@@ -979,6 +1083,9 @@ namespace glsl
 				break;
 			}
 			break;
+		case ast::expr::CompositeType::eCombine:
+			result = "combine";
+			break;
 		default:
 			AST_Failure( "Unsupported expr::CompositeType" );
 			break;
@@ -1015,6 +1122,32 @@ namespace glsl
 		return result;
 	}
 
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config )
+	{
+		return getPrefix( config.sampledType )
+			+ getType( kind, config )
+			+ getDimension( config.dimension )
+			+ getMS( config.isMS )
+			+ getArray( config.isArrayed );
+	}
+
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config
+		, bool isComparison )
+	{
+		return getQualifiedName( kind, config )
+			+ getShadow( isComparison );
+	}
+
+	std::string getQualifiedName( ast::type::Kind kind
+		, ast::type::ImageConfiguration const & config
+		, ast::type::Trinary comparison )
+	{
+		return getQualifiedName( kind, config )
+			+ getShadow( comparison );
+	}
+
 	void checkType( ast::type::TypePtr ptype
 		, IntrinsicsConfig & config )
 	{
@@ -1025,7 +1158,7 @@ namespace glsl
 				switch ( type->getRawKind() )
 				{
 				case ast::type::Kind::eImage:
-				case ast::type::Kind::eTexture:
+				case ast::type::Kind::eCombinedImage:
 				case ast::type::Kind::eAccelerationStructure:
 					return;
 				case ast::type::Kind::eSampler:

@@ -8,7 +8,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeTexture.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
 
 namespace glsl
 {
@@ -498,20 +498,20 @@ namespace glsl
 		}
 	}
 
-	void ExprAdapter::visitTextureAccessCallExpr( ast::expr::TextureAccessCall * expr )
+	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
-		if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTexture1DShadowF
-			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureProjGradOffset2DRectShadowF )
+		if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTexture1DShadowF
+			&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF )
 		{
 			doProcessTextureShadow( expr );
 		}
-		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTexture1DF
-			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureProjGradOffset2DRectU4 )
+		else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTexture1DF
+			&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4 )
 		{
 			doProcessTextureSample( expr );
 		}
-		else if ( expr->getTextureAccess() >= ast::expr::TextureAccess::eTextureGather2DF
-			&& expr->getTextureAccess() <= ast::expr::TextureAccess::eTextureGatherOffsets2DRectU )
+		else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
+			&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
 		{
 			doProcessTextureGather( expr );
 		}
@@ -524,8 +524,8 @@ namespace glsl
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
 
-			m_result = ast::expr::makeTextureAccessCall( expr->getType()
-				, expr->getTextureAccess()
+			m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+				, expr->getCombinedImageAccess()
 				, std::move( args ) );
 		}
 	}
@@ -572,7 +572,7 @@ namespace glsl
 			, std::move( args ) );
 	}
 
-	void ExprAdapter::doProcessTextureShadow( ast::expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessTextureShadow( ast::expr::CombinedImageAccessCall * expr )
 	{
 		ast::expr::ExprList args;
 		// First parameter is the sampled image
@@ -580,22 +580,22 @@ namespace glsl
 		// For texture shadow functions, dref value is put inside the coords parameter, instead of being aside.
 		assert( expr->getArgList().size() >= 3u );
 		
-		if ( expr->getTextureAccess() == ast::expr::TextureAccess::eTexture1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTexture1DShadowFBias
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProj1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProj1DShadowFBias
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureLod1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureOffset1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureOffset1DShadowFBias
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjOffset1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjOffset1DShadowFBias
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureLodOffset1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjLod1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjLodOffset1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureGrad1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureGradOffset1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjGrad1DShadowF
-			|| expr->getTextureAccess() == ast::expr::TextureAccess::eTextureProjGradOffset1DShadowF )
+		if ( expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowFBias
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProj1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureLod1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureOffset1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjLod1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF
+			|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF )
 		{
 			ast::expr::ExprList merged;
 
@@ -679,14 +679,14 @@ namespace glsl
 			args.emplace_back( doSubmit( expr->getArgList()[i].get() ) );
 		}
 
-		m_result = ast::expr::makeTextureAccessCall( expr->getType()
-			, expr->getTextureAccess()
+		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 	}
 
-	void ExprAdapter::doProcessTextureSample( ast::expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessTextureSample( ast::expr::CombinedImageAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto callRetType = m_cache.getSampledType( config.format );
 		ast::expr::ExprList args;
@@ -696,8 +696,8 @@ namespace glsl
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		m_result = ast::expr::makeTextureAccessCall( expr->getType()
-			, expr->getTextureAccess()
+		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 
 		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
@@ -708,9 +708,9 @@ namespace glsl
 		}
 	}
 
-	void ExprAdapter::doProcessTextureGather( ast::expr::TextureAccessCall * expr )
+	void ExprAdapter::doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Texture >( expr->getArgList()[0]->getType() );
+		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -726,8 +726,8 @@ namespace glsl
 		args.erase( it );
 		args.emplace_back( std::move( compArg ) );
 
-		m_result = ast::expr::makeTextureAccessCall( expr->getType()
-			, expr->getTextureAccess()
+		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 	}
 

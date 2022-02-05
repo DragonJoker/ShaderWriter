@@ -28,7 +28,7 @@ namespace ast::stmt
 		eSamplerDecl,
 		eImageDecl,
 		eSampledImageDecl,
-		eTextureDecl,
+		eCombinedImageDecl,
 		eFunctionDecl,
 		eStructureDecl,
 		eIf,

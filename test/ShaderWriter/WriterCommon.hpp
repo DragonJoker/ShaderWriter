@@ -6,7 +6,7 @@
 #include <ShaderAST/Debug/DebugStmtVisitor.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderWriter/BaseTypes/Sampler.hpp>
-#include <ShaderWriter/BaseTypes/Image.hpp>
+#include <ShaderWriter/BaseTypes/StorageImage.hpp>
 #include <ShaderWriter/Intrinsics/Intrinsics.hpp>
 #include <ShaderWriter/Writer.hpp>
 #include <ShaderWriter/WriterDebug.hpp>

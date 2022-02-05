@@ -886,9 +886,9 @@ namespace hlsl
 		}
 	}
 
-	void StmtVisitor::visitTextureDeclStmt( ast::stmt::TextureDecl * stmt )
+	void StmtVisitor::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
-		AST_Failure( "ast::stmt::TextureDecl unexpected at that point" );
+		AST_Failure( "ast::stmt::CombinedImageDecl unexpected at that point" );
 	}
 
 	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )

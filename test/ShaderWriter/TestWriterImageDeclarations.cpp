@@ -13,14 +13,14 @@ namespace
 		, bool MsT >
 	void testImage( test::sdw_test::TestCounts & testCounts )
 	{
-		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::Image > )
+		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::StorageImage > )
 			+ sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
-			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -36,8 +36,8 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
-			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -53,9 +53,9 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, false );
+			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -68,9 +68,9 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, 6u, false );
+			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -83,9 +83,9 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
-			auto value = writer.declImage< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u, true );
+			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -101,9 +101,43 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
-			auto value = writer.declImageArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u, true );
+			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Image > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1_T";
+			auto value = writer.declStorageImg< sdw::StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >( name, 1u, 1u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2_T";
+			auto value = writer.declStorageImgArray< sdw::StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >( name, 2u, 2u, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -124,42 +158,42 @@ namespace
 		testBegin( "testImage" + ast::debug::getName( FormatT ) );
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
-			testImage< FormatT, AccessT, Img1D >( testCounts );
-			testImage< FormatT, AccessT, Img2D >( testCounts );
-			testImage< FormatT, AccessT, Img3D >( testCounts );
-			testImage< FormatT, AccessT, ImgCube >( testCounts );
-			testImage< FormatT, AccessT, ImgBuffer >( testCounts );
-			testImage< FormatT, AccessT, Img1DArray >( testCounts );
-			testImage< FormatT, AccessT, Img2DArray >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeArray >( testCounts );
-			testImage< FormatT, AccessT, Img2DMS >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSArray >( testCounts );
+			testImage< FormatT, AccessT, Img1DBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DBase >( testCounts );
+			testImage< FormatT, AccessT, Img3DBase >( testCounts );
+			testImage< FormatT, AccessT, ImgCubeBase >( testCounts );
+			testImage< FormatT, AccessT, ImgBufferBase >( testCounts );
+			testImage< FormatT, AccessT, Img1DArrayBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DArrayBase >( testCounts );
+			testImage< FormatT, AccessT, ImgCubeArrayBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DMSBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DMSArrayBase >( testCounts );
 		}
 		else if constexpr ( isSIntFormat( FormatT ) )
 		{
-			testImage< FormatT, AccessT, Img1D >( testCounts );
-			testImage< FormatT, AccessT, Img2D >( testCounts );
-			testImage< FormatT, AccessT, Img3D >( testCounts );
-			testImage< FormatT, AccessT, ImgCube >( testCounts );
-			testImage< FormatT, AccessT, ImgBuffer >( testCounts );
-			testImage< FormatT, AccessT, Img1DArray >( testCounts );
-			testImage< FormatT, AccessT, Img2DArray >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeArray >( testCounts );
-			testImage< FormatT, AccessT, Img2DMS >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSArray >( testCounts );
+			testImage< FormatT, AccessT, Img1DBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DBase >( testCounts );
+			testImage< FormatT, AccessT, Img3DBase >( testCounts );
+			testImage< FormatT, AccessT, ImgCubeBase >( testCounts );
+			testImage< FormatT, AccessT, ImgBufferBase >( testCounts );
+			testImage< FormatT, AccessT, Img1DArrayBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DArrayBase >( testCounts );
+			testImage< FormatT, AccessT, ImgCubeArrayBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DMSBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DMSArrayBase >( testCounts );
 		}
 		else if constexpr ( isUIntFormat( FormatT ) )
 		{
-			testImage< FormatT, AccessT, Img1D >( testCounts );
-			testImage< FormatT, AccessT, Img2D >( testCounts );
-			testImage< FormatT, AccessT, Img3D >( testCounts );
-			testImage< FormatT, AccessT, ImgCube >( testCounts );
-			testImage< FormatT, AccessT, ImgBuffer >( testCounts );
-			testImage< FormatT, AccessT, Img1DArray >( testCounts );
-			testImage< FormatT, AccessT, Img2DArray >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeArray >( testCounts );
-			testImage< FormatT, AccessT, Img2DMS >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSArray >( testCounts );
+			testImage< FormatT, AccessT, Img1DBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DBase >( testCounts );
+			testImage< FormatT, AccessT, Img3DBase >( testCounts );
+			testImage< FormatT, AccessT, ImgCubeBase >( testCounts );
+			testImage< FormatT, AccessT, ImgBufferBase >( testCounts );
+			testImage< FormatT, AccessT, Img1DArrayBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DArrayBase >( testCounts );
+			testImage< FormatT, AccessT, ImgCubeArrayBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DMSBase >( testCounts );
+			testImage< FormatT, AccessT, Img2DMSArrayBase >( testCounts );
 		}
 		testEnd();
 	}

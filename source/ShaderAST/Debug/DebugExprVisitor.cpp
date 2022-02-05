@@ -6,10 +6,10 @@ See LICENSE file in root folder
 #include "ShaderAST/Debug/DebugCommon.hpp"
 #include "ShaderAST/Var/Variable.hpp"
 
+#include "ShaderAST/Expr/GetCombinedImageAccessName.hpp"
 #include "ShaderAST/Expr/GetImageAccessName.hpp"
 #include "ShaderAST/Expr/GetIntrinsicName.hpp"
 #include "ShaderAST/Expr/GetSampledImageAccessName.hpp"
-#include "ShaderAST/Expr/GetTextureAccessName.hpp"
 
 #include <cmath>
 
@@ -94,7 +94,7 @@ namespace ast::debug
 			case expr::Kind::eSampledImageAccessCall:
 				result = "SMPIMGINTRCALL";
 				break;
-			case expr::Kind::eTextureAccessCall:
+			case expr::Kind::eCombinedImageAccessCall:
 				result = "TEXINTRCALL";
 				break;
 			case expr::Kind::eImageAccessCall:
@@ -254,6 +254,9 @@ namespace ast::debug
 			case ast::expr::CompositeType::eMat4x4:
 				result = "MAT4X4";
 				break;
+			case ast::expr::CompositeType::eCombine:
+				result = "COMB";
+				break;
 			default:
 				throw std::runtime_error{ "Unsupported expr::CompositeType" };
 			}
@@ -411,10 +414,10 @@ namespace ast::debug
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitTextureAccessCallExpr( expr::TextureAccessCall * expr )
+	void ExprVisitor::visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )
 	{
 		m_result += getName( expr->getKind() ) + " ";
-		m_result += getName( expr->getTextureAccess() ) + "(";
+		m_result += getName( expr->getCombinedImageAccess() ) + "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )
