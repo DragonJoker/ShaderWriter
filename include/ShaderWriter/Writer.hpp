@@ -271,7 +271,7 @@ namespace sdw
 		*	Sampler declaration.
 		*/
 		/**@{*/
-		template< bool ComparisonT >
+		template< bool ComparisonT = false >
 		inline SamplerT< ComparisonT > declSampler( std::string name
 			, uint32_t binding
 			, uint32_t set
@@ -281,7 +281,7 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		template< bool ComparisonT >
+		template< bool ComparisonT = false >
 		inline Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
 				, uint32_t binding
 				, uint32_t set

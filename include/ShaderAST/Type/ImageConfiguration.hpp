@@ -183,17 +183,17 @@ namespace ast::type
 #define Img2DMSBase ast::type::ImageDim::e2D, false, true
 #define Img2DMSArrayBase ast::type::ImageDim::e2D, true, true
 
-#define Img1D Img1DBase, false
-#define Img2D Img2DBase, false
-#define Img3D Img3DBase, false
-#define ImgRect ImgRectBase, false
-#define ImgCube ImgCubeBase, false
-#define ImgBuffer ImgBufferBase, false
-#define Img1DArray Img1DArrayBase, false
-#define Img2DArray Img2DArrayBase, false
-#define ImgCubeArray ImgCubeArrayBase, false
-#define Img2DMS Img2DMSBase, false
-#define Img2DMSArray Img2DMSArrayBase, false
+#define Img1D Img1DBase
+#define Img2D Img2DBase
+#define Img3D Img3DBase
+#define ImgRect ImgRectBase
+#define ImgCube ImgCubeBase
+#define ImgBuffer ImgBufferBase
+#define Img1DArray Img1DArrayBase
+#define Img2DArray Img2DArrayBase
+#define ImgCubeArray ImgCubeArrayBase
+#define Img2DMS Img2DMSBase
+#define Img2DMSArray Img2DMSArrayBase
 
 #define FImg1DRgba16 ast::type::ImageFormat::eRgba16f, Img1D
 #define FImg2DRgba16 ast::type::ImageFormat::eRgba16f, Img2D
