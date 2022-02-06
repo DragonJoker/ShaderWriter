@@ -349,6 +349,8 @@ namespace sdw
 	*/
 	/**@{*/
 	struct Sampler;
+	template< bool ComparisonT >
+	struct SamplerT;
 	/**@}*/
 #pragma endregion
 #pragma region Sampled images
