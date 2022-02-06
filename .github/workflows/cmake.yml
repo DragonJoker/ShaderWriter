@@ -4,12 +4,10 @@ on:
   push:
     branches:
       - development
-      - sampled_images
       - master
   pull_request:
     branches:
       - development
-      - sampled_images
       - master
   release:
     types:
