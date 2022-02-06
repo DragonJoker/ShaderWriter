@@ -429,7 +429,7 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
-		, bool DepthT >
+		, bool DepthT = false >
 	struct CombinedImageT;
 
 	template< ast::type::ImageFormat FormatT >
