@@ -25,6 +25,10 @@ See LICENSE file in root folder
 
 #pragma GCC diagnostic ignored "-Wshadow"
 
+#ifdef None
+#	undef None
+#endif
+
 namespace sdw
 {
 	struct RayFlags
