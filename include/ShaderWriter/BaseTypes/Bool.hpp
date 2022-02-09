@@ -23,7 +23,7 @@ namespace sdw
 		template< typename T >
 		inline Boolean & operator=( T const & rhs );
 		SDW_API Boolean & operator=( bool rhs );
-		SDW_API Boolean operator!();
+		SDW_API Boolean operator!()const;
 		SDW_API operator bool();
 		SDW_API expr::ExprPtr makeCondition()const;
 
