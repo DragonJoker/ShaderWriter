@@ -39,7 +39,7 @@ namespace sdw
 		return *this;
 	}
 
-	Boolean Boolean::operator!()
+	Boolean Boolean::operator!()const
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		return Boolean{ writer, sdw::makeLogNot( makeCondition() ), isEnabled() };
