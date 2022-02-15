@@ -47,11 +47,12 @@ namespace hlsl
 
 		inline ast::type::TypesCache & getTypesCache()const
 		{
-			return m_shader.getTypesCache();
+			return m_cache;
 		}
 
 	private:
 		ast::Shader const & m_shader;
+		mutable ast::type::TypesCache m_cache;
 		std::map< std::string, ast::var::VariablePtr > m_registered;
 		std::map< std::string, ast::SamplerInfo > m_samplers;
 		std::map< std::string, ast::ImageInfo > m_images;
