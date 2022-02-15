@@ -169,15 +169,14 @@ namespace ast::vk
 		BufferViewWriteIdx = 2u,
 	};
 
-	using VkSpecializationInfoOpt = std::optional< VkSpecializationInfo >;
 	using SpecializationInfoOpt = std::optional< SpecializationInfo >;
+	using VkSpecializationInfoOpt = std::optional< VkSpecializationInfo >;
 
-	using DescriptorSetLayoutArray = std::vector< VkDescriptorSetLayout >;
-	using ShaderModuleArray = std::vector< VkShaderModule >;
-
-	using VkPipelineShaderStageArray = std::vector< VkPipelineShaderStageCreateInfo >;
 	using PipelineShaderStageArray = std::vector< PipelineShaderStageCreateInfo >;
 	using WriteDescriptorSetArray = std::vector< WriteDescriptorSet >;
+	using VkDescriptorSetLayoutArray = std::vector< VkDescriptorSetLayout >;
+	using VkShaderModuleArray = std::vector< VkShaderModule >;
+	using VkPipelineShaderStageArray = std::vector< VkPipelineShaderStageCreateInfo >;
 
 	struct CompareSpecInfoOpt
 	{
@@ -201,7 +200,7 @@ namespace ast::vk
 		}
 	};
 
-	using ShaderModuleMap = std::map< VkSpecializationInfoOpt, ShaderModuleArray, CompareSpecInfoOpt >;
+	using ShaderModuleMap = std::map< VkSpecializationInfoOpt, VkShaderModuleArray, CompareSpecInfoOpt >;
 
 	bool checkError( VkResult result );
 }

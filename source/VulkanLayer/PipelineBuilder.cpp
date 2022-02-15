@@ -31,9 +31,9 @@ namespace ast::vk
 	{
 	}
 
-	DescriptorSetLayoutArray PipelineBuilder::createDescriptorSetLayouts()
+	VkDescriptorSetLayoutArray PipelineBuilder::createDescriptorSetLayouts()
 	{
-		DescriptorSetLayoutArray result;
+		VkDescriptorSetLayoutArray result;
 		auto layouts = m_program.getDescriptorLayouts();
 
 		for ( auto & createInfo : layouts )
@@ -55,7 +55,7 @@ namespace ast::vk
 		return result;
 	}
 
-	VkPipelineLayout PipelineBuilder::createPipelineLayout( DescriptorSetLayoutArray const & layouts )
+	VkPipelineLayout PipelineBuilder::createPipelineLayout( VkDescriptorSetLayoutArray const & layouts )
 	{
 		VkPipelineLayout result{ nullptr };
 		auto createInfo = m_program.getPipelineLayout( layouts );
@@ -72,9 +72,9 @@ namespace ast::vk
 		return result;
 	}
 
-	ShaderModuleArray PipelineBuilder::createShaderModules()
+	VkShaderModuleArray PipelineBuilder::createShaderModules()
 	{
-		ShaderModuleArray result;
+		VkShaderModuleArray result;
 		auto modules = m_program.getShaderModules();
 
 		for ( auto & createInfo : modules )
@@ -96,7 +96,7 @@ namespace ast::vk
 		return result;
 	}
 
-	PipelineShaderStageArray PipelineBuilder::createShaderStages( ShaderModuleArray modules
+	PipelineShaderStageArray PipelineBuilder::createShaderStages( VkShaderModuleArray modules
 		, std::vector< VkSpecializationInfoOpt > const & specializationInfo )const
 	{
 		return m_program.getShaderStages( modules, specializationInfo );

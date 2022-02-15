@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "VulkanLayer/ProgramPipeline.hpp"
 
+#include "VulkanLayer/MakeVkType.hpp"
+
 #include <CompilerSpirV/compileSpirV.hpp>
 
 #pragma warning( push )
@@ -498,19 +500,14 @@ namespace ast::vk
 			, VkDescriptorType descriptorType
 			, uint32_t range = 0u )
 		{
-			return VkWriteDescriptorSet
-			{
-				VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
-				nullptr,
-				nullptr,
-				binding,
-				0u,
-				descriptorCount,
-				descriptorType,
-				nullptr,
-				nullptr,
-				nullptr,
-			};
+			return makeVkStruct< VkWriteDescriptorSet >( nullptr
+				, binding
+				, 0u
+				, descriptorCount
+				, descriptorType
+				, nullptr
+				, nullptr
+				, nullptr );
 		}
 	}
 
@@ -661,7 +658,7 @@ namespace ast::vk
 		return result;
 	}
 
-	PipelineShaderStageArray ProgramPipeline::getShaderStages( ShaderModuleArray modules
+	PipelineShaderStageArray ProgramPipeline::getShaderStages( VkShaderModuleArray modules
 		, std::vector< VkSpecializationInfoOpt > const & specializationInfo )const
 	{
 		checkSpecializationInfos( specializationInfo );
@@ -795,13 +792,10 @@ namespace ast::vk
 			for ( auto & specConstant : shader.getData().specConstants )
 			{
 				auto specSize = type::getSize( specConstant.second.type
-					, type::MemoryLayout::eStd430 );
-				entries.push_back( VkSpecializationMapEntry
-					{
-						specConstant.second.location,
-						0u,
-						specSize,
-					} );
+					, type::MemoryLayout::eC );
+				entries.push_back( { specConstant.second.location
+						, 0u
+						, specSize } );
 				size += specSize;
 			}
 
@@ -812,16 +806,10 @@ namespace ast::vk
 				{
 					return lhs.constantID < rhs.constantID;
 				} );
-			result = SpecializationInfo
-			{
-				VkSpecializationInfo
-				{
-					uint32_t( entries.size() ),
-					entries.data(),
-					size,
-					nullptr,
-				}
-			};
+			result = SpecializationInfo{ { uint32_t( entries.size() )
+					, entries.data()
+					, size
+					, nullptr } };
 		}
 
 		return result;
@@ -830,13 +818,10 @@ namespace ast::vk
 	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( Shader const & shader )
 	{
 		auto & specInfo = m_specializationInfos[m_indices[shader.getType()]];
-		return PipelineShaderStageCreateInfo
-		{
-			0u,
-			getShaderStage( shader.getType() ),
-			nullptr,
-			specInfo,
-		};
+		return { 0u
+			, getShaderStage( shader.getType() )
+			, nullptr
+			, specInfo };
 	}
 
 	ShaderDataPtr ProgramPipeline::createShaderData( Shader const & shader )
@@ -850,14 +835,9 @@ namespace ast::vk
 	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( Shader const & shader )
 	{
 		auto & code = m_sources[m_indices[shader.getType()]];
-		return VkShaderModuleCreateInfo
-		{
-			VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
-			nullptr,
-			0u,
-			code.size() * sizeof( uint32_t ),
-			code.data(),
-		};
+		return makeVkStruct< VkShaderModuleCreateInfo >( 0u
+			, code.size() * sizeof( uint32_t )
+			, code.data() );
 	}
 
 	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader )
@@ -869,12 +849,9 @@ namespace ast::vk
 		{
 			auto pcbSize = getSize( pcb.second.getType()
 				, pcb.second.getType()->getMemoryLayout() );
-			result.push_back( VkPushConstantRange
-				{
-					VkShaderStageFlags( getShaderStage( shader.getType() ) ),
-					size,
-					pcbSize,
-				} );
+			result.push_back( { VkShaderStageFlags( getShaderStage( shader.getType() ) )
+				, size
+				, pcbSize } );
 			size += pcbSize;
 		}
 
@@ -891,27 +868,16 @@ namespace ast::vk
 
 			for ( auto & desc : set )
 			{
-				bindings.push_back( VkDescriptorSetLayoutBinding
-					{
-						desc.first.binding,
-						getVkDescriptorType( desc.second.type ),
-						desc.second.count,
-						getVkShaderStages( desc.second.stages ),
-						nullptr,
-					} );
+				bindings.push_back( { desc.first.binding
+					, getVkDescriptorType( desc.second.type )
+					, desc.second.count
+					, getVkShaderStages( desc.second.stages )
+					, nullptr } );
 			}
 
-			result.push_back( DescriptorSetLayoutCreateInfo
-				{
-					VkDescriptorSetLayoutCreateInfo
-					{
-						VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-						nullptr,
-						0u,
-						uint32_t( bindings.size() ),
-						bindings.data(),
-					}
-				} );
+			result.push_back( { makeVkStruct< VkDescriptorSetLayoutCreateInfo >( 0u
+				, uint32_t( bindings.size() )
+				, bindings.data() ) } );
 		}
 
 		return result;
@@ -932,11 +898,7 @@ namespace ast::vk
 
 			if ( count )
 			{
-				result.push_back( VkDescriptorPoolSize
-					{
-						VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-						count,
-					} );
+				result.push_back( { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, count } );
 			}
 
 			count = uint32_t( std::count_if( m_data.ubos.begin()
@@ -948,11 +910,7 @@ namespace ast::vk
 
 			if ( count )
 			{
-				result.push_back( VkDescriptorPoolSize
-					{
-						VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-						count,
-					} );
+				result.push_back( { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, count } );
 			}
 
 			count = uint32_t( std::count_if( m_data.samplers.begin()
@@ -964,11 +922,7 @@ namespace ast::vk
 
 			if ( count )
 			{
-				result.push_back( VkDescriptorPoolSize
-					{
-						VK_DESCRIPTOR_TYPE_SAMPLER,
-						count,
-					} );
+				result.push_back( { VK_DESCRIPTOR_TYPE_SAMPLER, count } );
 			}
 
 			count = uint32_t( std::count_if( m_data.textures.begin()
@@ -980,11 +934,7 @@ namespace ast::vk
 
 			if ( count )
 			{
-				result.push_back( VkDescriptorPoolSize
-					{
-						VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-						count,
-					} );
+				result.push_back( { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, count } );
 			}
 
 			count = uint32_t( std::count_if( m_data.images.begin()
@@ -996,11 +946,7 @@ namespace ast::vk
 
 			if ( count )
 			{
-				result.push_back( VkDescriptorPoolSize
-					{
-						VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
-						count,
-					} );
+				result.push_back( { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, count } );
 			}
 		}
 
@@ -1021,12 +967,9 @@ namespace ast::vk
 				{
 					auto size = ast::type::getSize( *desc.second->type
 						, desc.second->type->getMemoryLayout() );
-					BufferWriteDescriptorSet write
-					{
-						makeWrite( desc.first.binding
-							, 1u
-							, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER )
-					};
+					BufferWriteDescriptorSet write{ makeWrite( desc.first.binding
+						, 1u
+						, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER ) };
 					write.values[0].range = size;
 					setWrites.emplace_back( std::move( write ) );
 				}
@@ -1038,12 +981,9 @@ namespace ast::vk
 				{
 					auto size = ast::type::getSize( *desc.second->type
 						, desc.second->type->getMemoryLayout() );
-					BufferWriteDescriptorSet write
-					{
-						makeWrite( desc.first.binding
-							, 1u
-							, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER )
-					};
+					BufferWriteDescriptorSet write{ makeWrite( desc.first.binding
+						, 1u
+						, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER ) };
 					write.values[0].range = size;
 					setWrites.emplace_back( std::move( write ) );
 				}
@@ -1053,12 +993,9 @@ namespace ast::vk
 			{
 				if ( desc.first.set == i )
 				{
-					ImageWriteDescriptorSet write
-					{
-						makeWrite( desc.first.binding
-							, 1u
-							, VK_DESCRIPTOR_TYPE_SAMPLER )
-					};
+					ImageWriteDescriptorSet write{ makeWrite( desc.first.binding
+						, 1u
+						, VK_DESCRIPTOR_TYPE_SAMPLER ) };
 					setWrites.emplace_back( std::move( write ) );
 				}
 			}
@@ -1067,12 +1004,9 @@ namespace ast::vk
 			{
 				if ( desc.first.set == i )
 				{
-					ImageWriteDescriptorSet write
-					{
-						makeWrite( desc.first.binding
-							, 1u
-							, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER )
-					};
+					ImageWriteDescriptorSet write{ makeWrite( desc.first.binding
+						, 1u
+						, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER ) };
 					write.values[0].imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 					setWrites.emplace_back( std::move( write ) );
 				}
@@ -1082,12 +1016,9 @@ namespace ast::vk
 			{
 				if ( desc.first.set == i )
 				{
-					ImageWriteDescriptorSet write
-					{
-						makeWrite( desc.first.binding
-							, 1u
-							, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE )
-					};
+					ImageWriteDescriptorSet write{ makeWrite( desc.first.binding
+						, 1u
+						, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE ) };
 					write.values[0].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
 					setWrites.emplace_back( std::move( write ) );
 				}
@@ -1101,36 +1032,27 @@ namespace ast::vk
 
 	VkPipelineLayoutCreateInfo ProgramPipeline::createPipelineLayout()
 	{
-		VkPipelineLayoutCreateInfo createInfo
-		{
-			VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
-			nullptr,
-			0u,
-			uint32_t( m_descriptorLayouts.size() ),
-			nullptr,
-			uint32_t( m_pushConstantRanges.size() ),
-			( m_pushConstantRanges.empty()
+		return makeVkStruct< VkPipelineLayoutCreateInfo >( 0u
+			, uint32_t( m_descriptorLayouts.size() )
+			, nullptr
+			, uint32_t( m_pushConstantRanges.size() )
+			, ( m_pushConstantRanges.empty()
 				? nullptr
-				: m_pushConstantRanges.data() ),
-		};
-		return createInfo;
+				: m_pushConstantRanges.data() ) );
 	}
 
 	std::vector< VkVertexInputAttributeDescription > ProgramPipeline::createVertexAttributes()
 	{
 		std::vector< VkVertexInputAttributeDescription > result;
 
-		if ( m_stageFlags & VK_SHADER_STAGE_VERTEX_BIT )
+		if ( hasStages( VK_SHADER_STAGE_VERTEX_BIT ) )
 		{
 			for ( auto & input : m_data.inputs )
 			{
-				result.push_back( VkVertexInputAttributeDescription
-					{
-						input.first.location,
-						0u,
-						getVkFormat( *input.first.type ),
-						0u,
-					} );
+				result.push_back( { input.first.location
+					, 0u
+					, getVkFormat( *input.first.type )
+					, 0u } );
 			}
 		}
 
@@ -1141,7 +1063,7 @@ namespace ast::vk
 	{
 		std::map< uint32_t, VkAttachmentDescription > result;
 
-		if ( m_stageFlags & VK_SHADER_STAGE_FRAGMENT_BIT )
+		if ( hasStages( VK_SHADER_STAGE_FRAGMENT_BIT ) )
 		{
 			for ( auto & output : m_data.outputs )
 			{
@@ -1159,8 +1081,7 @@ namespace ast::vk
 	{
 		bool result = true;
 
-		if ( ( m_stageFlags & VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT )
-			|| ( m_stageFlags & VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT ) )
+		if ( hasTessellationStage() )
 		{
 		}
 		else
@@ -1176,7 +1097,7 @@ namespace ast::vk
 	{
 		bool result = true;
 
-		if ( m_stageFlags & VK_SHADER_STAGE_VERTEX_BIT )
+		if ( hasStages( VK_SHADER_STAGE_VERTEX_BIT ) )
 		{
 			auto end = state.pVertexAttributeDescriptions + state.vertexAttributeDescriptionCount;
 
