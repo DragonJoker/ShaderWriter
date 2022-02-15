@@ -1501,7 +1501,7 @@ namespace hlsl
 
 	void IOMapping::writeLocalesEnd( ast::stmt::Container & stmt )const
 	{
-		auto & cache = paramStruct->getCache();
+		auto & cache = shader->getTypesCache();
 
 		switch ( mode )
 		{
@@ -1716,7 +1716,7 @@ namespace hlsl
 			return ast::ExprCloner::submit( mbr.second.result.expr.get() );
 		}
 
-		auto & cache = type->getCache();
+		auto & cache = shader->getTypesCache();
 		auto outerIdent = ast::expr::makeIdentifier( cache, mainVar );
 		return ast::expr::makeMbrSelect( std::move( outerIdent )
 			, mbr.second.result.mbrIndex
@@ -1732,7 +1732,7 @@ namespace hlsl
 			return result;
 		}
 
-		return ast::expr::makeIdentifier( srcVar->getType()->getCache()
+		return ast::expr::makeIdentifier( shader->getTypesCache()
 				, srcVar );
 	}
 
@@ -1784,7 +1784,7 @@ namespace hlsl
 
 		if ( builtin == ast::Builtin::eClipDistance )
 		{
-			auto nonArray = type->getCache().getVec4F();
+			auto nonArray = shader->getTypesCache().getVec4F();
 
 			for ( uint32_t i = 0u; i < 2u; ++i )
 			{
@@ -1862,11 +1862,11 @@ namespace hlsl
 
 		if ( builtin != ast::Builtin::eNone )
 		{
-			type = type->getCache().getBasicType( getBuiltinHlslKind( builtin, type->getKind() ) );
+			type = shader->getTypesCache().getBasicType( getBuiltinHlslKind( builtin, type->getKind() ) );
 
 			if ( arraySize != ast::type::NotArray )
 			{
-				type = type->getCache().getArray( type, arraySize );
+				type = shader->getTypesCache().getArray( type, arraySize );
 			}
 		}
 
@@ -1943,7 +1943,7 @@ namespace hlsl
 		, std::vector< PendingMbrIO >::iterator & it )
 	{
 		it = m_pendingMbr.end();
-		auto & cache = outerVar->getType()->getCache();
+		auto & cache = shader->getTypesCache();
 
 		it = std::find_if( m_pendingMbr.begin()
 			, m_pendingMbr.end()
@@ -2144,7 +2144,7 @@ namespace hlsl
 
 		if ( it != paramToEntryPoint.end() )
 		{
-			return ast::expr::makeIdentifier( var->getType()->getCache()
+			return ast::expr::makeIdentifier( shader->getTypesCache()
 				, it->second );
 		}
 
@@ -2364,7 +2364,7 @@ namespace hlsl
 				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
 				auto type = getNonArrayType( m_primitiveIndices.io.var->getType() );
 				result = ast::expr::makeArrayAccess( type
-					, ast::expr::makeIdentifier( type->getCache(), m_primitiveIndices.io.var )
+					, ast::expr::makeIdentifier( shader->getTypesCache(), m_primitiveIndices.io.var )
 					, adapter.doSubmit( arrayAccess.getRHS() ) );
 			}
 			else
@@ -2429,7 +2429,7 @@ namespace hlsl
 			io.location = mbrLocation;
 			io.flags = mbrFlags;
 			io.var = shader->registerBuiltin( mbrBuiltin
-				, mbr.type->getCache().getArray( mbr.type, meshType.getMaxPrimitives() )
+				, shader->getTypesCache().getArray( mbr.type, meshType.getMaxPrimitives() )
 				, mbrFlags );
 			m_primitiveIndices = { var, mbrIndex, std::move( io ) };
 		}
@@ -2700,7 +2700,7 @@ namespace hlsl
 
 		if ( it != m_currentRoutine->paramToEntryPoint.end() )
 		{
-			return ast::expr::makeIdentifier( var->getType()->getCache()
+			return ast::expr::makeIdentifier( shader->getTypesCache()
 				, it->second );
 		}
 
