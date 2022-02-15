@@ -21,7 +21,7 @@ namespace ast::vk
 		*	The descriptor layouts, created from the info in the program.
 		*	\see ast::vk::ProgramPipeline::getDescriptorLayouts.
 		*/
-		DescriptorSetLayoutArray createDescriptorSetLayouts();
+		VkDescriptorSetLayoutArray createDescriptorSetLayouts();
 		/**
 		*\return
 		*	The pipeline layout, created from the info in the program.
@@ -29,13 +29,13 @@ namespace ast::vk
 		*\param[in] layouts
 		*	The descriptor layouts, to fill the blanks.
 		*/
-		VkPipelineLayout createPipelineLayout( DescriptorSetLayoutArray const & layouts );
+		VkPipelineLayout createPipelineLayout( VkDescriptorSetLayoutArray const & layouts );
 		/**
 		*\return
 		*	The shader modules, created from the info in the program.
 		*	\see ast::vk::ProgramPipeline::getShaderModules.
 		*/
-		ShaderModuleArray createShaderModules();
+		VkShaderModuleArray createShaderModules();
 		/**
 		*\return
 		*	Filled array of ast::vk:PipelineShaderStageCreateInfo.
@@ -45,7 +45,7 @@ namespace ast::vk
 		*\param[in] specializationInfo
 		*	Either empty, or one per module.
 		*/
-		PipelineShaderStageArray createShaderStages( ShaderModuleArray modules
+		PipelineShaderStageArray createShaderStages( VkShaderModuleArray modules
 			, std::vector< VkSpecializationInfoOpt > const & specializationInfo )const;
 		/**
 		*\brief
@@ -79,6 +79,7 @@ namespace ast::vk
 	private:
 		BuilderContext m_context;
 		ProgramPipeline m_program;
+		VkPipelineShaderStageArray m_shaderStages;
 	};
 }
 
