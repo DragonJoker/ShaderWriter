@@ -112,7 +112,7 @@ namespace ast::vk
 		*\param[in] specializationInfo
 		*	Either empty, or one per module in \p modules.
 		*/
-		std::vector< PipelineShaderStageCreateInfo > getShaderStages( ShaderModuleArray modules
+		std::vector< PipelineShaderStageCreateInfo > getShaderStages( VkShaderModuleArray modules
 			, std::vector< VkSpecializationInfoOpt > const & specializationInfo )const;
 		/**
 		*\return
@@ -142,11 +142,57 @@ namespace ast::vk
 		}
 		/**
 		*\return
+		*	\p true if the program contains any tessellation stage.
+		*/
+		bool hasTessellationStage()const
+		{
+			return hasStages( VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT
+				| VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT );
+		}
+		/**
+		*\return
 		*	The tessellation control points per patch.
 		*/
 		uint32_t getTessellationControlPoints()const
 		{
 			return m_tessellationControlPoints;
+		}
+		/**
+		*\return
+		*	\p true if the program contains any raytracing stage.
+		*/
+		bool hasRaytracingStage()const
+		{
+#if VK_KHR_ray_tracing_pipeline
+			return hasStages( VK_SHADER_STAGE_RAYGEN_BIT_KHR
+				| VK_SHADER_STAGE_ANY_HIT_BIT_KHR
+				| VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR
+				| VK_SHADER_STAGE_MISS_BIT_KHR
+				| VK_SHADER_STAGE_INTERSECTION_BIT_KHR
+				| VK_SHADER_STAGE_CALLABLE_BIT_KHR );
+#elif VK_NV_ray_tracing
+			return hasStages( VK_SHADER_STAGE_RAYGEN_BIT_NV
+				| VK_SHADER_STAGE_ANY_HIT_BIT_NV
+				| VK_SHADER_STAGE_CLOSEST_HIT_BIT_NV
+				| VK_SHADER_STAGE_MISS_BIT_NV
+				| VK_SHADER_STAGE_INTERSECTION_BIT_NV
+				| VK_SHADER_STAGE_CALLABLE_BIT_NV );
+#else
+			return false;
+#endif
+		}
+		/**
+		*\return
+		*	\p true if the program contains any raytracing stage.
+		*/
+		bool hasMeshShadingStage()const
+		{
+#if VK_NV_mesh_shader
+			return hasStages( VK_SHADER_STAGE_MESH_BIT_NV
+				| VK_SHADER_STAGE_TASK_BIT_NV );
+#else
+			return false;
+#endif
 		}
 
 	private:
@@ -279,6 +325,11 @@ namespace ast::vk
 			}
 
 			return result;
+		}
+
+		bool hasStages( VkShaderStageFlags flags )const
+		{
+			return ( m_stageFlags & flags ) != 0u;
 		}
 
 	private:

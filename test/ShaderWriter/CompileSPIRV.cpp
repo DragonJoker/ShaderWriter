@@ -9,6 +9,7 @@
 #if SDW_HasVulkanLayer
 #	include <VulkanLayer/PipelineBuilder.hpp>
 #	include <VulkanLayer/ProgramPipeline.hpp>
+#	include <VulkanLayer/MakeVkType.hpp>
 #endif
 
 #include <algorithm>
@@ -293,9 +294,7 @@ namespace test
 			}
 
 			// initialize the VkApplicationInfo structure
-			VkApplicationInfo appInfo = {};
-			appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-			appInfo.pNext = nullptr;
+			auto appInfo = ast::vk::makeVkStruct< VkApplicationInfo >();
 			appInfo.pApplicationName = "Test";
 			appInfo.applicationVersion = VK_MAKE_API_VERSION( 0, MAIN_VERSION_MAJOR, MAIN_VERSION_MINOR, MAIN_VERSION_BUILD );
 			appInfo.pEngineName = "Test";
@@ -303,8 +302,7 @@ namespace test
 			appInfo.apiVersion = info.apiVersion;
 
 			// initialize the VkInstanceCreateInfo structure
-			VkInstanceCreateInfo instInfo = {};
-			instInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+			auto instInfo = ast::vk::makeVkStruct< VkInstanceCreateInfo >();
 			instInfo.pNext = nullptr;
 			instInfo.flags = 0;
 			instInfo.pApplicationInfo = &appInfo;
@@ -350,7 +348,7 @@ namespace test
 				}
 	#pragma warning( pop )
 
-				VkDebugReportCallbackCreateInfoEXT create_info = {};
+				auto create_info = ast::vk::makeVkStruct< VkDebugReportCallbackCreateInfoEXT >();
 				create_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
 				create_info.pNext = nullptr;
 				create_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
@@ -407,7 +405,7 @@ namespace test
 
 					--gpuIndex;
 					auto gpu = info.gpus[gpuIndex];
-					VkDeviceQueueCreateInfo queue_info = {};
+					auto queue_info = ast::vk::makeVkStruct< VkDeviceQueueCreateInfo >();
 					queue_info.queueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 
 					vkGetPhysicalDeviceQueueFamilyProperties( gpu, &info.queueFamilyCount, nullptr );
@@ -429,8 +427,6 @@ namespace test
 					assert( info.queueFamilyCount >= 1 );
 
 					float queue_priorities[1] = { 0.0 };
-					queue_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-					queue_info.pNext = nullptr;
 					queue_info.queueCount = 1;
 					queue_info.pQueuePriorities = queue_priorities;
 
@@ -443,35 +439,86 @@ namespace test
 					};
 					std::vector< VkStructure * > featuresStructs;
 					VkPhysicalDeviceFeatures features{};
-					VkPhysicalDeviceFeatures2 features2{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2
-						, nullptr
-						, {} };
-					VkPhysicalDeviceVulkan12Features features12{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES
-						, nullptr
-						, {} };
-					VkPhysicalDeviceVulkan11Features features11{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES
-						, nullptr
-						, {} };
-					VkPhysicalDeviceShaderDrawParametersFeatures drawParamsFeatures{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES
-						, nullptr
-						, {} };
-					VkPhysicalDeviceAccelerationStructureFeaturesKHR accelFeature{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR
-						, nullptr
-						, {} };
-					VkPhysicalDeviceRayTracingPipelineFeaturesKHR rtPipelineFeature{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR
-						, nullptr
-						, {} };
-					VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT demoteFeature{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT
-						, nullptr
-						, {} };
-					VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR terminateFeature{ VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TERMINATE_INVOCATION_FEATURES_KHR
-						, nullptr
-						, {} };
-					
+					auto features2 = ast::vk::makeVkStruct< VkPhysicalDeviceFeatures2 >();
+					auto features12 = ast::vk::makeVkStruct< VkPhysicalDeviceVulkan12Features >();
+					auto features11 = ast::vk::makeVkStruct< VkPhysicalDeviceVulkan11Features >();
+					auto drawParamsFeatures = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDrawParametersFeatures >();
+					auto accelFeature = ast::vk::makeVkStruct< VkPhysicalDeviceAccelerationStructureFeaturesKHR >();
+					auto rtPipelineFeature = ast::vk::makeVkStruct< VkPhysicalDeviceRayTracingPipelineFeaturesKHR >();
+					auto demoteFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT >();
+					auto terminateFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
+					auto meshFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
+					bool hasFeatures2 = false;
+					bool hasVulkan1_1 = false;
+					bool hasFloatControls = false;
+					bool hasSpirv1_4 = false;
+
 					if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 2, 0 ) )
 					{
+						hasFeatures2 = true;
+						hasVulkan1_1 = true;
+						hasFloatControls = true;
+						hasSpirv1_4 = true;
 						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &features12 ) );
 						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &features11 ) );
+					}
+					else if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
+					{
+						hasFeatures2 = true;
+						hasVulkan1_1 = true;
+						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &drawParamsFeatures ) );
+					}
+					else
+					{
+						if ( isExtensionSupported( "VK_KHR_shader_draw_parameters"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_KHR_shader_draw_parameters" );
+						}
+					}
+
+					if ( !hasFeatures2
+						&& isExtensionSupported( "VK_KHR_get_physical_device_properties2"
+							, device_extensions ) )
+					{
+						hasFeatures2 = true;
+						info.deviceExtensionNames.push_back( "VK_KHR_get_physical_device_properties2" );
+					}
+
+					if ( hasFeatures2 )
+					{
+						if ( !hasFloatControls
+							&& isExtensionSupported( "VK_KHR_shader_float_controls"
+								, device_extensions ) )
+						{
+							hasFloatControls = true;
+							info.deviceExtensionNames.push_back( "VK_KHR_shader_float_controls" );
+						}
+
+						if ( !hasSpirv1_4
+							&& hasVulkan1_1
+							&& hasFloatControls )
+						{
+							if ( isExtensionSupported( "VK_KHR_spirv_1_4"
+								, device_extensions ) )
+							{
+								hasSpirv1_4 = true;
+								info.deviceExtensionNames.push_back( "VK_KHR_spirv_1_4" );
+							}
+						}
+
+						if ( isExtensionSupported( "VK_EXT_shader_atomic_float"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_EXT_shader_atomic_float" );
+						}
+
+						if ( isExtensionSupported( "VK_NV_mesh_shader"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_NV_mesh_shader" );
+							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &meshFeature ) );
+						}
 
 						if ( isExtensionSupported( "VK_KHR_shader_terminate_invocation"
 							, device_extensions ) )
@@ -487,34 +534,38 @@ namespace test
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &demoteFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_KHR_acceleration_structure"
+						if ( isExtensionSupported( "VK_EXT_descriptor_indexing"
 							, device_extensions ) )
 						{
-							info.deviceExtensionNames.push_back( "VK_KHR_acceleration_structure" );
-							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &accelFeature ) );
-						}
+							info.deviceExtensionNames.push_back( "VK_EXT_descriptor_indexing" );
 
-						if ( isExtensionSupported( "VK_KHR_ray_tracing_pipeline"
-							, device_extensions ) )
-						{
-							info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
-							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
-						}
+							if ( isExtensionSupported( "VK_KHR_buffer_device_address"
+								, device_extensions ) )
+							{
+								info.deviceExtensionNames.push_back( "VK_KHR_buffer_device_address" );
 
-						if ( isExtensionSupported( "VK_KHR_deferred_host_operations"
-							, device_extensions ) )
-						{
-							info.deviceExtensionNames.push_back( "VK_KHR_deferred_host_operations" );
+								if ( isExtensionSupported( "VK_KHR_acceleration_structure"
+									, device_extensions ) )
+								{
+									info.deviceExtensionNames.push_back( "VK_KHR_acceleration_structure" );
+									featuresStructs.push_back( reinterpret_cast< VkStructure * >( &accelFeature ) );
+
+									if ( hasSpirv1_4
+										&& isExtensionSupported( "VK_KHR_ray_tracing_pipeline"
+											, device_extensions ) )
+									{
+										info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
+										featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
+									}
+								}
+							}
 						}
 					}
-					else if ( info.apiVersion >= VK_MAKE_API_VERSION( 0, 1, 1, 0 ) )
-					{
-						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &drawParamsFeatures ) );
-					}
-					else if ( isExtensionSupported( "VK_KHR_shader_draw_parameters"
+
+					if ( isExtensionSupported( "VK_KHR_deferred_host_operations"
 						, device_extensions ) )
 					{
-						info.deviceExtensionNames.push_back( "VK_KHR_shader_draw_parameters" );
+						info.deviceExtensionNames.push_back( "VK_KHR_deferred_host_operations" );
 					}
 
 					VkStructure * current = reinterpret_cast< VkStructure * >( &features2 );
@@ -534,20 +585,13 @@ namespace test
 					{
 						vkGetPhysicalDeviceFeatures2( gpu, &features2 );
 						features = features2.features;
-
-						if ( isExtensionSupported( "VK_EXT_shader_atomic_float"
-							, device_extensions ) )
-						{
-							info.deviceExtensionNames.push_back( "VK_EXT_shader_atomic_float" );
-						}
 					}
 					else
 					{
 						vkGetPhysicalDeviceFeatures( gpu, &features );
 					}
 
-					VkDeviceCreateInfo device_info = {};
-					device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+					auto device_info = ast::vk::makeVkStruct< VkDeviceCreateInfo >();
 					device_info.queueCreateInfoCount = 1;
 					device_info.pQueueCreateInfos = &queue_info;
 					device_info.enabledExtensionCount = uint32_t( info.deviceExtensionNames.size() );
@@ -590,8 +634,7 @@ namespace test
 		bool createShaderModule( Info & info
 			, std::vector< uint32_t > const & spirv )
 		{
-			VkShaderModuleCreateInfo createInfo{};
-			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			auto createInfo = ast::vk::makeVkStruct< VkShaderModuleCreateInfo >();
 			createInfo.pCode = spirv.data();
 			createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
 			VkShaderModule module;
@@ -658,7 +701,7 @@ namespace test
 		{
 			SPIRVContext()
 			{
-				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5 };
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
 
 				uint32_t maxApiVersion{};
@@ -668,15 +711,14 @@ namespace test
 				{
 					if ( vkV <= maxApiVersion )
 					{
-						auto maxSpvV = getMaxSpvVersion( vkV );
-						auto end = std::find( spvVersions.begin()
-							, spvVersions.end()
-							, maxSpvV );
-						end = std::next( end );
+						auto maxSpvVersion = getMaxSpvVersion( vkV );
 
-						for ( auto it = spvVersions.begin(); it != end; ++it )
+						for ( auto it = spvVersions.begin(); it != spvVersions.end(); ++it )
 						{
-							infos.push_back( initialiseInfo( vkV, *it ) );
+							if ( *it <= maxSpvVersion )
+							{
+								infos.push_back( initialiseInfo( vkV, *it ) );
+							}
 						}
 					}
 				}
@@ -908,62 +950,45 @@ namespace test
 				attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 				attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 				attachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-				references.push_back( VkAttachmentReference
-					{
-						uint32_t( attachments.size() - 1u ),
-						VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
-					} );
+				references.push_back( { uint32_t( attachments.size() - 1u )
+					, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL } );
 			}
 
 			std::vector< VkSubpassDescription > subpasses;
-			subpasses.push_back( VkSubpassDescription
-				{
-					0u,
-					VK_PIPELINE_BIND_POINT_GRAPHICS,
-					0u,
-					nullptr,
-					uint32_t( references.size() ),
-					references.data(),
-					nullptr,
-					nullptr,
-					0u,
-					nullptr,
-				} );
+			subpasses.push_back( { 0u
+					, VK_PIPELINE_BIND_POINT_GRAPHICS
+					, 0u
+					, nullptr
+					, uint32_t( references.size() )
+					, references.data()
+					, nullptr
+					, nullptr
+					, 0u
+					, nullptr } );
 
 			std::vector< VkSubpassDependency > dependencies;
-			dependencies.push_back( VkSubpassDependency
-				{
-					VK_SUBPASS_EXTERNAL,
-					0u,
-					VK_PIPELINE_STAGE_HOST_BIT,
-					VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-					VK_ACCESS_HOST_READ_BIT,
-					VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-					VK_DEPENDENCY_BY_REGION_BIT,
-				} );
-			dependencies.push_back( VkSubpassDependency
-				{
-					0u,
-					VK_SUBPASS_EXTERNAL,
-					VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-					VK_PIPELINE_STAGE_HOST_BIT,
-					VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-					VK_ACCESS_HOST_READ_BIT,
-					VK_DEPENDENCY_BY_REGION_BIT,
-				} );
+			dependencies.push_back( { VK_SUBPASS_EXTERNAL
+					, 0u
+					, VK_PIPELINE_STAGE_HOST_BIT
+					, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
+					, VK_ACCESS_HOST_READ_BIT
+					, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
+					, VK_DEPENDENCY_BY_REGION_BIT } );
+			dependencies.push_back( { 0u
+					, VK_SUBPASS_EXTERNAL
+					, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
+					, VK_PIPELINE_STAGE_HOST_BIT
+					, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
+					, VK_ACCESS_HOST_READ_BIT
+					, VK_DEPENDENCY_BY_REGION_BIT } );
 
-			VkRenderPassCreateInfo renderPassCreate
-			{
-				VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
-				nullptr,
-				0u,
-				uint32_t( attachments.size() ),
-				attachments.data(),
-				uint32_t( subpasses.size() ),
-				subpasses.data(),
-				uint32_t( dependencies.size() ),
-				dependencies.data(),
-			};
+			auto renderPassCreate = ast::vk::makeVkStruct< VkRenderPassCreateInfo >( 0u
+				, uint32_t( attachments.size() )
+				, attachments.data()
+				, uint32_t( subpasses.size() )
+				, subpasses.data()
+				, uint32_t( dependencies.size() )
+				, dependencies.data() );
 			VkRenderPass renderPass{ nullptr };
 
 			if ( !wrapCall( errors
@@ -999,16 +1024,11 @@ namespace test
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex )
 		{
-			VkComputePipelineCreateInfo createInfos
-			{
-				VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
-				nullptr,
-				0u,
-				shaderStage.data,
-				pipelineLayout,
-				nullptr,
-				0u,
-			};
+			auto createInfos = ast::vk::makeVkStruct< VkComputePipelineCreateInfo >( 0u
+				, shaderStage.data
+				, pipelineLayout
+				, nullptr
+				, 0 );
 			VkPipeline pipeline{ nullptr };
 
 			if ( !wrapCall( errors
@@ -1042,7 +1062,7 @@ namespace test
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex )
 		{
-			bool hasTessellation = ( program.getStageFlags() & ( VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT | VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT ) ) != 0u;
+			bool hasTessellation = program.hasTessellationStage();
 			auto attachmentsMap = program.getAttachmentDescriptions();
 
 			// Pipeline shader stage states
@@ -1067,79 +1087,53 @@ namespace test
 			VkVertexInputBindingDescription binding{ 0u
 				, size
 				, VK_VERTEX_INPUT_RATE_VERTEX };
-			VkPipelineVertexInputStateCreateInfo vertexInputState{ VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
-				, nullptr
-				, 0u
+			auto vertexInputState = ast::vk::makeVkStruct< VkPipelineVertexInputStateCreateInfo >( 0u
 				, size ? 1u : 0u
 				, size ? &binding : nullptr
 				, size ? uint32_t( vertexAttributes.size() ) : 0u
-				, size ? vertexAttributes.data() : nullptr };
-
-			// Pipeline input assembly state
-			VkPipelineInputAssemblyStateCreateInfo inputAssemblyState{ VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
-				, nullptr
-				, 0u
-				, hasTessellation ? VK_PRIMITIVE_TOPOLOGY_PATCH_LIST : VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST
-				, VK_FALSE };
-
-			// Pipeline viewport state.
+				, size ? vertexAttributes.data() : nullptr );
+			auto inputAssemblyState = ast::vk::makeVkStruct< VkPipelineInputAssemblyStateCreateInfo >(0u
+				, ( hasTessellation ? VK_PRIMITIVE_TOPOLOGY_PATCH_LIST : VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST )
+				, VK_FALSE );
 			VkViewport viewport{ 0.0f, 0.0f, 800.0f, 600.0f, 0.0f, 1.0f };
 			VkRect2D scissor{ { 0, 0 }, { 800u, 600u } };
-			VkPipelineViewportStateCreateInfo viewportState{ VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO
-				, nullptr
-				, 0u
+			auto viewportState = ast::vk::makeVkStruct< VkPipelineViewportStateCreateInfo >( 0u
 				, 1u
 				, &viewport
 				, 1u
-				, &scissor };
-
-			// Pipeline rasterization state.
-			VkPipelineRasterizationStateCreateInfo rasterizationState{ VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO
-				, nullptr
-				, 0u
+				, &scissor );
+			auto rasterizationState = ast::vk::makeVkStruct< VkPipelineRasterizationStateCreateInfo >( 0u
 				, VK_FALSE
 				, VK_FALSE
 				, VK_POLYGON_MODE_FILL
-				, VK_CULL_MODE_NONE
+				, VkCullModeFlags( VK_CULL_MODE_NONE )
 				, VK_FRONT_FACE_COUNTER_CLOCKWISE
 				, VK_FALSE
 				, 0.0f
 				, 0.0f
 				, 0.0f
-				, 1.0f };
-
-			// Pipeline multisample state.
-			VkPipelineMultisampleStateCreateInfo multisampleState{ VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
-				, nullptr
-				, 0u
+				, 1.0f );
+			auto multisampleState = ast::vk::makeVkStruct< VkPipelineMultisampleStateCreateInfo >( 0u
 				, VK_SAMPLE_COUNT_1_BIT
 				, VK_FALSE
 				, 0.0f
 				, nullptr
 				, VK_FALSE
-				, VK_FALSE };
-
-			// Pipeline color blend state
+				, VK_FALSE );
 			std::vector< VkPipelineColorBlendAttachmentState > colorBlendAttachments;
 			colorBlendAttachments.resize( attachmentsMap.size(), VkPipelineColorBlendAttachmentState{} );
-			VkPipelineColorBlendStateCreateInfo colorBlendState{ VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
-				, nullptr
-				, 0u
+			auto colorBlendState = ast::vk::makeVkStruct< VkPipelineColorBlendStateCreateInfo >( 0u
 				, VK_FALSE
 				, VK_LOGIC_OP_COPY
 				, uint32_t( colorBlendAttachments.size() )
-				, colorBlendAttachments.data()
-				, { 0.0f, 0.0f, 0.0f, 0.0f } };
-
-			VkPipelineTessellationStateCreateInfo tessellationState{ VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO
-				, nullptr
-				, 0u
-				, program.getTessellationControlPoints() };
-
-			// Pipeline
-			VkGraphicsPipelineCreateInfo createInfos{ VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO
-				, nullptr
-				, 0u
+				, colorBlendAttachments.data() );
+			colorBlendState.blendConstants[0] = {};
+			colorBlendState.blendConstants[1] = {};
+			colorBlendState.blendConstants[2] = {};
+			colorBlendState.blendConstants[3] = {};
+			auto tessellationState = ast::vk::makeVkStruct< VkPipelineTessellationStateCreateInfo >( 0u
+				, program.getTessellationControlPoints() );
+			auto createInfos = ast::vk::makeVkStruct< VkGraphicsPipelineCreateInfo >( 0u
 				, uint32_t( vkShaderStages.size() )
 				, vkShaderStages.data()
 				, &vertexInputState
@@ -1155,7 +1149,7 @@ namespace test
 				, renderPass
 				, 0u
 				, nullptr
-				, 0u };
+				, 0 );
 			VkPipeline pipeline{ nullptr };
 
 			if ( !wrapCall( errors
@@ -1211,7 +1205,7 @@ namespace test
 
 		auto context = createBuilderContext( testCounts, infoIndex );
 		ast::vk::PipelineBuilder builder{ context, program };
-		ast::vk::ShaderModuleArray modules;
+		ast::vk::VkShaderModuleArray modules;
 		checkNoThrow( modules = builder.createShaderModules() );
 
 		if ( modules.empty() )
@@ -1221,7 +1215,7 @@ namespace test
 		}
 
 		bool result = false;
-		ast::vk::DescriptorSetLayoutArray descriptorLayouts;
+		ast::vk::VkDescriptorSetLayoutArray descriptorLayouts;
 		checkNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() );
 		VkPipelineLayout pipelineLayout{};
 		checkNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) );

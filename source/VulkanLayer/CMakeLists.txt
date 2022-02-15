@@ -22,6 +22,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES
 		${INCLUDE_DIR}/ArrayHolder.hpp
 		${INCLUDE_DIR}/BuilderContext.hpp
+		${INCLUDE_DIR}/MakeVkType.hpp
 		${INCLUDE_DIR}/PipelineBuilder.hpp
 		${INCLUDE_DIR}/PipelineShaderStageCreateInfo.hpp
 		${INCLUDE_DIR}/ProgramPipeline.hpp
