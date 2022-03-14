@@ -191,14 +191,14 @@ namespace sdw
 		, uint64_t attributes
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
-		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		static_assert( !isSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !isSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( std::move( name )
 			, location
@@ -240,14 +240,14 @@ namespace sdw
 		, uint64_t attributes
 		, bool enabled )
 	{
-		static_assert( !IsSameV< T, Boolean >, "Bool is not supported as output type" );
-		static_assert( !IsSameV< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !IsSameV< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !IsSameV< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !IsSameV< T, Double >, "Double is not supported as output type" );
-		static_assert( !IsSameV< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !IsSameV< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !IsSameV< T, DVec4 >, "DVec4 is not supported as output type" );
+		static_assert( !isSameV< T, Boolean >, "Bool is not supported as output type" );
+		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as output type" );
+		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as output type" );
+		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as output type" );
+		static_assert( !isSameV< T, Double >, "Double is not supported as output type" );
+		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as output type" );
+		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as output type" );
+		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerOutput( std::move( name )
