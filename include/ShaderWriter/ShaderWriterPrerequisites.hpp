@@ -1435,13 +1435,10 @@ namespace sdw
 	using RealTypeT = typename RealTypeGetter< T >::Type;
 
 	template< typename T, typename U >
-	static bool constexpr IsBaseOfV = std::is_base_of_v< T, U >::value;
+	static bool constexpr isSameV = std::is_same< T, U >::value;
 
 	template< typename T, typename U >
-	static bool constexpr IsSameV = std::is_same< T, U >::value;
-
-	template< typename T, typename U >
-	static bool constexpr IsSameSizeV = ( TypeTraits< T >::Size == TypeTraits< U >::Size );
+	static bool constexpr isSameSizeV = ( TypeTraits< T >::Size == TypeTraits< U >::Size );
 
 	template< typename T, typename U >
 	static bool constexpr isSameComponentCountV = ( TypeTraits< T >::ComponentCount == TypeTraits< U >::ComponentCount );
@@ -1487,14 +1484,14 @@ namespace sdw
 
 	template< typename TypeT >
 	concept ArithmeticT = ( isArithmeticV< typeEnum< OperandTypeT< TypeT > > >
-		&& IsSameV< ArithmeticValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
+		&& isSameV< ArithmeticValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
 
 	template< typename TypeT >
 	concept IntegerT = ( isIntegerV< typeEnum< OperandTypeT< TypeT > > >
-		&& IsSameV< IntegerValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
+		&& isSameV< IntegerValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
 
 	template< typename TypeT, typename ValueT >
-	concept VecCompatibleT = ( IsSameV< ValueT, OperandTypeT< TypeT > > );
+	concept VecCompatibleT = ( isSameV< ValueT, OperandTypeT< TypeT > > );
 	/**@}*/
 #pragma endregion
 
