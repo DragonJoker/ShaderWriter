@@ -138,7 +138,7 @@ namespace sdw
 		struct CtorCallGetter
 		{
 			template< typename ... ParamsT >
-			static inline ReturnT submit( ShaderWriter & writer
+			static inline ReturnWrapperT< ReturnT > submit( ShaderWriter & writer
 				, ParamsT ... params )
 			{
 				expr::ExprList args;
@@ -147,7 +147,7 @@ namespace sdw
 					, args
 					, isEnabled
 					, std::forward< ParamsT >( params )... );
-				return ReturnT{ writer
+				return ReturnWrapperT< ReturnT >{ writer
 					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
 						, type::getScalarType( typeEnum< ReturnT > )
 						, std::move( args ) )
@@ -180,7 +180,7 @@ namespace sdw
 			static size_t constexpr count = 4u;
 		};
 		template< typename ComponentT >
-		struct CtorTraits< Mat2T< ComponentT > >
+		struct CtorTraits< Mat2x2T< ComponentT > >
 		{
 			using type = Vec2T< ComponentT >;
 			static size_t constexpr count = 2u;
@@ -204,7 +204,7 @@ namespace sdw
 			static size_t constexpr count = 3u;
 		};
 		template< typename ComponentT >
-		struct CtorTraits< Mat3T< ComponentT > >
+		struct CtorTraits< Mat3x3T< ComponentT > >
 		{
 			using type = Vec3T< ComponentT >;
 			static size_t constexpr count = 3u;
@@ -228,7 +228,7 @@ namespace sdw
 			static size_t constexpr count = 4u;
 		};
 		template< typename ComponentT >
-		struct CtorTraits< Mat4T< ComponentT > >
+		struct CtorTraits< Mat4x4T< ComponentT > >
 		{
 			using type = Vec4T< ComponentT >;
 			static size_t constexpr count = 4u;
@@ -240,7 +240,7 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getCtorCall( ShaderWriter & writer
+	inline ReturnWrapperT< ReturnT > getCtorCall( ShaderWriter & writer
 		, ParamsT ... params )
 	{
 		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( writer
@@ -270,7 +270,7 @@ namespace sdw
 		struct FunctionCallGetter
 		{
 			template< typename ... ParamsT >
-			static inline ReturnT submit( ShaderWriter & writer
+			static inline ReturnWrapperT< ReturnT > submit( ShaderWriter & writer
 				, ast::type::FunctionPtr type
 				, std::string name
 				, ParamsT const & ... params )
@@ -279,7 +279,7 @@ namespace sdw
 				bool isEnabled = true;
 				getFunctionCallParamsRec( writer, args, isEnabled, params... );
 				auto & cache = getTypesCache( writer );
-				return ReturnT{ writer
+				return ReturnWrapperT< ReturnT >{ writer
 					, sdw::makeFnCall( ReturnT::makeType( cache )
 						, sdw::makeIdent( cache, var::makeFunction( getNextVarId( writer ), type, std::move( name ) ) )
 						, std::move( args ) )
@@ -289,7 +289,7 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getFunctionCall( ShaderWriter & writer
+	inline ReturnWrapperT< ReturnT > getFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string name
 		, ParamsT const & ... params )
@@ -368,28 +368,6 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	namespace details
-	{
-		template< typename ReturnT >
-		struct StmtAdder
-		{
-			static inline void submit( ShaderWriter & writer, ReturnT const & result )
-			{
-			}
-		};
-
-		template<>
-		struct StmtAdder< Void >
-		{
-			static inline void submit( ShaderWriter & writer, Void const & result )
-			{
-				sdw::addStmt( writer, sdw::makeSimple( sdw::makeExpr( writer, result ) ) );
-			}
-		};
-	}
-
-	//***********************************************************************************************
-
 	template< typename ReturnT, typename ... ParamsT >
 	inline Function< ReturnT, ParamsT... >::Function( ShaderWriter & writer
 		, ast::type::FunctionPtr type
@@ -402,7 +380,7 @@ namespace sdw
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
+	inline ReturnWrapperT< ReturnT > Function< ReturnT, ParamsT... >::operator()( ParamsT && ... params )const
 	{
 		assert( !m_name.empty() );
 		return getFunctionCall< ReturnT >( *m_writer

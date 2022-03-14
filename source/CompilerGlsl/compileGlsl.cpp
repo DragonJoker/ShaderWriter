@@ -66,8 +66,8 @@ namespace glsl
 					|| ( writerConfig.availableExtensions.end() == writerConfig.availableExtensions.find( ARB_explicit_attrib_location )
 						&& writerConfig.availableExtensions.end() == writerConfig.availableExtensions.find( ARB_separate_shader_objects ) ) ) )
 			{
-				throw std::runtime_error{ "GLSL specification version (" + std::to_string( writerConfig.wantedVersion )
-					+ ") doesn't support blend index attributes (required version: " + std::to_string( v4_3 ) +
+				throw std::runtime_error{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
+					+ ") doesn't support blend index attributes (required version: " + writeValue( v4_3 ) +
 					+" or extension [" + ARB_explicit_attrib_location.name + "])" };
 			}
 
@@ -88,9 +88,9 @@ namespace glsl
 			{
 				if ( extension.reqVersion > writerConfig.wantedVersion )
 				{
-					throw std::runtime_error{ "GLSL specification version (" + std::to_string( writerConfig.wantedVersion )
+					throw std::runtime_error{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
 						+ ") doesn't support extension [" + extension.name
-						+ "] (required version: " + std::to_string( extension.reqVersion ) + ")" };
+						+ "] (required version: " + writeValue( extension.reqVersion ) + ")" };
 				}
 			}
 		}

@@ -81,59 +81,57 @@ namespace sdw
 		, Vec2T< ValueT > const & rhs );
 
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
+	Vec2T< Boolean > operator==( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( CppTypeT< ValueT > const & lhs
+	Vec2T< Boolean > operator!=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( ValueT const & lhs
+	Vec2T< Boolean > operator<( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs );
-
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( CppTypeT< ValueT > const & lhs
+	Vec2T< Boolean > operator<=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( ValueT const & lhs
+	Vec2T< Boolean > operator>( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs );
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+	Vec2T< Boolean > operator>=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( CppTypeT< ValueT > const & lhs
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	inline Vec2T< ValueT > operator+( LhsT const & lhs
 		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
+	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
+		, RhsT const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( ValueT const & lhs
+	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
+
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	inline Vec2T< ValueT > operator-( LhsT const & lhs
+		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
+	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+		, RhsT const & rhs );
 	template< typename ValueT >
+	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs );
+
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	inline Vec2T< ValueT > operator*( LhsT const & lhs
+		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
 	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs );
+		, RhsT const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 
-	template< typename ValueT >
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
 	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
-		, ValueT const & rhs );
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs );
+		, RhsT const & rhs );
 	template< typename ValueT >
 	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );

@@ -653,10 +653,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -682,10 +682,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -712,10 +712,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -744,10 +744,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -775,10 +775,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -812,10 +812,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -846,10 +846,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -880,10 +880,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -911,10 +911,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -943,10 +943,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 		, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -1006,10 +1006,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::OutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -1037,10 +1037,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -1069,10 +1069,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 		, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -1102,10 +1102,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -1136,10 +1136,10 @@ namespace
 			{
 				auto i = writer.declLocale< UInt >( "i", 1_u );
 				auto a = writer.declLocale< ValueT >( "a", test::getDefault< ValueT >( writer ) );
-				p[0] = a;
+				p[0_u] = a;
 				p[i] = a;
-				p[i + 1] = a;
-				p[i * 3] = a;
+				p[i + 1_u] = a;
+				p[i * 3_u] = a;
 			}
 			, sdw::InOutParam< Array< ValueT > >{ writer, "p", 4u } );
 
@@ -1306,7 +1306,7 @@ namespace
 		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
 			, [&]( Vec2 const & e )
 			{
-				e.r() = e.r() * abs( 5.0_f * e.r() - 5.0 * 0.75 );
+				e.r() = e.r() * abs( 5.0_f * e.r() - 5.0_f * 0.75_f );
 				writer.returnStmt( round( e ) );
 			}
 			, InVec2{ writer, "e" } );
@@ -1384,7 +1384,7 @@ namespace
 		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
 			, [&]( Vec2 const & pos )
 			{
-				pos.r() = pos.r() * abs( 5.0_f * pos.r() - 5.0 * 0.75 );
+				pos.r() = pos.r() * abs( 5.0_f * pos.r() - 5.0_f * 0.75_f );
 				writer.returnStmt( round( pos ) );
 			}
 			, InVec2{ writer, "pos" } );

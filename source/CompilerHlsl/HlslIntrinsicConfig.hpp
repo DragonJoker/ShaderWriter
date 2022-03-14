@@ -566,6 +566,21 @@ namespace hlsl
 			config.requiresModf4D = true;
 			break;
 
+		case ast::expr::Intrinsic::eInterpolateAtCentroid1:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid2:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid3:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid4:
+		case ast::expr::Intrinsic::eInterpolateAtSample1:
+		case ast::expr::Intrinsic::eInterpolateAtSample2:
+		case ast::expr::Intrinsic::eInterpolateAtSample3:
+		case ast::expr::Intrinsic::eInterpolateAtSample4:
+		case ast::expr::Intrinsic::eInterpolateAtOffset1:
+		case ast::expr::Intrinsic::eInterpolateAtOffset2:
+		case ast::expr::Intrinsic::eInterpolateAtOffset3:
+		case ast::expr::Intrinsic::eInterpolateAtOffset4:
+			config.requiresInterpolate = true;
+			break;
+
 		default:
 			break;
 		}

@@ -33,6 +33,11 @@ namespace spirv
 			{
 				config.registerCapability( spv::CapabilityDerivativeControl );
 			}
+			else if ( kind >= ast::expr::Intrinsic::eInterpolateAtCentroid1
+				&& kind <= ast::expr::Intrinsic::eInterpolateAtOffset4 )
+			{
+				config.registerCapability( spv::CapabilityInterpolationFunction );
+			}
 			else if ( kind == ast::expr::Intrinsic::eAtomicAddF
 				|| kind == ast::expr::Intrinsic::eAtomicAdd2H
 				|| kind == ast::expr::Intrinsic::eAtomicAdd4H )

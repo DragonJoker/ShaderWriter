@@ -11,13 +11,9 @@ namespace sdw
 {
 	Void::Void( ShaderWriter & writer
 		, expr::ExprPtr expr
-		, bool writeStmt )
-		: Value{ writer, std::move( expr ), true }
+		, bool enabled )
+		: Value{ writer, std::move( expr ), enabled }
 	{
-		if ( writeStmt )
-		{
-			getShader()->addStmt( sdw::makeSimple( makeExpr( *this ) ) );
-		}
 	}
 
 	Void::Void( Value rhs )

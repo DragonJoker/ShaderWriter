@@ -93,6 +93,7 @@ namespace glsl
 	makeGlExtension( v4_2, v4_2, vUnk, NV_shader_atomic_float );
 	makeGlExtension( v4_3, v4_3, vUnk, NV_viewport_array2 );
 	makeGlExtension( v4_3, v4_3, vUnk, NV_shader_atomic_fp16_vector );
+	makeGlExtension( v4_4, v4_4, v4_5, ARB_derivative_control );
 	makeGlExtension( v4_5, v4_5, vUnk, ARB_shader_ballot );
 	makeGlExtension( v4_5, v4_5, vUnk, ARB_shader_viewport_layer_array );
 	makeGlExtension( v4_5, v4_5, vUnk, NV_stereo_view_rendering );

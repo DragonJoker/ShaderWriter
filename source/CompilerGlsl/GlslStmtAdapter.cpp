@@ -292,7 +292,7 @@ namespace glsl
 
 		if ( it == container->end() )
 		{
-			result->addStmt( ast::stmt::makePreprocVersion( std::to_string( adaptationData.writerConfig.wantedVersion ) ) );
+			result->addStmt( ast::stmt::makePreprocVersion( writeValue( adaptationData.writerConfig.wantedVersion ) ) );
 
 			for ( auto & extension : adaptationData.intrinsicsConfig.requiredExtensions )
 			{

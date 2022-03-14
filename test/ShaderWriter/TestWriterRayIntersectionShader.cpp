@@ -122,9 +122,9 @@ namespace
 					{
 						auto oc = m_writer->declLocale( "oc", r.origin - s.center );
 						auto a = m_writer->declLocale( "a", dot( r.direction, r.direction ) );
-						auto b = m_writer->declLocale( "b", 2.0 * dot( oc, r.direction ) );
+						auto b = m_writer->declLocale( "b", 2.0_f * dot( oc, r.direction ) );
 						auto c = m_writer->declLocale( "c", dot( oc, oc ) - s.radius * s.radius );
-						auto discriminant = m_writer->declLocale( "discriminant", b * b - 4 * a * c );
+						auto discriminant = m_writer->declLocale( "discriminant", b * b - 4.0_f * a * c );
 						IF( *m_writer, discriminant < 0.0_f )
 						{
 							m_writer->returnStmt( -1.0_f );

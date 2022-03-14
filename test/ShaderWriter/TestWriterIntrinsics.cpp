@@ -4277,7 +4277,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4294,7 +4294,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4311,7 +4311,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4328,7 +4328,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4345,10 +4345,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4362,10 +4362,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4379,10 +4379,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4396,10 +4396,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					sdw::isnan( v1 );
+					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4413,7 +4413,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4430,7 +4430,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4447,7 +4447,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4464,7 +4464,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -4481,10 +4481,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4498,10 +4498,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4515,10 +4515,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -4532,10 +4532,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					sdw::isinf( v1 );
+					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5493,7 +5493,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5510,7 +5510,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5527,7 +5527,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5544,7 +5544,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5561,10 +5561,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5578,10 +5578,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5595,10 +5595,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5612,10 +5612,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					length( v1 );
+					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5630,7 +5630,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5648,7 +5648,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5666,7 +5666,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5684,7 +5684,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5702,10 +5702,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5720,10 +5720,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5738,10 +5738,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5756,28 +5756,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					distance( v1, v2 );
+					writer.declLocale( "r", distance( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDot1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					dot( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5792,7 +5774,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					dot( v1, v2 );
+					writer.declLocale( "r", dot( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5810,7 +5792,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					dot( v1, v2 );
+					writer.declLocale( "r", dot( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5828,25 +5810,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					dot( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDot1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					dot( v1, v2 );
+					writer.declLocale( "r", dot( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5864,10 +5828,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					dot( v1, v2 );
+					writer.declLocale( "r", dot( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5882,10 +5846,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					dot( v1, v2 );
+					writer.declLocale( "r", dot( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5900,10 +5864,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					dot( v1, v2 );
+					writer.declLocale( "r", dot( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5918,7 +5882,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					cross( v1, v2 );
+					writer.declLocale( "r", cross( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5936,10 +5900,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					cross( v1, v2 );
+					writer.declLocale( "r", cross( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -5953,7 +5917,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5970,7 +5934,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -5987,7 +5951,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6004,7 +5968,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6021,10 +5985,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6038,10 +6002,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6055,10 +6019,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6072,10 +6036,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					normalize( v1 );
+					writer.declLocale( "r", normalize( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6091,7 +6055,7 @@ namespace
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6110,7 +6074,7 @@ namespace
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
 					auto v3 = writer.declLocale< Vec2 >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6129,7 +6093,7 @@ namespace
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
 					auto v3 = writer.declLocale< Vec3 >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6148,7 +6112,7 @@ namespace
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
 					auto v3 = writer.declLocale< Vec4 >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6167,10 +6131,10 @@ namespace
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
 					auto v3 = writer.declLocale< Double >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6186,10 +6150,10 @@ namespace
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
 					auto v3 = writer.declLocale< DVec2 >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6205,10 +6169,10 @@ namespace
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
 					auto v3 = writer.declLocale< DVec3 >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6224,10 +6188,10 @@ namespace
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
 					auto v3 = writer.declLocale< DVec4 >( "v3" );
-					faceForward( v1, v2, v3 );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6242,7 +6206,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6260,7 +6224,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6278,7 +6242,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6296,7 +6260,7 @@ namespace
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6314,10 +6278,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6332,10 +6296,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6350,10 +6314,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6368,10 +6332,10 @@ namespace
 				{
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					reflect( v1, v2 );
+					writer.declLocale( "r", reflect( v1, v2 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6387,7 +6351,7 @@ namespace
 					auto v1 = writer.declLocale< Float >( "v1" );
 					auto v2 = writer.declLocale< Float >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6406,7 +6370,7 @@ namespace
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
 					auto v2 = writer.declLocale< Vec2 >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6425,7 +6389,7 @@ namespace
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
 					auto v2 = writer.declLocale< Vec3 >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6444,7 +6408,7 @@ namespace
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
 					auto v2 = writer.declLocale< Vec4 >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -6463,10 +6427,10 @@ namespace
 					auto v1 = writer.declLocale< Double >( "v1" );
 					auto v2 = writer.declLocale< Double >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6482,10 +6446,10 @@ namespace
 					auto v1 = writer.declLocale< DVec2 >( "v1" );
 					auto v2 = writer.declLocale< DVec2 >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6501,10 +6465,10 @@ namespace
 					auto v1 = writer.declLocale< DVec3 >( "v1" );
 					auto v2 = writer.declLocale< DVec3 >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -6520,10 +6484,10 @@ namespace
 					auto v1 = writer.declLocale< DVec4 >( "v1" );
 					auto v2 = writer.declLocale< DVec4 >( "v2" );
 					auto v3 = writer.declLocale< Float >( "v3" );
-					refract( v1, v2, v3 );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -7032,7 +6996,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< Mat2 >( "m" );
-					determinant( m );
+					writer.declLocale( "r", determinant( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7049,10 +7013,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< DMat2 >( "m" );
-					determinant( m );
+					writer.declLocale( "r", determinant( m ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -7066,7 +7030,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< Mat3 >( "m" );
-					determinant( m );
+					writer.declLocale( "r", determinant( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7083,10 +7047,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< DMat3 >( "m" );
-					determinant( m );
+					writer.declLocale( "r", determinant( m ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -7100,7 +7064,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< Mat4 >( "m" );
-					determinant( m );
+					writer.declLocale( "r", determinant( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7117,10 +7081,10 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< DMat4 >( "m" );
-					determinant( m );
+					writer.declLocale( "r", determinant( m ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -7134,7 +7098,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< Mat2 >( "m" );
-					m = inverse( m );
+					writer.declLocale( "r", inverse( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7151,7 +7115,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< DMat2 >( "m" );
-					m = inverse( m );
+					writer.declLocale( "r", inverse( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7168,7 +7132,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< Mat3 >( "m" );
-					m = inverse( m );
+					writer.declLocale( "r", inverse( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7185,7 +7149,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< DMat3 >( "m" );
-					m = inverse( m );
+					writer.declLocale( "r", inverse( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7202,7 +7166,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< Mat4 >( "m" );
-					m = inverse( m );
+					writer.declLocale( "r", inverse( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -7219,7 +7183,7 @@ namespace
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< DMat4 >( "m" );
-					m = inverse( m );
+					writer.declLocale( "r", inverse( m ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9765,11 +9729,11 @@ namespace
 		testBegin( "testDFdx1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					dFdx( v1 );
+					auto r = writer.declLocale( "r", dFdx( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9782,11 +9746,11 @@ namespace
 		testBegin( "testDFdx2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					dFdx( v1 );
+					auto r = writer.declLocale( "r", dFdx( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9799,11 +9763,11 @@ namespace
 		testBegin( "testDFdx3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					dFdx( v1 );
+					auto r = writer.declLocale( "r", dFdx( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9816,11 +9780,11 @@ namespace
 		testBegin( "testDFdx4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					dFdx( v1 );
+					auto r = writer.declLocale( "r", dFdx( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9833,11 +9797,11 @@ namespace
 		testBegin( "testDFdxCoarse1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					dFdxCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9850,11 +9814,11 @@ namespace
 		testBegin( "testDFdxCoarse2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					dFdxCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9867,11 +9831,11 @@ namespace
 		testBegin( "testDFdxCoarse3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					dFdxCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9884,11 +9848,11 @@ namespace
 		testBegin( "testDFdxCoarse4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					dFdxCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9901,11 +9865,11 @@ namespace
 		testBegin( "testDFdxFine1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					dFdxFine( v1 );
+					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9918,11 +9882,11 @@ namespace
 		testBegin( "testDFdxFine2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					dFdxFine( v1 );
+					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9935,11 +9899,11 @@ namespace
 		testBegin( "testDFdxFine3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					dFdxFine( v1 );
+					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9952,11 +9916,11 @@ namespace
 		testBegin( "testDFdxFine4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					dFdxFine( v1 );
+					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9969,11 +9933,11 @@ namespace
 		testBegin( "testDFdy1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					dFdy( v1 );
+					auto r = writer.declLocale( "r", dFdy( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9986,11 +9950,11 @@ namespace
 		testBegin( "testDFdy2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					dFdy( v1 );
+					auto r = writer.declLocale( "r", dFdy( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10003,11 +9967,11 @@ namespace
 		testBegin( "testDFdy3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					dFdy( v1 );
+					auto r = writer.declLocale( "r", dFdy( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10020,11 +9984,11 @@ namespace
 		testBegin( "testDFdy4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					dFdy( v1 );
+					auto r = writer.declLocale( "r", dFdy( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10037,11 +10001,11 @@ namespace
 		testBegin( "testDFdyCoarse1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					dFdyCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10054,11 +10018,11 @@ namespace
 		testBegin( "testDFdyCoarse2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					dFdyCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10071,11 +10035,11 @@ namespace
 		testBegin( "testDFdyCoarse3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					dFdyCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10088,11 +10052,11 @@ namespace
 		testBegin( "testDFdyCoarse4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					dFdyCoarse( v1 );
+					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10105,11 +10069,11 @@ namespace
 		testBegin( "testDFdyFine1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					dFdyFine( v1 );
+					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10122,11 +10086,11 @@ namespace
 		testBegin( "testDFdyFine2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					dFdyFine( v1 );
+					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10139,11 +10103,11 @@ namespace
 		testBegin( "testDFdyFine3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					dFdyFine( v1 );
+					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10156,11 +10120,11 @@ namespace
 		testBegin( "testDFdyFine4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					dFdyFine( v1 );
+					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10173,11 +10137,11 @@ namespace
 		testBegin( "testFwidth1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Float >( "v1" );
-					fwidth( v1 );
+					auto r = writer.declLocale( "r", fwidth( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10190,11 +10154,11 @@ namespace
 		testBegin( "testFwidth2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					fwidth( v1 );
+					auto r = writer.declLocale( "r", fwidth( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10207,11 +10171,11 @@ namespace
 		testBegin( "testFwidth3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					fwidth( v1 );
+					auto r = writer.declLocale( "r", fwidth( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10224,11 +10188,11 @@ namespace
 		testBegin( "testFwidth4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					fwidth( v1 );
+					auto r = writer.declLocale( "r", fwidth( v1 ) );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -10241,14 +10205,14 @@ namespace
 		testBegin( "testInterpolateAtCentroid1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Float >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					interpolateAtCentroid( v1 );
+					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10258,14 +10222,14 @@ namespace
 		testBegin( "testInterpolateAtCentroid2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec2 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					interpolateAtCentroid( v1 );
+					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10275,14 +10239,14 @@ namespace
 		testBegin( "testInterpolateAtCentroid3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec3 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					interpolateAtCentroid( v1 );
+					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10292,14 +10256,14 @@ namespace
 		testBegin( "testInterpolateAtCentroid4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec4 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					interpolateAtCentroid( v1 );
+					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10309,15 +10273,14 @@ namespace
 		testBegin( "testInterpolateAtSample1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Float >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					interpolateAtSample( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10327,15 +10290,14 @@ namespace
 		testBegin( "testInterpolateAtSample2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec2 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					interpolateAtSample( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10345,15 +10307,14 @@ namespace
 		testBegin( "testInterpolateAtSample3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec3 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					interpolateAtSample( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10363,15 +10324,14 @@ namespace
 		testBegin( "testInterpolateAtSample4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec4 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					interpolateAtSample( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10381,15 +10341,14 @@ namespace
 		testBegin( "testInterpolateAtOffset1" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Float >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					interpolateAtOffset( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10399,15 +10358,14 @@ namespace
 		testBegin( "testInterpolateAtOffset2" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec2 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					interpolateAtOffset( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10417,15 +10375,14 @@ namespace
 		testBegin( "testInterpolateAtOffset3" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec3 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					interpolateAtOffset( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10435,15 +10392,14 @@ namespace
 		testBegin( "testInterpolateAtOffset4" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+			FragmentWriter writer;
+			auto inputs = writer.declInput< Vec4 >( "inputs", 0u );
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					interpolateAtOffset( v1, v2 );
+					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		testEnd();
 	}
@@ -10877,11 +10833,9 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	testDistance2D( testCounts );
 	testDistance3D( testCounts );
 	testDistance4D( testCounts );
-	testDot1F( testCounts );
 	testDot2F( testCounts );
 	testDot3F( testCounts );
 	testDot4F( testCounts );
-	testDot1D( testCounts );
 	testDot2D( testCounts );
 	testDot3D( testCounts );
 	testDot4D( testCounts );

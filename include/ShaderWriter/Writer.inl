@@ -213,6 +213,34 @@ namespace sdw
 				, makeExpr( *this, std::move( right ) ) )
 			, areOptionalEnabled( condition, left, right ) };
 	}
+
+	template< typename ExprType >
+	ExprType ShaderWriter::ternary( Boolean condition
+		, ReturnWrapperT< ExprType > left
+		, ExprType right )
+	{
+		auto type = left.getType();
+		return ExprType{ *this
+			, sdw::makeQuestion( type
+				, makeExpr( *this, std::move( condition ) )
+				, makeExpr( *this, std::move( left ) )
+				, makeExpr( *this, std::move( right ) ) )
+			, areOptionalEnabled( condition, left, right ) };
+	}
+
+	template< typename ExprType >
+	ExprType ShaderWriter::ternary( Boolean condition
+		, ExprType left
+		, ReturnWrapperT< ExprType > right )
+	{
+		auto type = left.getType();
+		return ExprType{ *this
+			, sdw::makeQuestion( type
+				, makeExpr( *this, std::move( condition ) )
+				, makeExpr( *this, std::move( left ) )
+				, makeExpr( *this, std::move( right ) ) )
+			, areOptionalEnabled( condition, left, right ) };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Constant declaration

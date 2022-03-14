@@ -441,7 +441,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
 			# Write function name and return
-			outs.write( "\n\tSDW_API " + ret + " " + intrinsicName + "(" )
+			outs.write( "\n\tSDW_API ReturnWrapperT< " + ret + " > " + intrinsicName + "(" )
 			# Write parameters
 			#	Image parameter
 			outs.write( " " + imageFullType + fmt + " const & image" )
@@ -462,7 +462,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			for imageFullType in imageFullTypes:
 				for fmt, last in formats:
 					# Write function name and return
-					outs.write( "\n\tSDW_API Void " + intrinsicName + "(" )
+					outs.write( "\n\tSDW_API ReturnWrapperT< Void > " + intrinsicName + "(" )
 					# Write parameters
 					#	Image parameter
 					outs.write( " " + imageFullType + fmt + " const & image" )
@@ -478,7 +478,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			for imageFullType in imageFullTypes:
 				for fmt, ret in formats:
 					# Write function name and return
-					outs.write( "\n\tSDW_API " + ret + " " + intrinsicName + "(" )
+					outs.write( "\n\tSDW_API ReturnWrapperT< " + ret + " > " + intrinsicName + "(" )
 					# Write parameters
 					#	Image parameter
 					outs.write( " " + imageFullType + fmt + " const & image" )
@@ -491,10 +491,8 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	intrinsicName = computeIntrinsicName( functionGroup )
-	if intrinsicName.find( "atomic" ) != -1:
-		retType = "ReturnWrapperT< " + retType + " >"
 	# Write function name and return
-	outs.write( "\n\tSDW_API " + retType + " " + intrinsicName + "(" )
+	outs.write( "\n\tSDW_API ReturnWrapperT< " + retType + " > " + intrinsicName + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "", 0 ) + " );" )
 	
