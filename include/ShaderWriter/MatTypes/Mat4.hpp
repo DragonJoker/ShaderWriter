@@ -10,45 +10,45 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename ValueT >
-	struct Mat4T
+	struct Mat4x4T
 		: public Value
 	{
-		SDW_DeclValue( , Mat4T );
+		SDW_DeclValue( , Mat4x4T );
 
 		using ValueType = ValueT;
 		using my_vec = Vec4T< ValueT >;
-		using my_mat = Mat4T< ValueT >;
+		using my_mat = Mat4x4T< ValueT >;
 
-		inline Mat4T( ShaderWriter & writer
+		inline Mat4x4T( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename RhsT >
-		inline Mat4T< ValueT > & operator=( RhsT const & rhs );
+		inline Mat4x4T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
 		inline Vec4T< ValueT > operator[]( IndexT const & rhs )const;
 		inline Vec4T< ValueT > operator[]( int32_t offset )const;
 		inline Vec4T< ValueT > operator[]( uint32_t offset )const;
-		inline Mat4T< ValueT > & operator+=( Mat4T< ValueT > const & rhs );
+		inline Mat4x4T< ValueT > & operator+=( Mat4x4T< ValueT > const & rhs );
 
 		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	template< typename ValueT >
 	Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs
-		, Mat4T< ValueT > const & rhs );
+		, Mat4x4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec4T< ValueT > operator*( Mat4T< ValueT > const & lhs
+	Vec4T< ValueT > operator*( Mat4x4T< ValueT > const & lhs
 		, Vec4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Mat4T< ValueT > operator*( Mat4T< ValueT > const & lhs
-		, Mat4T< ValueT > const & rhs );
+	Mat4x4T< ValueT > operator*( Mat4x4T< ValueT > const & lhs
+		, Mat4x4T< ValueT > const & rhs );
 
 	template< typename ValueT >
-	Mat4T< ValueT > operator*( ValueT const & lhs
-		, Mat4T< ValueT > const & rhs );
+	Mat4x4T< ValueT > operator*( ValueT const & lhs
+		, Mat4x4T< ValueT > const & rhs );
 	template< typename ValueT >
-	Mat4T< ValueT > operator*( Mat4T< ValueT > const & lhs
+	Mat4x4T< ValueT > operator*( Mat4x4T< ValueT > const & lhs
 		, ValueT const & rhs );
 }
 

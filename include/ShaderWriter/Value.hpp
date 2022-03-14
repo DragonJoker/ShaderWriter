@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_Value_H___
 #define ___SDW_Value_H___
 
-#include "ShaderWriterPrerequisites.hpp"
+#include "ShaderWriter/BaseTypes/ReturnWrapper.hpp"
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
@@ -28,7 +28,7 @@ namespace sdw
 		SDW_API stmt::Container * getContainer()const;
 		SDW_API void updateExpr( expr::ExprPtr expr );
 
-		inline type::TypePtr getType()const
+		virtual type::TypePtr getType()const
 		{
 			return m_expr->getType();
 		}

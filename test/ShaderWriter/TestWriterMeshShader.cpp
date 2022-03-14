@@ -991,9 +991,9 @@ namespace
 				, [&]( UInt primitive )
 				{
 					// Unpacks a 10 bits per index triangle from a 32-bit uint.
-					writer.returnStmt( uvec3( primitive & 0x3FF
-						, ( primitive >> 10 ) & 0x3FF
-						, ( primitive >> 20 ) & 0x3FF ) );
+					writer.returnStmt( uvec3( primitive & 0x3FF_u
+						, ( primitive >> 10_u ) & 0x3FF_u
+						, ( primitive >> 20_u ) & 0x3FF_u ) );
 				}
 				, InUInt{ writer, "primitive" } );
 
@@ -1012,19 +1012,19 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfo.indexBytes == 4 ) // 32-bit Vertex Indices
+					IF( writer, meshInfo.indexBytes == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
 					ELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
-						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1 ) );
-						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2 ) );
+						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
+						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2_u ) );
 
 						// Grab the pair of 16-bit indices, shift & mask off proper 16-bits.
 						auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index );
-						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16 ) ) & 0xffff );
+						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16_u ) ) & 0xffff_u );
 
 						writer.returnStmt( index );
 					}
@@ -1119,9 +1119,9 @@ namespace
 				, [&]( UInt primitive )
 				{
 					// Unpacks a 10 bits per index triangle from a 32-bit uint.
-					writer.returnStmt( uvec3( primitive & 0x3FF
-						, ( primitive >> 10 ) & 0x3FF
-						, ( primitive >> 20 ) & 0x3FF ) );
+					writer.returnStmt( uvec3( primitive & 0x3FF_u
+						, ( primitive >> 10_u ) & 0x3FF_u
+						, ( primitive >> 20_u ) & 0x3FF_u ) );
 				}
 				, InUInt{ writer, "primitive" } );
 
@@ -1140,19 +1140,19 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfos.indexBytes == 4 ) // 32-bit Vertex Indices
+					IF( writer, meshInfos.indexBytes == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
 					ELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
-						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1 ) );
-						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2 ) );
+						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
+						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2_u ) );
 
 						// Grab the pair of 16-bit indices, shift & mask off proper 16-bits.
 						auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index );
-						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16 ) ) & 0xffff );
+						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16_u ) ) & 0xffff_u );
 
 						writer.returnStmt( index );
 					}
@@ -1316,9 +1316,9 @@ namespace
 				, [&]( UInt primitive )
 				{
 					// Unpacks a 10 bits per index triangle from a 32-bit uint.
-					writer.returnStmt( uvec3( primitive & 0x3FF
-						, ( primitive >> 10 ) & 0x3FF
-						, ( primitive >> 20 ) & 0x3FF ) );
+					writer.returnStmt( uvec3( primitive & 0x3FF_u
+						, ( primitive >> 10_u ) & 0x3FF_u
+						, ( primitive >> 20_u ) & 0x3FF_u ) );
 				}
 				, InUInt{ writer, "primitive" } );
 
@@ -1337,19 +1337,19 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfos.indexSize == 4 ) // 32-bit Vertex Indices
+					IF( writer, meshInfos.indexSize == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
 					ELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
-						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1 ) );
-						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2 ) );
+						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
+						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2_u ) );
 
 						// Grab the pair of 16-bit indices, shift & mask off proper 16-bits.
 						auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index );
-						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16 ) ) & 0xffff );
+						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16_u ) ) & 0xffff_u );
 
 						writer.returnStmt( index );
 					}

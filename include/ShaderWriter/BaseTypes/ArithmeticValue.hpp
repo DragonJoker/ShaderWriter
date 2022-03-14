@@ -21,116 +21,53 @@ namespace sdw
 		explicit ArithmeticValue( Value value );
 		explicit ArithmeticValue( CppTypeT< ArithmeticValue > rhs );
 
-		template< typename T >
-		ArithmeticValue & operator=( T const & rhs );
-		ArithmeticValue & operator=( CppTypeT< ArithmeticValue > const & rhs );
+		template< ArithmeticT RhsT >
+		ArithmeticValue & operator=( RhsT const & rhs );
 		expr::ExprPtr makeCondition()const;
-		ArithmeticValue & operator+=( ArithmeticValue const & rhs );
-		ArithmeticValue & operator-=( ArithmeticValue const & rhs );
-		ArithmeticValue & operator*=( ArithmeticValue const & rhs );
-		ArithmeticValue & operator/=( ArithmeticValue const & rhs );
-		ArithmeticValue & operator+=( CppTypeT< ArithmeticValue > const & rhs );
-		ArithmeticValue & operator-=( CppTypeT< ArithmeticValue > const & rhs );
-		ArithmeticValue & operator*=( CppTypeT< ArithmeticValue > const & rhs );
-		ArithmeticValue & operator/=( CppTypeT< ArithmeticValue > const & rhs );
+		template< ArithmeticT RhsT >
+		ArithmeticValue & operator+=( RhsT const & rhs );
+		template< ArithmeticT RhsT >
+		ArithmeticValue & operator-=( RhsT const & rhs );
+		template< ArithmeticT RhsT >
+		ArithmeticValue & operator*=( RhsT const & rhs );
+		template< ArithmeticT RhsT >
+		ArithmeticValue & operator/=( RhsT const & rhs );
 		ArithmeticValue operator-()const;
 		ArithmeticValue operator+()const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator+( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator-( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator*( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator/( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator==( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator!=( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator<( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator<=( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator>( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator>=( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator+( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator-( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator*( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator/( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator==( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator!=( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator<( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator<=( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator>( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator>=( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs );
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator+( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator-( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator*( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator/( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator==( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator!=( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator<( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator<=( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator>( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
-	template< ast::type::Kind KindT >
-	Boolean operator>=( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator==( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator!=( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator<( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator<=( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator>( LhsT const & lhs
+		, RhsT const & rhs );
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator>=( LhsT const & lhs
+		, RhsT const & rhs );
 }
 
 #include "ArithmeticValue.inl"

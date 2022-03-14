@@ -18,13 +18,15 @@ See LICENSE file in root folder
 	using P##TypeName = sdw::Param< TypeName >;\
 	using In##TypeName = sdw::InParam< TypeName >;\
 	using Out##TypeName = sdw::OutParam< TypeName >;\
-	using InOut##TypeName = sdw::InOutParam< TypeName >
+	using InOut##TypeName = sdw::InOutParam< TypeName >;\
+	using Ret##TypeName = sdw::ReturnWrapperT< TypeName >
 
 #define Writer_ArrayParameter( TypeName )\
 	using P##TypeName##Array = sdw::Param< sdw::Array< TypeName > >;\
 	using In##TypeName##Array = sdw::InParam< sdw::Array< TypeName > >;\
 	using Out##TypeName##Array = sdw::OutParam< sdw::Array< TypeName > >;\
-	using InOut##TypeName##Array = sdw::InOutParam< sdw::Array< TypeName > >
+	using InOut##TypeName##Array = sdw::InOutParam< sdw::Array< TypeName > >;\
+	using Ret##TypeName##Array = sdw::ReturnWrapperT< sdw::Array< TypeName > >
 
 #if defined( ShaderWriter_Static )
 #	define SDW_API
@@ -83,19 +85,19 @@ namespace sdw
 	template< typename TypeT >
 	struct Vec4T;
 	template< typename TypeT >
-	struct Mat2T;
+	struct Mat2x2T;
 	template< typename TypeT >
 	struct Mat2x3T;
 	template< typename TypeT >
 	struct Mat2x4T;
 	template< typename TypeT >
-	struct Mat3T;
+	struct Mat3x3T;
 	template< typename TypeT >
 	struct Mat3x2T;
 	template< typename TypeT >
 	struct Mat3x4T;
 	template< typename TypeT >
-	struct Mat4T;
+	struct Mat4x4T;
 	template< typename TypeT >
 	struct Mat4x2T;
 	template< typename TypeT >
@@ -123,24 +125,30 @@ namespace sdw
 	using BVec2 = Vec2T< Boolean >;
 	using BVec3 = Vec3T< Boolean >;
 	using BVec4 = Vec4T< Boolean >;
-	using Mat2 = Mat2T< Float >;
+	using Mat2 = Mat2x2T< Float >;
+	using Mat2x2 = Mat2x2T< Float >;
 	using Mat2x3 = Mat2x3T< Float >;
 	using Mat2x4 = Mat2x4T< Float >;
-	using Mat3 = Mat3T< Float >;
+	using Mat3 = Mat3x3T< Float >;
+	using Mat3x3 = Mat3x3T< Float >;
 	using Mat3x2 = Mat3x2T< Float >;
 	using Mat3x4 = Mat3x4T< Float >;
-	using Mat4 = Mat4T< Float >;
+	using Mat4 = Mat4x4T< Float >;
+	using Mat4x4 = Mat4x4T< Float >;
 	using Mat4x2 = Mat4x2T< Float >;
 	using Mat4x3 = Mat4x3T< Float >;
-	using DMat2 = Mat2T< Double >;
+	using DMat2 = Mat2x2T< Double >;
+	using DMat2x2 = Mat2x2T< Double >;
 	using DMat2x3 = Mat2x3T< Double >;
 	using DMat2x4 = Mat2x4T< Double >;
-	using DMat3 = Mat3T< Double >;
+	using DMat3 = Mat3x3T< Double >;
 	using DMat3x2 = Mat3x2T< Double >;
+	using DMat3x3 = Mat3x3T< Double >;
 	using DMat3x4 = Mat3x4T< Double >;
-	using DMat4 = Mat4T< Double >;
+	using DMat4 = Mat4x4T< Double >;
 	using DMat4x2 = Mat4x2T< Double >;
 	using DMat4x3 = Mat4x3T< Double >;
+	using DMat4x4 = Mat4x4T< Double >;
 	/**@}*/
 #pragma endregion
 #pragma region Shader interface types
@@ -1412,6 +1420,12 @@ namespace sdw
 	using CppTypeT = typename TypeTraits< T >::CppType;
 
 	template< typename T >
+	using OperandTypeT = typename TypeTraits< T >::OperandType;
+
+	template< typename T >
+	using LargestT = typename TypeTraits< T >::LargestType;
+
+	template< typename T >
 	static ast::type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
 
 	template< typename T >
@@ -1419,6 +1433,9 @@ namespace sdw
 
 	template< typename T >
 	using RealTypeT = typename RealTypeGetter< T >::Type;
+
+	template< typename T, typename U >
+	static bool constexpr IsBaseOfV = std::is_base_of_v< T, U >::value;
 
 	template< typename T, typename U >
 	static bool constexpr IsSameV = std::is_same< T, U >::value;
@@ -1446,6 +1463,38 @@ namespace sdw
 
 	template< typename LhsT, typename RhsT >
 	static bool constexpr areCompatible = AreCompatibleT< LhsT, RhsT >::value;
+
+	/**@}*/
+#pragma endregion
+#pragma region Concepts
+	/**
+	*name
+	*	Concepts.
+	*/
+	/**@{*/
+	template< ast::type::Kind KindT >
+	static bool constexpr isArithmeticV = ( KindT == ast::type::Kind::eInt
+		|| KindT == ast::type::Kind::eUInt
+		|| KindT == ast::type::Kind::eUInt64
+		|| KindT == ast::type::Kind::eHalf
+		|| KindT == ast::type::Kind::eFloat
+		|| KindT == ast::type::Kind::eDouble );
+
+	template< ast::type::Kind KindT >
+	static bool constexpr isIntegerV = ( KindT == ast::type::Kind::eInt
+		|| KindT == ast::type::Kind::eUInt
+		|| KindT == ast::type::Kind::eUInt64 );
+
+	template< typename TypeT >
+	concept ArithmeticT = ( isArithmeticV< typeEnum< OperandTypeT< TypeT > > >
+		&& IsSameV< ArithmeticValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
+
+	template< typename TypeT >
+	concept IntegerT = ( isIntegerV< typeEnum< OperandTypeT< TypeT > > >
+		&& IsSameV< IntegerValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
+
+	template< typename TypeT, typename ValueT >
+	concept VecCompatibleT = ( IsSameV< ValueT, OperandTypeT< TypeT > > );
 	/**@}*/
 #pragma endregion
 

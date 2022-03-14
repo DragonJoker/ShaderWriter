@@ -29,17 +29,8 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	template< typename T >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( T const & rhs )
-	{
-		static_assert( KindT == typeEnum< T > );
-		this->updateContainer( rhs );
-		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( CppTypeT< ArithmeticValue< KindT > > const & rhs )
+	template< ArithmeticT RhsT >
+	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator=( RhsT const & rhs )
 	{
 		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
 		return *this;
@@ -54,56 +45,32 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator+=( ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT RhsT >
+	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator+=( RhsT const & rhs )
 	{
 		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator-=( ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT RhsT >
+	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator-=( RhsT const & rhs )
 	{
 		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator*=( ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT RhsT >
+	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator*=( RhsT const & rhs )
 	{
 		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator/=( ArithmeticValue< KindT > const & rhs )
-	{
-		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeDivideAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator+=( CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAddAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator-=( CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeMinusAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator*=( CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeTimesAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator/=( CppTypeT< ArithmeticValue< KindT > > const & rhs )
+	template< ArithmeticT RhsT >
+	ArithmeticValue< KindT > & ArithmeticValue< KindT >::operator/=( RhsT const & rhs )
 	{
 		writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
@@ -129,217 +96,83 @@ namespace sdw
 
 	//*************************************************************************
 
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator+( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+		, RhsT const & rhs )
 	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeAdd );
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeAdd );
 	}
 
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator-( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+		, RhsT const & rhs )
 	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeMinus );
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeMinus );
 	}
 
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator*( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+		, RhsT const & rhs )
 	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeTimes );
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeTimes );
 	}
 
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator/( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+		, RhsT const & rhs )
 	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeDivide );
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeDivide );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator==( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator==( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator!=( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator!=( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator<( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator<( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator<=( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator<=( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator>( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator>( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator>=( ArithmeticValue< KindT > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
+	template< ArithmeticT LhsT, ArithmeticT RhsT  >
+	Boolean operator>=( LhsT const & lhs
+		, RhsT const & rhs )
 	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
-	}
-
-	//*************************************************************************
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator+( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator-( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator*( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator/( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator==( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator!=( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<=( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>=( ArithmeticValue< KindT > const & lhs
-		, CppTypeT< ArithmeticValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
-	}
-
-	//*************************************************************************
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator+( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator-( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator*( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< ast::type::Kind KindT >
-	ArithmeticValue< KindT > operator/( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeBinOperator< ArithmeticValue< KindT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator==( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator!=( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<=( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>=( CppTypeT< ArithmeticValue< KindT > > const & lhs
-		, ArithmeticValue< KindT > const & rhs )
-	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
 	}
 

@@ -112,21 +112,21 @@ namespace glsl
 			if ( hasExtension( writerConfig, ARB_explicit_attrib_location )
 				&& hasExtension( writerConfig, ARB_separate_shader_objects ) )
 			{
-				result += getLocationName( *stmt.getVariable() ) + "=" + std::to_string( stmt.getLocation() );
+				result += getLocationName( *stmt.getVariable() ) + "=" + writeValue( stmt.getLocation() );
 				sep = ", ";
 			}
 
 			if ( writerConfig.shaderStage == ast::ShaderStage::eGeometry
 				&& stmt.getVariable()->isGeometryStream() )
 			{
-				result += sep + "stream=" + std::to_string( stmt.getStreamIndex() );
+				result += sep + "stream=" + writeValue( stmt.getStreamIndex() );
 				sep = ", ";
 			}
 
 			if ( writerConfig.shaderStage == ast::ShaderStage::eFragment
 				&& stmt.getVariable()->isBlendIndex() )
 			{
-				result += sep + "index=" + std::to_string( stmt.getBlendIndex() );
+				result += sep + "index=" + writeValue( stmt.getBlendIndex() );
 			}
 
 			result += ")";
@@ -215,7 +215,7 @@ namespace glsl
 						&& !hasFlag( structType.getFlag(), ast::var::Flag::ePatchOutput )
 						&& !hasFlag( structType.getFlag(), ast::var::Flag::ePatchInput ) )
 					{
-						result += "layout( location=" + std::to_string( mbr.location ) + " ) ";
+						result += "layout( location=" + writeValue( mbr.location ) + " ) ";
 						result += ( structType.isShaderInput()
 							? std::string{ "in" }
 						: std::string{ "out" } ) + " ";
@@ -582,7 +582,7 @@ namespace glsl
 			name = "callableDataInEXT";
 		}
 
-		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + std::to_string( stmt->getLocation() ) + ")";
+		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + writeValue( stmt->getLocation() ) + ")";
 		join( m_result, name, " " );
 		join( m_result, getTypeName( var->getType() ), " " );
 		join( m_result, var->getName(), " " );
@@ -601,7 +601,7 @@ namespace glsl
 		}
 
 		doAppendLineEnd();
-		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + std::to_string( stmt->getLocation() ) + ")";
+		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + writeValue( stmt->getLocation() ) + ")";
 		join( m_result, name, " " );
 		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
 		join( m_result, stmt->getVariable()->getName(), " " );
@@ -713,19 +713,19 @@ namespace glsl
 		{
 			if ( stmt->getWorkGroupsY() == 1 )
 			{
-				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() ) + ") in;\n";
+				m_result += m_indent + "layout(local_size_x=" + writeValue( stmt->getWorkGroupsX() ) + ") in;\n";
 			}
 			else
 			{
-				m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
-					+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() ) + ") in;\n";
+				m_result += m_indent + "layout(local_size_x=" + writeValue( stmt->getWorkGroupsX() )
+					+ ", local_size_y=" + writeValue( stmt->getWorkGroupsY() ) + ") in;\n";
 			}
 		}
 		else
 		{
-			m_result += m_indent + "layout(local_size_x=" + std::to_string( stmt->getWorkGroupsX() )
-				+ ", local_size_y=" + std::to_string( stmt->getWorkGroupsY() )
-				+ ", local_size_z=" + std::to_string( stmt->getWorkGroupsZ() ) + ") in;\n";
+			m_result += m_indent + "layout(local_size_x=" + writeValue( stmt->getWorkGroupsX() )
+				+ ", local_size_y=" + writeValue( stmt->getWorkGroupsY() )
+				+ ", local_size_z=" + writeValue( stmt->getWorkGroupsZ() ) + ") in;\n";
 		}
 	}
 
@@ -747,20 +747,20 @@ namespace glsl
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + std::to_string( stmt->getPrimCount() ) + ") out;\n";
+		m_result += m_indent + "layout(" + getLayoutName( stmt->getLayout() ) + ", max_vertices = " + writeValue( stmt->getPrimCount() ) + ") out;\n";
 	}
 
 	void StmtVisitor::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "layout(" + getLayoutName( stmt->getTopology() ) + ") out;\n";
-		m_result += m_indent + "layout(max_vertices = " + std::to_string( stmt->getMaxVertices() ) + ", max_primitives = " + std::to_string( stmt->getMaxPrimitives() ) + ") out;\n";
+		m_result += m_indent + "layout(max_vertices = " + writeValue( stmt->getMaxVertices() ) + ", max_primitives = " + writeValue( stmt->getMaxPrimitives() ) + ") out;\n";
 	}
 
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + "layout(vertices=" + std::to_string( stmt->getOutputVertices() ) + ") out;\n";
+		m_result += m_indent + "layout(vertices=" + writeValue( stmt->getOutputVertices() ) + ") out;\n";
 	}
 
 	void StmtVisitor::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
@@ -1120,12 +1120,12 @@ namespace glsl
 		if ( binding != InvalidIndex
 			&& hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
 		{
-			m_result += sep + "binding=" + std::to_string( binding );
+			m_result += sep + "binding=" + writeValue( binding );
 			sep = ", ";
 
 			if ( set != InvalidIndex && m_writerConfig.wantedVersion >= v4_6 )
 			{
-				m_result += sep + "set=" + std::to_string( set );
+				m_result += sep + "set=" + writeValue( set );
 			}
 		}
 	}

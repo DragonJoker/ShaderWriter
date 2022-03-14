@@ -50,7 +50,7 @@ namespace
 					auto const inUV = writer.declLocale( "inUV"
 						, pixelCenter / vec2( in.launchSize.xy() ) );
 					auto d = writer.declLocale( "d"
-						, inUV * 2.0 - 1.0 );
+						, inUV * 2.0_f - 1.0_f );
 
 					auto target = writer.declLocale( "target"
 						, projInverse * vec4( d.x(), d.y(), 1.0_f, 1.0_f ) );
@@ -70,7 +70,7 @@ namespace
 						, 0_u					// sbtRecordStride
 						, 0_u					// missIndex
 						, ray );
-					image.store( ivec2( in.launchID.xy() ), vec4( prd, 1.0 ) );
+					image.store( ivec2( in.launchID.xy() ), vec4( prd, 1.0_f ) );
 				} );
 			test::writeShader( writer
 				, testCounts

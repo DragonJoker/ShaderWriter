@@ -582,7 +582,7 @@ namespace glsl
 		case ast::expr::Intrinsic::eFaceForward2D:
 		case ast::expr::Intrinsic::eFaceForward3D:
 		case ast::expr::Intrinsic::eFaceForward4D:
-			result = "faceForward";
+			result = "faceforward";
 			break;
 
 		case ast::expr::Intrinsic::eReflect1F:

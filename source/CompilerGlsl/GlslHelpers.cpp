@@ -109,7 +109,7 @@ namespace glsl
 				}
 				else
 				{
-					result += "[" + std::to_string( arraySize ) + "]";
+					result += "[" + writeValue( arraySize ) + "]";
 				}
 			}
 

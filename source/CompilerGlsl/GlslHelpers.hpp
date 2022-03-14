@@ -13,6 +13,9 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Stmt/PreprocExtension.hpp>
 
+#include <sstream>
+#include <locale>
+
 namespace glsl
 {
 	static uint32_t constexpr InvalidIndex = ~( 0u );
@@ -66,6 +69,15 @@ namespace glsl
 	};
 	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );
+
+	template< typename ValueT >
+	std::string writeValue( ValueT const & v )
+	{
+		std::stringstream stream;
+		stream.imbue( std::locale{ "C" } );
+		stream << v;
+		return stream.str();
+	}
 }
 
 #endif
