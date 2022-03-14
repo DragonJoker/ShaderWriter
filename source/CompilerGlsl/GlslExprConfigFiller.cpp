@@ -212,6 +212,24 @@ namespace glsl
 		case ast::expr::Intrinsic::eFma4D:
 			m_config.requiresFma4D = true;
 			break;
+		case ast::expr::Intrinsic::eDFdxCoarse1:
+		case ast::expr::Intrinsic::eDFdxCoarse2:
+		case ast::expr::Intrinsic::eDFdxCoarse3:
+		case ast::expr::Intrinsic::eDFdxCoarse4:
+		case ast::expr::Intrinsic::eDFdxFine1:
+		case ast::expr::Intrinsic::eDFdxFine2:
+		case ast::expr::Intrinsic::eDFdxFine3:
+		case ast::expr::Intrinsic::eDFdxFine4:
+		case ast::expr::Intrinsic::eDFdyCoarse1:
+		case ast::expr::Intrinsic::eDFdyCoarse2:
+		case ast::expr::Intrinsic::eDFdyCoarse3:
+		case ast::expr::Intrinsic::eDFdyCoarse4:
+		case ast::expr::Intrinsic::eDFdyFine1:
+		case ast::expr::Intrinsic::eDFdyFine2:
+		case ast::expr::Intrinsic::eDFdyFine3:
+		case ast::expr::Intrinsic::eDFdyFine4:
+			m_config.requiredExtensions.insert( ARB_derivative_control );
+			break;
 		case ast::expr::Intrinsic::eUaddCarry1:
 		case ast::expr::Intrinsic::eUaddCarry2:
 		case ast::expr::Intrinsic::eUaddCarry3:
@@ -298,6 +316,18 @@ namespace glsl
 		case ast::expr::Intrinsic::eUnpackUnorm2x16:
 		case ast::expr::Intrinsic::eUnpackSnorm4x8:
 		case ast::expr::Intrinsic::eUnpackUnorm4x8:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid1:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid2:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid3:
+		case ast::expr::Intrinsic::eInterpolateAtCentroid4:
+		case ast::expr::Intrinsic::eInterpolateAtSample1:
+		case ast::expr::Intrinsic::eInterpolateAtSample2:
+		case ast::expr::Intrinsic::eInterpolateAtSample3:
+		case ast::expr::Intrinsic::eInterpolateAtSample4:
+		case ast::expr::Intrinsic::eInterpolateAtOffset1:
+		case ast::expr::Intrinsic::eInterpolateAtOffset2:
+		case ast::expr::Intrinsic::eInterpolateAtOffset3:
+		case ast::expr::Intrinsic::eInterpolateAtOffset4:
 			m_config.requiredExtensions.insert( ARB_gpu_shader5 );
 			break;
 		case ast::expr::Intrinsic::ePackHalf2x16:

@@ -44,11 +44,11 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getCtorCall( ShaderWriter & writer
+	inline ReturnWrapperT< ReturnT > getCtorCall( ShaderWriter & writer
 		, ParamsT ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
-	inline ReturnT getFunctionCall( ShaderWriter & writer
+	inline ReturnWrapperT< ReturnT > getFunctionCall( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string name
 		, ParamsT const & ... params );
@@ -70,7 +70,7 @@ namespace sdw
 		inline Function( ShaderWriter & writer
 			, ast::type::FunctionPtr type
 			, std::string name );
-		inline ReturnT operator()( ParamsT && ... params )const;
+		inline ReturnWrapperT< ReturnT > operator()( ParamsT && ... params )const;
 		inline operator bool()const;
 
 	private:

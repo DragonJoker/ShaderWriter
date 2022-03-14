@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_ReturnWrapper_H___
 #pragma once
 
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 
 namespace sdw
 {
@@ -24,6 +24,7 @@ namespace sdw
 		ReturnWrapperT( ReturnWrapperT && rhs );
 		~ReturnWrapperT()override;
 
+		type::TypePtr getType()const override;
 		expr::Expr * getExpr()const override;
 
 		sdw::expr::ExprPtr release()const;

@@ -320,7 +320,7 @@ namespace
 						auto const kShininess = writer.declLocale( "kShininess", max( mat.shininess, 4.0_f ) );
 
 						// Specular
-						auto kEnergyConservation = writer.declLocale( "kEnergyConservation", ( 2.0 + kShininess ) / ( 2.0 * kPi ) );
+						auto kEnergyConservation = writer.declLocale( "kEnergyConservation", ( 2.0_f + kShininess ) / ( 2.0_f * kPi ) );
 						auto V = writer.declLocale( "V", normalize( -viewDir ) );
 						auto R = writer.declLocale( "R", reflect( -lightDir, normal ) );
 						auto specular = writer.declLocale( "specular", kEnergyConservation * pow( max( dot( V, R ), 0.0_f ), kShininess ) );

@@ -426,7 +426,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
 			# Write function name and return
-			outs.write( "\n\t" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
+			outs.write( "\n\tReturnWrapperT< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
 			# Write parameters
 			#	Image parameter
 			outs.write( " " + imageFullType + fmt + " const & image" )
@@ -434,7 +434,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
 			# Header finished, write content
 			outs.write( "\n\t{" )
-			outs.write( "\n\t\treturn " + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			outs.write( "\n\t\treturn ReturnWrapperT< " + ret + " >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
 			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
@@ -467,7 +467,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			for fmt, ret in formats:
 				if isStore:
 					# Write function name and return
-					outs.write( "\n\tVoid " + computeIntrinsicName( functionGroup ) + "(" )
+					outs.write( "\n\tReturnWrapperT< Void > " + computeIntrinsicName( functionGroup ) + "(" )
 					# Write parameters
 					#	Image parameter
 					outs.write( " " + imageFullType + fmt + " const & image" )
@@ -475,10 +475,10 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
 					# Header finished, write content
 					outs.write( "\n\t{" )
-					outs.write( "\n\t\treturn Void{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+					outs.write( "\n\t\treturn ReturnWrapperT< Void >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				else:
 					# Write function name and return
-					outs.write( "\n\t" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
+					outs.write( "\n\tReturnWrapperT< " + ret + " > " + computeIntrinsicName( functionGroup ) + "(" )
 					# Write parameters
 					#	Image parameter
 					outs.write( " " + imageFullType + fmt + " const & image" )
@@ -489,7 +489,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 						outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
 					# Header finished, write content
 					outs.write( "\n\t{" )
-					outs.write( "\n\t\treturn " + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+					outs.write( "\n\t\treturn ReturnWrapperT< " + ret + " >{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				# Write arguments
 				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				#	Image argument
@@ -503,15 +503,13 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	fullName = computeFullName( functionGroup )
 	intrinsicName = computeIntrinsicName( functionGroup )
-	if intrinsicName.find( "atomic" ) != -1:
-		retType = "ReturnWrapperT< " + retType + " >"
 	# Write function name and return
-	outs.write( "\n\t" + retType + " " + intrinsicName + "(" )
+	outs.write( "\n\tReturnWrapperT< " + retType + " > " + intrinsicName + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "", 0 ) + " )" )
 	# Header finished, write content
 	outs.write( "\n\t{" )
-	outs.write( "\n\t\treturn " + retType + "{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
+	outs.write( "\n\t\treturn ReturnWrapperT< " + retType + " >{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
 	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
 	outs.write( "\n\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "", 0 ) + " ) };" )

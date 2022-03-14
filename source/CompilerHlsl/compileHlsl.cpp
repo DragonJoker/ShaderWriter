@@ -45,6 +45,11 @@ namespace hlsl
 				throw std::runtime_error{ "Unsupported UAV for this shader model" };
 			}
 
+			if ( intrinsicsConfig.requiresInterpolate && writerConfig.shaderModel < hlsl::v5_0 )
+			{
+				throw std::runtime_error{ "Unsupported interpolate for this shader model" };
+			}
+
 			if ( intrinsicsConfig.requiresShadowOnTiled && writerConfig.shaderModel < hlsl::v5_0 )
 			{
 				throw std::runtime_error{ "Unsupported sample shadow for tiled resource, for this shader model" };

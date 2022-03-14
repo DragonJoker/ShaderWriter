@@ -15,7 +15,7 @@ namespace sdw
 		SDW_API Void();
 		SDW_API Void( ShaderWriter & writer
 			, expr::ExprPtr expr
-			, bool writeStmt = true );
+			, bool enabled = true );
 		SDW_API explicit Void( Value rhs );
 
 		SDW_API ~Void()override = default;

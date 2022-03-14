@@ -280,10 +280,10 @@ namespace
 
 					auto color = writer.declLocale< Vec4 >( "color" );
 					auto hdr = writer.declLocale( "hdr"
-						, writer.cast< Float >( ( colorMask >> 24u ) & 0x0000007f ) );
-					color.r() = writer.cast< Float >( ( colorMask >> 16u ) & 0x000000ff );
-					color.g() = writer.cast< Float >( ( colorMask >> 8u ) & 0x000000ff );
-					color.b() = writer.cast< Float >( colorMask & 0x000000ff );
+						, writer.cast< Float >( ( colorMask >> 24u ) & 0x0000007f_u ) );
+					color.r() = writer.cast< Float >( ( colorMask >> 16u ) & 0x000000ff_u );
+					color.g() = writer.cast< Float >( ( colorMask >> 8u ) & 0x000000ff_u );
+					color.b() = writer.cast< Float >( colorMask & 0x000000ff_u );
 
 					hdr /= 127.0f;
 					color.rgb() /= vec3( 255.0_f );

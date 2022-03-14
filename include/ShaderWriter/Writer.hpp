@@ -197,6 +197,14 @@ namespace sdw
 		ExprType ternary( Boolean condition
 			, ExprType left
 			, ExprType right );
+		template< typename ExprType >
+		ExprType ternary( Boolean condition
+			, ReturnWrapperT< ExprType > left
+			, ExprType right );
+		template< typename ExprType >
+		ExprType ternary( Boolean condition
+			, ExprType left
+			, ReturnWrapperT< ExprType > right );
 		SDW_API void forStmt( expr::ExprPtr init
 			, expr::ExprPtr condition
 			, expr::ExprPtr increment

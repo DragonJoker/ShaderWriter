@@ -26,17 +26,8 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	template< typename T >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator=( T const & rhs )
-	{
-		static_assert( KindT == typeEnum< T > );
-		this->updateContainer( rhs );
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator=( CppTypeT< IntegerValue< KindT > > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
 		return *this;
@@ -75,140 +66,80 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator+=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator+=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAddAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator-=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator-=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeMinusAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator*=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator*=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeTimesAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator/=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator/=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeDivideAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator%=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator%=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeModuloAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator<<=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator<<=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeLShiftAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator>>=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator>>=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeRShiftAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator&=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator&=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAndAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator|=( IntegerValue< KindT > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator|=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeOrAssign );
 		return *this;
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator^=( IntegerValue< KindT > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeXorAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator+=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAddAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator-=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeMinusAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator*=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeTimesAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator/=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeDivideAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator%=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeModuloAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator<<=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeLShiftAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator>>=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeRShiftAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator&=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAndAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator|=( CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeOrAssign );
-		return *this;
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator^=( CppTypeT< IntegerValue< KindT > > const & rhs )
+	template< IntegerT RhsT >
+	IntegerValue< KindT > & IntegerValue< KindT >::operator^=( RhsT const & rhs )
 	{
 		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeXorAssign );
 		return *this;
@@ -235,348 +166,136 @@ namespace sdw
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator+( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator-( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator*( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator/( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator%( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeModulo );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator<<( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeLShift );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator>>( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeRShift );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator&( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitAnd );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator|( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitOr );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator^( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitXor );
-	}
-
-	template< ast::type::Kind KindT >
 	IntegerValue< KindT > operator~( IntegerValue< KindT > const & expr )
 	{
 		return writeUnOperator< IntegerValue< KindT > >( expr, sdw::makeBitNot );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator==( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeAdd );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeMinus );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeTimes );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeDivide );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeModulo );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeLShift );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeRShift );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitAnd );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitOr );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitXor );
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	Boolean operator==( LhsT const & lhs
+		, RhsT const & rhs )
+	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator!=( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
+	template< IntegerT LhsT, IntegerT RhsT >
+	Boolean operator!=( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator<( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
+	template< IntegerT LhsT, IntegerT RhsT >
+	Boolean operator<( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator<=( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
+	template< IntegerT LhsT, IntegerT RhsT >
+	Boolean operator<=( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator>( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
+	template< IntegerT LhsT, IntegerT RhsT >
+	Boolean operator>( LhsT const & lhs
+		, RhsT const & rhs )
 	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
 	}
 
-	template< ast::type::Kind KindT >
-	Boolean operator>=( IntegerValue< KindT > const & lhs
-		, IntegerValue< KindT > const & rhs )
+	template< IntegerT LhsT, IntegerT RhsT >
+	Boolean operator>=( LhsT const & lhs
+		, RhsT const & rhs )
 	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
-	}
-
-	//*************************************************************************
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator+( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator-( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator*( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator/( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator%( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeModulo );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator<<( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeLShift );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator>>( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeRShift );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator&( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitAnd );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator|( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitOr );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator^( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitXor );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator==( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator!=( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<=( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>=( CppTypeT< IntegerValue< KindT > > const & lhs
-		, IntegerValue< KindT > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
-	}
-
-	//*************************************************************************
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator+( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator-( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator*( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator/( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator%( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeModulo );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator<<( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeLShift );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator>>( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeRShift );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator&( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitAnd );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator|( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitOr );
-	}
-
-	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator^( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeBinOperator< IntegerValue< KindT > >( lhs, rhs, sdw::makeBitXor );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator==( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator!=( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator<=( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
-		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
-	}
-
-	template< ast::type::Kind KindT >
-	Boolean operator>=( IntegerValue< KindT > const & lhs
-		, CppTypeT< IntegerValue< KindT > > const & rhs )
-	{
+		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
 	}
 

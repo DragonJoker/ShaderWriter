@@ -503,7 +503,7 @@ namespace
 			auto isConeDegenerate = writer.implementFunction< Boolean >( "isConeDegenerate"
 				, [&]( CullData c )
 				{
-					writer.returnStmt( ( c.normalCone >> 24 ) == 0xff_u );
+					writer.returnStmt( ( c.normalCone >> 24u ) == 0xff_u );
 				}
 				, InParam< CullData >{ writer, "c" } );
 
@@ -511,13 +511,13 @@ namespace
 				, [&]( UInt packedCone )
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
-					v.x() = writer.cast< Float >( ( packedCone >> 0 ) & 0xFF_u );
-					v.y() = writer.cast< Float >( ( packedCone >> 8 ) & 0xFF_u );
-					v.z() = writer.cast< Float >( ( packedCone >> 16 ) & 0xFF_u );
-					v.w() = writer.cast< Float >( ( packedCone >> 24 ) & 0xFF_u );
+					v.x() = writer.cast< Float >( ( packedCone >> 0u ) & 0xFF_u );
+					v.y() = writer.cast< Float >( ( packedCone >> 8u ) & 0xFF_u );
+					v.z() = writer.cast< Float >( ( packedCone >> 16u ) & 0xFF_u );
+					v.w() = writer.cast< Float >( ( packedCone >> 24u ) & 0xFF_u );
 
-					v = v / 255.0;
-					v.xyz() = v.xyz() * 2.0 - 1.0;
+					v = v / 255.0f;
+					v.xyz() = v.xyz() * 2.0f - 1.0f;
 
 					writer.returnStmt( v );
 				}
@@ -536,7 +536,7 @@ namespace
 					FI;
 
 					// Do a cull test of the bounding sphere against the view frustum planes.
-					auto center = writer.declLocale( "center", vec4( c.boundingSphere.xyz(), 1 ) * world );
+					auto center = writer.declLocale( "center", vec4( c.boundingSphere.xyz(), 1.0_f ) * world );
 					auto radius = writer.declLocale( "radius", c.boundingSphere.w() * scale );
 
 					for ( int i = 0; i < 6; ++i )

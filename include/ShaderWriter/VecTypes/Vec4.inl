@@ -146,30 +146,16 @@ namespace sdw
 
 	//*********************************************************************************************
 
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator+( CppTypeT< ValueT > const & lhs
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	inline Vec4T< ValueT > operator+( LhsT const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator+( ValueT const & lhs
-		, Vec4T< ValueT > const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< typename ValueT >
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
 	inline Vec4T< ValueT > operator+( Vec4T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
-	}
-
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator+( Vec4T< ValueT > const & lhs
-		, ValueT const & rhs )
+		, RhsT const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
@@ -181,30 +167,16 @@ namespace sdw
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeAdd );
 	}
 
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator-( CppTypeT< ValueT > const & lhs
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	inline Vec4T< ValueT > operator-( LhsT const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator-( ValueT const & lhs
-		, Vec4T< ValueT > const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< typename ValueT >
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
 	inline Vec4T< ValueT > operator-( Vec4T< ValueT > const & lhs
-		, ValueT const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
-	}
-
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator-( Vec4T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs )
+		, RhsT const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
@@ -216,30 +188,16 @@ namespace sdw
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeMinus );
 	}
 
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator*( ValueT const & lhs
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	inline Vec4T< ValueT > operator*( LhsT const & lhs
 		, Vec4T< ValueT > const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator*( CppTypeT< ValueT > const & lhs
-		, Vec4T< ValueT > const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< typename ValueT >
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
 	inline Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs
-		, ValueT const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
-	}
-
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator*( Vec4T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs )
+		, RhsT const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
@@ -251,16 +209,9 @@ namespace sdw
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeTimes );
 	}
 
-	template< typename ValueT >
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
 	inline Vec4T< ValueT > operator/( Vec4T< ValueT > const & lhs
-		, CppTypeT< ValueT > const & rhs )
-	{
-		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
-	}
-
-	template< typename ValueT >
-	inline Vec4T< ValueT > operator/( Vec4T< ValueT > const & lhs
-		, ValueT const & rhs )
+		, RhsT const & rhs )
 	{
 		return writeBinOperator< Vec4T< ValueT > >( lhs, rhs, sdw::makeDivide );
 	}

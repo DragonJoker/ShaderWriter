@@ -1011,15 +1011,15 @@ namespace
 					out.position = patchIn.wpB300 * wPow3
 						+ patchIn.wpB030 * uPow3
 						+ patchIn.wpB003 * vPow3
-						+ patchIn.wpB210 * 3.0 * wPow2 * u
-						+ patchIn.wpB120 * 3.0 * w * uPow2
-						+ patchIn.wpB201 * 3.0 * wPow2 * v
-						+ patchIn.wpB021 * 3.0 * uPow2 * v
-						+ patchIn.wpB102 * 3.0 * w * vPow2
-						+ patchIn.wpB012 * 3.0 * u * vPow2
-						+ patchIn.wpB111 * 6.0 * w * u * v;
+						+ patchIn.wpB210 * 3.0f * wPow2 * u
+						+ patchIn.wpB120 * 3.0f * w * uPow2
+						+ patchIn.wpB201 * 3.0f * wPow2 * v
+						+ patchIn.wpB021 * 3.0f * uPow2 * v
+						+ patchIn.wpB102 * 3.0f * w * vPow2
+						+ patchIn.wpB012 * 3.0f * u * vPow2
+						+ patchIn.wpB111 * 6.0f * w * u * v;
 
-					out.vtx.position = mtx * vec4( out.position, 1.0 );
+					out.vtx.position = mtx * vec4( out.position, 1.0f );
 				} );
 			test::writeShader( writer
 				, testCounts

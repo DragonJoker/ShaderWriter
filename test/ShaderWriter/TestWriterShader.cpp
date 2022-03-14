@@ -1286,13 +1286,13 @@ namespace
 							, width * writer.cast< Int >( in.fragCoord.z() ) ) );
 					auto texcoord = writer.declLocale< IVec3 >( "texcoord" );
 
-					IF( writer, in.axis == 1 )
+					IF( writer, in.axis == 1_u )
 					{
 						texcoord.x() = width - temp.z();
 						texcoord.z() = temp.x();
 						texcoord.y() = temp.y();
 					}
-					ELSEIF( in.axis == 2 )
+					ELSEIF( in.axis == 2_u )
 					{
 						texcoord.z() = temp.y();
 						texcoord.y() = width - temp.z();
@@ -1355,13 +1355,13 @@ namespace
 					, Float const & b )
 				{
 					auto avgDistance = writer.declLocale( "avgDistance"
-						, ( a + b ) / 2.0 );
+						, ( a + b ) / 2.0_f );
 
-					IF( writer, avgDistance <= 20.0 )
+					IF( writer, avgDistance <= 20.0_f )
 					{
 						writer.returnStmt( 256.0_f );
 					}
-					ELSEIF( avgDistance <= 50.0 )
+					ELSEIF( avgDistance <= 50.0_f )
 					{
 						writer.returnStmt( 128.0_f );
 					}
@@ -1408,12 +1408,12 @@ namespace
 						, patchOut.wpB030 - patchOut.wpB300 );
 
 					// Generate two midpoints on each edge
-					patchOut.wpB021 = patchOut.wpB030 + edgeB300 / 3.0;
-					patchOut.wpB012 = patchOut.wpB030 + edgeB300 * 2.0 / 3.0;
-					patchOut.wpB102 = patchOut.wpB003 + edgeB030 / 3.0;
-					patchOut.wpB201 = patchOut.wpB003 + edgeB030 * 2.0 / 3.0;
-					patchOut.wpB210 = patchOut.wpB300 + edgeB003 / 3.0;
-					patchOut.wpB120 = patchOut.wpB300 + edgeB003 * 2.0 / 3.0;
+					patchOut.wpB021 = patchOut.wpB030 + edgeB300 / 3.0f;
+					patchOut.wpB012 = patchOut.wpB030 + edgeB300 * 2.0f / 3.0f;
+					patchOut.wpB102 = patchOut.wpB003 + edgeB030 / 3.0f;
+					patchOut.wpB201 = patchOut.wpB003 + edgeB030 * 2.0f / 3.0f;
+					patchOut.wpB210 = patchOut.wpB300 + edgeB003 / 3.0f;
+					patchOut.wpB120 = patchOut.wpB300 + edgeB003 * 2.0f / 3.0f;
 
 					// Project each midpoint on the plane defined by the nearest vertex and its normal
 					patchOut.wpB021 = projectToPlane( patchOut.wpB021
@@ -1439,14 +1439,14 @@ namespace
 					auto center = writer.declLocale( "center"
 						, ( patchOut.wpB003
 							+ patchOut.wpB030
-							+ patchOut.wpB300 ) / 3.0 );
+							+ patchOut.wpB300 ) / 3.0f );
 					patchOut.wpB111 = ( patchOut.wpB021
 						+ patchOut.wpB012
 						+ patchOut.wpB102
 						+ patchOut.wpB201
 						+ patchOut.wpB210
-						+ patchOut.wpB120 ) / 6.0;
-					patchOut.wpB111 += ( patchOut.wpB111 - center ) / 2.0;
+						+ patchOut.wpB120 ) / 6.0f;
+					patchOut.wpB111 += ( patchOut.wpB111 - center ) / 2.0f;
 
 					// Calculate the distance from the camera to the three control points
 					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
@@ -1478,7 +1478,7 @@ namespace
 							, normalize( listIn[in.invocationID].normal ) ) );
 					auto v3MapNormal = writer.declLocale( "v3MapNormal"
 						, c3d_mapNormal.lod( listIn[in.invocationID].texture.xy(), 0.0_f ).xyz() );
-					v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0, 1.0 ) );
+					v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0_f, 1.0_f ) );
 					listOut.normal = normalize( tbn * v3MapNormal );
 					listOut.tangent = listIn[in.invocationID].tangent;
 					listOut.bitangent = listIn[in.invocationID].bitangent;
@@ -1599,15 +1599,15 @@ namespace
 					out.position = patchIn.wpB300 * wPow3
 						+ patchIn.wpB030 * uPow3
 						+ patchIn.wpB003 * vPow3
-						+ patchIn.wpB210 * 3.0 * wPow2 * u
-						+ patchIn.wpB120 * 3.0 * w * uPow2
-						+ patchIn.wpB201 * 3.0 * wPow2 * v
-						+ patchIn.wpB021 * 3.0 * uPow2 * v
-						+ patchIn.wpB102 * 3.0 * w * vPow2
-						+ patchIn.wpB012 * 3.0 * u * vPow2
-						+ patchIn.wpB111 * 6.0 * w * u * v;
+						+ patchIn.wpB210 * 3.0f * wPow2 * u
+						+ patchIn.wpB120 * 3.0f * w * uPow2
+						+ patchIn.wpB201 * 3.0f * wPow2 * v
+						+ patchIn.wpB021 * 3.0f * uPow2 * v
+						+ patchIn.wpB102 * 3.0f * w * vPow2
+						+ patchIn.wpB012 * 3.0f * u * vPow2
+						+ patchIn.wpB111 * 6.0f * w * u * v;
 
-					out.vtx.position = mtx * vec4( out.position, 1.0 );
+					out.vtx.position = mtx * vec4( out.position, 1.0f );
 				} );
 			test::writeShader( writer
 				, testCounts

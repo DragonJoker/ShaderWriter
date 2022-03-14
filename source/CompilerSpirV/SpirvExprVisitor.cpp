@@ -1425,6 +1425,27 @@ namespace spirv
 			params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
 			params.push_back( doSubmit( expr->getArgList()[1].get() ) );
 		}
+		else if ( intrinsic >= ast::expr::Intrinsic::eInterpolateAtCentroid1
+			&& intrinsic <= ast::expr::Intrinsic::eInterpolateAtCentroid4 )
+		{
+			for ( auto & arg : expr->getArgList() )
+			{
+				params.push_back( m_module.getVariablePointer( doSubmit( arg.get() )
+					, "interpolant_" + std::to_string( m_aliasId++ )
+					, spv::StorageClassInput
+					, m_currentBlock ) );
+			}
+		}
+		else if ( intrinsic >= ast::expr::Intrinsic::eInterpolateAtSample1
+			&& intrinsic <= ast::expr::Intrinsic::eInterpolateAtOffset4 )
+		{
+			auto & args = expr->getArgList();
+			params.push_back( m_module.getVariablePointer( doSubmit( args[0].get() )
+				, "interpolant_" + std::to_string( m_aliasId++ )
+				, spv::StorageClassInput
+				, m_currentBlock ) );
+			params.push_back( loadVariable( doSubmit( args[1].get() ) ) );
+		}
 		else
 		{
 			for ( auto & arg : expr->getArgList() )

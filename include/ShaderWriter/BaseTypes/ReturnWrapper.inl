@@ -39,6 +39,18 @@ namespace sdw
 			}
 		}
 	}
+
+	template< typename ValueT >
+	type::TypePtr ReturnWrapperT< ValueT >::getType()const
+	{
+		if ( this->m_expr )
+		{
+			return this->m_expr->getType();
+		}
+
+		return m_remnExpr->getType();
+	}
+
 	template< typename ValueT >
 	expr::Expr * ReturnWrapperT< ValueT >::getExpr()const
 	{
@@ -80,7 +92,7 @@ namespace sdw
 		, ReturnWrapperT< ValueT > const & variable
 		, bool force )
 	{
-		return variable.release();
+		return makeExpr( writer, variable.getExpr() );
 	}
 
 	//*************************************************************************

@@ -495,6 +495,7 @@ namespace hlsl
 		bool requiresDouble{ false };
 		bool requiresSampledIndex{ false };
 		bool requiresUAV{ false };
+		bool requiresInterpolate{ false };
 
 		bool requiresACosh1F{ false };
 		bool requiresACosh2F{ false };
