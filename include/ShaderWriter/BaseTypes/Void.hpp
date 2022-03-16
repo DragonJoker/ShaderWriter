@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/Value.hpp"
+#include "ShaderWriter/BaseTypes/ReturnWrapper.hpp"
 
 namespace sdw
 {
@@ -16,7 +17,7 @@ namespace sdw
 		SDW_API Void( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled = true );
-		SDW_API explicit Void( Value rhs );
+		SDW_API Void( ReturnWrapperT< Void > && rhs );
 
 		SDW_API ~Void()override = default;
 		SDW_API Void( Void && rhs ) = default;
