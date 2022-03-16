@@ -16,13 +16,14 @@ namespace sdw
 	{
 	}
 
-	Void::Void( Value rhs )
-		: Value{ std::move( rhs ) }
+	Void::Void( ReturnWrapperT< Void > && rhs )
+		: Void{ *rhs.getWriter(), makeExpr( rhs ), rhs.isEnabled() }
 	{
+		addStmt( *this->getWriter(), makeSimple( makeExpr( *this ) ) );
 	}
 
 	Void::Void()
-		: Void{ 0_i }
+		: Void{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), 0 ), true }
 	{
 	}
 
