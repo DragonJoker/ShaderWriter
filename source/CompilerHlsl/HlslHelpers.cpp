@@ -24,7 +24,7 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	namespace
+	namespace HlslHelpersInternal
 	{
 		std::string getTypeName( ast::type::ImageConfiguration const & config )
 		{
@@ -1420,7 +1420,7 @@ namespace hlsl
 			, paramStruct
 			, flags );
 
-		if ( needsSeparate( mode ) )
+		if (HlslHelpersInternal::needsSeparate( mode ) )
 		{
 			separateStruct = shader->getTypesCache().getStruct( ast::type::MemoryLayout::eC
 				, "HLSL_SDWParam_" + suffix );
@@ -1443,7 +1443,7 @@ namespace hlsl
 		case hlsl::IOMappingMode::eNoSeparate:
 			if ( !paramStruct->empty() )
 			{
-				declareStruct( stmt, paramStruct, declaredStructs );
+				HlslHelpersInternal::declareStruct( stmt, paramStruct, declaredStructs );
 			}
 			break;
 		case hlsl::IOMappingMode::eNoSeparateDistinctParams:
@@ -1460,17 +1460,17 @@ namespace hlsl
 		case hlsl::IOMappingMode::eLocalReturn:
 			if ( !paramStruct->empty() )
 			{
-				declareStruct( stmt, paramStruct, declaredStructs );
+				HlslHelpersInternal::declareStruct( stmt, paramStruct, declaredStructs );
 			}
 			break;
 		case hlsl::IOMappingMode::eLocalSeparateVar:
 			if ( !paramStruct->empty() )
 			{
-				declareStruct( stmt, paramStruct, declaredStructs );
+				HlslHelpersInternal::declareStruct( stmt, paramStruct, declaredStructs );
 			}
 			if ( hasSeparate() )
 			{
-				declareStruct( stmt, separateStruct, declaredStructs );
+				HlslHelpersInternal::declareStruct( stmt, separateStruct, declaredStructs );
 			}
 			break;
 		}
@@ -1740,10 +1740,10 @@ namespace hlsl
 	{
 		if ( isInput )
 		{
-			return isShaderInput( builtin, stage );
+			return HlslHelpersInternal::isShaderInput( builtin, stage );
 		}
 
-		return isShaderOutput( builtin, stage );
+		return HlslHelpersInternal::isShaderOutput( builtin, stage );
 	}
 
 	bool IOMapping::hasSeparate()const
@@ -1884,7 +1884,7 @@ namespace hlsl
 			{
 				if ( builtin != ast::Builtin::eNone )
 				{
-					if ( isSupported( builtin, stage, isInput ) )
+					if ( HlslHelpersInternal::isSupported( builtin, stage, isInput ) )
 					{
 						distinctParams.push_back( shader->registerBuiltin( builtin, type, flags ) );
 						it = std::next( distinctParams.begin(), ptrdiff_t( distinctParams.size() ) - 1 );
@@ -1993,20 +1993,20 @@ namespace hlsl
 		, parent{ pparent }
 		, isMain{ pisMain }
 		, m_highFreqOutputs{ *shader
-			, getMode( shader->getType(), isMain, false, true, false )
+			, HlslHelpersInternal::getMode( shader->getType(), isMain, false, true, false )
 			, false
 			, false
-			, getFuncName( isMain ) }
+			, HlslHelpersInternal::getFuncName( isMain ) }
 		, m_lowFreqInputs{ *shader
-			, getMode( shader->getType(), isMain, true, false, false )
+			, HlslHelpersInternal::getMode( shader->getType(), isMain, true, false, false )
 			, true
 			, false
-			, getFuncName( isMain ) }
+			, HlslHelpersInternal::getFuncName( isMain ) }
 		, m_lowFreqOutputs{ *shader
-			, getMode( shader->getType(), isMain, false, false, false )
+			, HlslHelpersInternal::getMode( shader->getType(), isMain, false, false, false )
 			, false
 			, isMeshStage( shader->getType() )
-			, getFuncName( isMain ) }
+			, HlslHelpersInternal::getFuncName( isMain ) }
 		, m_primitiveIndices{}
 	{
 	}
@@ -2102,9 +2102,9 @@ namespace hlsl
 	ast::type::TypePtr Routine::fillParameters( ast::var::VariableList & parameters
 		, ast::stmt::Container & stmt )const
 	{
-		auto result = getNonNull( m_highFreqOutputs.fillParameters( parameters, stmt ), nullptr );
-		result = getNonNull( m_lowFreqInputs.fillParameters( parameters, stmt ), result );
-		result = getNonNull( m_lowFreqOutputs.fillParameters( parameters, stmt ), result );
+		auto result = HlslHelpersInternal::getNonNull( m_highFreqOutputs.fillParameters( parameters, stmt ), nullptr );
+		result = HlslHelpersInternal::getNonNull( m_lowFreqInputs.fillParameters( parameters, stmt ), result );
+		result = HlslHelpersInternal::getNonNull( m_lowFreqOutputs.fillParameters( parameters, stmt ), result );
 
 		if ( m_primitiveIndices.io.var )
 		{
@@ -2260,7 +2260,7 @@ namespace hlsl
 		, uint32_t location )
 	{
 		if ( !var->isBuiltin()
-			|| isHighFreq( var->getBuiltin(), false ) )
+			|| HlslHelpersInternal::isHighFreq( var->getBuiltin(), false ) )
 		{
 			m_highFreqOutputs.addPending( var, location );
 		}
@@ -2279,7 +2279,7 @@ namespace hlsl
 		, uint32_t location )
 	{
 		if ( !var->isBuiltin()
-			|| isHighFreq( var->getBuiltin(), false ) )
+			|| HlslHelpersInternal::isHighFreq( var->getBuiltin(), false ) )
 		{
 			m_highFreqOutputs.addPending( var, location );
 		}
@@ -2297,7 +2297,7 @@ namespace hlsl
 		auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
 
 		if ( !flags.isBuiltin()
-			|| isHighFreq( mbr.builtin, false ) )
+			|| HlslHelpersInternal::isHighFreq( mbr.builtin, false ) )
 		{
 			m_highFreqOutputs.addPendingMbr( outer
 				, mbrIndex
@@ -2412,7 +2412,7 @@ namespace hlsl
 			? mbrLocation
 			: ast::type::Struct::InvalidLocation );
 
-		if ( isHighFreq( mbrBuiltin, false ) )
+		if (HlslHelpersInternal::isHighFreq( mbrBuiltin, false ) )
 		{
 			m_highFreqOutputs.addPendingMbr( var
 				, mbrIndex
@@ -2445,9 +2445,9 @@ namespace hlsl
 	//*********************************************************************************************
 
 	AdaptationData::AdaptationData( HlslShader & pshader )
-		: m_highFreqInputs{ pshader, getMode( pshader.getType(), true, true, true, false ), true, false, "Global" }
+		: m_highFreqInputs{ pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, false, "Global" }
 		, m_patchInputs{ ( pshader.getType() == ast::ShaderStage::eTessellationEvaluation
-			? std::make_unique< IOMapping >( pshader, getMode( pshader.getType(), true, true, true, false ), true, true, "Global" )
+			? std::make_unique< IOMapping >( pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, true, "Global" )
 			: nullptr ) }
 		, shader{ &pshader }
 	{
@@ -2564,7 +2564,7 @@ namespace hlsl
 							{
 								if ( mbr.builtin != ast::Builtin::eNone )
 								{
-									if ( isShaderInput( mbr.builtin, shader->getType() ) )
+									if ( HlslHelpersInternal::isShaderInput( mbr.builtin, shader->getType() ) )
 									{
 										registerInputMbr( param
 											, uint64_t( ast::var::Flag::eShaderInput )
@@ -2653,15 +2653,15 @@ namespace hlsl
 	ast::type::TypePtr AdaptationData::fillParameters( ast::var::VariableList & parameters
 		, ast::stmt::Container & stmt )
 	{
-		auto result = getNonNull( m_highFreqInputs.fillParameters( parameters, stmt ), nullptr );
+		auto result = HlslHelpersInternal::getNonNull( m_highFreqInputs.fillParameters( parameters, stmt ), nullptr );
 
 		if ( m_patchInputs )
 		{
-			result = getNonNull( m_patchInputs->fillParameters( parameters, stmt ), nullptr );
+			result = HlslHelpersInternal::getNonNull( m_patchInputs->fillParameters( parameters, stmt ), nullptr );
 		}
 
 		assert( m_currentRoutine );
-		result = getNonNull( m_currentRoutine->fillParameters( parameters, stmt ), result );
+		result = HlslHelpersInternal::getNonNull( m_currentRoutine->fillParameters( parameters, stmt ), result );
 		return result;
 	}
 
@@ -2757,7 +2757,7 @@ namespace hlsl
 			: *m_mainEntryPoint;
 
 		if ( !var->isBuiltin()
-			|| isHighFreq( var->getBuiltin(), true ) )
+			|| HlslHelpersInternal::isHighFreq( var->getBuiltin(), true ) )
 		{
 			if ( m_patchInputs && var->isPatchInput() )
 			{
@@ -2798,7 +2798,7 @@ namespace hlsl
 			: *m_mainEntryPoint;
 
 		if ( !var->isBuiltin()
-			|| isHighFreq( var->getBuiltin(), true ) )
+			|| HlslHelpersInternal::isHighFreq( var->getBuiltin(), true ) )
 		{
 			if ( m_patchInputs && var->isPatchInput() )
 			{
@@ -2823,7 +2823,7 @@ namespace hlsl
 		assert( m_currentRoutine );
 		auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
 
-		if ( isHighFreq( mbr.builtin, true ) )
+		if ( HlslHelpersInternal::isHighFreq( mbr.builtin, true ) )
 		{
 			if ( m_patchInputs && flags.isPatchInput() )
 			{
@@ -3336,7 +3336,7 @@ namespace hlsl
 			? mbrLocation
 			: ast::type::Struct::InvalidLocation );
 
-		if ( isHighFreq( mbrBuiltin, true ) )
+		if ( HlslHelpersInternal::isHighFreq( mbrBuiltin, true ) )
 		{
 			if ( m_patchInputs && checkFlag( outerFlags, ast::var::Flag::ePatchInput ) )
 			{

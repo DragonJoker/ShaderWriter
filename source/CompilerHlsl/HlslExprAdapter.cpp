@@ -19,7 +19,7 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	namespace
+	namespace HlslExprAdapterInternal
 	{
 		bool isMatrix( ast::type::Kind kind )
 		{
@@ -888,7 +888,7 @@ namespace hlsl
 				{
 					if ( isDoubleType( arg->getType()->getKind() ) )
 					{
-						auto type = getFloatType( arg->getType() );
+						auto type = HlslExprAdapterInternal::getFloatType( arg->getType() );
 						arg = ast::expr::makeCast( type, std::move( arg ) );
 					}
 				}
@@ -1090,9 +1090,9 @@ namespace hlsl
 
 	void ExprAdapter::visitTimesExpr( ast::expr::Times * expr )
 	{
-		if ( isMatrix( expr->getType()->getKind() )
-			|| isMatrix( expr->getLHS()->getType()->getKind() )
-			|| isMatrix( expr->getRHS()->getType()->getKind() ) )
+		if ( HlslExprAdapterInternal::isMatrix( expr->getType()->getKind() )
+			|| HlslExprAdapterInternal::isMatrix( expr->getLHS()->getType()->getKind() )
+			|| HlslExprAdapterInternal::isMatrix( expr->getRHS()->getType()->getKind() ) )
 		{
 			ast::var::VariableList params;
 			params.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
@@ -1201,7 +1201,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_imageSize", config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageSize", config );
 		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
 
 		if ( it == m_adaptationData.funcs.imageSizeFuncs.end() )
@@ -1345,7 +1345,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_imageStore", config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageStore", config );
 		auto it = imageStoreFuncs.find( funcName );
 
 		if ( it == imageStoreFuncs.end() )
@@ -1410,7 +1410,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_imageAtomic" + name, config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageAtomic" + name, config );
 		auto it = imageAtomicFuncs.find( funcName );
 
 		if ( it == imageAtomicFuncs.end() )
@@ -1522,7 +1522,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_imageAtomicCompSwap", config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageAtomicCompSwap", config );
 		auto it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.find( funcName );
 
 		if ( it == m_adaptationData.funcs.imageAtomicCompSwapFuncs.end() )
@@ -1606,7 +1606,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_textureSize", config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_textureSize", config );
 		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
 
 		if ( it == m_adaptationData.funcs.imageSizeFuncs.end() )
@@ -1763,7 +1763,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_textureQueryLod", config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_textureQueryLod", config );
 		auto it = m_adaptationData.funcs.imageLodFuncs.find( funcName );
 
 		if ( it == m_adaptationData.funcs.imageLodFuncs.end() )
@@ -1838,7 +1838,7 @@ namespace hlsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto funcName = getName( "SDW_textureQueryLevels", config );
+		auto funcName = HlslExprAdapterInternal::getName( "SDW_textureQueryLevels", config );
 		auto it = m_adaptationData.funcs.imageLevelsFuncs.find( funcName );
 
 		if ( it == m_adaptationData.funcs.imageLevelsFuncs.end() )
@@ -2065,7 +2065,7 @@ namespace hlsl
 		}
 
 		auto result = ast::expr::makeCombinedImageAccessCall( expr->getType()
-			, getSampleCmp( expr->getCombinedImageAccess() )
+			, HlslExprAdapterInternal::getSampleCmp( expr->getCombinedImageAccess() )
 			, std::move( args ) );
 
 		// Reparse the created expression, textureProj cases.
@@ -2181,7 +2181,7 @@ namespace hlsl
 			else if ( index == sampler + 1
 				&& isProj( expr->getCombinedImageAccess() ) )
 			{
-				args.emplace_back( writeProjTexCoords( m_cache
+				args.emplace_back(HlslExprAdapterInternal::writeProjTexCoords( m_cache
 					, m_adaptationData.nextVarId
 					, expr->getCombinedImageAccess()
 					, doSubmit( arg.get() ) ) );

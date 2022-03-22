@@ -10,7 +10,7 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-	namespace
+	namespace GlslHelpersInternal
 	{
 		std::string getName( ast::type::ImageDim value )
 		{
@@ -852,12 +852,12 @@ namespace glsl
 		{
 			auto & config = static_cast< ast::type::SampledImage const & >( *image.getType() ).getConfig();
 			auto isComparison = static_cast< ast::type::Sampler const & >( *sampler.getType() ).isComparison();
-			return getPrefix( config.sampledType )
-				+ getType( ast::type::Kind::eSampler, config )
-				+ getDimension( config.dimension )
-				+ getMS( config.isMS )
-				+ getArray( config.isArrayed )
-				+ getShadow( isComparison );
+			return GlslHelpersInternal::getPrefix(config.sampledType)
+				+ GlslHelpersInternal::getType(ast::type::Kind::eSampler, config)
+				+ GlslHelpersInternal::getDimension(config.dimension)
+				+ GlslHelpersInternal::getMS(config.isMS)
+				+ GlslHelpersInternal::getArray(config.isArrayed)
+				+ GlslHelpersInternal::getShadow( isComparison );
 		}
 
 		return "combine";
@@ -1125,11 +1125,11 @@ namespace glsl
 	std::string getQualifiedName( ast::type::Kind kind
 		, ast::type::ImageConfiguration const & config )
 	{
-		return getPrefix( config.sampledType )
-			+ getType( kind, config )
-			+ getDimension( config.dimension )
-			+ getMS( config.isMS )
-			+ getArray( config.isArrayed );
+		return GlslHelpersInternal::getPrefix(config.sampledType)
+			+ GlslHelpersInternal::getType(kind, config)
+			+ GlslHelpersInternal::getDimension(config.dimension)
+			+ GlslHelpersInternal::getMS(config.isMS)
+			+ GlslHelpersInternal::getArray( config.isArrayed );
 	}
 
 	std::string getQualifiedName( ast::type::Kind kind
@@ -1137,7 +1137,7 @@ namespace glsl
 		, bool isComparison )
 	{
 		return getQualifiedName( kind, config )
-			+ getShadow( isComparison );
+			+ GlslHelpersInternal::getShadow( isComparison );
 	}
 
 	std::string getQualifiedName( ast::type::Kind kind
@@ -1145,7 +1145,7 @@ namespace glsl
 		, ast::type::Trinary comparison )
 	{
 		return getQualifiedName( kind, config )
-			+ getShadow( comparison );
+			+ GlslHelpersInternal::getShadow( comparison );
 	}
 
 	void checkType( ast::type::TypePtr ptype
