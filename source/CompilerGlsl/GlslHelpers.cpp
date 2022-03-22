@@ -12,7 +12,7 @@ namespace glsl
 {
 	namespace GlslHelpersInternal
 	{
-		std::string getName( ast::type::ImageDim value )
+		static std::string getName( ast::type::ImageDim value )
 		{
 			std::string result;
 
@@ -45,7 +45,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string getTypeName( ast::type::ImagePtr type )
+		static std::string getTypeName( ast::type::ImagePtr type )
 		{
 			std::string result;
 			auto & config = type->getConfig();
@@ -60,7 +60,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string getTypeName( ast::type::CombinedImagePtr type )
+		static std::string getTypeName( ast::type::CombinedImagePtr type )
 		{
 			std::string result;
 			auto config = type->getConfig();
@@ -81,7 +81,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string getTypeName( ast::type::SampledImagePtr type )
+		static std::string getTypeName( ast::type::SampledImagePtr type )
 		{
 			std::string result;
 			auto config = type->getConfig();
@@ -96,7 +96,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string getTypeArraySize( ast::type::ArrayPtr type )
+		static std::string getTypeArraySize( ast::type::ArrayPtr type )
 		{
 			std::string result;
 			auto arraySize = getArraySize( type );
@@ -115,7 +115,8 @@ namespace glsl
 
 			return glsl::getTypeArraySize( type->getType() ) + result;
 		}
-		std::string getDimension( ast::type::ImageDim value )
+
+		static std::string getDimension( ast::type::ImageDim value )
 		{
 			switch ( value )
 			{
@@ -137,7 +138,7 @@ namespace glsl
 			}
 		}
 
-		std::string getPrefix( ast::type::Kind value )
+		static std::string getPrefix( ast::type::Kind value )
 		{
 			switch ( value )
 			{
@@ -162,21 +163,21 @@ namespace glsl
 			}
 		}
 
-		std::string getArray( bool value )
+		static std::string getArray( bool value )
 		{
 			return value
 				? "Array"
 				: std::string{};
 		}
 
-		std::string getMS( bool value )
+		static std::string getMS( bool value )
 		{
 			return value
 				? "MS"
 				: std::string{};
 		}
 
-		std::string getType( ast::type::Kind kind
+		static std::string getType( ast::type::Kind kind
 			, ast::type::ImageConfiguration const & config )
 		{
 			return ( kind == ast::type::Kind::eImage )
@@ -186,20 +187,19 @@ namespace glsl
 					: "sampler" );
 		}
 
-		std::string getShadow( bool isComparison )
+		static std::string getShadow( bool isComparison )
 		{
 			return isComparison
 				? "Shadow"
 				: std::string{};
 		}
 
-		std::string getShadow( ast::type::Trinary comparison )
+		static std::string getShadow( ast::type::Trinary comparison )
 		{
 			return comparison == ast::type::Trinary::eTrue
 				? "Shadow"
 				: std::string{};
 		}
-
 	}
 
 	std::string getTypeName( ast::type::Kind kind )
@@ -386,13 +386,13 @@ namespace glsl
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
 		case ast::type::Kind::eImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
+			result = GlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
 			break;
 		case ast::type::Kind::eCombinedImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::CombinedImage >( type ) );
+			result = GlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::CombinedImage >( type ) );
 			break;
 		case ast::type::Kind::eSampledImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
+			result = GlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
 			break;
 		case ast::type::Kind::eArray:
 			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
@@ -444,7 +444,7 @@ namespace glsl
 
 		if ( type->getKind() == ast::type::Kind::eArray )
 		{
-			result = getTypeArraySize( std::static_pointer_cast< ast::type::Array >( type ) );
+			result = GlslHelpersInternal::getTypeArraySize( std::static_pointer_cast< ast::type::Array >( type ) );
 		}
 
 		return result;
