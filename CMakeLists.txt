@@ -142,6 +142,9 @@ endif ()
 if ( NOT DEFINED SDW_BUILD_EXPORTERS )
 	option( SDW_BUILD_EXPORTERS "Build exporters" ON )
 endif ()
+if ( NOT DEFINED SDW_UNITY_BUILD )
+	option( SDW_UNITY_BUILD "Build ShaderWriter using Unity (Jumbo) build method" OFF )
+endif ()
 
 set( CMAKE_DEBUG_POSTFIX "d" )
 
