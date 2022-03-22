@@ -64,6 +64,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 			CXX_STANDARD 20
 			PREFIX sdw
 			FOLDER "${SDW_BASE_DIR}/Core"
+			UNITY_BUILD "${SDW_UNITY_BUILD}"
 	)
 	target_include_directories( ${PROJECT_NAME}
 		PRIVATE

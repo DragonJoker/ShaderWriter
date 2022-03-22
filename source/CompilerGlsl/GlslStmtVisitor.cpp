@@ -18,7 +18,7 @@ namespace glsl
 {
 	//*************************************************************************
 
-	namespace
+	namespace GlslStmtVisitorInternal
 	{
 		std::string getFormatName( ast::type::ImageFormat format )
 		{
@@ -259,7 +259,7 @@ namespace glsl
 		, std::string indent )
 	{
 		std::string result;
-		result += "// This shader was generated using ShaderWriter version " + printVersion() + "\n";
+		result += "// This shader was generated using ShaderWriter version " + GlslStmtVisitorInternal::printVersion() + "\n";
 		StmtVisitor vis{ writerConfig, aliases, result, std::move( indent ) };
 		stmt->accept( &vis );
 		return result;
@@ -319,7 +319,7 @@ namespace glsl
 			doAppendLineEnd();
 			m_result += m_indent;
 			m_result += "layout(";
-			m_result += getName( stmt->getMemoryLayout() );
+			m_result += GlslStmtVisitorInternal::getName( stmt->getMemoryLayout() );
 			doWriteBinding( stmt->getBindingPoint()
 				, stmt->getDescriptorSet()
 				, ", " );
@@ -456,8 +456,8 @@ namespace glsl
 
 	void StmtVisitor::visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )
 	{
-		std::string origin = getName( stmt->getFragmentOrigin() );
-		std::string center = getName( stmt->getFragmentCenter() );
+		std::string origin = GlslStmtVisitorInternal::getName( stmt->getFragmentOrigin() );
+		std::string center = GlslStmtVisitorInternal::getName( stmt->getFragmentCenter() );
 
 		if ( !origin.empty() || !center.empty() )
 		{
@@ -535,7 +535,7 @@ namespace glsl
 			, stmt->getDescriptorSet()
 			, "" );
 		m_result += ") uniform accelerationStructureEXT";
-		join( m_result, stmt->getVariable()->getName(), " " );
+		GlslStmtVisitorInternal::join( m_result, stmt->getVariable()->getName(), " " );
 		m_result += ";\n";
 	}
 
@@ -548,7 +548,7 @@ namespace glsl
 
 		if ( auto structType = getStructType( stmt->getType() ) )
 		{
-			m_result += ", " + getName( structType->getMemoryLayout() );
+			m_result += ", " + GlslStmtVisitorInternal::getName( structType->getMemoryLayout() );
 			m_result += ") buffer " + getTypeName( stmt->getType() ) + " { ";
 			m_result += getTypeName( structType->front().type ) + " " + structType->front().name + getTypeArraySize( structType->front().type ) + "; }";
 		}
@@ -566,8 +566,8 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "hitAttributeEXT";
-		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
-		join( m_result, stmt->getVariable()->getName(), " " );
+		GlslStmtVisitorInternal::join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+		GlslStmtVisitorInternal::join( m_result, stmt->getVariable()->getName(), " " );
 		m_result += ";\n";
 	}
 
@@ -583,9 +583,9 @@ namespace glsl
 		}
 
 		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + writeValue( stmt->getLocation() ) + ")";
-		join( m_result, name, " " );
-		join( m_result, getTypeName( var->getType() ), " " );
-		join( m_result, var->getName(), " " );
+		GlslStmtVisitorInternal::join( m_result, name, " " );
+		GlslStmtVisitorInternal::join( m_result, getTypeName( var->getType() ), " " );
+		GlslStmtVisitorInternal::join( m_result, var->getName(), " " );
 		m_result += ";\n";
 	}
 
@@ -602,9 +602,9 @@ namespace glsl
 
 		doAppendLineEnd();
 		m_result += m_indent + "layout(" + getLocationName( *var ) + "=" + writeValue( stmt->getLocation() ) + ")";
-		join( m_result, name, " " );
-		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
-		join( m_result, stmt->getVariable()->getName(), " " );
+		GlslStmtVisitorInternal::join( m_result, name, " " );
+		GlslStmtVisitorInternal::join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+		GlslStmtVisitorInternal::join( m_result, stmt->getVariable()->getName(), " " );
 		m_result += ";\n";
 	}
 
@@ -653,9 +653,9 @@ namespace glsl
 		auto image = std::static_pointer_cast< ast::type::Image >( type );
 		m_result += m_indent;
 		m_result += "layout(";
-		m_result += getFormatName( image->getConfig().format );
+		m_result += GlslStmtVisitorInternal::getFormatName( image->getConfig().format );
 
-		if ( hasExtension( m_writerConfig, ARB_shading_language_420pack )
+		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack )
 			|| m_writerConfig.wantedVersion >= v4_2 )
 		{
 			doWriteBinding( stmt->getBindingPoint()
@@ -680,11 +680,11 @@ namespace glsl
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
 		doAppendLineEnd();
-		m_result += m_indent + getInOutLayout( m_writerConfig, *stmt );
-		join( m_result, getInterpolationQualifier( *stmt->getVariable() ), " " );
-		join( m_result, getDirectionName( *stmt->getVariable() ), " " );
-		join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
-		join( m_result, stmt->getVariable()->getName(), " " );
+		m_result += m_indent + GlslStmtVisitorInternal::getInOutLayout( m_writerConfig, *stmt );
+		GlslStmtVisitorInternal::join( m_result, getInterpolationQualifier( *stmt->getVariable() ), " " );
+		GlslStmtVisitorInternal::join( m_result, getDirectionName( *stmt->getVariable() ), " " );
+		GlslStmtVisitorInternal::join( m_result, getTypeName( stmt->getVariable()->getType() ), " " );
+		GlslStmtVisitorInternal::join( m_result, stmt->getVariable()->getName(), " " );
 
 		if ( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eArray
 			&& ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
@@ -839,7 +839,7 @@ namespace glsl
 
 		m_result += m_indent;
 
-		if ( hasExtension( m_writerConfig, ARB_shading_language_420pack )
+		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack )
 			|| m_writerConfig.wantedVersion >= v4_2 )
 		{
 			m_result += "layout(";
@@ -870,7 +870,7 @@ namespace glsl
 
 		m_result += m_indent;
 
-		if ( hasExtension( m_writerConfig, ARB_shading_language_420pack )
+		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack )
 			|| m_writerConfig.wantedVersion >= v4_2 )
 		{
 			m_result += "layout(";
@@ -915,7 +915,7 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(";
-		m_result += getName( stmt->getMemoryLayout() );
+		m_result += GlslStmtVisitorInternal::getName( stmt->getMemoryLayout() );
 		doWriteBinding( stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
 			, ", " );
@@ -932,7 +932,7 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(";
-		m_result += getName( stmt->getMemoryLayout() );
+		m_result += GlslStmtVisitorInternal::getName( stmt->getMemoryLayout() );
 		doWriteBinding( stmt->getBindingPoint()
 			, stmt->getDescriptorSet()
 			, ", " );
@@ -968,7 +968,7 @@ namespace glsl
 	{
 		m_appendLineEnd = true;
 		doAppendLineEnd();
-		m_result += writeStruct( m_indent, *stmt->getType(), std::string{} );
+		m_result += GlslStmtVisitorInternal::writeStruct( m_indent, *stmt->getType(), std::string{} );
 	}
 
 	void StmtVisitor::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
@@ -1025,20 +1025,20 @@ namespace glsl
 				if ( structType && !structType->empty() )
 				{
 					m_result += m_indent + "taskNV";
-					join( m_result, getDirectionName( *var ), " " );
-					m_result += " " + writeBlock( m_indent
+					GlslStmtVisitorInternal::join( m_result, getDirectionName( *var ), " " );
+					m_result += " " + GlslStmtVisitorInternal::writeBlock( m_indent
 						, *getStructType( var->getType() ) );
-					join( m_result, var->getName(), " " );
+					GlslStmtVisitorInternal::join( m_result, var->getName(), " " );
 					m_result += ";\n";
 				}
 			}
 			else
 			{
 				m_result += m_indent;
-				join( m_result, getDirectionName( *var ), " " );
-				join( m_result, getInterpolationQualifier( *var ), " " );
-				join( m_result, getTypeName( var->getType() ), " " );
-				join( m_result, var->getName(), " " );
+				GlslStmtVisitorInternal::join( m_result, getDirectionName( *var ), " " );
+				GlslStmtVisitorInternal::join( m_result, getInterpolationQualifier( *var ), " " );
+				GlslStmtVisitorInternal::join( m_result, getTypeName( var->getType() ), " " );
+				GlslStmtVisitorInternal::join( m_result, var->getName(), " " );
 				m_result += getTypeArraySize( var->getType() );
 				m_result += ";\n";
 			}
@@ -1118,7 +1118,7 @@ namespace glsl
 		, std::string sep )
 	{
 		if ( binding != InvalidIndex
-			&& hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
+			&& GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
 		{
 			m_result += sep + "binding=" + writeValue( binding );
 			sep = ", ";
