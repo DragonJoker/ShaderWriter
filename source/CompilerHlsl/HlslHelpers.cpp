@@ -26,7 +26,7 @@ namespace hlsl
 {
 	namespace HlslHelpersInternal
 	{
-		std::string getTypeName( ast::type::ImageConfiguration const & config )
+		static std::string getTypeName( ast::type::ImageConfiguration const & config )
 		{
 			std::string result;
 
@@ -75,17 +75,17 @@ namespace hlsl
 			return result;
 		}
 
-		std::string getTypeName( ast::type::ImagePtr type )
+		static std::string getTypeName( ast::type::ImagePtr type )
 		{
 			return getTypeName( type->getConfig() );
 		}
 
-		std::string getTypeName( ast::type::SampledImagePtr type )
+		static std::string getTypeName( ast::type::SampledImagePtr type )
 		{
 			return getTypeName( type->getConfig() );
 		}
 
-		std::string getTypeName( ast::type::SamplerPtr type )
+		static std::string getTypeName( ast::type::SamplerPtr type )
 		{
 			std::string result;
 
@@ -101,7 +101,7 @@ namespace hlsl
 			return result;
 		}
 
-		bool isHighFreq( ast::Builtin builtin
+		static bool isHighFreq( ast::Builtin builtin
 			, bool isInput )
 		{
 			switch ( builtin )
@@ -123,7 +123,7 @@ namespace hlsl
 			}
 		}
 
-		bool isShaderInput( ast::Builtin builtin
+		static bool isShaderInput( ast::Builtin builtin
 			, ast::ShaderStage type )
 		{
 			return
@@ -175,7 +175,7 @@ namespace hlsl
 						|| builtin == ast::Builtin::eTessLevelOuter ) );
 		}
 
-		bool isShaderOutput( ast::Builtin builtin
+		static bool isShaderOutput( ast::Builtin builtin
 			, ast::ShaderStage type )
 		{
 			return
@@ -209,20 +209,20 @@ namespace hlsl
 						|| builtin == ast::Builtin::eCullDistance ) );
 		}
 
-		ast::type::TypePtr getNonNull( ast::type::TypePtr const & lhs
+		static ast::type::TypePtr getNonNull( ast::type::TypePtr const & lhs
 			, ast::type::TypePtr const & rhs )
 		{
 			return lhs ? lhs : rhs;
 		}
 
-		bool needsSeparate( IOMappingMode mode )
+		static bool needsSeparate( IOMappingMode mode )
 		{
 			return mode != IOMappingMode::eNoSeparate
 				&& mode != IOMappingMode::eNoSeparateDistinctParams
 				&& mode != IOMappingMode::eLocalReturn;
 		}
 
-		IOMappingMode getMode( ast::ShaderStage stage
+		static IOMappingMode getMode( ast::ShaderStage stage
 			, bool isMain
 			, bool isInput
 			, bool isHighFreq
@@ -260,7 +260,7 @@ namespace hlsl
 			return IOMappingMode::eNoSeparate;
 		}
 
-		void declareStruct( ast::stmt::Container & stmt
+		static void declareStruct( ast::stmt::Container & stmt
 			, ast::type::StructPtr const & structType
 			, std::unordered_set< std::string > & declaredStructs )
 		{
@@ -270,14 +270,14 @@ namespace hlsl
 			}
 		}
 
-		std::string getFuncName( bool isMain )
+		static std::string getFuncName( bool isMain )
 		{
 			return ( isMain
 				? std::string{ "Main" }
 			: std::string{ "" } );
 		}
 
-		bool isSupported( ast::Builtin builtin
+		static bool isSupported( ast::Builtin builtin
 			, ast::ShaderStage stage
 			, bool isInput )
 		{
@@ -896,13 +896,13 @@ namespace hlsl
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
 		case ast::type::Kind::eImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
+			result = HlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
 			break;
 		case ast::type::Kind::eSampler:
-			result = getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
+			result = HlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
 			break;
 		case ast::type::Kind::eSampledImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
+			result = HlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
 			break;
 		case ast::type::Kind::eGeometryInput:
 			result = getLayoutName( static_cast< ast::type::GeometryInput const & >( *type ).getLayout() )

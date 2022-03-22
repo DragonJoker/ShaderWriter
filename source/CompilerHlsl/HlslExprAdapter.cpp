@@ -21,13 +21,13 @@ namespace hlsl
 {
 	namespace HlslExprAdapterInternal
 	{
-		bool isMatrix( ast::type::Kind kind )
+		static bool isMatrix( ast::type::Kind kind )
 		{
 			return kind >= ast::type::Kind::eMat2x2F
 				&& kind <= ast::type::Kind::eMat4x4D;
 		}
 
-		ast::type::TypePtr getFloatType( ast::type::TypePtr type )
+		static ast::type::TypePtr getFloatType( ast::type::TypePtr type )
 		{
 			switch ( type->getKind() )
 			{
@@ -62,7 +62,7 @@ namespace hlsl
 			}
 		}
 
-		ast::expr::ExprPtr writeProjectTexCoords2( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr writeProjectTexCoords2( ast::type::TypesCache & cache
 			, uint32_t & nextVarId
 			, ast::expr::ExprPtr texcoords )
 		{
@@ -80,7 +80,7 @@ namespace hlsl
 				, std::move( args ) );
 		}
 
-		ast::expr::ExprPtr writeProjectTexCoords3( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr writeProjectTexCoords3( ast::type::TypesCache & cache
 			, uint32_t & nextVarId
 			, ast::expr::ExprPtr texcoords )
 		{
@@ -97,7 +97,7 @@ namespace hlsl
 				, std::move( args ) );
 		}
 
-		ast::expr::ExprPtr writeProjectTexCoords4To1( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr writeProjectTexCoords4To1( ast::type::TypesCache & cache
 			, uint32_t & nextVarId
 			, ast::expr::ExprPtr texcoords )
 		{
@@ -114,7 +114,7 @@ namespace hlsl
 				, std::move( args ) );
 		}
 
-		ast::expr::ExprPtr writeProjectTexCoords4To2( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr writeProjectTexCoords4To2( ast::type::TypesCache & cache
 			, uint32_t & nextVarId
 			, ast::expr::ExprPtr texcoords )
 		{
@@ -131,7 +131,7 @@ namespace hlsl
 				, std::move( args ) );
 		}
 
-		ast::expr::ExprPtr writeProjectTexCoords4( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr writeProjectTexCoords4( ast::type::TypesCache & cache
 			, uint32_t & nextVarId
 			, ast::expr::ExprPtr texcoords )
 		{
@@ -148,7 +148,7 @@ namespace hlsl
 				, std::move( args ) );
 		}
 
-		ast::expr::ExprPtr writeProjTexCoords( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr writeProjTexCoords( ast::type::TypesCache & cache
 			, uint32_t & nextVarId
 			, ast::expr::CombinedImageAccess access
 			, ast::expr::ExprPtr texcoords )
@@ -335,7 +335,7 @@ namespace hlsl
 			}
 		}
 
-		ast::expr::CombinedImageAccess getSampleCmp( ast::expr::CombinedImageAccess value )
+		static ast::expr::CombinedImageAccess getSampleCmp( ast::expr::CombinedImageAccess value )
 		{
 			assert( value >= ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF
 				&& value <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF );
@@ -395,7 +395,7 @@ namespace hlsl
 			return result;
 		}
 
-		std::string getName( std::string const & baseName
+		static std::string getName( std::string const & baseName
 			, ast::type::ImageConfiguration const & config )
 		{
 			return baseName

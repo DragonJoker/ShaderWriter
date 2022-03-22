@@ -20,7 +20,7 @@ namespace glsl
 
 	namespace GlslStmtVisitorInternal
 	{
-		std::string getFormatName( ast::type::ImageFormat format )
+		static std::string getFormatName( ast::type::ImageFormat format )
 		{
 			switch ( format )
 			{
@@ -80,7 +80,7 @@ namespace glsl
 			}
 		}
 
-		std::string getName( ast::type::MemoryLayout layout )
+		static std::string getName( ast::type::MemoryLayout layout )
 		{
 			switch ( layout )
 			{
@@ -97,13 +97,13 @@ namespace glsl
 			}
 		}
 
-		bool hasExtension( GlslConfig const & writerConfig
+		static bool hasExtension( GlslConfig const & writerConfig
 			, GlslExtension const & extension )
 		{
 			return writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( extension );
 		}
 
-		std::string getInOutLayout( GlslConfig const & writerConfig
+		static std::string getInOutLayout( GlslConfig const & writerConfig
 			, ast::stmt::InOutVariableDecl const & stmt )
 		{
 			std::string result = "layout(";
@@ -139,7 +139,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string getName( ast::FragmentOrigin value )
+		static std::string getName( ast::FragmentOrigin value )
 		{
 			switch ( value )
 			{
@@ -153,7 +153,7 @@ namespace glsl
 			}
 		}
 
-		std::string getName( ast::FragmentCenter value )
+		static std::string getName( ast::FragmentCenter value )
 		{
 			switch ( value )
 			{
@@ -167,7 +167,7 @@ namespace glsl
 			}
 		}
 
-		void join( std::string & lhs
+		static void join( std::string & lhs
 			, std::string const & rhs
 			, std::string const & sep )
 		{
@@ -185,7 +185,7 @@ namespace glsl
 			lhs = lhs + sep + rhs;
 		}
 
-		std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
+		static std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
 			, uint32_t minor = MAIN_VERSION_MINOR
 			, uint32_t build = MAIN_VERSION_BUILD
 			, uint32_t year = MAIN_VERSION_YEAR )
@@ -195,7 +195,7 @@ namespace glsl
 			return stream.str();
 		}
 
-		std::string writeBlock( std::string indent
+		static std::string writeBlock( std::string indent
 			, ast::type::Struct const & structType )
 		{
 			std::string result;
@@ -233,7 +233,7 @@ namespace glsl
 			return result;
 		}
 
-		std::string writeStruct( std::string indent
+		static std::string writeStruct( std::string indent
 			, ast::type::Struct const & structType
 			, std::string const & instanceName )
 		{
