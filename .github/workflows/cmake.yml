@@ -83,13 +83,13 @@ jobs:
       if: matrix.os[1] == 'x64-osx'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_UNITY_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
 
     - name: Configure CMake (With tests)
       if: matrix.os[1] != 'x64-osx'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_UNITY_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
 
     - name: Build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
