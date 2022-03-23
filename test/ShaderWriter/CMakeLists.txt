@@ -247,8 +247,71 @@ if ( PROJECTS_COVERAGE )
 	)
 endif ()
 
-foreach ( TEST_FILE ${TEST_FILES} )
-	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
+set( IMAGE_FORMATS
+	eRgba32f
+	eRgba16f
+	eRg32f
+	eRg16f
+	eR32f
+	eR16f
+	eRgba32i
+	eRgba16i
+	eRgba8i
+	eRg32i
+	eRg16i
+	eRg8i
+	eR32i
+	eR16i
+	eR8i
+	eRgba32u
+	eRgba16u
+	eRgba8u
+	eRg32u
+	eRg16u
+	eRg8u
+	eR32u
+	eR16u
+	eR8u
+)
+
+set( BO_TYPES
+	Int
+	UInt
+	Float
+	Double
+	Vec2
+	Vec3
+	Vec4
+	DVec2
+	DVec3
+	DVec4
+	IVec2
+	IVec3
+	IVec4
+	UVec2
+	UVec3
+	UVec4
+	Mat2x2
+	Mat2x3
+	Mat2x4
+	Mat3x2
+	Mat3x3
+	Mat3x4
+	Mat4x2
+	Mat4x3
+	Mat4x4
+	DMat2x2
+	DMat2x3
+	DMat2x4
+	DMat3x2
+	DMat3x3
+	DMat3x4
+	DMat4x2
+	DMat4x3
+	DMat4x4
+)
+
+function( SDW_AddTest TEST_FILE TEST_NAME ADDITIONAL_DEFINITIONS )
 	if ( PROJECTS_COVERAGE )
 		set( PROJECTS_COVERAGE_SRC_FILES
 			${PROJECTS_COVERAGE_SRC_FILES}
@@ -271,6 +334,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	)
 	target_compile_definitions( ${TEST_NAME} PRIVATE
 		${TargetCompileDefinitions}
+		${ADDITIONAL_DEFINITIONS}
 		SDW_COMPILE_TESTS
 	)
 	target_add_compilation_flags( ${TEST_NAME} )
@@ -296,6 +360,39 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		NAME ${TEST_NAME}
 		COMMAND ${TEST_NAME}
 	)
+endfunction( SDW_AddTest )
+
+foreach ( TEST_FILE ${TEST_FILES} )
+	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
+	string( FIND ${TEST_FILE} "Image" IS_IMAGE )
+	string( FIND ${TEST_FILE} "Ssbo" IS_SSBO )
+	string( FIND ${TEST_FILE} "Ubo" IS_UBO )
+	string( FIND ${TEST_FILE} "Struct" IS_STRUCT )
+	string( FIND ${TEST_FILE} "Pcb" IS_PCB )
+
+	if ( IS_IMAGE GREATER -1 )
+		foreach( FORMAT ${IMAGE_FORMATS} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
+		endforeach ()
+	elseif ( IS_SSBO GREATER -1 )
+		foreach( BO_TYPE ${BO_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+		endforeach ()
+	elseif ( IS_UBO GREATER -1 )
+		foreach( BO_TYPE ${BO_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+		endforeach ()
+	elseif ( IS_STRUCT GREATER -1 )
+		foreach( BO_TYPE ${BO_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+		endforeach ()
+	elseif ( IS_PCB GREATER -1 )
+		foreach( BO_TYPE ${BO_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+		endforeach ()
+	else ()
+		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} "" )
+	endif ()
 endforeach ()
 
 if ( PROJECTS_COVERAGE )

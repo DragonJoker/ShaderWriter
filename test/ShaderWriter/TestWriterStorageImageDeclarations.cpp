@@ -344,30 +344,7 @@ namespace
 sdwTestSuiteMain( TestWriterStorageImageDeclarations )
 {
 	sdwTestSuiteBegin();
-	testImageFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg32f >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg16f >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR32f >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR16f >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba32i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba16i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba8i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg32i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg16i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg8i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR32i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR16i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR8i >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba32u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba16u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRgba8u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg32u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg16u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eRg8u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR32u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR16u >( testCounts );
-	testImageFormat< ast::type::ImageFormat::eR8u >( testCounts );
+	testImageFormat< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
 	sdwTestSuiteEnd();
 }
 
