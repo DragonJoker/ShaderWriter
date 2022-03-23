@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_StructuredSsbo_H___
 
 #include "ShaderWriter/BaseTypes/UInt.hpp"
+#include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
@@ -41,6 +42,24 @@ namespace sdw
 			, std::string instanceName
 			, ast::expr::ExprPtr addressExpr
 			, bool enabled );
+
+		ArraySsboT(ShaderWriter& writer
+			, std::string instanceName
+			, ast::type::TypePtr dataType
+			, ast::type::MemoryLayout layout
+			, LocationHelper location
+			, bool enabled);
+
+		ArraySsboT(ShaderWriter& writer
+			, std::string instanceName
+			, ast::type::BaseStructPtr dataType
+			, LocationHelper location
+			, bool enabled);
+
+		ArraySsboT(ShaderWriter& writer
+			, std::string instanceName
+			, LocationHelper location
+			, bool enabled);
 
 		InstanceT operator[]( uint32_t index );
 		InstanceT operator[]( UInt const & index );

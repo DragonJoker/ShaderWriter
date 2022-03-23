@@ -26,6 +26,12 @@ See LICENSE file in root folder
 namespace sdw
 {
 	using namespace ::ast;
+	
+	struct LocationHelper
+	{
+		uint32_t binding;
+		uint32_t set;
+	};
 
 	template< typename ValueT >
 	ast::type::TypePtr makeType( ast::type::TypesCache & cache );
