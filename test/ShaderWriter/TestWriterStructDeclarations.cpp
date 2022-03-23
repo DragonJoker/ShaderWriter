@@ -54,44 +54,13 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterStructDeclarations )
+#define testName testConcat( TestWriterStructDeclarations, SDW_TestType )
+
+sdwTestSuiteMain( testName )
 {
 	sdwTestSuiteBegin();
-	testStruct< sdw::Int >( testCounts );
-	testStruct< sdw::UInt >( testCounts );
-	testStruct< sdw::Float >( testCounts );
-	testStruct< sdw::Double >( testCounts );
-	testStruct< sdw::Vec2 >( testCounts );
-	testStruct< sdw::Vec3 >( testCounts );
-	testStruct< sdw::Vec4 >( testCounts );
-	testStruct< sdw::DVec2 >( testCounts );
-	testStruct< sdw::DVec3 >( testCounts );
-	testStruct< sdw::DVec4 >( testCounts );
-	testStruct< sdw::IVec2 >( testCounts );
-	testStruct< sdw::IVec3 >( testCounts );
-	testStruct< sdw::IVec4 >( testCounts );
-	testStruct< sdw::UVec2 >( testCounts );
-	testStruct< sdw::UVec3 >( testCounts );
-	testStruct< sdw::UVec4 >( testCounts );
-	testStruct< sdw::Mat2 >( testCounts );
-	testStruct< sdw::Mat2x3 >( testCounts );
-	testStruct< sdw::Mat2x4 >( testCounts );
-	testStruct< sdw::Mat3 >( testCounts );
-	testStruct< sdw::Mat3x2 >( testCounts );
-	testStruct< sdw::Mat3x4 >( testCounts );
-	testStruct< sdw::Mat4 >( testCounts );
-	testStruct< sdw::Mat4x2 >( testCounts );
-	testStruct< sdw::Mat4x3 >( testCounts );
-	testStruct< sdw::DMat2 >( testCounts );
-	testStruct< sdw::DMat2x3 >( testCounts );
-	testStruct< sdw::DMat2x4 >( testCounts );
-	testStruct< sdw::DMat3 >( testCounts );
-	testStruct< sdw::DMat3x2 >( testCounts );
-	testStruct< sdw::DMat3x4 >( testCounts );
-	testStruct< sdw::DMat4 >( testCounts );
-	testStruct< sdw::DMat4x2 >( testCounts );
-	testStruct< sdw::DMat4x3 >( testCounts );
+	testStruct< sdw::SDW_TestType >( testCounts );
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterStructDeclarations )
+sdwTestSuiteLaunch( testName )

@@ -1935,30 +1935,7 @@ namespace
 	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTextures( test::sdw_test::TestCounts & testCounts )
 	{
-		testsTexture< ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg32f, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR32f, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR16f, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba32i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba16i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba8i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg32i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg16i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg8i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR32i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR16i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR8i, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba32u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba16u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRgba8u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg32u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg16u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eRg8u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR32u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR16u, TesterT >( testCounts );
-		testsTexture< ast::type::ImageFormat::eR8u, TesterT >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
 	}
 	/**@}*/
 #pragma endregion

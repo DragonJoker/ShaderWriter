@@ -858,92 +858,28 @@ namespace
 	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImage( test::sdw_test::TestCounts & testCounts )
 	{
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRgba8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eRg8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::eR8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRgba8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eRg8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::eR8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR16f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR16i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR8i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRgba8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eRg8u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR16u, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR8u, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
+	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32f, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32i, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::eR32u, TesterT >( testCounts );
+		if constexpr ( FormatT == ast::type::ImageFormat::eR32f
+			|| FormatT == ast::type::ImageFormat::eR32i
+			|| FormatT == ast::type::ImageFormat::eR32u )
+		{
+			testsImageFormats< ast::type::AccessKind::eReadWrite, FormatT, TesterT >( testCounts );
+		}
 	}
 }
 
 #endif
 
-sdwTestSuiteMain( TestWriterStorageImageAccesses )
+#define testName testConcat( TestWriterStorageImageAccesses, SDW_TestImageFormat )
+
+sdwTestSuiteMain( testName )
 {
 	sdwTestSuiteBegin();
 #if !defined( __APPLE__ )
@@ -952,17 +888,17 @@ sdwTestSuiteMain( TestWriterStorageImageAccesses )
 	testsImage< ImageSamplesTester >( testCounts );
 	testsImage< ImageLoadTester >( testCounts );
 	testsImage< ImageStoreTester >( testCounts );
-	testsImageAtomic< ImageAtomicAddTester >( testCounts );
-	testsImageAtomic< ImageAtomicMinTester >( testCounts );
-	testsImageAtomic< ImageAtomicMaxTester >( testCounts );
-	testsImageAtomic< ImageAtomicAndTester >( testCounts );
-	testsImageAtomic< ImageAtomicOrTester >( testCounts );
-	testsImageAtomic< ImageAtomicXorTester >( testCounts );
-	testsImageAtomic< ImageAtomicExchangeTester >( testCounts );
-	testsImageAtomic< ImageAtomicCompSwapTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAddTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMinTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMaxTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAndTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicOrTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicXorTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicExchangeTester >( testCounts );
+	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicCompSwapTester >( testCounts );
 
 #endif
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterStorageImageAccesses )
+sdwTestSuiteLaunch( testName )

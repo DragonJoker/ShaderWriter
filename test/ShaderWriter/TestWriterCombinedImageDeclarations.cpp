@@ -232,34 +232,13 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterCombinedImageDeclarations )
+#define testName testConcat( TestWriterCombinedImageDeclarations, SDW_TestImageFormat )
+
+sdwTestSuiteMain( testName )
 {
 	sdwTestSuiteBegin();
-	testTextureFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg32f >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg16f >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR32f >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR16f >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba32i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba16i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba8i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg32i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg16i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg8i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR32i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR16i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR8i >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba32u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba16u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRgba8u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg32u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg16u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eRg8u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR32u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR16u >( testCounts );
-	testTextureFormat< ast::type::ImageFormat::eR8u >( testCounts );
+	testTextureFormat< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterCombinedImageDeclarations )
+sdwTestSuiteLaunch( testName )

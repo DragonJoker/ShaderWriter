@@ -414,34 +414,13 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterSampledImageDeclarations )
+#define testName testConcat( TestWriterSampledImageDeclarations, SDW_TestImageFormat )
+
+sdwTestSuiteMain( testName )
 {
 	sdwTestSuiteBegin();
-	testSampledFormat< ast::type::ImageFormat::eRgba32f >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba16f >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg32f >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg16f >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR32f >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR16f >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba32i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba16i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba8i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg32i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg16i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg8i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR32i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR16i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR8i >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba32u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba16u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRgba8u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg32u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg16u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eRg8u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR32u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR16u >( testCounts );
-	testSampledFormat< ast::type::ImageFormat::eR8u >( testCounts );
+	testSampledFormat< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterSampledImageDeclarations )
+sdwTestSuiteLaunch( testName )
