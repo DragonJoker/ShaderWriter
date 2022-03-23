@@ -154,6 +154,51 @@ namespace sdw
 			registerSsbo( m_writer, m_name, m_info );
 		}
 	}
+	
+	template< typename InstanceT >
+	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+		, std::string instanceName
+		, ast::type::TypePtr dataType
+		, ast::type::MemoryLayout layout
+		, LocationHelper location
+		, bool enabled )
+		: ArraySsboT{ writer
+			, std::move( instanceName )
+			, std::move( dataType )
+			, layout
+			, location.binding
+			, location.set
+			, enabled }
+	{
+	}
+
+	template< typename InstanceT >
+	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+		, std::string instanceName
+		, ast::type::BaseStructPtr dataType
+		, LocationHelper location
+		, bool enabled )
+		: ArraySsboT{ writer
+			, std::move( instanceName )
+			, std::move( dataType )
+			, location.binding
+			, location.set
+			, enabled }
+	{
+	}
+
+	template< typename InstanceT >
+	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+		, std::string instanceName
+		, LocationHelper location
+		, bool enabled )
+		: ArraySsboT{ writer
+			, std::move( instanceName )
+			, location.binding
+			, location.set
+			, enabled }
+	{
+	}
 
 	template< typename InstanceT >
 	InstanceT ArraySsboT< InstanceT >::operator[]( uint32_t index )

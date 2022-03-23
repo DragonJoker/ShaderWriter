@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "ShaderWriter/CompositeTypes/StructHelper.hpp"
+#include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
 #include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
@@ -19,6 +20,11 @@ namespace sdw
 			, std::string name
 			, uint32_t bind
 			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, bool enabled = true );
+		Ssbo( ShaderWriter & writer
+			, std::string name
+			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
 		SDW_API void end();
@@ -73,6 +79,10 @@ namespace sdw
 	public:
 		SsboHelperT( ShaderWriter & writer, const std::string & name, uint32_t bind, uint32_t set )
 			: StructHelperT< Ssbo, LayoutT, FieldsT... >{ writer, name, bind, set, LayoutT }
+		{
+		}
+		SsboHelperT( ShaderWriter & writer, const std::string & name, LocationHelper location )
+			: SsboHelperT{ writer, name, location.binding, location.set }
 		{
 		}
 	};

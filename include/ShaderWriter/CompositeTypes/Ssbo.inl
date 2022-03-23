@@ -3,6 +3,20 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	inline Ssbo::Ssbo( ShaderWriter & writer
+		, std::string name
+		, LocationHelper location
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: Ssbo( writer
+		, std::move( name )
+		, location.binding
+		, location.set
+		, layout
+		, enabled )
+	{
+	}
+
 	template< typename T >
 	inline T Ssbo::declMember( std::string name
 		, bool enabled )

@@ -35,8 +35,42 @@ namespace
 		{
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1";
+			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( name, { .binding = 1u, .set = 1u } );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, { .binding = 2u, .set = 2u }, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -68,7 +102,37 @@ namespace
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
+			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", { .binding = 1u, .set = 1u }, false );
+			check( !value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			check( shader.getStatements()->size() == count );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
 			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", 1u, 1u, 6u, false );
+			check( !value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			check( shader.getStatements()->size() == count );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
+			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( "value", { .binding = 1u, .set = 1u }, 6u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -84,6 +148,24 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
 			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( name, 1u, 1u, true );
+			check( value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1_opt";
+			auto value = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( name, { .binding = 1u, .set = 1u }, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -118,6 +200,24 @@ namespace
 		{
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2_opt";
+			auto value = writer.declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( name, { .binding = 2u, .set = 2u }, 6u, true );
+			check( value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_T";
 			auto value = writer.declStorageImg< sdw::StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >( name, 1u, 1u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
@@ -135,8 +235,42 @@ namespace
 		{
 			sdw::ComputeWriter writer;
 			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1_T";
+			auto value = writer.declStorageImg< sdw::StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >( name, { .binding = 1u, .set = 1u } );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_T";
 			auto value = writer.declStorageImgArray< sdw::StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >( name, 2u, 2u, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eImageDecl );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::ImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
+		}
+		{
+			sdw::ComputeWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2_T";
+			auto value = writer.declStorageImgArray< sdw::StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > >( name, { .binding = 2u, .set = 2u }, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::StorageImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );

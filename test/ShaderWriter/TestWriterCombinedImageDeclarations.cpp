@@ -49,6 +49,38 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1";
+			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 1u, .set = 1u } );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 2u, .set = 2u }, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
