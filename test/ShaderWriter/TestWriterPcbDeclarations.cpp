@@ -242,44 +242,13 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterPcbDeclarations )
+#define testName testConcat( TestWriterPcbDeclarations, SDW_TestType )
+
+sdwTestSuiteMain( testName )
 {
 	sdwTestSuiteBegin();
-	testPcb< sdw::Int >( testCounts );
-	testPcb< sdw::UInt >( testCounts );
-	testPcb< sdw::Float >( testCounts );
-	testPcb< sdw::Double >( testCounts );
-	testPcb< sdw::Vec2 >( testCounts );
-	testPcb< sdw::Vec3 >( testCounts );
-	testPcb< sdw::Vec4 >( testCounts );
-	testPcb< sdw::DVec2 >( testCounts );
-	testPcb< sdw::DVec3 >( testCounts );
-	testPcb< sdw::DVec4 >( testCounts );
-	testPcb< sdw::IVec2 >( testCounts );
-	testPcb< sdw::IVec3 >( testCounts );
-	testPcb< sdw::IVec4 >( testCounts );
-	testPcb< sdw::UVec2 >( testCounts );
-	testPcb< sdw::UVec3 >( testCounts );
-	testPcb< sdw::UVec4 >( testCounts );
-	testPcb< sdw::Mat2 >( testCounts );
-	testPcb< sdw::Mat2x3 >( testCounts );
-	testPcb< sdw::Mat2x4 >( testCounts );
-	testPcb< sdw::Mat3 >( testCounts );
-	testPcb< sdw::Mat3x2 >( testCounts );
-	testPcb< sdw::Mat3x4 >( testCounts );
-	testPcb< sdw::Mat4 >( testCounts );
-	testPcb< sdw::Mat4x2 >( testCounts );
-	testPcb< sdw::Mat4x3 >( testCounts );
-	testPcb< sdw::DMat2 >( testCounts );
-	testPcb< sdw::DMat2x3 >( testCounts );
-	testPcb< sdw::DMat2x4 >( testCounts );
-	testPcb< sdw::DMat3 >( testCounts );
-	testPcb< sdw::DMat3x2 >( testCounts );
-	testPcb< sdw::DMat3x4 >( testCounts );
-	testPcb< sdw::DMat4 >( testCounts );
-	testPcb< sdw::DMat4x2 >( testCounts );
-	testPcb< sdw::DMat4x3 >( testCounts );
+	testPcb< sdw::SDW_TestType >( testCounts );
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterPcbDeclarations )
+sdwTestSuiteLaunch( testName )

@@ -221,12 +221,31 @@ namespace test
 #	define testSuiteMain( testName )\
 	static test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
 
+#if defined( _MSC_VER )
+#	define testEval( V ) V
+
+#	define testConcat2( lhs, rhs )\
+	testEval( lhs ) ## testEval( rhs )
+
+#	define testConcat3( lhs, mid, rhs )\
+	testConcat2( lhs, mid ) ## testEval( rhs )
+
+#	define testConcat( lhs, rhs )\
+	testConcat3( lhs, _, rhs )
+#else
+#	define testConcat2( lhs, rhs )\
+	lhs ## rhs
+
+#	define testConcat( lhs, rhs )\
+	lhs ## _ ## rhs
+#endif
+
 #if defined( SDW_COMPILE_TESTS )
 #	define testSuiteLaunchEx( testName, suiteType )\
 	int main( int argv, char ** argc )\
 	{\
 		suiteType suite{ #testName };\
-		suite.registerTests< suiteType >( #testName, launch##testName );\
+		suite.registerTests< suiteType >( #testName, testConcat2( launch, testName ) );\
 		return suite.run();\
 	}
 #else
@@ -239,14 +258,14 @@ namespace test
 #define testStringify( x )\
 	#x
 
-#define testConcat2( x, y )\
+#define testConcatStr2( x, y )\
 	testStringify( x ) testStringify( y )
 
-#define testConcat3( x, y, z )\
-	testConcat2( x, y ) testStringify( z )
+#define testConcatStr3( x, y, z )\
+	testConcatStr2( x, y ) testStringify( z )
 
-#define testConcat4( x, y, z, w )\
-	testConcat3( x, y, z ) testStringify( w )
+#define testConcatStr4( x, y, z, w )\
+	testConcatStr3( x, y, z ) testStringify( w )
 
 #define testSuiteBeginEx( testCounts )\
 	testCounts.initialise();\
@@ -304,7 +323,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define beginRequire( x )\
@@ -320,7 +339,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define check( x )\
@@ -329,12 +348,12 @@ namespace test
 		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+			test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 		}\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcat2( x, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define checkEqual( x, y )\
@@ -348,7 +367,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcat4( x, " == ", y, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr4( x, " == ", y, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define checkNotEqual( x, y )\
@@ -362,7 +381,7 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcat4( x, " != ", y, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr4( x, " != ", y, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define checkThrow( x )\
@@ -370,7 +389,7 @@ namespace test
 	{\
 		testCounts.incTest();\
 		( x ); \
-		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -385,10 +404,10 @@ namespace test
 	catch ( std::exception & exc )\
 	{\
 		test::reportFailure( exc.what(), __FUNCTION__, __LINE__, testCounts );\
-		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcat2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 }

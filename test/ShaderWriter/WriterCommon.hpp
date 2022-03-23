@@ -455,8 +455,8 @@ namespace test
 		, sdw_test::TestCounts & testCounts );
 }
 
-#define sdwTestSuiteMain( testName )\
-	static test::TestResults launch##testName( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
+#	define sdwTestSuiteMain( testName )\
+	static test::TestResults testConcat2( launch, testName )( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
 
 #define sdwTestSuiteBegin()\
 	testSuiteBeginEx( testCounts )
