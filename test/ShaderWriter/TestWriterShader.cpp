@@ -1632,6 +1632,33 @@ namespace
 			, CurrentCompilers );
 		testEnd();
 	}
+
+	void arraySsboTextureLookup( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "arraySsboTextureLookup" );
+		using namespace sdw;
+		{
+			FragmentWriter writer;
+			auto fragUvw = writer.declInput< Vec3 >( "fragUvw", 0u );
+			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
+
+			sdw::Ssbo colorsSsbo = writer.declStorageBuffer( "colorsBuffer", 0u, 1u );
+			auto colors = colorsSsbo.declMemberArray< Vec4 >( "colors" );
+			colorsSsbo.end();
+
+			auto volumeTexture = writer.declCombinedImg< UCombinedImage3DR32 >( "volumeTexture", 1u, 1u );
+
+			writer.implementMain(
+				[&]( sdw::FragmentIn in, sdw::FragmentOut out )
+				{
+					outColor = colors[volumeTexture.sample( fragUvw )];
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
@@ -1652,6 +1679,7 @@ sdwTestSuiteMain( TestWriterShader )
 	basicPipeline( testCounts );
 	voxelPipeline( testCounts );
 	tessellationPipeline( testCounts );
+	arraySsboTextureLookup( testCounts );
 	sdwTestSuiteEnd();
 }
 
