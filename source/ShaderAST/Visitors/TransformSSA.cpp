@@ -1174,6 +1174,14 @@ namespace ast
 							, ast::expr::SwizzleKind::e012 );
 					}
 				}
+
+				if ( srcType->getKind() != ast::type::Kind::eVoid )
+				{
+					auto type = m_result->getType();
+					auto alias = doCreateAliasVar( type
+						, std::move( m_result ) );
+					m_result = ast::expr::makeIdentifier( m_cache, alias );
+				}
 			}
 
 			void visitInitExpr( expr::Init * expr )override
@@ -1322,8 +1330,8 @@ namespace ast
 				}
 
 				m_result = ast::expr::makeCombinedImageAccessCall( returnType
-					, kind
-					, std::move( args ) );
+						, kind
+						, std::move( args ) );
 
 				if ( returnComponentsCount != InvalidComponentCount && returnComponentsCount != count )
 				{
@@ -1347,6 +1355,11 @@ namespace ast
 
 					m_result = ast::expr::makeSwizzle( std::move( m_result ), swizzleKind );
 				}
+
+				auto type = m_result->getType();
+				auto alias = doCreateAliasVar( type
+					, std::move( m_result ) );
+				m_result = ast::expr::makeIdentifier( m_cache, alias );
 			}
 
 		private:

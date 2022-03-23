@@ -684,31 +684,23 @@ namespace spirv
 				shuffle.emplace_back( loadedLhsId );
 				shuffle.emplace_back( rhsId );
 				ast::expr::SwizzleKind rhsSwizzleKind;
+				auto rhsCount = getComponentCount( expr->getRHS()->getType()->getKind() );
+				assert( rhsCount <= 4u );
 
-				if ( expr->getRHS()->getKind() == ast::expr::Kind::eSwizzle
-					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eIntrinsicCall
-					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eCombinedImageAccessCall
-					&& static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getOuterExpr()->getKind() != ast::expr::Kind::eImageAccessCall )
+				switch ( rhsCount )
 				{
-					rhsSwizzleKind = static_cast< ast::expr::Swizzle const & >( *expr->getRHS() ).getSwizzle();
-				}
-				else
-				{
-					auto rhsCount = getComponentCount( expr->getRHS()->getType()->getKind() );
-					assert( rhsCount >= 2u && rhsCount <= 4u );
-
-					switch ( rhsCount )
-					{
-					case 2u:
-						rhsSwizzleKind = ast::expr::SwizzleKind::e01;
-						break;
-					case 3u:
-						rhsSwizzleKind = ast::expr::SwizzleKind::e012;
-						break;
-					default:
-						rhsSwizzleKind = ast::expr::SwizzleKind::e0123;
-						break;
-					}
+				case 1u:
+					rhsSwizzleKind = ast::expr::SwizzleKind::e0;
+					break;
+				case 2u:
+					rhsSwizzleKind = ast::expr::SwizzleKind::e01;
+					break;
+				case 3u:
+					rhsSwizzleKind = ast::expr::SwizzleKind::e012;
+					break;
+				default:
+					rhsSwizzleKind = ast::expr::SwizzleKind::e0123;
+					break;
 				}
 
 				auto swizzleComponents = convert( getSwizzleComponents( lhsSwizzleKind
