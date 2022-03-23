@@ -408,6 +408,76 @@ namespace sdw
 			, ast::type::UnknownArraySize
 			, enabled );
 	}
+
+	template< bool ComparisonT >
+	inline SamplerT< ComparisonT > ShaderWriter::declSampler(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declSampler< ComparisonT >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declSampler(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declSampler< T >( std::move(name)
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< bool ComparisonT >
+	inline Array< SamplerT< ComparisonT > > ShaderWriter::declSamplerArray(std::string name
+		, LocationHelper location
+		, uint32_t dimension
+		, bool enabled)
+	{
+		return declSamplerArray< ComparisonT >( std::move(name)
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declSamplerArray(std::string name
+		, LocationHelper location
+		, uint32_t dimension
+		, bool enabled)
+	{
+		return declSamplerArray< T >( std::move(name)
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< bool ComparisonT >
+	inline Array< SamplerT< ComparisonT > > ShaderWriter::declSamplerArray(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declSamplerArray< ComparisonT >( std::move(name)
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declSamplerArray(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declSamplerArray< T >( std::move(name)
+			, location.binding
+			, location.set
+			, enabled );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Sampled Image declaration
@@ -541,6 +611,85 @@ namespace sdw
 				, set
 				, ast::type::UnknownArraySize
 				, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > ShaderWriter::declSampledImg(std::string name
+			, LocationHelper location
+			, bool enabled)
+	{
+		return declSampledImg< FormatT, DimT, ArrayedT, MsT >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declSampledImg(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declSampledImg< T >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledImgArray(std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled)
+	{
+		return declSampledImgArray< FormatT, DimT, ArrayedT, MsT >( std::move( name )
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declSampledImgArray(std::string name
+		, LocationHelper location
+		, uint32_t dimension
+		, bool enabled)
+	{
+		return declSampledImgArray< T >( std::move( name )
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledImgArray(std::string name
+			, LocationHelper location
+			, bool enabled)
+	{
+		return declSampledImgArray< FormatT, DimT, ArrayedT, MsT >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declSampledImgArray(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declSampledImgArray< T >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
 	}
 	/**@}*/
 #pragma endregion
@@ -683,6 +832,88 @@ namespace sdw
 				, ast::type::UnknownArraySize
 				, enabled );
 	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+		inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declCombinedImg(std::string name
+			, LocationHelper location
+			, bool enabled)
+	{
+		return declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declCombinedImg(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declCombinedImg< T >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+		inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedImgArray(std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled)
+	{
+		return declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( std::move( name )
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declCombinedImgArray(std::string name
+		, LocationHelper location
+		, uint32_t dimension
+		, bool enabled)
+	{
+		return declCombinedImgArray< T >( std::move( name )
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+		inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedImgArray(std::string name
+			, LocationHelper location
+			, bool enabled)
+	{
+		return declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declCombinedImgArray(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declCombinedImgArray< T >( std::move( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Image declaration
@@ -823,6 +1054,88 @@ namespace sdw
 				, set
 				, ast::type::UnknownArraySize
 				, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > ShaderWriter::declStorageImg(std::string name
+			, LocationHelper location
+			, bool enabled)
+	{
+		return declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( std::move ( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declStorageImg(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declStorageImg< T >( std::move ( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declStorageImgArray(std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled)
+	{
+		return declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( std::move ( name )
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declStorageImgArray(std::string name
+		, LocationHelper location
+		, uint32_t dimension
+		, bool enabled)
+	{
+		return declStorageImgArray< T >( std::move ( name )
+			, location.binding
+			, location.set
+			, dimension
+			, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::AccessKind AccessT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+		inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declStorageImgArray(std::string name
+			, LocationHelper location
+			, bool enabled)
+	{
+		return declStorageImgArray< FormatT, AccessT, DimT, ArrayedT, MsT >( std::move ( name )
+			, location.binding
+			, location.set
+			, enabled );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declStorageImgArray(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declStorageImgArray< T >( std::move ( name )
+			, location.binding
+			, location.set
+			, enabled );
 	}
 	/**@}*/
 #pragma endregion
@@ -1259,6 +1572,19 @@ namespace sdw
 	{
 		return T{ *this, std::move( name ), binding, set, layout, enabled };
 	}
+
+	template< typename T >
+	inline T ShaderWriter::declUniformBuffer(std::string name
+		, LocationHelper location
+		, ast::type::MemoryLayout layout
+		, bool enabled)
+	{
+		return declUniformBuffer< T >( std::move(name)
+			, location.binding
+			, location.set
+			, layout
+			, enabled );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Shader storage buffer declaration
@@ -1284,6 +1610,30 @@ namespace sdw
 		, bool enabled )
 	{
 		return ArraySsboT< T >{ *this, std::move( name ), binding, set, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declStorageBuffer(std::string name
+		, LocationHelper location
+		, ast::type::MemoryLayout layout
+		, bool enabled)
+	{
+		return declStorageBuffer< T >( std::move(name)
+			, location.binding
+			, location.set
+			, layout
+			, enabled );
+	}
+
+	template< typename T >
+	inline ArraySsboT< T > ShaderWriter::declArrayStorageBuffer(std::string name
+		, LocationHelper location
+		, bool enabled)
+	{
+		return declArrayStorageBuffer< T >( std::move(name)
+			, location.binding
+			, location.set
+			, enabled );
 	}
 	/**@}*/
 #pragma endregion

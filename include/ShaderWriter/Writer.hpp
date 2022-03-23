@@ -16,6 +16,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/CompositeTypes/Ssbo.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 #include "ShaderWriter/CompositeTypes/Ubo.hpp"
+#include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Stmt/StmtIf.hpp>
@@ -315,6 +316,32 @@ namespace sdw
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
+		template< bool ComparisonT = false >
+		inline SamplerT< ComparisonT > declSampler( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline T declSampler( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< bool ComparisonT = false >
+		inline Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
+				, LocationHelper location
+				, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSamplerArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< bool ComparisonT = false >
+		inline Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
+				, LocationHelper location
+				, uint32_t dimension
+				, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSamplerArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Sampled Image declaration
@@ -362,6 +389,41 @@ namespace sdw
 		inline Array< T > declSampledImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline SampledImageT< FormatT, DimT, ArrayedT, MsT > declSampledImg( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline T declSampledImg( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledImgArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSampledImgArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledImgArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declSampledImgArray( std::string name
+			, LocationHelper location
 			, uint32_t dimension
 			, bool enabled = true );
 		/**@}*/
@@ -416,6 +478,44 @@ namespace sdw
 			, uint32_t set
 			, uint32_t dimension
 			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT
+			, bool DepthT = false >
+		inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > declCombinedImg( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline T declCombinedImg( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT
+			, bool DepthT = false >
+		inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declCombinedImgArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT
+			, bool DepthT = false >
+		inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declCombinedImgArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Storage Image declaration
@@ -466,6 +566,44 @@ namespace sdw
 		inline Array< T > declStorageImgArray( std::string name
 			, uint32_t binding
 			, uint32_t set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > declStorageImg( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline T declStorageImg( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declStorageImgArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declStorageImgArray( std::string name
+			, LocationHelper location
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::AccessKind AccessT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT >
+		inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declStorageImgArray( std::string name
+			, LocationHelper location
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declStorageImgArray( std::string name
+			, LocationHelper location
 			, uint32_t dimension
 			, bool enabled = true );
 		/**@}*/
@@ -591,6 +729,11 @@ namespace sdw
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true );
+		template< typename T = Ubo >
+		inline T declUniformBuffer( std::string name
+			, LocationHelper location
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Shader storage buffer declaration
@@ -609,6 +752,15 @@ namespace sdw
 		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
+			, bool enabled = true );
+		template< typename T = Ssbo >
+		inline T declStorageBuffer( std::string name
+			, LocationHelper location
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, bool enabled = true );
+		template< typename T >
+		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
+			, LocationHelper location
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion

@@ -3,6 +3,20 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
+	inline Ubo::Ubo( ShaderWriter & writer
+		, std::string name
+		, LocationHelper location
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: Ubo{ writer
+		, std::move( name )
+		, location.binding
+		, location.set
+		, layout
+		, enabled }
+	{
+	}
+
 	template< typename T >
 	inline T Ubo::declMember( std::string name
 		, bool enabled )

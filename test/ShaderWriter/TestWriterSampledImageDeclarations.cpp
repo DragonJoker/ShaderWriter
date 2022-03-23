@@ -30,6 +30,22 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1";
+			auto value = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( name, { .binding = 1u, .set = 1u } );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
 		testEnd();
 	}
 
@@ -47,6 +63,22 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declSampledImgArray< FormatT, DimT, ArrayedT, MsT >( name, 2u, 2u, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declSampledImgArray< FormatT, DimT, ArrayedT, MsT >( name, { .binding = 2u, .set = 2u }, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
@@ -84,6 +116,20 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
+			auto value = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "value", { .binding = 1u, .set = 1u }, false );
+			check( !value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			check( shader.getStatements()->size() == count );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
 		testEnd();
 	}
 
@@ -110,6 +156,20 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
+			auto value = writer.declSampledImgArray< FormatT, DimT, ArrayedT, MsT >( "value", { .binding = 1u, .set = 1u }, 6u, false );
+			check( !value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			check( shader.getStatements()->size() == count );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
 		testEnd();
 	}
 
@@ -127,6 +187,23 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
 			auto value = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( name, 1u, 1u, true );
+			check( value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1_opt";
+			auto value = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( name, { .binding = 1u, .set = 1u }, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -168,6 +245,23 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2_opt";
+			auto value = writer.declSampledImgArray< FormatT, DimT, ArrayedT, MsT >( name, { .binding = 2u, .set = 2u }, 6u, true );
+			check( value.isEnabled() );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
 		testEnd();
 	}
 
@@ -196,6 +290,22 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1";
+			auto value = writer.declSampledImg< sdw::SampledImageT< FormatT, DimT, ArrayedT, MsT > >( name, { .binding = 1u, .set = 1u });
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == sdw::type::NotArray );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getBindingPoint() == 1u );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
 		testEnd();
 	}
 
@@ -213,6 +323,22 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declSampledImgArray< sdw::SampledImageT< FormatT, DimT, ArrayedT, MsT > >( name, 2u, 2u, 6u );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
+			check( getArraySize( value.getType() ) == 6u );
+			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			require( stmt.getKind() == sdw::stmt::Kind::eSampledImageDecl );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getBindingPoint() == 2u );
+			check( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+			test::writeShader( writer, testCounts, CurrentCompilers );
+		}
+		{
+			sdw::FragmentWriter writer;
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declSampledImgArray< sdw::SampledImageT< FormatT, DimT, ArrayedT, MsT > >( name, { .binding = 2u, .set = 2u }, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::SampledImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
