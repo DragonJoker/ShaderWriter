@@ -140,7 +140,7 @@ namespace ast::type
 
 	struct ImageConfiguration
 	{
-		SDAST_API ImageConfiguration( type::Kind sampledType = type::Kind::eFloat
+		SDAST_API explicit ImageConfiguration( type::Kind sampledType = type::Kind::eFloat
 			, ImageDim dimension = ImageDim::e1D
 			, ImageFormat format = ImageFormat::eUnknown
 			, Trinary isSampled = Trinary::eFalse

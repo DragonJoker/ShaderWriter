@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API Loop( Kind kind );
+		SDAST_API explicit Loop( Kind kind );
 	};
 }
 

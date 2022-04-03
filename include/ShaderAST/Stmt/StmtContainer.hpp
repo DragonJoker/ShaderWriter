@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API Container( Kind kind = Kind::eContainer );
+		SDAST_API explicit Container( Kind kind = Kind::eContainer );
 		SDAST_API void addStmt( StmtPtr stmt );
 
 		SDAST_API void accept( VisitorPtr vis )override;

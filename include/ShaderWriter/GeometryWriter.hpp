@@ -39,7 +39,7 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API GeometryIn( ShaderWriter & writer );
+		SDW_API explicit GeometryIn( ShaderWriter & writer );
 		SDW_API GeometryIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -62,7 +62,7 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = GeometryDataT< DataT >::FlagT;
 
 		template< typename ... ParamsT >
-		GeometryListT( ShaderWriter & writer
+		explicit GeometryListT( ShaderWriter & writer
 			, ParamsT ... params );
 		GeometryListT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr

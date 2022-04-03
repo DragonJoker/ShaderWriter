@@ -13,7 +13,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API TaskPayload( TypePtr type );
+		SDAST_API explicit TaskPayload( TypePtr type );
 
 		type::TypePtr getType()const
 		{

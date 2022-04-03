@@ -19,7 +19,7 @@ namespace sdw
 	struct RayGenerationIn
 		: StructInstance
 	{
-		SDW_API RayGenerationIn( ShaderWriter & writer );
+		SDW_API explicit RayGenerationIn( ShaderWriter & writer );
 		SDW_API RayGenerationIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

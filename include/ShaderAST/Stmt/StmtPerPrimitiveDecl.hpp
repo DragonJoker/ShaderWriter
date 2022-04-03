@@ -14,7 +14,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API PerPrimitiveDecl( type::TypePtr type );
+		SDAST_API explicit PerPrimitiveDecl( type::TypePtr type );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

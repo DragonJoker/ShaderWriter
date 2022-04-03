@@ -913,7 +913,7 @@ namespace spirv
 				{
 					return processPendingMbr( pending.outer
 						, mbrIndex
-						, pending.io.flags
+						, ast::var::FlagHolder{ pending.io.flags }
 						, adapter
 						, cont );
 				}

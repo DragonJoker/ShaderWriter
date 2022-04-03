@@ -20,7 +20,7 @@ namespace sdw
 		ReturnWrapperT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		ReturnWrapperT( ValueT const & rhs );
+		explicit ReturnWrapperT( ValueT const & rhs );
 		ReturnWrapperT( ReturnWrapperT && rhs );
 		~ReturnWrapperT()override;
 

@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API Comment( std::string text );
+		SDAST_API explicit Comment( std::string text );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

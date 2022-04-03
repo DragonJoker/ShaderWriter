@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API HitAttributeVariableDecl( var::VariablePtr variable );
+		SDAST_API explicit HitAttributeVariableDecl( var::VariablePtr variable );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

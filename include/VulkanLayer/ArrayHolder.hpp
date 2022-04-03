@@ -40,7 +40,7 @@ namespace ast::vk
 			VecT::resize( count, value );
 		}
 
-		inline FixedSizeArrayT( ValueT const & value )
+		inline explicit FixedSizeArrayT( ValueT const & value )
 			: FixedSizeArrayT{ 1u, value }
 		{
 		}
@@ -95,7 +95,7 @@ namespace ast::vk
 			updateData( nullptr, 0u );
 		}
 
-		inline ArrayHolder( DataT pdata )
+		inline explicit ArrayHolder( DataT pdata )
 			: values{ ( ( *getCount( pdata ) && *getPtr( pdata ) )
 				? VecT{ *getPtr( pdata ), *getPtr( pdata ) + ( *getCount( pdata ) / DivisorT ) }
 				: ( *getCount( pdata )
@@ -156,24 +156,24 @@ namespace ast::vk
 		{
 		}
 
-		inline ArrayHolder( FixedSizeArrayT< ValueT > const & rhs )
+		inline explicit ArrayHolder( FixedSizeArrayT< ValueT > const & rhs )
 			: ArrayHolder{ rhs.data(), rhs.size() }
 		{
 		}
 
-		inline ArrayHolder( std::vector< ValueT > const & rhs )
+		inline explicit ArrayHolder( std::vector< ValueT > const & rhs )
 			: ArrayHolder{ rhs.data(), rhs.size() }
 		{
 		}
 
 		template< size_t SizeT >
-		inline ArrayHolder( std::array< ValueT, SizeT > const & rhs )
+		inline explicit ArrayHolder( std::array< ValueT, SizeT > const & rhs )
 			: ArrayHolder{ rhs.data(), SizeT }
 		{
 		}
 
 		template< size_t SizeT >
-		inline ArrayHolder( ValueT const ( &rhs )[SizeT] )
+		inline explicit ArrayHolder( ValueT const ( &rhs )[SizeT] )
 			: ArrayHolder{ rhs, SizeT }
 		{
 		}

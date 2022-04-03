@@ -22,7 +22,7 @@ namespace sdw
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true );
-		Ubo( ShaderWriter & writer
+		inline Ubo( ShaderWriter & writer
 			, std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140

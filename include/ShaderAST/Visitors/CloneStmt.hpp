@@ -16,7 +16,7 @@ namespace ast
 		SDAST_API static stmt::ContainerPtr submit( stmt::Container * stmt );
 
 	protected:
-		SDAST_API StmtCloner( stmt::ContainerPtr & result );
+		SDAST_API explicit StmtCloner( stmt::ContainerPtr & result );
 
 	protected:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );

@@ -15,7 +15,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API HitAttribute( TypePtr dataType );
+		SDAST_API explicit HitAttribute( TypePtr dataType );
 
 		Kind getKind()const override
 		{

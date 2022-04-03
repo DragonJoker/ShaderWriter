@@ -61,12 +61,12 @@ namespace ast::var
 	class FlagHolder
 	{
 	public:
-		FlagHolder( Flag flag )
+		explicit FlagHolder( Flag flag )
 			: m_flags{ uint64_t( flag ) }
 		{
 		}
 
-		FlagHolder( uint64_t flags )
+		explicit FlagHolder( uint64_t flags )
 			: m_flags{ flags }
 		{
 		}

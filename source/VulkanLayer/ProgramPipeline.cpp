@@ -575,7 +575,7 @@ namespace ast::vk
 		{
 			if ( info )
 			{
-				result.push_back( info.value().data );
+				result.push_back( SpecializationInfo{ info.value().data } );
 			}
 			else
 			{
@@ -835,9 +835,9 @@ namespace ast::vk
 	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( Shader const & shader )
 	{
 		auto & code = m_sources[m_indices[shader.getType()]];
-		return makeVkStruct< VkShaderModuleCreateInfo >( 0u
+		return ShaderModuleCreateInfo{ makeVkStruct< VkShaderModuleCreateInfo >( 0u
 			, code.size() * sizeof( uint32_t )
-			, code.data() );
+			, code.data() ) };
 	}
 
 	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader )
@@ -875,7 +875,7 @@ namespace ast::vk
 					, nullptr } );
 			}
 
-			result.push_back( { makeVkStruct< VkDescriptorSetLayoutCreateInfo >( 0u
+			result.push_back( DescriptorSetLayoutCreateInfo{ makeVkStruct< VkDescriptorSetLayoutCreateInfo >( 0u
 				, uint32_t( bindings.size() )
 				, bindings.data() ) } );
 		}

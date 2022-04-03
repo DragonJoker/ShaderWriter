@@ -101,7 +101,7 @@ namespace sdw
 
 	protected:
 		template< typename ... ParamsT >
-		StructHelperT( ParamsT && ... params )
+		explicit StructHelperT( ParamsT && ... params )
 			: StructT{ std::forward< ParamsT >( params )... }
 		{
 			( FieldsT::template decl< StructT >( *this ), ... );

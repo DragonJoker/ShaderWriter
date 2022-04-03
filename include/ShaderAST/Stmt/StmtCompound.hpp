@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Container
 	{
 	protected:
-		SDAST_API Compound( Kind kind );
+		SDAST_API explicit Compound( Kind kind );
 
 	public:
 		SDAST_API Compound();

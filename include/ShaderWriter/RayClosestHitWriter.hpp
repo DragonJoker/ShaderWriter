@@ -23,7 +23,7 @@ namespace sdw
 	struct RayClosestHitIn
 		: StructInstance
 	{
-		SDW_API RayClosestHitIn( ShaderWriter & writer );
+		SDW_API explicit RayClosestHitIn( ShaderWriter & writer );
 		SDW_API RayClosestHitIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

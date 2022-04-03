@@ -16,7 +16,7 @@ namespace ast::stmt
 		: public Container
 	{
 	public:
-		SDAST_API PreprocIfDef( expr::IdentifierPtr identExpr );
+		SDAST_API explicit PreprocIfDef( expr::IdentifierPtr identExpr );
 
 		SDAST_API PreprocElse * createElse();
 		SDAST_API PreprocElif * createElif( expr::ExprPtr ctrlExpr );

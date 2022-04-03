@@ -16,7 +16,7 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API If( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit If( expr::ExprPtr ctrlExpr );
 
 		SDAST_API Else * createElse();
 		SDAST_API ElseIf * createElseIf( expr::ExprPtr ctrlExpr );

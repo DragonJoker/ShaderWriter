@@ -58,7 +58,7 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API TessEvalMainIn( ShaderWriter & writer );
+		SDW_API explicit TessEvalMainIn( ShaderWriter & writer );
 		SDW_API TessEvalMainIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -112,7 +112,7 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
 		template< typename ... ParamsT >
-		TessEvalDataOutT( ShaderWriter & writer
+		explicit TessEvalDataOutT( ShaderWriter & writer
 			, ParamsT ... params );
 		TessEvalDataOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
