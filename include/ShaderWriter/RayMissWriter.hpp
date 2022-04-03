@@ -22,7 +22,7 @@ namespace sdw
 	struct RayMissIn
 		: StructInstance
 	{
-		SDW_API RayMissIn( ShaderWriter & writer );
+		SDW_API explicit RayMissIn( ShaderWriter & writer );
 		SDW_API RayMissIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

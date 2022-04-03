@@ -20,7 +20,7 @@ namespace sdw
 		NonUniformT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-		NonUniformT( ValueT const & rhs );
+		explicit NonUniformT( ValueT const & rhs );
 		NonUniformT( NonUniformT && rhs );
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );

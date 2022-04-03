@@ -335,11 +335,11 @@ namespace test
 	{
 		std::string result;
 		char path[FILENAME_MAX]{};
-		char realPath[FILENAME_MAX]{};
 		uint32_t size = FILENAME_MAX;
 
 		if ( _NSGetExecutablePath( &path[0], &size ) == 0 )
 		{
+			char realPath[FILENAME_MAX]{};
 			result = realpath( path, realPath );
 		}
 

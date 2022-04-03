@@ -16,7 +16,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API Array( TypePtr type
+		SDAST_API explicit Array( TypePtr type
 			, uint32_t arraySize = UnknownArraySize );
 		SDAST_API Array( Struct * parent
 			, uint32_t index

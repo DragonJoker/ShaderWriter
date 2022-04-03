@@ -59,7 +59,7 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API TessControlPatchRoutineIn( ShaderWriter & writer );
+		SDW_API explicit TessControlPatchRoutineIn( ShaderWriter & writer );
 		SDW_API TessControlPatchRoutineIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -75,7 +75,7 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API TessControlMainIn( ShaderWriter & writer );
+		SDW_API explicit TessControlMainIn( ShaderWriter & writer );
 		SDW_API TessControlMainIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

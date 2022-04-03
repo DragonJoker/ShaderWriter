@@ -18,7 +18,7 @@ namespace ast::stmt
 		friend class If;
 
 	private:
-		SDAST_API ElseIf( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit ElseIf( expr::ExprPtr ctrlExpr );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;

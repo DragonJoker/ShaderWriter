@@ -18,7 +18,7 @@ namespace ast::stmt
 		friend class PreprocIfDef;
 
 	private:
-		SDAST_API PreprocElif( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit PreprocElif( expr::ExprPtr ctrlExpr );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;

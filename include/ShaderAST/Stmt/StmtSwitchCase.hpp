@@ -18,7 +18,7 @@ namespace ast::stmt
 		friend class Switch;
 
 	private:
-		SDAST_API SwitchCase( expr::SwitchCasePtr caseExpr );
+		SDAST_API explicit SwitchCase( expr::SwitchCasePtr caseExpr );
 		SDAST_API SwitchCase();
 
 	public:

@@ -20,7 +20,7 @@ namespace sdw
 	struct CallableIn
 		: StructInstance
 	{
-		SDW_API CallableIn( ShaderWriter & writer );
+		SDW_API explicit CallableIn( ShaderWriter & writer );
 		SDW_API CallableIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
