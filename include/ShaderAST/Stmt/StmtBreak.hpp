@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API Break( bool switchCaseBreak );
+		SDAST_API explicit Break( bool switchCaseBreak );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

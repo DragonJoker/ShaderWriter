@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API PreprocVersion( std::string name );
+		SDAST_API explicit PreprocVersion( std::string name );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

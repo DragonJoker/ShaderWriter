@@ -23,7 +23,7 @@ namespace sdw
 	struct RayAnyHitIn
 		: StructInstance
 	{
-		SDW_API RayAnyHitIn( ShaderWriter & writer );
+		SDW_API explicit RayAnyHitIn( ShaderWriter & writer );
 		SDW_API RayAnyHitIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

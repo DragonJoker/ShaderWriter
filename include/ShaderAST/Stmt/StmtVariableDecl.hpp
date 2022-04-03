@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API VariableDecl( var::VariablePtr variable );
+		SDAST_API explicit VariableDecl( var::VariablePtr variable );
 
 		SDAST_API bool isMember()const;
 

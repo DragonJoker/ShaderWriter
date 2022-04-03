@@ -13,7 +13,7 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API Copy( ExprPtr op );
+		SDAST_API explicit Copy( ExprPtr op );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};

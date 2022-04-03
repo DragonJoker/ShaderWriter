@@ -25,7 +25,7 @@ namespace sdw
 			, ast::FragmentCenter center
 			, ParamsT ... params );
 		template< typename ... ParamsT >
-		FragmentInT( ShaderWriter & writer
+		explicit FragmentInT( ShaderWriter & writer
 			, ParamsT ... params );
 		FragmentInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -64,7 +64,7 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
 		template< typename ... ParamsT >
-		FragmentOutT( ShaderWriter & writer
+		explicit FragmentOutT( ShaderWriter & writer
 			, ParamsT ... params );
 		FragmentOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr

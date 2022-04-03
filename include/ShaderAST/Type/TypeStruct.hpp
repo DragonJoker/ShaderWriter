@@ -312,7 +312,7 @@ namespace ast::type
 	struct RayDesc
 		: public BaseStruct
 	{
-		SDAST_API RayDesc( TypesCache & cache );
+		SDAST_API explicit RayDesc( TypesCache & cache );
 	};
 
 	using RayDescPtr = std::shared_ptr< RayDesc >;

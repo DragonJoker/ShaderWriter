@@ -22,7 +22,7 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo rhs )
+		inline explicit PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo rhs )
 			: spec{ ( rhs.pSpecializationInfo
 				? SpecializationInfoOpt{ SpecializationInfo{ *rhs.pSpecializationInfo } }
 				: std::nullopt ) }

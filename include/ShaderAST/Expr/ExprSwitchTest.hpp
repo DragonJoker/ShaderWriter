@@ -13,7 +13,7 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API SwitchTest( ExprPtr value );
+		SDAST_API explicit SwitchTest( ExprPtr value );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

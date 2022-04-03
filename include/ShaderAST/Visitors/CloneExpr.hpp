@@ -17,7 +17,7 @@ namespace ast
 		SDAST_API static expr::ExprPtr submit( expr::ExprPtr const & expr );
 
 	protected:
-		SDAST_API ExprCloner( expr::ExprPtr & result );
+		SDAST_API explicit ExprCloner( expr::ExprPtr & result );
 
 	private:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );

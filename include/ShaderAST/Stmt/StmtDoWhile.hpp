@@ -15,7 +15,7 @@ namespace ast::stmt
 		: public Loop
 	{
 	public:
-		SDAST_API DoWhile( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit DoWhile( expr::ExprPtr ctrlExpr );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

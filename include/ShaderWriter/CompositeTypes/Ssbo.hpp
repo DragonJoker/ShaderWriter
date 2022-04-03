@@ -22,7 +22,7 @@ namespace sdw
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
-		Ssbo( ShaderWriter & writer
+		inline Ssbo( ShaderWriter & writer
 			, std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430

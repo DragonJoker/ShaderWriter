@@ -15,7 +15,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API Simple( expr::ExprPtr expr );
+		SDAST_API explicit Simple( expr::ExprPtr expr );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

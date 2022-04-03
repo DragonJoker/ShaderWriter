@@ -23,7 +23,7 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
 
 		template< typename ... ParamsT >
-		VertexInT( ShaderWriter & writer
+		explicit VertexInT( ShaderWriter & writer
 			, ParamsT ... params );
 		VertexInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -54,7 +54,7 @@ namespace sdw
 		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
 
 		template< typename ... ParamsT >
-		VertexOutT( ShaderWriter & writer
+		explicit VertexOutT( ShaderWriter & writer
 			, ParamsT ... params );
 		VertexOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr

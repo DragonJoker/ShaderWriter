@@ -13,7 +13,7 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API SwitchCase( LiteralPtr label );
+		SDAST_API explicit SwitchCase( LiteralPtr label );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 

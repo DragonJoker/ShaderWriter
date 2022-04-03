@@ -21,7 +21,7 @@ namespace sdw
 	struct RayIntersectionIn
 		: StructInstance
 	{
-		SDW_API RayIntersectionIn( ShaderWriter & writer );
+		SDW_API explicit RayIntersectionIn( ShaderWriter & writer );
 		SDW_API RayIntersectionIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );

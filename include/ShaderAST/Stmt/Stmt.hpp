@@ -71,7 +71,7 @@ namespace ast::stmt
 	class Stmt
 	{
 	public:
-		SDAST_API Stmt( Kind kind );
+		SDAST_API explicit Stmt( Kind kind );
 		SDAST_API virtual ~Stmt();
 
 		SDAST_API virtual void accept( VisitorPtr ) = 0;
