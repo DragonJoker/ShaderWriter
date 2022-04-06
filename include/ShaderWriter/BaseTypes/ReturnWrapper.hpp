@@ -30,8 +30,6 @@ namespace sdw
 		sdw::expr::ExprPtr release()const;
 		expr::ExprPtr makeCondition();
 
-		operator ValueT &&();
-
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
 	private:
