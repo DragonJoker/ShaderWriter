@@ -74,12 +74,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT >::operator ValueT &&()
-	{
-		return ValueT{ *this->getWriter(), release(), this->isEnabled() };
-	}
-
-	template< typename ValueT >
 	ast::type::TypePtr ReturnWrapperT< ValueT >::makeType( ast::type::TypesCache & cache )
 	{
 		return ValueT::makeType( cache );
