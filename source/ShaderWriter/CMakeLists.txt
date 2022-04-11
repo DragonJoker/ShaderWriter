@@ -109,8 +109,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/ArithmeticValue.inl
 	${INCLUDE_DIR}/BaseTypes/Array.hpp
 	${INCLUDE_DIR}/BaseTypes/Array.inl
-	${INCLUDE_DIR}/BaseTypes/Bool.hpp
-	${INCLUDE_DIR}/BaseTypes/Bool.inl
+	${INCLUDE_DIR}/BaseTypes/Boolean.hpp
+	${INCLUDE_DIR}/BaseTypes/Boolean.inl
 	${INCLUDE_DIR}/BaseTypes/CallableData.hpp
 	${INCLUDE_DIR}/BaseTypes/CallableData.inl
 	${INCLUDE_DIR}/BaseTypes/CombinedImage.hpp
@@ -148,7 +148,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/AccelerationStructure.cpp
-	${SOURCE_DIR}/BaseTypes/Bool.cpp
+	${SOURCE_DIR}/BaseTypes/Boolean.cpp
 	${SOURCE_DIR}/BaseTypes/CallableData.cpp
 	${SOURCE_DIR}/BaseTypes/CombinedImage.cpp
 	${SOURCE_DIR}/BaseTypes/Double.cpp

@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Vec2_H___
 #pragma once
 
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Boolean.hpp"
 #include "Swizzle.hpp"
 
 namespace sdw

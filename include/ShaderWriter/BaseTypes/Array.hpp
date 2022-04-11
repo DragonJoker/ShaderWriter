@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Array_H___
 #pragma once
 
-#include "Bool.hpp"
+#include "Boolean.hpp"
 
 namespace sdw
 {

@@ -8,7 +8,7 @@ This file is generated, don't modify it!
 #define ___SDW_IntrinsicFunctions_H___
 #pragma once
 
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Boolean.hpp"
 #include "ShaderWriter/BaseTypes/CallableData.hpp"
 #include "ShaderWriter/BaseTypes/CombinedImage.hpp"
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
