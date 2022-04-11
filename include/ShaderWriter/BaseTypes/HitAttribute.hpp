@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_HitAttribute_H___
 #pragma once
 
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Boolean.hpp"
 #include "ShaderWriter/BaseTypes/Float.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/BaseTypes/ReturnWrapper.hpp"

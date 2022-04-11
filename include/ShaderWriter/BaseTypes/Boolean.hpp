@@ -45,6 +45,6 @@ namespace sdw
 		, CreatorT creator );
 }
 
-#include "Bool.inl"
+#include "Boolean.inl"
 
 #endif

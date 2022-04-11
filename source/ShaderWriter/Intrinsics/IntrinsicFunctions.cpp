@@ -7,7 +7,7 @@ This file is generated, don't modify it!
 #include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 #include "ShaderWriter/BaseTypes/Void.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Boolean.hpp"
 #include "ShaderWriter/BaseTypes/Double.hpp"
 #include "ShaderWriter/BaseTypes/Float.hpp"
 #include "ShaderWriter/BaseTypes/Int.hpp"
