@@ -52,7 +52,7 @@ def printHeader( outs, match ):
 	outs.write( "\n#define ___SDW_" + enumName + "Functions_H___" )
 	outs.write( "\n#pragma once" )
 	outs.write( "\n" )
-	outs.write( '\n#include "ShaderWriter/BaseTypes/Bool.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/Boolean.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/CallableData.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/CombinedImage.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/HitAttribute.hpp"' )
