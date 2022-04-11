@@ -51,7 +51,7 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Void.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Array.hpp"' )
-	outs.write( '\n#include "ShaderWriter/BaseTypes/Bool.hpp"' )
+	outs.write( '\n#include "ShaderWriter/BaseTypes/Boolean.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Double.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Float.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Int.hpp"' )
