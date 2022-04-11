@@ -3,7 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Boolean.hpp"
 #include "ShaderWriter/BaseTypes/Int.hpp"
 #include "ShaderWriter/BaseTypes/Float.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"

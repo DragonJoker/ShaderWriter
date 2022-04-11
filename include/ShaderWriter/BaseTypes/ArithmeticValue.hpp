@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_ArithmeticValue_H___
 #pragma once
 
-#include "ShaderWriter/BaseTypes/Bool.hpp"
+#include "ShaderWriter/BaseTypes/Boolean.hpp"
 
 namespace sdw
 {
