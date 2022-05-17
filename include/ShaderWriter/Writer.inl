@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
+#include <algorithm>
 #include <stdexcept>
 
 namespace sdw
@@ -257,6 +258,7 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerStaticConstant( std::move( name )
 			, type );
+		enabled = enabled && isOptionalEnabled( rhs );
 
 		if ( enabled )
 		{
@@ -278,6 +280,12 @@ namespace sdw
 			, uint32_t( rhs.size() ) );
 		auto var = registerStaticConstant( std::move( name )
 			, type );
+		enabled = enabled && std::all_of( rhs.begin()
+			, rhs.end()
+			, []( T const & v )
+			{
+				return isOptionalEnabled( v );
+			} );
 
 		if ( enabled )
 		{
@@ -295,6 +303,7 @@ namespace sdw
 		, ReturnWrapperT< IntegerValue< KindT > > rhs
 		, bool enabled )
 	{
+		enabled = enabled && isOptionalEnabled( rhs );
 		return declConstant( std::move( name ), IntegerValue< KindT >{ std::move( rhs ) }, enabled );
 	}
 	/**@}*/
@@ -1824,6 +1833,7 @@ namespace sdw
 		auto type = rhs.getType();
 		auto var = registerLocale( std::move( name )
 			, type );
+		enabled = enabled && isOptionalEnabled( rhs );
 
 		if ( enabled )
 		{
@@ -1890,6 +1900,12 @@ namespace sdw
 			, dimension );
 		auto var = registerLocale( std::move( name )
 			, type );
+		enabled = enabled && std::all_of( rhs.begin()
+			, rhs.end()
+			, []( T const & v )
+			{
+				return isOptionalEnabled( v );
+			} );
 
 		if ( enabled )
 		{
@@ -1917,6 +1933,7 @@ namespace sdw
 		auto type = rhs.getType();
 		auto var = registerLocale( std::move( name )
 			, type );
+		enabled = enabled && isOptionalEnabled( rhs );
 
 		if ( enabled )
 		{
@@ -1960,6 +1977,7 @@ namespace sdw
 		, ReturnWrapperT< T > rhs
 		, bool enabled )
 	{
+		enabled = enabled && areOptionalEnabled( rhs );
 		return declLocale( std::move( name ), T{ std::move( rhs ) }, enabled );
 	}
 
