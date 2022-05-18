@@ -132,13 +132,17 @@ namespace sdw
 	{
 		static constexpr ast::var::Flag FlagT = PatchOutT< DataT >::FlagT;
 
+		template< typename ... ParamsT >
 		TessPatchOutT( ShaderWriter & writer
-			, uint32_t patchLocation );
+			, uint32_t patchLocation
+			, ParamsT ... params );
 		TessPatchOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		template< typename ... ParamsT >
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
 
 		//patch out float gl_TessLevelOuter[];
 		Array< Float > tessLevelOuter;
