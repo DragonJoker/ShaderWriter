@@ -126,12 +126,15 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
+	template< typename ... ParamsT >
 	TessPatchOutT< DataT, DomainT >::TessPatchOutT( ShaderWriter & writer
-		, uint32_t patchLocation )
+		, uint32_t patchLocation
+		, ParamsT ... params )
 		: TessPatchOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesscPatch"
-					, ast::type::makeTessellationOutputPatchType( makeType( getTypesCache( writer ) )
+					, ast::type::makeTessellationOutputPatchType( makeType( getTypesCache( writer )
+							, std::forward< ParamsT >( params )... )
 						, patchLocation )
 					, FlagT ) ) }
 	{
@@ -139,9 +142,12 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
-	ast::type::TypePtr TessPatchOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache )
+	template< typename ... ParamsT >
+	ast::type::TypePtr TessPatchOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
 	{
-		auto result = PatchOutT< DataT >::makeType( cache );
+		auto result = PatchOutT< DataT >::makeType( cache
+			, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eTessLevelOuter ) )
 		{
