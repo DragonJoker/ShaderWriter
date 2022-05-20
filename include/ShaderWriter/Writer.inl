@@ -21,10 +21,11 @@ namespace sdw
 	*	Type registration
 	*/
 	/**@{*/
-	template< typename TypeT >
-	inline type::StructPtr ShaderWriter::declType()
+	template< typename TypeT, typename ... ParamsT >
+	inline type::StructPtr ShaderWriter::declType( ParamsT ... params )
 	{
-		auto result = TypeT::makeType( getTypesCache() );
+		auto result = TypeT::makeType( getTypesCache()
+			, std::forward< ParamsT >( params )... );
 		addGlobalStmt( sdw::makeStructDecl( result ) );
 		return result;
 	}
@@ -1572,27 +1573,36 @@ namespace sdw
 	*	Uniform buffer declaration.
 	*/
 	/**@{*/
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declUniformBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, ast::type::MemoryLayout layout
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 	{
-		return T{ *this, std::move( name ), binding, set, layout, enabled };
+		return T{ *this
+			, std::move( name )
+			, binding
+			, set
+			, layout
+			, enabled
+			, std::forward< ParamsT >( params )... };
 	}
 
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declUniformBuffer(std::string name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
-		, bool enabled)
+		, bool enabled
+		, ParamsT ... params )
 	{
 		return declUniformBuffer< T >( std::move(name)
 			, location.binding
 			, location.set
 			, layout
-			, enabled );
+			, enabled
+			, std::forward< ParamsT >( params )... );
 	}
 	/**@}*/
 #pragma endregion
@@ -1602,47 +1612,64 @@ namespace sdw
 	*	Shader storage buffer declaration.
 	*/
 	/**@{*/
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declStorageBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
 		, ast::type::MemoryLayout layout
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 	{
-		return T{ *this, std::move( name ), binding, set, layout, enabled };
+		return T{ *this
+			, std::move( name )
+			, binding
+			, set
+			, layout
+			, enabled
+			, std::forward< ParamsT >( params )... };
 	}
 
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline ArraySsboT< T > ShaderWriter::declArrayStorageBuffer( std::string name
 		, uint32_t binding
 		, uint32_t set
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 	{
-		return ArraySsboT< T >{ *this, std::move( name ), binding, set, enabled };
+		return ArraySsboT< T >{ *this
+			, std::move( name )
+			, binding
+			, set
+			, enabled
+			, std::forward< ParamsT >( params )... };
 	}
 
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declStorageBuffer(std::string name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
-		, bool enabled)
+		, bool enabled
+		, ParamsT ... params )
 	{
 		return declStorageBuffer< T >( std::move(name)
 			, location.binding
 			, location.set
 			, layout
-			, enabled );
+			, enabled
+			, std::forward< ParamsT >( params )... );
 	}
 
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline ArraySsboT< T > ShaderWriter::declArrayStorageBuffer(std::string name
 		, LocationHelper location
-		, bool enabled)
+		, bool enabled
+		, ParamsT ... params )
 	{
 		return declArrayStorageBuffer< T >( std::move(name)
 			, location.binding
 			, location.set
-			, enabled );
+			, enabled
+			, std::forward< ParamsT >( params )... );
 	}
 	/**@}*/
 #pragma endregion
@@ -1652,13 +1679,19 @@ namespace sdw
 	*	Buffer reference declaration.
 	*/
 	/**@{*/
-	template< typename BufferT >
+	template< typename BufferT, typename ... ParamsT >
 	inline BufferReferenceT< BufferT > ShaderWriter::declBufferReference( std::string name
 		, ast::type::MemoryLayout layout
 		, ast::type::Storage storage
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 	{
-		return BufferReferenceT< BufferT >{ *this, std::move( name ), layout, storage, enabled };
+		return BufferReferenceT< BufferT >{ *this
+			, std::move( name )
+			, layout
+			, storage
+			, enabled
+			, std::forward< ParamsT >( params )... };
 	}
 	/**@}*/
 #pragma endregion
@@ -1668,12 +1701,17 @@ namespace sdw
 	*	Push constants buffer declaration.
 	*/
 	/**@{*/
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declPushConstantsBuffer( std::string name
 		, ast::type::MemoryLayout layout
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 	{
-		return T{ *this, std::move( name ), layout, enabled };
+		return T{ *this
+			, std::move( name )
+			, layout
+			, enabled
+			, std::forward< ParamsT >( params )... };
 	}
 	/**@}*/
 #pragma endregion
@@ -1683,11 +1721,15 @@ namespace sdw
 	*	Struct declaration.
 	*/
 	/**@{*/
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declStruct( std::string name
-		, ast::type::MemoryLayout layout )
+		, ast::type::MemoryLayout layout
+		, ParamsT ... params )
 	{
-		return T{ *this, std::move( name ), layout };
+		return T{ *this
+			, std::move( name )
+			, layout
+			, std::forward< ParamsT >( params )... };
 	}
 	/**@}*/
 #pragma endregion
