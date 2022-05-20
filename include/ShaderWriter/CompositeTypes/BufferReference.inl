@@ -4,13 +4,19 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename BufferT >
+	template< typename ... ParamsT >
 	BufferReferenceT< BufferT >::BufferReferenceT( ShaderWriter & writer
 		, std::string name
 		, ast::type::MemoryLayout layout
 		, ast::type::Storage storage
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 		: m_writer{ writer }
-		, m_type{ BufferT::makeType( getTypesCache( writer ), std::move( name ), layout, enabled ) }
+		, m_type{ BufferT::makeType( getTypesCache( writer )
+			, std::move( name )
+			, layout
+			, enabled
+			, std::forward< ParamsT >( params )... ) }
 		, m_pointer{ getTypesCache( writer ).getForwardPointerType( m_type, storage ) }
 		, m_enabled{ enabled }
 	{

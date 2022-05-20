@@ -13,11 +13,13 @@ namespace sdw
 	class BufferReferenceT
 	{
 	public:
+		template< typename ... ParamsT >
 		BufferReferenceT( ShaderWriter & writer
 			, std::string name
 			, ast::type::MemoryLayout layout
 			, ast::type::Storage storage
-			, bool enabled );
+			, bool enabled
+			, ParamsT ... params );
 
 		BufferT operator()( std::string instanceName
 			, UInt64 address );

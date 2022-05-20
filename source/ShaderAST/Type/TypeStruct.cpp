@@ -642,8 +642,14 @@ namespace ast::type
 	Struct::Member BaseStruct::declMember( Builtin builtin
 		, Kind kind
 		, uint32_t arraySize
-		, uint32_t index )
+		, uint32_t index
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		TypePtr mbrType;
 		auto type = getCache().getBasicType( kind );
 
@@ -665,8 +671,14 @@ namespace ast::type
 
 	Struct::Member BaseStruct::declMember( std::string name
 		, Kind kind
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		TypePtr mbrType;
 		auto type = getCache().getBasicType( kind );
 
@@ -688,8 +700,14 @@ namespace ast::type
 
 	Struct::Member BaseStruct::declMember( std::string name
 		, TypePtr type
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		if ( type->getKind() == Kind::eArray )
 		{
 			return declMember( std::move( name )
@@ -727,8 +745,14 @@ namespace ast::type
 
 	Struct::Member BaseStruct::declMember( std::string name
 		, ArrayPtr type
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
 			, *this
 			, uint32_t( size() ) );
@@ -736,8 +760,14 @@ namespace ast::type
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name
-		, ArrayPtr type )
+		, ArrayPtr type
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		Struct::Member result;
 		auto kind = getNonArrayKind( type );
 
@@ -777,8 +807,14 @@ namespace ast::type
 
 	Struct::Member BaseStruct::declMember( std::string name
 		, BaseStructPtr type
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		TypePtr mbrType;
 
 		if ( arraySize != NotArray )
@@ -800,17 +836,25 @@ namespace ast::type
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name
-		, BaseStructPtr type )
+		, BaseStructPtr type
+		, bool enabled )
 	{
 		return declMember( std::move( name )
 			, type
-			, NotArray );
+			, NotArray
+			, enabled );
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name
 		, IOStructPtr type
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool enabled )
 	{
+		if ( !enabled )
+		{
+			return Struct::Member{};
+		}
+
 		TypePtr mbrType;
 
 		if ( arraySize != NotArray )
@@ -836,11 +880,13 @@ namespace ast::type
 	}
 
 	Struct::Member BaseStruct::declMember( std::string name
-		, IOStructPtr type )
+		, IOStructPtr type
+		, bool enabled )
 	{
 		return declMember( std::move( name )
 			, type
-			, NotArray );
+			, NotArray
+			, enabled );
 	}
 
 	Struct::Member BaseStruct::doCreateMember( TypePtr type

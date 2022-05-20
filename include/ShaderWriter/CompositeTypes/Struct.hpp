@@ -28,11 +28,13 @@ namespace sdw
 			return m_type;
 		}
 
-		template< typename T >
-		inline void declMember( std::string name );
-		template< typename T >
+		template< typename ValueT, typename ... ParamsT >
 		inline void declMember( std::string name
-			, uint32_t dimension );
+			, ParamsT ... params );
+		template< typename ValueT, typename ... ParamsT >
+		inline void declMember( std::string name
+			, uint32_t dimension
+			, ParamsT ... params );
 		SDW_API void declMember( std::string name
 			, Struct const & type );
 
@@ -57,13 +59,15 @@ namespace sdw
 			return m_type;
 		}
 
-		template< typename T >
+		template< typename ValueT, typename ... ParamsT >
 		inline void declMember( std::string name
-			, uint32_t location );
-		template< typename T >
+			, uint32_t location
+			, ParamsT ... params );
+		template< typename ValueT, typename ... ParamsT >
 		inline void declMember( std::string name
 			, uint32_t dimension
-			, uint32_t location );
+			, uint32_t location
+			, ParamsT ... params );
 
 	private:
 		ShaderWriter * m_writer;

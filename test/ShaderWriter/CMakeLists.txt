@@ -311,7 +311,8 @@ set( BO_TYPES
 	DMat4x4
 )
 
-function( SDW_AddTest TEST_FILE TEST_NAME ADDITIONAL_DEFINITIONS )
+function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
+	set( REAL_TEST_NAME ${TEST_NAME}${NAME_SUFFIX} )
 	if ( PROJECTS_COVERAGE )
 		set( PROJECTS_COVERAGE_SRC_FILES
 			${PROJECTS_COVERAGE_SRC_FILES}
@@ -319,37 +320,44 @@ function( SDW_AddTest TEST_FILE TEST_NAME ADDITIONAL_DEFINITIONS )
 		)
 		set( PROJECTS_COVERAGE_TEST_NAMES
 			${PROJECTS_COVERAGE_TEST_NAMES}
-			${TEST_NAME}
+			${REAL_TEST_NAME}
 		)
 	endif ()
-	add_executable( ${TEST_NAME}
+	add_executable( ${REAL_TEST_NAME}
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
 	)
-	target_link_libraries( ${TEST_NAME} PRIVATE
+	target_link_libraries( ${REAL_TEST_NAME} PRIVATE
 		${TargetLinkLibraries}
 	)
-	target_include_directories( ${TEST_NAME} PRIVATE
+	target_include_directories( ${REAL_TEST_NAME} PRIVATE
 		${TargetIncludeDirectories}
 	)
-	target_compile_definitions( ${TEST_NAME} PRIVATE
+	target_compile_definitions( ${REAL_TEST_NAME} PRIVATE
 		${TargetCompileDefinitions}
 		${ADDITIONAL_DEFINITIONS}
 		SDW_COMPILE_TESTS
 	)
-	target_add_compilation_flags( ${TEST_NAME} )
-	set_target_properties( ${TEST_NAME} PROPERTIES
-		CXX_STANDARD 20
-		FOLDER "Tests/ShaderWriter"
-	)
+	target_add_compilation_flags( ${REAL_TEST_NAME} )
+	if ( "${NAME_SUFFIX}" STREQUAL "" )
+		set_target_properties( ${REAL_TEST_NAME} PROPERTIES
+			CXX_STANDARD 20
+			FOLDER "Tests/ShaderWriter"
+		)
+	else ()
+		set_target_properties( ${REAL_TEST_NAME} PROPERTIES
+			CXX_STANDARD 20
+			FOLDER "Tests/ShaderWriter/${TEST_NAME}"
+		)
+	endif ()
 
 	if ( MSVC )
-		target_compile_options( ${TEST_NAME} PRIVATE
+		target_compile_options( ${REAL_TEST_NAME} PRIVATE
 			-bigobj
 		)
 
 		if ( PROJECTS_COVERAGE )
-			OpenCppCoverage_add_target( ${TEST_NAME}
+			OpenCppCoverage_add_target( ${REAL_TEST_NAME}
 				MODULES $<TARGET_FILE_NAME:ShaderAST> $<TARGET_FILE_NAME:ShaderWriter>
 				SOURCES ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/source
 			)
@@ -357,8 +365,8 @@ function( SDW_AddTest TEST_FILE TEST_NAME ADDITIONAL_DEFINITIONS )
 	endif ()
 
 	add_test(
-		NAME ${TEST_NAME}
-		COMMAND ${TEST_NAME}
+		NAME ${REAL_TEST_NAME}
+		COMMAND ${REAL_TEST_NAME}
 	)
 endfunction( SDW_AddTest )
 
@@ -372,26 +380,26 @@ foreach ( TEST_FILE ${TEST_FILES} )
 
 	if ( IS_IMAGE GREATER -1 )
 		foreach( FORMAT ${IMAGE_FORMATS} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
 		endforeach ()
 	elseif ( IS_SSBO GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_UBO GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_STRUCT GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_PCB GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME}_${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	else ()
-		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} "" )
+		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} "" "" )
 	endif ()
 endforeach ()
 

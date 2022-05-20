@@ -31,11 +31,13 @@ namespace sdw
 			, uint32_t set
 			, bool enabled );
 
+		template< typename ... ParamsT >
 		ArraySsboT( ShaderWriter & writer
 			, std::string instanceName
 			, uint32_t bind
 			, uint32_t set
-			, bool enabled );
+			, bool enabled
+			, ParamsT ... params );
 
 		// From a buffer reference
 		ArraySsboT( ShaderWriter & writer
@@ -48,18 +50,20 @@ namespace sdw
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout
 			, LocationHelper location
-			, bool enabled);
+			, bool enabled );
 
 		ArraySsboT(ShaderWriter& writer
 			, std::string instanceName
 			, ast::type::BaseStructPtr dataType
 			, LocationHelper location
-			, bool enabled);
+			, bool enabled );
 
+		template< typename ... ParamsT >
 		ArraySsboT(ShaderWriter& writer
 			, std::string instanceName
 			, LocationHelper location
-			, bool enabled);
+			, bool enabled
+			, ParamsT ... params );
 
 		InstanceT operator[]( uint32_t index );
 		InstanceT operator[]( UInt const & index );
@@ -69,10 +73,12 @@ namespace sdw
 			return m_enabled;
 		}
 
+		template< typename ... ParamsT >
 		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache
 			, std::string const & name
 			, ast::type::MemoryLayout layout
-			, bool enabled );
+			, bool enabled
+			, ParamsT ... params );
 
 	private:
 		ShaderWriter & m_writer;
