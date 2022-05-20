@@ -226,28 +226,37 @@ namespace ast::type
 		SDAST_API Member declMember( Builtin builtin
 			, Kind kind
 			, uint32_t arraySize
-			, uint32_t index = InvalidLocation );
+			, uint32_t index = InvalidLocation
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
 			, Kind kind
-			, uint32_t arraySize = NotArray );
+			, uint32_t arraySize = NotArray
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
 			, TypePtr type
-			, uint32_t arraySize = NotArray );
+			, uint32_t arraySize = NotArray
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
 			, ArrayPtr type
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
-			, ArrayPtr type );
+			, ArrayPtr type
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
 			, BaseStructPtr type
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
-			, BaseStructPtr type );
+			, BaseStructPtr type
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
 			, IOStructPtr type
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, bool enabled = true );
 		SDAST_API Member declMember( std::string name
-			, IOStructPtr type );
+			, IOStructPtr type
+			, bool enabled = true );
 
 	private:
 		Member doCreateMember( TypePtr type

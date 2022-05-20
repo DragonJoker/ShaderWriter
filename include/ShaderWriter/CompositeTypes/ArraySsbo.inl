@@ -25,12 +25,14 @@ namespace sdw
 			return result;
 		}
 
-		template< typename InstanceT >
+		template< typename InstanceT, typename ... ParamsT >
 		inline ast::type::BaseStructPtr makeSsboType( ShaderWriter & writer
-			, bool enabled )
+			, bool enabled
+			, ParamsT ... params )
 		{
 			auto & cache = getTypesCache( writer );
-			ast::type::BaseStructPtr result = InstanceT::makeType( cache );
+			ast::type::BaseStructPtr result = InstanceT::makeType( cache
+				, std::forward< ParamsT >( params )... );
 
 			if ( enabled )
 			{
@@ -113,14 +115,18 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
+	template< typename ... ParamsT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
 		, std::string instanceName
 		, uint32_t bind
 		, uint32_t set
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 		: ArraySsboT{ writer
 			, std::move( instanceName )
-			, details::makeSsboType< InstanceT >( writer, enabled )
+			, details::makeSsboType< InstanceT >( writer
+				, enabled
+				, std::forward< ParamsT >( params )... )
 			, bind
 			, set
 			, enabled }
@@ -188,15 +194,18 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
+	template< typename ... ParamsT >
 	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
 		, std::string instanceName
 		, LocationHelper location
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 		: ArraySsboT{ writer
 			, std::move( instanceName )
 			, location.binding
 			, location.set
-			, enabled }
+			, enabled
+			, std::forward< ParamsT >( params )... }
 	{
 	}
 
@@ -225,14 +234,16 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
+	template< typename ... ParamsT >
 	sdw::type::BaseStructPtr ArraySsboT< InstanceT >::makeType( ast::type::TypesCache & cache
 		, std::string const & name
 		, ast::type::MemoryLayout layout
-		, bool enabled )
+		, bool enabled
+		, ParamsT ... params )
 	{
 		return details::getSsboType( cache
 			, name
-			, InstanceT::makeType( cache )
+			, InstanceT::makeType( cache, std::forward< ParamsT >( params )... )
 			, layout );
 	}
 }

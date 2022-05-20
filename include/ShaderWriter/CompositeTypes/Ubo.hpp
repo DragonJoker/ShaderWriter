@@ -36,21 +36,26 @@ namespace sdw
 			, Struct const & s
 			, uint32_t dimension
 			, bool enabled = true );
-		template< typename T >
-		inline T declMember( std::string name
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declMember( std::string name
+
+		template< typename ValueT, typename ... ParamsT >
+		inline ValueT declMember( std::string name
+			, bool enabled = true
+			, ParamsT ... params );
+		template< typename ValueT, typename ... ParamsT >
+		inline Array< ValueT > declMember( std::string name
 			, uint32_t dimension
+			, bool enabled = true
+			, ParamsT ... params );
+		template< typename ValueT, typename ... ParamsT >
+		inline Array< ValueT > declMemberArray( std::string name
+			, bool enabled = true
+			, ParamsT ... params );
+
+		template< typename ValueT >
+		inline ValueT getMember( std::string_view name
 			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declMemberArray( std::string name
-			, bool enabled = true );
-		template< typename T >
-		inline T getMember( std::string_view name
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > getMemberArray( std::string_view name
+		template< typename ValueT >
+		inline Array< ValueT > getMemberArray( std::string_view name
 			, bool enabled = true );
 
 		bool isEnabled()const

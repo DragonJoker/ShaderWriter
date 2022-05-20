@@ -81,6 +81,57 @@ namespace
 
 	Writer_Parameter( Light );
 
+	enum class Flags
+	{
+		None,
+		Positions,
+		Normals,
+		Both,
+	};
+
+	struct Parameterized
+		: public sdw::StructInstance
+	{
+		SDW_DeclStructInstance( , Parameterized );
+
+		Parameterized( sdw::ShaderWriter & writer, ast::expr::ExprPtr expr, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
+			, position{ getMember< sdw::Vec3 >( "position", true ) }
+			, normal{ getMember< sdw::Vec3 >( "normal", true ) }
+		{
+		}
+
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache
+			, Flags flags )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
+				, "Parameterized" + std::to_string( uint32_t( flags ) ) );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, ast::type::Kind::eVec3F
+					, ast::type::NotArray
+					, uint32_t( flags ) & 0x01 );
+				result->declMember( "normal"
+					, ast::type::Kind::eVec3F
+					, ast::type::NotArray
+					, uint32_t( flags ) & 0x02 );
+			}
+
+			return result;
+		}
+
+		sdw::Vec3 position;
+		sdw::Vec3 normal;
+
+	private:
+		using sdw::StructInstance::getMember;
+		using sdw::StructInstance::getMemberArray;
+	};
+
+	Writer_Parameter( Light );
+
 #if SDW_EnableStructHelper
 
 	struct Light2
@@ -420,6 +471,165 @@ namespace
 
 #endif
 	}
+
+	void singleParamUbo( test::sdw_test::TestCounts & testCounts
+		, Flags flags )
+	{
+		testBegin( "singleParamUbo" + std::to_string( uint32_t( flags ) ) );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			VertexWriter writer;
+
+			writer.declType< Parameterized >( flags );
+			auto paramUbo = writer.declUniformBuffer<>( "ParamUbo", 0u, 0u );
+			auto param = paramUbo.declMember< Parameterized >( "param", true, flags );
+			paramUbo.end();
+
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+				, VertexOut out )
+				{
+					out.vtx.position = vec4( param.position * param.normal, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			FragmentWriter writer;
+			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+				, FragmentOutT< ColourT > out )
+				{
+					out.colour = vec3( 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
+		
+	void paramArrayUbo( test::sdw_test::TestCounts & testCounts
+		, Flags flags )
+	{
+		testBegin( "paramArrayUbo" + std::to_string( uint32_t( flags ) ) );
+		using namespace sdw;
+
+		VertexWriter writer;
+
+		writer.declType< Parameterized >( flags );
+		auto paramsUbo = writer.declUniformBuffer<>( "ParamsUbo", 0u, 0u );
+		auto params = paramsUbo.declMember< Parameterized >( "params", 2u, true, flags );
+		paramsUbo.end();
+
+		writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+			, VertexOut out )
+			{
+				out.vtx.position = vec4( params[0].position * params[0].normal, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
+
+	void singleParamSsbo( test::sdw_test::TestCounts & testCounts
+		, Flags flags )
+	{
+		testBegin( "singleParamSsbo" + std::to_string( uint32_t( flags ) ) );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			VertexWriter writer;
+
+			writer.declType< Parameterized >( flags );
+			auto paramSsbo = writer.declUniformBuffer<>( "ParamSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
+			auto param = paramSsbo.declMember< Parameterized >( "param", true, flags );
+			paramSsbo.end();
+
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+				, VertexOut out )
+				{
+					out.vtx.position = vec4( param.position * param.normal, 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			FragmentWriter writer;
+
+			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
+				, FragmentOutT< ColourT > out )
+				{
+					out.colour = vec3( 1.0_f );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
+
+	void paramArraySsbo( test::sdw_test::TestCounts & testCounts
+		, Flags flags )
+	{
+		testBegin( "paramArraySsbo" + std::to_string( uint32_t( flags ) ) );
+		using namespace sdw;
+
+		VertexWriter writer;
+
+		writer.declType< Parameterized >( flags );
+		auto paramsSsbo = writer.declUniformBuffer<>( "ParamsSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
+		auto params = paramsSsbo.declMember< Parameterized >( "params", 2u, true, flags );
+		paramsSsbo.end();
+
+		writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+			, VertexOut out )
+			{
+				out.vtx.position = vec4( params[0].position * params[0].normal, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
+
+	void arraySsboParam( test::sdw_test::TestCounts & testCounts
+		, Flags flags )
+	{
+		testBegin( "arraySsboParam" + std::to_string( uint32_t( flags ) ) );
+		using namespace sdw;
+
+		VertexWriter writer;
+
+		writer.declType< Parameterized >( flags );
+		auto params = writer.declArrayStorageBuffer< Parameterized >( "Light2sSsbo"
+			, 1u
+			, 0u
+			, true
+			, flags );
+
+		writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+			, VertexOut out )
+			{
+				out.vtx.position = vec4( params[0].position * params[0].normal, 1.0_f );
+			} );
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterCustomType )
@@ -430,11 +640,30 @@ sdwTestSuiteMain( TestWriterCustomType )
 	singleLightSsbo( testCounts );
 	lightArraySsbo( testCounts );
 	arraySsboLight( testCounts );
+
 	singleLight2Ubo( testCounts );
 	light2ArrayUbo( testCounts );
 	singleLight2Ssbo( testCounts );
 	light2ArraySsbo( testCounts );
 	arraySsboLight2( testCounts );
+
+	singleParamUbo( testCounts, Flags::Positions );
+	paramArrayUbo( testCounts, Flags::Positions );
+	singleParamSsbo( testCounts, Flags::Positions );
+	paramArraySsbo( testCounts, Flags::Positions );
+	arraySsboParam( testCounts, Flags::Positions );
+
+	singleParamUbo( testCounts, Flags::Normals );
+	paramArrayUbo( testCounts, Flags::Normals );
+	singleParamSsbo( testCounts, Flags::Normals );
+	paramArraySsbo( testCounts, Flags::Normals );
+	arraySsboParam( testCounts, Flags::Normals );
+
+	singleParamUbo( testCounts, Flags::Both );
+	paramArrayUbo( testCounts, Flags::Both );
+	singleParamSsbo( testCounts, Flags::Both );
+	paramArraySsbo( testCounts, Flags::Both );
+	arraySsboParam( testCounts, Flags::Both );
 	sdwTestSuiteEnd();
 }
 

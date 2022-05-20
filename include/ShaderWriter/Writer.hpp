@@ -97,8 +97,8 @@ namespace sdw
 		*	Variables registration.
 		*/
 		/**@{*/
-		template< typename TypeT >
-		inline type::StructPtr declType();
+		template< typename TypeT, typename ... ParamsT >
+		inline type::StructPtr declType( ParamsT ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Variables registration
@@ -723,17 +723,19 @@ namespace sdw
 		*	Uniform buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = Ubo >
+		template< typename T = Ubo, typename ... ParamsT >
 		inline T declUniformBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
-			, bool enabled = true );
-		template< typename T = Ubo >
+			, bool enabled = true
+			, ParamsT ... params );
+		template< typename T = Ubo, typename ... ParamsT >
 		inline T declUniformBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
-			, bool enabled = true );
+			, bool enabled = true
+			, ParamsT ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Shader storage buffer declaration
@@ -742,26 +744,30 @@ namespace sdw
 		*	Shader storage buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = Ssbo >
+		template< typename T = Ssbo, typename ... ParamsT >
 		inline T declStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true );
-		template< typename T >
+			, bool enabled = true
+			, ParamsT ... params );
+		template< typename T, typename ... ParamsT >
 		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
-			, bool enabled = true );
-		template< typename T = Ssbo >
+			, bool enabled = true
+			, ParamsT ... params );
+		template< typename T = Ssbo, typename ... ParamsT >
 		inline T declStorageBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true );
-		template< typename T >
+			, bool enabled = true
+			, ParamsT ... params );
+		template< typename T, typename ... ParamsT >
 		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
 			, LocationHelper location
-			, bool enabled = true );
+			, bool enabled = true
+			, ParamsT ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Buffer reference declaration
@@ -770,11 +776,12 @@ namespace sdw
 		*	Buffer reference declaration.
 		*/
 		/**@{*/
-		template< typename BufferT >
+		template< typename BufferT, typename ... ParamsT >
 		inline BufferReferenceT< BufferT > declBufferReference( std::string name
 			, ast::type::MemoryLayout layout
 			, ast::type::Storage storage
-			, bool enabled = true );
+			, bool enabled = true
+			, ParamsT ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Push constants buffer declaration
@@ -783,10 +790,11 @@ namespace sdw
 		*	Push constants buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = Pcb >
+		template< typename T = Pcb, typename ... ParamsT >
 		inline T declPushConstantsBuffer( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
-			, bool enabled = true );
+			, bool enabled = true
+			, ParamsT ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Struct declaration
@@ -795,9 +803,10 @@ namespace sdw
 		*	Struct declaration.
 		*/
 		/**@{*/
-		template< typename T = Struct >
+		template< typename T = Struct, typename ... ParamsT >
 		inline T declStruct( std::string name
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC );
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
+			, ParamsT ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Output declaration
@@ -1046,13 +1055,13 @@ namespace sdw
 #define FOR( Writer, Type, Name, Init, Cond, Incr )\
 	if ( auto writerScope = makeScope( Writer ) )\
 	{\
-		auto ctrlVar##Name = Writer.registerLoopVar( #Name, Type::makeType( Writer.getTypesCache() ) );\
+		auto ctrlVar##Name = ( Writer ).registerLoopVar( #Name, Type::makeType( ( Writer ).getTypesCache() ) );\
 		Type Name{ Writer, sdw::makeExpr( Writer, ctrlVar##Name ), true };\
-		Writer.saveNextExpr();\
-		Type incr##Name{ Writer, Writer.loadExpr( Type{ Incr } ), true };\
-		Name.updateExpr( sdw::makeExpr( Writer, ctrlVar##Name ) );\
-		sdw::Boolean cond##Name{ Writer, sdw::makeCondition( Cond ), true };\
-		Writer.forStmt( sdw::makeInit( ctrlVar##Name\
+		( Writer ).saveNextExpr();\
+		Type incr##Name{ Writer, ( Writer ).loadExpr( Type{ Incr } ), true };\
+		Name.updateExpr( sdw::makeExpr( ( Writer ), ctrlVar##Name ) );\
+		sdw::Boolean cond##Name{ ( Writer ), sdw::makeCondition( Cond ), true };\
+		( Writer ).forStmt( sdw::makeInit( ctrlVar##Name\
 			, sdw::makeExpr( Writer, Init ) )\
 			, sdw::makeExpr( Writer, cond##Name )\
 			, sdw::makeExpr( Writer, incr##Name )\
