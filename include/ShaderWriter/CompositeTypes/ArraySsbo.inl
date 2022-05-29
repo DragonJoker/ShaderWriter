@@ -210,7 +210,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArraySsboT< InstanceT >::operator[]( uint32_t index )
+	InstanceT ArraySsboT< InstanceT >::operator[]( uint32_t index )const
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
@@ -222,7 +222,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArraySsboT< InstanceT >::operator[]( UInt const & index )
+	InstanceT ArraySsboT< InstanceT >::operator[]( UInt const & index )const
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
