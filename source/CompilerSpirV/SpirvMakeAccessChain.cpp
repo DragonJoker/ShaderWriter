@@ -23,6 +23,25 @@ namespace spirv
 {
 	namespace
 	{
+		bool isBuiltIn( ast::expr::Expr * expr )
+		{
+			return expr->getKind() == ast::expr::Kind::eIdentifier
+				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
+		}
+
+		bool isAccessChain( ast::expr::Expr * expr
+			, bool isFromArray )
+		{
+			return expr->getKind() == ast::expr::Kind::eArrayAccess
+				|| expr->getKind() == ast::expr::Kind::eMbrSelect
+				|| ( expr->getKind() == ast::expr::Kind::eSwizzle
+					&& ( isFromArray
+						|| !isScalarType( expr->getType()->getKind() )
+						|| isBuiltIn( static_cast< ast::expr::Swizzle const & >( *expr ).getOuterExpr() ) ) )
+				|| ( expr->getKind() == ast::expr::Kind::eIdentifier
+					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() );
+		}
+
 		struct AccessChainExpr
 		{
 			ast::expr::Kind kind;
@@ -112,7 +131,7 @@ namespace spirv
 				auto lhs = doSubmit( m_kind, expr->getLHS() );
 				m_result = lhs;
 
-				if ( isAccessChain( expr->getRHS() ) )
+				if ( isAccessChain( expr->getRHS(), true ) )
 				{
 					doAddExpr( expr->getKind(), expr );
 				}
@@ -330,7 +349,7 @@ namespace spirv
 			{
 				assert( m_parentId );
 
-				if ( isAccessChain( expr->getRHS() ) )
+				if ( isAccessChain( expr->getRHS(), true ) )
 				{
 					m_result = makeAccessChain( expr->getRHS()
 						, m_context
@@ -595,23 +614,11 @@ namespace spirv
 
 #endif
 		}
-
-		bool isBuiltIn( ast::expr::Expr * expr )
-		{
-			return expr->getKind() == ast::expr::Kind::eIdentifier
-				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
-		}
 	}
 
 	bool isAccessChain( ast::expr::Expr * expr )
 	{
-		return expr->getKind() == ast::expr::Kind::eArrayAccess
-			|| expr->getKind() == ast::expr::Kind::eMbrSelect
-			|| ( expr->getKind() == ast::expr::Kind::eSwizzle
-				&& ( !isScalarType( expr->getType()->getKind() )
-					|| isBuiltIn( static_cast< ast::expr::Swizzle const & >( *expr ).getOuterExpr() ) ) )
-			|| ( expr->getKind() == ast::expr::Kind::eIdentifier
-				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() );
+		return isAccessChain( expr, false );
 	}
 
 	ValueId makeAccessChain( ast::expr::Expr * expr
