@@ -17,6 +17,7 @@ namespace sdw
 		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
 		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
 		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
+		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
 	{
 	}
 
@@ -55,6 +56,9 @@ namespace sdw
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLocalInvocationIndex
 				, type::Kind::eUInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eDrawIndex
+				, type::Kind::eInt
 				, ast::type::NotArray );
 		}
 
