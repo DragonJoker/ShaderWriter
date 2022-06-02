@@ -43,6 +43,8 @@ namespace sdw
 		UInt const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex;
 		UInt const localInvocationIndex;
+		//in uint  gl_DrawID;
+		Int const drawID;
 	};
 	/**
 	*	Entry point type
