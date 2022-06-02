@@ -6,12 +6,15 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	Param< ValueT >::Param( ShaderWriter & writer
-		, std::string name )
+		, std::string name
+		, ParamsT ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, ValueT::makeType( getTypesCache( writer ) )
+					, ValueT::makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eParam ) )
 			, true }
@@ -42,12 +45,15 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	InParam< ValueT >::InParam( ShaderWriter & writer
-		, std::string name )
+		, std::string name
+		, ParamsT ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, ValueT::makeType( getTypesCache( writer ) )
+					, ValueT::makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eInputParam ) )
 			, true }
@@ -78,12 +84,15 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	OutParam< ValueT >::OutParam( ShaderWriter & writer
-		, std::string name )
+		, std::string name
+		, ParamsT ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, ValueT::makeType( getTypesCache( writer ) )
+					, ValueT::makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eOutputParam ) )
 			, true }
@@ -114,12 +123,15 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
-		, std::string name )
+		, std::string name
+		, ParamsT ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, ValueT::makeType( getTypesCache( writer ) )
+					, ValueT::makeType( getTypesCache( writer )
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eInputParam | var::Flag::eOutputParam ) )
 			, true }
@@ -150,13 +162,17 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	Param< Array< ValueT > >::Param( ShaderWriter & writer
 		, std::string name
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, ParamsT ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
+					, Array< ValueT >::makeType( getTypesCache( writer )
+						, arraySize
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eParam ) )
 			, true }
@@ -187,13 +203,17 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	InParam< Array< ValueT > >::InParam( ShaderWriter & writer
 		, std::string name
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, ParamsT ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
+					, Array< ValueT >::makeType( getTypesCache( writer )
+						, arraySize
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eInputParam ) )
 			, true }
@@ -224,13 +244,17 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	OutParam< Array< ValueT > >::OutParam( ShaderWriter & writer
 		, std::string name
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, ParamsT ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
+					, Array< ValueT >::makeType( getTypesCache( writer )
+						, arraySize
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eOutputParam ) )
 			, true }
@@ -261,13 +285,17 @@ namespace sdw
 	//*****************************************************************************************
 
 	template< typename ValueT >
+	template< typename ... ParamsT >
 	InOutParam< Array< ValueT > >::InOutParam( ShaderWriter & writer
 		, std::string name
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, ParamsT ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
-					, Array< ValueT >::makeType( getTypesCache( writer ), arraySize )
+					, Array< ValueT >::makeType( getTypesCache( writer )
+						, arraySize
+						, std::forward< ParamsT >( params )... )
 					, std::move( name )
 					, var::Flag::eInputParam | var::Flag::eOutputParam ) )
 			, true }

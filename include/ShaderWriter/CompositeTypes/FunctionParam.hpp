@@ -13,8 +13,10 @@ namespace sdw
 	struct Param
 		: public ValueT
 	{
+		template< typename ... ParamsT >
 		Param( ShaderWriter & writer
-			, std::string name );
+			, std::string name
+			, ParamsT ... params );
 		Param( ValueT const & other );
 		template< typename T >
 		inline Param< ValueT > operator=( T const & rhs );
@@ -25,8 +27,10 @@ namespace sdw
 	struct InParam
 		: public ValueT
 	{
+		template< typename ... ParamsT >
 		InParam( ShaderWriter & writer
-			, std::string name );
+			, std::string name
+			, ParamsT ... params );
 		InParam( ValueT const & other );
 		template< typename T >
 		inline InParam< ValueT > operator=( T const & rhs );
@@ -37,8 +41,10 @@ namespace sdw
 	struct OutParam
 		: public ValueT
 	{
+		template< typename ... ParamsT >
 		OutParam( ShaderWriter & writer
-			, std::string name );
+			, std::string name
+			, ParamsT ... params );
 		OutParam( ValueT const & other );
 		template< typename T >
 		inline OutParam< ValueT > operator=( T const & rhs );
@@ -49,8 +55,10 @@ namespace sdw
 	struct InOutParam
 		: public ValueT
 	{
+		template< typename ... ParamsT >
 		InOutParam( ShaderWriter & writer
-			, std::string name );
+			, std::string name
+			, ParamsT ... params );
 		InOutParam( ValueT const & other );
 		template< typename T >
 		inline InOutParam< ValueT > operator=( T const & rhs );
@@ -61,9 +69,11 @@ namespace sdw
 	struct Param< Array< ValueT > >
 		: public Array< ValueT >
 	{
+		template< typename ... ParamsT >
 		Param( ShaderWriter & writer
 			, std::string name
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, ParamsT ... params );
 		Param( Array< ValueT > const & other );
 		template< typename T >
 		inline Param< Array< ValueT > > operator=( T const & rhs );
@@ -74,9 +84,11 @@ namespace sdw
 	struct InParam< Array< ValueT > >
 		: public Array< ValueT >
 	{
+		template< typename ... ParamsT >
 		InParam( ShaderWriter & writer
 			, std::string name
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, ParamsT ... params );
 		InParam( Array< ValueT > const & other );
 		template< typename T >
 		inline InParam< Array< ValueT > > operator=( T const & rhs );
@@ -87,9 +99,11 @@ namespace sdw
 	struct OutParam< Array< ValueT > >
 		: public Array< ValueT >
 	{
+		template< typename ... ParamsT >
 		OutParam( ShaderWriter & writer
 			, std::string name
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, ParamsT ... params );
 		OutParam( Array< ValueT > const & other );
 		template< typename T >
 		inline OutParam< Array< ValueT > > operator=( T const & rhs );
@@ -100,9 +114,11 @@ namespace sdw
 	struct InOutParam< Array< ValueT > >
 		: public Array< ValueT >
 	{
+		template< typename ... ParamsT >
 		InOutParam( ShaderWriter & writer
 			, std::string name
-			, uint32_t arraySize );
+			, uint32_t arraySize
+			, ParamsT ... params );
 		InOutParam( Array< ValueT > const & other );
 		template< typename T >
 		inline InOutParam< Array< ValueT > > operator=( T const & rhs );
