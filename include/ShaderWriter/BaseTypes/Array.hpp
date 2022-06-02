@@ -24,8 +24,10 @@ namespace sdw
 		ValueT operator[]( int32_t offset )const;
 		ValueT operator[]( uint32_t offset )const;
 
+		template< typename ... ParamsT >
 		static inline ast::type::ArrayPtr makeType( ast::type::TypesCache & cache
-			, uint32_t arraySize = ast::type::UnknownArraySize );
+			, uint32_t arraySize = ast::type::UnknownArraySize
+			, ParamsT ... params );
 	};
 
 	template< typename ValueT >
