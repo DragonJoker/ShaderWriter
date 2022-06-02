@@ -19,6 +19,7 @@ namespace sdw
 		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
 		, meshViewCount{ getUIntMember( *this, ast::Builtin::eMeshViewCountNV ) }
 		, meshViewIndices{ getUIntMemberArray( *this, ast::Builtin::eMeshViewIndicesNV ) }
+		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
 	{
 	}
 
@@ -65,6 +66,9 @@ namespace sdw
 			result->declMember( ast::Builtin::eMeshViewIndicesNV
 				, type::Kind::eUInt
 				, ast::type::UnknownArraySize );
+			result->declMember( ast::Builtin::eDrawIndex
+				, type::Kind::eInt
+				, ast::type::NotArray );
 		}
 
 		return result;

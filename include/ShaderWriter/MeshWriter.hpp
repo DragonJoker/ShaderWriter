@@ -47,6 +47,8 @@ namespace sdw
 		UInt const meshViewCount;
 		//in uint  gl_MeshViewIndicesNV[];
 		Array< UInt > const meshViewIndices;
+		//in uint  gl_DrawID;
+		Int const drawID;
 	};
 	/**
 	*	Holds per vertex data
