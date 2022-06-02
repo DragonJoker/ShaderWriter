@@ -50,9 +50,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline ast::type::ArrayPtr Array< ValueT >::makeType( ast::type::TypesCache & cache, uint32_t arraySize )
+	template< typename ... ParamsT >
+	inline ast::type::ArrayPtr Array< ValueT >::makeType( ast::type::TypesCache & cache
+		, uint32_t arraySize
+		, ParamsT ... params )
 	{
-		return cache.getArray( ValueT::makeType( cache ), arraySize );
+		return cache.getArray( ValueT::makeType( cache, std::forward< ParamsT >( params )... ), arraySize );
 	}
 
 	//*********************************************************************************************
