@@ -2883,7 +2883,7 @@ namespace spirv
 		case spv::OpIsHelperInvocationEXT:
 			return makeInstruction< IntrinsicInstructionT< spv::OpIsHelperInvocationEXT > >( returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformElect:
-			return makeInstruction< GroupNonUniformElectInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformElectInstruction >( returnTypeId, resultId, operands.front() );
 		case spv::OpGroupNonUniformAll:
 			return makeInstruction< GroupNonUniformAllInstruction >( returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformAny:

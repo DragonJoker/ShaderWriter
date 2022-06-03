@@ -59,7 +59,7 @@ namespace sdw
 	struct SubgroupInT
 		: private ComputeInT< DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		using ComputeInT< DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		SubgroupInT( ShaderWriter & writer
