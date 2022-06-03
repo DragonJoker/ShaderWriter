@@ -24,6 +24,17 @@ namespace hlsl
 			case ast::Builtin::eSampleID:
 				config.requiresSampledIndex = true;
 				break;
+			case ast::Builtin::eNumSubgroups:
+			case ast::Builtin::eSubgroupID:
+			case ast::Builtin::eSubgroupSize:
+			case ast::Builtin::eSubgroupLocalInvocationID:
+			case ast::Builtin::eSubgroupEqMask:
+			case ast::Builtin::eSubgroupGeMask:
+			case ast::Builtin::eSubgroupGtMask:
+			case ast::Builtin::eSubgroupLeMask:
+			case ast::Builtin::eSubgroupLtMask:
+				config.requiresWaveOps = true;
+				break;
 			default:
 				break;
 			}

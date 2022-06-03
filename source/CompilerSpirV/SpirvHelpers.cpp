@@ -602,12 +602,7 @@ namespace spirv
 		case ast::Builtin::eGlobalSize:
 		case ast::Builtin::eEnqueuedWorkgroupSize:
 		case ast::Builtin::eGlobalLinearID:
-		case ast::Builtin::eSubgroupSize:
-		case ast::Builtin::eSubgroupMaxSize:
-		case ast::Builtin::eNumSubgroups:
 		case ast::Builtin::eNumEnqueuedSubgroups:
-		case ast::Builtin::eSubgroupID:
-		case ast::Builtin::eSubgroupLocalInvocationID:
 			config.registerCapability( spv::CapabilityKernel );
 			break;
 		case ast::Builtin::eVertexIndex:
@@ -615,12 +610,17 @@ namespace spirv
 		case ast::Builtin::eInstanceID:
 			config.registerCapability( spv::CapabilityShader );
 			break;
-		case ast::Builtin::eSubgroupEqMaskKHR:
-		case ast::Builtin::eSubgroupGeMaskKHR:
-		case ast::Builtin::eSubgroupGtMaskKHR:
-		case ast::Builtin::eSubgroupLeMaskKHR:
-		case ast::Builtin::eSubgroupLtMaskKHR:
-			config.registerCapability( spv::CapabilitySubgroupBallotKHR );
+		case ast::Builtin::eSubgroupSize:
+		case ast::Builtin::eSubgroupMaxSize:
+		case ast::Builtin::eNumSubgroups:
+		case ast::Builtin::eSubgroupID:
+		case ast::Builtin::eSubgroupLocalInvocationID:
+		case ast::Builtin::eSubgroupEqMask:
+		case ast::Builtin::eSubgroupGeMask:
+		case ast::Builtin::eSubgroupGtMask:
+		case ast::Builtin::eSubgroupLeMask:
+		case ast::Builtin::eSubgroupLtMask:
+			config.registerCapability( spv::CapabilityGroupNonUniformBallot );
 			break;
 		case ast::Builtin::eBaseVertex:
 		case ast::Builtin::eBaseInstance:
@@ -2087,16 +2087,16 @@ namespace spirv
 			return spv::BuiltInVertexIndex;
 		case ast::Builtin::eInstanceIndex:
 			return spv::BuiltInInstanceIndex;
-		case ast::Builtin::eSubgroupEqMaskKHR:
-			return spv::BuiltInSubgroupEqMaskKHR;
-		case ast::Builtin::eSubgroupGeMaskKHR:
-			return spv::BuiltInSubgroupGeMaskKHR;
-		case ast::Builtin::eSubgroupGtMaskKHR:
-			return spv::BuiltInSubgroupGtMaskKHR;
-		case ast::Builtin::eSubgroupLeMaskKHR:
-			return spv::BuiltInSubgroupLeMaskKHR;
-		case ast::Builtin::eSubgroupLtMaskKHR:
-			return spv::BuiltInSubgroupLtMaskKHR;
+		case ast::Builtin::eSubgroupEqMask:
+			return spv::BuiltInSubgroupEqMask;
+		case ast::Builtin::eSubgroupGeMask:
+			return spv::BuiltInSubgroupGeMask;
+		case ast::Builtin::eSubgroupGtMask:
+			return spv::BuiltInSubgroupGtMask;
+		case ast::Builtin::eSubgroupLeMask:
+			return spv::BuiltInSubgroupLeMask;
+		case ast::Builtin::eSubgroupLtMask:
+			return spv::BuiltInSubgroupLtMask;
 		case ast::Builtin::eBaseVertex:
 			return spv::BuiltInBaseVertex;
 		case ast::Builtin::eBaseInstance:

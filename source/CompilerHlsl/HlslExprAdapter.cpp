@@ -1016,6 +1016,12 @@ namespace hlsl
 				case ast::Builtin::eWorldToObject:
 					m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
 					break;
+				case ast::Builtin::eSubgroupSize:
+					m_result = writeFuncCall( mbr.type, "WaveGetLaneCount" );
+					break;
+				case ast::Builtin::eSubgroupLocalInvocationID:
+					m_result = writeFuncCall( mbr.type, "WaveGetLaneIndex" );
+					break;
 				default:
 					//noop
 					break;

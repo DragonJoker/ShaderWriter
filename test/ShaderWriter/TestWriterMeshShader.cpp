@@ -1434,6 +1434,136 @@ namespace
 		}
 		testEnd();
 	}
+
+	void subgroupPointX( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupPointX" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshSubgroupIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, PointsMeshPrimitiveListOut primOut )
+				{} );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_NoHLSL );
+		}
+		testEnd();
+	}
+
+	void subgroupPoint( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupPoint" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, PointsMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshSubgroupIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, PointsMeshPrimitiveListOut primOut )
+				{} );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_NoHLSL );
+		}
+		testEnd();
+	}
+
+	void subgroupLineX( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupLineX" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshSubgroupIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, LinesMeshPrimitiveListOut primOut )
+				{} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void subgroupLine( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupLine" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, LinesMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshSubgroupIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, LinesMeshPrimitiveListOut primOut )
+				{} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void subgroupTriangleX( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupTriangleX" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshSubgroupIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
+				{
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void subgroupTriangle( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupTriangle" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadIn{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, TrianglesMeshPrimitiveListOut{ writer, 126u }
+				, [&]( MeshSubgroupIn in
+					, TaskPayloadIn payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
+				{} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterMeshShader )
@@ -1452,6 +1582,12 @@ sdwTestSuiteMain( TestWriterMeshShader )
 	meshletInstancing( testCounts );
 	checkConstantsLayout( testCounts );
 	cullMeshlet( testCounts );
+	subgroupPointX( testCounts );
+	subgroupPoint( testCounts );
+	subgroupLineX( testCounts );
+	subgroupLine( testCounts );
+	subgroupTriangleX( testCounts );
+	subgroupTriangle( testCounts );
 
 	sdwTestSuiteEnd();
 }

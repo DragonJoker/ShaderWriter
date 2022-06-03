@@ -69,6 +69,20 @@ namespace glsl
 					config.requiredExtensions.insert( ARB_fragment_layer_viewport );
 				}
 				break;
+			case ast::Builtin::eSubgroupSize:
+			case ast::Builtin::eSubgroupMaxSize:
+			case ast::Builtin::eNumSubgroups:
+			case ast::Builtin::eSubgroupID:
+			case ast::Builtin::eSubgroupLocalInvocationID:
+				config.requiredExtensions.insert( KHR_shader_subgroup_basic );
+				break;
+			case ast::Builtin::eSubgroupEqMask:
+			case ast::Builtin::eSubgroupGeMask:
+			case ast::Builtin::eSubgroupGtMask:
+			case ast::Builtin::eSubgroupLeMask:
+			case ast::Builtin::eSubgroupLtMask:
+				config.requiredExtensions.insert( KHR_shader_subgroup_ballot );
+				break;
 			default:
 				break;
 			}

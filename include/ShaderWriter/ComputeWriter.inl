@@ -3,8 +3,8 @@ See LICENSE file in root folder
 */
 #include "ComputeWriter.hpp"
 
-#include "BaseTypes/UInt.hpp"
-#include "VecTypes/Vec3.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
+#include "ShaderWriter/VecTypes/Vec4.hpp"
 
 namespace sdw
 {
@@ -74,6 +74,84 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename DataT >
+	template< typename ... ParamsT >
+	SubgroupInT< DataT >::SubgroupInT( ShaderWriter & writer
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
+		, ParamsT ... params )
+		: SubgroupInT{ writer
+			, makeExpr( writer
+				, sdw::getShader( writer ).registerName( "subgroupIn"
+					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+						, localSizeX
+						, localSizeY
+						, localSizeZ )
+					, FlagT ) ) }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	SubgroupInT< DataT >::SubgroupInT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: ComputeInT< DataT >{ writer, std::move( expr ), enabled }
+		, numSubgroups{ getUIntMember( *this, ast::Builtin::eNumSubgroups ) }
+		, subgroupID{ getUIntMember( *this, ast::Builtin::eSubgroupID ) }
+		, subgroupSize{ getUIntMember( *this, ast::Builtin::eSubgroupSize ) }
+		, subgroupInvocationID{ getUIntMember( *this, ast::Builtin::eSubgroupLocalInvocationID ) }
+		, subgroupEqMask{ getUVec4Member( *this, ast::Builtin::eSubgroupEqMask ) }
+		, subgroupGeMask{ getUVec4Member( *this, ast::Builtin::eSubgroupGeMask ) }
+		, subgroupGtMask{ getUVec4Member( *this, ast::Builtin::eSubgroupGtMask ) }
+		, subgroupLeMask{ getUVec4Member( *this, ast::Builtin::eSubgroupLeMask ) }
+		, subgroupLtMask{ getUVec4Member( *this, ast::Builtin::eSubgroupLtMask ) }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr SubgroupInT< DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
+	{
+		auto result = ComputeInT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
+
+		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
+		{
+			result->declMember( ast::Builtin::eNumSubgroups
+				, type::Kind::eUInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupID
+				, type::Kind::eUInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupSize
+				, type::Kind::eUInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupLocalInvocationID
+				, type::Kind::eUInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupEqMask
+				, type::Kind::eVec4U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupGeMask
+				, type::Kind::eVec4U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupGtMask
+				, type::Kind::eVec4U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupLeMask
+				, type::Kind::eVec4U
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eSubgroupLtMask
+				, type::Kind::eVec4U
+				, ast::type::NotArray );
+		}
+
+		return result;
+	}
+
+	//*************************************************************************
+
+	template< template< ast::var::Flag FlagT > typename DataT >
 	inline void ComputeWriter::implementMainT( uint32_t localSizeX
 		, ComputeMainFuncT< DataT > const & function )
 	{
@@ -101,6 +179,41 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	inline void ComputeWriter::implementMainT( ComputeInT< DataT > in
 		, ComputeMainFuncT< DataT > const & function )
+	{
+		( void )implementFunction< Void >( "main"
+			, ast::stmt::FunctionFlag::eEntryPoint
+			, function
+			, makeInParam( std::move( in ) ) );
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void ComputeWriter::implementMainT( uint32_t localSizeX
+		, SubgroupMainFuncT< DataT > const & function )
+	{
+		this->implementMainT< DataT >( localSizeX, 1u, 1u, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void ComputeWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, SubgroupMainFuncT< DataT > const & function )
+	{
+		this->implementMainT< DataT >( localSizeX, localSizeY, 1u, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void ComputeWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
+		, SubgroupMainFuncT< DataT > const & function )
+	{
+		this->implementMainT( SubgroupInT< DataT >{ *this, localSizeX, localSizeY, localSizeZ }
+			, function );
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	inline void ComputeWriter::implementMainT( SubgroupInT< DataT > in
+		, SubgroupMainFuncT< DataT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
