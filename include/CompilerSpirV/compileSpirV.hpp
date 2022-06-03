@@ -99,6 +99,8 @@ namespace spirv
 	makeSpirVExtension( v1_3, v1_3, v1_5, EXT_physical_storage_buffer );
 	// Enable this extension to be able to use any ray tracing shader stage.
 	makeSpirVExtension( v1_4, v1_5, vUnk, KHR_ray_tracing );
+	// This one is more of a marker to tell that the shader uses subgroup intrinsics.
+	makeSpirVExtension( v1_3, v1_3, v1_3, KHR_shader_subgroup );
 
 #undef makeSpirVExtension
 

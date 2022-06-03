@@ -106,6 +106,15 @@ namespace glsl
 	makeGlExtension( v4_6, v4_6, vUnk, EXT_ray_query );
 	makeGlExtension( v4_6, v4_6, vUnk, EXT_scalar_block_layout );
 	makeGlExtension( v4_6, v4_6, vUnk, ARB_shader_draw_parameters );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_basic );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_vote );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_arithmetic );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_ballot );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_shuffle );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_shuffle_relative );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_clustered );
+	makeGlExtension( v4_6, v4_6, vUnk, KHR_shader_subgroup_quad );
 	makeGlExtension( vUnk, vUnk, vUnk, EXT_separate_samplers );
 
 #undef makeGlExtension

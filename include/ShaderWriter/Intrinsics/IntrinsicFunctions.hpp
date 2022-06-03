@@ -1705,6 +1705,1082 @@ namespace sdw
 	SDW_API ReturnWrapperT< Void > dispatchMesh( TaskPayload const & payload, UInt const & numTasks );
 	/**@}*/
 #pragma endregion
+#pragma region subgroupBarrier
+	/**
+	*name
+	*	subgroupBarrier
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Void > subgroupBarrier( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrier
+	/**
+	*name
+	*	subgroupMemoryBarrier
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Void > subgroupMemoryBarrier( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrierBuffer
+	/**
+	*name
+	*	subgroupMemoryBarrierBuffer
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Void > subgroupMemoryBarrierBuffer( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrierShared
+	/**
+	*name
+	*	subgroupMemoryBarrierShared
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Void > subgroupMemoryBarrierShared( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrierImage
+	/**
+	*name
+	*	subgroupMemoryBarrierImage
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Void > subgroupMemoryBarrierImage( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupElect
+	/**
+	*name
+	*	subgroupElect
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Boolean > subgroupElect( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAll
+	/**
+	*name
+	*	subgroupAll
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Boolean > subgroupAll( Boolean const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAny
+	/**
+	*name
+	*	subgroupAny
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Boolean > subgroupAny( Boolean const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAllEqual
+	/**
+	*name
+	*	subgroupAllEqual
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Float const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Vec2 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Vec3 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Vec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Int const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( IVec2 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( IVec3 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( IVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( UInt const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( UVec2 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( UVec3 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Boolean const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( BVec2 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( BVec3 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( BVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( Double const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( DVec2 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( DVec3 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAllEqual( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBroadcast
+	/**
+	*name
+	*	subgroupBroadcast
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupBroadcast( Float const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec2 > subgroupBroadcast( Vec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec3 > subgroupBroadcast( Vec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec4 > subgroupBroadcast( Vec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Int > subgroupBroadcast( Int const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec2 > subgroupBroadcast( IVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec3 > subgroupBroadcast( IVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec4 > subgroupBroadcast( IVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UInt > subgroupBroadcast( UInt const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec2 > subgroupBroadcast( UVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec3 > subgroupBroadcast( UVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec4 > subgroupBroadcast( UVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Boolean > subgroupBroadcast( Boolean const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec2 > subgroupBroadcast( BVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec3 > subgroupBroadcast( BVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec4 > subgroupBroadcast( BVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Double > subgroupBroadcast( Double const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec2 > subgroupBroadcast( DVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec3 > subgroupBroadcast( DVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec4 > subgroupBroadcast( DVec4 const & value, UInt const & id );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBroadcastFirst
+	/**
+	*name
+	*	subgroupBroadcastFirst
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupBroadcastFirst( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupBroadcastFirst( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupBroadcastFirst( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupBroadcastFirst( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupBroadcastFirst( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupBroadcastFirst( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupBroadcastFirst( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupBroadcastFirst( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupBroadcastFirst( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupBroadcastFirst( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupBroadcastFirst( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupBroadcastFirst( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupBroadcastFirst( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupBroadcastFirst( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupBroadcastFirst( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupBroadcastFirst( BVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupBroadcastFirst( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupBroadcastFirst( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupBroadcastFirst( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupBroadcastFirst( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallot
+	/**
+	*name
+	*	subgroupBallot
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< UVec4 > subgroupBallot( Boolean const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInverseBallot
+	/**
+	*name
+	*	subgroupInverseBallot
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Boolean > subgroupInverseBallot( UVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotBitExtract
+	/**
+	*name
+	*	subgroupBallotBitExtract
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Boolean > subgroupBallotBitExtract( UVec4 const & value, UInt const & index );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotBitCount
+	/**
+	*name
+	*	subgroupBallotBitCount
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< UInt > subgroupBallotBitCount( UVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotInclusiveBitCount
+	/**
+	*name
+	*	subgroupBallotInclusiveBitCount
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< UInt > subgroupBallotInclusiveBitCount( UVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotExclusiveBitCount
+	/**
+	*name
+	*	subgroupBallotExclusiveBitCount
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< UInt > subgroupBallotExclusiveBitCount( UVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotFindLSB
+	/**
+	*name
+	*	subgroupBallotFindLSB
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< UInt > subgroupBallotFindLSB( UVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotFindMSB
+	/**
+	*name
+	*	subgroupBallotFindMSB
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< UInt > subgroupBallotFindMSB( UVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffle
+	/**
+	*name
+	*	subgroupShuffle
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupShuffle( Float const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec2 > subgroupShuffle( Vec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec3 > subgroupShuffle( Vec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec4 > subgroupShuffle( Vec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Int > subgroupShuffle( Int const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec2 > subgroupShuffle( IVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec3 > subgroupShuffle( IVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec4 > subgroupShuffle( IVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UInt > subgroupShuffle( UInt const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec2 > subgroupShuffle( UVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec3 > subgroupShuffle( UVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec4 > subgroupShuffle( UVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Boolean > subgroupShuffle( Boolean const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec2 > subgroupShuffle( BVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec3 > subgroupShuffle( BVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec4 > subgroupShuffle( BVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Double > subgroupShuffle( Double const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec2 > subgroupShuffle( DVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec3 > subgroupShuffle( DVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec4 > subgroupShuffle( DVec4 const & value, UInt const & id );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffleXor
+	/**
+	*name
+	*	subgroupShuffleXor
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupShuffleXor( Float const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< Vec2 > subgroupShuffleXor( Vec2 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< Vec3 > subgroupShuffleXor( Vec3 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< Vec4 > subgroupShuffleXor( Vec4 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< Int > subgroupShuffleXor( Int const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< IVec2 > subgroupShuffleXor( IVec2 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< IVec3 > subgroupShuffleXor( IVec3 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< IVec4 > subgroupShuffleXor( IVec4 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< UInt > subgroupShuffleXor( UInt const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< UVec2 > subgroupShuffleXor( UVec2 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< UVec3 > subgroupShuffleXor( UVec3 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< UVec4 > subgroupShuffleXor( UVec4 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< Boolean > subgroupShuffleXor( Boolean const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< BVec2 > subgroupShuffleXor( BVec2 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< BVec3 > subgroupShuffleXor( BVec3 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< BVec4 > subgroupShuffleXor( BVec4 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< Double > subgroupShuffleXor( Double const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< DVec2 > subgroupShuffleXor( DVec2 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< DVec3 > subgroupShuffleXor( DVec3 const & value, UInt const & mask );
+	SDW_API ReturnWrapperT< DVec4 > subgroupShuffleXor( DVec4 const & value, UInt const & mask );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffleUp
+	/**
+	*name
+	*	subgroupShuffleUp
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupShuffleUp( Float const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Vec2 > subgroupShuffleUp( Vec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Vec3 > subgroupShuffleUp( Vec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Vec4 > subgroupShuffleUp( Vec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Int > subgroupShuffleUp( Int const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< IVec2 > subgroupShuffleUp( IVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< IVec3 > subgroupShuffleUp( IVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< IVec4 > subgroupShuffleUp( IVec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UInt > subgroupShuffleUp( UInt const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UVec2 > subgroupShuffleUp( UVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UVec3 > subgroupShuffleUp( UVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UVec4 > subgroupShuffleUp( UVec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Boolean > subgroupShuffleUp( Boolean const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< BVec2 > subgroupShuffleUp( BVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< BVec3 > subgroupShuffleUp( BVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< BVec4 > subgroupShuffleUp( BVec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Double > subgroupShuffleUp( Double const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< DVec2 > subgroupShuffleUp( DVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< DVec3 > subgroupShuffleUp( DVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< DVec4 > subgroupShuffleUp( DVec4 const & value, UInt const & delta );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffleDown
+	/**
+	*name
+	*	subgroupShuffleDown
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupShuffleDown( Float const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Vec2 > subgroupShuffleDown( Vec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Vec3 > subgroupShuffleDown( Vec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Vec4 > subgroupShuffleDown( Vec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Int > subgroupShuffleDown( Int const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< IVec2 > subgroupShuffleDown( IVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< IVec3 > subgroupShuffleDown( IVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< IVec4 > subgroupShuffleDown( IVec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UInt > subgroupShuffleDown( UInt const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UVec2 > subgroupShuffleDown( UVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UVec3 > subgroupShuffleDown( UVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< UVec4 > subgroupShuffleDown( UVec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Boolean > subgroupShuffleDown( Boolean const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< BVec2 > subgroupShuffleDown( BVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< BVec3 > subgroupShuffleDown( BVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< BVec4 > subgroupShuffleDown( BVec4 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< Double > subgroupShuffleDown( Double const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< DVec2 > subgroupShuffleDown( DVec2 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< DVec3 > subgroupShuffleDown( DVec3 const & value, UInt const & delta );
+	SDW_API ReturnWrapperT< DVec4 > subgroupShuffleDown( DVec4 const & value, UInt const & delta );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAdd
+	/**
+	*name
+	*	subgroupAdd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupAdd( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupAdd( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupAdd( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupAdd( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupAdd( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupAdd( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupAdd( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupAdd( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupAdd( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupAdd( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupAdd( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupAdd( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupAdd( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupAdd( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupAdd( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupAdd( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMul
+	/**
+	*name
+	*	subgroupMul
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupMul( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupMul( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupMul( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupMul( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupMul( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupMul( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupMul( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupMul( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupMul( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupMul( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupMul( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupMul( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupMul( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupMul( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupMul( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupMul( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMin
+	/**
+	*name
+	*	subgroupMin
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupMin( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupMin( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupMin( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupMin( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupMin( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupMin( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupMin( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupMin( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupMin( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupMin( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupMin( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupMin( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupMin( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupMin( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupMin( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupMin( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMax
+	/**
+	*name
+	*	subgroupMax
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupMax( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupMax( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupMax( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupMax( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupMax( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupMax( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupMax( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupMax( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupMax( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupMax( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupMax( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupMax( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupMax( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupMax( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupMax( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupMax( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAnd
+	/**
+	*name
+	*	subgroupAnd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupAnd( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupAnd( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupAnd( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupAnd( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupAnd( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupAnd( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupAnd( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupAnd( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupAnd( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupAnd( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupAnd( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupAnd( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupOr
+	/**
+	*name
+	*	subgroupOr
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupOr( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupOr( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupOr( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupOr( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupOr( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupOr( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupOr( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupOr( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupOr( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupOr( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupOr( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupOr( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupXor
+	/**
+	*name
+	*	subgroupXor
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupXor( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupXor( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupXor( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupXor( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupXor( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupXor( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupXor( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupXor( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupXor( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupXor( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupXor( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupXor( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveAdd
+	/**
+	*name
+	*	subgroupInclusiveAdd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupInclusiveAdd( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupInclusiveAdd( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupInclusiveAdd( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupInclusiveAdd( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveAdd( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveAdd( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveAdd( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveAdd( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveAdd( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveAdd( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveAdd( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveAdd( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupInclusiveAdd( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupInclusiveAdd( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupInclusiveAdd( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupInclusiveAdd( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveMul
+	/**
+	*name
+	*	subgroupInclusiveMul
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupInclusiveMul( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupInclusiveMul( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupInclusiveMul( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupInclusiveMul( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveMul( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveMul( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveMul( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveMul( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveMul( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveMul( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveMul( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveMul( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupInclusiveMul( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupInclusiveMul( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupInclusiveMul( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupInclusiveMul( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveMin
+	/**
+	*name
+	*	subgroupInclusiveMin
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupInclusiveMin( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupInclusiveMin( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupInclusiveMin( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupInclusiveMin( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveMin( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveMin( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveMin( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveMin( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveMin( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveMin( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveMin( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveMin( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupInclusiveMin( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupInclusiveMin( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupInclusiveMin( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupInclusiveMin( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveMax
+	/**
+	*name
+	*	subgroupInclusiveMax
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupInclusiveMax( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupInclusiveMax( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupInclusiveMax( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupInclusiveMax( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveMax( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveMax( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveMax( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveMax( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveMax( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveMax( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveMax( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveMax( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupInclusiveMax( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupInclusiveMax( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupInclusiveMax( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupInclusiveMax( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveAnd
+	/**
+	*name
+	*	subgroupInclusiveAnd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveAnd( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveAnd( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveAnd( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveAnd( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveAnd( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveAnd( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveAnd( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveAnd( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupInclusiveAnd( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupInclusiveAnd( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupInclusiveAnd( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupInclusiveAnd( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveOr
+	/**
+	*name
+	*	subgroupInclusiveOr
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveOr( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveOr( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveOr( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveOr( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveOr( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveOr( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveOr( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveOr( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupInclusiveOr( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupInclusiveOr( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupInclusiveOr( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupInclusiveOr( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveXor
+	/**
+	*name
+	*	subgroupInclusiveXor
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupInclusiveXor( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupInclusiveXor( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupInclusiveXor( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupInclusiveXor( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupInclusiveXor( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupInclusiveXor( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupInclusiveXor( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupInclusiveXor( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupInclusiveXor( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupInclusiveXor( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupInclusiveXor( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupInclusiveXor( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveAdd
+	/**
+	*name
+	*	subgroupExclusiveAdd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupExclusiveAdd( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupExclusiveAdd( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupExclusiveAdd( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupExclusiveAdd( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveAdd( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveAdd( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveAdd( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveAdd( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveAdd( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveAdd( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveAdd( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveAdd( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupExclusiveAdd( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupExclusiveAdd( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupExclusiveAdd( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupExclusiveAdd( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveMul
+	/**
+	*name
+	*	subgroupExclusiveMul
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupExclusiveMul( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupExclusiveMul( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupExclusiveMul( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupExclusiveMul( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveMul( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveMul( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveMul( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveMul( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveMul( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveMul( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveMul( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveMul( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupExclusiveMul( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupExclusiveMul( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupExclusiveMul( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupExclusiveMul( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveMin
+	/**
+	*name
+	*	subgroupExclusiveMin
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupExclusiveMin( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupExclusiveMin( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupExclusiveMin( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupExclusiveMin( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveMin( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveMin( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveMin( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveMin( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveMin( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveMin( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveMin( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveMin( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupExclusiveMin( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupExclusiveMin( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupExclusiveMin( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupExclusiveMin( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveMax
+	/**
+	*name
+	*	subgroupExclusiveMax
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupExclusiveMax( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupExclusiveMax( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupExclusiveMax( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupExclusiveMax( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveMax( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveMax( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveMax( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveMax( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveMax( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveMax( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveMax( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveMax( UVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupExclusiveMax( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupExclusiveMax( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupExclusiveMax( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupExclusiveMax( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveAnd
+	/**
+	*name
+	*	subgroupExclusiveAnd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveAnd( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveAnd( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveAnd( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveAnd( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveAnd( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveAnd( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveAnd( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveAnd( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupExclusiveAnd( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupExclusiveAnd( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupExclusiveAnd( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupExclusiveAnd( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveOr
+	/**
+	*name
+	*	subgroupExclusiveOr
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveOr( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveOr( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveOr( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveOr( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveOr( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveOr( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveOr( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveOr( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupExclusiveOr( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupExclusiveOr( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupExclusiveOr( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupExclusiveOr( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveXor
+	/**
+	*name
+	*	subgroupExclusiveXor
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupExclusiveXor( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupExclusiveXor( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupExclusiveXor( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupExclusiveXor( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupExclusiveXor( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupExclusiveXor( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupExclusiveXor( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupExclusiveXor( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupExclusiveXor( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupExclusiveXor( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupExclusiveXor( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupExclusiveXor( BVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterAdd
+	/**
+	*name
+	*	subgroupClusterAdd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupClusterAdd( Float const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec2 > subgroupClusterAdd( Vec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec3 > subgroupClusterAdd( Vec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec4 > subgroupClusterAdd( Vec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Int > subgroupClusterAdd( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterAdd( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterAdd( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterAdd( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterAdd( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterAdd( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterAdd( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterAdd( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Double > subgroupClusterAdd( Double const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec2 > subgroupClusterAdd( DVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec3 > subgroupClusterAdd( DVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec4 > subgroupClusterAdd( DVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterMul
+	/**
+	*name
+	*	subgroupClusterMul
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupClusterMul( Float const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec2 > subgroupClusterMul( Vec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec3 > subgroupClusterMul( Vec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec4 > subgroupClusterMul( Vec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Int > subgroupClusterMul( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterMul( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterMul( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterMul( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterMul( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterMul( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterMul( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterMul( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Double > subgroupClusterMul( Double const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec2 > subgroupClusterMul( DVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec3 > subgroupClusterMul( DVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec4 > subgroupClusterMul( DVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterMin
+	/**
+	*name
+	*	subgroupClusterMin
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupClusterMin( Float const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec2 > subgroupClusterMin( Vec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec3 > subgroupClusterMin( Vec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec4 > subgroupClusterMin( Vec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Int > subgroupClusterMin( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterMin( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterMin( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterMin( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterMin( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterMin( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterMin( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterMin( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Double > subgroupClusterMin( Double const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec2 > subgroupClusterMin( DVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec3 > subgroupClusterMin( DVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec4 > subgroupClusterMin( DVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterMax
+	/**
+	*name
+	*	subgroupClusterMax
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupClusterMax( Float const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec2 > subgroupClusterMax( Vec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec3 > subgroupClusterMax( Vec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Vec4 > subgroupClusterMax( Vec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Int > subgroupClusterMax( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterMax( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterMax( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterMax( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterMax( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterMax( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterMax( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterMax( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Double > subgroupClusterMax( Double const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec2 > subgroupClusterMax( DVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec3 > subgroupClusterMax( DVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< DVec4 > subgroupClusterMax( DVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterAnd
+	/**
+	*name
+	*	subgroupClusterAnd
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupClusterAnd( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterAnd( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterAnd( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterAnd( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterAnd( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterAnd( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterAnd( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterAnd( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Boolean > subgroupClusterAnd( Boolean const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec2 > subgroupClusterAnd( BVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec3 > subgroupClusterAnd( BVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec4 > subgroupClusterAnd( BVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterOr
+	/**
+	*name
+	*	subgroupClusterOr
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupClusterOr( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterOr( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterOr( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterOr( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterOr( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterOr( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterOr( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterOr( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Boolean > subgroupClusterOr( Boolean const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec2 > subgroupClusterOr( BVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec3 > subgroupClusterOr( BVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec4 > subgroupClusterOr( BVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterXor
+	/**
+	*name
+	*	subgroupClusterXor
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Int > subgroupClusterXor( Int const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec2 > subgroupClusterXor( IVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec3 > subgroupClusterXor( IVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< IVec4 > subgroupClusterXor( IVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UInt > subgroupClusterXor( UInt const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec2 > subgroupClusterXor( UVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec3 > subgroupClusterXor( UVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< UVec4 > subgroupClusterXor( UVec4 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< Boolean > subgroupClusterXor( Boolean const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec2 > subgroupClusterXor( BVec2 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec3 > subgroupClusterXor( BVec3 const & value, UInt const & clusterSize );
+	SDW_API ReturnWrapperT< BVec4 > subgroupClusterXor( BVec4 const & value, UInt const & clusterSize );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadBroadcast
+	/**
+	*name
+	*	subgroupQuadBroadcast
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupQuadBroadcast( Float const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec2 > subgroupQuadBroadcast( Vec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec3 > subgroupQuadBroadcast( Vec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Vec4 > subgroupQuadBroadcast( Vec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Int > subgroupQuadBroadcast( Int const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec2 > subgroupQuadBroadcast( IVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec3 > subgroupQuadBroadcast( IVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< IVec4 > subgroupQuadBroadcast( IVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UInt > subgroupQuadBroadcast( UInt const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec2 > subgroupQuadBroadcast( UVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec3 > subgroupQuadBroadcast( UVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< UVec4 > subgroupQuadBroadcast( UVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Boolean > subgroupQuadBroadcast( Boolean const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec2 > subgroupQuadBroadcast( BVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec3 > subgroupQuadBroadcast( BVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< BVec4 > subgroupQuadBroadcast( BVec4 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< Double > subgroupQuadBroadcast( Double const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec2 > subgroupQuadBroadcast( DVec2 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec3 > subgroupQuadBroadcast( DVec3 const & value, UInt const & id );
+	SDW_API ReturnWrapperT< DVec4 > subgroupQuadBroadcast( DVec4 const & value, UInt const & id );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadSwapHorizontal
+	/**
+	*name
+	*	subgroupQuadSwapHorizontal
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupQuadSwapHorizontal( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupQuadSwapHorizontal( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupQuadSwapHorizontal( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupQuadSwapHorizontal( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupQuadSwapHorizontal( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupQuadSwapHorizontal( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupQuadSwapHorizontal( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupQuadSwapHorizontal( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupQuadSwapHorizontal( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupQuadSwapHorizontal( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupQuadSwapHorizontal( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupQuadSwapHorizontal( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupQuadSwapHorizontal( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupQuadSwapHorizontal( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupQuadSwapHorizontal( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupQuadSwapHorizontal( BVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupQuadSwapHorizontal( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupQuadSwapHorizontal( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupQuadSwapHorizontal( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupQuadSwapHorizontal( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadSwapVertical
+	/**
+	*name
+	*	subgroupQuadSwapVertical
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupQuadSwapVertical( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupQuadSwapVertical( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupQuadSwapVertical( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupQuadSwapVertical( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupQuadSwapVertical( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupQuadSwapVertical( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupQuadSwapVertical( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupQuadSwapVertical( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupQuadSwapVertical( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupQuadSwapVertical( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupQuadSwapVertical( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupQuadSwapVertical( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupQuadSwapVertical( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupQuadSwapVertical( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupQuadSwapVertical( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupQuadSwapVertical( BVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupQuadSwapVertical( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupQuadSwapVertical( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupQuadSwapVertical( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupQuadSwapVertical( DVec4 const & value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadSwapDiagonal
+	/**
+	*name
+	*	subgroupQuadSwapDiagonal
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Float > subgroupQuadSwapDiagonal( Float const & value );
+	SDW_API ReturnWrapperT< Vec2 > subgroupQuadSwapDiagonal( Vec2 const & value );
+	SDW_API ReturnWrapperT< Vec3 > subgroupQuadSwapDiagonal( Vec3 const & value );
+	SDW_API ReturnWrapperT< Vec4 > subgroupQuadSwapDiagonal( Vec4 const & value );
+	SDW_API ReturnWrapperT< Int > subgroupQuadSwapDiagonal( Int const & value );
+	SDW_API ReturnWrapperT< IVec2 > subgroupQuadSwapDiagonal( IVec2 const & value );
+	SDW_API ReturnWrapperT< IVec3 > subgroupQuadSwapDiagonal( IVec3 const & value );
+	SDW_API ReturnWrapperT< IVec4 > subgroupQuadSwapDiagonal( IVec4 const & value );
+	SDW_API ReturnWrapperT< UInt > subgroupQuadSwapDiagonal( UInt const & value );
+	SDW_API ReturnWrapperT< UVec2 > subgroupQuadSwapDiagonal( UVec2 const & value );
+	SDW_API ReturnWrapperT< UVec3 > subgroupQuadSwapDiagonal( UVec3 const & value );
+	SDW_API ReturnWrapperT< UVec4 > subgroupQuadSwapDiagonal( UVec4 const & value );
+	SDW_API ReturnWrapperT< Boolean > subgroupQuadSwapDiagonal( Boolean const & value );
+	SDW_API ReturnWrapperT< BVec2 > subgroupQuadSwapDiagonal( BVec2 const & value );
+	SDW_API ReturnWrapperT< BVec3 > subgroupQuadSwapDiagonal( BVec3 const & value );
+	SDW_API ReturnWrapperT< BVec4 > subgroupQuadSwapDiagonal( BVec4 const & value );
+	SDW_API ReturnWrapperT< Double > subgroupQuadSwapDiagonal( Double const & value );
+	SDW_API ReturnWrapperT< DVec2 > subgroupQuadSwapDiagonal( DVec2 const & value );
+	SDW_API ReturnWrapperT< DVec3 > subgroupQuadSwapDiagonal( DVec3 const & value );
+	SDW_API ReturnWrapperT< DVec4 > subgroupQuadSwapDiagonal( DVec4 const & value );
+	/**@}*/
+#pragma endregion
 }
 
 #endif

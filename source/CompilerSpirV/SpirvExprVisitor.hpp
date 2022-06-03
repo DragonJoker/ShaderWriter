@@ -189,6 +189,8 @@ namespace spirv
 		void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleExtensionIntrinsicCallExpr( spv::Id opCodeId, ast::expr::IntrinsicCall * expr );
+		void handleBarrierIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
+		void handleSubgroupIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		ValueId getUnsignedExtendedResultTypeId( uint32_t count );
 		ValueId getSignedExtendedResultTypeId( uint32_t count );

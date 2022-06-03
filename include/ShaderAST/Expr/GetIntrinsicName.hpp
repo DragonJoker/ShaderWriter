@@ -2749,6 +2749,2552 @@ namespace ast::expr
 			result = "DISPATCHMESH";
 			break;
 
+
+	//Shader Subgroup Functions
+		case Intrinsic::eSubgroupBarrier:
+			result = "SUBGROUPBARRIER";
+			break;
+
+		case Intrinsic::eSubgroupMemoryBarrier:
+			result = "SUBGROUPMEMORYBARRIER";
+			break;
+
+		case Intrinsic::eSubgroupMemoryBarrierBuffer:
+			result = "SUBGROUPMEMORYBARRIERBUFFER";
+			break;
+
+		case Intrinsic::eSubgroupMemoryBarrierShared:
+			result = "SUBGROUPMEMORYBARRIERSHARED";
+			break;
+
+		case Intrinsic::eSubgroupMemoryBarrierImage:
+			result = "SUBGROUPMEMORYBARRIERIMAGE";
+			break;
+
+		case Intrinsic::eSubgroupElect:
+			result = "SUBGROUPELECT";
+			break;
+
+		case Intrinsic::eSubgroupAll:
+			result = "SUBGROUPALL";
+			break;
+
+		case Intrinsic::eSubgroupAny:
+			result = "SUBGROUPANY";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual1F:
+			result = "SUBGROUPALLEQUAL1F";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual2F:
+			result = "SUBGROUPALLEQUAL2F";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual3F:
+			result = "SUBGROUPALLEQUAL3F";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual4F:
+			result = "SUBGROUPALLEQUAL4F";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual1I:
+			result = "SUBGROUPALLEQUAL1I";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual2I:
+			result = "SUBGROUPALLEQUAL2I";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual3I:
+			result = "SUBGROUPALLEQUAL3I";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual4I:
+			result = "SUBGROUPALLEQUAL4I";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual1U:
+			result = "SUBGROUPALLEQUAL1U";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual2U:
+			result = "SUBGROUPALLEQUAL2U";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual3U:
+			result = "SUBGROUPALLEQUAL3U";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual4U:
+			result = "SUBGROUPALLEQUAL4U";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual1B:
+			result = "SUBGROUPALLEQUAL1B";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual2B:
+			result = "SUBGROUPALLEQUAL2B";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual3B:
+			result = "SUBGROUPALLEQUAL3B";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual4B:
+			result = "SUBGROUPALLEQUAL4B";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual1D:
+			result = "SUBGROUPALLEQUAL1D";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual2D:
+			result = "SUBGROUPALLEQUAL2D";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual3D:
+			result = "SUBGROUPALLEQUAL3D";
+			break;
+
+		case Intrinsic::eSubgroupAllEqual4D:
+			result = "SUBGROUPALLEQUAL4D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast1F:
+			result = "SUBGROUPBROADCAST1F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast2F:
+			result = "SUBGROUPBROADCAST2F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast3F:
+			result = "SUBGROUPBROADCAST3F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast4F:
+			result = "SUBGROUPBROADCAST4F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast1I:
+			result = "SUBGROUPBROADCAST1I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast2I:
+			result = "SUBGROUPBROADCAST2I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast3I:
+			result = "SUBGROUPBROADCAST3I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast4I:
+			result = "SUBGROUPBROADCAST4I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast1U:
+			result = "SUBGROUPBROADCAST1U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast2U:
+			result = "SUBGROUPBROADCAST2U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast3U:
+			result = "SUBGROUPBROADCAST3U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast4U:
+			result = "SUBGROUPBROADCAST4U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast1B:
+			result = "SUBGROUPBROADCAST1B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast2B:
+			result = "SUBGROUPBROADCAST2B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast3B:
+			result = "SUBGROUPBROADCAST3B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast4B:
+			result = "SUBGROUPBROADCAST4B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast1D:
+			result = "SUBGROUPBROADCAST1D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast2D:
+			result = "SUBGROUPBROADCAST2D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast3D:
+			result = "SUBGROUPBROADCAST3D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcast4D:
+			result = "SUBGROUPBROADCAST4D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst1F:
+			result = "SUBGROUPBROADCASTFIRST1F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst2F:
+			result = "SUBGROUPBROADCASTFIRST2F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst3F:
+			result = "SUBGROUPBROADCASTFIRST3F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst4F:
+			result = "SUBGROUPBROADCASTFIRST4F";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst1I:
+			result = "SUBGROUPBROADCASTFIRST1I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst2I:
+			result = "SUBGROUPBROADCASTFIRST2I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst3I:
+			result = "SUBGROUPBROADCASTFIRST3I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst4I:
+			result = "SUBGROUPBROADCASTFIRST4I";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst1U:
+			result = "SUBGROUPBROADCASTFIRST1U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst2U:
+			result = "SUBGROUPBROADCASTFIRST2U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst3U:
+			result = "SUBGROUPBROADCASTFIRST3U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst4U:
+			result = "SUBGROUPBROADCASTFIRST4U";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst1B:
+			result = "SUBGROUPBROADCASTFIRST1B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst2B:
+			result = "SUBGROUPBROADCASTFIRST2B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst3B:
+			result = "SUBGROUPBROADCASTFIRST3B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst4B:
+			result = "SUBGROUPBROADCASTFIRST4B";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst1D:
+			result = "SUBGROUPBROADCASTFIRST1D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst2D:
+			result = "SUBGROUPBROADCASTFIRST2D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst3D:
+			result = "SUBGROUPBROADCASTFIRST3D";
+			break;
+
+		case Intrinsic::eSubgroupBroadcastFirst4D:
+			result = "SUBGROUPBROADCASTFIRST4D";
+			break;
+
+		case Intrinsic::eSubgroupBallot:
+			result = "SUBGROUPBALLOT";
+			break;
+
+		case Intrinsic::eSubgroupInverseBallot:
+			result = "SUBGROUPINVERSEBALLOT";
+			break;
+
+		case Intrinsic::eSubgroupBallotBitExtract:
+			result = "SUBGROUPBALLOTBITEXTRACT";
+			break;
+
+		case Intrinsic::eSubgroupBallotBitCount:
+			result = "SUBGROUPBALLOTBITCOUNT";
+			break;
+
+		case Intrinsic::eSubgroupBallotInclusiveBitCount:
+			result = "SUBGROUPBALLOTINCLUSIVEBITCOUNT";
+			break;
+
+		case Intrinsic::eSubgroupBallotExclusiveBitCount:
+			result = "SUBGROUPBALLOTEXCLUSIVEBITCOUNT";
+			break;
+
+		case Intrinsic::eSubgroupBallotFindLSB:
+			result = "SUBGROUPBALLOTFINDLSB";
+			break;
+
+		case Intrinsic::eSubgroupBallotFindMSB:
+			result = "SUBGROUPBALLOTFINDMSB";
+			break;
+
+		case Intrinsic::eSubgroupShuffle1F:
+			result = "SUBGROUPSHUFFLE1F";
+			break;
+
+		case Intrinsic::eSubgroupShuffle2F:
+			result = "SUBGROUPSHUFFLE2F";
+			break;
+
+		case Intrinsic::eSubgroupShuffle3F:
+			result = "SUBGROUPSHUFFLE3F";
+			break;
+
+		case Intrinsic::eSubgroupShuffle4F:
+			result = "SUBGROUPSHUFFLE4F";
+			break;
+
+		case Intrinsic::eSubgroupShuffle1I:
+			result = "SUBGROUPSHUFFLE1I";
+			break;
+
+		case Intrinsic::eSubgroupShuffle2I:
+			result = "SUBGROUPSHUFFLE2I";
+			break;
+
+		case Intrinsic::eSubgroupShuffle3I:
+			result = "SUBGROUPSHUFFLE3I";
+			break;
+
+		case Intrinsic::eSubgroupShuffle4I:
+			result = "SUBGROUPSHUFFLE4I";
+			break;
+
+		case Intrinsic::eSubgroupShuffle1U:
+			result = "SUBGROUPSHUFFLE1U";
+			break;
+
+		case Intrinsic::eSubgroupShuffle2U:
+			result = "SUBGROUPSHUFFLE2U";
+			break;
+
+		case Intrinsic::eSubgroupShuffle3U:
+			result = "SUBGROUPSHUFFLE3U";
+			break;
+
+		case Intrinsic::eSubgroupShuffle4U:
+			result = "SUBGROUPSHUFFLE4U";
+			break;
+
+		case Intrinsic::eSubgroupShuffle1B:
+			result = "SUBGROUPSHUFFLE1B";
+			break;
+
+		case Intrinsic::eSubgroupShuffle2B:
+			result = "SUBGROUPSHUFFLE2B";
+			break;
+
+		case Intrinsic::eSubgroupShuffle3B:
+			result = "SUBGROUPSHUFFLE3B";
+			break;
+
+		case Intrinsic::eSubgroupShuffle4B:
+			result = "SUBGROUPSHUFFLE4B";
+			break;
+
+		case Intrinsic::eSubgroupShuffle1D:
+			result = "SUBGROUPSHUFFLE1D";
+			break;
+
+		case Intrinsic::eSubgroupShuffle2D:
+			result = "SUBGROUPSHUFFLE2D";
+			break;
+
+		case Intrinsic::eSubgroupShuffle3D:
+			result = "SUBGROUPSHUFFLE3D";
+			break;
+
+		case Intrinsic::eSubgroupShuffle4D:
+			result = "SUBGROUPSHUFFLE4D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor1F:
+			result = "SUBGROUPSHUFFLEXOR1F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor2F:
+			result = "SUBGROUPSHUFFLEXOR2F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor3F:
+			result = "SUBGROUPSHUFFLEXOR3F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor4F:
+			result = "SUBGROUPSHUFFLEXOR4F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor1I:
+			result = "SUBGROUPSHUFFLEXOR1I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor2I:
+			result = "SUBGROUPSHUFFLEXOR2I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor3I:
+			result = "SUBGROUPSHUFFLEXOR3I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor4I:
+			result = "SUBGROUPSHUFFLEXOR4I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor1U:
+			result = "SUBGROUPSHUFFLEXOR1U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor2U:
+			result = "SUBGROUPSHUFFLEXOR2U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor3U:
+			result = "SUBGROUPSHUFFLEXOR3U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor4U:
+			result = "SUBGROUPSHUFFLEXOR4U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor1B:
+			result = "SUBGROUPSHUFFLEXOR1B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor2B:
+			result = "SUBGROUPSHUFFLEXOR2B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor3B:
+			result = "SUBGROUPSHUFFLEXOR3B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor4B:
+			result = "SUBGROUPSHUFFLEXOR4B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor1D:
+			result = "SUBGROUPSHUFFLEXOR1D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor2D:
+			result = "SUBGROUPSHUFFLEXOR2D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor3D:
+			result = "SUBGROUPSHUFFLEXOR3D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleXor4D:
+			result = "SUBGROUPSHUFFLEXOR4D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp1F:
+			result = "SUBGROUPSHUFFLEUP1F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp2F:
+			result = "SUBGROUPSHUFFLEUP2F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp3F:
+			result = "SUBGROUPSHUFFLEUP3F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp4F:
+			result = "SUBGROUPSHUFFLEUP4F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp1I:
+			result = "SUBGROUPSHUFFLEUP1I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp2I:
+			result = "SUBGROUPSHUFFLEUP2I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp3I:
+			result = "SUBGROUPSHUFFLEUP3I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp4I:
+			result = "SUBGROUPSHUFFLEUP4I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp1U:
+			result = "SUBGROUPSHUFFLEUP1U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp2U:
+			result = "SUBGROUPSHUFFLEUP2U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp3U:
+			result = "SUBGROUPSHUFFLEUP3U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp4U:
+			result = "SUBGROUPSHUFFLEUP4U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp1B:
+			result = "SUBGROUPSHUFFLEUP1B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp2B:
+			result = "SUBGROUPSHUFFLEUP2B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp3B:
+			result = "SUBGROUPSHUFFLEUP3B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp4B:
+			result = "SUBGROUPSHUFFLEUP4B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp1D:
+			result = "SUBGROUPSHUFFLEUP1D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp2D:
+			result = "SUBGROUPSHUFFLEUP2D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp3D:
+			result = "SUBGROUPSHUFFLEUP3D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleUp4D:
+			result = "SUBGROUPSHUFFLEUP4D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown1F:
+			result = "SUBGROUPSHUFFLEDOWN1F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown2F:
+			result = "SUBGROUPSHUFFLEDOWN2F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown3F:
+			result = "SUBGROUPSHUFFLEDOWN3F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown4F:
+			result = "SUBGROUPSHUFFLEDOWN4F";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown1I:
+			result = "SUBGROUPSHUFFLEDOWN1I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown2I:
+			result = "SUBGROUPSHUFFLEDOWN2I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown3I:
+			result = "SUBGROUPSHUFFLEDOWN3I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown4I:
+			result = "SUBGROUPSHUFFLEDOWN4I";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown1U:
+			result = "SUBGROUPSHUFFLEDOWN1U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown2U:
+			result = "SUBGROUPSHUFFLEDOWN2U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown3U:
+			result = "SUBGROUPSHUFFLEDOWN3U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown4U:
+			result = "SUBGROUPSHUFFLEDOWN4U";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown1B:
+			result = "SUBGROUPSHUFFLEDOWN1B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown2B:
+			result = "SUBGROUPSHUFFLEDOWN2B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown3B:
+			result = "SUBGROUPSHUFFLEDOWN3B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown4B:
+			result = "SUBGROUPSHUFFLEDOWN4B";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown1D:
+			result = "SUBGROUPSHUFFLEDOWN1D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown2D:
+			result = "SUBGROUPSHUFFLEDOWN2D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown3D:
+			result = "SUBGROUPSHUFFLEDOWN3D";
+			break;
+
+		case Intrinsic::eSubgroupShuffleDown4D:
+			result = "SUBGROUPSHUFFLEDOWN4D";
+			break;
+
+		case Intrinsic::eSubgroupAdd1F:
+			result = "SUBGROUPADD1F";
+			break;
+
+		case Intrinsic::eSubgroupAdd2F:
+			result = "SUBGROUPADD2F";
+			break;
+
+		case Intrinsic::eSubgroupAdd3F:
+			result = "SUBGROUPADD3F";
+			break;
+
+		case Intrinsic::eSubgroupAdd4F:
+			result = "SUBGROUPADD4F";
+			break;
+
+		case Intrinsic::eSubgroupAdd1I:
+			result = "SUBGROUPADD1I";
+			break;
+
+		case Intrinsic::eSubgroupAdd2I:
+			result = "SUBGROUPADD2I";
+			break;
+
+		case Intrinsic::eSubgroupAdd3I:
+			result = "SUBGROUPADD3I";
+			break;
+
+		case Intrinsic::eSubgroupAdd4I:
+			result = "SUBGROUPADD4I";
+			break;
+
+		case Intrinsic::eSubgroupAdd1U:
+			result = "SUBGROUPADD1U";
+			break;
+
+		case Intrinsic::eSubgroupAdd2U:
+			result = "SUBGROUPADD2U";
+			break;
+
+		case Intrinsic::eSubgroupAdd3U:
+			result = "SUBGROUPADD3U";
+			break;
+
+		case Intrinsic::eSubgroupAdd4U:
+			result = "SUBGROUPADD4U";
+			break;
+
+		case Intrinsic::eSubgroupAdd1D:
+			result = "SUBGROUPADD1D";
+			break;
+
+		case Intrinsic::eSubgroupAdd2D:
+			result = "SUBGROUPADD2D";
+			break;
+
+		case Intrinsic::eSubgroupAdd3D:
+			result = "SUBGROUPADD3D";
+			break;
+
+		case Intrinsic::eSubgroupAdd4D:
+			result = "SUBGROUPADD4D";
+			break;
+
+		case Intrinsic::eSubgroupMul1F:
+			result = "SUBGROUPMUL1F";
+			break;
+
+		case Intrinsic::eSubgroupMul2F:
+			result = "SUBGROUPMUL2F";
+			break;
+
+		case Intrinsic::eSubgroupMul3F:
+			result = "SUBGROUPMUL3F";
+			break;
+
+		case Intrinsic::eSubgroupMul4F:
+			result = "SUBGROUPMUL4F";
+			break;
+
+		case Intrinsic::eSubgroupMul1I:
+			result = "SUBGROUPMUL1I";
+			break;
+
+		case Intrinsic::eSubgroupMul2I:
+			result = "SUBGROUPMUL2I";
+			break;
+
+		case Intrinsic::eSubgroupMul3I:
+			result = "SUBGROUPMUL3I";
+			break;
+
+		case Intrinsic::eSubgroupMul4I:
+			result = "SUBGROUPMUL4I";
+			break;
+
+		case Intrinsic::eSubgroupMul1U:
+			result = "SUBGROUPMUL1U";
+			break;
+
+		case Intrinsic::eSubgroupMul2U:
+			result = "SUBGROUPMUL2U";
+			break;
+
+		case Intrinsic::eSubgroupMul3U:
+			result = "SUBGROUPMUL3U";
+			break;
+
+		case Intrinsic::eSubgroupMul4U:
+			result = "SUBGROUPMUL4U";
+			break;
+
+		case Intrinsic::eSubgroupMul1D:
+			result = "SUBGROUPMUL1D";
+			break;
+
+		case Intrinsic::eSubgroupMul2D:
+			result = "SUBGROUPMUL2D";
+			break;
+
+		case Intrinsic::eSubgroupMul3D:
+			result = "SUBGROUPMUL3D";
+			break;
+
+		case Intrinsic::eSubgroupMul4D:
+			result = "SUBGROUPMUL4D";
+			break;
+
+		case Intrinsic::eSubgroupMin1F:
+			result = "SUBGROUPMIN1F";
+			break;
+
+		case Intrinsic::eSubgroupMin2F:
+			result = "SUBGROUPMIN2F";
+			break;
+
+		case Intrinsic::eSubgroupMin3F:
+			result = "SUBGROUPMIN3F";
+			break;
+
+		case Intrinsic::eSubgroupMin4F:
+			result = "SUBGROUPMIN4F";
+			break;
+
+		case Intrinsic::eSubgroupMin1I:
+			result = "SUBGROUPMIN1I";
+			break;
+
+		case Intrinsic::eSubgroupMin2I:
+			result = "SUBGROUPMIN2I";
+			break;
+
+		case Intrinsic::eSubgroupMin3I:
+			result = "SUBGROUPMIN3I";
+			break;
+
+		case Intrinsic::eSubgroupMin4I:
+			result = "SUBGROUPMIN4I";
+			break;
+
+		case Intrinsic::eSubgroupMin1U:
+			result = "SUBGROUPMIN1U";
+			break;
+
+		case Intrinsic::eSubgroupMin2U:
+			result = "SUBGROUPMIN2U";
+			break;
+
+		case Intrinsic::eSubgroupMin3U:
+			result = "SUBGROUPMIN3U";
+			break;
+
+		case Intrinsic::eSubgroupMin4U:
+			result = "SUBGROUPMIN4U";
+			break;
+
+		case Intrinsic::eSubgroupMin1D:
+			result = "SUBGROUPMIN1D";
+			break;
+
+		case Intrinsic::eSubgroupMin2D:
+			result = "SUBGROUPMIN2D";
+			break;
+
+		case Intrinsic::eSubgroupMin3D:
+			result = "SUBGROUPMIN3D";
+			break;
+
+		case Intrinsic::eSubgroupMin4D:
+			result = "SUBGROUPMIN4D";
+			break;
+
+		case Intrinsic::eSubgroupMax1F:
+			result = "SUBGROUPMAX1F";
+			break;
+
+		case Intrinsic::eSubgroupMax2F:
+			result = "SUBGROUPMAX2F";
+			break;
+
+		case Intrinsic::eSubgroupMax3F:
+			result = "SUBGROUPMAX3F";
+			break;
+
+		case Intrinsic::eSubgroupMax4F:
+			result = "SUBGROUPMAX4F";
+			break;
+
+		case Intrinsic::eSubgroupMax1I:
+			result = "SUBGROUPMAX1I";
+			break;
+
+		case Intrinsic::eSubgroupMax2I:
+			result = "SUBGROUPMAX2I";
+			break;
+
+		case Intrinsic::eSubgroupMax3I:
+			result = "SUBGROUPMAX3I";
+			break;
+
+		case Intrinsic::eSubgroupMax4I:
+			result = "SUBGROUPMAX4I";
+			break;
+
+		case Intrinsic::eSubgroupMax1U:
+			result = "SUBGROUPMAX1U";
+			break;
+
+		case Intrinsic::eSubgroupMax2U:
+			result = "SUBGROUPMAX2U";
+			break;
+
+		case Intrinsic::eSubgroupMax3U:
+			result = "SUBGROUPMAX3U";
+			break;
+
+		case Intrinsic::eSubgroupMax4U:
+			result = "SUBGROUPMAX4U";
+			break;
+
+		case Intrinsic::eSubgroupMax1D:
+			result = "SUBGROUPMAX1D";
+			break;
+
+		case Intrinsic::eSubgroupMax2D:
+			result = "SUBGROUPMAX2D";
+			break;
+
+		case Intrinsic::eSubgroupMax3D:
+			result = "SUBGROUPMAX3D";
+			break;
+
+		case Intrinsic::eSubgroupMax4D:
+			result = "SUBGROUPMAX4D";
+			break;
+
+		case Intrinsic::eSubgroupAnd1I:
+			result = "SUBGROUPAND1I";
+			break;
+
+		case Intrinsic::eSubgroupAnd2I:
+			result = "SUBGROUPAND2I";
+			break;
+
+		case Intrinsic::eSubgroupAnd3I:
+			result = "SUBGROUPAND3I";
+			break;
+
+		case Intrinsic::eSubgroupAnd4I:
+			result = "SUBGROUPAND4I";
+			break;
+
+		case Intrinsic::eSubgroupAnd1U:
+			result = "SUBGROUPAND1U";
+			break;
+
+		case Intrinsic::eSubgroupAnd2U:
+			result = "SUBGROUPAND2U";
+			break;
+
+		case Intrinsic::eSubgroupAnd3U:
+			result = "SUBGROUPAND3U";
+			break;
+
+		case Intrinsic::eSubgroupAnd4U:
+			result = "SUBGROUPAND4U";
+			break;
+
+		case Intrinsic::eSubgroupAnd1B:
+			result = "SUBGROUPAND1B";
+			break;
+
+		case Intrinsic::eSubgroupAnd2B:
+			result = "SUBGROUPAND2B";
+			break;
+
+		case Intrinsic::eSubgroupAnd3B:
+			result = "SUBGROUPAND3B";
+			break;
+
+		case Intrinsic::eSubgroupAnd4B:
+			result = "SUBGROUPAND4B";
+			break;
+
+		case Intrinsic::eSubgroupOr1I:
+			result = "SUBGROUPOR1I";
+			break;
+
+		case Intrinsic::eSubgroupOr2I:
+			result = "SUBGROUPOR2I";
+			break;
+
+		case Intrinsic::eSubgroupOr3I:
+			result = "SUBGROUPOR3I";
+			break;
+
+		case Intrinsic::eSubgroupOr4I:
+			result = "SUBGROUPOR4I";
+			break;
+
+		case Intrinsic::eSubgroupOr1U:
+			result = "SUBGROUPOR1U";
+			break;
+
+		case Intrinsic::eSubgroupOr2U:
+			result = "SUBGROUPOR2U";
+			break;
+
+		case Intrinsic::eSubgroupOr3U:
+			result = "SUBGROUPOR3U";
+			break;
+
+		case Intrinsic::eSubgroupOr4U:
+			result = "SUBGROUPOR4U";
+			break;
+
+		case Intrinsic::eSubgroupOr1B:
+			result = "SUBGROUPOR1B";
+			break;
+
+		case Intrinsic::eSubgroupOr2B:
+			result = "SUBGROUPOR2B";
+			break;
+
+		case Intrinsic::eSubgroupOr3B:
+			result = "SUBGROUPOR3B";
+			break;
+
+		case Intrinsic::eSubgroupOr4B:
+			result = "SUBGROUPOR4B";
+			break;
+
+		case Intrinsic::eSubgroupXor1I:
+			result = "SUBGROUPXOR1I";
+			break;
+
+		case Intrinsic::eSubgroupXor2I:
+			result = "SUBGROUPXOR2I";
+			break;
+
+		case Intrinsic::eSubgroupXor3I:
+			result = "SUBGROUPXOR3I";
+			break;
+
+		case Intrinsic::eSubgroupXor4I:
+			result = "SUBGROUPXOR4I";
+			break;
+
+		case Intrinsic::eSubgroupXor1U:
+			result = "SUBGROUPXOR1U";
+			break;
+
+		case Intrinsic::eSubgroupXor2U:
+			result = "SUBGROUPXOR2U";
+			break;
+
+		case Intrinsic::eSubgroupXor3U:
+			result = "SUBGROUPXOR3U";
+			break;
+
+		case Intrinsic::eSubgroupXor4U:
+			result = "SUBGROUPXOR4U";
+			break;
+
+		case Intrinsic::eSubgroupXor1B:
+			result = "SUBGROUPXOR1B";
+			break;
+
+		case Intrinsic::eSubgroupXor2B:
+			result = "SUBGROUPXOR2B";
+			break;
+
+		case Intrinsic::eSubgroupXor3B:
+			result = "SUBGROUPXOR3B";
+			break;
+
+		case Intrinsic::eSubgroupXor4B:
+			result = "SUBGROUPXOR4B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd1F:
+			result = "SUBGROUPINCLUSIVEADD1F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd2F:
+			result = "SUBGROUPINCLUSIVEADD2F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd3F:
+			result = "SUBGROUPINCLUSIVEADD3F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd4F:
+			result = "SUBGROUPINCLUSIVEADD4F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd1I:
+			result = "SUBGROUPINCLUSIVEADD1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd2I:
+			result = "SUBGROUPINCLUSIVEADD2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd3I:
+			result = "SUBGROUPINCLUSIVEADD3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd4I:
+			result = "SUBGROUPINCLUSIVEADD4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd1U:
+			result = "SUBGROUPINCLUSIVEADD1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd2U:
+			result = "SUBGROUPINCLUSIVEADD2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd3U:
+			result = "SUBGROUPINCLUSIVEADD3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd4U:
+			result = "SUBGROUPINCLUSIVEADD4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd1D:
+			result = "SUBGROUPINCLUSIVEADD1D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd2D:
+			result = "SUBGROUPINCLUSIVEADD2D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd3D:
+			result = "SUBGROUPINCLUSIVEADD3D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAdd4D:
+			result = "SUBGROUPINCLUSIVEADD4D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul1F:
+			result = "SUBGROUPINCLUSIVEMUL1F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul2F:
+			result = "SUBGROUPINCLUSIVEMUL2F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul3F:
+			result = "SUBGROUPINCLUSIVEMUL3F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul4F:
+			result = "SUBGROUPINCLUSIVEMUL4F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul1I:
+			result = "SUBGROUPINCLUSIVEMUL1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul2I:
+			result = "SUBGROUPINCLUSIVEMUL2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul3I:
+			result = "SUBGROUPINCLUSIVEMUL3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul4I:
+			result = "SUBGROUPINCLUSIVEMUL4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul1U:
+			result = "SUBGROUPINCLUSIVEMUL1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul2U:
+			result = "SUBGROUPINCLUSIVEMUL2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul3U:
+			result = "SUBGROUPINCLUSIVEMUL3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul4U:
+			result = "SUBGROUPINCLUSIVEMUL4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul1D:
+			result = "SUBGROUPINCLUSIVEMUL1D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul2D:
+			result = "SUBGROUPINCLUSIVEMUL2D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul3D:
+			result = "SUBGROUPINCLUSIVEMUL3D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMul4D:
+			result = "SUBGROUPINCLUSIVEMUL4D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin1F:
+			result = "SUBGROUPINCLUSIVEMIN1F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin2F:
+			result = "SUBGROUPINCLUSIVEMIN2F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin3F:
+			result = "SUBGROUPINCLUSIVEMIN3F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin4F:
+			result = "SUBGROUPINCLUSIVEMIN4F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin1I:
+			result = "SUBGROUPINCLUSIVEMIN1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin2I:
+			result = "SUBGROUPINCLUSIVEMIN2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin3I:
+			result = "SUBGROUPINCLUSIVEMIN3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin4I:
+			result = "SUBGROUPINCLUSIVEMIN4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin1U:
+			result = "SUBGROUPINCLUSIVEMIN1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin2U:
+			result = "SUBGROUPINCLUSIVEMIN2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin3U:
+			result = "SUBGROUPINCLUSIVEMIN3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin4U:
+			result = "SUBGROUPINCLUSIVEMIN4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin1D:
+			result = "SUBGROUPINCLUSIVEMIN1D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin2D:
+			result = "SUBGROUPINCLUSIVEMIN2D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin3D:
+			result = "SUBGROUPINCLUSIVEMIN3D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMin4D:
+			result = "SUBGROUPINCLUSIVEMIN4D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax1F:
+			result = "SUBGROUPINCLUSIVEMAX1F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax2F:
+			result = "SUBGROUPINCLUSIVEMAX2F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax3F:
+			result = "SUBGROUPINCLUSIVEMAX3F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax4F:
+			result = "SUBGROUPINCLUSIVEMAX4F";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax1I:
+			result = "SUBGROUPINCLUSIVEMAX1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax2I:
+			result = "SUBGROUPINCLUSIVEMAX2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax3I:
+			result = "SUBGROUPINCLUSIVEMAX3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax4I:
+			result = "SUBGROUPINCLUSIVEMAX4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax1U:
+			result = "SUBGROUPINCLUSIVEMAX1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax2U:
+			result = "SUBGROUPINCLUSIVEMAX2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax3U:
+			result = "SUBGROUPINCLUSIVEMAX3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax4U:
+			result = "SUBGROUPINCLUSIVEMAX4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax1D:
+			result = "SUBGROUPINCLUSIVEMAX1D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax2D:
+			result = "SUBGROUPINCLUSIVEMAX2D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax3D:
+			result = "SUBGROUPINCLUSIVEMAX3D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveMax4D:
+			result = "SUBGROUPINCLUSIVEMAX4D";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd1I:
+			result = "SUBGROUPINCLUSIVEAND1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd2I:
+			result = "SUBGROUPINCLUSIVEAND2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd3I:
+			result = "SUBGROUPINCLUSIVEAND3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd4I:
+			result = "SUBGROUPINCLUSIVEAND4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd1U:
+			result = "SUBGROUPINCLUSIVEAND1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd2U:
+			result = "SUBGROUPINCLUSIVEAND2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd3U:
+			result = "SUBGROUPINCLUSIVEAND3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd4U:
+			result = "SUBGROUPINCLUSIVEAND4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd1B:
+			result = "SUBGROUPINCLUSIVEAND1B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd2B:
+			result = "SUBGROUPINCLUSIVEAND2B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd3B:
+			result = "SUBGROUPINCLUSIVEAND3B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveAnd4B:
+			result = "SUBGROUPINCLUSIVEAND4B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr1I:
+			result = "SUBGROUPINCLUSIVEOR1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr2I:
+			result = "SUBGROUPINCLUSIVEOR2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr3I:
+			result = "SUBGROUPINCLUSIVEOR3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr4I:
+			result = "SUBGROUPINCLUSIVEOR4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr1U:
+			result = "SUBGROUPINCLUSIVEOR1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr2U:
+			result = "SUBGROUPINCLUSIVEOR2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr3U:
+			result = "SUBGROUPINCLUSIVEOR3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr4U:
+			result = "SUBGROUPINCLUSIVEOR4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr1B:
+			result = "SUBGROUPINCLUSIVEOR1B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr2B:
+			result = "SUBGROUPINCLUSIVEOR2B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr3B:
+			result = "SUBGROUPINCLUSIVEOR3B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveOr4B:
+			result = "SUBGROUPINCLUSIVEOR4B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor1I:
+			result = "SUBGROUPINCLUSIVEXOR1I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor2I:
+			result = "SUBGROUPINCLUSIVEXOR2I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor3I:
+			result = "SUBGROUPINCLUSIVEXOR3I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor4I:
+			result = "SUBGROUPINCLUSIVEXOR4I";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor1U:
+			result = "SUBGROUPINCLUSIVEXOR1U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor2U:
+			result = "SUBGROUPINCLUSIVEXOR2U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor3U:
+			result = "SUBGROUPINCLUSIVEXOR3U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor4U:
+			result = "SUBGROUPINCLUSIVEXOR4U";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor1B:
+			result = "SUBGROUPINCLUSIVEXOR1B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor2B:
+			result = "SUBGROUPINCLUSIVEXOR2B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor3B:
+			result = "SUBGROUPINCLUSIVEXOR3B";
+			break;
+
+		case Intrinsic::eSubgroupInclusiveXor4B:
+			result = "SUBGROUPINCLUSIVEXOR4B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd1F:
+			result = "SUBGROUPEXCLUSIVEADD1F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd2F:
+			result = "SUBGROUPEXCLUSIVEADD2F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd3F:
+			result = "SUBGROUPEXCLUSIVEADD3F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd4F:
+			result = "SUBGROUPEXCLUSIVEADD4F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd1I:
+			result = "SUBGROUPEXCLUSIVEADD1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd2I:
+			result = "SUBGROUPEXCLUSIVEADD2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd3I:
+			result = "SUBGROUPEXCLUSIVEADD3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd4I:
+			result = "SUBGROUPEXCLUSIVEADD4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd1U:
+			result = "SUBGROUPEXCLUSIVEADD1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd2U:
+			result = "SUBGROUPEXCLUSIVEADD2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd3U:
+			result = "SUBGROUPEXCLUSIVEADD3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd4U:
+			result = "SUBGROUPEXCLUSIVEADD4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd1D:
+			result = "SUBGROUPEXCLUSIVEADD1D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd2D:
+			result = "SUBGROUPEXCLUSIVEADD2D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd3D:
+			result = "SUBGROUPEXCLUSIVEADD3D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAdd4D:
+			result = "SUBGROUPEXCLUSIVEADD4D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul1F:
+			result = "SUBGROUPEXCLUSIVEMUL1F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul2F:
+			result = "SUBGROUPEXCLUSIVEMUL2F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul3F:
+			result = "SUBGROUPEXCLUSIVEMUL3F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul4F:
+			result = "SUBGROUPEXCLUSIVEMUL4F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul1I:
+			result = "SUBGROUPEXCLUSIVEMUL1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul2I:
+			result = "SUBGROUPEXCLUSIVEMUL2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul3I:
+			result = "SUBGROUPEXCLUSIVEMUL3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul4I:
+			result = "SUBGROUPEXCLUSIVEMUL4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul1U:
+			result = "SUBGROUPEXCLUSIVEMUL1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul2U:
+			result = "SUBGROUPEXCLUSIVEMUL2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul3U:
+			result = "SUBGROUPEXCLUSIVEMUL3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul4U:
+			result = "SUBGROUPEXCLUSIVEMUL4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul1D:
+			result = "SUBGROUPEXCLUSIVEMUL1D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul2D:
+			result = "SUBGROUPEXCLUSIVEMUL2D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul3D:
+			result = "SUBGROUPEXCLUSIVEMUL3D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMul4D:
+			result = "SUBGROUPEXCLUSIVEMUL4D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin1F:
+			result = "SUBGROUPEXCLUSIVEMIN1F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin2F:
+			result = "SUBGROUPEXCLUSIVEMIN2F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin3F:
+			result = "SUBGROUPEXCLUSIVEMIN3F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin4F:
+			result = "SUBGROUPEXCLUSIVEMIN4F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin1I:
+			result = "SUBGROUPEXCLUSIVEMIN1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin2I:
+			result = "SUBGROUPEXCLUSIVEMIN2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin3I:
+			result = "SUBGROUPEXCLUSIVEMIN3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin4I:
+			result = "SUBGROUPEXCLUSIVEMIN4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin1U:
+			result = "SUBGROUPEXCLUSIVEMIN1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin2U:
+			result = "SUBGROUPEXCLUSIVEMIN2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin3U:
+			result = "SUBGROUPEXCLUSIVEMIN3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin4U:
+			result = "SUBGROUPEXCLUSIVEMIN4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin1D:
+			result = "SUBGROUPEXCLUSIVEMIN1D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin2D:
+			result = "SUBGROUPEXCLUSIVEMIN2D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin3D:
+			result = "SUBGROUPEXCLUSIVEMIN3D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMin4D:
+			result = "SUBGROUPEXCLUSIVEMIN4D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax1F:
+			result = "SUBGROUPEXCLUSIVEMAX1F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax2F:
+			result = "SUBGROUPEXCLUSIVEMAX2F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax3F:
+			result = "SUBGROUPEXCLUSIVEMAX3F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax4F:
+			result = "SUBGROUPEXCLUSIVEMAX4F";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax1I:
+			result = "SUBGROUPEXCLUSIVEMAX1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax2I:
+			result = "SUBGROUPEXCLUSIVEMAX2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax3I:
+			result = "SUBGROUPEXCLUSIVEMAX3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax4I:
+			result = "SUBGROUPEXCLUSIVEMAX4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax1U:
+			result = "SUBGROUPEXCLUSIVEMAX1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax2U:
+			result = "SUBGROUPEXCLUSIVEMAX2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax3U:
+			result = "SUBGROUPEXCLUSIVEMAX3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax4U:
+			result = "SUBGROUPEXCLUSIVEMAX4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax1D:
+			result = "SUBGROUPEXCLUSIVEMAX1D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax2D:
+			result = "SUBGROUPEXCLUSIVEMAX2D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax3D:
+			result = "SUBGROUPEXCLUSIVEMAX3D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveMax4D:
+			result = "SUBGROUPEXCLUSIVEMAX4D";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd1I:
+			result = "SUBGROUPEXCLUSIVEAND1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd2I:
+			result = "SUBGROUPEXCLUSIVEAND2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd3I:
+			result = "SUBGROUPEXCLUSIVEAND3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd4I:
+			result = "SUBGROUPEXCLUSIVEAND4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd1U:
+			result = "SUBGROUPEXCLUSIVEAND1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd2U:
+			result = "SUBGROUPEXCLUSIVEAND2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd3U:
+			result = "SUBGROUPEXCLUSIVEAND3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd4U:
+			result = "SUBGROUPEXCLUSIVEAND4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd1B:
+			result = "SUBGROUPEXCLUSIVEAND1B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd2B:
+			result = "SUBGROUPEXCLUSIVEAND2B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd3B:
+			result = "SUBGROUPEXCLUSIVEAND3B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveAnd4B:
+			result = "SUBGROUPEXCLUSIVEAND4B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr1I:
+			result = "SUBGROUPEXCLUSIVEOR1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr2I:
+			result = "SUBGROUPEXCLUSIVEOR2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr3I:
+			result = "SUBGROUPEXCLUSIVEOR3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr4I:
+			result = "SUBGROUPEXCLUSIVEOR4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr1U:
+			result = "SUBGROUPEXCLUSIVEOR1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr2U:
+			result = "SUBGROUPEXCLUSIVEOR2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr3U:
+			result = "SUBGROUPEXCLUSIVEOR3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr4U:
+			result = "SUBGROUPEXCLUSIVEOR4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr1B:
+			result = "SUBGROUPEXCLUSIVEOR1B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr2B:
+			result = "SUBGROUPEXCLUSIVEOR2B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr3B:
+			result = "SUBGROUPEXCLUSIVEOR3B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveOr4B:
+			result = "SUBGROUPEXCLUSIVEOR4B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor1I:
+			result = "SUBGROUPEXCLUSIVEXOR1I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor2I:
+			result = "SUBGROUPEXCLUSIVEXOR2I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor3I:
+			result = "SUBGROUPEXCLUSIVEXOR3I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor4I:
+			result = "SUBGROUPEXCLUSIVEXOR4I";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor1U:
+			result = "SUBGROUPEXCLUSIVEXOR1U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor2U:
+			result = "SUBGROUPEXCLUSIVEXOR2U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor3U:
+			result = "SUBGROUPEXCLUSIVEXOR3U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor4U:
+			result = "SUBGROUPEXCLUSIVEXOR4U";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor1B:
+			result = "SUBGROUPEXCLUSIVEXOR1B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor2B:
+			result = "SUBGROUPEXCLUSIVEXOR2B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor3B:
+			result = "SUBGROUPEXCLUSIVEXOR3B";
+			break;
+
+		case Intrinsic::eSubgroupExclusiveXor4B:
+			result = "SUBGROUPEXCLUSIVEXOR4B";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd1F:
+			result = "SUBGROUPCLUSTERADD1F";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd2F:
+			result = "SUBGROUPCLUSTERADD2F";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd3F:
+			result = "SUBGROUPCLUSTERADD3F";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd4F:
+			result = "SUBGROUPCLUSTERADD4F";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd1I:
+			result = "SUBGROUPCLUSTERADD1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd2I:
+			result = "SUBGROUPCLUSTERADD2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd3I:
+			result = "SUBGROUPCLUSTERADD3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd4I:
+			result = "SUBGROUPCLUSTERADD4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd1U:
+			result = "SUBGROUPCLUSTERADD1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd2U:
+			result = "SUBGROUPCLUSTERADD2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd3U:
+			result = "SUBGROUPCLUSTERADD3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd4U:
+			result = "SUBGROUPCLUSTERADD4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd1D:
+			result = "SUBGROUPCLUSTERADD1D";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd2D:
+			result = "SUBGROUPCLUSTERADD2D";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd3D:
+			result = "SUBGROUPCLUSTERADD3D";
+			break;
+
+		case Intrinsic::eSubgroupClusterAdd4D:
+			result = "SUBGROUPCLUSTERADD4D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul1F:
+			result = "SUBGROUPCLUSTERMUL1F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul2F:
+			result = "SUBGROUPCLUSTERMUL2F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul3F:
+			result = "SUBGROUPCLUSTERMUL3F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul4F:
+			result = "SUBGROUPCLUSTERMUL4F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul1I:
+			result = "SUBGROUPCLUSTERMUL1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul2I:
+			result = "SUBGROUPCLUSTERMUL2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul3I:
+			result = "SUBGROUPCLUSTERMUL3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul4I:
+			result = "SUBGROUPCLUSTERMUL4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul1U:
+			result = "SUBGROUPCLUSTERMUL1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul2U:
+			result = "SUBGROUPCLUSTERMUL2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul3U:
+			result = "SUBGROUPCLUSTERMUL3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul4U:
+			result = "SUBGROUPCLUSTERMUL4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul1D:
+			result = "SUBGROUPCLUSTERMUL1D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul2D:
+			result = "SUBGROUPCLUSTERMUL2D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul3D:
+			result = "SUBGROUPCLUSTERMUL3D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMul4D:
+			result = "SUBGROUPCLUSTERMUL4D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin1F:
+			result = "SUBGROUPCLUSTERMIN1F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin2F:
+			result = "SUBGROUPCLUSTERMIN2F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin3F:
+			result = "SUBGROUPCLUSTERMIN3F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin4F:
+			result = "SUBGROUPCLUSTERMIN4F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin1I:
+			result = "SUBGROUPCLUSTERMIN1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin2I:
+			result = "SUBGROUPCLUSTERMIN2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin3I:
+			result = "SUBGROUPCLUSTERMIN3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin4I:
+			result = "SUBGROUPCLUSTERMIN4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin1U:
+			result = "SUBGROUPCLUSTERMIN1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin2U:
+			result = "SUBGROUPCLUSTERMIN2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin3U:
+			result = "SUBGROUPCLUSTERMIN3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin4U:
+			result = "SUBGROUPCLUSTERMIN4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin1D:
+			result = "SUBGROUPCLUSTERMIN1D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin2D:
+			result = "SUBGROUPCLUSTERMIN2D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin3D:
+			result = "SUBGROUPCLUSTERMIN3D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMin4D:
+			result = "SUBGROUPCLUSTERMIN4D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax1F:
+			result = "SUBGROUPCLUSTERMAX1F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax2F:
+			result = "SUBGROUPCLUSTERMAX2F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax3F:
+			result = "SUBGROUPCLUSTERMAX3F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax4F:
+			result = "SUBGROUPCLUSTERMAX4F";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax1I:
+			result = "SUBGROUPCLUSTERMAX1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax2I:
+			result = "SUBGROUPCLUSTERMAX2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax3I:
+			result = "SUBGROUPCLUSTERMAX3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax4I:
+			result = "SUBGROUPCLUSTERMAX4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax1U:
+			result = "SUBGROUPCLUSTERMAX1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax2U:
+			result = "SUBGROUPCLUSTERMAX2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax3U:
+			result = "SUBGROUPCLUSTERMAX3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax4U:
+			result = "SUBGROUPCLUSTERMAX4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax1D:
+			result = "SUBGROUPCLUSTERMAX1D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax2D:
+			result = "SUBGROUPCLUSTERMAX2D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax3D:
+			result = "SUBGROUPCLUSTERMAX3D";
+			break;
+
+		case Intrinsic::eSubgroupClusterMax4D:
+			result = "SUBGROUPCLUSTERMAX4D";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd1I:
+			result = "SUBGROUPCLUSTERAND1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd2I:
+			result = "SUBGROUPCLUSTERAND2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd3I:
+			result = "SUBGROUPCLUSTERAND3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd4I:
+			result = "SUBGROUPCLUSTERAND4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd1U:
+			result = "SUBGROUPCLUSTERAND1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd2U:
+			result = "SUBGROUPCLUSTERAND2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd3U:
+			result = "SUBGROUPCLUSTERAND3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd4U:
+			result = "SUBGROUPCLUSTERAND4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd1B:
+			result = "SUBGROUPCLUSTERAND1B";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd2B:
+			result = "SUBGROUPCLUSTERAND2B";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd3B:
+			result = "SUBGROUPCLUSTERAND3B";
+			break;
+
+		case Intrinsic::eSubgroupClusterAnd4B:
+			result = "SUBGROUPCLUSTERAND4B";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr1I:
+			result = "SUBGROUPCLUSTEROR1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr2I:
+			result = "SUBGROUPCLUSTEROR2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr3I:
+			result = "SUBGROUPCLUSTEROR3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr4I:
+			result = "SUBGROUPCLUSTEROR4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr1U:
+			result = "SUBGROUPCLUSTEROR1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr2U:
+			result = "SUBGROUPCLUSTEROR2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr3U:
+			result = "SUBGROUPCLUSTEROR3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr4U:
+			result = "SUBGROUPCLUSTEROR4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr1B:
+			result = "SUBGROUPCLUSTEROR1B";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr2B:
+			result = "SUBGROUPCLUSTEROR2B";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr3B:
+			result = "SUBGROUPCLUSTEROR3B";
+			break;
+
+		case Intrinsic::eSubgroupClusterOr4B:
+			result = "SUBGROUPCLUSTEROR4B";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor1I:
+			result = "SUBGROUPCLUSTERXOR1I";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor2I:
+			result = "SUBGROUPCLUSTERXOR2I";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor3I:
+			result = "SUBGROUPCLUSTERXOR3I";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor4I:
+			result = "SUBGROUPCLUSTERXOR4I";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor1U:
+			result = "SUBGROUPCLUSTERXOR1U";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor2U:
+			result = "SUBGROUPCLUSTERXOR2U";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor3U:
+			result = "SUBGROUPCLUSTERXOR3U";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor4U:
+			result = "SUBGROUPCLUSTERXOR4U";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor1B:
+			result = "SUBGROUPCLUSTERXOR1B";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor2B:
+			result = "SUBGROUPCLUSTERXOR2B";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor3B:
+			result = "SUBGROUPCLUSTERXOR3B";
+			break;
+
+		case Intrinsic::eSubgroupClusterXor4B:
+			result = "SUBGROUPCLUSTERXOR4B";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast1F:
+			result = "SUBGROUPQUADBROADCAST1F";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast2F:
+			result = "SUBGROUPQUADBROADCAST2F";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast3F:
+			result = "SUBGROUPQUADBROADCAST3F";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast4F:
+			result = "SUBGROUPQUADBROADCAST4F";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast1I:
+			result = "SUBGROUPQUADBROADCAST1I";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast2I:
+			result = "SUBGROUPQUADBROADCAST2I";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast3I:
+			result = "SUBGROUPQUADBROADCAST3I";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast4I:
+			result = "SUBGROUPQUADBROADCAST4I";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast1U:
+			result = "SUBGROUPQUADBROADCAST1U";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast2U:
+			result = "SUBGROUPQUADBROADCAST2U";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast3U:
+			result = "SUBGROUPQUADBROADCAST3U";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast4U:
+			result = "SUBGROUPQUADBROADCAST4U";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast1B:
+			result = "SUBGROUPQUADBROADCAST1B";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast2B:
+			result = "SUBGROUPQUADBROADCAST2B";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast3B:
+			result = "SUBGROUPQUADBROADCAST3B";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast4B:
+			result = "SUBGROUPQUADBROADCAST4B";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast1D:
+			result = "SUBGROUPQUADBROADCAST1D";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast2D:
+			result = "SUBGROUPQUADBROADCAST2D";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast3D:
+			result = "SUBGROUPQUADBROADCAST3D";
+			break;
+
+		case Intrinsic::eSubgroupQuadBroadcast4D:
+			result = "SUBGROUPQUADBROADCAST4D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal1F:
+			result = "SUBGROUPQUADSWAPHORIZONTAL1F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal2F:
+			result = "SUBGROUPQUADSWAPHORIZONTAL2F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal3F:
+			result = "SUBGROUPQUADSWAPHORIZONTAL3F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal4F:
+			result = "SUBGROUPQUADSWAPHORIZONTAL4F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal1I:
+			result = "SUBGROUPQUADSWAPHORIZONTAL1I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal2I:
+			result = "SUBGROUPQUADSWAPHORIZONTAL2I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal3I:
+			result = "SUBGROUPQUADSWAPHORIZONTAL3I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal4I:
+			result = "SUBGROUPQUADSWAPHORIZONTAL4I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal1U:
+			result = "SUBGROUPQUADSWAPHORIZONTAL1U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal2U:
+			result = "SUBGROUPQUADSWAPHORIZONTAL2U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal3U:
+			result = "SUBGROUPQUADSWAPHORIZONTAL3U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal4U:
+			result = "SUBGROUPQUADSWAPHORIZONTAL4U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal1B:
+			result = "SUBGROUPQUADSWAPHORIZONTAL1B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal2B:
+			result = "SUBGROUPQUADSWAPHORIZONTAL2B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal3B:
+			result = "SUBGROUPQUADSWAPHORIZONTAL3B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal4B:
+			result = "SUBGROUPQUADSWAPHORIZONTAL4B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal1D:
+			result = "SUBGROUPQUADSWAPHORIZONTAL1D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal2D:
+			result = "SUBGROUPQUADSWAPHORIZONTAL2D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal3D:
+			result = "SUBGROUPQUADSWAPHORIZONTAL3D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapHorizontal4D:
+			result = "SUBGROUPQUADSWAPHORIZONTAL4D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical1F:
+			result = "SUBGROUPQUADSWAPVERTICAL1F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical2F:
+			result = "SUBGROUPQUADSWAPVERTICAL2F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical3F:
+			result = "SUBGROUPQUADSWAPVERTICAL3F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical4F:
+			result = "SUBGROUPQUADSWAPVERTICAL4F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical1I:
+			result = "SUBGROUPQUADSWAPVERTICAL1I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical2I:
+			result = "SUBGROUPQUADSWAPVERTICAL2I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical3I:
+			result = "SUBGROUPQUADSWAPVERTICAL3I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical4I:
+			result = "SUBGROUPQUADSWAPVERTICAL4I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical1U:
+			result = "SUBGROUPQUADSWAPVERTICAL1U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical2U:
+			result = "SUBGROUPQUADSWAPVERTICAL2U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical3U:
+			result = "SUBGROUPQUADSWAPVERTICAL3U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical4U:
+			result = "SUBGROUPQUADSWAPVERTICAL4U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical1B:
+			result = "SUBGROUPQUADSWAPVERTICAL1B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical2B:
+			result = "SUBGROUPQUADSWAPVERTICAL2B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical3B:
+			result = "SUBGROUPQUADSWAPVERTICAL3B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical4B:
+			result = "SUBGROUPQUADSWAPVERTICAL4B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical1D:
+			result = "SUBGROUPQUADSWAPVERTICAL1D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical2D:
+			result = "SUBGROUPQUADSWAPVERTICAL2D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical3D:
+			result = "SUBGROUPQUADSWAPVERTICAL3D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapVertical4D:
+			result = "SUBGROUPQUADSWAPVERTICAL4D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal1F:
+			result = "SUBGROUPQUADSWAPDIAGONAL1F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal2F:
+			result = "SUBGROUPQUADSWAPDIAGONAL2F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal3F:
+			result = "SUBGROUPQUADSWAPDIAGONAL3F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal4F:
+			result = "SUBGROUPQUADSWAPDIAGONAL4F";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal1I:
+			result = "SUBGROUPQUADSWAPDIAGONAL1I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal2I:
+			result = "SUBGROUPQUADSWAPDIAGONAL2I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal3I:
+			result = "SUBGROUPQUADSWAPDIAGONAL3I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal4I:
+			result = "SUBGROUPQUADSWAPDIAGONAL4I";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal1U:
+			result = "SUBGROUPQUADSWAPDIAGONAL1U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal2U:
+			result = "SUBGROUPQUADSWAPDIAGONAL2U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal3U:
+			result = "SUBGROUPQUADSWAPDIAGONAL3U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal4U:
+			result = "SUBGROUPQUADSWAPDIAGONAL4U";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal1B:
+			result = "SUBGROUPQUADSWAPDIAGONAL1B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal2B:
+			result = "SUBGROUPQUADSWAPDIAGONAL2B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal3B:
+			result = "SUBGROUPQUADSWAPDIAGONAL3B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal4B:
+			result = "SUBGROUPQUADSWAPDIAGONAL4B";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal1D:
+			result = "SUBGROUPQUADSWAPDIAGONAL1D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal2D:
+			result = "SUBGROUPQUADSWAPDIAGONAL2D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal3D:
+			result = "SUBGROUPQUADSWAPDIAGONAL3D";
+			break;
+
+		case Intrinsic::eSubgroupQuadSwapDiagonal4D:
+			result = "SUBGROUPQUADSWAPDIAGONAL4D";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

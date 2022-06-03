@@ -1063,7 +1063,7 @@ namespace hlsl
 
 	// Shader Memory Control Functions
 		case ast::expr::Intrinsic::eMemoryBarrier:
-			result = "AllMemoryBarrier";
+			result = "AllMemoryBarrierWithGroupSync";
 			break;
 
 		case ast::expr::Intrinsic::eMemoryBarrierBuffer:
@@ -1102,6 +1102,307 @@ namespace hlsl
 
 		case ast::expr::Intrinsic::eDispatchMesh:
 			result = "DispatchMesh";
+			break;
+
+
+	//Shader Subgroup Functions
+		case ast::expr::Intrinsic::eSubgroupBarrier:
+			result = "GroupMemoryBarrierWithGroupSync";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMemoryBarrier:
+			result = "GroupMemoryBarrier";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer:
+			result = "GroupMemoryBarrier";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMemoryBarrierShared:
+			result = "GroupMemoryBarrier";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMemoryBarrierImage:
+			result = "GroupMemoryBarrier";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupElect:
+			result = "WaveIsFirstLane";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAll:
+			result = "WaveActiveAllTrue";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAny:
+			result = "WaveActiveAnyTrue";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAllEqual1F:
+		case ast::expr::Intrinsic::eSubgroupAllEqual1I:
+		case ast::expr::Intrinsic::eSubgroupAllEqual1U:
+		case ast::expr::Intrinsic::eSubgroupAllEqual1B:
+		case ast::expr::Intrinsic::eSubgroupAllEqual1D:
+			result = "WaveActiveAllEqual";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAllEqual2F:
+		case ast::expr::Intrinsic::eSubgroupAllEqual3F:
+		case ast::expr::Intrinsic::eSubgroupAllEqual4F:
+		case ast::expr::Intrinsic::eSubgroupAllEqual2I:
+		case ast::expr::Intrinsic::eSubgroupAllEqual3I:
+		case ast::expr::Intrinsic::eSubgroupAllEqual4I:
+		case ast::expr::Intrinsic::eSubgroupAllEqual2U:
+		case ast::expr::Intrinsic::eSubgroupAllEqual3U:
+		case ast::expr::Intrinsic::eSubgroupAllEqual4U:
+		case ast::expr::Intrinsic::eSubgroupAllEqual2B:
+		case ast::expr::Intrinsic::eSubgroupAllEqual3B:
+		case ast::expr::Intrinsic::eSubgroupAllEqual4B:
+		case ast::expr::Intrinsic::eSubgroupAllEqual2D:
+		case ast::expr::Intrinsic::eSubgroupAllEqual3D:
+		case ast::expr::Intrinsic::eSubgroupAllEqual4D:
+			result = "SDW_subgroupAllEqual";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupBroadcast1F:
+		case ast::expr::Intrinsic::eSubgroupBroadcast2F:
+		case ast::expr::Intrinsic::eSubgroupBroadcast3F:
+		case ast::expr::Intrinsic::eSubgroupBroadcast4F:
+		case ast::expr::Intrinsic::eSubgroupBroadcast1I:
+		case ast::expr::Intrinsic::eSubgroupBroadcast2I:
+		case ast::expr::Intrinsic::eSubgroupBroadcast3I:
+		case ast::expr::Intrinsic::eSubgroupBroadcast4I:
+		case ast::expr::Intrinsic::eSubgroupBroadcast1U:
+		case ast::expr::Intrinsic::eSubgroupBroadcast2U:
+		case ast::expr::Intrinsic::eSubgroupBroadcast3U:
+		case ast::expr::Intrinsic::eSubgroupBroadcast4U:
+		case ast::expr::Intrinsic::eSubgroupBroadcast1B:
+		case ast::expr::Intrinsic::eSubgroupBroadcast2B:
+		case ast::expr::Intrinsic::eSubgroupBroadcast3B:
+		case ast::expr::Intrinsic::eSubgroupBroadcast4B:
+		case ast::expr::Intrinsic::eSubgroupBroadcast1D:
+		case ast::expr::Intrinsic::eSubgroupBroadcast2D:
+		case ast::expr::Intrinsic::eSubgroupBroadcast3D:
+		case ast::expr::Intrinsic::eSubgroupBroadcast4D:
+			result = "WaveReadLaneAt";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst1F:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst2F:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3F:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4F:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst1I:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst2I:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3I:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4I:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst1U:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst2U:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3U:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4U:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst1B:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst2B:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3B:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4B:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst1D:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst2D:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3D:
+		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4D:
+			result = "WaveReadLaneFirst";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupBallot:
+			result = "WaveActiveBallot";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAdd1F:
+		case ast::expr::Intrinsic::eSubgroupAdd2F:
+		case ast::expr::Intrinsic::eSubgroupAdd3F:
+		case ast::expr::Intrinsic::eSubgroupAdd4F:
+		case ast::expr::Intrinsic::eSubgroupAdd1I:
+		case ast::expr::Intrinsic::eSubgroupAdd2I:
+		case ast::expr::Intrinsic::eSubgroupAdd3I:
+		case ast::expr::Intrinsic::eSubgroupAdd4I:
+		case ast::expr::Intrinsic::eSubgroupAdd1U:
+		case ast::expr::Intrinsic::eSubgroupAdd2U:
+		case ast::expr::Intrinsic::eSubgroupAdd3U:
+		case ast::expr::Intrinsic::eSubgroupAdd4U:
+		case ast::expr::Intrinsic::eSubgroupAdd1D:
+		case ast::expr::Intrinsic::eSubgroupAdd2D:
+		case ast::expr::Intrinsic::eSubgroupAdd3D:
+		case ast::expr::Intrinsic::eSubgroupAdd4D:
+			result = "WaveActiveSum";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMul1F:
+		case ast::expr::Intrinsic::eSubgroupMul2F:
+		case ast::expr::Intrinsic::eSubgroupMul3F:
+		case ast::expr::Intrinsic::eSubgroupMul4F:
+		case ast::expr::Intrinsic::eSubgroupMul1I:
+		case ast::expr::Intrinsic::eSubgroupMul2I:
+		case ast::expr::Intrinsic::eSubgroupMul3I:
+		case ast::expr::Intrinsic::eSubgroupMul4I:
+		case ast::expr::Intrinsic::eSubgroupMul1U:
+		case ast::expr::Intrinsic::eSubgroupMul2U:
+		case ast::expr::Intrinsic::eSubgroupMul3U:
+		case ast::expr::Intrinsic::eSubgroupMul4U:
+		case ast::expr::Intrinsic::eSubgroupMul1D:
+		case ast::expr::Intrinsic::eSubgroupMul2D:
+		case ast::expr::Intrinsic::eSubgroupMul3D:
+		case ast::expr::Intrinsic::eSubgroupMul4D:
+			result = "WaveActiveProduct";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMin1F:
+		case ast::expr::Intrinsic::eSubgroupMin2F:
+		case ast::expr::Intrinsic::eSubgroupMin3F:
+		case ast::expr::Intrinsic::eSubgroupMin4F:
+		case ast::expr::Intrinsic::eSubgroupMin1I:
+		case ast::expr::Intrinsic::eSubgroupMin2I:
+		case ast::expr::Intrinsic::eSubgroupMin3I:
+		case ast::expr::Intrinsic::eSubgroupMin4I:
+		case ast::expr::Intrinsic::eSubgroupMin1U:
+		case ast::expr::Intrinsic::eSubgroupMin2U:
+		case ast::expr::Intrinsic::eSubgroupMin3U:
+		case ast::expr::Intrinsic::eSubgroupMin4U:
+		case ast::expr::Intrinsic::eSubgroupMin1D:
+		case ast::expr::Intrinsic::eSubgroupMin2D:
+		case ast::expr::Intrinsic::eSubgroupMin3D:
+		case ast::expr::Intrinsic::eSubgroupMin4D:
+			result = "WaveActiveMin";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupMax1F:
+		case ast::expr::Intrinsic::eSubgroupMax2F:
+		case ast::expr::Intrinsic::eSubgroupMax3F:
+		case ast::expr::Intrinsic::eSubgroupMax4F:
+		case ast::expr::Intrinsic::eSubgroupMax1I:
+		case ast::expr::Intrinsic::eSubgroupMax2I:
+		case ast::expr::Intrinsic::eSubgroupMax3I:
+		case ast::expr::Intrinsic::eSubgroupMax4I:
+		case ast::expr::Intrinsic::eSubgroupMax1U:
+		case ast::expr::Intrinsic::eSubgroupMax2U:
+		case ast::expr::Intrinsic::eSubgroupMax3U:
+		case ast::expr::Intrinsic::eSubgroupMax4U:
+		case ast::expr::Intrinsic::eSubgroupMax1D:
+		case ast::expr::Intrinsic::eSubgroupMax2D:
+		case ast::expr::Intrinsic::eSubgroupMax3D:
+		case ast::expr::Intrinsic::eSubgroupMax4D:
+			result = "WaveActiveMax";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAnd1I:
+		case ast::expr::Intrinsic::eSubgroupAnd2I:
+		case ast::expr::Intrinsic::eSubgroupAnd3I:
+		case ast::expr::Intrinsic::eSubgroupAnd4I:
+		case ast::expr::Intrinsic::eSubgroupAnd1B:
+		case ast::expr::Intrinsic::eSubgroupAnd2B:
+		case ast::expr::Intrinsic::eSubgroupAnd3B:
+		case ast::expr::Intrinsic::eSubgroupAnd4B:
+			result = "SDW_subgroupAnd";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupAnd1U:
+		case ast::expr::Intrinsic::eSubgroupAnd2U:
+		case ast::expr::Intrinsic::eSubgroupAnd3U:
+		case ast::expr::Intrinsic::eSubgroupAnd4U:
+			result = "WaveActiveBitAnd";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupOr1I:
+		case ast::expr::Intrinsic::eSubgroupOr2I:
+		case ast::expr::Intrinsic::eSubgroupOr3I:
+		case ast::expr::Intrinsic::eSubgroupOr4I:
+		case ast::expr::Intrinsic::eSubgroupOr1B:
+		case ast::expr::Intrinsic::eSubgroupOr2B:
+		case ast::expr::Intrinsic::eSubgroupOr3B:
+		case ast::expr::Intrinsic::eSubgroupOr4B:
+			result = "SDW_subgroupOr";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupOr1U:
+		case ast::expr::Intrinsic::eSubgroupOr2U:
+		case ast::expr::Intrinsic::eSubgroupOr3U:
+		case ast::expr::Intrinsic::eSubgroupOr4U:
+			result = "WaveActiveBitOr";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupXor1I:
+		case ast::expr::Intrinsic::eSubgroupXor2I:
+		case ast::expr::Intrinsic::eSubgroupXor3I:
+		case ast::expr::Intrinsic::eSubgroupXor4I:
+		case ast::expr::Intrinsic::eSubgroupXor1B:
+		case ast::expr::Intrinsic::eSubgroupXor2B:
+		case ast::expr::Intrinsic::eSubgroupXor3B:
+		case ast::expr::Intrinsic::eSubgroupXor4B:
+			result = "SDW_subgroupXor";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupXor1U:
+		case ast::expr::Intrinsic::eSubgroupXor2U:
+		case ast::expr::Intrinsic::eSubgroupXor3U:
+		case ast::expr::Intrinsic::eSubgroupXor4U:
+			result = "WaveActiveBitXor";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd1F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd2F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd3F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd4F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd1I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd2I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd3I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd4I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd1U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd2U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd3U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd4U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd1D:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd2D:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd3D:
+		case ast::expr::Intrinsic::eSubgroupExclusiveAdd4D:
+			result = "WavePrefixSum";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul1F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul2F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul3F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul4F:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul1I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul2I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul3I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul4I:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul1U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul2U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul3U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul4U:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul1D:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul2D:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul3D:
+		case ast::expr::Intrinsic::eSubgroupExclusiveMul4D:
+			result = "WavePrefixProduct";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast1F:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast2F:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast3F:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast4F:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast1I:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast2I:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast3I:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast4I:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast1U:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast2U:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast3U:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast4U:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast1B:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast2B:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast3B:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast4B:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast1D:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast2D:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast3D:
+		case ast::expr::Intrinsic::eSubgroupQuadBroadcast4D:
+			result = "QuadReadLaneAt";
 			break;
 
 		default:
