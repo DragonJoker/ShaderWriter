@@ -50,7 +50,10 @@ namespace sdw
 	*	Entry point type
 	*/
 	/**@{*/
-	using TaskMainFunc = std::function< void( TaskIn ) >;
+	template< template< ast::var::Flag FlagT > typename PayloadT >
+	using TaskMainFuncT = std::function< void( TaskIn
+		, TaskPayloadOutT< PayloadT > ) >;
+	using TaskMainFunc = TaskMainFuncT< VoidT >;
 	/**@}*/
 
 	class TaskWriter
@@ -61,6 +64,11 @@ namespace sdw
 
 		SDW_API void implementMain( uint32_t localSizeX
 			, TaskMainFunc const & function );
+
+		template< template< ast::var::Flag FlagT > typename PayloadT >
+		void implementMainT( uint32_t localSizeX
+			, TaskPayloadOutT< PayloadT > payload
+			, TaskMainFuncT< PayloadT > const & function );
 	};
 	/**@}*/
 }

@@ -1651,8 +1651,8 @@ namespace spirv
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
 		{
-			auto & outputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
-			result = registerType( outputType.getType()
+			auto & inputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
+			result = registerType( inputType.getType()
 				, mbrIndex
 				, parentId
 				, arrayStride );

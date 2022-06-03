@@ -401,6 +401,9 @@ namespace glsl
 				case ast::type::Kind::eMeshPrimitiveOutput:
 					doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 					break;
+				case ast::type::Kind::eTaskPayload:
+					doProcess( param, static_cast< ast::type::TaskPayload const & >( *type ) );
+					break;
 				case ast::type::Kind::eTaskPayloadIn:
 					doProcess( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 					break;
@@ -987,6 +990,12 @@ namespace glsl
 				, m_maxPoint
 				, m_maxPrimitives ) );
 		}
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TaskPayload const & meshType )
+	{
+		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var

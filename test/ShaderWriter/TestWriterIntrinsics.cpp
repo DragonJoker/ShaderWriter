@@ -10404,28 +10404,6 @@ namespace
 		testEnd();
 	}
 
-	void testSetMeshOutputCounts( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSetMeshOutputCounts" );
-		using namespace sdw;
-		{
-			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-				, 64u
-				, 126u
-				, [&]( MeshIn in
-					, TaskPayloadInT< VoidT > payload
-					, MeshVertexListOutT< VoidT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
-				{
-					primOut.setMeshOutputCounts( 3_u, 1_u );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
 	template< sdw::var::Flag FlagT >
 	struct PayloadT
 		: public sdw::StructInstance
@@ -10462,16 +10440,40 @@ namespace
 		sdw::Array< sdw::UInt > meshletIndices;
 	};
 
+	void testSetMeshOutputCounts( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSetMeshOutputCounts" );
+		using namespace sdw;
+		{
+			MeshWriter writer;
+			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshIn in
+					, TaskPayloadInT< PayloadT > payload
+					, MeshVertexListOutT< VoidT > vtxOut
+					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+				{
+					auto index = writer.declLocale( "index"
+						, payload.meshletIndices[0_u] );
+					primOut.setMeshOutputCounts( 3_u, 1_u );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
 	void testDispatchMesh( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testDispatchMesh" );
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			auto payload = writer.declTaskPayload< PayloadT >( "payload" );
-
-			writer.implementMain( 32u
-				, [&]( TaskIn in )
+			writer.implementMainT< PayloadT >( 32u
+				, TaskPayloadOutT< PayloadT >{ writer }
+				, [&]( TaskIn in
+					, TaskPayloadOutT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
 					payload.dispatchMesh( 1_u );
