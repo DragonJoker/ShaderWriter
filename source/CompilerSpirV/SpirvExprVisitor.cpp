@@ -1104,6 +1104,19 @@ namespace spirv
 			{
 				handleMulExtendedIntrinsicCallExpr( opCode, expr );
 			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eBarrier
+				|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eMemoryBarrier
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eGroupMemoryBarrier )
+				|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupBarrier
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupMemoryBarrierImage ) )
+			{
+				handleBarrierIntrinsicCallExpr( opCode, expr );
+			}
+			else if ( opCode >= spv::OpGroupNonUniformElect
+				&& opCode <= spv::OpGroupNonUniformQuadSwap )
+			{
+				handleSubgroupIntrinsicCallExpr( opCode, expr );
+			}
 			else
 			{
 				handleOtherIntrinsicCallExpr( opCode, expr );
@@ -1452,6 +1465,148 @@ namespace spirv
 		m_result = ValueId{ m_module.getIntermediateResult(), typeId.type };
 		m_currentBlock.instructions.emplace_back( makeInstruction< ExtInstInstruction >( typeId
 			, m_result
+			, params ) );
+	}
+
+	void ExprVisitor::handleBarrierIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
+	{
+		ValueIdList params;
+
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eBarrier )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeWorkgroup ) );
+			params.push_back( m_module.registerLiteral( spv::ScopeWorkgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsMaskNone ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsUniformMemoryMask
+				| spv::MemorySemanticsWorkgroupMemoryMask
+				| spv::MemorySemanticsImageMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrierBuffer )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsUniformMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrierShared )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsWorkgroupMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrierImage )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsImageMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eGroupMemoryBarrier )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeWorkgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsUniformMemoryMask
+				| spv::MemorySemanticsWorkgroupMemoryMask
+				| spv::MemorySemanticsImageMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBarrier )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsUniformMemoryMask
+				| spv::MemorySemanticsWorkgroupMemoryMask
+				| spv::MemorySemanticsImageMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrier )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsUniformMemoryMask
+				| spv::MemorySemanticsWorkgroupMemoryMask
+				| spv::MemorySemanticsImageMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrierShared )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsWorkgroupMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsUniformMemoryMask ) );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrierImage )
+		{
+			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
+				| spv::MemorySemanticsImageMemoryMask ) );
+		}
+
+		m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode
+			, params ) );
+	}
+
+	void ExprVisitor::handleSubgroupIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
+	{
+		ValueIdList params;
+		params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotBitCount
+			|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupAdd1F
+				&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupXor4B ) )
+		{
+			params.push_back( { spv::GroupOperationReduce } );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotInclusiveBitCount
+			|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupInclusiveAdd1F
+				&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupInclusiveXor4B ) )
+		{
+			params.push_back( { spv::GroupOperationInclusiveScan } );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount
+			|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupExclusiveAdd1F
+				&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupExclusiveXor4B ) )
+		{
+			params.push_back( { spv::GroupOperationExclusiveScan } );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupClusterAdd1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupClusterXor4B )
+		{
+			params.push_back( { spv::GroupOperationClusteredReduce } );
+		}
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			params.push_back( loadVariable( doSubmit( arg.get() ) ) );
+		}
+
+		if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4D )
+		{
+			params.push_back( m_module.registerLiteral( 0 ) );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapVertical1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapVertical4D )
+		{
+			params.push_back( m_module.registerLiteral( 1 ) );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D )
+		{
+			params.push_back( m_module.registerLiteral( 2 ) );
+		}
+
+		auto typeId = m_module.registerType( expr->getType() );
+		m_result = ValueId{ m_module.getIntermediateResult(), typeId.type };
+		m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( typeId
+			, m_result
+			, opCode
 			, params ) );
 	}
 

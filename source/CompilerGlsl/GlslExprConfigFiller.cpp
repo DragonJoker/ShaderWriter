@@ -186,6 +186,63 @@ namespace glsl
 	{
 		checkType( expr->getType(), m_config );
 
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupElect )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_basic );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupAll
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupAllEqual4D )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_vote );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupBroadcast1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupBallotFindMSB )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_ballot );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupShuffle1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupShuffleXor4D )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_shuffle );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupShuffleUp1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupShuffleDown4D )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_shuffle_relative );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupAdd1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupExclusiveXor4B )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_arithmetic );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupClusterAdd1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupClusterXor4B )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_arithmetic );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_clustered );
+		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadBroadcast1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup );
+			m_config.requiredExtensions.insert( KHR_shader_subgroup_quad );
+		}
+
 		switch ( expr->getIntrinsic() )
 		{
 		case ast::expr::Intrinsic::eFma1F:

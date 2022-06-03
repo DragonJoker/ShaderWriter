@@ -10502,6 +10502,1861 @@ namespace
 		}
 		testEnd();
 	}
+
+	void testSubgroupElect( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupElect" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					auto result = writer.declLocale( "result"
+						, subgroupElect( writer ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupAll( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupAll" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					auto op = writer.declLocale< Boolean >( "op"
+						, test::getDefault< Boolean >( writer ) );
+					auto result = writer.declLocale( "result"
+						, subgroupAll( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupAny( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupAny" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					auto op = writer.declLocale< Boolean >( "op"
+						, test::getDefault< Boolean >( writer ) );
+					auto result = writer.declLocale( "result"
+						, subgroupAny( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSubgroupAllEqualT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupAllEqual" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAllEqual( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupAllEqual( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupAllEqualT< sdw::Float >( "1F", testCounts );
+		testSubgroupAllEqualT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupAllEqualT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupAllEqualT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupAllEqualT< sdw::Double >( "1D", testCounts );
+		testSubgroupAllEqualT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupAllEqualT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupAllEqualT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupAllEqualT< sdw::Int >( "1I", testCounts );
+		testSubgroupAllEqualT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupAllEqualT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupAllEqualT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupAllEqualT< sdw::UInt >( "1U", testCounts );
+		testSubgroupAllEqualT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupAllEqualT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupAllEqualT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupAllEqualT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupAllEqualT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupAllEqualT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupAllEqualT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupBroadcastT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBroadcast" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBroadcast( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBroadcast( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupBroadcastT< sdw::Float >( "1F", testCounts );
+		testSubgroupBroadcastT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupBroadcastT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupBroadcastT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupBroadcastT< sdw::Double >( "1D", testCounts );
+		testSubgroupBroadcastT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupBroadcastT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupBroadcastT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupBroadcastT< sdw::Int >( "1I", testCounts );
+		testSubgroupBroadcastT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupBroadcastT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupBroadcastT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupBroadcastT< sdw::UInt >( "1U", testCounts );
+		testSubgroupBroadcastT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupBroadcastT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupBroadcastT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupBroadcastT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupBroadcastT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupBroadcastT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupBroadcastT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupBroadcastFirstT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBroadcastFirst" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBroadcastFirst( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBroadcastFirst( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupBroadcastFirstT< sdw::Float >( "1F", testCounts );
+		testSubgroupBroadcastFirstT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupBroadcastFirstT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupBroadcastFirstT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupBroadcastFirstT< sdw::Double >( "1D", testCounts );
+		testSubgroupBroadcastFirstT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupBroadcastFirstT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupBroadcastFirstT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupBroadcastFirstT< sdw::Int >( "1I", testCounts );
+		testSubgroupBroadcastFirstT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupBroadcastFirstT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupBroadcastFirstT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupBroadcastFirstT< sdw::UInt >( "1U", testCounts );
+		testSubgroupBroadcastFirstT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupBroadcastFirstT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupBroadcastFirstT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupBroadcastFirstT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupBroadcastFirstT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupBroadcastFirstT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupBroadcastFirstT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	void testSubgroupBallot( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallot" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< Boolean >( "op"
+						, test::getDefault< Boolean >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallot( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInverseBallot( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInverseBallot" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op" 
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupInverseBallot( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBallotBitExtract( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallotBitExtract" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op" 
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallotBitExtract( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBallotBitCount( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallotBitCount" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op" 
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallotBitCount( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBallotInclusiveBitCount( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallotInclusiveBitCount" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op" 
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallotInclusiveBitCount( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBallotExclusiveBitCount( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallotExclusiveBitCount" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op" 
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallotExclusiveBitCount( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBallotFindLSB( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallotFindLSB" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op" 
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallotFindLSB( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBallotFindMSB( test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupBallotFindLSB" );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< UVec4 >( "op"  
+						, test::getDefault< UVec4 >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupBallotFindMSB( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	template< typename ValueT >
+	void testSubgroupShuffleT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupShuffle" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op" 
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupShuffle( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupShuffle( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupShuffleT< sdw::Float >( "1F", testCounts );
+		testSubgroupShuffleT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupShuffleT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupShuffleT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupShuffleT< sdw::Double >( "1D", testCounts );
+		testSubgroupShuffleT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupShuffleT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupShuffleT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupShuffleT< sdw::Int >( "1I", testCounts );
+		testSubgroupShuffleT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupShuffleT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupShuffleT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupShuffleT< sdw::UInt >( "1U", testCounts );
+		testSubgroupShuffleT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupShuffleT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupShuffleT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupShuffleT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupShuffleT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupShuffleT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupShuffleT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupShuffleXorT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupShuffleXor" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupShuffle( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupShuffleXor( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupShuffleXorT< sdw::Float >( "1F", testCounts );
+		testSubgroupShuffleXorT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupShuffleXorT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupShuffleXorT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupShuffleXorT< sdw::Double >( "1D", testCounts );
+		testSubgroupShuffleXorT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupShuffleXorT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupShuffleXorT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupShuffleXorT< sdw::Int >( "1I", testCounts );
+		testSubgroupShuffleXorT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupShuffleXorT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupShuffleXorT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupShuffleXorT< sdw::UInt >( "1U", testCounts );
+		testSubgroupShuffleXorT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupShuffleXorT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupShuffleXorT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupShuffleXorT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupShuffleXorT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupShuffleXorT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupShuffleXorT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupShuffleUpT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupShuffleUp" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupShuffleUp( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupShuffleUp( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupShuffleUpT< sdw::Float >( "1F", testCounts );
+		testSubgroupShuffleUpT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupShuffleUpT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupShuffleUpT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupShuffleUpT< sdw::Double >( "1D", testCounts );
+		testSubgroupShuffleUpT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupShuffleUpT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupShuffleUpT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupShuffleUpT< sdw::Int >( "1I", testCounts );
+		testSubgroupShuffleUpT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupShuffleUpT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupShuffleUpT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupShuffleUpT< sdw::UInt >( "1U", testCounts );
+		testSubgroupShuffleUpT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupShuffleUpT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupShuffleUpT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupShuffleUpT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupShuffleUpT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupShuffleUpT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupShuffleUpT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupShuffleDownT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupShuffleDown" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupShuffleDown( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupShuffleDown( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupShuffleDownT< sdw::Float >( "1F", testCounts );
+		testSubgroupShuffleDownT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupShuffleDownT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupShuffleDownT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupShuffleDownT< sdw::Double >( "1D", testCounts );
+		testSubgroupShuffleDownT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupShuffleDownT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupShuffleDownT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupShuffleDownT< sdw::Int >( "1I", testCounts );
+		testSubgroupShuffleDownT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupShuffleDownT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupShuffleDownT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupShuffleDownT< sdw::UInt >( "1U", testCounts );
+		testSubgroupShuffleDownT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupShuffleDownT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupShuffleDownT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupShuffleDownT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupShuffleDownT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupShuffleDownT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupShuffleDownT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupAddT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupAdd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAdd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupAdd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupAddT< sdw::Float >( "1F", testCounts );
+		testSubgroupAddT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupAddT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupAddT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupAddT< sdw::Double >( "1D", testCounts );
+		testSubgroupAddT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupAddT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupAddT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupAddT< sdw::Int >( "1I", testCounts );
+		testSubgroupAddT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupAddT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupAddT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupAddT< sdw::UInt >( "1U", testCounts );
+		testSubgroupAddT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupAddT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupAddT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveAddT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveAdd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAdd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveAdd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveAddT< sdw::Float >( "1F", testCounts );
+		testSubgroupInclusiveAddT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupInclusiveAddT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupInclusiveAddT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupInclusiveAddT< sdw::Double >( "1D", testCounts );
+		testSubgroupInclusiveAddT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupInclusiveAddT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupInclusiveAddT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupInclusiveAddT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveAddT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveAddT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveAddT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveAddT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveAddT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveAddT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveAddT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveAddT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveAdd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAdd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveAdd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveAddT< sdw::Float >( "1F", testCounts );
+		testSubgroupExclusiveAddT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupExclusiveAddT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupExclusiveAddT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupExclusiveAddT< sdw::Double >( "1D", testCounts );
+		testSubgroupExclusiveAddT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupExclusiveAddT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupExclusiveAddT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupExclusiveAddT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveAddT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveAddT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveAddT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveAddT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveAddT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveAddT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveAddT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterAddT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterAdd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAdd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterAdd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterAddT< sdw::Float >( "1F", testCounts );
+		testSubgroupClusterAddT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupClusterAddT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupClusterAddT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupClusterAddT< sdw::Double >( "1D", testCounts );
+		testSubgroupClusterAddT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupClusterAddT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupClusterAddT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupClusterAddT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterAddT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterAddT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterAddT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterAddT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterAddT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterAddT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterAddT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupMulT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupMul" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMul( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMul( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupMulT< sdw::Float >( "1F", testCounts );
+		testSubgroupMulT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupMulT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupMulT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupMulT< sdw::Double >( "1D", testCounts );
+		testSubgroupMulT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupMulT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupMulT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupMulT< sdw::Int >( "1I", testCounts );
+		testSubgroupMulT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupMulT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupMulT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupMulT< sdw::UInt >( "1U", testCounts );
+		testSubgroupMulT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupMulT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupMulT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveMulT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveMul" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMul( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveMul( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveMulT< sdw::Float >( "1F", testCounts );
+		testSubgroupInclusiveMulT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupInclusiveMulT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupInclusiveMulT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupInclusiveMulT< sdw::Double >( "1D", testCounts );
+		testSubgroupInclusiveMulT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupInclusiveMulT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupInclusiveMulT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupInclusiveMulT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveMulT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveMulT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveMulT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveMulT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveMulT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveMulT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveMulT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveMulT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveMul" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMul( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveMul( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveMulT< sdw::Float >( "1F", testCounts );
+		testSubgroupExclusiveMulT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupExclusiveMulT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupExclusiveMulT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupExclusiveMulT< sdw::Double >( "1D", testCounts );
+		testSubgroupExclusiveMulT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupExclusiveMulT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupExclusiveMulT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupExclusiveMulT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveMulT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveMulT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveMulT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveMulT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveMulT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveMulT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveMulT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterMulT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterMul" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMul( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterMul( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterMulT< sdw::Float >( "1F", testCounts );
+		testSubgroupClusterMulT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupClusterMulT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupClusterMulT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupClusterMulT< sdw::Double >( "1D", testCounts );
+		testSubgroupClusterMulT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupClusterMulT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupClusterMulT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupClusterMulT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterMulT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterMulT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterMulT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterMulT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterMulT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterMulT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterMulT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupMinT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupMin" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMin( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMin( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupMinT< sdw::Float >( "1F", testCounts );
+		testSubgroupMinT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupMinT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupMinT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupMinT< sdw::Double >( "1D", testCounts );
+		testSubgroupMinT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupMinT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupMinT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupMinT< sdw::Int >( "1I", testCounts );
+		testSubgroupMinT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupMinT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupMinT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupMinT< sdw::UInt >( "1U", testCounts );
+		testSubgroupMinT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupMinT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupMinT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveMinT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveMin" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMin( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveMin( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveMinT< sdw::Float >( "1F", testCounts );
+		testSubgroupInclusiveMinT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupInclusiveMinT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupInclusiveMinT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupInclusiveMinT< sdw::Double >( "1D", testCounts );
+		testSubgroupInclusiveMinT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupInclusiveMinT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupInclusiveMinT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupInclusiveMinT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveMinT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveMinT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveMinT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveMinT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveMinT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveMinT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveMinT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveMinT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveMin" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMin( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveMin( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveMinT< sdw::Float >( "1F", testCounts );
+		testSubgroupExclusiveMinT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupExclusiveMinT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupExclusiveMinT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupExclusiveMinT< sdw::Double >( "1D", testCounts );
+		testSubgroupExclusiveMinT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupExclusiveMinT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupExclusiveMinT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupExclusiveMinT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveMinT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveMinT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveMinT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveMinT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveMinT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveMinT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveMinT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterMinT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterMin" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMin( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterMin( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterMinT< sdw::Float >( "1F", testCounts );
+		testSubgroupClusterMinT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupClusterMinT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupClusterMinT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupClusterMinT< sdw::Double >( "1D", testCounts );
+		testSubgroupClusterMinT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupClusterMinT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupClusterMinT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupClusterMinT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterMinT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterMinT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterMinT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterMinT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterMinT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterMinT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterMinT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupMaxT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupMax" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMax( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMax( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupMaxT< sdw::Float >( "1F", testCounts );
+		testSubgroupMaxT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupMaxT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupMaxT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupMaxT< sdw::Double >( "1D", testCounts );
+		testSubgroupMaxT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupMaxT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupMaxT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupMaxT< sdw::Int >( "1I", testCounts );
+		testSubgroupMaxT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupMaxT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupMaxT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupMaxT< sdw::UInt >( "1U", testCounts );
+		testSubgroupMaxT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupMaxT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupMaxT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveMaxT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveMax" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMax( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveMax( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveMaxT< sdw::Float >( "1F", testCounts );
+		testSubgroupInclusiveMaxT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupInclusiveMaxT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupInclusiveMaxT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupInclusiveMaxT< sdw::Double >( "1D", testCounts );
+		testSubgroupInclusiveMaxT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupInclusiveMaxT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupInclusiveMaxT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupInclusiveMaxT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveMaxT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveMaxT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveMaxT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveMaxT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveMaxT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveMaxT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveMaxT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveMaxT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveMax" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMax( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveMax( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveMaxT< sdw::Float >( "1F", testCounts );
+		testSubgroupExclusiveMaxT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupExclusiveMaxT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupExclusiveMaxT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupExclusiveMaxT< sdw::Double >( "1D", testCounts );
+		testSubgroupExclusiveMaxT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupExclusiveMaxT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupExclusiveMaxT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupExclusiveMaxT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveMaxT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveMaxT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveMaxT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveMaxT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveMaxT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveMaxT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveMaxT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterMaxT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterMax" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupMax( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterMax( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterMaxT< sdw::Float >( "1F", testCounts );
+		testSubgroupClusterMaxT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupClusterMaxT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupClusterMaxT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupClusterMaxT< sdw::Double >( "1D", testCounts );
+		testSubgroupClusterMaxT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupClusterMaxT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupClusterMaxT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupClusterMaxT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterMaxT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterMaxT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterMaxT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterMaxT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterMaxT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterMaxT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterMaxT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupAndT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupAnd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAnd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupAnd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupAndT< sdw::Int >( "1I", testCounts );
+		testSubgroupAndT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupAndT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupAndT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupAndT< sdw::UInt >( "1U", testCounts );
+		testSubgroupAndT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupAndT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupAndT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupAndT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupAndT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupAndT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupAndT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveAndT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveAnd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAnd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveAnd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveAndT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveAndT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveAndT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveAndT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveAndT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveAndT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveAndT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveAndT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupInclusiveAndT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupInclusiveAndT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupInclusiveAndT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupInclusiveAndT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveAndT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveAnd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAnd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveAnd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveAndT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveAndT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveAndT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveAndT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveAndT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveAndT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveAndT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveAndT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupExclusiveAndT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupExclusiveAndT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupExclusiveAndT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupExclusiveAndT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterAndT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterAnd" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupAnd( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterAnd( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterAndT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterAndT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterAndT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterAndT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterAndT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterAndT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterAndT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterAndT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupClusterAndT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupClusterAndT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupClusterAndT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupClusterAndT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupOrT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupOr" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupOr( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupOr( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupOrT< sdw::Int >( "1I", testCounts );
+		testSubgroupOrT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupOrT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupOrT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupOrT< sdw::UInt >( "1U", testCounts );
+		testSubgroupOrT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupOrT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupOrT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupOrT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupOrT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupOrT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupOrT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveOrT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveOr" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupOr( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveOr( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveOrT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveOrT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveOrT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveOrT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveOrT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveOrT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveOrT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveOrT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupInclusiveOrT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupInclusiveOrT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupInclusiveOrT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupInclusiveOrT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveOrT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveOr" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupOr( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveOr( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveOrT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveOrT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveOrT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveOrT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveOrT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveOrT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveOrT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveOrT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupExclusiveOrT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupExclusiveOrT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupExclusiveOrT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupExclusiveOrT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterOrT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterOr" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupOr( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterOr( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterOrT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterOrT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterOrT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterOrT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterOrT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterOrT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterOrT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterOrT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupClusterOrT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupClusterOrT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupClusterOrT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupClusterOrT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupXorT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupXor" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupXor( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupXor( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupXorT< sdw::Int >( "1I", testCounts );
+		testSubgroupXorT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupXorT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupXorT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupXorT< sdw::UInt >( "1U", testCounts );
+		testSubgroupXorT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupXorT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupXorT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupXorT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupXorT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupXorT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupXorT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupInclusiveXorT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupInclusiveXor" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupXor( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupInclusiveXor( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupInclusiveXorT< sdw::Int >( "1I", testCounts );
+		testSubgroupInclusiveXorT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupInclusiveXorT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupInclusiveXorT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupInclusiveXorT< sdw::UInt >( "1U", testCounts );
+		testSubgroupInclusiveXorT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupInclusiveXorT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupInclusiveXorT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupInclusiveXorT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupInclusiveXorT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupInclusiveXorT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupInclusiveXorT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupExclusiveXorT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupExclusiveXor" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupXor( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupExclusiveXor( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupExclusiveXorT< sdw::Int >( "1I", testCounts );
+		testSubgroupExclusiveXorT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupExclusiveXorT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupExclusiveXorT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupExclusiveXorT< sdw::UInt >( "1U", testCounts );
+		testSubgroupExclusiveXorT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupExclusiveXorT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupExclusiveXorT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupExclusiveXorT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupExclusiveXorT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupExclusiveXorT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupExclusiveXorT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupClusterXorT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupClusterXor" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupXor( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupClusterXor( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupClusterXorT< sdw::Int >( "1I", testCounts );
+		testSubgroupClusterXorT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupClusterXorT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupClusterXorT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupClusterXorT< sdw::UInt >( "1U", testCounts );
+		testSubgroupClusterXorT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupClusterXorT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupClusterXorT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupClusterXorT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupClusterXorT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupClusterXorT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupClusterXorT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupQuadBroadcastT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupQuadBroadcast" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupQuadBroadcast( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupQuadBroadcast( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupQuadBroadcastT< sdw::Float >( "1F", testCounts );
+		testSubgroupQuadBroadcastT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupQuadBroadcastT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupQuadBroadcastT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupQuadBroadcastT< sdw::Double >( "1D", testCounts );
+		testSubgroupQuadBroadcastT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupQuadBroadcastT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupQuadBroadcastT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupQuadBroadcastT< sdw::Int >( "1I", testCounts );
+		testSubgroupQuadBroadcastT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupQuadBroadcastT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupQuadBroadcastT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupQuadBroadcastT< sdw::UInt >( "1U", testCounts );
+		testSubgroupQuadBroadcastT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupQuadBroadcastT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupQuadBroadcastT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupQuadBroadcastT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupQuadBroadcastT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupQuadBroadcastT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupQuadBroadcastT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupQuadSwapHorizontalT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupQuadSwapHorizontal" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupQuadSwapHorizontal( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupQuadSwapHorizontal( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupQuadSwapHorizontalT< sdw::Float >( "1F", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::Double >( "1D", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::Int >( "1I", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::UInt >( "1U", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupQuadSwapHorizontalT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupQuadSwapVerticalT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupQuadSwapVertical" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupQuadSwapVertical( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupQuadSwapVertical( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupQuadSwapVerticalT< sdw::Float >( "1F", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::Double >( "1D", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::Int >( "1I", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::UInt >( "1U", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupQuadSwapVerticalT< sdw::BVec4 >( "4B", testCounts );
+	}
+
+	template< typename ValueT >
+	void testSubgroupQuadSwapDiagonalT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testSubgroupQuadSwapDiagonal" + name );
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, subgroupQuadSwapDiagonal( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupQuadSwapDiagonal( test::sdw_test::TestCounts & testCounts )
+	{
+		testSubgroupQuadSwapDiagonalT< sdw::Float >( "1F", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::Vec2 >( "2F", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::Vec3 >( "3F", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::Vec4 >( "4F", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::Double >( "1D", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::DVec2 >( "2D", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::DVec3 >( "3D", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::DVec4 >( "4D", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::Int >( "1I", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::IVec2 >( "2I", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::IVec3 >( "3I", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::IVec4 >( "4I", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::UInt >( "1U", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::UVec2 >( "2U", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::UVec3 >( "3U", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::UVec4 >( "4U", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::Boolean >( "1B", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::BVec2 >( "2B", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::BVec3 >( "3B", testCounts );
+		testSubgroupQuadSwapDiagonalT< sdw::BVec4 >( "4B", testCounts );
+	}
 }
 
 sdwTestSuiteMain( TestWriterIntrinsics )
@@ -11170,6 +13025,56 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	testSetMeshOutputCounts( testCounts );
 	testDispatchMesh( testCounts );
 	testHelperInvocation( testCounts );
+	testSubgroupElect( testCounts );
+	testSubgroupAll( testCounts );
+	testSubgroupAny( testCounts );
+	testSubgroupAllEqual( testCounts );
+	testSubgroupBroadcast( testCounts );
+	testSubgroupBroadcastFirst( testCounts );
+	testSubgroupBallot( testCounts );
+	testSubgroupInverseBallot( testCounts );
+	testSubgroupBallotBitExtract( testCounts );
+	testSubgroupBallotBitCount( testCounts );
+	testSubgroupBallotInclusiveBitCount( testCounts );
+	testSubgroupBallotExclusiveBitCount( testCounts );
+	testSubgroupBallotFindLSB( testCounts );
+	testSubgroupBallotFindMSB( testCounts );
+	testSubgroupShuffle( testCounts );
+	testSubgroupShuffleXor( testCounts );
+	testSubgroupShuffleUp( testCounts );
+	testSubgroupShuffleDown( testCounts );
+	testSubgroupAdd( testCounts );
+	testSubgroupInclusiveAdd( testCounts );
+	testSubgroupExclusiveAdd( testCounts );
+	testSubgroupClusterAdd( testCounts );
+	testSubgroupMul( testCounts );
+	testSubgroupInclusiveMul( testCounts );
+	testSubgroupExclusiveMul( testCounts );
+	testSubgroupClusterMul( testCounts );
+	testSubgroupMin( testCounts );
+	testSubgroupInclusiveMin( testCounts );
+	testSubgroupExclusiveMin( testCounts );
+	testSubgroupClusterMin( testCounts );
+	testSubgroupMax( testCounts );
+	testSubgroupInclusiveMax( testCounts );
+	testSubgroupExclusiveMax( testCounts );
+	testSubgroupClusterMax( testCounts );
+	testSubgroupAnd( testCounts );
+	testSubgroupInclusiveAnd( testCounts );
+	testSubgroupExclusiveAnd( testCounts );
+	testSubgroupClusterAnd( testCounts );
+	testSubgroupOr( testCounts );
+	testSubgroupInclusiveOr( testCounts );
+	testSubgroupExclusiveOr( testCounts );
+	testSubgroupClusterOr( testCounts );
+	testSubgroupXor( testCounts );
+	testSubgroupInclusiveXor( testCounts );
+	testSubgroupExclusiveXor( testCounts );
+	testSubgroupClusterXor( testCounts );
+	testSubgroupQuadBroadcast( testCounts );
+	testSubgroupQuadSwapHorizontal( testCounts );
+	testSubgroupQuadSwapVertical( testCounts );
+	testSubgroupQuadSwapDiagonal( testCounts );
 	sdwTestSuiteEnd();
 }
 

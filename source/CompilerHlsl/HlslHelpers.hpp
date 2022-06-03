@@ -907,6 +907,48 @@ namespace hlsl
 		bool requiresImageAtomicCompSwapCubeArrayI{ false };
 		bool requiresImageAtomicCompSwap2DMSI{ false };
 		bool requiresImageAtomicCompSwap2DMSArrayI{ false };
+
+		bool requiresSubgroupAnd1I{ false };
+		bool requiresSubgroupAnd2I{ false };
+		bool requiresSubgroupAnd3I{ false };
+		bool requiresSubgroupAnd4I{ false };
+		bool requiresSubgroupAnd1B{ false };
+		bool requiresSubgroupAnd2B{ false };
+		bool requiresSubgroupAnd3B{ false };
+		bool requiresSubgroupAnd4B{ false };
+		bool requiresSubgroupOr1I{ false };
+		bool requiresSubgroupOr2I{ false };
+		bool requiresSubgroupOr3I{ false };
+		bool requiresSubgroupOr4I{ false };
+		bool requiresSubgroupOr1B{ false };
+		bool requiresSubgroupOr2B{ false };
+		bool requiresSubgroupOr3B{ false };
+		bool requiresSubgroupOr4B{ false };
+		bool requiresSubgroupXor1I{ false };
+		bool requiresSubgroupXor2I{ false };
+		bool requiresSubgroupXor3I{ false };
+		bool requiresSubgroupXor4I{ false };
+		bool requiresSubgroupXor1B{ false };
+		bool requiresSubgroupXor2B{ false };
+		bool requiresSubgroupXor3B{ false };
+		bool requiresSubgroupXor4B{ false };
+		bool requiresSubgroupAllEqual2F{ false };
+		bool requiresSubgroupAllEqual3F{ false };
+		bool requiresSubgroupAllEqual4F{ false };
+		bool requiresSubgroupAllEqual2I{ false };
+		bool requiresSubgroupAllEqual3I{ false };
+		bool requiresSubgroupAllEqual4I{ false };
+		bool requiresSubgroupAllEqual2U{ false };
+		bool requiresSubgroupAllEqual3U{ false };
+		bool requiresSubgroupAllEqual4U{ false };
+		bool requiresSubgroupAllEqual2B{ false };
+		bool requiresSubgroupAllEqual3B{ false };
+		bool requiresSubgroupAllEqual4B{ false };
+		bool requiresSubgroupAllEqual2D{ false };
+		bool requiresSubgroupAllEqual3D{ false };
+		bool requiresSubgroupAllEqual4D{ false };
+
+		bool requiresWaveOps{ false };
 	};
 	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );
