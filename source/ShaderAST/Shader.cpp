@@ -542,39 +542,31 @@ namespace ast
 
 	bool Shader::hasVar( std::string_view name )const
 	{
-		auto & block = m_blocks.back();
-		auto it = findVariable( block.registered, name );
-
-		if ( it != block.registered.end() )
-		{
-			return true;
-		}
-
-		it = findVariable( m_blocks.front().registered, name );
-
-		if ( it != m_blocks.front().registered.end() )
-		{
-			return true;
-		}
-
-		return false;
+		auto curBlockIt = std::find_if( m_blocks.crbegin()
+			, m_blocks.crend()
+			, [&name]( Block const & lookup )
+			{
+				return findVariable( lookup.registered, name ) != lookup.registered.end();
+			} );
+		return curBlockIt != m_blocks.rend();
 	}
 
 	var::VariablePtr Shader::getVar( std::string_view name )const
 	{
-		auto & block = m_blocks.back();
-		auto it = findVariable( block.registered, name );
-
-		if ( it == block.registered.end() )
-		{
-			it = findVariable( m_blocks.front().registered, name );
-
-			if ( it == m_blocks.front().registered.end() )
+		std::set< var::VariablePtr >::const_iterator it;
+		auto curBlockIt = std::find_if( m_blocks.crbegin()
+			, m_blocks.crend()
+			, [&name, &it]( Block const & lookup )
 			{
-				std::string text;
-				text += "No registered variable with the name [" + std::string( name ) + "].";
-				throw std::runtime_error{ text };
-			}
+				it = findVariable( lookup.registered, name );
+				return it != lookup.registered.end();
+			} );
+
+		if ( curBlockIt == m_blocks.rend() )
+		{
+			std::string text;
+			text += "No registered variable with the name [" + std::string( name ) + "].";
+			throw std::runtime_error{ text };
 		}
 
 		return *it;
@@ -583,19 +575,20 @@ namespace ast
 	var::VariablePtr Shader::getMemberVar( var::VariablePtr outer
 		, std::string_view name )const
 	{
-		auto & block = m_blocks.back();
-		auto it = findMbrVariable( block.registered, outer, name );
-
-		if ( it == block.registered.end() )
-		{
-			it = findMbrVariable( m_blocks.front().registered, outer, name );
-
-			if ( it == m_blocks.front().registered.end() )
+		std::set< var::VariablePtr >::const_iterator it;
+		auto curBlockIt = std::find_if( m_blocks.crbegin()
+			, m_blocks.crend()
+			, [&outer, &name, &it]( Block const & lookup )
 			{
-				std::string text;
-				text += "No registered member variable with the name [" + std::string( name ) + "].";
-				throw std::runtime_error{ text };
-			}
+				it = findMbrVariable( lookup.registered, outer, name );
+				return it != lookup.registered.end();
+			} );
+
+		if ( curBlockIt == m_blocks.rend() )
+		{
+			std::string text;
+			text += "No registered member variable with the name [" + std::string( name ) + "].";
+			throw std::runtime_error{ text };
 		}
 
 		return *it;
