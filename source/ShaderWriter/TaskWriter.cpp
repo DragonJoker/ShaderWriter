@@ -75,10 +75,9 @@ namespace sdw
 	void TaskWriter::implementMain( uint32_t localSizeX
 		, TaskMainFunc const & function )
 	{
-		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
-			, function
-			, makeInParam( TaskIn{ *this, localSizeX } ) );
+		implementMainT< VoidT >( localSizeX
+			, TaskPayloadOut{ *this }
+			, function );
 	}
 
 	//*************************************************************************

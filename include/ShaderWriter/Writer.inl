@@ -1401,32 +1401,6 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region Mesh and task variables declaration
-	/**
-	*name
-	*	Mesh and task variables declaration.
-	*/
-	/**@{*/
-	template< template< ast::var::Flag FlagT > typename DataT >
-	TaskPayloadOutT< DataT > ShaderWriter::declTaskPayload( std::string name
-		, bool enabled )
-	{
-		auto type = ast::type::makeTaskPayloadType( TaskPayloadOutT< DataT >::makeType( getTypesCache() ) );
-		auto var = registerName( name
-			, type
-			, ast::var::Flag::ePerTask | ast::var::Flag::eShaderOutput );
-
-		if ( enabled )
-		{
-			addGlobalStmt( sdw::makeVariableDecl( var ) );
-		}
-
-		return TaskPayloadOutT< DataT >{ *this
-			, makeExpr( *this, var )
-			, enabled };
-	}
-	/**@}*/
-#pragma endregion
 #pragma region Ray tracing variables declaration
 	/**
 	*name

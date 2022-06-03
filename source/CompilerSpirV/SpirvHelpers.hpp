@@ -370,6 +370,8 @@ namespace spirv
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
 		void registerParam( ast::var::VariablePtr var
+			, ast::type::TaskPayload const & taskType );
+		void registerParam( ast::var::VariablePtr var
 			, ast::type::TaskPayloadIn const & taskType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType

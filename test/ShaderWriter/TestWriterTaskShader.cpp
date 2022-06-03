@@ -457,10 +457,10 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			auto payload = writer.declTaskPayload< PayloadT >( "payload" );
-
-			writer.implementMain( 32u
-				, [&]( TaskIn in )
+			writer.implementMainT< PayloadT >( 32u
+				, TaskPayloadOutT< PayloadT >{ writer }
+				, [&]( TaskIn in
+					, TaskPayloadOutT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
 					payload.dispatchMesh( 1_u );
@@ -478,8 +478,6 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			auto payload = writer.declTaskPayload< PayloadT >( "payload" );
-
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
 			auto constants = Globals.declMember< Constants >( "constants" );
 			Globals.end();
@@ -580,8 +578,10 @@ namespace
 				, InParam< Float >{ writer, "scale" }
 				, InParam< Vec3 >{ writer, "viewPos" } );
 
-			writer.implementMain( ThreadsPerWave
-				, [&]( TaskIn in )
+			writer.implementMainT< PayloadT >( ThreadsPerWave
+				, TaskPayloadOutT< PayloadT >{ writer }
+				, [&]( TaskIn in
+					, TaskPayloadOutT< PayloadT > payload )
 				{
 					auto dtid = in.globalInvocationID;
 					auto gid = in.workGroupID;
