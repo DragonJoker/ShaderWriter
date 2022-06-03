@@ -43,6 +43,7 @@ namespace glsl
 					{ "gl_HitKind", "gl_HitKindEXT" },
 					{ "gl_ObjectToWorld", "gl_ObjectToWorldEXT" },
 					{ "gl_WorldToObject", "gl_WorldToObjectEXT" },
+					{ "gl_SubgroupLocalInvocationID", "gl_SubgroupInvocationID" },
 				};
 				auto it = toVkNames.find( name );
 
@@ -72,6 +73,7 @@ namespace glsl
 					{ "gl_HitKind", "gl_HitKindEXT" },
 					{ "gl_ObjectToWorld", "gl_ObjectToWorldEXT" },
 					{ "gl_WorldToObject", "gl_WorldToObjectEXT" },
+					{ "gl_SubgroupLocalInvocationID", "gl_SubgroupInvocationID" },
 				};
 				auto it = toGlNames.find( name );
 

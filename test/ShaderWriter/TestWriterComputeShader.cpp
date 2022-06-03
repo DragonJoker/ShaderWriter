@@ -7,6 +7,43 @@
 
 namespace
 {
+	struct Voxel
+		: public sdw::StructInstance
+	{
+		SDW_DeclStructInstance( , Voxel );
+
+		Voxel( sdw::ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
+			, colorMask{ getMember< sdw::UInt >( "colorMask" ) }
+			, normalMask{ getMember< sdw::UInt >( "normalMask" ) }
+		{
+		}
+
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd430
+				, "Voxel" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colorMask", ast::type::Kind::eUInt );
+				result->declMember( "normalMask", ast::type::Kind::eUInt );
+			}
+
+			return result;
+		}
+
+		// Raw values
+		sdw::UInt colorMask;
+		sdw::UInt normalMask;
+
+	private:
+		using sdw::StructInstance::getMember;
+		using sdw::StructInstance::getMemberArray;
+	};
+
 	void emptyMain( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "emptyMain" );
@@ -196,43 +233,6 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
-
-	struct Voxel
-		: public sdw::StructInstance
-	{
-		SDW_DeclStructInstance( , Voxel );
-
-		Voxel( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled )
-			: StructInstance{ writer, std::move( expr ), enabled }
-			, colorMask{ getMember< sdw::UInt >( "colorMask" ) }
-			, normalMask{ getMember< sdw::UInt >( "normalMask" ) }
-		{
-		}
-
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd430
-				, "Voxel" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "colorMask", ast::type::Kind::eUInt );
-				result->declMember( "normalMask", ast::type::Kind::eUInt );
-			}
-
-			return result;
-		}
-
-		// Raw values
-		sdw::UInt colorMask;
-		sdw::UInt normalMask;
-
-	private:
-		using sdw::StructInstance::getMember;
-		using sdw::StructInstance::getMemberArray;
-	};
 
 	void voxelToTexture( test::sdw_test::TestCounts & testCounts )
 	{
@@ -425,6 +425,109 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
+
+	void subgroupEmptyMain( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupEmptyMain" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
+			{
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void subgroupBuiltins( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupBuiltins" );
+		using namespace sdw;
+		ComputeWriter writer;
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
+			{
+				writer.declLocale( "globalInvocationID", in.globalInvocationID );
+				writer.declLocale( "localInvocationID", in.localInvocationID );
+				writer.declLocale( "localInvocationIndex", in.localInvocationIndex );
+				writer.declLocale( "numWorkGroups", in.numWorkGroups );
+				writer.declLocale( "workGroupID", in.workGroupID );
+				writer.declLocale( "workGroupSize", in.workGroupSize );
+				writer.declLocale( "numSubgroups", in.numSubgroups );
+				writer.declLocale( "subgroupID", in.subgroupID );
+				writer.declLocale( "subgroupSize", in.subgroupSize );
+				writer.declLocale( "subgroupInvocationID", in.subgroupInvocationID );
+				writer.declLocale( "subgroupEqMask", in.subgroupEqMask );
+				writer.declLocale( "subgroupGeMask", in.subgroupGeMask );
+				writer.declLocale( "subgroupLeMask", in.subgroupLeMask );
+				writer.declLocale( "subgroupLtMask", in.subgroupLtMask );
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void subgroupCompute( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupCompute" );
+		using namespace sdw;
+		ComputeWriter writer;
+		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
+			{
+				ssbo[in.subgroupInvocationID]
+					= ssbo[in.subgroupInvocationID];
+				img.store( ivec2( in.subgroupInvocationID )
+					, ssbo[in.subgroupInvocationID] );
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+
+#if !defined( __APPLE__ )
+		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+#endif
+
+		testEnd();
+	}
+
+	void subgroupSimpleStore( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupSimpleStore" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			ComputeWriter writer;
+			auto kernelImage =
+				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
+
+			writer.implementMainT< VoidT >( 32u, [&]( SubgroupIn in )
+				{
+					IVec2 iuv = writer.declLocale(
+						"iuv", ivec2( writer.cast<Int>( in.subgroupInvocationID ),
+							writer.cast<Int>( in.subgroupInvocationID ) ) );
+
+					kernelImage.store( iuv, vec4( 1.0_f ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterComputeShader )
@@ -441,6 +544,10 @@ sdwTestSuiteMain( TestWriterComputeShader )
 	imageArray( testCounts );
 	accessChainAlias( testCounts );
 	duplicateLoadTest( testCounts );
+	subgroupEmptyMain( testCounts );
+	subgroupBuiltins( testCounts );
+	subgroupCompute( testCounts );
+	subgroupSimpleStore( testCounts );
 	sdwTestSuiteEnd();
 }
 
