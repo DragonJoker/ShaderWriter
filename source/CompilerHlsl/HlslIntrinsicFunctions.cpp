@@ -1010,6 +1010,380 @@ namespace hlsl
 			cont->addStmt( ast::stmt::makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
+
+		inline void writeSubgroupAnd1I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int SDW_subgroupAnd(int id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint uid = uint(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd2I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int2 SDW_subgroupAnd(int2 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 uid = uint2(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int2(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd3I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int3 SDW_subgroupAnd(int3 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 uid = uint3(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int3(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd4I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int4 SDW_subgroupAnd(int4 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 uid = uint4(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int4(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd1B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool SDW_subgroupAnd(bool id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint uid = uint(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd2B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool2 SDW_subgroupAnd(bool2 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 uid = uint2(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool2(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd3B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool3 SDW_subgroupAnd(bool3 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 uid = uint3(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool3(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAnd4B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool4 SDW_subgroupAnd(bool4 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 uid = uint4(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 ret = WaveActiveBitAnd(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool4(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr1I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int SDW_subgroupOr(int id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint uid = uint(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr2I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int2 SDW_subgroupOr(int2 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 uid = uint2(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int2(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr3I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int3 SDW_subgroupOr(int3 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 uid = uint3(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int3(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr4I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int4 SDW_subgroupOr(int4 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 uid = uint4(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int4(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr1B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool SDW_subgroupOr(bool id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint uid = uint(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr2B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool2 SDW_subgroupOr(bool2 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 uid = uint2(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool2(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr3B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool3 SDW_subgroupOr(bool3 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 uid = uint3(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool3(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupOr4B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool4 SDW_subgroupOr(bool4 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 uid = uint4(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 ret = WaveActiveBitOr(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool4(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor1I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int SDW_subgroupXor(int id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint uid = uint(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor2I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int2 SDW_subgroupXor(int2 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 uid = uint2(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int2(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor3I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int3 SDW_subgroupXor(int3 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 uid = uint3(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int3(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor4I( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "int4 SDW_subgroupXor(int4 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 uid = uint4(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return int4(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor1B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool SDW_subgroupXor(bool id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint uid = uint(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor2B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool2 SDW_subgroupXor(bool2 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 uid = uint2(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint2 ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool2(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor3B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool3 SDW_subgroupXor(bool3 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 uid = uint3(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint3 ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool3(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupXor4B( ast::stmt::Container * container )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool4 SDW_subgroupXor(bool4 id)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 uid = uint4(id);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	uint4 ret = WaveActiveBitXor(uid);" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return bool4(ret);" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAllEqual( ast::stmt::Container * container
+			, std::string const & type )
+		{
+			auto cont = ast::stmt::makeContainer();
+			cont->addStmt( ast::stmt::makeComment( "bool SDW_subgroupAllEqual(" + type + " value)" ) );
+			cont->addStmt( ast::stmt::makeComment( "{" ) );
+			cont->addStmt( ast::stmt::makeComment( "	return all(WaveActiveAllEqual(value));" ) );
+			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			container->addStmt( std::move( cont ) );
+		}
+
+		inline void writeSubgroupAllEqual2F( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "float2" );
+		}
+
+		inline void writeSubgroupAllEqual3F( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "float3" );
+		}
+
+		inline void writeSubgroupAllEqual4F( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "float4" );
+		}
+
+		inline void writeSubgroupAllEqual2I( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "int2" );
+		}
+
+		inline void writeSubgroupAllEqual3I( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "int3" );
+		}
+
+		inline void writeSubgroupAllEqual4I( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "int4" );
+		}
+
+		inline void writeSubgroupAllEqual2U( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "uint2" );
+		}
+
+		inline void writeSubgroupAllEqual3U( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "uint3" );
+		}
+
+		inline void writeSubgroupAllEqual4U( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "uint4" );
+		}
+
+		inline void writeSubgroupAllEqual2D( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "double2" );
+		}
+
+		inline void writeSubgroupAllEqual3D( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "double3" );
+		}
+
+		inline void writeSubgroupAllEqual4D( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "double4" );
+		}
+
+		inline void writeSubgroupAllEqual2B( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "bool2" );
+		}
+
+		inline void writeSubgroupAllEqual3B( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "bool3" );
+		}
+
+		inline void writeSubgroupAllEqual4B( ast::stmt::Container * container )
+		{
+			writeSubgroupAllEqual( container, "bool4" );
+		}
 	}
 
 	void compileHlslIntrinsicFunctions( ast::stmt::Container * container
@@ -1326,6 +1700,162 @@ namespace hlsl
 		if ( config.requiresModf4D )
 		{
 			details::writeModf4D( container );
+		}
+		if ( config.requiresSubgroupAnd1I )
+		{
+			details::writeSubgroupAnd1I( container );
+		}
+		if ( config.requiresSubgroupAnd2I )
+		{
+			details::writeSubgroupAnd2I( container );
+		}
+		if ( config.requiresSubgroupAnd3I )
+		{
+			details::writeSubgroupAnd3I( container );
+		}
+		if ( config.requiresSubgroupAnd4I )
+		{
+			details::writeSubgroupAnd4I( container );
+		}
+		if ( config.requiresSubgroupAnd1B )
+		{
+			details::writeSubgroupAnd1B( container );
+		}
+		if ( config.requiresSubgroupAnd2B )
+		{
+			details::writeSubgroupAnd2B( container );
+		}
+		if ( config.requiresSubgroupAnd3B )
+		{
+			details::writeSubgroupAnd3B( container );
+		}
+		if ( config.requiresSubgroupAnd4B )
+		{
+			details::writeSubgroupAnd4B( container );
+		}
+		if ( config.requiresSubgroupOr1I )
+		{
+			details::writeSubgroupOr1I( container );
+		}
+		if ( config.requiresSubgroupOr2I )
+		{
+			details::writeSubgroupOr2I( container );
+		}
+		if ( config.requiresSubgroupOr3I )
+		{
+			details::writeSubgroupOr3I( container );
+		}
+		if ( config.requiresSubgroupOr4I )
+		{
+			details::writeSubgroupOr4I( container );
+		}
+		if ( config.requiresSubgroupOr1B )
+		{
+			details::writeSubgroupOr1B( container );
+		}
+		if ( config.requiresSubgroupOr2B )
+		{
+			details::writeSubgroupOr2B( container );
+		}
+		if ( config.requiresSubgroupOr3B )
+		{
+			details::writeSubgroupOr3B( container );
+		}
+		if ( config.requiresSubgroupOr4B )
+		{
+			details::writeSubgroupOr4B( container );
+		}
+		if ( config.requiresSubgroupXor1I )
+		{
+			details::writeSubgroupXor1I( container );
+		}
+		if ( config.requiresSubgroupXor2I )
+		{
+			details::writeSubgroupXor2I( container );
+		}
+		if ( config.requiresSubgroupXor3I )
+		{
+			details::writeSubgroupXor3I( container );
+		}
+		if ( config.requiresSubgroupXor4I )
+		{
+			details::writeSubgroupXor4I( container );
+		}
+		if ( config.requiresSubgroupXor1B )
+		{
+			details::writeSubgroupXor1B( container );
+		}
+		if ( config.requiresSubgroupXor2B )
+		{
+			details::writeSubgroupXor2B( container );
+		}
+		if ( config.requiresSubgroupXor3B )
+		{
+			details::writeSubgroupXor3B( container );
+		}
+		if ( config.requiresSubgroupXor4B )
+		{
+			details::writeSubgroupXor4B( container );
+		}
+		if ( config.requiresSubgroupAllEqual2F )
+		{
+			details::writeSubgroupAllEqual2F( container );
+		}
+		if ( config.requiresSubgroupAllEqual3F )
+		{
+			details::writeSubgroupAllEqual3F( container );
+		}
+		if ( config.requiresSubgroupAllEqual4F )
+		{
+			details::writeSubgroupAllEqual4F( container );
+		}
+		if ( config.requiresSubgroupAllEqual2I )
+		{
+			details::writeSubgroupAllEqual2I( container );
+		}
+		if ( config.requiresSubgroupAllEqual3I )
+		{
+			details::writeSubgroupAllEqual3I( container );
+		}
+		if ( config.requiresSubgroupAllEqual4I )
+		{
+			details::writeSubgroupAllEqual4I( container );
+		}
+		if ( config.requiresSubgroupAllEqual2U )
+		{
+			details::writeSubgroupAllEqual2U( container );
+		}
+		if ( config.requiresSubgroupAllEqual3U )
+		{
+			details::writeSubgroupAllEqual3U( container );
+		}
+		if ( config.requiresSubgroupAllEqual4U )
+		{
+			details::writeSubgroupAllEqual4U( container );
+		}
+		if ( config.requiresSubgroupAllEqual2B )
+		{
+			details::writeSubgroupAllEqual2B( container );
+		}
+		if ( config.requiresSubgroupAllEqual3B )
+		{
+			details::writeSubgroupAllEqual3B( container );
+		}
+		if ( config.requiresSubgroupAllEqual4B )
+		{
+			details::writeSubgroupAllEqual4B( container );
+		}
+		if ( config.requiresSubgroupAllEqual2D )
+		{
+			details::writeSubgroupAllEqual2D( container );
+		}
+		if ( config.requiresSubgroupAllEqual3D )
+		{
+			details::writeSubgroupAllEqual3D( container );
+		}
+		if ( config.requiresSubgroupAllEqual4D )
+		{
+			details::writeSubgroupAllEqual4D( container );
 		}
 	}
 }

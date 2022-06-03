@@ -1195,20 +1195,14 @@ namespace spirv
 		case spv::CapabilityPipeStorage:
 			break;
 		case spv::CapabilityGroupNonUniform:
-			break;
 		case spv::CapabilityGroupNonUniformVote:
-			break;
 		case spv::CapabilityGroupNonUniformArithmetic:
-			break;
 		case spv::CapabilityGroupNonUniformBallot:
-			break;
 		case spv::CapabilityGroupNonUniformShuffle:
-			break;
 		case spv::CapabilityGroupNonUniformShuffleRelative:
-			break;
 		case spv::CapabilityGroupNonUniformClustered:
-			break;
 		case spv::CapabilityGroupNonUniformQuad:
+			registerExtension( KHR_shader_subgroup );
 			break;
 		case spv::CapabilityShaderLayer:
 			registerExtension( EXT_shader_viewport_index_layer );
@@ -2888,6 +2882,74 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpReportIntersectionKHR > >( returnTypeId, resultId, operands );
 		case spv::OpIsHelperInvocationEXT:
 			return makeInstruction< IntrinsicInstructionT< spv::OpIsHelperInvocationEXT > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformElect:
+			return makeInstruction< GroupNonUniformElectInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformAll:
+			return makeInstruction< GroupNonUniformAllInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformAny:
+			return makeInstruction< GroupNonUniformAnyInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformAllEqual:
+			return makeInstruction< GroupNonUniformAllEqualInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBroadcast:
+			return makeInstruction< GroupNonUniformBroadcastInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBroadcastFirst:
+			return makeInstruction< GroupNonUniformBroadcastFirstInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBallot:
+			return makeInstruction< GroupNonUniformBallotInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformInverseBallot:
+			return makeInstruction< GroupNonUniformInverseBallotInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBallotBitExtract:
+			return makeInstruction< GroupNonUniformBallotBitExtractInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBallotBitCount:
+			return makeInstruction< GroupNonUniformBallotBitCountInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBallotFindLSB:
+			return makeInstruction< GroupNonUniformBallotFindLSBInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBallotFindMSB:
+			return makeInstruction< GroupNonUniformBallotFindMSBInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformShuffle:
+			return makeInstruction< GroupNonUniformShuffleInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformShuffleXor:
+			return makeInstruction< GroupNonUniformShuffleXorInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformShuffleUp:
+			return makeInstruction< GroupNonUniformShuffleUpInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformShuffleDown:
+			return makeInstruction< GroupNonUniformShuffleDownInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformFAdd:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFAdd > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformIAdd:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformIAdd > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformFMul:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMul > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformIMul:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformIMul > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformFMin:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMin > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformSMin:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformSMin > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformUMin:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformUMin > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformFMax:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMax > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformSMax:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformSMax > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformUMax:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformUMax > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBitwiseAnd:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseAnd > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformLogicalAnd:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalAnd > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBitwiseOr:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseOr > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformLogicalOr:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalOr > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformBitwiseXor:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseXor > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformLogicalXor:
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalXor > >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformQuadBroadcast:
+			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformQuadSwap:
+			return makeInstruction< GroupNonUniformQuadSwapInstruction >( returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}

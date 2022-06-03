@@ -6606,4 +6606,5332 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region subgroupBarrier
+	/**
+	*name
+	*	subgroupBarrier
+	*/
+	/**@{*/
+	ReturnWrapperT< Void > subgroupBarrier( ShaderWriter & writer )
+	{
+		return ReturnWrapperT< Void >{ *findWriter( writer )
+			, expr::makeSubgroupBarrier( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrier
+	/**
+	*name
+	*	subgroupMemoryBarrier
+	*/
+	/**@{*/
+	ReturnWrapperT< Void > subgroupMemoryBarrier( ShaderWriter & writer )
+	{
+		return ReturnWrapperT< Void >{ *findWriter( writer )
+			, expr::makeSubgroupMemoryBarrier( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrierBuffer
+	/**
+	*name
+	*	subgroupMemoryBarrierBuffer
+	*/
+	/**@{*/
+	ReturnWrapperT< Void > subgroupMemoryBarrierBuffer( ShaderWriter & writer )
+	{
+		return ReturnWrapperT< Void >{ *findWriter( writer )
+			, expr::makeSubgroupMemoryBarrierBuffer( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrierShared
+	/**
+	*name
+	*	subgroupMemoryBarrierShared
+	*/
+	/**@{*/
+	ReturnWrapperT< Void > subgroupMemoryBarrierShared( ShaderWriter & writer )
+	{
+		return ReturnWrapperT< Void >{ *findWriter( writer )
+			, expr::makeSubgroupMemoryBarrierShared( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMemoryBarrierImage
+	/**
+	*name
+	*	subgroupMemoryBarrierImage
+	*/
+	/**@{*/
+	ReturnWrapperT< Void > subgroupMemoryBarrierImage( ShaderWriter & writer )
+	{
+		return ReturnWrapperT< Void >{ *findWriter( writer )
+			, expr::makeSubgroupMemoryBarrierImage( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupElect
+	/**
+	*name
+	*	subgroupElect
+	*/
+	/**@{*/
+	ReturnWrapperT< Boolean > subgroupElect( ShaderWriter & writer )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( writer )
+			, expr::makeSubgroupElect( findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAll
+	/**
+	*name
+	*	subgroupAll
+	*/
+	/**@{*/
+	ReturnWrapperT< Boolean > subgroupAll( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAll( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAny
+	/**
+	*name
+	*	subgroupAny
+	*/
+	/**@{*/
+	ReturnWrapperT< Boolean > subgroupAny( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAny( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAllEqual
+	/**
+	*name
+	*	subgroupAllEqual
+	*/
+	/**@{*/
+	ReturnWrapperT< Boolean > subgroupAllEqual( Float const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( Vec2 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( Vec3 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( Vec4 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( Int const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( IVec2 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( IVec3 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( IVec4 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( UInt const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( UVec2 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( UVec3 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( UVec4 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( BVec2 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( BVec3 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( BVec4 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( Double const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( DVec2 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( DVec3 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAllEqual( DVec4 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAllEqual4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBroadcast
+	/**
+	*name
+	*	subgroupBroadcast
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupBroadcast( Float const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast1F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupBroadcast( Vec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast2F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupBroadcast( Vec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast3F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupBroadcast( Vec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast4F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Int > subgroupBroadcast( Int const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast1I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupBroadcast( IVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast2I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupBroadcast( IVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast3I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupBroadcast( IVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast4I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UInt > subgroupBroadcast( UInt const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast1U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupBroadcast( UVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast2U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupBroadcast( UVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast3U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupBroadcast( UVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast4U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Boolean > subgroupBroadcast( Boolean const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast1B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupBroadcast( BVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast2B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupBroadcast( BVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast3B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupBroadcast( BVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast4B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Double > subgroupBroadcast( Double const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast1D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupBroadcast( DVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast2D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupBroadcast( DVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast3D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupBroadcast( DVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupBroadcast4D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBroadcastFirst
+	/**
+	*name
+	*	subgroupBroadcastFirst
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupBroadcastFirst( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupBroadcastFirst( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupBroadcastFirst( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupBroadcastFirst( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupBroadcastFirst( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupBroadcastFirst( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupBroadcastFirst( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupBroadcastFirst( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupBroadcastFirst( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupBroadcastFirst( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupBroadcastFirst( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupBroadcastFirst( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupBroadcastFirst( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupBroadcastFirst( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupBroadcastFirst( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupBroadcastFirst( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupBroadcastFirst( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupBroadcastFirst( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupBroadcastFirst( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupBroadcastFirst( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupBroadcastFirst4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallot
+	/**
+	*name
+	*	subgroupBallot
+	*/
+	/**@{*/
+	ReturnWrapperT< UVec4 > subgroupBallot( Boolean const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupBallot( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInverseBallot
+	/**
+	*name
+	*	subgroupInverseBallot
+	*/
+	/**@{*/
+	ReturnWrapperT< Boolean > subgroupInverseBallot( UVec4 const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupInverseBallot( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotBitExtract
+	/**
+	*name
+	*	subgroupBallotBitExtract
+	*/
+	/**@{*/
+	ReturnWrapperT< Boolean > subgroupBallotBitExtract( UVec4 const & value
+		, UInt const & index )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, index )
+			, expr::makeSubgroupBallotBitExtract( findTypesCache( value, index )
+					, makeExpr( value )
+				, makeExpr( index ) )
+			, areOptionalEnabled( value, index ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotBitCount
+	/**
+	*name
+	*	subgroupBallotBitCount
+	*/
+	/**@{*/
+	ReturnWrapperT< UInt > subgroupBallotBitCount( UVec4 const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupBallotBitCount( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotInclusiveBitCount
+	/**
+	*name
+	*	subgroupBallotInclusiveBitCount
+	*/
+	/**@{*/
+	ReturnWrapperT< UInt > subgroupBallotInclusiveBitCount( UVec4 const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupBallotInclusiveBitCount( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotExclusiveBitCount
+	/**
+	*name
+	*	subgroupBallotExclusiveBitCount
+	*/
+	/**@{*/
+	ReturnWrapperT< UInt > subgroupBallotExclusiveBitCount( UVec4 const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupBallotExclusiveBitCount( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotFindLSB
+	/**
+	*name
+	*	subgroupBallotFindLSB
+	*/
+	/**@{*/
+	ReturnWrapperT< UInt > subgroupBallotFindLSB( UVec4 const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupBallotFindLSB( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupBallotFindMSB
+	/**
+	*name
+	*	subgroupBallotFindMSB
+	*/
+	/**@{*/
+	ReturnWrapperT< UInt > subgroupBallotFindMSB( UVec4 const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupBallotFindMSB( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffle
+	/**
+	*name
+	*	subgroupShuffle
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupShuffle( Float const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle1F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupShuffle( Vec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle2F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupShuffle( Vec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle3F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupShuffle( Vec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle4F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Int > subgroupShuffle( Int const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle1I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupShuffle( IVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle2I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupShuffle( IVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle3I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupShuffle( IVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle4I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UInt > subgroupShuffle( UInt const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle1U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupShuffle( UVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle2U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupShuffle( UVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle3U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupShuffle( UVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle4U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Boolean > subgroupShuffle( Boolean const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle1B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupShuffle( BVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle2B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupShuffle( BVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle3B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupShuffle( BVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle4B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Double > subgroupShuffle( Double const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle1D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupShuffle( DVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle2D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupShuffle( DVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle3D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupShuffle( DVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupShuffle4D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffleXor
+	/**
+	*name
+	*	subgroupShuffleXor
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupShuffleXor( Float const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor1F( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupShuffleXor( Vec2 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor2F( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupShuffleXor( Vec3 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor3F( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupShuffleXor( Vec4 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor4F( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< Int > subgroupShuffleXor( Int const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor1I( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupShuffleXor( IVec2 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor2I( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupShuffleXor( IVec3 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor3I( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupShuffleXor( IVec4 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor4I( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< UInt > subgroupShuffleXor( UInt const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor1U( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupShuffleXor( UVec2 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor2U( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupShuffleXor( UVec3 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor3U( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupShuffleXor( UVec4 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor4U( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< Boolean > subgroupShuffleXor( Boolean const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor1B( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupShuffleXor( BVec2 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor2B( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupShuffleXor( BVec3 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor3B( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupShuffleXor( BVec4 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor4B( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< Double > subgroupShuffleXor( Double const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor1D( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupShuffleXor( DVec2 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor2D( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupShuffleXor( DVec3 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor3D( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupShuffleXor( DVec4 const & value
+		, UInt const & mask )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, mask )
+			, expr::makeSubgroupShuffleXor4D( findTypesCache( value, mask )
+					, makeExpr( value )
+				, makeExpr( mask ) )
+			, areOptionalEnabled( value, mask ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffleUp
+	/**
+	*name
+	*	subgroupShuffleUp
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupShuffleUp( Float const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp1F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupShuffleUp( Vec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp2F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupShuffleUp( Vec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp3F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupShuffleUp( Vec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp4F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Int > subgroupShuffleUp( Int const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp1I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupShuffleUp( IVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp2I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupShuffleUp( IVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp3I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupShuffleUp( IVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp4I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UInt > subgroupShuffleUp( UInt const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp1U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupShuffleUp( UVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp2U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupShuffleUp( UVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp3U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupShuffleUp( UVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp4U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Boolean > subgroupShuffleUp( Boolean const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp1B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupShuffleUp( BVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp2B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupShuffleUp( BVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp3B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupShuffleUp( BVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp4B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Double > subgroupShuffleUp( Double const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp1D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupShuffleUp( DVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp2D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupShuffleUp( DVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp3D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupShuffleUp( DVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleUp4D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupShuffleDown
+	/**
+	*name
+	*	subgroupShuffleDown
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupShuffleDown( Float const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown1F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupShuffleDown( Vec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown2F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupShuffleDown( Vec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown3F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupShuffleDown( Vec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown4F( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Int > subgroupShuffleDown( Int const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown1I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupShuffleDown( IVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown2I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupShuffleDown( IVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown3I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupShuffleDown( IVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown4I( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UInt > subgroupShuffleDown( UInt const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown1U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupShuffleDown( UVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown2U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupShuffleDown( UVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown3U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupShuffleDown( UVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown4U( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Boolean > subgroupShuffleDown( Boolean const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown1B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupShuffleDown( BVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown2B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupShuffleDown( BVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown3B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupShuffleDown( BVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown4B( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< Double > subgroupShuffleDown( Double const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown1D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupShuffleDown( DVec2 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown2D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupShuffleDown( DVec3 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown3D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupShuffleDown( DVec4 const & value
+		, UInt const & delta )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, delta )
+			, expr::makeSubgroupShuffleDown4D( findTypesCache( value, delta )
+					, makeExpr( value )
+				, makeExpr( delta ) )
+			, areOptionalEnabled( value, delta ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAdd
+	/**
+	*name
+	*	subgroupAdd
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupAdd( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupAdd1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupAdd( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupAdd2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupAdd( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupAdd3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupAdd( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupAdd4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupAdd( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupAdd1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupAdd( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupAdd2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupAdd( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupAdd3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupAdd( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupAdd4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupAdd( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupAdd1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupAdd( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupAdd2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupAdd( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupAdd3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupAdd( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupAdd4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupAdd( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupAdd1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupAdd( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupAdd2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupAdd( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupAdd3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupAdd( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupAdd4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMul
+	/**
+	*name
+	*	subgroupMul
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupMul( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupMul1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupMul( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupMul2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupMul( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupMul3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupMul( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupMul4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupMul( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupMul1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupMul( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMul2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupMul( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMul3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupMul( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMul4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupMul( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupMul1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupMul( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMul2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupMul( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMul3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupMul( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMul4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupMul( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupMul1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupMul( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMul2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupMul( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMul3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupMul( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMul4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMin
+	/**
+	*name
+	*	subgroupMin
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupMin( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupMin1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupMin( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupMin2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupMin( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupMin3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupMin( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupMin4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupMin( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupMin1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupMin( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMin2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupMin( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMin3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupMin( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMin4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupMin( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupMin1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupMin( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMin2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupMin( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMin3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupMin( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMin4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupMin( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupMin1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupMin( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMin2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupMin( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMin3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupMin( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMin4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupMax
+	/**
+	*name
+	*	subgroupMax
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupMax( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupMax1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupMax( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupMax2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupMax( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupMax3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupMax( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupMax4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupMax( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupMax1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupMax( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMax2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupMax( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMax3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupMax( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMax4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupMax( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupMax1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupMax( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMax2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupMax( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMax3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupMax( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMax4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupMax( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupMax1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupMax( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupMax2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupMax( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupMax3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupMax( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupMax4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupAnd
+	/**
+	*name
+	*	subgroupAnd
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupAnd( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupAnd1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupAnd( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupAnd2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupAnd( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupAnd3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupAnd( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupAnd4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupAnd( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupAnd1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupAnd( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupAnd2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupAnd( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupAnd3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupAnd( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupAnd4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupAnd( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupAnd1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupAnd( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupAnd2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupAnd( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupAnd3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupAnd( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupAnd4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupOr
+	/**
+	*name
+	*	subgroupOr
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupOr( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupOr1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupOr( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupOr2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupOr( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupOr3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupOr( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupOr4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupOr( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupOr1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupOr( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupOr2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupOr( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupOr3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupOr( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupOr4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupOr( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupOr1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupOr( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupOr2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupOr( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupOr3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupOr( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupOr4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupXor
+	/**
+	*name
+	*	subgroupXor
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupXor( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupXor1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupXor( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupXor2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupXor( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupXor3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupXor( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupXor4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupXor( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupXor1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupXor( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupXor2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupXor( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupXor3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupXor( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupXor4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupXor( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupXor1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupXor( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupXor2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupXor( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupXor3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupXor( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupXor4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveAdd
+	/**
+	*name
+	*	subgroupInclusiveAdd
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupInclusiveAdd( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupInclusiveAdd( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupInclusiveAdd( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupInclusiveAdd( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupInclusiveAdd( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveAdd( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveAdd( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveAdd( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveAdd( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveAdd( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveAdd( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveAdd( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupInclusiveAdd( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupInclusiveAdd( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupInclusiveAdd( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupInclusiveAdd( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAdd4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveMul
+	/**
+	*name
+	*	subgroupInclusiveMul
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupInclusiveMul( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupInclusiveMul( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupInclusiveMul( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupInclusiveMul( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupInclusiveMul( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveMul( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveMul( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveMul( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveMul( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveMul( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveMul( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveMul( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupInclusiveMul( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupInclusiveMul( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupInclusiveMul( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupInclusiveMul( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMul4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveMin
+	/**
+	*name
+	*	subgroupInclusiveMin
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupInclusiveMin( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupInclusiveMin( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupInclusiveMin( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupInclusiveMin( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupInclusiveMin( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveMin( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveMin( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveMin( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveMin( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveMin( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveMin( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveMin( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupInclusiveMin( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupInclusiveMin( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupInclusiveMin( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupInclusiveMin( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMin4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveMax
+	/**
+	*name
+	*	subgroupInclusiveMax
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupInclusiveMax( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupInclusiveMax( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupInclusiveMax( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupInclusiveMax( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupInclusiveMax( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveMax( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveMax( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveMax( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveMax( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveMax( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveMax( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveMax( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupInclusiveMax( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupInclusiveMax( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupInclusiveMax( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupInclusiveMax( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveMax4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveAnd
+	/**
+	*name
+	*	subgroupInclusiveAnd
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupInclusiveAnd( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveAnd( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveAnd( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveAnd( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveAnd( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveAnd( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveAnd( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveAnd( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupInclusiveAnd( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupInclusiveAnd( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupInclusiveAnd( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupInclusiveAnd( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveAnd4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveOr
+	/**
+	*name
+	*	subgroupInclusiveOr
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupInclusiveOr( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveOr( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveOr( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveOr( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveOr( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveOr( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveOr( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveOr( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupInclusiveOr( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupInclusiveOr( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupInclusiveOr( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupInclusiveOr( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveOr4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupInclusiveXor
+	/**
+	*name
+	*	subgroupInclusiveXor
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupInclusiveXor( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupInclusiveXor( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupInclusiveXor( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupInclusiveXor( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupInclusiveXor( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupInclusiveXor( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupInclusiveXor( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupInclusiveXor( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupInclusiveXor( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupInclusiveXor( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupInclusiveXor( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupInclusiveXor( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupInclusiveXor4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveAdd
+	/**
+	*name
+	*	subgroupExclusiveAdd
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupExclusiveAdd( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupExclusiveAdd( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupExclusiveAdd( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupExclusiveAdd( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupExclusiveAdd( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveAdd( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveAdd( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveAdd( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveAdd( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveAdd( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveAdd( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveAdd( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupExclusiveAdd( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupExclusiveAdd( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupExclusiveAdd( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupExclusiveAdd( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAdd4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveMul
+	/**
+	*name
+	*	subgroupExclusiveMul
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupExclusiveMul( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupExclusiveMul( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupExclusiveMul( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupExclusiveMul( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupExclusiveMul( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveMul( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveMul( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveMul( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveMul( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveMul( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveMul( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveMul( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupExclusiveMul( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupExclusiveMul( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupExclusiveMul( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupExclusiveMul( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMul4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveMin
+	/**
+	*name
+	*	subgroupExclusiveMin
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupExclusiveMin( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupExclusiveMin( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupExclusiveMin( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupExclusiveMin( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupExclusiveMin( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveMin( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveMin( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveMin( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveMin( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveMin( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveMin( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveMin( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupExclusiveMin( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupExclusiveMin( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupExclusiveMin( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupExclusiveMin( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMin4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveMax
+	/**
+	*name
+	*	subgroupExclusiveMax
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupExclusiveMax( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupExclusiveMax( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupExclusiveMax( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupExclusiveMax( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupExclusiveMax( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveMax( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveMax( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveMax( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveMax( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveMax( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveMax( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveMax( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupExclusiveMax( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupExclusiveMax( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupExclusiveMax( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupExclusiveMax( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveMax4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveAnd
+	/**
+	*name
+	*	subgroupExclusiveAnd
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupExclusiveAnd( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveAnd( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveAnd( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveAnd( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveAnd( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveAnd( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveAnd( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveAnd( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupExclusiveAnd( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupExclusiveAnd( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupExclusiveAnd( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupExclusiveAnd( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveAnd4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveOr
+	/**
+	*name
+	*	subgroupExclusiveOr
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupExclusiveOr( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveOr( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveOr( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveOr( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveOr( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveOr( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveOr( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveOr( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupExclusiveOr( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupExclusiveOr( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupExclusiveOr( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupExclusiveOr( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveOr4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupExclusiveXor
+	/**
+	*name
+	*	subgroupExclusiveXor
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupExclusiveXor( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupExclusiveXor( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupExclusiveXor( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupExclusiveXor( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupExclusiveXor( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupExclusiveXor( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupExclusiveXor( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupExclusiveXor( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupExclusiveXor( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupExclusiveXor( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupExclusiveXor( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupExclusiveXor( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupExclusiveXor4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterAdd
+	/**
+	*name
+	*	subgroupClusterAdd
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupClusterAdd( Float const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd1F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupClusterAdd( Vec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd2F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupClusterAdd( Vec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd3F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupClusterAdd( Vec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd4F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Int > subgroupClusterAdd( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterAdd( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterAdd( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterAdd( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterAdd( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterAdd( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterAdd( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterAdd( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Double > subgroupClusterAdd( Double const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd1D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupClusterAdd( DVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd2D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupClusterAdd( DVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd3D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupClusterAdd( DVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAdd4D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterMul
+	/**
+	*name
+	*	subgroupClusterMul
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupClusterMul( Float const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul1F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupClusterMul( Vec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul2F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupClusterMul( Vec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul3F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupClusterMul( Vec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul4F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Int > subgroupClusterMul( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterMul( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterMul( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterMul( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterMul( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterMul( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterMul( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterMul( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Double > subgroupClusterMul( Double const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul1D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupClusterMul( DVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul2D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupClusterMul( DVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul3D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupClusterMul( DVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMul4D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterMin
+	/**
+	*name
+	*	subgroupClusterMin
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupClusterMin( Float const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin1F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupClusterMin( Vec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin2F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupClusterMin( Vec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin3F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupClusterMin( Vec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin4F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Int > subgroupClusterMin( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterMin( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterMin( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterMin( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterMin( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterMin( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterMin( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterMin( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Double > subgroupClusterMin( Double const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin1D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupClusterMin( DVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin2D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupClusterMin( DVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin3D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupClusterMin( DVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMin4D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterMax
+	/**
+	*name
+	*	subgroupClusterMax
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupClusterMax( Float const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax1F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupClusterMax( Vec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax2F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupClusterMax( Vec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax3F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupClusterMax( Vec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax4F( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Int > subgroupClusterMax( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterMax( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterMax( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterMax( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterMax( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterMax( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterMax( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterMax( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Double > subgroupClusterMax( Double const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax1D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupClusterMax( DVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax2D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupClusterMax( DVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax3D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupClusterMax( DVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterMax4D( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterAnd
+	/**
+	*name
+	*	subgroupClusterAnd
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupClusterAnd( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterAnd( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterAnd( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterAnd( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterAnd( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterAnd( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterAnd( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterAnd( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Boolean > subgroupClusterAnd( Boolean const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd1B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupClusterAnd( BVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd2B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupClusterAnd( BVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd3B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupClusterAnd( BVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterAnd4B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterOr
+	/**
+	*name
+	*	subgroupClusterOr
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupClusterOr( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterOr( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterOr( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterOr( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterOr( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterOr( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterOr( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterOr( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Boolean > subgroupClusterOr( Boolean const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr1B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupClusterOr( BVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr2B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupClusterOr( BVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr3B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupClusterOr( BVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterOr4B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupClusterXor
+	/**
+	*name
+	*	subgroupClusterXor
+	*/
+	/**@{*/
+	ReturnWrapperT< Int > subgroupClusterXor( Int const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor1I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupClusterXor( IVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor2I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupClusterXor( IVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor3I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupClusterXor( IVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor4I( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UInt > subgroupClusterXor( UInt const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor1U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupClusterXor( UVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor2U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupClusterXor( UVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor3U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupClusterXor( UVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor4U( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< Boolean > subgroupClusterXor( Boolean const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor1B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupClusterXor( BVec2 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor2B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupClusterXor( BVec3 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor3B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupClusterXor( BVec4 const & value
+		, UInt const & clusterSize )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, clusterSize )
+			, expr::makeSubgroupClusterXor4B( findTypesCache( value, clusterSize )
+					, makeExpr( value )
+				, makeExpr( clusterSize ) )
+			, areOptionalEnabled( value, clusterSize ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadBroadcast
+	/**
+	*name
+	*	subgroupQuadBroadcast
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupQuadBroadcast( Float const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast1F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupQuadBroadcast( Vec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast2F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupQuadBroadcast( Vec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast3F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupQuadBroadcast( Vec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast4F( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Int > subgroupQuadBroadcast( Int const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast1I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupQuadBroadcast( IVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast2I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupQuadBroadcast( IVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast3I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupQuadBroadcast( IVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast4I( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UInt > subgroupQuadBroadcast( UInt const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast1U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupQuadBroadcast( UVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast2U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupQuadBroadcast( UVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast3U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupQuadBroadcast( UVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast4U( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Boolean > subgroupQuadBroadcast( Boolean const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast1B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupQuadBroadcast( BVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast2B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupQuadBroadcast( BVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast3B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupQuadBroadcast( BVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast4B( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< Double > subgroupQuadBroadcast( Double const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast1D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupQuadBroadcast( DVec2 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast2D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupQuadBroadcast( DVec3 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast3D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupQuadBroadcast( DVec4 const & value
+		, UInt const & id )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value, id )
+			, expr::makeSubgroupQuadBroadcast4D( findTypesCache( value, id )
+					, makeExpr( value )
+				, makeExpr( id ) )
+			, areOptionalEnabled( value, id ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadSwapHorizontal
+	/**
+	*name
+	*	subgroupQuadSwapHorizontal
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupQuadSwapHorizontal( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupQuadSwapHorizontal( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupQuadSwapHorizontal( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupQuadSwapHorizontal( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupQuadSwapHorizontal( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupQuadSwapHorizontal( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupQuadSwapHorizontal( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupQuadSwapHorizontal( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupQuadSwapHorizontal( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupQuadSwapHorizontal( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupQuadSwapHorizontal( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupQuadSwapHorizontal( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupQuadSwapHorizontal( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupQuadSwapHorizontal( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupQuadSwapHorizontal( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupQuadSwapHorizontal( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupQuadSwapHorizontal( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupQuadSwapHorizontal( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupQuadSwapHorizontal( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupQuadSwapHorizontal( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapHorizontal4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadSwapVertical
+	/**
+	*name
+	*	subgroupQuadSwapVertical
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupQuadSwapVertical( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupQuadSwapVertical( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupQuadSwapVertical( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupQuadSwapVertical( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupQuadSwapVertical( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupQuadSwapVertical( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupQuadSwapVertical( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupQuadSwapVertical( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupQuadSwapVertical( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupQuadSwapVertical( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupQuadSwapVertical( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupQuadSwapVertical( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupQuadSwapVertical( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupQuadSwapVertical( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupQuadSwapVertical( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupQuadSwapVertical( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupQuadSwapVertical( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupQuadSwapVertical( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupQuadSwapVertical( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupQuadSwapVertical( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapVertical4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadSwapDiagonal
+	/**
+	*name
+	*	subgroupQuadSwapDiagonal
+	*/
+	/**@{*/
+	ReturnWrapperT< Float > subgroupQuadSwapDiagonal( Float const & value )
+	{
+		return ReturnWrapperT< Float >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal1F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec2 > subgroupQuadSwapDiagonal( Vec2 const & value )
+	{
+		return ReturnWrapperT< Vec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal2F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec3 > subgroupQuadSwapDiagonal( Vec3 const & value )
+	{
+		return ReturnWrapperT< Vec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal3F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Vec4 > subgroupQuadSwapDiagonal( Vec4 const & value )
+	{
+		return ReturnWrapperT< Vec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal4F( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Int > subgroupQuadSwapDiagonal( Int const & value )
+	{
+		return ReturnWrapperT< Int >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal1I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec2 > subgroupQuadSwapDiagonal( IVec2 const & value )
+	{
+		return ReturnWrapperT< IVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal2I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec3 > subgroupQuadSwapDiagonal( IVec3 const & value )
+	{
+		return ReturnWrapperT< IVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal3I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< IVec4 > subgroupQuadSwapDiagonal( IVec4 const & value )
+	{
+		return ReturnWrapperT< IVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal4I( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UInt > subgroupQuadSwapDiagonal( UInt const & value )
+	{
+		return ReturnWrapperT< UInt >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal1U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec2 > subgroupQuadSwapDiagonal( UVec2 const & value )
+	{
+		return ReturnWrapperT< UVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal2U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec3 > subgroupQuadSwapDiagonal( UVec3 const & value )
+	{
+		return ReturnWrapperT< UVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal3U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< UVec4 > subgroupQuadSwapDiagonal( UVec4 const & value )
+	{
+		return ReturnWrapperT< UVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal4U( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Boolean > subgroupQuadSwapDiagonal( Boolean const & value )
+	{
+		return ReturnWrapperT< Boolean >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal1B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec2 > subgroupQuadSwapDiagonal( BVec2 const & value )
+	{
+		return ReturnWrapperT< BVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal2B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec3 > subgroupQuadSwapDiagonal( BVec3 const & value )
+	{
+		return ReturnWrapperT< BVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal3B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< BVec4 > subgroupQuadSwapDiagonal( BVec4 const & value )
+	{
+		return ReturnWrapperT< BVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal4B( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< Double > subgroupQuadSwapDiagonal( Double const & value )
+	{
+		return ReturnWrapperT< Double >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal1D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec2 > subgroupQuadSwapDiagonal( DVec2 const & value )
+	{
+		return ReturnWrapperT< DVec2 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal2D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec3 > subgroupQuadSwapDiagonal( DVec3 const & value )
+	{
+		return ReturnWrapperT< DVec3 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal3D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	ReturnWrapperT< DVec4 > subgroupQuadSwapDiagonal( DVec4 const & value )
+	{
+		return ReturnWrapperT< DVec4 >{ *findWriter( value )
+			, expr::makeSubgroupQuadSwapDiagonal4D( findTypesCache( value )
+					, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
 }

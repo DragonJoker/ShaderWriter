@@ -64,6 +64,52 @@ namespace spirv
 					config.registerCapability( spv::CapabilityRayQueryKHR );
 				}
 			}
+			else if ( kind == ast::expr::Intrinsic::eSubgroupElect )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniform );
+			}
+			else if ( kind == ast::expr::Intrinsic::eSubgroupAll
+				|| kind == ast::expr::Intrinsic::eSubgroupAny
+				|| ( kind >= ast::expr::Intrinsic::eSubgroupAllEqual1F
+					&& kind <= ast::expr::Intrinsic::eSubgroupAllEqual4D ) )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformVote );
+			}
+			else if ( ( kind >= ast::expr::Intrinsic::eSubgroupBallot
+					&& kind <= ast::expr::Intrinsic::eSubgroupBallotFindMSB )
+				|| ( kind >= ast::expr::Intrinsic::eSubgroupBroadcast1F
+					&& kind <= ast::expr::Intrinsic::eSubgroupBroadcast4D )
+				|| ( kind >= ast::expr::Intrinsic::eSubgroupBroadcastFirst1F
+					&& kind <= ast::expr::Intrinsic::eSubgroupBroadcastFirst4D ) )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformBallot );
+			}
+			else if ( kind >= ast::expr::Intrinsic::eSubgroupShuffle1F
+				&& kind <= ast::expr::Intrinsic::eSubgroupShuffleXor4D )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformShuffle );
+			}
+			else if ( kind >= ast::expr::Intrinsic::eSubgroupShuffleUp1F
+				&& kind <= ast::expr::Intrinsic::eSubgroupShuffleDown4D )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformShuffleRelative );
+			}
+			else if ( kind >= ast::expr::Intrinsic::eSubgroupAdd1F
+				&& kind <= ast::expr::Intrinsic::eSubgroupExclusiveXor4B )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformArithmetic );
+			}
+			else if ( kind >= ast::expr::Intrinsic::eSubgroupClusterAdd1F
+				&& kind <= ast::expr::Intrinsic::eSubgroupClusterXor4B )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformArithmetic );
+				config.registerCapability( spv::CapabilityGroupNonUniformClustered );
+			}
+			else if ( kind >= ast::expr::Intrinsic::eSubgroupQuadBroadcast1F
+				&& kind <= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D )
+			{
+				config.registerCapability( spv::CapabilityGroupNonUniformQuad );
+			}
 		}
 	}
 

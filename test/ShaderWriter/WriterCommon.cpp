@@ -221,7 +221,7 @@ namespace test
 		void doSetupHlslOptions( spirv_cross::CompilerHLSL & compiler )
 		{
 			auto options = compiler.get_hlsl_options();
-			options.shader_model = 50;
+			options.shader_model = 60;
 			compiler.set_hlsl_options( options );
 		}
 
@@ -462,7 +462,8 @@ namespace test
 			{
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts
 					, ( requiredExtensions.end() != requiredExtensions.find( spirv::KHR_terminate_invocation )
-						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_demote_to_helper_invocation ) ) );
+						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_demote_to_helper_invocation )
+						|| requiredExtensions.end() != requiredExtensions.find( spirv::KHR_shader_subgroup ) ) );
 				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay && display, true );
 			}
 
@@ -828,7 +829,15 @@ namespace test
 								&& text.find( "No function currently in scope" ) == std::string::npos
 								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
 								&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos
-								&& text.find( "Cannot resolve expression type" ) == std::string::npos )
+								&& text.find( "Cannot resolve expression type" ) == std::string::npos
+								&& text.find( "Wave ops requires SM 6.0 or higher" ) == std::string::npos
+								&& text.find( "Cannot trivially implement InverseBallot in HLSL" ) == std::string::npos
+								&& text.find( "Cannot trivially implement BallotBitCount in HLSL" ) == std::string::npos
+								&& text.find( "Cannot trivially implement BallotBitCount Inclusive Scan in HLSL" ) == std::string::npos
+								&& text.find( "Cannot trivially implement BallotBitCount Exclusive Scan in HLSL" ) == std::string::npos
+								&& text.find( "Cannot trivially implement BallotFindLSB in HLSL" ) == std::string::npos
+								&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
+								&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
 							{
 								failure( "testWriteSpirV" );
 								displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
