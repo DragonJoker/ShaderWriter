@@ -233,7 +233,7 @@ namespace hlsl
 			, ast::type::Struct const & structType )
 		{
 			if ( structType.isShaderInput()
-				|| structType.isShaderOutput()
+				|| ( structType.isShaderOutput() && !structType.isPerTask() )
 				|| structType.isPatchInput() )
 			{
 				return writeIOMembers( stage

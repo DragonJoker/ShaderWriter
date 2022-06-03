@@ -140,6 +140,24 @@ namespace hlsl
 			}
 			else
 			{
+				auto funcType = stmt->getType();
+				// Skip first parameter, since it only contains the builtins.
+				auto it = std::next( funcType->begin() );
+
+				while ( it != funcType->end() )
+				{
+					auto type = ( *it )->getType();
+
+					if ( type->getRawKind() == ast::type::Kind::eTaskPayload )
+					{
+						// HLSL Amplification payload must be declared as a global.
+						declareType( type );
+						m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( *it ) );
+					}
+
+					++it;
+				}
+
 				m_adaptationData.updateCurrentEntryPoint( stmt );
 
 				auto & cache = stmt->getType()->getCache();

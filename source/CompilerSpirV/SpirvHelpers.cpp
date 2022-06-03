@@ -1517,6 +1517,9 @@ namespace spirv
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
+			case ast::type::Kind::eTaskPayload:
+				registerParam( param, static_cast< ast::type::TaskPayload const & >( *type ) );
+				break;
 			case ast::type::Kind::eTaskPayloadIn:
 				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 				break;
@@ -1934,6 +1937,12 @@ namespace spirv
 				, meshType.getMaxPrimitives()
 				, true );
 		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TaskPayload const & taskType )
+	{
+		addOutput( var );
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
@@ -3272,6 +3281,7 @@ namespace spirv
 		}
 
 		if ( var.isPerTask()
+			|| var.getType()->getKind() == ast::type::Kind::eTaskPayload
 			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadIn )
 		{
 			module.decorate( varId, spv::DecorationPerTaskNV );

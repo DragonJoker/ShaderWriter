@@ -675,17 +675,6 @@ namespace sdw
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
-#pragma region Mesh and task variables declaration
-		/**
-		*name
-		*	Mesh and task variables declaration.
-		*/
-		/**@{*/
-		template< template< ast::var::Flag FlagT > typename DataT >
-		TaskPayloadOutT< DataT > declTaskPayload( std::string name
-			, bool enabled = true );
-		/**@}*/
-#pragma endregion
 #pragma region Ray tracing variables declaration
 		/**
 		*name

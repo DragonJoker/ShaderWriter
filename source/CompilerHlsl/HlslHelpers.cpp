@@ -2529,6 +2529,8 @@ namespace hlsl
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
+			case ast::type::Kind::eTaskPayload:
+				break;
 			case ast::type::Kind::eTaskPayloadIn:
 				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 				break;
