@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	//*********************************************************************************************
+
 	UVec3 getWorkGroupSize( ast::type::TypePtr type )
 	{
 		assert( type->getKind() == ast::type::Kind::eComputeInput );
@@ -15,6 +17,8 @@ namespace sdw
 			, UInt{ compType.getLocalSizeY() }
 			, UInt{ compType.getLocalSizeZ() } );
 	}
+
+	//*********************************************************************************************
 
 	ComputeWriter::ComputeWriter()
 		: ShaderWriter{ ast::ShaderStage::eCompute }
@@ -41,4 +45,27 @@ namespace sdw
 	{
 		implementMainT( localSizeX, localSizeX, localSizeZ, function );
 	}
+
+	void ComputeWriter::implementMain( uint32_t localSizeX
+		, SubgroupMainFuncT< VoidT > const & function )
+	{
+		implementMainT( localSizeX, function );
+	}
+
+	void ComputeWriter::implementMain( uint32_t localSizeX
+		, uint32_t localSizeY
+		, SubgroupMainFuncT< VoidT > const & function )
+	{
+		implementMainT( localSizeX, localSizeX, function );
+	}
+
+	void ComputeWriter::implementMain( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
+		, SubgroupMainFuncT< VoidT > const & function )
+	{
+		implementMainT( localSizeX, localSizeX, localSizeZ, function );
+	}
+
+	//*********************************************************************************************
 }

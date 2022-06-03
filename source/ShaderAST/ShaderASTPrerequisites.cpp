@@ -142,16 +142,16 @@ namespace ast
 			return "InstanceIndex";
 		case ast::Builtin::eInstanceID:
 			return "InstanceID";
-		case ast::Builtin::eSubgroupEqMaskKHR:
-			return "SubgroupEqMaskKHR";
-		case ast::Builtin::eSubgroupGeMaskKHR:
-			return "SubgroupGeMaskKHR";
-		case ast::Builtin::eSubgroupGtMaskKHR:
-			return "SubgroupGtMaskKHR";
-		case ast::Builtin::eSubgroupLeMaskKHR:
-			return "SubgroupLeMaskKHR";
-		case ast::Builtin::eSubgroupLtMaskKHR:
-			return "SubgroupLtMaskKHR";
+		case ast::Builtin::eSubgroupEqMask:
+			return "SubgroupEqMask";
+		case ast::Builtin::eSubgroupGeMask:
+			return "SubgroupGeMask";
+		case ast::Builtin::eSubgroupGtMask:
+			return "SubgroupGtMask";
+		case ast::Builtin::eSubgroupLeMask:
+			return "SubgroupLeMask";
+		case ast::Builtin::eSubgroupLtMask:
+			return "SubgroupLtMask";
 		case ast::Builtin::eBaseVertex:
 			return "BaseVertex";
 		case ast::Builtin::eBaseInstance:

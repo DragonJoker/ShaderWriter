@@ -769,6 +769,7 @@ namespace ast::vk
 			extensions.emplace( spirv::NV_mesh_shader );
 			extensions.emplace( spirv::EXT_descriptor_indexing );
 			extensions.emplace( spirv::EXT_physical_storage_buffer );
+			extensions.emplace( spirv::KHR_shader_subgroup );
 		}
 
 		if ( config.specVersion >= spirv::v1_1 )
@@ -777,7 +778,14 @@ namespace ast::vk
 		}
 
 		config.availableExtensions = &extensions;
-		return spirv::serialiseSpirv( shader, config );
+		auto result = spirv::serialiseSpirv( shader, config );
+
+		if ( result.empty() )
+		{
+			throw std::runtime_error{ "Shader serialization failed." };
+		}
+
+		return result;
 	}
 
 	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )

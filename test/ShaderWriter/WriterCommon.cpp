@@ -775,6 +775,7 @@ namespace test
 								extensions.emplace( spirv::NV_mesh_shader );
 								extensions.emplace( spirv::EXT_descriptor_indexing );
 								extensions.emplace( spirv::EXT_physical_storage_buffer );
+								extensions.emplace( spirv::KHR_shader_subgroup );
 							}
 
 							config.availableExtensions = &extensions;
@@ -1032,56 +1033,67 @@ namespace test
 				testCounts.incIndent();
 				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-				ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
-					, testCounts.getSpirVVersion( infoIndex )
-					, shader };
-				std::string errors;
-				auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
-				check( isValidated );
-				check( errors.empty() );
 
-				if ( !isValidated
-					|| !errors.empty() )
+				try
 				{
-					if ( !errors.empty() )
+					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
+						, testCounts.getSpirVVersion( infoIndex )
+						, shader };
+					std::string errors;
+					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+					check( isValidated );
+					check( errors.empty() );
+
+					if ( !isValidated
+						|| !errors.empty() )
 					{
-						testCounts << errors << endl;
-					}
+						if ( !errors.empty() )
+						{
+							testCounts << errors << endl;
+						}
 
 #if SDW_Test_HasSpirVCross
-					auto validate = [&]()
-					{
-						spirv::SpirVConfig config{};
-						config.specVersion = testCounts.getSpirVVersion( infoIndex );
-						auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-						auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-							, shader.getType()
-							, testCounts
-							, true );
-						auto textSpirv = spirv::writeSpirv( shader, config );
-						displayShader( "SPIR-V"
-							, textSpirv
-							, testCounts
-							, true
-							, false );
-						displayShader( "SpirV-Cross GLSL"
-							, crossGlsl
-							, testCounts
-							, true
-							, true );
-						auto cfg = getGlslConfig( glsl::v4_6 );
-						auto glslangSpirv = compileGlslToSpv( shader.getType()
-							, glsl::compileGlsl( shader
-								, ast::SpecialisationInfo{}
-							, cfg ) );
-						displayShader( "glslang SPIR-V"
-							, spirv::displaySpirv( glslangSpirv )
-							, testCounts
-							, true
-							, false );
-					};
-					checkNoThrow( validate() );
+						auto validate = [&]()
+						{
+							spirv::SpirVConfig config{};
+							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+								, shader.getType()
+								, testCounts
+								, true );
+							auto textSpirv = spirv::writeSpirv( shader, config );
+							displayShader( "SPIR-V"
+								, textSpirv
+								, testCounts
+								, true
+								, false );
+							displayShader( "SpirV-Cross GLSL"
+								, crossGlsl
+								, testCounts
+								, true
+								, true );
+							auto cfg = getGlslConfig( glsl::v4_6 );
+							auto glslangSpirv = compileGlslToSpv( shader.getType()
+								, glsl::compileGlsl( shader
+									, ast::SpecialisationInfo{}
+								, cfg ) );
+							displayShader( "glslang SPIR-V"
+								, spirv::displaySpirv( glslangSpirv )
+								, testCounts
+								, true
+								, false );
+						};
+						checkNoThrow( validate() );
 #endif
+					}
+				}
+				catch ( std::exception & exc )
+				{
+					if ( exc.what() != std::string{ "Shader serialization failed." } )
+					{
+						failure( "Shader validation" );
+					}
 				}
 
 				testCounts.decIndent();
