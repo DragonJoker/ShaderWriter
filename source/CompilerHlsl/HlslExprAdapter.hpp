@@ -93,6 +93,13 @@ namespace hlsl
 
 		ast::var::VariablePtr doMakeAlias( ast::type::TypePtr type );
 
+		ast::expr::ExprPtr doWriteUnpack1( ast::expr::Expr & index
+			, ast::expr::Expr & packed );
+		ast::expr::ExprPtr doWriteUnpack2( ast::expr::Expr & index
+			, ast::expr::Expr & packed );
+		ast::expr::ExprPtr doWriteUnpack3( ast::expr::Expr & index
+			, ast::expr::Expr & packed );
+
 	private:
 		ast::type::TypesCache & m_cache;
 		ast::stmt::Container * m_container;

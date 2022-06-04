@@ -1629,7 +1629,8 @@ namespace spirv
 
 		if ( ( opCode >= spv::OpEmitVertex && opCode <= spv::OpEndStreamPrimitive )
 			|| opCode == spv::OpExecuteCallableKHR
-			|| opCode == spv::OpTraceRayKHR )
+			|| opCode == spv::OpTraceRayKHR
+			|| opCode == spv::OpWritePackedPrimitiveIndices4x8NV )
 		{
 			m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode
 				, params ) );

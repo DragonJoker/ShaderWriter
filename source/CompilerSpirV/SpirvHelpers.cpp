@@ -2754,6 +2754,8 @@ namespace spirv
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpExecuteCallableKHR > >( operands );
 		case spv::OpTraceRayKHR:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( operands );
+		case spv::OpWritePackedPrimitiveIndices4x8NV:
+			return makeInstruction< WritePackedPrimitiveIndices4x8Instruction >( operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}

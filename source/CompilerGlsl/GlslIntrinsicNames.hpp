@@ -1083,6 +1083,12 @@ namespace glsl
 			break;
 
 
+	//Mesh Shader Functions
+		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8:
+			result = "writePackedPrimitiveIndices4x8NV";
+			break;
+
+
 	//Shader Subgroup Functions
 		case ast::expr::Intrinsic::eSubgroupBarrier:
 			result = "subgroupBarrier";
