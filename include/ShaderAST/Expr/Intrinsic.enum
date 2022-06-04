@@ -706,6 +706,7 @@ ASTIntrDecl( Intrinsic )
 	//Mesh Shader Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( setMeshOutputCounts, SetMeshOutputCounts ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, numVertices ), ASTIntrParam( type::Kind::eUInt, numPrimitives ) ) )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( dispatchMesh, DispatchMesh ), ASTIntrParams( ASTIntrParam( type::Kind::eTaskPayload, payload ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, numTasks ) ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( writePackedPrimitiveIndices4x8, WritePackedPrimitiveIndices4x8 ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt, indexOffset ), ASTIntrParam( type::Kind::eUInt, packedIndices ) ) )
 
 	//Shader Subgroup Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupBarrier, SubgroupBarrier ) )

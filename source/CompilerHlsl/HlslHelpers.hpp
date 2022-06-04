@@ -298,6 +298,11 @@ namespace hlsl
 			return m_outputTopology;
 		}
 
+		ast::var::VariablePtr getOutputPrimitives()const
+		{
+			return m_primitiveIndices.io.var;
+		}
+
 	private:
 		void registerInputMbr( ast::var::VariablePtr var
 			, uint64_t outerFlags

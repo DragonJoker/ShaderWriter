@@ -2749,6 +2749,10 @@ namespace ast::expr
 			result = "DISPATCHMESH";
 			break;
 
+		case Intrinsic::eWritePackedPrimitiveIndices4x8:
+			result = "WRITEPACKEDPRIMITIVEINDICES4X8";
+			break;
+
 
 	//Shader Subgroup Functions
 		case Intrinsic::eSubgroupBarrier:

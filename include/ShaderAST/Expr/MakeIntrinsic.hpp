@@ -11646,6 +11646,25 @@ namespace ast::expr
 			, std::move( payload )
 			, std::move( numTasks ) );
 	}
+	/**
+	*@return
+	*	void
+	*@param[in] indexOffset
+	*	uint
+	*@param[in] packedIndices
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeWritePackedPrimitiveIndices4x8( type::TypesCache & cache
+		, ExprPtr indexOffset
+		, ExprPtr packedIndices )
+	{
+		assert( indexOffset->getType()->getRawKind() == type::Kind::eUInt );
+		assert( packedIndices->getType()->getRawKind() == type::Kind::eUInt );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eWritePackedPrimitiveIndices4x8
+			, std::move( indexOffset )
+			, std::move( packedIndices ) );
+	}
 	//Shader Subgroup Functions
 
 	/**
