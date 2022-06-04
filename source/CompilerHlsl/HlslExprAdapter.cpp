@@ -848,6 +848,71 @@ namespace hlsl
 			// The resulting expression is now the alias.
 			m_result = ast::expr::makeIdentifier( m_cache, aliasVar );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8 )
+		{
+			ast::expr::ExprList args;
+			m_preventVarTypeReplacement = expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eExecuteCallable
+				|| expr->getIntrinsic() == ast::expr::Intrinsic::eReportIntersection;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( arg.get() ) );
+			}
+
+			m_preventVarTypeReplacement = false;
+
+			auto it = std::find_if( m_adaptationData.getRoutines().begin()
+				, m_adaptationData.getRoutines().end()
+				, []( auto & lookup )
+				{
+					return lookup.second->isMain;
+				} );
+
+			if ( it != m_adaptationData.getRoutines().end() )
+			{
+				auto primitiveIndices = it->second->getOutputPrimitives();
+
+				switch ( it->second->getOutputTopology() )
+				{
+				case ast::type::OutputTopology::ePoint:
+					{
+						ast::expr::ExprPtr indices = doWriteUnpack1( *expr->getArgList().front()
+							, *expr->getArgList().back() );
+						auto dstType = getNonArrayType( primitiveIndices->getType() );
+						auto dstIndex = ast::expr::makeArrayAccess( dstType
+							, ast::expr::makeIdentifier( m_cache, primitiveIndices )
+							, std::move( args.front() ) );
+						m_result = ast::expr::makeAssign( dstType, std::move( dstIndex ), std::move( indices ) );
+					}
+					break;
+				case ast::type::OutputTopology::eLine:
+					{
+						ast::expr::ExprPtr indices = doWriteUnpack2( *expr->getArgList().front()
+							, *expr->getArgList().back() );
+						auto dstType = getNonArrayType( primitiveIndices->getType() );
+						auto dstIndex = ast::expr::makeArrayAccess( dstType
+							, ast::expr::makeIdentifier( m_cache, primitiveIndices )
+							, std::move( args.front() ) );
+						m_result = ast::expr::makeAssign( dstType, std::move( dstIndex ), std::move( indices ) );
+					}
+					break;
+				case ast::type::OutputTopology::eTriangle:
+					{
+						ast::expr::ExprPtr indices = doWriteUnpack3( *expr->getArgList().front()
+							, *expr->getArgList().back() );
+						auto dstType = getNonArrayType( primitiveIndices->getType() );
+						auto dstIndex = ast::expr::makeArrayAccess( dstType
+							, ast::expr::makeIdentifier( m_cache, primitiveIndices )
+							, std::move( args.front() ) );
+						m_result = ast::expr::makeAssign( dstType, std::move( dstIndex ), std::move( indices ) );
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		else if ( expr->getIntrinsic() != ast::expr::Intrinsic::eHelperInvocation )
 		{
 			ast::expr::ExprList args;
@@ -2224,5 +2289,61 @@ namespace hlsl
 			, "temp_" + std::to_string( m_adaptationData.aliasId )
 			, ( ast::var::Flag::eAlias
 				| ast::var::Flag::eTemp ) );
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doWriteUnpack1( ast::expr::Expr & index
+		, ast::expr::Expr & packed )
+	{
+		auto value = doSubmit( &packed );
+		return ast::expr::makeBitAnd( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 0x000000FFu  ) );
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doWriteUnpack2( ast::expr::Expr & index
+		, ast::expr::Expr & packed )
+	{
+		ast::expr::ExprList args;
+		auto value = doSubmit( &packed );
+		args.emplace_back( ast::expr::makeBitAnd( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 0x000000FFu ) ) );
+		value = doSubmit( &packed );
+		value = ast::expr::makeBitAnd( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 0x0000FF00u ) );
+		args.emplace_back( ast::expr::makeRShift( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 8u ) ) );
+		return ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
+			, packed.getType()->getKind()
+			, std::move( args ) );
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doWriteUnpack3( ast::expr::Expr & index
+		, ast::expr::Expr & packed )
+	{
+		ast::expr::ExprList args;
+		auto value = doSubmit( &packed );
+		args.emplace_back( ast::expr::makeBitAnd( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 0x000000FFu ) ) );
+		value = doSubmit( &packed );
+		value = ast::expr::makeBitAnd( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 0x0000FF00u ) );
+		args.emplace_back( ast::expr::makeRShift( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 8u ) ) );
+		value = doSubmit( &packed );
+		value = ast::expr::makeBitAnd( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 0x00FF0000u ) );
+		args.emplace_back( ast::expr::makeRShift( packed.getType()
+			, std::move( value )
+			, ast::expr::makeLiteral( m_cache, 16u ) ) );
+		return ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
+			, packed.getType()->getKind()
+			, std::move( args ) );
 	}
 }

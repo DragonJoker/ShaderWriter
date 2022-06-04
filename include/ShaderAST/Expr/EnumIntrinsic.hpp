@@ -717,6 +717,7 @@ namespace ast::expr
 	//Mesh Shader Functions
 		eSetMeshOutputCounts,
 		eDispatchMesh,
+		eWritePackedPrimitiveIndices4x8,
 
 	//Shader Subgroup Functions
 		eSubgroupBarrier,

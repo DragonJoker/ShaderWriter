@@ -1062,6 +1062,7 @@ namespace spirv
 			break;
 
 		case ast::expr::Intrinsic::eSetMeshOutputCounts:
+		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8:
 			config.isExtension = false;
 			break;
 

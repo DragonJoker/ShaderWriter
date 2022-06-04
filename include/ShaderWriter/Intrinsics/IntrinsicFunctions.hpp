@@ -1705,6 +1705,15 @@ namespace sdw
 	SDW_API ReturnWrapperT< Void > dispatchMesh( TaskPayload const & payload, UInt const & numTasks );
 	/**@}*/
 #pragma endregion
+#pragma region writePackedPrimitiveIndices4x8
+	/**
+	*name
+	*	writePackedPrimitiveIndices4x8
+	*/
+	/**@{*/
+	SDW_API ReturnWrapperT< Void > writePackedPrimitiveIndices4x8( UInt const & indexOffset, UInt const & packedIndices );
+	/**@}*/
+#pragma endregion
 #pragma region subgroupBarrier
 	/**
 	*name

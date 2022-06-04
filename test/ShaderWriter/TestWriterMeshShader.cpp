@@ -1435,6 +1435,136 @@ namespace
 		testEnd();
 	}
 
+	void writePackedPrimitiveIndices( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "writePackedPrimitiveIndices" );
+		using namespace sdw;
+		using namespace cull;
+		{
+			MeshWriter writer;
+
+			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
+			auto constants = Globals.declMember< Constants >( "constants" );
+			Globals.end();
+
+			auto MeshInfos = writer.declUniformBuffer( "bufferMeshInfos", 1u, 0u );
+			auto meshInfos = MeshInfos.declMember< MeshInfo >( "meshInfos" );
+			MeshInfos.end();
+
+			auto Instances = writer.declUniformBuffer( "bufferInstance", 2u, 0u );
+			auto instance = Instances.declMember< Instance >( "instance" );
+			Instances.end();
+
+			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
+			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
+
+			auto getVertexIndex = writer.implementFunction< UInt >( "getVertexIndex"
+				, [&]( Meshlet m
+					, UInt localIndex )
+				{
+					localIndex = m.vertOffset + localIndex;
+
+					IF( writer, meshInfos.indexSize == 4_u ) // 32-bit Vertex Indices
+					{
+						writer.returnStmt( uniqueVertexIndices[localIndex].index );
+					}
+					ELSE // 16-bit Vertex Indices
+					{
+						// Byte address must be 4-byte aligned.
+						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
+						auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2_u ) );
+
+						// Grab the pair of 16-bit indices, shift & mask off proper 16-bits.
+						auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index );
+						auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16_u ) ) & 0xffff_u );
+
+						writer.returnStmt( index );
+					}
+					FI;
+				}
+				, InParam< Meshlet >{ writer, "m" }
+				, InUInt{ writer, "localIndex" } );
+
+			auto getVertexAttributes = writer.implementFunction< MyVertexOut >( "getVertexAttributes"
+				, [&]( UInt meshletIndex
+					, UInt vertexIndex )
+				{
+					auto v = writer.declLocale( "v", vertices[vertexIndex] );
+
+					auto positionWS = writer.declLocale( "positionWS", instance.world * vec4( v.position, 1.0_f ) );
+
+					auto vout = writer.declLocale< MyVertexOut >( "vout" );
+					vout.positionVS = ( positionWS * constants.view ).xyz();
+					vout.positionHS = positionWS * constants.viewProj;
+					vout.normal = ( vec4( v.normal, 0.0f ) * instance.worldInvTranspose ).xyz();
+					vout.meshletIndex = meshletIndex;
+
+					writer.returnStmt( vout );
+				}
+				, InUInt{ writer, "meshletIndex" }
+				, InUInt{ writer, "vertexIndex" } );
+
+			static uint32_t constexpr MaxVerts = 252u;
+			static uint32_t constexpr MaxPrims = 84u;
+
+			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u
+				, TaskPayloadInT< PayloadT >{ writer }
+				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
+				, TrianglesMeshPrimitiveListOut{ writer, MaxPrims }
+				, [&]( MeshIn in
+					, TaskPayloadInT< PayloadT > payload
+					, MeshVertexListOutT< MyVertexOutT > vtxOut
+					, TrianglesMeshPrimitiveListOut primOut )
+				{
+					auto dtid = in.globalInvocationID;
+					auto gid = in.workGroupID;
+					auto gtid = in.localInvocationID;
+					// Load the meshlet from the AS payload data
+					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
+
+					// Catch any out-of-range indices (in case too many MS threadgroups were dispatched from AS)
+					IF( writer, meshletIndex >= meshInfos.meshletCount )
+					{
+						writer.returnStmt();
+					}
+					FI;
+
+					// Load the meshlet
+					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
+
+					// Our vertex and primitive counts come directly from the meshlet
+					primOut.setMeshOutputCounts( m.vertCount, m.primCount );
+
+					//--------------------------------------------------------------------
+					// Export Primitive & Vertex Data
+
+					IF( writer, gtid < m.vertCount )
+					{
+						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
+						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex ) );
+						vtxOut[gtid].position = vertex.positionHS;
+						vtxOut[gtid].positionVS = vertex.positionVS;
+						vtxOut[gtid].normal = vertex.normal;
+						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
+					}
+					FI;
+
+					IF( writer, gtid < m.primCount )
+					{
+						writePackedPrimitiveIndices4x8( gtid, primitiveIndices[m.primOffset + gtid].index );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
 	void subgroupPointX( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "subgroupPointX" );
@@ -1582,6 +1712,7 @@ sdwTestSuiteMain( TestWriterMeshShader )
 	meshletInstancing( testCounts );
 	checkConstantsLayout( testCounts );
 	cullMeshlet( testCounts );
+	writePackedPrimitiveIndices( testCounts );
 	subgroupPointX( testCounts );
 	subgroupPoint( testCounts );
 	subgroupLineX( testCounts );

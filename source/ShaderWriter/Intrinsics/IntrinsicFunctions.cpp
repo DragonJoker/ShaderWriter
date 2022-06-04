@@ -6606,6 +6606,23 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region writePackedPrimitiveIndices4x8
+	/**
+	*name
+	*	writePackedPrimitiveIndices4x8
+	*/
+	/**@{*/
+	ReturnWrapperT< Void > writePackedPrimitiveIndices4x8( UInt const & indexOffset
+		, UInt const & packedIndices )
+	{
+		return ReturnWrapperT< Void >{ *findWriter( indexOffset, packedIndices )
+			, expr::makeWritePackedPrimitiveIndices4x8( findTypesCache( indexOffset, packedIndices )
+					, makeExpr( indexOffset )
+				, makeExpr( packedIndices ) )
+			, areOptionalEnabled( indexOffset, packedIndices ) };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region subgroupBarrier
 	/**
 	*name
