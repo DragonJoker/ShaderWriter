@@ -10,7 +10,7 @@ set( MAIN_PROJECT_NAME "ShaderWriter" )
 
 # Set main project version numbers
 set( VERSION_MAJOR 2 )
-set( VERSION_MINOR 2 )
+set( VERSION_MINOR 3 )
 set( VERSION_BUILD 0 )
 set( VERSION_YEAR 2022 )
 
