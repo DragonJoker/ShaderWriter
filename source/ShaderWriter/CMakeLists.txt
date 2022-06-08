@@ -403,13 +403,17 @@ elseif ( PROJECTS_COMPILER_CLANG )
 				SDW_EnableStructHelper=1
 		)
 	endif ()
-elseif ( PROJECTS_COMPILER_MSVC )
+elseif ( PROJECTS_COMPILER_MSVC AND NOT SDW_BUILD_STATIC )
 	if ( MSVC_VERSION GREATER_EQUAL 1930 )
 		target_compile_definitions( ${PROJECT_NAME}
 			PUBLIC
 				SDW_EnableStructHelper=1
 		)
 	endif ()
+	install( FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
+		DESTINATION bin
+		OPTIONAL
+	)
 endif ()
 target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}

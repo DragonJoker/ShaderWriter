@@ -104,6 +104,12 @@ target_install_headers_ex( ${PROJECT_NAME}
 	SdwCompilers
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
 )
+if ( PROJECTS_COMPILER_MSVC AND NOT SDW_BUILD_STATIC )
+	install( FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
+		DESTINATION bin
+		OPTIONAL
+	)
+endif ()
 
 set( SDW_EXPORTERS_LIST
 	${SDW_EXPORTERS_LIST}
