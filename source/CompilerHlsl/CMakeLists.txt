@@ -77,7 +77,7 @@ target_include_directories( ${PROJECT_NAME}
 )
 target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}
-	SdwCompilers
+	ShaderWriter
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
 )
 if ( PROJECTS_COMPILER_MSVC AND NOT SDW_BUILD_STATIC )
