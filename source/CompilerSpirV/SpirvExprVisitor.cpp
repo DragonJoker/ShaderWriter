@@ -400,6 +400,10 @@ namespace spirv
 		{
 			result = spv::StorageClassPrivate;
 		}
+		else if ( var->isShared() )
+		{
+			result = spv::StorageClassWorkgroup;
+		}
 
 		return result;
 	}
