@@ -475,6 +475,10 @@ namespace glsl
 		{
 			result = "sample";
 		}
+		else if ( var.isShared() )
+		{
+			result = "shared";
+		}
 
 		return result;
 	}

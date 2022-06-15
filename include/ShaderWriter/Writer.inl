@@ -1395,7 +1395,7 @@ namespace sdw
 			addGlobalStmt( sdw::makeVariableDecl( var ) );
 		}
 
-		return T{ *this
+		return Array< T >{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}

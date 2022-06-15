@@ -1079,7 +1079,8 @@ namespace hlsl
 			m_result += "static ";
 		}
 
-		if ( var.isPerTask() )
+		if ( var.isPerTask()
+			|| var.isShared() )
 		{
 			m_result += "groupshared ";
 		}
