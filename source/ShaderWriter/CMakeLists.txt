@@ -191,6 +191,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/Function.inl
 	${INCLUDE_DIR}/CompositeTypes/FunctionParam.hpp
 	${INCLUDE_DIR}/CompositeTypes/FunctionParam.inl
+	${INCLUDE_DIR}/CompositeTypes/IOStructHelper.hpp
+	${INCLUDE_DIR}/CompositeTypes/IOStructInstanceHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/Pcb.hpp
 	${INCLUDE_DIR}/CompositeTypes/Pcb.inl
 	${INCLUDE_DIR}/CompositeTypes/PerPrimitive.hpp
