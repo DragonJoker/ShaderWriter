@@ -1472,8 +1472,17 @@ namespace ast
 							|| expr->getSwizzle() == expr::SwizzleKind::e3 ) )
 					{
 						auto & compositeConstruct = static_cast< expr::CompositeConstruct const & >( *outer );
-						m_result = doSubmit( std::next( compositeConstruct.getArgList().begin()
-							, ptrdiff_t( expr->getSwizzle().toIndex() ) )->get() );
+
+						if ( compositeConstruct.getArgList().size() == 1u
+							&& type::isScalarType( compositeConstruct.getArgList().front()->getType() ) )
+						{
+							m_result = doSubmit( compositeConstruct.getArgList().begin()->get() );
+						}
+						else
+						{
+							m_result = doSubmit( std::next( compositeConstruct.getArgList().begin()
+								, ptrdiff_t( expr->getSwizzle().toIndex() ) )->get() );
+						}
 					}
 				}
 
