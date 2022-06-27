@@ -1478,7 +1478,7 @@ namespace ast
 						{
 							m_result = doSubmit( compositeConstruct.getArgList().begin()->get() );
 						}
-						else
+						else if ( compositeConstruct.getArgList().size() == type::getComponentCount( compositeConstruct.getType() ) )
 						{
 							m_result = doSubmit( std::next( compositeConstruct.getArgList().begin()
 								, ptrdiff_t( expr->getSwizzle().toIndex() ) )->get() );
