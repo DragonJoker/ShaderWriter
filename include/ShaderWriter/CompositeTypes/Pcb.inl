@@ -68,7 +68,7 @@ namespace sdw
 
 	template< typename ValueT >
 	inline ValueT Pcb::getMember( std::string_view name
-		, bool enabled )
+		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );
 		return ValueT{ m_writer
@@ -78,7 +78,7 @@ namespace sdw
 
 	template< typename ValueT >
 	inline Array< ValueT > Pcb::getMemberArray( std::string_view name
-		, bool enabled )
+		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );
 		return Array< ValueT >{ m_writer

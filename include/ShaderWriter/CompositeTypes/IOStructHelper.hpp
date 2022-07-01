@@ -83,7 +83,7 @@ namespace sdw
 		using Field = decltype( getFieldByName< FieldNameT >() );
 
 		template< StringLiteralT FieldNameT >
-		auto getMember()
+		auto getMember()const
 		{
 			return Field< FieldNameT >::template get< StructT >( *this );
 		}

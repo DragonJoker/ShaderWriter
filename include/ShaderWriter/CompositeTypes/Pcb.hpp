@@ -45,10 +45,10 @@ namespace sdw
 
 		template< typename ValueT >
 		inline ValueT getMember( std::string_view name
-			, bool enabled = true );
+			, bool enabled = true )const;
 		template< typename ValueT >
 		inline Array< ValueT > getMemberArray( std::string_view name
-			, bool enabled = true );
+			, bool enabled = true )const;
 
 		bool isEnabled()const
 		{

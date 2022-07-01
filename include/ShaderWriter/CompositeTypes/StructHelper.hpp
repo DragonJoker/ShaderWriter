@@ -40,7 +40,7 @@ namespace sdw
 		}
 
 		template< typename HolderT >
-		static auto get( HolderT & h )
+		static auto get( HolderT const & h )
 		{
 			return h.template getMember< TypeT >( Name );
 		}
@@ -62,7 +62,7 @@ namespace sdw
 		}
 
 		template< typename HolderT >
-		static auto get( HolderT & h )
+		static auto get( HolderT const & h )
 		{
 			return h.template getMemberArray< TypeT >( Name );
 		}
@@ -95,7 +95,7 @@ namespace sdw
 		using Field = decltype( getFieldByName< FieldNameT >() );
 
 		template< StringLiteralT FieldNameT >
-		auto getMember()
+		auto getMember()const
 		{
 			return Field< FieldNameT >::template get< StructT >( *this );
 		}
