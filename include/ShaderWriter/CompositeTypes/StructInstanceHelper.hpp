@@ -6,6 +6,9 @@ See LICENSE file in root folder
 #pragma once
 
 #if SDW_EnableStructHelper
+
+#include "StructInstance.hpp"
+
 namespace sdw
 {
 	template< StringLiteralT StructNameT
@@ -54,7 +57,7 @@ namespace sdw
 		}
 
 		template< sdw::StringLiteralT FieldNameT >
-		auto getMember()
+		auto getMember()const
 		{
 			static_assert( hasFieldByName< FieldNameT >() );
 			using FieldT = decltype( getFieldByName< FieldNameT >() );

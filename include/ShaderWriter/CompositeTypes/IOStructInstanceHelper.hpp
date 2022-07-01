@@ -54,7 +54,7 @@ namespace sdw
 		}
 
 		template< sdw::StringLiteralT FieldNameT >
-		auto getMember()
+		auto getMember()const
 		{
 			static_assert( hasFieldByName< FieldNameT >() );
 			using FieldT = decltype( getFieldByName< FieldNameT >() );

@@ -82,7 +82,7 @@ namespace sdw
 
 	template< typename T >
 	inline T Ubo::getMember( std::string_view name
-		, bool enabled )
+		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );
 		return T{ m_writer
@@ -92,7 +92,7 @@ namespace sdw
 
 	template< typename T >
 	inline Array< T > Ubo::getMemberArray( std::string_view name
-		, bool enabled )
+		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );
 		return Array< T >{ m_writer
