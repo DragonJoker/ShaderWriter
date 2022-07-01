@@ -71,10 +71,9 @@ namespace glsl
 					+" or extension [" + ARB_explicit_attrib_location.name + "])" };
 			}
 
-			if ( writerConfig.wantedVersion >= ARB_shading_language_420pack.specVersion )
+			if ( writerConfig.wantedVersion >= ARB_shading_language_420pack.coreVersion )
 			{
 				writerConfig.availableExtensions.insert( ARB_shading_language_420pack );
-				intrinsicsConfig.requiredExtensions.insert( ARB_shading_language_420pack );
 			}
 
 			if ( writerConfig.wantedVersion >= KHR_vulkan_glsl.specVersion

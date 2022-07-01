@@ -655,8 +655,7 @@ namespace glsl
 		m_result += "layout(";
 		m_result += GlslStmtVisitorInternal::getFormatName( image->getConfig().format );
 
-		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack )
-			|| m_writerConfig.wantedVersion >= v4_2 )
+		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
 		{
 			doWriteBinding( stmt->getBindingPoint()
 				, stmt->getDescriptorSet()
@@ -839,8 +838,7 @@ namespace glsl
 
 		m_result += m_indent;
 
-		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack )
-			|| m_writerConfig.wantedVersion >= v4_2 )
+		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
 		{
 			m_result += "layout(";
 
@@ -870,8 +868,7 @@ namespace glsl
 
 		m_result += m_indent;
 
-		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack )
-			|| m_writerConfig.wantedVersion >= v4_2 )
+		if ( GlslStmtVisitorInternal::hasExtension( m_writerConfig, ARB_shading_language_420pack ) )
 		{
 			m_result += "layout(";
 
