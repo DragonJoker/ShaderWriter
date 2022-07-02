@@ -38,45 +38,24 @@ Let's take the following vertex shader code, written in C++:
 
 ```cpp
 template< sdw::var::Flag FlagT >
-struct SurfaceT
-	: sdw::StructInstance
+using PosColStructT = sdw::IOStructInstanceHelperT< FlagT
+	, "PosCol"
+	, sdw::IOStructFieldT< sdw::Vec4, "position", 0u >
+	, sdw::IOStructFieldT< sdw::Vec4, "colour", 1u > >;
+
+template< sdw::var::Flag FlagT >
+struct PosColT
+	: public PosColStructT< FlagT >
 {
-	SurfaceT( sdw::ShaderWriter & writer
+	PosColT( sdw::ShaderWriter & writer
 		, sdw::expr::ExprPtr expr
 		, bool enabled = true )
-		: sdw::StructInstance{ writer, std::move( expr ), enabled }
-		, position{ getMember< sdw::Vec2 >( "position" ) }
-		, texcoord{ getMember< sdw::Vec2 >( "texcoord" ) }
+		: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
-	SDW_DeclStructInstance( , SurfaceT );
-
-	static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
-	{
-		auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-			, ( FlagT == sdw::var::Flag::eShaderOutput
-				? std::string{ "Out" }
-				: std::string{ "In" } ) + "Position"
-			, FlagT );
-
-		if ( result->empty() )
-		{
-			result->declMember( "position"
-				, sdw::type::Kind::eVec2F
-				, sdw::type::NotArray
-				, 0u );
-			result->declMember( "texcoord"
-				, sdw::type::Kind::eVec2F
-				, sdw::type::NotArray
-				, 1u );
-		}
-
-		return result;
-	}
-
-	sdw::Vec2 position;
-	sdw::Vec2 texcoord;
+	auto position()const { return this->getMember< "position" >(); }
+	auto colour()const { return this->getMember< "colour" >(); }
 };
 
 void vertex()
@@ -84,12 +63,12 @@ void vertex()
 	using namespace sdw;
 	VertexWriter writer;
 
-	writer.implementMainT< SurfaceT, SurfaceT >( [&]( sdw::VertexInT< SurfaceT > in
-		, sdw::VertexOutT< SurfaceT > out )
+	writer.implementMainT< PosColT, PosColT >( [&]( VertexInT< PosColT > in
+		, VertexOutT< PosColT > out )
 		{
-			out.texcoord = in.texcoord;
-			out.position = in.position;
-			out.vtx.position = vec4( in.position.xy(), 0.0, 1.0 );
+			out.colour() = in.colour();
+			out.position() = in.position();
+			out.vtx.position = in.position();
 		} );
 
 	// Select your weapon !
@@ -109,10 +88,10 @@ void vertex()
 This shader will generate the following GLSL:
 ```glsl
 #version 430
-layout(location=0) in vec2 sdwIn_position;
-layout(location=1) in vec2 sdwIn_texcoord;
-layout(location=0) out vec2 sdwOut_position;
-layout(location=1) out vec2 sdwOut_texcoord;
+layout(location=0) in vec4 sdwIn_position;
+layout(location=1) in vec4 sdwIn_colour;
+layout(location=0) out vec4 sdwOut_position;
+layout(location=1) out vec4 sdwOut_colour;
 
 out gl_PerVertex
 {
@@ -124,33 +103,33 @@ out gl_PerVertex
 
 void main()
 {
-	sdwOut_texcoord = sdwIn_texcoord;
+	sdwOut_colour = sdwIn_colour;
 	sdwOut_position = sdwIn_position;
-	gl_Position = vec4(sdwIn_position, 0.0f, 1.0f);
+	gl_Position = sdwIn_position;
 }
 ```
 
 The following HLSL (Shader Model 5):
 ```hlsl
-struct HLSL_SDW_ParamHighFreqInput
+struct HLSL_SDW_GlobalInput
 {
-	float2 texcoord: TEXCOORD1;
-	float2 position: TEXCOORD0;
+	float4 colour: TEXCOORD1;
+	float4 position: TEXCOORD0;
 };
 
-struct HLSL_SDW_ParamMainHighFreqOutput
+struct HLSL_SDW_MainOutput
 {
-	float2 texcoord: TEXCOORD1;
-	float2 position: TEXCOORD0;
+	float4 colour: TEXCOORD1;
+	float4 position: TEXCOORD0;
 	float4 Position: SV_Position;
 };
 
-void main(in HLSL_SDW_ParamHighFreqInput sdwHighFreqInputParam
-	, out HLSL_SDW_ParamMainHighFreqOutput sdwMainHighFreqOutputParam)
+void main(in HLSL_SDW_GlobalInput sdwGlobalInput
+	, out HLSL_SDW_MainOutput sdwMainOutput)
 {
-	sdwMainHighFreqOutputParam.texcoord = sdwHighFreqInputParam.texcoord;
-	sdwMainHighFreqOutputParam.position = sdwHighFreqInputParam.position;
-	sdwMainHighFreqOutputParam.Position = float4(sdwHighFreqInputParam.position, 0.0f, 1.0f);
+	sdwMainOutput.colour = sdwGlobalInput.colour;
+	sdwMainOutput.position = sdwGlobalInput.position;
+	sdwMainOutput.Position = sdwGlobalInput.position;
 }
 ```
 
@@ -158,71 +137,58 @@ And the following SPIR-V listing:
 ```
 ; Magic:     0x07230203
 ; Version:   0x00010300
-; Generator: 0x00100001
-; Bound:     23
+; Generator: 0x00210012
+; Bound:     18
 ; Schema:    0
 
-        OpCapability Shader
-   %1 = OpExtInstImport "GLSL.std.450"
-        OpMemoryModel Logical GLSL450
-        OpEntryPoint Vertex %14 "main" %2 %6 %7 %9 %10
+        Capability Shader
+
+        MemoryModel Logical GLSL450
+        EntryPoint Vertex %12 "main" %2 %6 %7 %9 %10
 
 ; Debug
-        OpSource GLSL 460
-        OpName %2(sdwIn_texcoord) "sdwIn_texcoord"
-        OpName %6(sdwIn_position) "sdwIn_position"
-        OpName %7(sdwOut_texcoord) "sdwOut_texcoord"
-        OpName %9(sdwOut_position) "sdwOut_position"
-        OpName %10(OutPosition) "OutPosition"
-        OpName %14(main) "main"
+        Source LanguageGLSL 460
+        Name %2(sdwIn_colour) "sdwIn_colour"
+        Name %6(sdwIn_position) "sdwIn_position"
+        Name %7(sdwOut_colour) "sdwOut_colour"
+        Name %9(sdwOut_position) "sdwOut_position"
+        Name %10(OutPosition) "OutPosition"
+        Name %12(main) "main"
 
 ; Decorations
-        OpDecorate %10(OutPosition) BuiltIn Position
-        OpDecorate %2(sdwIn_texcoord) Location 1
-        OpDecorate %7(sdwOut_texcoord) Location 1
-        OpDecorate %6(sdwIn_position) Location 0
-        OpDecorate %9(sdwOut_position) Location 0
+        Decorate %10(OutPosition) BuiltIn Position
+        Decorate %7(sdwOut_colour) Location 1
+        Decorate %2(sdwIn_colour) Location 1
+        Decorate %9(sdwOut_position) Location 0
+        Decorate %6(sdwIn_position) Location 0
 
 ; Types, Constants, and Global Variables
-   %3 = OpTypeFloat 32
-   %4 = OpTypeVector %3(f32) 2
-   %5 = OpTypePointer Input %4(v2f32)
-   %2 = OpVariable %5(InputPtr<v2f32>) Input
-   %6 = OpVariable %5(InputPtr<v2f32>) Input
-   %8 = OpTypePointer Output %4(v2f32)
-   %7 = OpVariable %8(OutputPtr<v2f32>) Output
-   %9 = OpVariable %8(OutputPtr<v2f32>) Output
-  %11 = OpTypeVector %3(f32) 4
-  %12 = OpTypePointer Output %11(v4f32)
-  %10 = OpVariable %12(OutputPtr<v4f32>) Output
-  %13 = OpTypeVoid
-  %15 = OpTypeFunction %13
-  %20 = OpConstant %3(f32) 0
-  %21 = OpConstant %3(f32) 1
+   %3 = TypeFloat 32
+   %4 = TypeVector %3(f32) 4
+   %5 = TypePointer Input %4(v4f32)
+   %2 = Variable %5(InputPtr<v4f32>) Input
+   %6 = Variable %5(InputPtr<v4f32>) Input
+   %8 = TypePointer Output %4(v4f32)
+   %7 = Variable %8(OutputPtr<v4f32>) Output
+   %9 = Variable %8(OutputPtr<v4f32>) Output
+  %10 = Variable %8(OutputPtr<v4f32>) Output
+  %11 = TypeVoid
+  %13 = TypeFunction %11
 
 ; Functions
-  %14 = OpFunction %13 [None]  %15(func)
-  %16 = OpLabel
-  %17 = OpLoad %4(v2f32) %2(sdwIn_texcoord)
-        OpStore %7(sdwOut_texcoord) %17
-  %18 = OpLoad %4(v2f32) %6(sdwIn_position)
-        OpStore %9(sdwOut_position) %18
-  %19 = OpLoad %4(v2f32) %6(sdwIn_position)
-  %22 = OpCompositeConstruct %11(v4f32) %19 %20(0.000000) %21(1.000000)
-        OpStore %10(OutPosition) %22
-        OpReturn
-        OpFunctionEnd
+  %12 = Function %11 [None]  %13(func)
+  %14 = Label
+  %15 = Load %4(v4f32) %2(sdwIn_colour)
+        Store %7(sdwOut_colour) %15
+  %16 = Load %4(v4f32) %6(sdwIn_position)
+        Store %9(sdwOut_position) %16
+  %17 = Load %4(v4f32) %6(sdwIn_position)
+        Store %10(OutPosition) %17
+        Return
+        FunctionEnd
 ```
 
 Some optimisations have been done, but more could be, with SPIR-V (the double load of `sdwIn_position`, for example, in this case).
-
-There is also an internal debug format :
-```
-STFUNCDECL VOID main(VAR(INATTR,STRUCT(InPosTex,C)) vertIn, VAR(OUTATTR,STRUCT(OutPosTex,C)) vertOut)
-	STSIMPLE ASSIGN (MBRSELECT (IDENT vertOut) (texcoord)) (MBRSELECT (IDENT vertIn) (texcoord))
-	STSIMPLE ASSIGN (MBRSELECT (IDENT vertOut) (position)) (MBRSELECT (IDENT vertIn) (position))
-	STSIMPLE ASSIGN (MBRSELECT (IDENT vertOut) (Position)) (COMPOSITECONSTRUCT VEC4 FLOAT ((SWIZZLE xy (MBRSELECT (IDENT vertIn) (position))), (LITERAL 0.0), (LITERAL 1.0)))
-```
 
 ## Contact
 
