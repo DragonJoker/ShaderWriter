@@ -1,6 +1,9 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#include <ShaderWriter/CompositeTypes/IOStructHelper.hpp>
+#include <ShaderWriter/CompositeTypes/IOStructInstanceHelper.hpp>
+
 #pragma warning( disable:5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -80,45 +83,24 @@ namespace
 	};
 
 	template< sdw::var::Flag FlagT >
+	using PosColStructT = sdw::IOStructInstanceHelperT< FlagT
+		, "PosCol"
+		, sdw::IOStructFieldT< sdw::Vec4, "position", 0u >
+		, sdw::IOStructFieldT< sdw::Vec4, "colour", 1u > >;
+
+	template< sdw::var::Flag FlagT >
 	struct PosColT
-		: sdw::StructInstance
+		: public PosColStructT< FlagT >
 	{
 		PosColT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, position{ getMember< sdw::Vec4 >( "position" ) }
-			, colour{ getMember< sdw::Vec4 >( "colour" ) }
+			: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , PosColT );
-
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PosCol"
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				result->declMember( "position"
-					, sdw::type::Kind::eVec4F
-					, sdw::type::NotArray
-					, 0u );
-				result->declMember( "colour"
-					, sdw::type::Kind::eVec4F
-					, sdw::type::NotArray
-					, 1u );
-			}
-
-			return result;
-		}
-
-		sdw::Vec4 position;
-		sdw::Vec4 colour;
+		auto position()const { return this->getMember< "position" >(); }
+		auto colour()const { return this->getMember< "colour" >(); }
 	};
 
 	template< sdw::var::Flag FlagT >
@@ -454,9 +436,9 @@ namespace
 			writer.implementMainT< PosColT, PosColT >( [&]( VertexInT< PosColT > in
 				, VertexOutT< PosColT > out )
 				{
-					out.colour = in.colour;
-					out.position = in.position;
-					out.vtx.position = in.position;
+					out.colour() = in.colour();
+					out.position() = in.position();
+					out.vtx.position = in.position();
 				} );
 
 			test::writeShader( writer
@@ -469,13 +451,13 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					IF( writer, in.position.x() < 0.0_f )
+					IF( writer, in.position().x() < 0.0_f )
 					{
 						writer.demote();
 					}
 					FI;
 
-					out.colour = in.colour;
+					out.colour = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -516,16 +498,16 @@ namespace
 			writer.implementMainT< PosColT, PosColT >( [&]( VertexInT< PosColT > in
 				, VertexOutT< PosColT > out )
 				{
-					out.colour = colors[in.vertexIndex];
-					out.position = positions[in.vertexIndex];
+					out.colour() = colors[in.vertexIndex];
+					out.position() = positions[in.vertexIndex];
 					out.vtx.position = positions[in.vertexIndex];
 
-					out.colour = colors[0];
-					out.position = positions[0];
+					out.colour() = colors[0];
+					out.position() = positions[0];
 					out.vtx.position = positions[0];
 
-					out.colour = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
-					out.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
+					out.colour() = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.position() = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 					out.vtx.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 				} );
 
@@ -540,7 +522,7 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.colour;
+					out.colour = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -581,15 +563,15 @@ namespace
 			writer.implementMainT< PosColT, PosColT >( [&]( VertexInT< PosColT > in
 				, VertexOutT< PosColT > out )
 				{
-					out.colour = colors[in.vertexIndex];
-					out.position = positions[in.vertexIndex];
+					out.colour() = colors[in.vertexIndex];
+					out.position() = positions[in.vertexIndex];
 					out.vtx.position = positions[in.vertexIndex];
 
-					out.colour = colors[0];
-					out.position = positions[0];
+					out.colour() = colors[0];
+					out.position() = positions[0];
 					out.vtx.position = positions[0];
 
-					out.colour = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
+					out.colour() = vec4( 1.0_f, 0.0f, 0.0f, 1.0f );
 					out.vtx.position = vec4( 0.0_f, 0.0f, 0.0f, 1.0f );
 				} );
 
@@ -603,7 +585,7 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.colour;
+					out.colour = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -649,11 +631,11 @@ namespace
 			writer.implementMainT< PosColT, PosColT >( [&]( VertexInT< PosColT > in
 				, VertexOutT< PosColT > out )
 				{
-					out.position =
+					out.position() =
 						vec4( positions[indices[in.vertexIndex]], 0.0_f, 1.0_f );
 					out.vtx.position =
 						vec4( positions[indices[in.vertexIndex]], 0.0_f, 1.0_f );
-					out.colour = vec4( colors[indices[in.vertexIndex]], 1.0_f );
+					out.colour() = vec4( colors[indices[in.vertexIndex]], 1.0_f );
 				} );
 
 			test::writeShader( writer
@@ -666,7 +648,7 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.colour;
+					out.colour = in.colour();
 				} );
 
 			test::writeShader( writer
