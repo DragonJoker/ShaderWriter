@@ -85,8 +85,8 @@ namespace
 	template< sdw::var::Flag FlagT >
 	using PosColStructT = sdw::IOStructInstanceHelperT< FlagT
 		, "PosCol"
-		, sdw::IOStructFieldT< sdw::Vec4, "position", 0u >
-		, sdw::IOStructFieldT< sdw::Vec4, "colour", 1u > >;
+		, sdw::IOVec4Field< "position", 0u >
+		, sdw::IOVec4Field< "colour", 1u > >;
 
 	template< sdw::var::Flag FlagT >
 	struct PosColT
@@ -99,8 +99,8 @@ namespace
 		{
 		}
 
-		auto position()const { return this->getMember< "position" >(); }
-		auto colour()const { return this->getMember< "colour" >(); }
+		auto position()const { return this->template getMember< "position" >(); }
+		auto colour()const { return this->template getMember< "colour" >(); }
 	};
 
 	template< sdw::var::Flag FlagT >
