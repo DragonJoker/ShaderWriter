@@ -47,4 +47,9 @@ namespace sdw
 
 #include "Boolean.inl"
 
+inline sdw::Boolean operator "" _b( unsigned long long value )
+{
+	return sdw::Boolean{ value != 0u };
+}
+
 #endif
