@@ -195,7 +195,7 @@ def computeParams( params, sep, allowEmpty ):
 		index = 1
 		while len( resParam ) > index:
 			if resParam[index] == "ASTIntrParam":
-				typeQualifier = "const "
+				typeQualifier = "const"
 			else:
 				typeQualifier = ""
 			index += 1
@@ -203,14 +203,14 @@ def computeParams( params, sep, allowEmpty ):
 			index += 1
 			if len(typeQualifier) > 0:
 				if isArray( resParam[index] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[index] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
+					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[index]
 			else:
 				if isArray( resParam[index] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[index] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[index] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[index]
+					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[index]
 			sep = ","
 			index += 2
 	elif allowEmpty == 0:
@@ -227,7 +227,7 @@ def computeParamsEx( params, sep, lastType ):
 		index = 1
 		while len( resParam ) > index:
 			if resParam[index] == "ASTIntrParam":
-				typeQualifier = "const "
+				typeQualifier = "const"
 			else:
 				typeQualifier = ""
 			index += 1
@@ -241,14 +241,14 @@ def computeParamsEx( params, sep, lastType ):
 
 			if len(typeQualifier) > 0:
 				if isArray( resParam[curIndex] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[curIndex] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[curIndex]
+					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[curIndex]
 			else:
 				if isArray( resParam[curIndex] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + "& " + discardArray( resParam[curIndex] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[curIndex] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + "& " + resParam[curIndex]
+					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[curIndex]
 			sep = ","
 	return result
 
@@ -441,7 +441,7 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
 		for fmt, ret in formats:
 			# Write function name and return
-			outs.write( "\n\tSDW_API ReturnWrapperT< " + ret + " > " + intrinsicName + "(" )
+			outs.write( "\n\tSDW_API Ret" + ret + " " + intrinsicName + "(" )
 			# Write parameters
 			#	Image parameter
 			outs.write( " " + imageFullType + fmt + " const & image" )
@@ -462,7 +462,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			for imageFullType in imageFullTypes:
 				for fmt, last in formats:
 					# Write function name and return
-					outs.write( "\n\tSDW_API ReturnWrapperT< Void > " + intrinsicName + "(" )
+					outs.write( "\n\tSDW_API RetVoid " + intrinsicName + "(" )
 					# Write parameters
 					#	Image parameter
 					outs.write( " " + imageFullType + fmt + " const & image" )
@@ -478,7 +478,7 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 			for imageFullType in imageFullTypes:
 				for fmt, ret in formats:
 					# Write function name and return
-					outs.write( "\n\tSDW_API ReturnWrapperT< " + ret + " > " + intrinsicName + "(" )
+					outs.write( "\n\tSDW_API Ret" + ret + " " + intrinsicName + "(" )
 					# Write parameters
 					#	Image parameter
 					outs.write( " " + imageFullType + fmt + " const & image" )
@@ -492,7 +492,7 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )
 	intrinsicName = computeIntrinsicName( functionGroup )
 	# Write function name and return
-	outs.write( "\n\tSDW_API ReturnWrapperT< " + retType + " > " + intrinsicName + "(" )
+	outs.write( "\n\tSDW_API Ret" + retType + " " + intrinsicName + "(" )
 	# Write function parameters
 	outs.write( computeParams( paramsGroup, "", 0 ) + " );" )
 	

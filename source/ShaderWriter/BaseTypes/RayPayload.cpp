@@ -2,6 +2,8 @@
 See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
+
+#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw

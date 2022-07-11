@@ -26,6 +26,7 @@ namespace sdw
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
+	using RetVoid = ReturnWrapperT< Void >;
 }
 
 #endif
