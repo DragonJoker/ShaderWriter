@@ -7,37 +7,17 @@
 
 namespace
 {
-	void testDegrees1F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDegreesT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDegrees1F" );
+		testBegin( "testDegrees" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 				{
-					auto v = writer.declLocale< Float >( "v" );
-					auto vec = writer.declLocale< Vec2 >( "vec" );
-	//				auto arr = writer.declLocaleArray< Float >( "arr", 4u );
-					//v = degrees( 1.0_f );
-					//v = degrees( v );
-					v = degrees( vec.x() );
-//					v = degrees( arr[0] );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDegrees2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDegrees2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = degrees( v );
 				} );
 			test::writeShader( writer
@@ -46,49 +26,25 @@ namespace
 		testEnd();
 	}
 
-	void testDegrees3F( test::sdw_test::TestCounts & testCounts )
+	void testDegrees( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDegrees3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = degrees( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDegreesT< sdw::Float >( "1F", testCounts );
+		testDegreesT< sdw::Vec2 >( "2F", testCounts );
+		testDegreesT< sdw::Vec3 >( "3F", testCounts );
+		testDegreesT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testDegrees4F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testRadiansT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDegrees4F" );
+		testBegin( "testRadians" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = degrees( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRadians1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRadians1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = radians( v );
 				} );
 			test::writeShader( writer
@@ -97,66 +53,25 @@ namespace
 		testEnd();
 	}
 
-	void testRadians2F( test::sdw_test::TestCounts & testCounts )
+	void testRadians( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRadians2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = radians( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testRadiansT< sdw::Float >( "1F", testCounts );
+		testRadiansT< sdw::Vec2 >( "2F", testCounts );
+		testRadiansT< sdw::Vec3 >( "3F", testCounts );
+		testRadiansT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testRadians3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testCoshT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRadians3F" );
+		testBegin( "testCosh" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = radians( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRadians4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRadians4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = radians( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCosh1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCosh1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = cosh( v );
 				} );
 			test::writeShader( writer
@@ -165,66 +80,25 @@ namespace
 		testEnd();
 	}
 
-	void testCosh2F( test::sdw_test::TestCounts & testCounts )
+	void testCosh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCosh2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = cosh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testCoshT< sdw::Float >( "1F", testCounts );
+		testCoshT< sdw::Vec2 >( "2F", testCounts );
+		testCoshT< sdw::Vec3 >( "3F", testCounts );
+		testCoshT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testCosh3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testSinhT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCosh3F" );
+		testBegin( "testSinh" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = cosh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCosh4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCosh4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = cosh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSinh1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSinh1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = sinh( v );
 				} );
 			test::writeShader( writer
@@ -233,66 +107,25 @@ namespace
 		testEnd();
 	}
 
-	void testSinh2F( test::sdw_test::TestCounts & testCounts )
+	void testSinh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSinh2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = sinh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testSinhT< sdw::Float >( "1F", testCounts );
+		testSinhT< sdw::Vec2 >( "2F", testCounts );
+		testSinhT< sdw::Vec3 >( "3F", testCounts );
+		testSinhT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testSinh3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testTanhT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSinh3F" );
+		testBegin( "testTanh" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = sinh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSinh4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSinh4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = sinh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTanh1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTanh1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = tanh( v );
 				} );
 			test::writeShader( writer
@@ -301,66 +134,25 @@ namespace
 		testEnd();
 	}
 
-	void testTanh2F( test::sdw_test::TestCounts & testCounts )
+	void testTanh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTanh2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = tanh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testTanhT< sdw::Float >( "1F", testCounts );
+		testTanhT< sdw::Vec2 >( "2F", testCounts );
+		testTanhT< sdw::Vec3 >( "3F", testCounts );
+		testTanhT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testTanh3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testCosT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTanh3F" );
+		testBegin( "testCos" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = tanh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTanh4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTanh4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = tanh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCos1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCos1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = cos( v );
 				} );
 			test::writeShader( writer
@@ -369,66 +161,25 @@ namespace
 		testEnd();
 	}
 
-	void testCos2F( test::sdw_test::TestCounts & testCounts )
+	void testCos( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCos2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = cos( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testCosT< sdw::Float >( "1F", testCounts );
+		testCosT< sdw::Vec2 >( "2F", testCounts );
+		testCosT< sdw::Vec3 >( "3F", testCounts );
+		testCosT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testCos3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testSinT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCos3F" );
+		testBegin( "testSin" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = cos( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCos4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCos4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = cos( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSin1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSin1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = sin( v );
 				} );
 			test::writeShader( writer
@@ -437,66 +188,25 @@ namespace
 		testEnd();
 	}
 
-	void testSin2F( test::sdw_test::TestCounts & testCounts )
+	void testSin( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSin2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = sin( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testSinT< sdw::Float >( "1F", testCounts );
+		testSinT< sdw::Vec2 >( "2F", testCounts );
+		testSinT< sdw::Vec3 >( "3F", testCounts );
+		testSinT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testSin3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testTanT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSin3F" );
+		testBegin( "testTan" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = sin( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSin4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSin4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = sin( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTan1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTan1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = tan( v );
 				} );
 			test::writeShader( writer
@@ -505,66 +215,25 @@ namespace
 		testEnd();
 	}
 
-	void testTan2F( test::sdw_test::TestCounts & testCounts )
+	void testTan( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTan2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = tan( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testTanT< sdw::Float >( "1F", testCounts );
+		testTanT< sdw::Vec2 >( "2F", testCounts );
+		testTanT< sdw::Vec3 >( "3F", testCounts );
+		testTanT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testTan3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testACosT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTan3F" );
+		testBegin( "testACos" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = tan( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTan4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTan4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = tan( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testACos1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testACos1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = acos( v );
 				} );
 			test::writeShader( writer
@@ -573,66 +242,25 @@ namespace
 		testEnd();
 	}
 
-	void testACos2F( test::sdw_test::TestCounts & testCounts )
+	void testACos( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACos2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = acos( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testACosT< sdw::Float >( "1F", testCounts );
+		testACosT< sdw::Vec2 >( "2F", testCounts );
+		testACosT< sdw::Vec3 >( "3F", testCounts );
+		testACosT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testACos3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testASinT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACos3F" );
+		testBegin( "testASin" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = acos( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testACos4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testACos4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = acos( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testASin1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testASin1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = asin( v );
 				} );
 			test::writeShader( writer
@@ -641,66 +269,25 @@ namespace
 		testEnd();
 	}
 
-	void testASin2F( test::sdw_test::TestCounts & testCounts )
+	void testASin( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASin2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = asin( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testASinT< sdw::Float >( "1F", testCounts );
+		testASinT< sdw::Vec2 >( "2F", testCounts );
+		testASinT< sdw::Vec3 >( "3F", testCounts );
+		testASinT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testASin3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testATanT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASin3F" );
+		testBegin( "testATan" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = asin( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testASin4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testASin4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = asin( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testATan1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testATan1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = atan( v );
 				} );
 			test::writeShader( writer
@@ -709,66 +296,25 @@ namespace
 		testEnd();
 	}
 
-	void testATan2F( test::sdw_test::TestCounts & testCounts )
+	void testATan( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATan2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = atan( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testATanT< sdw::Float >( "1F", testCounts );
+		testATanT< sdw::Vec2 >( "2F", testCounts );
+		testATanT< sdw::Vec3 >( "3F", testCounts );
+		testATanT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testATan3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testACoshT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATan3F" );
+		testBegin( "testACosh" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = atan( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testATan4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testATan4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = atan( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testACosh1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testACosh1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = acosh( v );
 				} );
 			test::writeShader( writer
@@ -777,66 +323,25 @@ namespace
 		testEnd();
 	}
 
-	void testACosh2F( test::sdw_test::TestCounts & testCounts )
+	void testACosh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACosh2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = acosh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testACoshT< sdw::Float >( "1F", testCounts );
+		testACoshT< sdw::Vec2 >( "2F", testCounts );
+		testACoshT< sdw::Vec3 >( "3F", testCounts );
+		testACoshT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testACosh3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testASinhT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACosh3F" );
+		testBegin( "testASinh" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = acosh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testACosh4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testACosh4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = acosh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testASinh1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testASinh1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = asinh( v );
 				} );
 			test::writeShader( writer
@@ -845,66 +350,25 @@ namespace
 		testEnd();
 	}
 
-	void testASinh2F( test::sdw_test::TestCounts & testCounts )
+	void testASinh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASinh2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = asinh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testASinhT< sdw::Float >( "1F", testCounts );
+		testASinhT< sdw::Vec2 >( "2F", testCounts );
+		testASinhT< sdw::Vec3 >( "3F", testCounts );
+		testASinhT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testASinh3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testATanhT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASinh3F" );
+		testBegin( "testATanh" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = asinh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testASinh4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testASinh4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = asinh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testATanh1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testATanh1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = atanh( v );
 				} );
 			test::writeShader( writer
@@ -913,67 +377,26 @@ namespace
 		testEnd();
 	}
 
-	void testATanh2F( test::sdw_test::TestCounts & testCounts )
+	void testATanh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATanh2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = atanh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testATanhT< sdw::Float >( "1F", testCounts );
+		testATanhT< sdw::Vec2 >( "2F", testCounts );
+		testATanhT< sdw::Vec3 >( "3F", testCounts );
+		testATanhT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testATanh3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testPowT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATanh3F" );
+		testBegin( "testPow" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = atanh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testATanh4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testATanh4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = atanh( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testPow1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testPow1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
 					v1 = pow( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -982,69 +405,25 @@ namespace
 		testEnd();
 	}
 
-	void testPow2F( test::sdw_test::TestCounts & testCounts )
+	void testPow( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPow2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					v1 = pow( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testPowT< sdw::Float >( "1F", testCounts );
+		testPowT< sdw::Vec2 >( "2F", testCounts );
+		testPowT< sdw::Vec3 >( "3F", testCounts );
+		testPowT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testPow3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testExpT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPow3F" );
+		testBegin( "testExp" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					v1 = pow( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testPow4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testPow4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					v1 = pow( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testExp1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testExp1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = exp( v );
 				} );
 			test::writeShader( writer
@@ -1053,66 +432,25 @@ namespace
 		testEnd();
 	}
 
-	void testExp2F( test::sdw_test::TestCounts & testCounts )
+	void testExp( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = exp( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testExpT< sdw::Float >( "1F", testCounts );
+		testExpT< sdw::Vec2 >( "2F", testCounts );
+		testExpT< sdw::Vec3 >( "3F", testCounts );
+		testExpT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testExp3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testLogT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp3F" );
+		testBegin( "testLog" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = exp( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testExp4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testExp4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = exp( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLog1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLog1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = log( v );
 				} );
 			test::writeShader( writer
@@ -1121,66 +459,25 @@ namespace
 		testEnd();
 	}
 
-	void testLog2F( test::sdw_test::TestCounts & testCounts )
+	void testLog( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = log( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testLogT< sdw::Float >( "1F", testCounts );
+		testLogT< sdw::Vec2 >( "2F", testCounts );
+		testLogT< sdw::Vec3 >( "3F", testCounts );
+		testLogT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testLog3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testExp2T( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog3F" );
+		testBegin( "testExp2_" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = log( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLog4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLog4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = log( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testExp21F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testExp21F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = exp2( v );
 				} );
 			test::writeShader( writer
@@ -1189,66 +486,25 @@ namespace
 		testEnd();
 	}
 
-	void testExp22F( test::sdw_test::TestCounts & testCounts )
+	void testExp2( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp22F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = exp2( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testExp2T< sdw::Float >( "1F", testCounts );
+		testExp2T< sdw::Vec2 >( "2F", testCounts );
+		testExp2T< sdw::Vec3 >( "3F", testCounts );
+		testExp2T< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testExp23F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testLog2T( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp23F" );
+		testBegin( "testLog2_" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = exp2( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testExp24F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testExp24F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = exp2( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLog21F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLog21F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = log2( v );
 				} );
 			test::writeShader( writer
@@ -1257,66 +513,25 @@ namespace
 		testEnd();
 	}
 
-	void testLog22F( test::sdw_test::TestCounts & testCounts )
+	void testLog2( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog22F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = log2( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testLog2T< sdw::Float >( "1F", testCounts );
+		testLog2T< sdw::Vec2 >( "2F", testCounts );
+		testLog2T< sdw::Vec3 >( "3F", testCounts );
+		testLog2T< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testLog23F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testSqrtT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog23F" );
+		testBegin( "testSqrt" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = log2( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLog24F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLog24F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = log2( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSqrt1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSqrt1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = sqrt( v );
 				} );
 			test::writeShader( writer
@@ -1325,134 +540,29 @@ namespace
 		testEnd();
 	}
 
-	void testSqrt2F( test::sdw_test::TestCounts & testCounts )
+	void testSqrt( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSqrt2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testSqrtT< sdw::Float >( "1F", testCounts );
+		testSqrtT< sdw::Vec2 >( "2F", testCounts );
+		testSqrtT< sdw::Vec3 >( "3F", testCounts );
+		testSqrtT< sdw::Vec4 >( "4F", testCounts );
+		testSqrtT< sdw::Double >( "1D", testCounts );
+		testSqrtT< sdw::DVec2 >( "2D", testCounts );
+		testSqrtT< sdw::DVec3 >( "3D", testCounts );
+		testSqrtT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testSqrt3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testInverseSqrtT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSqrt3F" );
+		testBegin( "testInverseSqrt" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSqrt4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSqrt4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSqrt1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSqrt1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSqrt2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSqrt2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSqrt3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSqrt3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSqrt4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSqrt4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = sqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverseSqrt1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverseSqrt1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = inverseSqrt( v );
 				} );
 			test::writeShader( writer
@@ -1461,134 +571,29 @@ namespace
 		testEnd();
 	}
 
-	void testInverseSqrt2F( test::sdw_test::TestCounts & testCounts )
+	void testInverseSqrt( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInverseSqrt2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testInverseSqrtT< sdw::Float >( "1F", testCounts );
+		testInverseSqrtT< sdw::Vec2 >( "2F", testCounts );
+		testInverseSqrtT< sdw::Vec3 >( "3F", testCounts );
+		testInverseSqrtT< sdw::Vec4 >( "4F", testCounts );
+		testInverseSqrtT< sdw::Double >( "1D", testCounts );
+		testInverseSqrtT< sdw::DVec2 >( "2D", testCounts );
+		testInverseSqrtT< sdw::DVec3 >( "3D", testCounts );
+		testInverseSqrtT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testInverseSqrt3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testAbsT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInverseSqrt3F" );
+		testBegin( "testAbs" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverseSqrt4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverseSqrt4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverseSqrt1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverseSqrt1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverseSqrt2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverseSqrt2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverseSqrt3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverseSqrt3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverseSqrt4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverseSqrt4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = inverseSqrt( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = abs( v );
 				} );
 			test::writeShader( writer
@@ -1597,202 +602,33 @@ namespace
 		testEnd();
 	}
 
-	void testAbs2F( test::sdw_test::TestCounts & testCounts )
+	void testAbs( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAbs2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testAbsT< sdw::Float >( "1F", testCounts );
+		testAbsT< sdw::Vec2 >( "2F", testCounts );
+		testAbsT< sdw::Vec3 >( "3F", testCounts );
+		testAbsT< sdw::Vec4 >( "4F", testCounts );
+		testAbsT< sdw::Double >( "1D", testCounts );
+		testAbsT< sdw::DVec2 >( "2D", testCounts );
+		testAbsT< sdw::DVec3 >( "3D", testCounts );
+		testAbsT< sdw::DVec4 >( "4D", testCounts );
+		testAbsT< sdw::Int >( "1I", testCounts );
+		testAbsT< sdw::IVec2 >( "2I", testCounts );
+		testAbsT< sdw::IVec3 >( "3I", testCounts );
+		testAbsT< sdw::IVec4 >( "4I", testCounts );
 	}
 
-	void testAbs3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testSignT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAbs3F" );
+		testBegin( "testSign" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Int >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< IVec2 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs3I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< IVec3 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAbs4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAbs4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< IVec4 >( "v" );
-					v = abs( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = sign( v );
 				} );
 			test::writeShader( writer
@@ -1801,202 +637,33 @@ namespace
 		testEnd();
 	}
 
-	void testSign2F( test::sdw_test::TestCounts & testCounts )
+	void testSign( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSign2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testSignT< sdw::Float >( "1F", testCounts );
+		testSignT< sdw::Vec2 >( "2F", testCounts );
+		testSignT< sdw::Vec3 >( "3F", testCounts );
+		testSignT< sdw::Vec4 >( "4F", testCounts );
+		testSignT< sdw::Double >( "1D", testCounts );
+		testSignT< sdw::DVec2 >( "2D", testCounts );
+		testSignT< sdw::DVec3 >( "3D", testCounts );
+		testSignT< sdw::DVec4 >( "4D", testCounts );
+		testSignT< sdw::Int >( "1I", testCounts );
+		testSignT< sdw::IVec2 >( "2I", testCounts );
+		testSignT< sdw::IVec3 >( "3I", testCounts );
+		testSignT< sdw::IVec4 >( "4I", testCounts );
 	}
 
-	void testSign3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFloorT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSign3F" );
+		testBegin( "testFloor" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Int >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< IVec2 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign3I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< IVec3 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSign4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSign4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< IVec4 >( "v" );
-					v = sign( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloor1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloor1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = floor( v );
 				} );
 			test::writeShader( writer
@@ -2005,134 +672,29 @@ namespace
 		testEnd();
 	}
 
-	void testFloor2F( test::sdw_test::TestCounts & testCounts )
+	void testFloor( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloor2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFloorT< sdw::Float >( "1F", testCounts );
+		testFloorT< sdw::Vec2 >( "2F", testCounts );
+		testFloorT< sdw::Vec3 >( "3F", testCounts );
+		testFloorT< sdw::Vec4 >( "4F", testCounts );
+		testFloorT< sdw::Double >( "1D", testCounts );
+		testFloorT< sdw::DVec2 >( "2D", testCounts );
+		testFloorT< sdw::DVec3 >( "3D", testCounts );
+		testFloorT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testFloor3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testTruncT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloor3F" );
+		testBegin( "testTrunc" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloor4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloor4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloor1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloor1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloor2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloor2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloor3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloor3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloor4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloor4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = floor( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTrunc1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTrunc1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = trunc( v );
 				} );
 			test::writeShader( writer
@@ -2141,134 +703,29 @@ namespace
 		testEnd();
 	}
 
-	void testTrunc2F( test::sdw_test::TestCounts & testCounts )
+	void testTrunc( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTrunc2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testTruncT< sdw::Float >( "1F", testCounts );
+		testTruncT< sdw::Vec2 >( "2F", testCounts );
+		testTruncT< sdw::Vec3 >( "3F", testCounts );
+		testTruncT< sdw::Vec4 >( "4F", testCounts );
+		testTruncT< sdw::Double >( "1D", testCounts );
+		testTruncT< sdw::DVec2 >( "2D", testCounts );
+		testTruncT< sdw::DVec3 >( "3D", testCounts );
+		testTruncT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testTrunc3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testRoundT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTrunc3F" );
+		testBegin( "testRound" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTrunc4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTrunc4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTrunc1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTrunc1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTrunc2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTrunc2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTrunc3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTrunc3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testTrunc4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTrunc4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = trunc( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRound1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRound1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = round( v );
 				} );
 			test::writeShader( writer
@@ -2277,134 +734,29 @@ namespace
 		testEnd();
 	}
 
-	void testRound2F( test::sdw_test::TestCounts & testCounts )
+	void testRound( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRound2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testRoundT< sdw::Float >( "1F", testCounts );
+		testRoundT< sdw::Vec2 >( "2F", testCounts );
+		testRoundT< sdw::Vec3 >( "3F", testCounts );
+		testRoundT< sdw::Vec4 >( "4F", testCounts );
+		testRoundT< sdw::Double >( "1D", testCounts );
+		testRoundT< sdw::DVec2 >( "2D", testCounts );
+		testRoundT< sdw::DVec3 >( "3D", testCounts );
+		testRoundT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testRound3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testRoundEvenT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRound3F" );
+		testBegin( "testRoundEven" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRound4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRound4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRound1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRound1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRound2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRound2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRound3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRound3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRound4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRound4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = round( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRoundEven1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRoundEven1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = roundEven( v );
 				} );
 			test::writeShader( writer
@@ -2413,134 +765,29 @@ namespace
 		testEnd();
 	}
 
-	void testRoundEven2F( test::sdw_test::TestCounts & testCounts )
+	void testRoundEven( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRoundEven2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testRoundEvenT< sdw::Float >( "1F", testCounts );
+		testRoundEvenT< sdw::Vec2 >( "2F", testCounts );
+		testRoundEvenT< sdw::Vec3 >( "3F", testCounts );
+		testRoundEvenT< sdw::Vec4 >( "4F", testCounts );
+		testRoundEvenT< sdw::Double >( "1D", testCounts );
+		testRoundEvenT< sdw::DVec2 >( "2D", testCounts );
+		testRoundEvenT< sdw::DVec3 >( "3D", testCounts );
+		testRoundEvenT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testRoundEven3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testCeilT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRoundEven3F" );
+		testBegin( "testCeil" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRoundEven4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRoundEven4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRoundEven1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRoundEven1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRoundEven2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRoundEven2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRoundEven3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRoundEven3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRoundEven4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRoundEven4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = roundEven( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCeil1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCeil1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = ceil( v );
 				} );
 			test::writeShader( writer
@@ -2549,134 +796,29 @@ namespace
 		testEnd();
 	}
 
-	void testCeil2F( test::sdw_test::TestCounts & testCounts )
+	void testCeil( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCeil2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testCeilT< sdw::Float >( "1F", testCounts );
+		testCeilT< sdw::Vec2 >( "2F", testCounts );
+		testCeilT< sdw::Vec3 >( "3F", testCounts );
+		testCeilT< sdw::Vec4 >( "4F", testCounts );
+		testCeilT< sdw::Double >( "1D", testCounts );
+		testCeilT< sdw::DVec2 >( "2D", testCounts );
+		testCeilT< sdw::DVec3 >( "3D", testCounts );
+		testCeilT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testCeil3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFractT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCeil3F" );
+		testBegin( "testFract" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCeil4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCeil4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCeil1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCeil1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCeil2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCeil2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCeil3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCeil3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCeil4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCeil4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = ceil( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFract1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFract1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Float >( "v" );
+					auto v = writer.declLocale< ValueT >( "v" );
 					v = fract( v );
 				} );
 			test::writeShader( writer
@@ -2685,135 +827,30 @@ namespace
 		testEnd();
 	}
 
-	void testFract2F( test::sdw_test::TestCounts & testCounts )
+	void testFract( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFract2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec2 >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFractT< sdw::Float >( "1F", testCounts );
+		testFractT< sdw::Vec2 >( "2F", testCounts );
+		testFractT< sdw::Vec3 >( "3F", testCounts );
+		testFractT< sdw::Vec4 >( "4F", testCounts );
+		testFractT< sdw::Double >( "1D", testCounts );
+		testFractT< sdw::DVec2 >( "2D", testCounts );
+		testFractT< sdw::DVec3 >( "3D", testCounts );
+		testFractT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testFract3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testModT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFract3F" );
+		testBegin( "testMod" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v = writer.declLocale< Vec3 >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFract4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFract4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Vec4 >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFract1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFract1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< Double >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFract2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFract2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec2 >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFract3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFract3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec3 >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFract4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFract4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v = writer.declLocale< DVec4 >( "v" );
-					v = fract( v );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMod1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMod1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
 					v1 = mod( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -2822,142 +859,30 @@ namespace
 		testEnd();
 	}
 
-	void testMod2F( test::sdw_test::TestCounts & testCounts )
+	void testMod( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMod2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testModT< sdw::Float >( "1F", testCounts );
+		testModT< sdw::Vec2 >( "2F", testCounts );
+		testModT< sdw::Vec3 >( "3F", testCounts );
+		testModT< sdw::Vec4 >( "4F", testCounts );
+		testModT< sdw::Double >( "1D", testCounts );
+		testModT< sdw::DVec2 >( "2D", testCounts );
+		testModT< sdw::DVec3 >( "3D", testCounts );
+		testModT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testMod3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testModfT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMod3F" );
+		testBegin( "testModf" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMod4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMod4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMod1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMod1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMod2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMod2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMod3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMod3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMod4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMod4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					v1 = mod( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testModf1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testModf1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
 					v1 = modf( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -2966,142 +891,30 @@ namespace
 		testEnd();
 	}
 
-	void testModf2F( test::sdw_test::TestCounts & testCounts )
+	void testModf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testModf2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testModfT< sdw::Float >( "1F", testCounts );
+		testModfT< sdw::Vec2 >( "2F", testCounts );
+		testModfT< sdw::Vec3 >( "3F", testCounts );
+		testModfT< sdw::Vec4 >( "4F", testCounts );
+		testModfT< sdw::Double >( "1D", testCounts );
+		testModfT< sdw::DVec2 >( "2D", testCounts );
+		testModfT< sdw::DVec3 >( "3D", testCounts );
+		testModfT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testModf3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testMinT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testModf3F" );
+		testBegin( "testMin" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testModf4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testModf4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testModf1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testModf1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testModf2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testModf2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testModf3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testModf3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testModf4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testModf4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					v1 = modf( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
 					v1 = min( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -3110,286 +923,38 @@ namespace
 		testEnd();
 	}
 
-	void testMin2F( test::sdw_test::TestCounts & testCounts )
+	void testMin( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMin2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testMinT< sdw::Float >( "1F", testCounts );
+		testMinT< sdw::Vec2 >( "2F", testCounts );
+		testMinT< sdw::Vec3 >( "3F", testCounts );
+		testMinT< sdw::Vec4 >( "4F", testCounts );
+		testMinT< sdw::Double >( "1D", testCounts );
+		testMinT< sdw::DVec2 >( "2D", testCounts );
+		testMinT< sdw::DVec3 >( "3D", testCounts );
+		testMinT< sdw::DVec4 >( "4D", testCounts );
+		testMinT< sdw::Int >( "1I", testCounts );
+		testMinT< sdw::IVec2 >( "2I", testCounts );
+		testMinT< sdw::IVec3 >( "3I", testCounts );
+		testMinT< sdw::IVec4 >( "4I", testCounts );
+		testMinT< sdw::UInt >( "1U", testCounts );
+		testMinT< sdw::UVec2 >( "2U", testCounts );
+		testMinT< sdw::UVec3 >( "3U", testCounts );
+		testMinT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testMin3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testMaxT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMin3F" );
+		testBegin( "testMax" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Int >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec2 >( "v1" );
-					auto v2 = writer.declLocale< IVec2 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin3I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec3 >( "v1" );
-					auto v2 = writer.declLocale< IVec3 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec4 >( "v1" );
-					auto v2 = writer.declLocale< IVec4 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UInt >( "v1" );
-					auto v2 = writer.declLocale< UInt >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec2 >( "v1" );
-					auto v2 = writer.declLocale< UVec2 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec3 >( "v1" );
-					auto v2 = writer.declLocale< UVec3 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMin4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMin4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec4 >( "v1" );
-					auto v2 = writer.declLocale< UVec4 >( "v2" );
-					v1 = min( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
 					v1 = max( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -3398,287 +963,39 @@ namespace
 		testEnd();
 	}
 
-	void testMax2F( test::sdw_test::TestCounts & testCounts )
+	void testMax( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMax2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testMaxT< sdw::Float >( "1F", testCounts );
+		testMaxT< sdw::Vec2 >( "2F", testCounts );
+		testMaxT< sdw::Vec3 >( "3F", testCounts );
+		testMaxT< sdw::Vec4 >( "4F", testCounts );
+		testMaxT< sdw::Double >( "1D", testCounts );
+		testMaxT< sdw::DVec2 >( "2D", testCounts );
+		testMaxT< sdw::DVec3 >( "3D", testCounts );
+		testMaxT< sdw::DVec4 >( "4D", testCounts );
+		testMaxT< sdw::Int >( "1I", testCounts );
+		testMaxT< sdw::IVec2 >( "2I", testCounts );
+		testMaxT< sdw::IVec3 >( "3I", testCounts );
+		testMaxT< sdw::IVec4 >( "4I", testCounts );
+		testMaxT< sdw::UInt >( "1U", testCounts );
+		testMaxT< sdw::UVec2 >( "2U", testCounts );
+		testMaxT< sdw::UVec3 >( "3U", testCounts );
+		testMaxT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testMax3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testClampT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMax3F" );
+		testBegin( "testClamp" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Int >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec2 >( "v1" );
-					auto v2 = writer.declLocale< IVec2 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax3I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec3 >( "v1" );
-					auto v2 = writer.declLocale< IVec3 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec4 >( "v1" );
-					auto v2 = writer.declLocale< IVec4 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UInt >( "v1" );
-					auto v2 = writer.declLocale< UInt >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec2 >( "v1" );
-					auto v2 = writer.declLocale< UVec2 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec3 >( "v1" );
-					auto v2 = writer.declLocale< UVec3 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMax4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMax4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec4 >( "v1" );
-					auto v2 = writer.declLocale< UVec4 >( "v2" );
-					v1 = max( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testClamp1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testClamp1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					auto v3 = writer.declLocale< ValueT >( "v3" );
 					v1 = clamp( v1, v2, v3 );
 				} );
 			test::writeShader( writer
@@ -3687,150 +1004,31 @@ namespace
 		testEnd();
 	}
 
-	void testClamp2F( test::sdw_test::TestCounts & testCounts )
+	void testClamp( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testClamp2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					auto v3 = writer.declLocale< Vec2 >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testClampT< sdw::Float >( "1F", testCounts );
+		testClampT< sdw::Vec2 >( "2F", testCounts );
+		testClampT< sdw::Vec3 >( "3F", testCounts );
+		testClampT< sdw::Vec4 >( "4F", testCounts );
+		testClampT< sdw::Double >( "1D", testCounts );
+		testClampT< sdw::DVec2 >( "2D", testCounts );
+		testClampT< sdw::DVec3 >( "3D", testCounts );
+		testClampT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testClamp3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testMixT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testClamp3F" );
+		testBegin( "testMix" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					auto v3 = writer.declLocale< Vec3 >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testClamp4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testClamp4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					auto v3 = writer.declLocale< Vec4 >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testClamp1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testClamp1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					auto v3 = writer.declLocale< Double >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testClamp2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testClamp2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					auto v3 = writer.declLocale< DVec2 >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testClamp3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testClamp3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					auto v3 = writer.declLocale< DVec3 >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testClamp4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testClamp4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					auto v3 = writer.declLocale< DVec4 >( "v3" );
-					v1 = clamp( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMix1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMix1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					auto v3 = writer.declLocale< ValueT >( "v3" );
 					v1 = mix( v1, v2, v3 );
 				} );
 			test::writeShader( writer
@@ -3839,149 +1037,30 @@ namespace
 		testEnd();
 	}
 
-	void testMix2F( test::sdw_test::TestCounts & testCounts )
+	void testMix( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMix2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					auto v3 = writer.declLocale< Vec2 >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testMixT< sdw::Float >( "1F", testCounts );
+		testMixT< sdw::Vec2 >( "2F", testCounts );
+		testMixT< sdw::Vec3 >( "3F", testCounts );
+		testMixT< sdw::Vec4 >( "4F", testCounts );
+		testMixT< sdw::Double >( "1D", testCounts );
+		testMixT< sdw::DVec2 >( "2D", testCounts );
+		testMixT< sdw::DVec3 >( "3D", testCounts );
+		testMixT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testMix3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testStepT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMix3F" );
+		testBegin( "testStep" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					auto v3 = writer.declLocale< Vec3 >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMix4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMix4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					auto v3 = writer.declLocale< Vec4 >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMix1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMix1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					auto v3 = writer.declLocale< Double >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMix2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMix2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					auto v3 = writer.declLocale< DVec2 >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMix3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMix3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					auto v3 = writer.declLocale< DVec3 >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testMix4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMix4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					auto v3 = writer.declLocale< DVec4 >( "v3" );
-					v1 = mix( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testStep1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testStep1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
 					v1 = step( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -3990,143 +1069,31 @@ namespace
 		testEnd();
 	}
 
-	void testStep2F( test::sdw_test::TestCounts & testCounts )
+	void testStep( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testStep2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testStepT< sdw::Float >( "1F", testCounts );
+		testStepT< sdw::Vec2 >( "2F", testCounts );
+		testStepT< sdw::Vec3 >( "3F", testCounts );
+		testStepT< sdw::Vec4 >( "4F", testCounts );
+		testStepT< sdw::Double >( "1D", testCounts );
+		testStepT< sdw::DVec2 >( "2D", testCounts );
+		testStepT< sdw::DVec3 >( "3D", testCounts );
+		testStepT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testStep3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testSmoothStepT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testStep3F" );
+		testBegin( "testSmoothStep" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testStep4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testStep4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testStep1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testStep1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testStep2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testStep2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testStep3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testStep3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testStep4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testStep4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					v1 = step( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSmoothStep1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSmoothStep1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					auto v3 = writer.declLocale< ValueT >( "v3" );
 					v1 = smoothStep( v1, v2, v3 );
 				} );
 			test::writeShader( writer
@@ -4135,420 +1102,93 @@ namespace
 		testEnd();
 	}
 
-	void testSmoothStep2F( test::sdw_test::TestCounts & testCounts )
+	void testSmoothStep( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSmoothStep2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					auto v3 = writer.declLocale< Vec2 >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testSmoothStepT< sdw::Float >( "1F", testCounts );
+		testSmoothStepT< sdw::Vec2 >( "2F", testCounts );
+		testSmoothStepT< sdw::Vec3 >( "3F", testCounts );
+		testSmoothStepT< sdw::Vec4 >( "4F", testCounts );
+		testSmoothStepT< sdw::Double >( "1D", testCounts );
+		testSmoothStepT< sdw::DVec2 >( "2D", testCounts );
+		testSmoothStepT< sdw::DVec3 >( "3D", testCounts );
+		testSmoothStepT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testSmoothStep3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testIsnanT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testSmoothStep3F" );
+		testBegin( "testIsnan" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					auto v3 = writer.declLocale< Vec3 >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSmoothStep4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSmoothStep4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					auto v3 = writer.declLocale< Vec4 >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSmoothStep1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSmoothStep1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					auto v3 = writer.declLocale< Double >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSmoothStep2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSmoothStep2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					auto v3 = writer.declLocale< DVec2 >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSmoothStep3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSmoothStep3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					auto v3 = writer.declLocale< DVec3 >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testSmoothStep4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testSmoothStep4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					auto v3 = writer.declLocale< DVec4 >( "v3" );
-					v1 = smoothStep( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsnan1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					writer.declLocale( "r", sdw::isnan( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 		}
 		testEnd();
 	}
 
-	void testIsnan2F( test::sdw_test::TestCounts & testCounts )
+	void testIsnan( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIsnan2F" );
+		testIsnanT< sdw::Float >( "1F", testCounts );
+		testIsnanT< sdw::Vec2 >( "2F", testCounts );
+		testIsnanT< sdw::Vec3 >( "3F", testCounts );
+		testIsnanT< sdw::Vec4 >( "4F", testCounts );
+		testIsnanT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testIsnanT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testIsnanT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testIsnanT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testIsinfT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testIsinf" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsnan3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsnan4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsnan1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsnan2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsnan3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsnan4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsnan4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					writer.declLocale( "r", sdw::isnan( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsinf1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					writer.declLocale( "r", sdw::isinf( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 		}
 		testEnd();
 	}
 
-	void testIsinf2F( test::sdw_test::TestCounts & testCounts )
+	void testIsinf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIsinf2F" );
+		testIsinfT< sdw::Float >( "1F", testCounts );
+		testIsinfT< sdw::Vec2 >( "2F", testCounts );
+		testIsinfT< sdw::Vec3 >( "3F", testCounts );
+		testIsinfT< sdw::Vec4 >( "4F", testCounts );
+		testIsinfT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testIsinfT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testIsinfT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testIsinfT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testFloatBitsToIntT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testFloatBitsToInt" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsinf3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsinf4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIsinf1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsinf2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsinf3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testIsinf4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIsinf4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					writer.declLocale( "r", sdw::isinf( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testFloatBitsToInt1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloatBitsToInt1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto res = writer.declLocale( "res"
 						, floatBitsToInt( v1 ) );
 				} );
@@ -4558,69 +1198,25 @@ namespace
 		testEnd();
 	}
 
-	void testFloatBitsToInt2( test::sdw_test::TestCounts & testCounts )
+	void testFloatBitsToInt( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloatBitsToInt2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, floatBitsToInt( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFloatBitsToIntT< sdw::Float >( "1F", testCounts );
+		testFloatBitsToIntT< sdw::Vec2 >( "2F", testCounts );
+		testFloatBitsToIntT< sdw::Vec3 >( "3F", testCounts );
+		testFloatBitsToIntT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testFloatBitsToInt3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFloatBitsToUIntT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloatBitsToInt3" );
+		testBegin( "testFloatBitsToUInt" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, floatBitsToInt( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloatBitsToInt4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloatBitsToInt4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, floatBitsToInt( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloatBitsToUInt1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloatBitsToUInt1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto res = writer.declLocale( "res"
 						, floatBitsToUInt( v1 ) );
 				} );
@@ -4630,69 +1226,25 @@ namespace
 		testEnd();
 	}
 
-	void testFloatBitsToUInt2( test::sdw_test::TestCounts & testCounts )
+	void testFloatBitsToUInt( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloatBitsToUInt2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, floatBitsToUInt( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFloatBitsToUIntT< sdw::Float >( "1F", testCounts );
+		testFloatBitsToUIntT< sdw::Vec2 >( "2F", testCounts );
+		testFloatBitsToUIntT< sdw::Vec3 >( "3F", testCounts );
+		testFloatBitsToUIntT< sdw::Vec4 >( "4F", testCounts );
 	}
 
-	void testFloatBitsToUInt3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testIntBitsToFloatT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloatBitsToUInt3" );
+		testBegin( "testIntBitsToFloat" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, floatBitsToUInt( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFloatBitsToUInt4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFloatBitsToUInt4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, floatBitsToUInt( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIntBitsToFloat1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIntBitsToFloat1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Int >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto res = writer.declLocale( "res"
 						, intBitsToFloat( v1 ) );
 				} );
@@ -4702,69 +1254,25 @@ namespace
 		testEnd();
 	}
 
-	void testIntBitsToFloat2( test::sdw_test::TestCounts & testCounts )
+	void testIntBitsToFloat( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIntBitsToFloat2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec2 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, intBitsToFloat( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testIntBitsToFloatT< sdw::Int >( "1I", testCounts );
+		testIntBitsToFloatT< sdw::IVec2 >( "2I", testCounts );
+		testIntBitsToFloatT< sdw::IVec3 >( "3I", testCounts );
+		testIntBitsToFloatT< sdw::IVec4 >( "4I", testCounts );
 	}
 
-	void testIntBitsToFloat3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testUIntBitsToFloatT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIntBitsToFloat3" );
+		testBegin( "testUIntBitsToFloat" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< IVec3 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, intBitsToFloat( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testIntBitsToFloat4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testIntBitsToFloat4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< IVec4 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, intBitsToFloat( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testUIntBitsToFloat1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUIntBitsToFloat1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UInt >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto res = writer.declLocale( "res"
 						, uintBitsToFloat( v1 ) );
 				} );
@@ -4774,71 +1282,27 @@ namespace
 		testEnd();
 	}
 
-	void testUIntBitsToFloat2( test::sdw_test::TestCounts & testCounts )
+	void testUIntBitsToFloat( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUIntBitsToFloat2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec2 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, uintBitsToFloat( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testUIntBitsToFloatT< sdw::UInt >( "1U", testCounts );
+		testUIntBitsToFloatT< sdw::UVec2 >( "2U", testCounts );
+		testUIntBitsToFloatT< sdw::UVec3 >( "3U", testCounts );
+		testUIntBitsToFloatT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testUIntBitsToFloat3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFmaT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUIntBitsToFloat3" );
+		testBegin( "testFma" + name );
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< UVec3 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, uintBitsToFloat( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testUIntBitsToFloat4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUIntBitsToFloat4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< UVec4 >( "v1" );
-					auto res = writer.declLocale( "res"
-						, uintBitsToFloat( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFma1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFma1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					auto v3 = writer.declLocale< ValueT >( "v3" );
 					v1 = fma( v1, v2, v3 );
 				} );
 			test::writeShader( writer
@@ -4847,149 +1311,30 @@ namespace
 		testEnd();
 	}
 
-	void testFma2F( test::sdw_test::TestCounts & testCounts )
+	void testFma( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFma2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					auto v3 = writer.declLocale< Vec2 >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFmaT< sdw::Float >( "1F", testCounts );
+		testFmaT< sdw::Vec2 >( "2F", testCounts );
+		testFmaT< sdw::Vec3 >( "3F", testCounts );
+		testFmaT< sdw::Vec4 >( "4F", testCounts );
+		testFmaT< sdw::Double >( "1D", testCounts );
+		testFmaT< sdw::DVec2 >( "2D", testCounts );
+		testFmaT< sdw::DVec3 >( "3D", testCounts );
+		testFmaT< sdw::DVec4 >( "4D", testCounts );
 	}
 
-	void testFma3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT, typename ValueU >
+	void testFrexpT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFma3F" );
+		testBegin( "testFrexp" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					auto v3 = writer.declLocale< Vec3 >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFma4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFma4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					auto v3 = writer.declLocale< Vec4 >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFma1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFma1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					auto v3 = writer.declLocale< Double >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFma2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFma2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					auto v3 = writer.declLocale< DVec2 >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFma3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFma3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					auto v3 = writer.declLocale< DVec3 >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFma4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFma4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					auto v3 = writer.declLocale< DVec4 >( "v3" );
-					v1 = fma( v1, v2, v3 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFrexp1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFrexp1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueU >( "v2" );
 					v1 = frexp( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -4998,142 +1343,30 @@ namespace
 		testEnd();
 	}
 
-	void testFrexp2F( test::sdw_test::TestCounts & testCounts )
+	void testFrexp( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFrexp2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< IVec2 >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFrexpT< sdw::Float, sdw::Int >( "1F", testCounts );
+		testFrexpT< sdw::Vec2, sdw::IVec2 >( "2F", testCounts );
+		testFrexpT< sdw::Vec3, sdw::IVec3 >( "3F", testCounts );
+		testFrexpT< sdw::Vec4, sdw::IVec4 >( "4F", testCounts );
+		testFrexpT< sdw::Double, sdw::Int >( "1D", testCounts );
+		testFrexpT< sdw::DVec2, sdw::IVec2 >( "2D", testCounts );
+		testFrexpT< sdw::DVec3, sdw::IVec3 >( "3D", testCounts );
+		testFrexpT< sdw::DVec4, sdw::IVec4 >( "4D", testCounts );
 	}
 
-	void testFrexp3F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT, typename ValueU >
+	void testLdexpT( std::string name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFrexp3F" );
+		testBegin( "testLdexp" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< IVec3 >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFrexp4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFrexp4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< IVec4 >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFrexp1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFrexp1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFrexp2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFrexp2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< IVec2 >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFrexp3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFrexp3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< IVec3 >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFrexp4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFrexp4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< IVec4 >( "v2" );
-					v1 = frexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueU >( "v2" );
 					v1 = ldexp( v1, v2 );
 				} );
 			test::writeShader( writer
@@ -5142,130 +1375,16 @@ namespace
 		testEnd();
 	}
 
-	void testLdexp2F( test::sdw_test::TestCounts & testCounts )
+	void testLdexp( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLdexp2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< IVec2 >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< IVec3 >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< IVec4 >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Int >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< IVec2 >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< IVec3 >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLdexp4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLdexp4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< IVec4 >( "v2" );
-					v1 = ldexp( v1, v2 );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testLdexpT< sdw::Float, sdw::Int >( "1F", testCounts );
+		testLdexpT< sdw::Vec2, sdw::IVec2 >( "2F", testCounts );
+		testLdexpT< sdw::Vec3, sdw::IVec3 >( "3F", testCounts );
+		testLdexpT< sdw::Vec4, sdw::IVec4 >( "4F", testCounts );
+		testLdexpT< sdw::Double, sdw::Int >( "1D", testCounts );
+		testLdexpT< sdw::DVec2, sdw::IVec2 >( "2D", testCounts );
+		testLdexpT< sdw::DVec3, sdw::IVec3 >( "3D", testCounts );
+		testLdexpT< sdw::DVec4, sdw::IVec4 >( "4D", testCounts );
 	}
 
 	void testPackDouble2x32( test::sdw_test::TestCounts & testCounts )
@@ -5484,1018 +1603,267 @@ namespace
 		testEnd();
 	}
 
-	void testLength1F( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testLengthT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testLength1F" );
+		testBegin( "testLength" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					writer.declLocale( "r", length( v1 ) );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 		}
 		testEnd();
 	}
 
-	void testLength2F( test::sdw_test::TestCounts & testCounts )
+	void testLength( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLength2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLength3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLength3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLength4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLength4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testLength1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLength1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testLength2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLength2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testLength3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLength3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testLength4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLength4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					writer.declLocale( "r", length( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDistance1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDistance2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDistance3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDistance4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDistance1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDistance2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDistance3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDistance4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDistance4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					writer.declLocale( "r", distance( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDot2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					writer.declLocale( "r", dot( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDot3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					writer.declLocale( "r", dot( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDot4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					writer.declLocale( "r", dot( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDot2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					writer.declLocale( "r", dot( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDot3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					writer.declLocale( "r", dot( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDot4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDot4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					writer.declLocale( "r", dot( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testCrossF( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCrossF" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					writer.declLocale( "r", cross( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testCrossD( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testCrossD" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					writer.declLocale( "r", cross( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testNormalize1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testNormalize2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testNormalize3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testNormalize4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testNormalize1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testNormalize2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testNormalize3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testNormalize4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNormalize4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					writer.declLocale( "r", normalize( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testFaceForward1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFaceForward2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					auto v3 = writer.declLocale< Vec2 >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFaceForward3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					auto v3 = writer.declLocale< Vec3 >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFaceForward4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					auto v3 = writer.declLocale< Vec4 >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFaceForward1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					auto v3 = writer.declLocale< Double >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testFaceForward2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					auto v3 = writer.declLocale< DVec2 >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testFaceForward3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					auto v3 = writer.declLocale< DVec3 >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testFaceForward4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFaceForward4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					auto v3 = writer.declLocale< DVec4 >( "v3" );
-					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testReflect1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testReflect2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testReflect3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testReflect4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testReflect1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testReflect2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testReflect3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testReflect4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testReflect4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					writer.declLocale( "r", reflect( v1, v2 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testRefract1F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract1F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
-					auto v2 = writer.declLocale< Float >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRefract2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto v2 = writer.declLocale< Vec2 >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRefract3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto v2 = writer.declLocale< Vec3 >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRefract4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto v2 = writer.declLocale< Vec4 >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testRefract1D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract1D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< Double >( "v1" );
-					auto v2 = writer.declLocale< Double >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testRefract2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec2 >( "v1" );
-					auto v2 = writer.declLocale< DVec2 >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testRefract3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec3 >( "v1" );
-					auto v2 = writer.declLocale< DVec3 >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testRefract4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testRefract4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto v1 = writer.declLocale< DVec4 >( "v1" );
-					auto v2 = writer.declLocale< DVec4 >( "v2" );
-					auto v3 = writer.declLocale< Float >( "v3" );
-					writer.declLocale( "r", refract( v1, v2, v3 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
+		testLengthT< sdw::Float >( "1F", testCounts );
+		testLengthT< sdw::Vec2 >( "2F", testCounts );
+		testLengthT< sdw::Vec3 >( "3F", testCounts );
+		testLengthT< sdw::Vec4 >( "4F", testCounts );
+		testLengthT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testLengthT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testLengthT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testLengthT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
 	}
 
 	template< typename ValueT >
-	void testMatrixCompMult( std::string const & testName
+	void testDistanceT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testDistance" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					writer.declLocale( "r", distance( v1, v2 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testDistance( test::sdw_test::TestCounts & testCounts )
+	{
+		testDistanceT< sdw::Float >( "1F", testCounts );
+		testDistanceT< sdw::Vec2 >( "2F", testCounts );
+		testDistanceT< sdw::Vec3 >( "3F", testCounts );
+		testDistanceT< sdw::Vec4 >( "4F", testCounts );
+		testDistanceT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testDistanceT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testDistanceT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testDistanceT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testDotT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testDot" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					writer.declLocale( "r", dot( v1, v2 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testDot( test::sdw_test::TestCounts & testCounts )
+	{
+		testDotT< sdw::Vec2 >( "2F", testCounts );
+		testDotT< sdw::Vec3 >( "3F", testCounts );
+		testDotT< sdw::Vec4 >( "4F", testCounts );
+		testDotT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testDotT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testDotT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testCrossT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testCross" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					writer.declLocale( "r", cross( v1, v2 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testCross( test::sdw_test::TestCounts & testCounts )
+	{
+		testCrossT< sdw::Vec3 >( "3F", testCounts );
+		testCrossT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testNormalizeT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testNormalize" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					writer.declLocale( "r", normalize( v1 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testNormalize( test::sdw_test::TestCounts & testCounts )
+	{
+		testNormalizeT< sdw::Float >( "1F", testCounts );
+		testNormalizeT< sdw::Vec2 >( "2F", testCounts );
+		testNormalizeT< sdw::Vec3 >( "3F", testCounts );
+		testNormalizeT< sdw::Vec4 >( "4F", testCounts );
+		testNormalizeT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testNormalizeT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testNormalizeT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testNormalizeT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testFaceForwardT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testFaceForward" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					auto v3 = writer.declLocale< ValueT >( "v3" );
+					writer.declLocale( "r", faceForward( v1, v2, v3 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testFaceForward( test::sdw_test::TestCounts & testCounts )
+	{
+		testFaceForwardT< sdw::Float >( "1F", testCounts );
+		testFaceForwardT< sdw::Vec2 >( "2F", testCounts );
+		testFaceForwardT< sdw::Vec3 >( "3F", testCounts );
+		testFaceForwardT< sdw::Vec4 >( "4F", testCounts );
+		testFaceForwardT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testFaceForwardT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testFaceForwardT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testFaceForwardT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testReflectT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testReflect" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					writer.declLocale( "r", reflect( v1, v2 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testReflect( test::sdw_test::TestCounts & testCounts )
+	{
+		testReflectT< sdw::Float >( "1F", testCounts );
+		testReflectT< sdw::Vec2 >( "2F", testCounts );
+		testReflectT< sdw::Vec3 >( "3F", testCounts );
+		testReflectT< sdw::Vec4 >( "4F", testCounts );
+		testReflectT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testReflectT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testReflectT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testReflectT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testRefractT( std::string name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testRefract" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto v1 = writer.declLocale< ValueT >( "v1" );
+					auto v2 = writer.declLocale< ValueT >( "v2" );
+					auto v3 = writer.declLocale< Float >( "v3" );
+					writer.declLocale( "r", refract( v1, v2, v3 ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testRefract( test::sdw_test::TestCounts & testCounts )
+	{
+		testRefractT< sdw::Float >( "1F", testCounts );
+		testRefractT< sdw::Vec2 >( "2F", testCounts );
+		testRefractT< sdw::Vec3 >( "3F", testCounts );
+		testRefractT< sdw::Vec4 >( "4F", testCounts );
+		testRefractT< sdw::Double >( "1D", testCounts, Compilers_NoHLSL );
+		testRefractT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
+		testRefractT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		testRefractT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testMatrixCompMultT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testMatrixCompMult" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -6509,138 +1877,36 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testMatrixCompMult2x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult2x2F" );
-		testMatrixCompMult< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixCompMult2x3F( test::sdw_test::TestCounts & testCounts )
+	void testMatrixCompMult( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMatrixCompMult2x3F" );
-		testMatrixCompMult< sdw::Mat2x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult2x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult2x4F" );
-		testMatrixCompMult< sdw::Mat2x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult3x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult3x2F" );
-		testMatrixCompMult< sdw::Mat3x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult3x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult3x3F" );
-		testMatrixCompMult< sdw::Mat3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult3x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult3x4F" );
-		testMatrixCompMult< sdw::Mat3x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult4x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult4x2F" );
-		testMatrixCompMult< sdw::Mat4x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult4x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult4x3F" );
-		testMatrixCompMult< sdw::Mat4x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult4x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult4x4F" );
-		testMatrixCompMult< sdw::Mat4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult2x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult2x2D" );
-		testMatrixCompMult< sdw::DMat2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult2x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult2x3D" );
-		testMatrixCompMult< sdw::DMat2x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult2x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult2x4D" );
-		testMatrixCompMult< sdw::DMat2x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult3x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult3x2D" );
-		testMatrixCompMult< sdw::DMat3x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult3x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult3x3D" );
-		testMatrixCompMult< sdw::DMat3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult3x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult3x4D" );
-		testMatrixCompMult< sdw::DMat3x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult4x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult4x2D" );
-		testMatrixCompMult< sdw::DMat4x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult4x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult4x3D" );
-		testMatrixCompMult< sdw::DMat4x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixCompMult4x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixCompMult4x4D" );
-		testMatrixCompMult< sdw::DMat4 >( testName, testCounts );
-		testEnd();
+		testMatrixCompMultT< sdw::Mat2x2 >( "2x2F", testCounts );
+		testMatrixCompMultT< sdw::Mat2x3 >( "2x3F", testCounts );
+		testMatrixCompMultT< sdw::Mat2x4 >( "2x4F", testCounts );
+		testMatrixCompMultT< sdw::Mat3x2 >( "3x2F", testCounts );
+		testMatrixCompMultT< sdw::Mat3x3 >( "3x3F", testCounts );
+		testMatrixCompMultT< sdw::Mat3x4 >( "3x4F", testCounts );
+		testMatrixCompMultT< sdw::Mat4x2 >( "4x2F", testCounts );
+		testMatrixCompMultT< sdw::Mat4x3 >( "4x3F", testCounts );
+		testMatrixCompMultT< sdw::Mat4x4 >( "4x4F", testCounts );
+		testMatrixCompMultT< sdw::DMat2x2 >( "2x2D", testCounts );
+		testMatrixCompMultT< sdw::DMat2x3 >( "2x3D", testCounts );
+		testMatrixCompMultT< sdw::DMat2x4 >( "2x4D", testCounts );
+		testMatrixCompMultT< sdw::DMat3x2 >( "3x2D", testCounts );
+		testMatrixCompMultT< sdw::DMat3x3 >( "3x3D", testCounts );
+		testMatrixCompMultT< sdw::DMat3x4 >( "3x4D", testCounts );
+		testMatrixCompMultT< sdw::DMat4x2 >( "4x2D", testCounts );
+		testMatrixCompMultT< sdw::DMat4x3 >( "4x3D", testCounts );
+		testMatrixCompMultT< sdw::DMat4x4 >( "4x4D", testCounts );
 	}
 
 	template< typename ValueT >
-	void testMatrixMult( std::string const & testName
+	void testMatrixMultT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testMatrixMult" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -6654,54 +1920,24 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testMatrixMult2x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixMult2x2F" );
-		testMatrixMult< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testMatrixMult3x3F( test::sdw_test::TestCounts & testCounts )
+	void testMatrixMult( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMatrixMult3x3F" );
-		testMatrixMult< sdw::Mat3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixMult4x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixMult4x4F" );
-		testMatrixMult< sdw::Mat4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixMult2x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixMult2x2D" );
-		testMatrixMult< sdw::DMat2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixMult3x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixMult3x3D" );
-		testMatrixMult< sdw::DMat3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testMatrixMult4x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testMatrixMult4x4D" );
-		testMatrixMult< sdw::DMat4 >( testName, testCounts );
-		testEnd();
+		testMatrixMultT< sdw::Mat2x2 >( "2x2F", testCounts );
+		testMatrixMultT< sdw::Mat3x3 >( "3x3F", testCounts );
+		testMatrixMultT< sdw::Mat4x4 >( "4x4F", testCounts );;
+		testMatrixMultT< sdw::DMat2x2 >( "2x2D", testCounts );
+		testMatrixMultT< sdw::DMat3x3 >( "3x3D", testCounts );
+		testMatrixMultT< sdw::DMat4x4 >( "4x4D", testCounts );
 	}
 
 	template< typename LhsT, typename RhsT >
-	void testOuterProduct( std::string const & testName
+	void testOuterProductT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testOuterProduct" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -6715,138 +1951,36 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testOuterProduct2x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct2x2F" );
-		testOuterProduct< sdw::Vec2, sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testOuterProduct2x3F( test::sdw_test::TestCounts & testCounts )
+	void testOuterProduct( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testOuterProduct2x3F" );
-		testOuterProduct< sdw::Vec2, sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct2x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct2x4F" );
-		testOuterProduct< sdw::Vec2, sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct3x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct3x2F" );
-		testOuterProduct< sdw::Vec2, sdw::Vec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct3x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct3x3F" );
-		testOuterProduct< sdw::Vec2, sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct3x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct3x4F" );
-		testOuterProduct< sdw::Vec2, sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct4x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct4x2F" );
-		testOuterProduct< sdw::Vec4, sdw::Vec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct4x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct4x3F" );
-		testOuterProduct< sdw::Vec4, sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct4x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct4x4F" );
-		testOuterProduct< sdw::Vec4, sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct2x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct2x2D" );
-		testOuterProduct< sdw::DVec2, sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct2x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct2x3D" );
-		testOuterProduct< sdw::DVec2, sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct2x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct2x4D" );
-		testOuterProduct< sdw::DVec2, sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct3x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct3x2D" );
-		testOuterProduct< sdw::DVec3, sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct3x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct3x3D" );
-		testOuterProduct< sdw::DVec3, sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct3x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct3x4D" );
-		testOuterProduct< sdw::DVec3, sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct4x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct4x2D" );
-		testOuterProduct< sdw::DVec4, sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct4x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct4x3D" );
-		testOuterProduct< sdw::DVec4, sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testOuterProduct4x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testOuterProduct4x4D" );
-		testOuterProduct< sdw::DVec4, sdw::DVec4 >( testName, testCounts );
-		testEnd();
+		testOuterProductT< sdw::Vec2, sdw::Vec2 >( "2x2F", testCounts );
+		testOuterProductT< sdw::Vec2, sdw::Vec3 >( "2x3F", testCounts );
+		testOuterProductT< sdw::Vec2, sdw::Vec4 >( "2x4F", testCounts );
+		testOuterProductT< sdw::Vec3, sdw::Vec2 >( "3x2F", testCounts );
+		testOuterProductT< sdw::Vec3, sdw::Vec3 >( "3x3F", testCounts );
+		testOuterProductT< sdw::Vec3, sdw::Vec4 >( "3x4F", testCounts );
+		testOuterProductT< sdw::Vec4, sdw::Vec2 >( "4x2F", testCounts );
+		testOuterProductT< sdw::Vec4, sdw::Vec3 >( "4x3F", testCounts );
+		testOuterProductT< sdw::Vec4, sdw::Vec4 >( "4x4F", testCounts );
+		testOuterProductT< sdw::DVec2, sdw::DVec2 >( "2x2D", testCounts );
+		testOuterProductT< sdw::DVec2, sdw::DVec3 >( "2x3D", testCounts );
+		testOuterProductT< sdw::DVec2, sdw::DVec4 >( "2x4D", testCounts );
+		testOuterProductT< sdw::DVec3, sdw::DVec2 >( "3x2D", testCounts );
+		testOuterProductT< sdw::DVec3, sdw::DVec3 >( "3x3D", testCounts );
+		testOuterProductT< sdw::DVec3, sdw::DVec4 >( "3x4D", testCounts );
+		testOuterProductT< sdw::DVec4, sdw::DVec2 >( "4x2D", testCounts );
+		testOuterProductT< sdw::DVec4, sdw::DVec3 >( "4x3D", testCounts );
+		testOuterProductT< sdw::DVec4, sdw::DVec4 >( "4x4D", testCounts );
 	}
 
 	template< typename ValueT >
-	void testTranspose( std::string const & testName
+	void testTransposeT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testTranspose" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -6859,342 +1993,95 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testTranspose2x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose2x2F" );
-		testTranspose< sdw::Mat2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testTranspose2x3F( test::sdw_test::TestCounts & testCounts )
+	void testTranspose( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTranspose2x3F" );
-		testTranspose< sdw::Mat2x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose2x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose2x4F" );
-		testTranspose< sdw::Mat2x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose3x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose3x2F" );
-		testTranspose< sdw::Mat3x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose3x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose3x3F" );
-		testTranspose< sdw::Mat3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose3x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose3x4F" );
-		testTranspose< sdw::Mat3x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose4x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose4x2F" );
-		testTranspose< sdw::Mat4x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose4x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose4x3F" );
-		testTranspose< sdw::Mat4x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose4x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose4x4F" );
-		testTranspose< sdw::Mat4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose2x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose2x2D" );
-		testTranspose< sdw::DMat2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose2x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose2x3D" );
-		testTranspose< sdw::DMat2x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose2x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose2x4D" );
-		testTranspose< sdw::DMat2x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose3x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose3x2D" );
-		testTranspose< sdw::DMat3x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose3x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose3x3D" );
-		testTranspose< sdw::DMat3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose3x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose3x4D" );
-		testTranspose< sdw::DMat3x4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose4x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose4x2D" );
-		testTranspose< sdw::DMat4x2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose4x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose4x3D" );
-		testTranspose< sdw::DMat4x3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testTranspose4x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testTranspose4x4D" );
-		testTranspose< sdw::DMat4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testDeterminant2x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDeterminant2x2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< Mat2 >( "m" );
-					writer.declLocale( "r", determinant( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDeterminant2x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDeterminant2x2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< DMat2 >( "m" );
-					writer.declLocale( "r", determinant( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDeterminant3x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDeterminant3x3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< Mat3 >( "m" );
-					writer.declLocale( "r", determinant( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDeterminant3x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDeterminant3x3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< DMat3 >( "m" );
-					writer.declLocale( "r", determinant( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testDeterminant4x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDeterminant4x4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< Mat4 >( "m" );
-					writer.declLocale( "r", determinant( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDeterminant4x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDeterminant4x4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< DMat4 >( "m" );
-					writer.declLocale( "r", determinant( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInverse2x2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverse2x2F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< Mat2 >( "m" );
-					writer.declLocale( "r", inverse( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverse2x2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverse2x2D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< DMat2 >( "m" );
-					writer.declLocale( "r", inverse( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverse3x3F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverse3x3F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< Mat3 >( "m" );
-					writer.declLocale( "r", inverse( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverse3x3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverse3x3D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< DMat3 >( "m" );
-					writer.declLocale( "r", inverse( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverse4x4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverse4x4F" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< Mat4 >( "m" );
-					writer.declLocale( "r", inverse( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInverse4x4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInverse4x4D" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto m = writer.declLocale< DMat4 >( "m" );
-					writer.declLocale( "r", inverse( m ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testTransposeT< sdw::Mat2x2 >( "2x2F", testCounts );
+		testTransposeT< sdw::Mat2x3 >( "2x3F", testCounts );
+		testTransposeT< sdw::Mat2x4 >( "2x4F", testCounts );
+		testTransposeT< sdw::Mat3x2 >( "3x2F", testCounts );
+		testTransposeT< sdw::Mat3x3 >( "3x3F", testCounts );
+		testTransposeT< sdw::Mat3x4 >( "3x4F", testCounts );
+		testTransposeT< sdw::Mat4x2 >( "4x2F", testCounts );
+		testTransposeT< sdw::Mat4x3 >( "4x3F", testCounts );
+		testTransposeT< sdw::Mat4x4 >( "4x4F", testCounts );
+		testTransposeT< sdw::DMat2x2 >( "2x2D", testCounts );
+		testTransposeT< sdw::DMat2x3 >( "2x3D", testCounts );
+		testTransposeT< sdw::DMat2x4 >( "2x4D", testCounts );
+		testTransposeT< sdw::DMat3x2 >( "3x2D", testCounts );
+		testTransposeT< sdw::DMat3x3 >( "3x3D", testCounts );
+		testTransposeT< sdw::DMat3x4 >( "3x4D", testCounts );
+		testTransposeT< sdw::DMat4x2 >( "4x2D", testCounts );
+		testTransposeT< sdw::DMat4x3 >( "4x3D", testCounts );
+		testTransposeT< sdw::DMat4x4 >( "4x4D", testCounts );
 	}
 
 	template< typename ValueT >
-	void testLessThan( std::string const & testName
+	void testDeterminantT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testDeterminant" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto m = writer.declLocale< ValueT >( "m" );
+					writer.declLocale( "r", determinant( m ) );
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testDeterminant( test::sdw_test::TestCounts & testCounts )
+	{
+		testDeterminantT< sdw::Mat2x2 >( "2x2F", testCounts );
+		testDeterminantT< sdw::Mat3x3 >( "3x3F", testCounts );
+		testDeterminantT< sdw::Mat4x4 >( "4x4F", testCounts );
+		testDeterminantT< sdw::DMat2x2 >( "2x2D", testCounts, Compilers_NoHLSL );
+		testDeterminantT< sdw::DMat3x3 >( "3x3D", testCounts, Compilers_NoHLSL );
+		testDeterminantT< sdw::DMat4x4 >( "4x4D", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testInverseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testInverse" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto m = writer.declLocale< ValueT >( "m" );
+					writer.declLocale( "r", inverse( m ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testInverse( test::sdw_test::TestCounts & testCounts )
+	{
+		testInverseT< sdw::Mat2x2 >( "2x2F", testCounts );
+		testInverseT< sdw::Mat3x3 >( "3x3F", testCounts );
+		testInverseT< sdw::Mat4x4 >( "4x4F", testCounts );
+		testInverseT< sdw::DMat2x2 >( "2x2D", testCounts );
+		testInverseT< sdw::DMat3x3 >( "3x3D", testCounts );
+		testInverseT< sdw::DMat4x4 >( "4x4D", testCounts );
+	}
+
+	template< typename ValueT >
+	void testLessThanT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testLessThan" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7208,96 +2095,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testLessThan2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan2F" );
-		testLessThan< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThan3F( test::sdw_test::TestCounts & testCounts )
+	void testLessThan( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLessThan3F" );
-		testLessThan< sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan4F" );
-		testLessThan< sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan2D" );
-		testLessThan< sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan3D" );
-		testLessThan< sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan4D" );
-		testLessThan< sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan2I" );
-		testLessThan< sdw::IVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan3I" );
-		testLessThan< sdw::IVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan4I" );
-		testLessThan< sdw::IVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan2U" );
-		testLessThan< sdw::UVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan3U" );
-		testLessThan< sdw::UVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThan4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThan4U" );
-		testLessThan< sdw::UVec4 >( testName, testCounts );
-		testEnd();
+		testLessThanT< sdw::Vec2 >( "2F", testCounts );
+		testLessThanT< sdw::Vec3 >( "3F", testCounts );
+		testLessThanT< sdw::Vec4 >( "4F", testCounts );
+		testLessThanT< sdw::DVec2 >( "2D", testCounts );
+		testLessThanT< sdw::DVec3 >( "3D", testCounts );
+		testLessThanT< sdw::DVec4 >( "4D", testCounts );
+		testLessThanT< sdw::IVec2 >( "2I", testCounts );
+		testLessThanT< sdw::IVec3 >( "3I", testCounts );
+		testLessThanT< sdw::IVec4 >( "4I", testCounts );
+		testLessThanT< sdw::UVec2 >( "2U", testCounts );
+		testLessThanT< sdw::UVec3 >( "3U", testCounts );
+		testLessThanT< sdw::UVec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >
-	void testLessThanEqual( std::string const & testName
+	void testLessThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testLessThanEqual" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7311,96 +2132,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testLessThanEqual2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual2F" );
-		testLessThanEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testLessThanEqual3F( test::sdw_test::TestCounts & testCounts )
+	void testLessThanEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLessThanEqual3F" );
-		testLessThanEqual< sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual4F" );
-		testLessThanEqual< sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual2D" );
-		testLessThanEqual< sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual3D" );
-		testLessThanEqual< sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual4D" );
-		testLessThanEqual< sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual2I" );
-		testLessThanEqual< sdw::IVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual3I" );
-		testLessThanEqual< sdw::IVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual4I" );
-		testLessThanEqual< sdw::IVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual2U" );
-		testLessThanEqual< sdw::UVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual3U" );
-		testLessThanEqual< sdw::UVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testLessThanEqual4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testLessThanEqual4U" );
-		testLessThanEqual< sdw::UVec4 >( testName, testCounts );
-		testEnd();
+		testLessThanEqualT< sdw::Vec2 >( "2F", testCounts );
+		testLessThanEqualT< sdw::Vec3 >( "3F", testCounts );
+		testLessThanEqualT< sdw::Vec4 >( "4F", testCounts );
+		testLessThanEqualT< sdw::DVec2 >( "2D", testCounts );
+		testLessThanEqualT< sdw::DVec3 >( "3D", testCounts );
+		testLessThanEqualT< sdw::DVec4 >( "4D", testCounts );
+		testLessThanEqualT< sdw::IVec2 >( "2I", testCounts );
+		testLessThanEqualT< sdw::IVec3 >( "3I", testCounts );
+		testLessThanEqualT< sdw::IVec4 >( "4I", testCounts );
+		testLessThanEqualT< sdw::UVec2 >( "2U", testCounts );
+		testLessThanEqualT< sdw::UVec3 >( "3U", testCounts );
+		testLessThanEqualT< sdw::UVec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >
-	void testGreaterThan( std::string const & testName
+	void testGreaterThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testGreaterThan" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7414,96 +2169,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testGreaterThan2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan2F" );
-		testGreaterThan< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThan3F( test::sdw_test::TestCounts & testCounts )
+	void testGreaterThan( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGreaterThan3F" );
-		testGreaterThan< sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan4F" );
-		testGreaterThan< sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan2D" );
-		testGreaterThan< sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan3D" );
-		testGreaterThan< sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan4D" );
-		testGreaterThan< sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan2I" );
-		testGreaterThan< sdw::IVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan3I" );
-		testGreaterThan< sdw::IVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan4I" );
-		testGreaterThan< sdw::IVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan2U" );
-		testGreaterThan< sdw::UVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan3U" );
-		testGreaterThan< sdw::UVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThan4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThan4U" );
-		testGreaterThan< sdw::UVec4 >( testName, testCounts );
-		testEnd();
+		testGreaterThanT< sdw::Vec2 >( "2F", testCounts );
+		testGreaterThanT< sdw::Vec3 >( "3F", testCounts );
+		testGreaterThanT< sdw::Vec4 >( "4F", testCounts );
+		testGreaterThanT< sdw::DVec2 >( "2D", testCounts );
+		testGreaterThanT< sdw::DVec3 >( "3D", testCounts );
+		testGreaterThanT< sdw::DVec4 >( "4D", testCounts );
+		testGreaterThanT< sdw::IVec2 >( "2I", testCounts );
+		testGreaterThanT< sdw::IVec3 >( "3I", testCounts );
+		testGreaterThanT< sdw::IVec4 >( "4I", testCounts );
+		testGreaterThanT< sdw::UVec2 >( "2U", testCounts );
+		testGreaterThanT< sdw::UVec3 >( "3U", testCounts );
+		testGreaterThanT< sdw::UVec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >
-	void testGreaterThanEqual( std::string const & testName
+	void testGreaterThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testGreaterThanEqual" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7517,96 +2206,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testGreaterThanEqual2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual2F" );
-		testGreaterThanEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testGreaterThanEqual3F( test::sdw_test::TestCounts & testCounts )
+	void testGreaterThanEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGreaterThanEqual3F" );
-		testGreaterThanEqual< sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual4F" );
-		testGreaterThanEqual< sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual2D" );
-		testGreaterThanEqual< sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual3D" );
-		testGreaterThanEqual< sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual4D" );
-		testGreaterThanEqual< sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual2I" );
-		testGreaterThanEqual< sdw::IVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual3I" );
-		testGreaterThanEqual< sdw::IVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual4I" );
-		testGreaterThanEqual< sdw::IVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual2U" );
-		testGreaterThanEqual< sdw::UVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual3U" );
-		testGreaterThanEqual< sdw::UVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testGreaterThanEqual4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testGreaterThanEqual4U" );
-		testGreaterThanEqual< sdw::UVec4 >( testName, testCounts );
-		testEnd();
+		testGreaterThanEqualT< sdw::Vec2 >( "2F", testCounts );
+		testGreaterThanEqualT< sdw::Vec3 >( "3F", testCounts );
+		testGreaterThanEqualT< sdw::Vec4 >( "4F", testCounts );
+		testGreaterThanEqualT< sdw::DVec2 >( "2D", testCounts );
+		testGreaterThanEqualT< sdw::DVec3 >( "3D", testCounts );
+		testGreaterThanEqualT< sdw::DVec4 >( "4D", testCounts );
+		testGreaterThanEqualT< sdw::IVec2 >( "2I", testCounts );
+		testGreaterThanEqualT< sdw::IVec3 >( "3I", testCounts );
+		testGreaterThanEqualT< sdw::IVec4 >( "4I", testCounts );
+		testGreaterThanEqualT< sdw::UVec2 >( "2U", testCounts );
+		testGreaterThanEqualT< sdw::UVec3 >( "3U", testCounts );
+		testGreaterThanEqualT< sdw::UVec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >
-	void testEqual( std::string const & testName
+	void testEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testEqual" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7620,96 +2243,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testEqual2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual2F" );
-		testEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testEqual3F( test::sdw_test::TestCounts & testCounts )
+	void testEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testEqual3F" );
-		testEqual< sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual4F" );
-		testEqual< sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual2D" );
-		testEqual< sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual3D" );
-		testEqual< sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual4D" );
-		testEqual< sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual2I" );
-		testEqual< sdw::IVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual3I" );
-		testEqual< sdw::IVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual4I" );
-		testEqual< sdw::IVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual2U" );
-		testEqual< sdw::UVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual3U" );
-		testEqual< sdw::UVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testEqual4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testEqual4U" );
-		testEqual< sdw::UVec4 >( testName, testCounts );
-		testEnd();
+		testEqualT< sdw::Vec2 >( "2F", testCounts );
+		testEqualT< sdw::Vec3 >( "3F", testCounts );
+		testEqualT< sdw::Vec4 >( "4F", testCounts );
+		testEqualT< sdw::DVec2 >( "2D", testCounts );
+		testEqualT< sdw::DVec3 >( "3D", testCounts );
+		testEqualT< sdw::DVec4 >( "4D", testCounts );
+		testEqualT< sdw::IVec2 >( "2I", testCounts );
+		testEqualT< sdw::IVec3 >( "3I", testCounts );
+		testEqualT< sdw::IVec4 >( "4I", testCounts );
+		testEqualT< sdw::UVec2 >( "2U", testCounts );
+		testEqualT< sdw::UVec3 >( "3U", testCounts );
+		testEqualT< sdw::UVec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >
-	void testNotEqual( std::string const & testName
+	void testNotEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testNotEqual" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7723,96 +2280,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testNotEqual2F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual2F" );
-		testNotEqual< sdw::Vec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNotEqual3F( test::sdw_test::TestCounts & testCounts )
+	void testNotEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNotEqual3F" );
-		testNotEqual< sdw::Vec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual4F( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual4F" );
-		testNotEqual< sdw::Vec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual2D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual2D" );
-		testNotEqual< sdw::DVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual3D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual3D" );
-		testNotEqual< sdw::DVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual4D( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual4D" );
-		testNotEqual< sdw::DVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual2I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual2I" );
-		testNotEqual< sdw::IVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual3I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual3I" );
-		testNotEqual< sdw::IVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual4I" );
-		testNotEqual< sdw::IVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual2U" );
-		testNotEqual< sdw::UVec2 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual3U" );
-		testNotEqual< sdw::UVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testNotEqual4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNotEqual4U" );
-		testNotEqual< sdw::UVec4 >( testName, testCounts );
-		testEnd();
+		testNotEqualT< sdw::Vec2 >( "2F", testCounts );
+		testNotEqualT< sdw::Vec3 >( "3F", testCounts );
+		testNotEqualT< sdw::Vec4 >( "4F", testCounts );
+		testNotEqualT< sdw::DVec2 >( "2D", testCounts );
+		testNotEqualT< sdw::DVec3 >( "3D", testCounts );
+		testNotEqualT< sdw::DVec4 >( "4D", testCounts );
+		testNotEqualT< sdw::IVec2 >( "2I", testCounts );
+		testNotEqualT< sdw::IVec3 >( "3I", testCounts );
+		testNotEqualT< sdw::IVec4 >( "4I", testCounts );
+		testNotEqualT< sdw::UVec2 >( "2U", testCounts );
+		testNotEqualT< sdw::UVec3 >( "3U", testCounts );
+		testNotEqualT< sdw::UVec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >
-	void testAll( std::string const & testName
+	void testAllT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testAll" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7825,33 +2316,21 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testAll2( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAll2" );
-		testAll< sdw::BVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testAll3( test::sdw_test::TestCounts & testCounts )
+	void testAll( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAll3" );
-		testAll< sdw::BVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testAll4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAll4" );
-		testAll< sdw::BVec4 >( testName, testCounts );
-		testEnd();
+		testAllT< sdw::BVec2 >( "2", testCounts );
+		testAllT< sdw::BVec3 >( "3", testCounts );
+		testAllT< sdw::BVec4 >( "4", testCounts );
 	}
 
 	template< typename ValueT >
-	void testAny( std::string const & testName
+	void testAnyT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testAny" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7864,33 +2343,21 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testAny2( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAny2" );
-		testAny< sdw::BVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testAny3( test::sdw_test::TestCounts & testCounts )
+	void testAny( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAny3" );
-		testAny< sdw::BVec3 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testAny4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAny4" );
-		testAny< sdw::BVec4 >( testName, testCounts );
-		testEnd();
+		testAnyT< sdw::BVec2 >( "2", testCounts );
+		testAnyT< sdw::BVec3 >( "3", testCounts );
+		testAnyT< sdw::BVec4 >( "4", testCounts );
 	}
 
 	template< typename ValueT >
-	void testNot( std::string const & testName
+	void testNotT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
+		testBegin( "testNot" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
@@ -7903,41 +2370,30 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-	}
-
-	void testNot2( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testNot2" );
-		testNot< sdw::BVec2 >( testName, testCounts );
 		testEnd();
 	}
 
-	void testNot3( test::sdw_test::TestCounts & testCounts )
+	void testNot( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNot3" );
-		testNot< sdw::BVec3 >( testName, testCounts );
-		testEnd();
+		testNotT< sdw::BVec2 >( "2", testCounts );
+		testNotT< sdw::BVec3 >( "3", testCounts );
+		testNotT< sdw::BVec4 >( "4", testCounts );
 	}
 
-	void testNot4( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testUaddCarryT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNot4" );
-		testNot< sdw::BVec4 >( testName, testCounts );
-		testEnd();
-	}
-
-	void testUaddCarry1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUaddCarry1" );
+		testBegin( "testUaddCarry" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto y = writer.declLocale< UInt >( "y" );
-					auto c = writer.declLocale< UInt >( "c" );
-					auto r = writer.declLocale< UInt >( "r"
+					auto x = writer.declLocale< ValueT >( "x" );
+					auto y = writer.declLocale< ValueT >( "y" );
+					auto c = writer.declLocale< ValueT >( "c" );
+					auto r = writer.declLocale< ValueT >( "r"
 						, uaddCarry( x, y, c ) );
 				} );
 			test::writeShader( writer
@@ -7947,81 +2403,28 @@ namespace
 		testEnd();
 	}
 
-	void testUaddCarry2( test::sdw_test::TestCounts & testCounts )
+	void testUaddCarry( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUaddCarry2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto y = writer.declLocale< UVec2 >( "y" );
-					auto c = writer.declLocale< UVec2 >( "c" );
-					auto r = writer.declLocale< UVec2 >( "r"
-						, uaddCarry( x, y, c ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
+		testUaddCarryT< sdw::UInt >( "1", testCounts );
+		testUaddCarryT< sdw::UVec2 >( "2", testCounts );
+		testUaddCarryT< sdw::UVec3 >( "3", testCounts );
+		testUaddCarryT< sdw::UVec4 >( "4", testCounts );
 	}
 
-	void testUaddCarry3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testUsubBorrowT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUaddCarry3" );
+		testBegin( "testUsubBorrow" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto y = writer.declLocale< UVec3 >( "y" );
-					auto c = writer.declLocale< UVec3 >( "c" );
-					auto r = writer.declLocale< UVec3 >( "r"
-						, uaddCarry( x, y, c ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testUaddCarry4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUaddCarry4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto y = writer.declLocale< UVec4 >( "y" );
-					auto c = writer.declLocale< UVec4 >( "c" );
-					auto r = writer.declLocale< UVec4 >( "r"
-						, uaddCarry( x, y, c ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testUsubBorrow1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUsubBorrow1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto y = writer.declLocale< UInt >( "y" );
-					auto b = writer.declLocale< UInt >( "b" );
-					auto r = writer.declLocale< UInt >( "r"
+					auto x = writer.declLocale< ValueT >( "x" );
+					auto y = writer.declLocale< ValueT >( "y" );
+					auto b = writer.declLocale< ValueT >( "b" );
+					auto r = writer.declLocale< ValueT >( "r"
 						, usubBorrow( x, y, b ) );
 				} );
 			test::writeShader( writer
@@ -8031,81 +2434,28 @@ namespace
 		testEnd();
 	}
 
-	void testUsubBorrow2( test::sdw_test::TestCounts & testCounts )
+	void testUsubBorrow( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUsubBorrow2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto y = writer.declLocale< UVec2 >( "y" );
-					auto b = writer.declLocale< UVec2 >( "b" );
-					auto r = writer.declLocale< UVec2 >( "r"
-						, usubBorrow( x, y, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
+		testUsubBorrowT< sdw::UInt >( "1", testCounts );
+		testUsubBorrowT< sdw::UVec2 >( "2", testCounts );
+		testUsubBorrowT< sdw::UVec3 >( "3", testCounts );
+		testUsubBorrowT< sdw::UVec4 >( "4", testCounts );
 	}
 
-	void testUsubBorrow3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testUmulExtendedT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUsubBorrow3" );
+		testBegin( "testUmulExtended" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto y = writer.declLocale< UVec3 >( "y" );
-					auto b = writer.declLocale< UVec3 >( "b" );
-					auto r = writer.declLocale< UVec3 >( "r"
-						, usubBorrow( x, y, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testUsubBorrow4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUsubBorrow4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto y = writer.declLocale< UVec4 >( "y" );
-					auto b = writer.declLocale< UVec4 >( "b" );
-					auto r = writer.declLocale< UVec4 >( "r"
-						, usubBorrow( x, y, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testUmulExtended1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUmulExtended1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto y = writer.declLocale< UInt >( "y" );
-					auto h = writer.declLocale< UInt >( "h" );
-					auto l = writer.declLocale< UInt >( "l" );
+					auto x = writer.declLocale< ValueT >( "x" );
+					auto y = writer.declLocale< ValueT >( "y" );
+					auto h = writer.declLocale< ValueT >( "h" );
+					auto l = writer.declLocale< ValueT >( "l" );
 					umulExtended( x, y, h, l );
 				} );
 			test::writeShader( writer
@@ -8115,81 +2465,28 @@ namespace
 		testEnd();
 	}
 
-	void testUmulExtended2( test::sdw_test::TestCounts & testCounts )
+	void testUmulExtended( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUmulExtended2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto y = writer.declLocale< UVec2 >( "y" );
-					auto h = writer.declLocale< UVec2 >( "h" );
-					auto l = writer.declLocale< UVec2 >( "l" );
-					umulExtended( x, y, h, l );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
+		testUmulExtendedT< sdw::UInt >( "1", testCounts );
+		testUmulExtendedT< sdw::UVec2 >( "2", testCounts );
+		testUmulExtendedT< sdw::UVec3 >( "3", testCounts );
+		testUmulExtendedT< sdw::UVec4 >( "4", testCounts );
 	}
 
-	void testUmulExtended3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testImulExtendedT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUmulExtended3" );
+		testBegin( "testImulExtended" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto y = writer.declLocale< UVec3 >( "y" );
-					auto h = writer.declLocale< UVec3 >( "h" );
-					auto l = writer.declLocale< UVec3 >( "l" );
-					umulExtended( x, y, h, l );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testUmulExtended4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testUmulExtended4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto y = writer.declLocale< UVec4 >( "y" );
-					auto h = writer.declLocale< UVec4 >( "h" );
-					auto l = writer.declLocale< UVec4 >( "l" );
-					umulExtended( x, y, h, l );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testImulExtended1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testImulExtended1" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
-					auto y = writer.declLocale< Int >( "y" );
-					auto h = writer.declLocale< Int >( "h" );
-					auto l = writer.declLocale< Int >( "l" );
+					auto x = writer.declLocale< ValueT >( "x" );
+					auto y = writer.declLocale< ValueT >( "y" );
+					auto h = writer.declLocale< ValueT >( "h" );
+					auto l = writer.declLocale< ValueT >( "l" );
 					imulExtended( x, y, h, l );
 				} );
 			test::writeShader( writer
@@ -8199,78 +2496,25 @@ namespace
 		testEnd();
 	}
 
-	void testImulExtended2( test::sdw_test::TestCounts & testCounts )
+	void testImulExtended( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testImulExtended2" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto y = writer.declLocale< IVec2 >( "y" );
-					auto h = writer.declLocale< IVec2 >( "h" );
-					auto l = writer.declLocale< IVec2 >( "l" );
-					imulExtended( x, y, h, l );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
+		testImulExtendedT< sdw::Int >( "1", testCounts );
+		testImulExtendedT< sdw::IVec2 >( "2", testCounts );
+		testImulExtendedT< sdw::IVec3 >( "3", testCounts );
+		testImulExtendedT< sdw::IVec4 >( "4", testCounts );
 	}
 
-	void testImulExtended3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testBitfieldExtractT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testImulExtended3" );
+		testBegin( "testBitfieldExtract" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto y = writer.declLocale< IVec3 >( "y" );
-					auto h = writer.declLocale< IVec3 >( "h" );
-					auto l = writer.declLocale< IVec3 >( "l" );
-					imulExtended( x, y, h, l );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testImulExtended4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testImulExtended4" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto y = writer.declLocale< IVec4 >( "y" );
-					auto h = writer.declLocale< IVec4 >( "h" );
-					auto l = writer.declLocale< IVec4 >( "l" );
-					imulExtended( x, y, h, l );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testBitfieldExtract1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldExtract1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
+					auto x = writer.declLocale< ValueT >( "x" );
 					auto o = writer.declLocale< Int >( "o" );
 					auto b = writer.declLocale< Int >( "b" );
 					auto r = writer.declLocale( "r"
@@ -8282,156 +2526,30 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldExtract2I( test::sdw_test::TestCounts & testCounts )
+	void testBitfieldExtract( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldExtract2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testBitfieldExtractT< sdw::Int >( "1I", testCounts );
+		testBitfieldExtractT< sdw::IVec2 >( "2I", testCounts );
+		testBitfieldExtractT< sdw::IVec3 >( "3I", testCounts );
+		testBitfieldExtractT< sdw::IVec4 >( "4I", testCounts );
+		testBitfieldExtractT< sdw::UInt >( "1U", testCounts );
+		testBitfieldExtractT< sdw::UVec2 >( "2U", testCounts );
+		testBitfieldExtractT< sdw::UVec3 >( "3U", testCounts );
+		testBitfieldExtractT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testBitfieldExtract3I( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testBitfieldInsertT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldExtract3I" );
+		testBegin( "testBitfieldInsert" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldExtract4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldExtract4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldExtract1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldExtract1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldExtract2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldExtract2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldExtract3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldExtract3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldExtract4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldExtract4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldExtract( x, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldInsert1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldInsert1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
-					auto y = writer.declLocale< Int >( "y" );
+					auto x = writer.declLocale< ValueT >( "x" );
+					auto y = writer.declLocale< ValueT >( "y" );
 					auto o = writer.declLocale< Int >( "o" );
 					auto b = writer.declLocale< Int >( "b" );
 					auto r = writer.declLocale( "r"
@@ -8443,162 +2561,29 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldInsert2I( test::sdw_test::TestCounts & testCounts )
+	void testBitfieldInsert( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldInsert2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto y = writer.declLocale< IVec2 >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testBitfieldInsertT< sdw::Int >( "1I", testCounts );
+		testBitfieldInsertT< sdw::IVec2 >( "2I", testCounts );
+		testBitfieldInsertT< sdw::IVec3 >( "3I", testCounts );
+		testBitfieldInsertT< sdw::IVec4 >( "4I", testCounts );
+		testBitfieldInsertT< sdw::UInt >( "1U", testCounts );
+		testBitfieldInsertT< sdw::UVec2 >( "2U", testCounts );
+		testBitfieldInsertT< sdw::UVec3 >( "3U", testCounts );
+		testBitfieldInsertT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testBitfieldInsert3I( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testBitfieldReverseT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldInsert3I" );
+		testBegin( "testBitfieldReverse" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto y = writer.declLocale< IVec3 >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldInsert4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldInsert4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto y = writer.declLocale< IVec4 >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldInsert1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldInsert1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto y = writer.declLocale< UInt >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldInsert2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldInsert2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto y = writer.declLocale< UVec2 >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldInsert3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldInsert3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto y = writer.declLocale< UVec3 >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldInsert4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldInsert4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto y = writer.declLocale< UVec4 >( "y" );
-					auto o = writer.declLocale< Int >( "o" );
-					auto b = writer.declLocale< Int >( "b" );
-					auto r = writer.declLocale( "r"
-						, bitfieldInsert( x, y, o, b ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldReverse1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldReverse1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
+					auto x = writer.declLocale< ValueT >( "x" );
 					auto r = writer.declLocale( "r"
 						, bitfieldReverse( x ) );
 				} );
@@ -8608,141 +2593,29 @@ namespace
 		testEnd();
 	}
 
-	void testBitfieldReverse2I( test::sdw_test::TestCounts & testCounts )
+	void testBitfieldReverse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldReverse2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testBitfieldReverseT< sdw::Int >( "1I", testCounts );
+		testBitfieldReverseT< sdw::IVec2 >( "2I", testCounts );
+		testBitfieldReverseT< sdw::IVec3 >( "3I", testCounts );
+		testBitfieldReverseT< sdw::IVec4 >( "4I", testCounts );
+		testBitfieldReverseT< sdw::UInt >( "1U", testCounts );
+		testBitfieldReverseT< sdw::UVec2 >( "2U", testCounts );
+		testBitfieldReverseT< sdw::UVec3 >( "3U", testCounts );
+		testBitfieldReverseT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testBitfieldReverse3I( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testBitCountT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldReverse3I" );
+		testBegin( "testBitCount" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldReverse4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldReverse4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldReverse1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldReverse1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldReverse2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldReverse2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldReverse3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldReverse3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitfieldReverse4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitfieldReverse4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitfieldReverse( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitCount1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitCount1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
+					auto x = writer.declLocale< ValueT >( "x" );
 					auto r = writer.declLocale( "r"
 						, bitCount( x ) );
 				} );
@@ -8752,141 +2625,29 @@ namespace
 		testEnd();
 	}
 
-	void testBitCount2I( test::sdw_test::TestCounts & testCounts )
+	void testBitCount( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitCount2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testBitCountT< sdw::Int >( "1I", testCounts );
+		testBitCountT< sdw::IVec2 >( "2I", testCounts );
+		testBitCountT< sdw::IVec3 >( "3I", testCounts );
+		testBitCountT< sdw::IVec4 >( "4I", testCounts );
+		testBitCountT< sdw::UInt >( "1U", testCounts );
+		testBitCountT< sdw::UVec2 >( "2U", testCounts );
+		testBitCountT< sdw::UVec3 >( "3U", testCounts );
+		testBitCountT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testBitCount3I( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFindLSBT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitCount3I" );
+		testBegin( "testFindLSB" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitCount4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitCount4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitCount1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitCount1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitCount2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitCount2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitCount3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitCount3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testBitCount4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testBitCount4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, bitCount( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindLSB1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindLSB1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
+					auto x = writer.declLocale< ValueT >( "x" );
 					auto r = writer.declLocale( "r"
 						, findLSB( x ) );
 				} );
@@ -8896,141 +2657,29 @@ namespace
 		testEnd();
 	}
 
-	void testFindLSB2I( test::sdw_test::TestCounts & testCounts )
+	void testFindLSB( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFindLSB2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFindLSBT< sdw::Int >( "1I", testCounts );
+		testFindLSBT< sdw::IVec2 >( "2I", testCounts );
+		testFindLSBT< sdw::IVec3 >( "3I", testCounts );
+		testFindLSBT< sdw::IVec4 >( "4I", testCounts );
+		testFindLSBT< sdw::UInt >( "1U", testCounts );
+		testFindLSBT< sdw::UVec2 >( "2U", testCounts );
+		testFindLSBT< sdw::UVec3 >( "3U", testCounts );
+		testFindLSBT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testFindLSB3I( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFindMSBT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFindLSB3I" );
+		testBegin( "testFindMSB" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindLSB4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindLSB4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindLSB1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindLSB1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindLSB2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindLSB2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindLSB3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindLSB3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindLSB4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindLSB4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findLSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindMSB1I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindMSB1I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x" );
+					auto x = writer.declLocale< ValueT >( "x" );
 					auto r = writer.declLocale( "r"
 						, findMSB( x ) );
 				} );
@@ -9040,150 +2689,75 @@ namespace
 		testEnd();
 	}
 
-	void testFindMSB2I( test::sdw_test::TestCounts & testCounts )
+	void testFindMSB( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFindMSB2I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFindMSBT< sdw::Int >( "1I", testCounts );
+		testFindMSBT< sdw::IVec2 >( "2I", testCounts );
+		testFindMSBT< sdw::IVec3 >( "3I", testCounts );
+		testFindMSBT< sdw::IVec4 >( "4I", testCounts );
+		testFindMSBT< sdw::UInt >( "1U", testCounts );
+		testFindMSBT< sdw::UVec2 >( "2U", testCounts );
+		testFindMSBT< sdw::UVec3 >( "3U", testCounts );
+		testFindMSBT< sdw::UVec4 >( "4U", testCounts );
 	}
 
-	void testFindMSB3I( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testAtomicAddT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testFindMSB3I" );
+		testBegin( "testAtomicAdd" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindMSB4I( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindMSB4I" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< IVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindMSB1U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindMSB1U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindMSB2U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindMSB2U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec2 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindMSB3U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindMSB3U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec3 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFindMSB4U( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFindMSB4U" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UVec4 >( "x" );
-					auto r = writer.declLocale( "r"
-						, findMSB( x ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicAddI( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicAddI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
+			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
+			type.declMember< ValueT >( mbrName );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
 					writer.declLocale( "r"
-						, atomicAdd( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicAdd( bo[0].getMember< sdw::Int >( name ), x );
-					atomicAdd( bo[0].getMember< sdw::Int >( name ), x ) * x;
+						, atomicAdd( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicAdd( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicAdd( bo[0].getMember< ValueT >( mbrName ), x ) * x;
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testAtomicAdd( test::sdw_test::TestCounts & testCounts )
+	{
+		testAtomicAddT< sdw::Int >( "I", testCounts );
+		testAtomicAddT< sdw::UInt >( "U", testCounts );
+		testAtomicAddT< sdw::Float >( "F", testCounts, Compilers_NoHLSL );
+		//testAtomicAddT< sdw::HVec2 >( "2H", testCounts, Compilers_NoHLSL );
+		//testAtomicAddT< sdw::HVec4 >( "4H", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testAtomicMinT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicMin" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			std::string const mbrName = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< ValueT >( mbrName );
+			type.end();
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
+					writer.declLocale( "r"
+						, atomicMin( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicMin( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicMin( bo[0].getMember< ValueT >( mbrName ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9191,24 +2765,32 @@ namespace
 		testEnd();
 	}
 
-	void testAtomicAddU( test::sdw_test::TestCounts & testCounts )
+	void testAtomicMin( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicAddU" );
+		testAtomicMinT< sdw::Int >( "I", testCounts );
+		testAtomicMinT< sdw::UInt >( "U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testAtomicMaxT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicMax" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
-			std::string const name = "member";
+			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
+			type.declMember< ValueT >( mbrName );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
 					writer.declLocale( "r"
-						, atomicAdd( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicAdd( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicAdd( bo[0].getMember< sdw::UInt >( name ), x ) * x;
+						, atomicMax( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicMax( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicMax( bo[0].getMember< ValueT >( mbrName ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9216,102 +2798,32 @@ namespace
 		testEnd();
 	}
 
-	void testAtomicAddF( test::sdw_test::TestCounts & testCounts )
+	void testAtomicMax( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicAddF" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Float >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Float >( "x", 0.0_f );
-					writer.declLocale( "r"
-						, atomicAdd( bo[0].getMember< sdw::Float >( name ), x ) );
-					atomicAdd( bo[0].getMember< sdw::Float >( name ), x );
-					atomicAdd( bo[0].getMember< sdw::Float >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
+		testAtomicMaxT< sdw::Int >( "I", testCounts );
+		testAtomicMaxT< sdw::UInt >( "U", testCounts );
 	}
 
-	void testAtomicAdd2H( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testAtomicAndT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicAdd2H" );
+		testBegin( "testAtomicAnd" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
-			std::string const name = "member";
+			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::HVec2 >( name );
+			type.declMember< ValueT >( mbrName );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
 					writer.declLocale( "r"
-						, atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x ) );
-					atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x );
-					atomicAdd( bo[0].getMember< sdw::HVec2 >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testAtomicAdd4H( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicAdd4H" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::HVec4 >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
-					writer.declLocale( "r"
-						, atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x ) );
-					atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x );
-					atomicAdd( bo[0].getMember< sdw::HVec4 >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testAtomicMinI( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicMinI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
-					writer.declLocale( "r"
-						, atomicMin( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicMin( bo[0].getMember< sdw::Int >( name ), x );
-					atomicMin( bo[0].getMember< sdw::Int >( name ), x ) * x;
+						, atomicAnd( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicAnd( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicAnd( bo[0].getMember< ValueT >( mbrName ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9319,24 +2831,32 @@ namespace
 		testEnd();
 	}
 
-	void testAtomicMinU( test::sdw_test::TestCounts & testCounts )
+	void testAtomicAnd( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicMinU" );
+		testAtomicAndT< sdw::Int >( "I", testCounts );
+		testAtomicAndT< sdw::UInt >( "U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testAtomicOrT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicOr" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
-			std::string const name = "member";
+			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
+			type.declMember< ValueT >( mbrName );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
 					writer.declLocale( "r"
-						, atomicMin( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicMin( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicMin( bo[0].getMember< sdw::UInt >( name ), x ) * x;
+						, atomicOr( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicOr( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicOr( bo[0].getMember< ValueT >( mbrName ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9344,24 +2864,32 @@ namespace
 		testEnd();
 	}
 
-	void testAtomicMaxI( test::sdw_test::TestCounts & testCounts )
+	void testAtomicOr( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicMaxI" );
+		testAtomicOrT< sdw::Int >( "I", testCounts );
+		testAtomicOrT< sdw::UInt >( "U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testAtomicXorT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicXor" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
-			std::string const name = "member";
+			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
+			type.declMember< ValueT >( mbrName );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
 					writer.declLocale( "r"
-						, atomicMax( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicMax( bo[0].getMember< sdw::Int >( name ), x );
-					atomicMax( bo[0].getMember< sdw::Int >( name ), x ) * x;
+						, atomicXor( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicXor( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicXor( bo[0].getMember< ValueT >( mbrName ), x ) * x;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9369,24 +2897,70 @@ namespace
 		testEnd();
 	}
 
-	void testAtomicMaxU( test::sdw_test::TestCounts & testCounts )
+	void testAtomicXor( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicMaxU" );
+		testAtomicXorT< sdw::Int >( "I", testCounts );
+		testAtomicXorT< sdw::UInt >( "U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testAtomicExchangeT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts
+		, test::Compilers const & compilers = CurrentCompilers )
+	{
+		testBegin( "testAtomicExchange" ) + name;
 		using namespace sdw;
 		{
 			ComputeWriter writer;
-			std::string const name = "member";
+			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
+			type.declMember< ValueT >( mbrName );
 			type.end();
 			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
+					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
 					writer.declLocale( "r"
-						, atomicMax( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicMax( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicMax( bo[0].getMember< sdw::UInt >( name ), x ) * x;
+						, atomicExchange( bo[0].getMember< ValueT >( mbrName ), x ) );
+					atomicExchange( bo[0].getMember< ValueT >( mbrName ), x );
+					atomicExchange( bo[0].getMember< ValueT >( mbrName ), x ) * x;
+				} );
+			test::writeShader( writer
+				, testCounts, compilers );
+		}
+		testEnd();
+	}
+
+	void testAtomicExchange( test::sdw_test::TestCounts & testCounts )
+	{
+		testAtomicExchangeT< sdw::Int >( "I", testCounts );
+		testAtomicExchangeT< sdw::UInt >( "U", testCounts );
+		testAtomicExchangeT< sdw::Float >( "F", testCounts, Compilers_NoHLSL );
+		//testAtomicExchangeT< sdw::HVec2 >( "2H", testCounts, Compilers_NoHLSL );
+		//testAtomicExchangeT< sdw::HVec4 >( "4H", testCounts, Compilers_NoHLSL );
+	}
+
+	template< typename ValueT >
+	void testAtomicCompSwapT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testAtomicCompSwap" ) + name;
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+			std::string const mbrName = "member";
+			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
+			type.declMember< ValueT >( mbrName );
+			type.end();
+			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto c = writer.declLocale< ValueT >( "c", test::getDefault< ValueT >( writer ) );
+					auto v = writer.declLocale< ValueT >( "v", test::getDefault< ValueT >( writer ) );
+					writer.declLocale( "r"
+						, atomicCompSwap( bo[0].getMember< ValueT >( mbrName ), c, v ) );
+					atomicCompSwap( bo[0].getMember< ValueT >( mbrName ), c, v );
+					atomicCompSwap( bo[0].getMember< ValueT >( mbrName ), c, v ) * c;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -9394,345 +2968,23 @@ namespace
 		testEnd();
 	}
 
-	void testAtomicAndI( test::sdw_test::TestCounts & testCounts )
+	void testAtomicCompSwap( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicAndI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
-					writer.declLocale( "r"
-						, atomicAnd( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicAnd( bo[0].getMember< sdw::Int >( name ), x );
-					atomicAnd( bo[0].getMember< sdw::Int >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testAtomicCompSwapT< sdw::Int >( "I", testCounts );
+		testAtomicCompSwapT< sdw::UInt >( "U", testCounts );
 	}
 
-	void testAtomicAndU( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDFdxT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicAndU" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
-					writer.declLocale( "r"
-						, atomicAnd( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicAnd( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicAnd( bo[0].getMember< sdw::UInt >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicOrI( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicOrI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
-					writer.declLocale( "r"
-						, atomicOr( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicOr( bo[0].getMember< sdw::Int >( name ), x );
-					atomicOr( bo[0].getMember< sdw::Int >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicOrU( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicOrU" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
-					writer.declLocale( "r"
-						, atomicOr( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicOr( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicOr( bo[0].getMember< sdw::UInt >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicXorI( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicXorI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
-					writer.declLocale( "r"
-						, atomicXor( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicXor( bo[0].getMember< sdw::Int >( name ), x );
-					atomicXor( bo[0].getMember< sdw::Int >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicXorU( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicXorU" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
-					writer.declLocale( "r"
-						, atomicXor( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicXor( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicXor( bo[0].getMember< sdw::UInt >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicExchangeI( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicExchangeI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Int >( "x", 0_i );
-					writer.declLocale( "r"
-						, atomicExchange( bo[0].getMember< sdw::Int >( name ), x ) );
-					atomicExchange( bo[0].getMember< sdw::Int >( name ), x );
-					atomicExchange( bo[0].getMember< sdw::Int >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicExchangeU( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicExchangeU" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< UInt >( "x", 0_u );
-					writer.declLocale( "r"
-						, atomicExchange( bo[0].getMember< sdw::UInt >( name ), x ) );
-					atomicExchange( bo[0].getMember< sdw::UInt >( name ), x );
-					atomicExchange( bo[0].getMember< sdw::UInt >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicExchangeF( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicExchangeF" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Float >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< Float >( "x", 0.0_f );
-					writer.declLocale( "r"
-						, atomicExchange( bo[0].getMember< sdw::Float >( name ), x ) );
-					atomicExchange( bo[0].getMember< sdw::Float >( name ), x );
-					atomicExchange( bo[0].getMember< sdw::Float >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testAtomicExchange2H( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicExchange2H" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::HVec2 >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< sdw::HVec2 >( "x", f16vec2( vec2( 0.0_f ) ) );
-					writer.declLocale( "r"
-						, atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x ) );
-					atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x );
-					atomicExchange( bo[0].getMember< sdw::HVec2 >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testAtomicExchange4H( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicExchange4H" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::HVec4 >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto x = writer.declLocale< sdw::HVec4 >( "x", f16vec4( vec4( 0.0_f ) ) );
-					writer.declLocale( "r"
-						, atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x ) );
-					atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x );
-					atomicExchange( bo[0].getMember< sdw::HVec4 >( name ), x ) * x;
-				} );
-			test::writeShader( writer
-				, testCounts
-				, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testAtomicCompSwapI( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicCompSwapI" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::Int >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto c = writer.declLocale< Int >( "c", 0_i );
-					auto v = writer.declLocale< Int >( "v", 1_i );
-					writer.declLocale( "r"
-						, atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v ) );
-					atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v );
-					atomicCompSwap( bo[0].getMember< sdw::Int >( name ), c, v ) * writer.cast< Int >( c );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testAtomicCompSwapU( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testAtomicCompSwapU" );
-		using namespace sdw;
-		{
-			ComputeWriter writer;
-			std::string const name = "member";
-			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< sdw::UInt >( name );
-			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
-				{
-					auto c = writer.declLocale< UInt >( "c", 0_u );
-					auto v = writer.declLocale< UInt >( "v", 1_u );
-					writer.declLocale( "r"
-						, atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v ) );
-					atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v );
-					atomicCompSwap( bo[0].getMember< sdw::UInt >( name ), c, v ) * c;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdx1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdx1" );
+		testBegin( "testDFdx" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", dFdx( v1 ) );
 				} );
 			test::writeShader( writer
@@ -9741,66 +2993,25 @@ namespace
 		testEnd();
 	}
 
-	void testDFdx2( test::sdw_test::TestCounts & testCounts )
+	void testDFdx( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdx2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", dFdx( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDFdxT< sdw::Float >( "1", testCounts );
+		testDFdxT< sdw::Vec2 >( "2", testCounts );
+		testDFdxT< sdw::Vec3 >( "3", testCounts );
+		testDFdxT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testDFdx3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDFdxCoarseT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdx3" );
+		testBegin( "testDFdxCoarse" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", dFdx( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdx4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdx4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", dFdx( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdxCoarse1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdxCoarse1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
 				} );
 			test::writeShader( writer
@@ -9809,66 +3020,25 @@ namespace
 		testEnd();
 	}
 
-	void testDFdxCoarse2( test::sdw_test::TestCounts & testCounts )
+	void testDFdxCoarse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdxCoarse2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDFdxCoarseT< sdw::Float >( "1", testCounts );
+		testDFdxCoarseT< sdw::Vec2 >( "2", testCounts );
+		testDFdxCoarseT< sdw::Vec3 >( "3", testCounts );
+		testDFdxCoarseT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testDFdxCoarse3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDFdxFineT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdxCoarse3" );
+		testBegin( "testDFdxFine" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdxCoarse4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdxCoarse4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", dFdxCoarse( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdxFine1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdxFine1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
 				} );
 			test::writeShader( writer
@@ -9877,66 +3047,25 @@ namespace
 		testEnd();
 	}
 
-	void testDFdxFine2( test::sdw_test::TestCounts & testCounts )
+	void testDFdxFine( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdxFine2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDFdxFineT< sdw::Float >( "1", testCounts );
+		testDFdxFineT< sdw::Vec2 >( "2", testCounts );
+		testDFdxFineT< sdw::Vec3 >( "3", testCounts );
+		testDFdxFineT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testDFdxFine3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDFdyT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdxFine3" );
+		testBegin( "testDFdy" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdxFine4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdxFine4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", dFdxFine( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdy1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdy1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", dFdy( v1 ) );
 				} );
 			test::writeShader( writer
@@ -9945,66 +3074,25 @@ namespace
 		testEnd();
 	}
 
-	void testDFdy2( test::sdw_test::TestCounts & testCounts )
+	void testDFdy( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdy2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", dFdy( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDFdyT< sdw::Float >( "1", testCounts );
+		testDFdyT< sdw::Vec2 >( "2", testCounts );
+		testDFdyT< sdw::Vec3 >( "3", testCounts );
+		testDFdyT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testDFdy3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDFdyCoarseT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdy3" );
+		testBegin( "testDFdyCoarse" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", dFdy( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdy4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdy4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", dFdy( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdyCoarse1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdyCoarse1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
 				} );
 			test::writeShader( writer
@@ -10013,66 +3101,25 @@ namespace
 		testEnd();
 	}
 
-	void testDFdyCoarse2( test::sdw_test::TestCounts & testCounts )
+	void testDFdyCoarse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdyCoarse2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDFdyCoarseT< sdw::Float >( "1", testCounts );
+		testDFdyCoarseT< sdw::Vec2 >( "2", testCounts );
+		testDFdyCoarseT< sdw::Vec3 >( "3", testCounts );
+		testDFdyCoarseT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testDFdyCoarse3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testDFdyFineT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdyCoarse3" );
+		testBegin( "testDFdyFine" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdyCoarse4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdyCoarse4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", dFdyCoarse( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdyFine1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdyFine1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
 				} );
 			test::writeShader( writer
@@ -10081,66 +3128,25 @@ namespace
 		testEnd();
 	}
 
-	void testDFdyFine2( test::sdw_test::TestCounts & testCounts )
+	void testDFdyFine( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdyFine2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testDFdyFineT< sdw::Float >( "1", testCounts );
+		testDFdyFineT< sdw::Vec2 >( "2", testCounts );
+		testDFdyFineT< sdw::Vec3 >( "3", testCounts );
+		testDFdyFineT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testDFdyFine3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testFwidthT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdyFine3" );
+		testBegin( "testFwidth" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testDFdyFine4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testDFdyFine4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", dFdyFine( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFwidth1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFwidth1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Float >( "v1" );
+					auto v1 = writer.declLocale< ValueT >( "v1" );
 					auto r = writer.declLocale( "r", fwidth( v1 ) );
 				} );
 			test::writeShader( writer
@@ -10149,64 +3155,23 @@ namespace
 		testEnd();
 	}
 
-	void testFwidth2( test::sdw_test::TestCounts & testCounts )
+	void testFwidth( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFwidth2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec2 >( "v1" );
-					auto r = writer.declLocale( "r", fwidth( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
+		testFwidthT< sdw::Float >( "1", testCounts );
+		testFwidthT< sdw::Vec2 >( "2", testCounts );
+		testFwidthT< sdw::Vec3 >( "3", testCounts );
+		testFwidthT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testFwidth3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testInterpolateAtCentroidT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFwidth3" );
+		testBegin( "testInterpolateAtCentroid" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec3 >( "v1" );
-					auto r = writer.declLocale( "r", fwidth( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testFwidth4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testFwidth4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto v1 = writer.declLocale< Vec4 >( "v1" );
-					auto r = writer.declLocale( "r", fwidth( v1 ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtCentroid1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtCentroid1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Float >( "inputs", 0u );
+			auto inputs = writer.declInput< ValueT >( "inputs", 0u );
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
@@ -10217,64 +3182,23 @@ namespace
 		testEnd();
 	}
 
-	void testInterpolateAtCentroid2( test::sdw_test::TestCounts & testCounts )
+	void testInterpolateAtCentroid( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtCentroid2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec2 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
+		testInterpolateAtCentroidT< sdw::Float >( "1", testCounts );
+		testInterpolateAtCentroidT< sdw::Vec2 >( "2", testCounts );
+		testInterpolateAtCentroidT< sdw::Vec3 >( "3", testCounts );
+		testInterpolateAtCentroidT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testInterpolateAtCentroid3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testInterpolateAtSampleT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtCentroid3" );
+		testBegin( "testInterpolateAtSample" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec3 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtCentroid4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtCentroid4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec4 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtCentroid( inputs ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtSample1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtSample1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Float >( "inputs", 0u );
+			auto inputs = writer.declInput< ValueT >( "inputs", 0u );
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
@@ -10285,64 +3209,23 @@ namespace
 		testEnd();
 	}
 
-	void testInterpolateAtSample2( test::sdw_test::TestCounts & testCounts )
+	void testInterpolateAtSample( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtSample2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec2 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
+		testInterpolateAtSampleT< sdw::Float >( "1", testCounts );
+		testInterpolateAtSampleT< sdw::Vec2 >( "2", testCounts );
+		testInterpolateAtSampleT< sdw::Vec3 >( "3", testCounts );
+		testInterpolateAtSampleT< sdw::Vec4 >( "4", testCounts );
 	}
 
-	void testInterpolateAtSample3( test::sdw_test::TestCounts & testCounts )
+	template< typename ValueT >
+	void testInterpolateAtOffsetT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtSample3" );
+		testBegin( "testInterpolateAtOffset" ) + name;
 		using namespace sdw;
 		{
 			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec3 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtSample4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtSample4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec4 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtSample( inputs, 0_i ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtOffset1( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtOffset1" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Float >( "inputs", 0u );
+			auto inputs = writer.declInput< ValueT >( "inputs", 0u );
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
@@ -10353,55 +3236,12 @@ namespace
 		testEnd();
 	}
 
-	void testInterpolateAtOffset2( test::sdw_test::TestCounts & testCounts )
+	void testInterpolateAtOffset( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtOffset2" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec2 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtOffset3( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtOffset3" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec3 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
-	}
-
-	void testInterpolateAtOffset4( test::sdw_test::TestCounts & testCounts )
-	{
-		testBegin( "testInterpolateAtOffset4" );
-		using namespace sdw;
-		{
-			FragmentWriter writer;
-			auto inputs = writer.declInput< Vec4 >( "inputs", 0u );
-			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
-				{
-					auto r = writer.declLocale( "r", interpolateAtOffset( inputs, vec2( -0.5_f ) ) );
-				} );
-			test::writeShader( writer
-				, testCounts, Compilers_NoHLSL );
-		}
-		testEnd();
+		testInterpolateAtOffsetT< sdw::Float >( "1", testCounts );
+		testInterpolateAtOffsetT< sdw::Vec2 >( "2", testCounts );
+		testInterpolateAtOffsetT< sdw::Vec3 >( "3", testCounts );
+		testInterpolateAtOffsetT< sdw::Vec4 >( "4", testCounts );
 	}
 
 	template< sdw::var::Flag FlagT >
@@ -12362,306 +5202,52 @@ namespace
 sdwTestSuiteMain( TestWriterIntrinsics )
 {
 	sdwTestSuiteBegin();
-	testDegrees1F( testCounts );
-	testDegrees2F( testCounts );
-	testDegrees3F( testCounts );
-	testDegrees4F( testCounts );
-	testRadians1F( testCounts );
-	testRadians2F( testCounts );
-	testRadians3F( testCounts );
-	testRadians4F( testCounts );
-	testCos1F( testCounts );
-	testCos2F( testCounts );
-	testCos3F( testCounts );
-	testCos4F( testCounts );
-	testSin1F( testCounts );
-	testSin2F( testCounts );
-	testSin3F( testCounts );
-	testSin4F( testCounts );
-	testTan1F( testCounts );
-	testTan2F( testCounts );
-	testTan3F( testCounts );
-	testTan4F( testCounts );
-	testCosh1F( testCounts );
-	testCosh2F( testCounts );
-	testCosh3F( testCounts );
-	testCosh4F( testCounts );
-	testSinh1F( testCounts );
-	testSinh2F( testCounts );
-	testSinh3F( testCounts );
-	testSinh4F( testCounts );
-	testTanh1F( testCounts );
-	testTanh2F( testCounts );
-	testTanh3F( testCounts );
-	testTanh4F( testCounts );
-	testACos1F( testCounts );
-	testACos2F( testCounts );
-	testACos3F( testCounts );
-	testACos4F( testCounts );
-	testASin1F( testCounts );
-	testASin2F( testCounts );
-	testASin3F( testCounts );
-	testASin4F( testCounts );
-	testATan1F( testCounts );
-	testATan2F( testCounts );
-	testATan3F( testCounts );
-	testATan4F( testCounts );
-	testACosh1F( testCounts );
-	testACosh2F( testCounts );
-	testACosh3F( testCounts );
-	testACosh4F( testCounts );
-	testASinh1F( testCounts );
-	testASinh2F( testCounts );
-	testASinh3F( testCounts );
-	testASinh4F( testCounts );
-	testATanh1F( testCounts );
-	testATanh2F( testCounts );
-	testATanh3F( testCounts );
-	testATanh4F( testCounts );
-	testPow1F( testCounts );
-	testPow2F( testCounts );
-	testPow3F( testCounts );
-	testPow4F( testCounts );
-	testExp1F( testCounts );
-	testExp2F( testCounts );
-	testExp3F( testCounts );
-	testExp4F( testCounts );
-	testLog1F( testCounts );
-	testLog2F( testCounts );
-	testLog3F( testCounts );
-	testLog4F( testCounts );
-	testExp21F( testCounts );
-	testExp22F( testCounts );
-	testExp23F( testCounts );
-	testExp24F( testCounts );
-	testLog21F( testCounts );
-	testLog22F( testCounts );
-	testLog23F( testCounts );
-	testLog24F( testCounts );
-	testSqrt1F( testCounts );
-	testSqrt2F( testCounts );
-	testSqrt3F( testCounts );
-	testSqrt4F( testCounts );
-	testSqrt1D( testCounts );
-	testSqrt2D( testCounts );
-	testSqrt3D( testCounts );
-	testSqrt4D( testCounts );
-	testInverseSqrt1F( testCounts );
-	testInverseSqrt2F( testCounts );
-	testInverseSqrt3F( testCounts );
-	testInverseSqrt4F( testCounts );
-	testInverseSqrt1D( testCounts );
-	testInverseSqrt2D( testCounts );
-	testInverseSqrt3D( testCounts );
-	testInverseSqrt4D( testCounts );
-	testAbs1F( testCounts );
-	testAbs2F( testCounts );
-	testAbs3F( testCounts );
-	testAbs4F( testCounts );
-	testAbs1D( testCounts );
-	testAbs2D( testCounts );
-	testAbs3D( testCounts );
-	testAbs4D( testCounts );
-	testAbs1I( testCounts );
-	testAbs2I( testCounts );
-	testAbs3I( testCounts );
-	testAbs4I( testCounts );
-	testSign1F( testCounts );
-	testSign2F( testCounts );
-	testSign3F( testCounts );
-	testSign4F( testCounts );
-	testSign1D( testCounts );
-	testSign2D( testCounts );
-	testSign3D( testCounts );
-	testSign4D( testCounts );
-	testSign1I( testCounts );
-	testSign2I( testCounts );
-	testSign3I( testCounts );
-	testSign4I( testCounts );
-	testFloor1F( testCounts );
-	testFloor2F( testCounts );
-	testFloor3F( testCounts );
-	testFloor4F( testCounts );
-	testFloor1D( testCounts );
-	testFloor2D( testCounts );
-	testFloor3D( testCounts );
-	testFloor4D( testCounts );
-	testTrunc1F( testCounts );
-	testTrunc2F( testCounts );
-	testTrunc3F( testCounts );
-	testTrunc4F( testCounts );
-	testTrunc1D( testCounts );
-	testTrunc2D( testCounts );
-	testTrunc3D( testCounts );
-	testTrunc4D( testCounts );
-	testRound1F( testCounts );
-	testRound2F( testCounts );
-	testRound3F( testCounts );
-	testRound4F( testCounts );
-	testRound1D( testCounts );
-	testRound2D( testCounts );
-	testRound3D( testCounts );
-	testRound4D( testCounts );
-	testRoundEven1F( testCounts );
-	testRoundEven2F( testCounts );
-	testRoundEven3F( testCounts );
-	testRoundEven4F( testCounts );
-	testRoundEven1D( testCounts );
-	testRoundEven2D( testCounts );
-	testRoundEven3D( testCounts );
-	testRoundEven4D( testCounts );
-	testCeil1F( testCounts );
-	testCeil2F( testCounts );
-	testCeil3F( testCounts );
-	testCeil4F( testCounts );
-	testCeil1D( testCounts );
-	testCeil2D( testCounts );
-	testCeil3D( testCounts );
-	testCeil4D( testCounts );
-	testFract1F( testCounts );
-	testFract2F( testCounts );
-	testFract3F( testCounts );
-	testFract4F( testCounts );
-	testFract1D( testCounts );
-	testFract2D( testCounts );
-	testFract3D( testCounts );
-	testFract4D( testCounts );
-	testMod1F( testCounts );
-	testMod2F( testCounts );
-	testMod3F( testCounts );
-	testMod4F( testCounts );
-	testMod1D( testCounts );
-	testMod2D( testCounts );
-	testMod3D( testCounts );
-	testMod4D( testCounts );
-	testModf1F( testCounts );
-	testModf2F( testCounts );
-	testModf3F( testCounts );
-	testModf4F( testCounts );
-	testModf1D( testCounts );
-	testModf2D( testCounts );
-	testModf3D( testCounts );
-	testModf4D( testCounts );
-	testMin1F( testCounts );
-	testMin2F( testCounts );
-	testMin3F( testCounts );
-	testMin4F( testCounts );
-	testMin1D( testCounts );
-	testMin2D( testCounts );
-	testMin3D( testCounts );
-	testMin4D( testCounts );
-	testMin1I( testCounts );
-	testMin2I( testCounts );
-	testMin3I( testCounts );
-	testMin4I( testCounts );
-	testMin1U( testCounts );
-	testMin2U( testCounts );
-	testMin3U( testCounts );
-	testMin4U( testCounts );
-	testMax1F( testCounts );
-	testMax2F( testCounts );
-	testMax3F( testCounts );
-	testMax4F( testCounts );
-	testMax1D( testCounts );
-	testMax2D( testCounts );
-	testMax3D( testCounts );
-	testMax4D( testCounts );
-	testMax1I( testCounts );
-	testMax2I( testCounts );
-	testMax3I( testCounts );
-	testMax4I( testCounts );
-	testMax1U( testCounts );
-	testMax2U( testCounts );
-	testMax3U( testCounts );
-	testMax4U( testCounts );
-	testClamp1F( testCounts );
-	testClamp2F( testCounts );
-	testClamp3F( testCounts );
-	testClamp4F( testCounts );
-	testClamp1D( testCounts );
-	testClamp2D( testCounts );
-	testClamp3D( testCounts );
-	testClamp4D( testCounts );
-	testMix1F( testCounts );
-	testMix2F( testCounts );
-	testMix3F( testCounts );
-	testMix4F( testCounts );
-	testMix1D( testCounts );
-	testMix2D( testCounts );
-	testMix3D( testCounts );
-	testMix4D( testCounts );
-	testStep1F( testCounts );
-	testStep2F( testCounts );
-	testStep3F( testCounts );
-	testStep4F( testCounts );
-	testStep1D( testCounts );
-	testStep2D( testCounts );
-	testStep3D( testCounts );
-	testStep4D( testCounts );
-	testSmoothStep1F( testCounts );
-	testSmoothStep2F( testCounts );
-	testSmoothStep3F( testCounts );
-	testSmoothStep4F( testCounts );
-	testSmoothStep1D( testCounts );
-	testSmoothStep2D( testCounts );
-	testSmoothStep3D( testCounts );
-	testSmoothStep4D( testCounts );
-	testIsnan1F( testCounts );
-	testIsnan2F( testCounts );
-	testIsnan3F( testCounts );
-	testIsnan4F( testCounts );
-	testIsnan1D( testCounts );
-	testIsnan2D( testCounts );
-	testIsnan3D( testCounts );
-	testIsnan4D( testCounts );
-	testIsinf1F( testCounts );
-	testIsinf2F( testCounts );
-	testIsinf3F( testCounts );
-	testIsinf4F( testCounts );
-	testIsinf1D( testCounts );
-	testIsinf2D( testCounts );
-	testIsinf3D( testCounts );
-	testIsinf4D( testCounts );
-	testFloatBitsToInt1( testCounts );
-	testFloatBitsToInt2( testCounts );
-	testFloatBitsToInt3( testCounts );
-	testFloatBitsToInt4( testCounts );
-	testFloatBitsToUInt1( testCounts );
-	testFloatBitsToUInt2( testCounts );
-	testFloatBitsToUInt3( testCounts );
-	testFloatBitsToUInt4( testCounts );
-	testIntBitsToFloat1( testCounts );
-	testIntBitsToFloat2( testCounts );
-	testIntBitsToFloat3( testCounts );
-	testIntBitsToFloat4( testCounts );
-	testUIntBitsToFloat1( testCounts );
-	testUIntBitsToFloat2( testCounts );
-	testUIntBitsToFloat3( testCounts );
-	testUIntBitsToFloat4( testCounts );
-	testFma1F( testCounts );
-	testFma2F( testCounts );
-	testFma3F( testCounts );
-	testFma4F( testCounts );
-	testFma1D( testCounts );
-	testFma2D( testCounts );
-	testFma3D( testCounts );
-	testFma4D( testCounts );
-	testFrexp1F( testCounts );
-	testFrexp2F( testCounts );
-	testFrexp3F( testCounts );
-	testFrexp4F( testCounts );
-	testFrexp1D( testCounts );
-	testFrexp2D( testCounts );
-	testFrexp3D( testCounts );
-	testFrexp4D( testCounts );
-	testLdexp1F( testCounts );
-	testLdexp2F( testCounts );
-	testLdexp3F( testCounts );
-	testLdexp4F( testCounts );
-	testLdexp1D( testCounts );
-	testLdexp2D( testCounts );
-	testLdexp3D( testCounts );
-	testLdexp4D( testCounts );
+	testDegrees( testCounts );
+	testRadians( testCounts );
+	testCos( testCounts );
+	testSin( testCounts );
+	testTan( testCounts );
+	testCosh( testCounts );
+	testSinh( testCounts );
+	testTanh( testCounts );
+	testACos( testCounts );
+	testASin( testCounts );
+	testATan( testCounts );
+	testACosh( testCounts );
+	testASinh( testCounts );
+	testATanh( testCounts );
+	testPow( testCounts );
+	testExp( testCounts );
+	testLog( testCounts );
+	testExp2( testCounts );
+	testLog2( testCounts );
+	testSqrt( testCounts );
+	testInverseSqrt( testCounts );
+	testAbs( testCounts );
+	testSign( testCounts );
+	testFloor( testCounts );
+	testTrunc( testCounts );
+	testRound( testCounts );
+	testRoundEven( testCounts );
+	testCeil( testCounts );
+	testFract( testCounts );
+	testMod( testCounts );
+	testModf( testCounts );
+	testMin( testCounts );
+	testMax( testCounts );
+	testClamp( testCounts );
+	testMix( testCounts );
+	testStep( testCounts );
+	testSmoothStep( testCounts );
+	testIsnan( testCounts );
+	testIsinf( testCounts );
+	testFloatBitsToInt( testCounts );
+	testFloatBitsToUInt( testCounts );
+	testIntBitsToFloat( testCounts );
+	testUIntBitsToFloat( testCounts );
+	testFma( testCounts );
+	testFrexp( testCounts );
+	testLdexp( testCounts );
 	testPackDouble2x32( testCounts );
 	testPackHalf2x16( testCounts );
 	testPackSnorm2x16( testCounts );
@@ -12674,341 +5260,57 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	testUnpackUnorm2x16( testCounts );
 	testUnpackSnorm4x8( testCounts );
 	testUnpackUnorm4x8( testCounts );
-	testLength1F( testCounts );
-	testLength2F( testCounts );
-	testLength3F( testCounts );
-	testLength4F( testCounts );
-	testLength1D( testCounts );
-	testLength2D( testCounts );
-	testLength3D( testCounts );
-	testLength4D( testCounts );
-	testDistance1F( testCounts );
-	testDistance2F( testCounts );
-	testDistance3F( testCounts );
-	testDistance4F( testCounts );
-	testDistance1D( testCounts );
-	testDistance2D( testCounts );
-	testDistance3D( testCounts );
-	testDistance4D( testCounts );
-	testDot2F( testCounts );
-	testDot3F( testCounts );
-	testDot4F( testCounts );
-	testDot2D( testCounts );
-	testDot3D( testCounts );
-	testDot4D( testCounts );
-	testCrossF( testCounts );
-	testCrossD( testCounts );
-	testNormalize1F( testCounts );
-	testNormalize2F( testCounts );
-	testNormalize3F( testCounts );
-	testNormalize4F( testCounts );
-	testNormalize1D( testCounts );
-	testNormalize2D( testCounts );
-	testNormalize3D( testCounts );
-	testNormalize4D( testCounts );
-	testFaceForward1F( testCounts );
-	testFaceForward2F( testCounts );
-	testFaceForward3F( testCounts );
-	testFaceForward4F( testCounts );
-	testFaceForward1D( testCounts );
-	testFaceForward2D( testCounts );
-	testFaceForward3D( testCounts );
-	testFaceForward4D( testCounts );
-	testReflect1F( testCounts );
-	testReflect2F( testCounts );
-	testReflect3F( testCounts );
-	testReflect4F( testCounts );
-	testReflect1D( testCounts );
-	testReflect2D( testCounts );
-	testReflect3D( testCounts );
-	testReflect4D( testCounts );
-	testRefract1F( testCounts );
-	testRefract2F( testCounts );
-	testRefract3F( testCounts );
-	testRefract4F( testCounts );
-	testRefract1D( testCounts );
-	testRefract2D( testCounts );
-	testRefract3D( testCounts );
-	testRefract4D( testCounts );
-	testMatrixCompMult2x2F( testCounts );
-	testMatrixCompMult2x3F( testCounts );
-	testMatrixCompMult2x4F( testCounts );
-	testMatrixCompMult3x2F( testCounts );
-	testMatrixCompMult3x3F( testCounts );
-	testMatrixCompMult3x4F( testCounts );
-	testMatrixCompMult4x2F( testCounts );
-	testMatrixCompMult4x3F( testCounts );
-	testMatrixCompMult4x4F( testCounts );
-	testMatrixCompMult2x2D( testCounts );
-	testMatrixCompMult2x3D( testCounts );
-	testMatrixCompMult2x4D( testCounts );
-	testMatrixCompMult3x2D( testCounts );
-	testMatrixCompMult3x3D( testCounts );
-	testMatrixCompMult3x4D( testCounts );
-	testMatrixCompMult4x2D( testCounts );
-	testMatrixCompMult4x3D( testCounts );
-	testMatrixCompMult4x4D( testCounts );
-	testMatrixMult2x2F( testCounts );
-	testMatrixMult3x3F( testCounts );
-	testMatrixMult4x4F( testCounts );
-	testMatrixMult2x2D( testCounts );
-	testMatrixMult3x3D( testCounts );
-	testMatrixMult4x4D( testCounts );
-	testOuterProduct2x2F( testCounts );
-	testOuterProduct2x3F( testCounts );
-	testOuterProduct2x4F( testCounts );
-	testOuterProduct3x2F( testCounts );
-	testOuterProduct3x3F( testCounts );
-	testOuterProduct3x4F( testCounts );
-	testOuterProduct4x2F( testCounts );
-	testOuterProduct4x3F( testCounts );
-	testOuterProduct4x4F( testCounts );
-	testOuterProduct2x2D( testCounts );
-	testOuterProduct2x3D( testCounts );
-	testOuterProduct2x4D( testCounts );
-	testOuterProduct3x2D( testCounts );
-	testOuterProduct3x3D( testCounts );
-	testOuterProduct3x4D( testCounts );
-	testOuterProduct4x2D( testCounts );
-	testOuterProduct4x3D( testCounts );
-	testOuterProduct4x4D( testCounts );
-	testTranspose2x2F( testCounts );
-	testTranspose2x3F( testCounts );
-	testTranspose2x4F( testCounts );
-	testTranspose3x2F( testCounts );
-	testTranspose3x3F( testCounts );
-	testTranspose3x4F( testCounts );
-	testTranspose4x2F( testCounts );
-	testTranspose4x3F( testCounts );
-	testTranspose4x4F( testCounts );
-	testTranspose2x2D( testCounts );
-	testTranspose2x3D( testCounts );
-	testTranspose2x4D( testCounts );
-	testTranspose3x2D( testCounts );
-	testTranspose3x3D( testCounts );
-	testTranspose3x4D( testCounts );
-	testTranspose4x2D( testCounts );
-	testTranspose4x3D( testCounts );
-	testTranspose4x4D( testCounts );
-	testDeterminant2x2F( testCounts );
-	testDeterminant3x3F( testCounts );
-	testDeterminant4x4F( testCounts );
-	testDeterminant2x2D( testCounts );
-	testDeterminant3x3D( testCounts );
-	testDeterminant4x4D( testCounts );
-	testInverse2x2F( testCounts );
-	testInverse3x3F( testCounts );
-	testInverse4x4F( testCounts );
-	testInverse2x2D( testCounts );
-	testInverse3x3D( testCounts );
-	testInverse4x4D( testCounts );
-	testLessThan2F( testCounts );
-	testLessThan3F( testCounts );
-	testLessThan4F( testCounts );
-	testLessThan2D( testCounts );
-	testLessThan3D( testCounts );
-	testLessThan4D( testCounts );
-	testLessThan2I( testCounts );
-	testLessThan3I( testCounts );
-	testLessThan4I( testCounts );
-	testLessThan2U( testCounts );
-	testLessThan3U( testCounts );
-	testLessThan4U( testCounts );
-	testLessThanEqual2F( testCounts );
-	testLessThanEqual3F( testCounts );
-	testLessThanEqual4F( testCounts );
-	testLessThanEqual2D( testCounts );
-	testLessThanEqual3D( testCounts );
-	testLessThanEqual4D( testCounts );
-	testLessThanEqual2I( testCounts );
-	testLessThanEqual3I( testCounts );
-	testLessThanEqual4I( testCounts );
-	testLessThanEqual2U( testCounts );
-	testLessThanEqual3U( testCounts );
-	testLessThanEqual4U( testCounts );
-	testGreaterThan2F( testCounts );
-	testGreaterThan3F( testCounts );
-	testGreaterThan4F( testCounts );
-	testGreaterThan2D( testCounts );
-	testGreaterThan3D( testCounts );
-	testGreaterThan4D( testCounts );
-	testGreaterThan2I( testCounts );
-	testGreaterThan3I( testCounts );
-	testGreaterThan4I( testCounts );
-	testGreaterThan2U( testCounts );
-	testGreaterThan3U( testCounts );
-	testGreaterThan4U( testCounts );
-	testGreaterThanEqual2F( testCounts );
-	testGreaterThanEqual3F( testCounts );
-	testGreaterThanEqual4F( testCounts );
-	testGreaterThanEqual2D( testCounts );
-	testGreaterThanEqual3D( testCounts );
-	testGreaterThanEqual4D( testCounts );
-	testGreaterThanEqual2I( testCounts );
-	testGreaterThanEqual3I( testCounts );
-	testGreaterThanEqual4I( testCounts );
-	testGreaterThanEqual2U( testCounts );
-	testGreaterThanEqual3U( testCounts );
-	testGreaterThanEqual4U( testCounts );
-	testEqual2F( testCounts );
-	testEqual3F( testCounts );
-	testEqual4F( testCounts );
-	testEqual2D( testCounts );
-	testEqual3D( testCounts );
-	testEqual4D( testCounts );
-	testEqual2I( testCounts );
-	testEqual3I( testCounts );
-	testEqual4I( testCounts );
-	testEqual2U( testCounts );
-	testEqual3U( testCounts );
-	testEqual4U( testCounts );
-	testNotEqual2F( testCounts );
-	testNotEqual3F( testCounts );
-	testNotEqual4F( testCounts );
-	testNotEqual2D( testCounts );
-	testNotEqual3D( testCounts );
-	testNotEqual4D( testCounts );
-	testNotEqual2I( testCounts );
-	testNotEqual3I( testCounts );
-	testNotEqual4I( testCounts );
-	testNotEqual2U( testCounts );
-	testNotEqual3U( testCounts );
-	testNotEqual4U( testCounts );
-	testAll2( testCounts );
-	testAll3( testCounts );
-	testAll4( testCounts );
-	testAny2( testCounts );
-	testAny3( testCounts );
-	testAny4( testCounts );
-	testNot2( testCounts );
-	testNot3( testCounts );
-	testNot4( testCounts );
-	testUaddCarry1( testCounts );
-	testUaddCarry2( testCounts );
-	testUaddCarry3( testCounts );
-	testUaddCarry4( testCounts );
-	testUsubBorrow1( testCounts );
-	testUsubBorrow2( testCounts );
-	testUsubBorrow3( testCounts );
-	testUsubBorrow4( testCounts );
-	testUmulExtended1( testCounts );
-	testUmulExtended2( testCounts );
-	testUmulExtended3( testCounts );
-	testUmulExtended4( testCounts );
-	testImulExtended1( testCounts );
-	testImulExtended2( testCounts );
-	testImulExtended3( testCounts );
-	testImulExtended4( testCounts );
-	testBitfieldExtract1I( testCounts );
-	testBitfieldExtract2I( testCounts );
-	testBitfieldExtract3I( testCounts );
-	testBitfieldExtract4I( testCounts );
-	testBitfieldExtract1U( testCounts );
-	testBitfieldExtract2U( testCounts );
-	testBitfieldExtract3U( testCounts );
-	testBitfieldExtract4U( testCounts );
-	testBitfieldInsert1I( testCounts );
-	testBitfieldInsert2I( testCounts );
-	testBitfieldInsert3I( testCounts );
-	testBitfieldInsert4I( testCounts );
-	testBitfieldInsert1U( testCounts );
-	testBitfieldInsert2U( testCounts );
-	testBitfieldInsert3U( testCounts );
-	testBitfieldInsert4U( testCounts );
-	testBitfieldReverse1I( testCounts );
-	testBitfieldReverse2I( testCounts );
-	testBitfieldReverse3I( testCounts );
-	testBitfieldReverse4I( testCounts );
-	testBitfieldReverse1U( testCounts );
-	testBitfieldReverse2U( testCounts );
-	testBitfieldReverse3U( testCounts );
-	testBitfieldReverse4U( testCounts );
-	testBitCount1I( testCounts );
-	testBitCount2I( testCounts );
-	testBitCount3I( testCounts );
-	testBitCount4I( testCounts );
-	testBitCount1U( testCounts );
-	testBitCount2U( testCounts );
-	testBitCount3U( testCounts );
-	testBitCount4U( testCounts );
-	testFindLSB1I( testCounts );
-	testFindLSB2I( testCounts );
-	testFindLSB3I( testCounts );
-	testFindLSB4I( testCounts );
-	testFindLSB1U( testCounts );
-	testFindLSB2U( testCounts );
-	testFindLSB3U( testCounts );
-	testFindLSB4U( testCounts );
-	testFindMSB1I( testCounts );
-	testFindMSB2I( testCounts );
-	testFindMSB3I( testCounts );
-	testFindMSB4I( testCounts );
-	testFindMSB1U( testCounts );
-	testFindMSB2U( testCounts );
-	testFindMSB3U( testCounts );
-	testFindMSB4U( testCounts );
-	testAtomicAddI( testCounts );
-	testAtomicAddU( testCounts );
-	testAtomicAddF( testCounts );
-	//testAtomicAdd2H( testCounts );
-	//testAtomicAdd4H( testCounts );
-	testAtomicMinI( testCounts );
-	testAtomicMinU( testCounts );
-	testAtomicMaxI( testCounts );
-	testAtomicMaxU( testCounts );
-	testAtomicAndI( testCounts );
-	testAtomicAndU( testCounts );
-	testAtomicOrI( testCounts );
-	testAtomicOrU( testCounts );
-	testAtomicXorI( testCounts );
-	testAtomicXorU( testCounts );
-	testAtomicExchangeI( testCounts );
-	testAtomicExchangeU( testCounts );
-	testAtomicExchangeF( testCounts );
-	//testAtomicExchange2H( testCounts );
-	//testAtomicExchange4H( testCounts );
-	testAtomicCompSwapI( testCounts );
-	testAtomicCompSwapU( testCounts );
-	testDFdx1( testCounts );
-	testDFdx2( testCounts );
-	testDFdx3( testCounts );
-	testDFdx4( testCounts );
-	testDFdxCoarse1( testCounts );
-	testDFdxCoarse2( testCounts );
-	testDFdxCoarse3( testCounts );
-	testDFdxCoarse4( testCounts );
-	testDFdxFine1( testCounts );
-	testDFdxFine2( testCounts );
-	testDFdxFine3( testCounts );
-	testDFdxFine4( testCounts );
-	testDFdy1( testCounts );
-	testDFdy2( testCounts );
-	testDFdy3( testCounts );
-	testDFdy4( testCounts );
-	testDFdyCoarse1( testCounts );
-	testDFdyCoarse2( testCounts );
-	testDFdyCoarse3( testCounts );
-	testDFdyCoarse4( testCounts );
-	testDFdyFine1( testCounts );
-	testDFdyFine2( testCounts );
-	testDFdyFine3( testCounts );
-	testDFdyFine4( testCounts );
-	testFwidth1( testCounts );
-	testFwidth2( testCounts );
-	testFwidth3( testCounts );
-	testFwidth4( testCounts );
-	testInterpolateAtCentroid1( testCounts );
-	testInterpolateAtCentroid2( testCounts );
-	testInterpolateAtCentroid3( testCounts );
-	testInterpolateAtCentroid4( testCounts );
-	testInterpolateAtSample1( testCounts );
-	testInterpolateAtSample2( testCounts );
-	testInterpolateAtSample3( testCounts );
-	testInterpolateAtSample4( testCounts );
-	testInterpolateAtOffset1( testCounts );
-	testInterpolateAtOffset2( testCounts );
-	testInterpolateAtOffset3( testCounts );
-	testInterpolateAtOffset4( testCounts );
+	testLength( testCounts );
+	testDistance( testCounts );
+	testDot( testCounts );
+	testCross( testCounts );
+	testNormalize( testCounts );
+	testFaceForward( testCounts );
+	testReflect( testCounts );
+	testRefract( testCounts );
+	testMatrixCompMult( testCounts );
+	testMatrixMult( testCounts );
+	testOuterProduct( testCounts );
+	testTranspose( testCounts );
+	testDeterminant( testCounts );
+	testInverse( testCounts );
+	testLessThan( testCounts );
+	testLessThanEqual( testCounts );
+	testGreaterThan( testCounts );
+	testGreaterThanEqual( testCounts );
+	testEqual( testCounts );
+	testNotEqual( testCounts );
+	testAll( testCounts );
+	testAny( testCounts );
+	testNot( testCounts );
+	testUaddCarry( testCounts );
+	testUsubBorrow( testCounts );
+	testUmulExtended( testCounts );
+	testImulExtended( testCounts );
+	testBitfieldExtract( testCounts );
+	testBitfieldInsert( testCounts );
+	testBitfieldReverse( testCounts );
+	testBitCount( testCounts );
+	testFindLSB( testCounts );
+	testFindMSB( testCounts );
+	testAtomicAdd( testCounts );
+	testAtomicMin( testCounts );
+	testAtomicMax( testCounts );
+	testAtomicAnd( testCounts );
+	testAtomicOr( testCounts );
+	testAtomicXor( testCounts );
+	testAtomicExchange( testCounts );
+	testAtomicCompSwap( testCounts );
+	testDFdx( testCounts );
+	testDFdxCoarse( testCounts );
+	testDFdxFine( testCounts );
+	testDFdy( testCounts );
+	testDFdyCoarse( testCounts );
+	testDFdyFine( testCounts );
+	testFwidth( testCounts );
+	testInterpolateAtCentroid( testCounts );
+	testInterpolateAtSample( testCounts );
+	testInterpolateAtOffset( testCounts );
 	//testEmitStreamVertex( testCounts );
 	//testEndStreamPrimitive( testCounts );
 	//testEmitVertex( testCounts );

@@ -569,6 +569,8 @@ namespace sdw
 	Writer_Parameter( DVec2 );
 	Writer_Parameter( DVec3 );
 	Writer_Parameter( DVec4 );
+	Writer_Parameter( HVec2 );
+	Writer_Parameter( HVec4 );
 	Writer_Parameter( IVec2 );
 	Writer_Parameter( IVec3 );
 	Writer_Parameter( IVec4 );
