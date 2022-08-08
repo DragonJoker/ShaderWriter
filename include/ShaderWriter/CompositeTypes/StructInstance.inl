@@ -35,11 +35,7 @@ namespace sdw
 
 		if ( mbrIndex == ast::type::Struct::NotFound )
 		{
-			if ( mbrFlags )
-			{
-				std::clog << "Struct member [" << name << "] was not found, creating dummy one." << std::endl;
-			}
-			else if ( !optional )
+			if ( !mbrFlags && !optional )
 			{
 				throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
 			}
@@ -110,11 +106,7 @@ namespace sdw
 
 		if ( mbrIndex == ast::type::Struct::NotFound )
 		{
-			if ( mbrFlags )
-			{
-				std::clog << "Struct member [" << name << "] was not found, creating dummy one." << std::endl;
-			}
-			else if ( !optional )
+			if ( !mbrFlags && !optional )
 			{
 				throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
 			}
