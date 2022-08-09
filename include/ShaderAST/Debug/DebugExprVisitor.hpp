@@ -13,7 +13,7 @@ namespace ast::debug
 		: public expr::SimpleVisitor
 	{
 	protected:
-		SDAST_API ExprVisitor( std::string & result );
+		SDAST_API explicit ExprVisitor( std::string & result );
 
 	public:
 		SDAST_API static std::string submit( expr::Expr * expr );

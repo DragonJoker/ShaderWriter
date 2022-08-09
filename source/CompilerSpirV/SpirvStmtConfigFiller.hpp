@@ -19,7 +19,7 @@ namespace spirv
 			, ModuleConfig & moduleConfig );
 
 	private:
-		StmtConfigFiller( ModuleConfig & result );
+		explicit StmtConfigFiller( ModuleConfig & result );
 
 		void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override;
 		void visitBreakStmt( ast::stmt::Break * cont )override;

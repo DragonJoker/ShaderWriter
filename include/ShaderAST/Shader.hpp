@@ -68,7 +68,7 @@ namespace ast
 	class Shader
 	{
 	public:
-		SDAST_API Shader( ast::ShaderStage type );
+		SDAST_API explicit Shader( ast::ShaderStage type );
 		SDAST_API void push( stmt::Container * container
 			, ast::var::VariableList vars );
 		SDAST_API void pop();

@@ -30,7 +30,7 @@ namespace hlsl
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container )
 	{
-		IntrinsicsConfig result;
+		IntrinsicsConfig result{};
 		StmtConfigFiller vis{ shader, adaptationData, result };
 		container->accept( &vis );
 		return result;

@@ -88,7 +88,7 @@ namespace hlsl
 
 		std::string writeIOMember( ast::ShaderStage stage
 			, ast::type::TypePtr type
-			, std::string name
+			, std::string const & name
 			, ast::Builtin builtin
 			, bool isInput
 			, uint32_t builtinIndex
@@ -215,7 +215,7 @@ namespace hlsl
 			return result;
 		}
 
-		std::string writeBaseMembers( std::string indent
+		std::string writeBaseMembers( std::string const & indent
 			, ast::type::Struct const & structType )
 		{
 			std::string result;
@@ -229,7 +229,7 @@ namespace hlsl
 		}
 
 		std::string writeMembers( ast::ShaderStage stage
-			, std::string indent
+			, std::string const & indent
 			, ast::type::Struct const & structType )
 		{
 			if ( structType.isShaderInput()

@@ -2754,10 +2754,6 @@ namespace hlsl
 	void AdaptationData::addInputVar( ast::var::VariablePtr var
 		, uint32_t location )
 	{
-		auto & entryPoint = m_currentRoutine
-			? *m_currentRoutine
-			: *m_mainEntryPoint;
-
 		if ( !var->isBuiltin()
 			|| HlslHelpersInternal::isHighFreq( var->getBuiltin(), true ) )
 		{
@@ -2772,6 +2768,9 @@ namespace hlsl
 		}
 		else
 		{
+			auto & entryPoint = m_currentRoutine
+				? *m_currentRoutine
+				: *m_mainEntryPoint;
 			entryPoint.addInputVar( var, location );
 		}
 	}

@@ -1629,12 +1629,12 @@ namespace spirv
 		template< typename InstructionType >
 		inline void checkType( Instruction const & instruction )
 		{
-			return assertType< InstructionType::op
-				, InstructionType::hasReturnTypeId
-				, InstructionType::hasResultId
-				, InstructionType::operandsCount
-				, InstructionType::hasName
-				, InstructionType::hasLabels >( instruction );
+			return assertType< InstructionType::Op
+				, InstructionType::HasReturnTypeId
+				, InstructionType::HasResultId
+				, InstructionType::OperandsCount
+				, InstructionType::HasName
+				, InstructionType::HasLabels >( instruction );
 		}
 
 		struct NameCache

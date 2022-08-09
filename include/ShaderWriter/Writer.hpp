@@ -1001,7 +1001,7 @@ namespace sdw
 			return *this;
 		}
 
-		WriterScopeT( WriterT & writer )
+		explicit WriterScopeT( WriterT & writer )
 			: m_writer{ &writer }
 		{
 			m_writer->pushScope();

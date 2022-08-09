@@ -27,7 +27,7 @@ namespace spirv
 			}
 
 		private:
-			ExprActionsCounter( FunctionActions & result
+			explicit ExprActionsCounter( FunctionActions & result
 				, bool isMember )
 				: m_result{ result }
 				, m_isMember{ isMember }

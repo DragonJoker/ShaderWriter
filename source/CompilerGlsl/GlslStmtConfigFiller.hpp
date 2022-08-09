@@ -19,7 +19,7 @@ namespace glsl
 			, ast::stmt::Container * container );
 
 	private:
-		StmtConfigFiller( IntrinsicsConfig & result );
+		explicit StmtConfigFiller( IntrinsicsConfig & result );
 
 		void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override;
 		void visitBreakStmt( ast::stmt::Break * cont )override;

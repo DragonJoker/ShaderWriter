@@ -40,7 +40,7 @@ namespace spirv
 			}
 
 		private:
-			HasFnCall( bool & result )
+			explicit HasFnCall( bool & result )
 				: m_result{ result }
 			{
 			}
@@ -616,7 +616,7 @@ namespace spirv
 
 	void ExprVisitor::visitCommaExpr( ast::expr::Comma * expr )
 	{
-		auto dstTypeId = m_module.registerType( expr->getType() );
+		m_module.registerType( expr->getType() );
 		doSubmit( expr->getLHS() );
 		m_result = doSubmit( expr->getRHS() );
 	}

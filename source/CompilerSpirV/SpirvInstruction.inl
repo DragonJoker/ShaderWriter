@@ -75,88 +75,88 @@ namespace spirv
 
 	//*************************************************************************
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId
-		, uint32_t OperandsCount
-		, bool HasName
-		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( Optional< ValueId > preturnTypeId
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT
+		, uint32_t OperandsCountT
+		, bool HasNameT
+		, bool HasLabelsT >
+	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
 		, ValueIdList poperands
 		, Optional< std::string > pname
 		, Optional< std::map< int32_t, spv::Id > > plabels )
-		: Instruction{ config, Operator, preturnTypeId, presultId, poperands, std::move( pname ), plabels }
+		: Instruction{ Config, OperatorT, preturnTypeId, presultId, poperands, std::move( pname ), plabels }
 	{
-		assertType< Operator
-			, hasReturnTypeId
-			, hasResultId
-			, operandsCount
-			, hasName
-			, hasLabels >( *this );
+		assertType< Op
+			, HasReturnTypeId
+			, HasResultId
+			, OperandsCount
+			, HasName
+			, HasLabels >( *this );
 	}
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId
-		, uint32_t OperandsCount
-		, bool HasName
-		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( BufferIt & buffer )
-		: Instruction{ config, Operator, buffer }
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT
+		, uint32_t OperandsCountT
+		, bool HasNameT
+		, bool HasLabelsT >
+	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( BufferIt & buffer )
+		: Instruction{ Config, OperatorT, buffer }
 	{
 	}
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId
-		, uint32_t OperandsCount
-		, bool HasName
-		, bool HasLabels >
-	inline InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >::InstructionT( BufferCIt & buffer )
-		: Instruction{ config, Operator, buffer }
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT
+		, uint32_t OperandsCountT
+		, bool HasNameT
+		, bool HasLabelsT >
+	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( BufferCIt & buffer )
+		: Instruction{ Config, OperatorT, buffer }
 	{
 	}
 
 	//*************************************************************************
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( Optional< ValueId > preturnTypeId
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
 		, ValueIdList poperands )
-		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ preturnTypeId, presultId, poperands, nullopt, nullopt }
+		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >{ preturnTypeId, presultId, poperands, nullopt, nullopt }
 	{
 	}
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( BufferIt & buffer )
-		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( BufferIt & buffer )
+		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >{ buffer, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false }
 	{
 	}
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId >
-	inline VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >::VariadicInstructionT( BufferCIt & buffer )
-		: InstructionT< Operator, HasReturnTypeId, HasResultId, dynamicOperandCount, false, false >{ buffer, hasReturnTypeId, hasResultId, operandsCount, hasName, hasLabels }
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( BufferCIt & buffer )
+		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >{ buffer, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false }
 	{
 	}
 
 	//*************************************************************************
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 0u, true, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 0u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( std::string name )
@@ -169,15 +169,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 1u, true, false>
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 1u, true, false>
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId operand, std::string name )
@@ -192,15 +192,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 2u, true, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 2u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId operand0, ValueId operand1, std::string name )
@@ -222,14 +222,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, false, false, OperandsCount, true, false >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, false, false, OperandsCountT, true, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueIdList operands, std::string name )
@@ -242,15 +242,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, 0u, true, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, 0u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, std::string name )
@@ -263,15 +263,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, 1u, true, false>
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, 1u, true, false>
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueId operand, std::string name )
@@ -286,15 +286,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, 2u, true, false>
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, 2u, true, false>
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueId operand0, ValueId operand1, std::string name )
@@ -316,14 +316,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, false, true, OperandsCount, true, false>
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, false, true, OperandsCountT, true, false>
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands, std::string name )
@@ -336,15 +336,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, 0u, false, false>
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, 0u, false, false>
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId )
@@ -357,15 +357,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, 1u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, 1u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand )
@@ -380,15 +380,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, 2u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, 2u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand0, ValueId operand1 )
@@ -410,14 +410,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, true, true, OperandsCount, false, false >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, true, true, OperandsCountT, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
@@ -430,14 +430,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, dynamicOperandCount, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, dynamicOperandCount, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
@@ -456,15 +456,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, false, 0u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, false, 0u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId )
@@ -477,15 +477,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, false, 1u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, false, 1u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId operand )
@@ -500,15 +500,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, false, 2u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, false, 2u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId operand0, ValueId operand1 )
@@ -530,14 +530,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, true, false, OperandsCount, false, false >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, true, false, OperandsCountT, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueIdList const & operands )
@@ -550,14 +550,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, false, dynamicOperandCount, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, false, dynamicOperandCount, false, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueIdList const & operands )
@@ -568,15 +568,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, 0u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, 0u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId )
@@ -589,15 +589,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, 1u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, 1u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueId operand )
@@ -612,15 +612,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, 2u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, 2u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueId operand0, ValueId operand1 )
@@ -642,14 +642,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, false, true, OperandsCount, false, false >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, false, true, OperandsCountT, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands )
@@ -662,14 +662,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, true, dynamicOperandCount, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, true, dynamicOperandCount, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId resultId, ValueIdList const & operands )
@@ -680,15 +680,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 0u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 0u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make()
@@ -701,15 +701,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 1u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 1u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId operand )
@@ -724,15 +724,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 2u, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 2u, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId operand0, ValueId operand1 )
@@ -754,14 +754,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, false, false, OperandsCount, false, false >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, false, false, OperandsCountT, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueIdList const & operands )
@@ -774,14 +774,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, dynamicOperandCount, false, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, dynamicOperandCount, false, false >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< Operator, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueIdList const & operands )
@@ -792,15 +792,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 0u, false, true >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 0u, false, true >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = true;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( std::map< int32_t, spv::Id > const & labels )
@@ -813,15 +813,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 1u, false, true >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 1u, false, true >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = true;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId operand, std::map< int32_t, spv::Id > const & labels )
@@ -836,15 +836,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, false, false, 2u, false, true >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, 2u, false, true >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = true;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId operand0, ValueId operand1, std::map< int32_t, spv::Id > const & labels )
@@ -867,14 +867,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, false, false, OperandsCount, false, true >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, false, false, OperandsCountT, false, true >
 	{
 		static bool constexpr HasReturnTypeId = false;
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = true;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueIdList const & operands, std::map< int32_t, spv::Id > const & labels )
@@ -887,15 +887,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, 0u, true, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, 0u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 0u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, std::string name )
@@ -908,15 +908,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, 1u, true, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, 1u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 1u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand, std::string name )
@@ -929,15 +929,15 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator >
-	struct InstructionTMaker< Operator, true, true, 2u, true, false >
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, true, 2u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static uint32_t constexpr OperandsCount = 2u;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueId operand0, ValueId operand1, std::string name )
@@ -950,14 +950,14 @@ namespace spirv
 		}
 	};
 
-	template< spv::Op Operator, uint32_t OperandsCount >
-	struct InstructionTMaker< Operator, true, true, OperandsCount, true, false >
+	template< spv::Op OperatorT, uint32_t OperandsCountT >
+	struct InstructionTMaker< OperatorT, true, true, OperandsCountT, true, false >
 	{
 		static bool constexpr HasReturnTypeId = true;
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = true;
 		static bool constexpr HasLabels = false;
-		using InstructionType = InstructionT< Operator, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( ValueId returnTypeId, ValueId resultId, ValueIdList const & operands, std::string name )
@@ -972,25 +972,25 @@ namespace spirv
 
 	//*************************************************************************
 
-	template< spv::Op Operator
-		, bool HasReturnTypeId
-		, bool HasResultId
-		, uint32_t OperandsCount
-		, bool HasName
-		, bool HasLabels >
+	template< spv::Op OperatorT
+		, bool HasReturnTypeIdT
+		, bool HasResultIdT
+		, uint32_t OperandsCountT
+		, bool HasNameT
+		, bool HasLabelsT >
 	inline void assertType( Instruction const & instruction )
 	{
 		assertType( instruction
-			, Operator
-			, HasReturnTypeId
-			, HasResultId
-			, OperandsCount
-			, HasName
-			, HasLabels );
+			, OperatorT
+			, HasReturnTypeIdT
+			, HasResultIdT
+			, OperandsCountT
+			, HasNameT
+			, HasLabelsT );
 	}
 
 	inline void assertType( Instruction const & instruction
-		, Instruction::Config const & config )
+		, Instruction::Configuration const & config )
 	{
 		assertType( instruction
 			, config.op
@@ -1019,7 +1019,7 @@ namespace spirv
 		assert( bool( instruction.labels ) == hasLabels );
 	}
 
-	template< spv::Op OpT >
+	template< spv::Op OperatorT >
 	struct OpInstructionCheckerT
 	{
 		template< typename ... Params >
@@ -1031,13 +1031,13 @@ namespace spirv
 	template< typename InstructionType, typename ... Params >
 	inline std::unique_ptr< InstructionType > makeInstruction( Params && ... params )
 	{
-		OpInstructionCheckerT< InstructionType::op >::checkParams( std::forward< Params const & >( params )... );
-		return InstructionTMaker< InstructionType::op
-			, InstructionType::hasReturnTypeId
-			, InstructionType::hasResultId
-			, InstructionType::operandsCount
-			, InstructionType::hasName
-			, InstructionType::hasLabels >::make( std::forward< Params >( params )... );
+		OpInstructionCheckerT< InstructionType::Op >::checkParams( std::forward< Params const & >( params )... );
+		return InstructionTMaker< InstructionType::Op
+			, InstructionType::HasReturnTypeId
+			, InstructionType::HasResultId
+			, InstructionType::OperandsCount
+			, InstructionType::HasName
+			, InstructionType::HasLabels >::make( std::forward< Params >( params )... );
 	}
 
 	//*************************************************************************

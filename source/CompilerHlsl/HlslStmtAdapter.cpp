@@ -362,7 +362,6 @@ namespace hlsl
 			auto arrayType = std::static_pointer_cast< ast::type::Array >( originalVar->getType() );
 			auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( arrayType->getType() );
 			imageType = m_cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
-			sampledType = m_cache.getArray( realSampledType, arrayType->getArraySize() );
 			config = realSampledType->getConfig();
 
 			if ( !m_intrinsicsConfig.requiresShadowSampler )
@@ -378,7 +377,6 @@ namespace hlsl
 		{
 			auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( originalVar->getType() );
 			imageType = realSampledType->getImageType();
-			sampledType = realSampledType;
 			config = realSampledType->getConfig();
 
 			if ( !m_intrinsicsConfig.requiresShadowSampler )

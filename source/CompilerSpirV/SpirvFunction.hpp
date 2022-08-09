@@ -49,7 +49,7 @@ namespace spirv
 
 	struct BlockStruct
 	{
-		BlockStruct( BlockType ptype )
+		explicit BlockStruct( BlockType ptype )
 			: type{ ptype }
 			, allVars{ &ownVars }
 		{

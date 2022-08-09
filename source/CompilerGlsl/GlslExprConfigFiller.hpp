@@ -21,7 +21,7 @@ namespace glsl
 			, IntrinsicsConfig & config );
 
 	private:
-		ExprConfigFiller( IntrinsicsConfig & config );
+		explicit ExprConfigFiller( IntrinsicsConfig & config );
 
 		void doSubmit( ast::expr::Expr * expr );
 
