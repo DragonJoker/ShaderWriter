@@ -233,7 +233,7 @@ namespace glsl
 			return result;
 		}
 
-		static std::string writeStruct( std::string indent
+		static std::string writeStruct( std::string const & indent
 			, ast::type::Struct const & structType
 			, std::string const & instanceName )
 		{
@@ -544,7 +544,6 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent;
 		m_result += "layout(buffer_reference";
-		auto type = stmt->getType();
 
 		if ( auto structType = getStructType( stmt->getType() ) )
 		{

@@ -12,7 +12,7 @@ namespace hlsl
 	class HlslShader
 	{
 	public:
-		HlslShader( ast::Shader const & shader );
+		explicit HlslShader( ast::Shader const & shader );
 
 		void registerVariable( ast::var::VariablePtr var );
 		ast::var::VariablePtr registerBuiltin( ast::Builtin builtin

@@ -28,7 +28,7 @@ namespace ast
 			}
 
 		private:
-			OutermostExprExtractor( expr::Expr *& result )
+			explicit OutermostExprExtractor( expr::Expr *& result )
 				: m_result{ result }
 			{
 			}

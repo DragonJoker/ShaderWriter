@@ -19,7 +19,7 @@ namespace ast::stmt
 		PreprocDefine( uint32_t id
 			, std::string name
 			, expr::ExprPtr expr )
-			: PreprocDefine{ { id, name }, std::move( expr ) }
+			: PreprocDefine{ { id, std::move( name ) }, std::move( expr ) }
 		{
 		}
 

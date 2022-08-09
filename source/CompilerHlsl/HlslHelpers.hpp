@@ -330,7 +330,7 @@ namespace hlsl
 
 	struct AdaptationData
 	{
-		AdaptationData( HlslShader & shader );
+		explicit AdaptationData( HlslShader & shader );
 
 		void addEntryPoint( ast::stmt::FunctionDecl const & stmt );
 		void updateCurrentEntryPoint( ast::stmt::FunctionDecl const * stmt );

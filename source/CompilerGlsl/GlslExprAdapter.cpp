@@ -678,7 +678,6 @@ namespace glsl
 
 	void ExprAdapter::doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )

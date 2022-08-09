@@ -1196,7 +1196,7 @@ namespace ast::vk
 					<< " shader expects specialization infos which were not provided by the user." << std::endl;
 				globalError = true;
 			}
-			else if ( *lit && !*rit )
+			else if ( !*lit && *rit )
 			{
 				std::cout << "The " << getName( m_revIndices.at( index ) )
 					<< " shader doesn't expect specialization infos but the user provided some." << std::endl;

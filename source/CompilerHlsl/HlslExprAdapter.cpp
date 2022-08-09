@@ -1855,7 +1855,6 @@ namespace hlsl
 
 			auto functionType = m_cache.getFunction( expr->getType(), parameters );
 			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
-			ast::type::TypePtr uintType = m_cache.getUInt32();
 
 			// The call to image.CalculateLevelOfDetail
 			ast::expr::ExprList callArgs;

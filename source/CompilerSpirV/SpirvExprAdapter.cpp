@@ -238,7 +238,6 @@ namespace spirv
 		{
 			auto numPrimitives = std::move( args.back() );
 			args.pop_back();
-			auto numVertices = std::move( args.back() );
 			args.pop_back();
 			auto type = numPrimitives->getType();
 			auto var = ast::var::makeBuiltin( ++m_adaptationData.config.nextVarId

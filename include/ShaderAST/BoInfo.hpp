@@ -21,7 +21,7 @@ namespace ast
 		{
 		}
 		
-		InterfaceBlock( type::BaseStructPtr dataType )
+		explicit InterfaceBlock( type::BaseStructPtr dataType )
 			: m_type{ std::move( dataType ) }
 		{
 		}
@@ -39,7 +39,7 @@ namespace ast
 			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );
-			return registerMember( name, m_type->getCache().getBasicType( Kind ), arraySize );
+			return registerMember( std::move( name ), m_type->getCache().getBasicType( Kind ), arraySize );
 		}
 
 		type::TypePtr registerMember( std::string name
