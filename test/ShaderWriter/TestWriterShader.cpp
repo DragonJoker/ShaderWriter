@@ -715,9 +715,9 @@ namespace
 				auto fragUv = writer.declOutput<Vec2>( "fragUv", 0 );
 				auto fragCol = writer.declOutput<Vec4>( "fragCol", 1 );
 
-				ArraySsboT<Mat4> ssbo{ writer, "ssbo", Mat4::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd430, 1, 0, true };
+				ArrayStorageBufferT< Mat4 > ssbo{ writer, "ssbo", Mat4::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd430, 1, 0, true };
 
-				Pcb pcb = writer.declPushConstantsBuffer( "pcb" );
+				PushConstantBuffer pcb = writer.declPushConstantsBuffer( "pcb" );
 				pcb.declMember<Int>( "firstMatrix" );
 				pcb.end();
 
@@ -829,13 +829,13 @@ namespace
 		{
 			auto writer = sdw::VertexWriter{};
 
-			auto camera = sdw::Ubo{ writer, "camera", 0, 0 };
+			auto camera = sdw::UniformBuffer{ writer, "camera", 0, 0 };
 			camera.declMember<sdw::Vec4>( "camera_position" );
 			camera.declMember<sdw::Mat4>( "camera_projection" );
 			camera.declMember<sdw::Mat4>( "camera_view" );
 			camera.end();
 
-			auto transform = sdw::Ubo{ writer, "transform", 1, 0 };
+			auto transform = sdw::UniformBuffer{ writer, "transform", 1, 0 };
 			transform.declMember<sdw::Mat4>( "transform_model" );
 			transform.declMember<sdw::Mat4>( "transform_inverted_model" );
 			transform.end();
@@ -865,13 +865,13 @@ namespace
 		{
 			auto writer = sdw::FragmentWriter{};
 
-			auto camera = sdw::Ubo{ writer, "camera", 0, 0 };
+			auto camera = sdw::UniformBuffer{ writer, "camera", 0, 0 };
 			camera.declMember<sdw::Vec4>( "position" );
 			camera.declMember<sdw::Mat4>( "projection" );
 			camera.declMember<sdw::Mat4>( "view" );
 			camera.end();
 
-			auto material = sdw::Pcb{ writer, "material", ast::type::MemoryLayout::eStd140 };
+			auto material = sdw::PushConstantBuffer{ writer, "material", ast::type::MemoryLayout::eStd140 };
 			material.declMember<sdw::Vec4>( "base_color_factor" );
 			material.declMember<sdw::Vec4>( "emissive_factor" );
 			material.declMember<sdw::Float>( "metallic_factor" );
@@ -1027,7 +1027,7 @@ namespace
 		{
 			GeometryWriter writer;
 
-			Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto mvp = voxelizeUbo.declMember< Mat4 >( "mvp" );
 			voxelizeUbo.end();
 
@@ -1106,7 +1106,7 @@ namespace
 		{
 			GeometryWriter writer;
 
-			sdw::Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			sdw::UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
 			auto c3d_vpY = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpY" );
 			auto c3d_vpZ = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpZ" );
@@ -1240,7 +1240,7 @@ namespace
 
 			auto pxl_voxelVisibility = writer.declStorageImg< WUImg3DR8 >( "pxl_voxelVisibility", 1u, 1u );
 
-			sdw::Ubo voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			sdw::UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
 			auto c3d_vpY = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpY" );
 			auto c3d_vpZ = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpZ" );
@@ -1325,7 +1325,7 @@ namespace
 		{
 			TessellationControlWriter writer;
 
-			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
@@ -1475,7 +1475,7 @@ namespace
 		{
 			TessellationEvaluationWriter writer;
 
-			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
@@ -1624,7 +1624,7 @@ namespace
 			auto fragUvw = writer.declInput< Vec3 >( "fragUvw", 0u );
 			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
 
-			sdw::Ssbo colorsSsbo = writer.declStorageBuffer( "colorsBuffer", 0u, 1u );
+			sdw::StorageBuffer colorsSsbo = writer.declStorageBuffer( "colorsBuffer", 0u, 1u );
 			auto colors = colorsSsbo.declMemberArray< Vec4 >( "colors" );
 			colorsSsbo.end();
 

@@ -4,7 +4,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename ValueT, typename ... ParamsT >
-	inline ValueT Pcb::declMember( std::string name
+	inline ValueT PushConstantBuffer::declMember( std::string name
 		, bool enabled
 		, ParamsT ... params )
 	{
@@ -24,7 +24,7 @@ namespace sdw
 	}
 
 	template< typename ValueT, typename ... ParamsT >
-	inline Array< ValueT > Pcb::declMember( std::string name
+	inline Array< ValueT > PushConstantBuffer::declMember( std::string name
 		, uint32_t dimension
 		, bool enabled
 		, ParamsT ... params )
@@ -46,7 +46,7 @@ namespace sdw
 	}
 
 	template< typename ValueT, typename ... ParamsT >
-	inline Array< ValueT > Pcb::declMemberArray( std::string name
+	inline Array< ValueT > PushConstantBuffer::declMemberArray( std::string name
 		, bool enabled
 		, ParamsT ... params )
 	{
@@ -67,7 +67,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline ValueT Pcb::getMember( std::string_view name
+	inline ValueT PushConstantBuffer::getMember( std::string_view name
 		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );
@@ -77,7 +77,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	inline Array< ValueT > Pcb::getMemberArray( std::string_view name
+	inline Array< ValueT > PushConstantBuffer::getMemberArray( std::string_view name
 		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );

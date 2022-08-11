@@ -257,10 +257,10 @@ namespace
 
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Indices = writer.declBufferReference< ArraySsboT< UInt > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArrayStorageBufferT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArrayStorageBufferT< UInt > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArrayStorageBufferT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto MatIndices = writer.declBufferReference< ArrayStorageBufferT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
 			// Generate a random unsigned int in [0, 2^24) given the previous RNG state
 			// using the Numerical Recipes linear congruential generator

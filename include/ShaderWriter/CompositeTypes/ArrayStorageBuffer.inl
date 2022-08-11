@@ -44,7 +44,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, ast::type::TypePtr dataType
 		, ast::type::MemoryLayout layout
@@ -80,7 +80,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, ast::type::BaseStructPtr dataType
 		, uint32_t bind
@@ -116,13 +116,13 @@ namespace sdw
 
 	template< typename InstanceT >
 	template< typename ... ParamsT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, uint32_t bind
 		, uint32_t set
 		, bool enabled
 		, ParamsT ... params )
-		: ArraySsboT{ writer
+		: ArrayStorageBufferT{ writer
 			, std::move( instanceName )
 			, details::makeSsboType< InstanceT >( writer
 				, enabled
@@ -134,7 +134,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, ast::expr::ExprPtr addressExpr
 		, bool enabled )
@@ -162,13 +162,13 @@ namespace sdw
 	}
 	
 	template< typename InstanceT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, ast::type::TypePtr dataType
 		, ast::type::MemoryLayout layout
 		, LocationHelper location
 		, bool enabled )
-		: ArraySsboT{ writer
+		: ArrayStorageBufferT{ writer
 			, std::move( instanceName )
 			, std::move( dataType )
 			, layout
@@ -179,12 +179,12 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, ast::type::BaseStructPtr dataType
 		, LocationHelper location
 		, bool enabled )
-		: ArraySsboT{ writer
+		: ArrayStorageBufferT{ writer
 			, std::move( instanceName )
 			, std::move( dataType )
 			, location.binding
@@ -195,12 +195,12 @@ namespace sdw
 
 	template< typename InstanceT >
 	template< typename ... ParamsT >
-	ArraySsboT< InstanceT >::ArraySsboT( ShaderWriter & writer
+	ArrayStorageBufferT< InstanceT >::ArrayStorageBufferT( ShaderWriter & writer
 		, std::string instanceName
 		, LocationHelper location
 		, bool enabled
 		, ParamsT ... params )
-		: ArraySsboT{ writer
+		: ArrayStorageBufferT{ writer
 			, std::move( instanceName )
 			, location.binding
 			, location.set
@@ -210,7 +210,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArraySsboT< InstanceT >::operator[]( uint32_t index )const
+	InstanceT ArrayStorageBufferT< InstanceT >::operator[]( uint32_t index )const
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
@@ -222,7 +222,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArraySsboT< InstanceT >::operator[]( UInt const & index )const
+	InstanceT ArrayStorageBufferT< InstanceT >::operator[]( UInt const & index )const
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
@@ -235,7 +235,7 @@ namespace sdw
 
 	template< typename InstanceT >
 	template< typename ... ParamsT >
-	sdw::type::BaseStructPtr ArraySsboT< InstanceT >::makeType( ast::type::TypesCache & cache
+	sdw::type::BaseStructPtr ArrayStorageBufferT< InstanceT >::makeType( ast::type::TypesCache & cache
 		, std::string const & name
 		, ast::type::MemoryLayout layout
 		, bool enabled

@@ -3,22 +3,22 @@ See LICENSE file in root folder
 */
 namespace sdw
 {
-	inline Ubo::Ubo( ShaderWriter & writer
+	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
 		, std::string name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled )
-		: Ubo{ writer
-		, std::move( name )
-		, location.binding
-		, location.set
-		, layout
-		, enabled }
+		: UniformBuffer{ writer
+			, std::move( name )
+			, location.binding
+			, location.set
+			, layout
+			, enabled }
 	{
 	}
 
 	template< typename ValueT, typename ... ParamsT >
-	inline ValueT Ubo::declMember( std::string name
+	inline ValueT UniformBuffer::declMember( std::string name
 		, bool enabled
 		, ParamsT ... params )
 	{
@@ -38,7 +38,7 @@ namespace sdw
 	}
 
 	template< typename ValueT, typename ... ParamsT >
-	inline Array< ValueT > Ubo::declMember( std::string name
+	inline Array< ValueT > UniformBuffer::declMember( std::string name
 		, uint32_t dimension
 		, bool enabled
 		, ParamsT ... params )
@@ -60,7 +60,7 @@ namespace sdw
 	}
 
 	template< typename ValueT, typename ... ParamsT >
-	inline Array< ValueT > Ubo::declMemberArray( std::string name
+	inline Array< ValueT > UniformBuffer::declMemberArray( std::string name
 		, bool enabled
 		, ParamsT ... params )
 	{
@@ -81,7 +81,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline T Ubo::getMember( std::string_view name
+	inline T UniformBuffer::getMember( std::string_view name
 		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );
@@ -91,7 +91,7 @@ namespace sdw
 	}
 
 	template< typename T >
-	inline Array< T > Ubo::getMemberArray( std::string_view name
+	inline Array< T > UniformBuffer::getMemberArray( std::string_view name
 		, bool enabled )const
 	{
 		auto var = getMemberVar( m_writer, m_var, name );

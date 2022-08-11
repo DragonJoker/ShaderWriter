@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_Pcb_H___
-#define ___SDW_Pcb_H___
+#ifndef ___SDW_PushConstantBuffer_H___
+#define ___SDW_PushConstantBuffer_H___
 #pragma once
 
 #include "ShaderWriter/CompositeTypes/StructHelper.hpp"
@@ -12,10 +12,10 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	class Pcb
+	class PushConstantBuffer
 	{
 	public:
-		SDW_API Pcb( ShaderWriter & writer
+		SDW_API PushConstantBuffer( ShaderWriter & writer
 			, std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
@@ -69,28 +69,28 @@ namespace sdw
 
 	template< ast::type::MemoryLayout LayoutT
 		, typename... FieldsT >
-	class PcbHelperT
-		: public StructHelperT< Pcb, LayoutT, FieldsT... >
+	class PushConstantBufferHelperT
+		: public StructHelperT< PushConstantBuffer, LayoutT, FieldsT... >
 	{
 	public:
-		PcbHelperT( ShaderWriter & writer, const std::string & name )
-			: StructHelperT< Pcb, LayoutT, FieldsT... >{ writer, name, LayoutT }
+		PushConstantBufferHelperT( ShaderWriter & writer, const std::string & name )
+			: StructHelperT< PushConstantBuffer, LayoutT, FieldsT... >{ writer, name, LayoutT }
 		{
 		}
 	};
 
 	template< typename... FieldsT >
-	using PcbHelperStd140T = PcbHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
+	using PushConstantBufferHelperStd140T = PushConstantBufferHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
 	template< typename... FieldsT >
-	using PcbHelperStd430T = PcbHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
+	using PushConstantBufferHelperStd430T = PushConstantBufferHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
 	template< typename... FieldsT >
-	using PcbHelperScalarT = PcbHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
+	using PushConstantBufferHelperScalarT = PushConstantBufferHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
 	template< typename... FieldsT >
-	using PcbHelperCT = PcbHelperT< ast::type::MemoryLayout::eC, FieldsT... >;
+	using PushConstantBufferHelperCT = PushConstantBufferHelperT< ast::type::MemoryLayout::eC, FieldsT... >;
 
 #endif
 }
 
-#include "Pcb.inl"
+#include "PushConstantBuffer.inl"
 
 #endif

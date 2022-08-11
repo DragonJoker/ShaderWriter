@@ -1,31 +1,31 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_Ssbo_H___
-#define ___SDW_Ssbo_H___
+#ifndef ___SDW_UniformBuffer_H___
+#define ___SDW_UniformBuffer_H___
 #pragma once
 
 #include "ShaderWriter/CompositeTypes/StructHelper.hpp"
 #include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
-#include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
+#include <ShaderAST/Stmt/StmtConstantBufferDecl.hpp>
 
 namespace sdw
 {
-	class Ssbo
+	class UniformBuffer
 	{
 	public:
-		SDW_API Ssbo( ShaderWriter & writer
+		SDW_API UniformBuffer( ShaderWriter & writer
 			, std::string name
 			, uint32_t bind
 			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true );
-		inline Ssbo( ShaderWriter & writer
+		inline UniformBuffer( ShaderWriter & writer
 			, std::string name
 			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true );
 		SDW_API void end();
 
@@ -66,42 +66,45 @@ namespace sdw
 	private:
 		ShaderWriter & m_writer;
 		ast::Shader & m_shader;
+		stmt::ConstantBufferDeclPtr m_stmt;
 		std::string m_name;
 		ast::InterfaceBlock m_interface;
-		ast::SsboInfo m_info;
+		ast::UboInfo m_info;
 		var::VariablePtr m_var;
-		stmt::ShaderBufferDeclPtr m_stmt;
 		bool m_enabled;
 	};
 
 #if SDW_EnableStructHelper
 
 	template< ast::type::MemoryLayout LayoutT
-		, typename ... FieldsT >
-	class SsboHelperT
-		: public StructHelperT< Ssbo, LayoutT, FieldsT... >
+		, typename... FieldsT >
+	class UniformBufferHelperT
+		: public StructHelperT< UniformBuffer, LayoutT, FieldsT... >
 	{
 	public:
-		SsboHelperT( ShaderWriter & writer, const std::string & name, uint32_t bind, uint32_t set )
-			: StructHelperT< Ssbo, LayoutT, FieldsT... >{ writer, name, bind, set, LayoutT }
+		UniformBufferHelperT( ShaderWriter & writer
+			, std::string name
+			, uint32_t bind
+			, uint32_t set )
+			: StructHelperT< UniformBuffer, LayoutT, FieldsT... >{ writer, std::move( name ), bind, set, LayoutT }
 		{
 		}
-		SsboHelperT( ShaderWriter & writer, const std::string & name, LocationHelper location )
-			: SsboHelperT{ writer, name, location.binding, location.set }
+		UniformBufferHelperT( ShaderWriter & writer
+			, std::string name
+			, LocationHelper location )
+			: UniformBufferHelperT{ writer, std::move( name ), location.binding, location.set }
 		{
 		}
 	};
 
 	template< typename... FieldsT >
-	using SsboHelperStd140T = SsboHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
+	using UniformBufferHelperStd140T = UniformBufferHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
 	template< typename... FieldsT >
-	using SsboHelperStd430T = SsboHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
-	template< typename... FieldsT >
-	using SsboHelperScalarT = SsboHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
+	using UniformBufferHelperStd430T = UniformBufferHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
 
 #endif
 }
 
-#include "Ssbo.inl"
+#include "UniformBuffer.inl"
 
 #endif

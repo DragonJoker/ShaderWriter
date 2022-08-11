@@ -4,8 +4,8 @@ See LICENSE file in root folder
 #ifndef ___SDW_BufferReference_H___
 #define ___SDW_BufferReference_H___
 
-#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
-#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp"
+#include "ShaderWriter/CompositeTypes/StorageBuffer.hpp"
 
 namespace sdw
 {

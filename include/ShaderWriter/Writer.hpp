@@ -8,14 +8,14 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayload.hpp"
-#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
+#include "ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp"
 #include "ShaderWriter/CompositeTypes/BufferReference.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
-#include "ShaderWriter/CompositeTypes/Pcb.hpp"
-#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/PushConstantBuffer.hpp"
+#include "ShaderWriter/CompositeTypes/StorageBuffer.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
-#include "ShaderWriter/CompositeTypes/Ubo.hpp"
+#include "ShaderWriter/CompositeTypes/UniformBuffer.hpp"
 #include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/Shader.hpp>
@@ -712,14 +712,14 @@ namespace sdw
 		*	Uniform buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = Ubo, typename ... ParamsT >
+		template< typename T = UniformBuffer, typename ... ParamsT >
 		inline T declUniformBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true
 			, ParamsT ... params );
-		template< typename T = Ubo, typename ... ParamsT >
+		template< typename T = UniformBuffer, typename ... ParamsT >
 		inline T declUniformBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
@@ -733,7 +733,7 @@ namespace sdw
 		*	Shader storage buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = Ssbo, typename ... ParamsT >
+		template< typename T = StorageBuffer, typename ... ParamsT >
 		inline T declStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
@@ -741,19 +741,19 @@ namespace sdw
 			, bool enabled = true
 			, ParamsT ... params );
 		template< typename T, typename ... ParamsT >
-		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
+		inline ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true
 			, ParamsT ... params );
-		template< typename T = Ssbo, typename ... ParamsT >
+		template< typename T = StorageBuffer, typename ... ParamsT >
 		inline T declStorageBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true
 			, ParamsT ... params );
 		template< typename T, typename ... ParamsT >
-		inline ArraySsboT< T > declArrayStorageBuffer( std::string name
+		inline ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, LocationHelper location
 			, bool enabled = true
 			, ParamsT ... params );
@@ -779,7 +779,7 @@ namespace sdw
 		*	Push constants buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = Pcb, typename ... ParamsT >
+		template< typename T = PushConstantBuffer, typename ... ParamsT >
 		inline T declPushConstantsBuffer( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true

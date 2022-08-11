@@ -416,8 +416,8 @@ namespace
 
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArrayStorageBufferT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArrayStorageBufferT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
 				, HitAttributeT< Vec2 >{ writer }
@@ -465,8 +465,8 @@ namespace
 
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArrayStorageBufferT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArrayStorageBufferT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
 				, HitAttributeT< Vec2 >{ writer }
@@ -514,7 +514,7 @@ namespace
 
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArrayStorageBufferT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto textureSamplers = writer.declCombinedImgArray< FImg2DRgba32 >( "textureSamplers", 1u, 1u, ast::type::UnknownArraySize );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
@@ -558,10 +558,10 @@ namespace
 			auto pcLightType = pcb.declMember< Int >( "pcLightType" );
 			pcb.end();
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterialScalar > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArrayStorageBufferT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArrayStorageBufferT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArrayStorageBufferT< WaveFrontMaterialScalar > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto MatIndices = writer.declBufferReference< ArrayStorageBufferT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
 				, HitAttributeT< Vec2 >{ writer }
@@ -810,10 +810,10 @@ namespace
 			auto pcLightType = pcb.declMember< Int >( "pcLightType" );
 			pcb.end();
 
-			auto Vertices = writer.declBufferReference< ArraySsboT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Indices = writer.declBufferReference< ArraySsboT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Materials = writer.declBufferReference< ArraySsboT< WaveFrontMaterialScalar > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto MatIndices = writer.declBufferReference< ArraySsboT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Vertices = writer.declBufferReference< ArrayStorageBufferT< VertexScalar > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Indices = writer.declBufferReference< ArrayStorageBufferT< IVec3 > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto Materials = writer.declBufferReference< ArrayStorageBufferT< WaveFrontMaterialScalar > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+			auto MatIndices = writer.declBufferReference< ArrayStorageBufferT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			
 			writer.implementMainT< HitPayload, Vec2 >( RayPayloadInT< HitPayload >{ writer, 0u }
 				, HitAttributeT< Vec2 >{ writer }

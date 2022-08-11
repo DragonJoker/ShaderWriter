@@ -1,31 +1,31 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_Ubo_H___
-#define ___SDW_Ubo_H___
+#ifndef ___SDW_StorageBuffer_H___
+#define ___SDW_StorageBuffer_H___
 #pragma once
 
 #include "ShaderWriter/CompositeTypes/StructHelper.hpp"
 #include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/BoInfo.hpp>
-#include <ShaderAST/Stmt/StmtConstantBufferDecl.hpp>
+#include <ShaderAST/Stmt/StmtShaderBufferDecl.hpp>
 
 namespace sdw
 {
-	class Ubo
+	class StorageBuffer
 	{
 	public:
-		SDW_API Ubo( ShaderWriter & writer
+		SDW_API StorageBuffer( ShaderWriter & writer
 			, std::string name
 			, uint32_t bind
 			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
-		inline Ubo( ShaderWriter & writer
+		inline StorageBuffer( ShaderWriter & writer
 			, std::string name
 			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
 		SDW_API void end();
 
@@ -66,45 +66,42 @@ namespace sdw
 	private:
 		ShaderWriter & m_writer;
 		ast::Shader & m_shader;
-		stmt::ConstantBufferDeclPtr m_stmt;
 		std::string m_name;
 		ast::InterfaceBlock m_interface;
-		ast::UboInfo m_info;
+		ast::SsboInfo m_info;
 		var::VariablePtr m_var;
+		stmt::ShaderBufferDeclPtr m_stmt;
 		bool m_enabled;
 	};
 
 #if SDW_EnableStructHelper
 
 	template< ast::type::MemoryLayout LayoutT
-		, typename... FieldsT >
-	class UboHelperT
-		: public StructHelperT< Ubo, LayoutT, FieldsT... >
+		, typename ... FieldsT >
+	class StorageBufferHelperT
+		: public StructHelperT< StorageBuffer, LayoutT, FieldsT... >
 	{
 	public:
-		UboHelperT( ShaderWriter & writer
-			, std::string name
-			, uint32_t bind
-			, uint32_t set )
-			: StructHelperT< Ubo, LayoutT, FieldsT... >{ writer, std::move( name ), bind, set, LayoutT }
+		StorageBufferHelperT( ShaderWriter & writer, const std::string & name, uint32_t bind, uint32_t set )
+			: StructHelperT< StorageBuffer, LayoutT, FieldsT... >{ writer, name, bind, set, LayoutT }
 		{
 		}
-		UboHelperT( ShaderWriter & writer
-			, std::string name
-			, LocationHelper location )
-			: UboHelperT{ writer, std::move( name ), location.binding, location.set }
+		StorageBufferHelperT( ShaderWriter & writer, const std::string & name, LocationHelper location )
+			: StorageBufferHelperT{ writer, name, location.binding, location.set }
 		{
 		}
 	};
 
 	template< typename... FieldsT >
-	using UboHelperStd140T = UboHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
+	using StorageBufferHelperStd140T = StorageBufferHelperT< ast::type::MemoryLayout::eStd140, FieldsT... >;
 	template< typename... FieldsT >
-	using UboHelperStd430T = UboHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
+	using StorageBufferHelperStd430T = StorageBufferHelperT< ast::type::MemoryLayout::eStd430, FieldsT... >;
+	template< typename... FieldsT >
+	using StorageBufferHelperScalarT = StorageBufferHelperT< ast::type::MemoryLayout::eScalar, FieldsT... >;
 
 #endif
 }
 
-#include "Ubo.inl"
+#include "StorageBuffer.inl"
 
 #endif

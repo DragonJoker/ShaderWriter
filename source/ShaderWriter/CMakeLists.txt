@@ -181,8 +181,8 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
-	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.hpp
-	${INCLUDE_DIR}/CompositeTypes/ArraySsbo.inl
+	${INCLUDE_DIR}/CompositeTypes/ArrayStorageBuffer.hpp
+	${INCLUDE_DIR}/CompositeTypes/ArrayStorageBuffer.inl
 	${INCLUDE_DIR}/CompositeTypes/BufferReference.hpp
 	${INCLUDE_DIR}/CompositeTypes/BufferReference.inl
 	${INCLUDE_DIR}/CompositeTypes/Builtins.hpp
@@ -193,33 +193,33 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/FunctionParam.inl
 	${INCLUDE_DIR}/CompositeTypes/IOStructHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/IOStructInstanceHelper.hpp
-	${INCLUDE_DIR}/CompositeTypes/Pcb.hpp
-	${INCLUDE_DIR}/CompositeTypes/Pcb.inl
 	${INCLUDE_DIR}/CompositeTypes/PerPrimitive.hpp
 	${INCLUDE_DIR}/CompositeTypes/PerVertex.hpp
+	${INCLUDE_DIR}/CompositeTypes/PushConstantBuffer.hpp
+	${INCLUDE_DIR}/CompositeTypes/PushConstantBuffer.inl
 	${INCLUDE_DIR}/CompositeTypes/RayDesc.hpp
-	${INCLUDE_DIR}/CompositeTypes/Ssbo.hpp
-	${INCLUDE_DIR}/CompositeTypes/Ssbo.inl
+	${INCLUDE_DIR}/CompositeTypes/StorageBuffer.hpp
+	${INCLUDE_DIR}/CompositeTypes/StorageBuffer.inl
 	${INCLUDE_DIR}/CompositeTypes/Struct.hpp
 	${INCLUDE_DIR}/CompositeTypes/Struct.inl
 	${INCLUDE_DIR}/CompositeTypes/StructHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.hpp
 	${INCLUDE_DIR}/CompositeTypes/StructInstance.inl
 	${INCLUDE_DIR}/CompositeTypes/StructInstanceHelper.hpp
-	${INCLUDE_DIR}/CompositeTypes/Ubo.hpp
-	${INCLUDE_DIR}/CompositeTypes/Ubo.inl
+	${INCLUDE_DIR}/CompositeTypes/UniformBuffer.hpp
+	${INCLUDE_DIR}/CompositeTypes/UniformBuffer.inl
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
-	${SOURCE_DIR}/CompositeTypes/ArraySsbo.cpp
+	${SOURCE_DIR}/CompositeTypes/ArrayStorageBuffer.cpp
 	${SOURCE_DIR}/CompositeTypes/Builtins.cpp
-	${SOURCE_DIR}/CompositeTypes/Pcb.cpp
 	${SOURCE_DIR}/CompositeTypes/PerPrimitive.cpp
 	${SOURCE_DIR}/CompositeTypes/PerVertex.cpp
+	${SOURCE_DIR}/CompositeTypes/PushConstantBuffer.cpp
 	${SOURCE_DIR}/CompositeTypes/RayDesc.cpp
-	${SOURCE_DIR}/CompositeTypes/Ssbo.cpp
+	${SOURCE_DIR}/CompositeTypes/StorageBuffer.cpp
 	${SOURCE_DIR}/CompositeTypes/Struct.cpp
 	${SOURCE_DIR}/CompositeTypes/StructInstance.cpp
-	${SOURCE_DIR}/CompositeTypes/Ubo.cpp
+	${SOURCE_DIR}/CompositeTypes/UniformBuffer.cpp
 )
 source_group( "Header Files\\CompositeTypes"
 	FILES

@@ -1,7 +1,7 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ShaderWriter/CompositeTypes/Ubo.hpp>
+#include <ShaderWriter/CompositeTypes/UniformBuffer.hpp>
 
 #pragma warning( disable:5245 )
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -274,7 +274,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ubo buffer{ writer, "MyUbo", 4u, 0u };
+		UniformBuffer buffer{ writer, "MyUbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
 		buffer.end();
 
@@ -304,7 +304,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
 		buffer.end();
 
@@ -445,7 +445,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
 		buffer.end();
 
@@ -587,7 +587,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
 		buffer.end();
 
@@ -803,7 +803,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ubo buffer{ writer, "MyUbo", 4u, 0u };
+		UniformBuffer buffer{ writer, "MyUbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v", 4u );
 		buffer.end();
 
@@ -837,7 +837,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v", 4u );
 		buffer.end();
 
@@ -967,7 +967,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		auto uv = buffer.declMember< ValueT >( "v", 4u );
 		buffer.end();
 
@@ -1093,7 +1093,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ssbo buffer{ writer, "MySsbo", 4u, 0u };
+		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v", 4u );
 		buffer.end();
 
@@ -1208,7 +1208,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ubo buffer{ writer, "Matrices", 0u, 0u };
+		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 
@@ -1328,7 +1328,7 @@ namespace
 		using namespace sdw;
 		FragmentWriter writer;
 
-		Ubo buffer{ writer, "Matrices", 0u, 0u };
+		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 

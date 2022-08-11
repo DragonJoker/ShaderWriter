@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/CompositeTypes/Pcb.hpp"
+#include "ShaderWriter/CompositeTypes/PushConstantBuffer.hpp"
 
 #include "ShaderWriter/Writer.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Pcb::Pcb( ShaderWriter & writer
+	PushConstantBuffer::PushConstantBuffer( ShaderWriter & writer
 		, std::string name
 		, ast::type::MemoryLayout layout
 		, bool enabled )
@@ -23,7 +23,7 @@ namespace sdw
 	{
 	}
 
-	void Pcb::end()
+	void PushConstantBuffer::end()
 	{
 		if ( isEnabled() )
 		{
@@ -32,7 +32,7 @@ namespace sdw
 		}
 	}
 
-	StructInstance Pcb::declStructMember( std::string name
+	StructInstance PushConstantBuffer::declStructMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
@@ -49,7 +49,7 @@ namespace sdw
 			, isEnabled() && enabled };
 	}
 
-	Array< StructInstance > Pcb::declStructMember( std::string name
+	Array< StructInstance > PushConstantBuffer::declStructMember( std::string name
 		, Struct const & s
 		, uint32_t dimension
 		, bool enabled )

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/StorageBuffer.hpp"
 
 #include "ShaderWriter/Writer.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Ssbo::Ssbo( ShaderWriter & writer
+	StorageBuffer::StorageBuffer( ShaderWriter & writer
 		, std::string name
 		, uint32_t bind
 		, uint32_t set
@@ -26,7 +26,7 @@ namespace sdw
 	{
 	}
 
-	void Ssbo::end()
+	void StorageBuffer::end()
 	{
 		if ( isEnabled() )
 		{
@@ -35,7 +35,7 @@ namespace sdw
 		}
 	}
 
-	StructInstance Ssbo::declStructMember( std::string name
+	StructInstance StorageBuffer::declStructMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
@@ -52,7 +52,7 @@ namespace sdw
 			, isEnabled() && enabled };
 	}
 
-	Array< StructInstance > Ssbo::declStructMember( std::string name
+	Array< StructInstance > StorageBuffer::declStructMember( std::string name
 		, Struct const & s
 		, uint32_t dimension
 		, bool enabled )

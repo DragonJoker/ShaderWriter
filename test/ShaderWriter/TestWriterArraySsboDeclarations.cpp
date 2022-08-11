@@ -2,7 +2,7 @@
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/Struct.hpp>
-#include <ShaderWriter/CompositeTypes/ArraySsbo.hpp>
+#include <ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp>
 
 namespace
 {
@@ -19,7 +19,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			auto value = bo[0].getMember< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -38,7 +38,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name, 4u );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			auto value = bo[0].getMemberArray< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
@@ -57,7 +57,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), { .binding = 1u, .set = 1u }, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), { .binding = 1u, .set = 1u }, true };
 			auto value = bo[0].getMember< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -76,7 +76,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name, 4u );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), { .binding = 1u, .set = 1u }, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), { .binding = 1u, .set = 1u }, true };
 			auto value = bo[0].getMemberArray< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == 4u );
@@ -99,7 +99,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::ArraySsboT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, 1u, 1u, true };
+			sdw::ArrayStorageBufferT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, 1u, 1u, true };
 			auto value = bo[0];
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -115,7 +115,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::ArraySsboT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, { .binding = 1u, .set = 1u }, true };
+			sdw::ArrayStorageBufferT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, { .binding = 1u, .set = 1u }, true };
 			auto value = bo[0];
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );

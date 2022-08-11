@@ -2714,7 +2714,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2750,7 +2750,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2783,7 +2783,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2816,7 +2816,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2849,7 +2849,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2882,7 +2882,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2916,7 +2916,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x", test::getDefault< ValueT >( writer ) );
@@ -2952,7 +2952,7 @@ namespace
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
 			type.end();
-			sdw::ArraySsboT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto c = writer.declLocale< ValueT >( "c", test::getDefault< ValueT >( writer ) );
