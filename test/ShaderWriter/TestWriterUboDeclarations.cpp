@@ -1,7 +1,7 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ShaderWriter/CompositeTypes/Ubo.hpp>
+#include <ShaderWriter/CompositeTypes/UniformBuffer.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
@@ -18,7 +18,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -40,7 +40,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -69,7 +69,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -91,7 +91,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -120,7 +120,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -144,7 +144,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -175,7 +175,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -199,7 +199,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
@@ -230,7 +230,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -254,7 +254,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -285,7 +285,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -309,7 +309,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ubo bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );
@@ -341,7 +341,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::UboHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
@@ -357,7 +357,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::UboHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
@@ -384,7 +384,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::UboHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", 1u, 1u };
+			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
@@ -400,7 +400,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::UboHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
+			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );

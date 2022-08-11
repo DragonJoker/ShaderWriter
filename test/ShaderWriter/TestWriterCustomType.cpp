@@ -1,7 +1,7 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ShaderWriter/CompositeTypes/ArraySsbo.hpp>
+#include <ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )

@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_StructuredSsbo_H___
-#define ___SDW_StructuredSsbo_H___
+#ifndef ___SDW_ArrayStorageBuffer_H___
+#define ___SDW_ArrayStorageBuffer_H___
 
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/Helpers.hpp"
@@ -13,10 +13,10 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template< typename InstanceT >
-	class ArraySsboT
+	class ArrayStorageBufferT
 	{
 	public:
-		ArraySsboT( ShaderWriter & writer
+		ArrayStorageBufferT( ShaderWriter & writer
 			, std::string instanceName
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout
@@ -24,7 +24,7 @@ namespace sdw
 			, uint32_t set
 			, bool enabled );
 
-		ArraySsboT( ShaderWriter & writer
+		ArrayStorageBufferT( ShaderWriter & writer
 			, std::string instanceName
 			, ast::type::BaseStructPtr dataType
 			, uint32_t bind
@@ -32,7 +32,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename ... ParamsT >
-		ArraySsboT( ShaderWriter & writer
+		ArrayStorageBufferT( ShaderWriter & writer
 			, std::string instanceName
 			, uint32_t bind
 			, uint32_t set
@@ -40,26 +40,26 @@ namespace sdw
 			, ParamsT ... params );
 
 		// From a buffer reference
-		ArraySsboT( ShaderWriter & writer
+		ArrayStorageBufferT( ShaderWriter & writer
 			, std::string instanceName
 			, ast::expr::ExprPtr addressExpr
 			, bool enabled );
 
-		ArraySsboT(ShaderWriter& writer
+		ArrayStorageBufferT(ShaderWriter& writer
 			, std::string instanceName
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout
 			, LocationHelper location
 			, bool enabled );
 
-		ArraySsboT(ShaderWriter& writer
+		ArrayStorageBufferT(ShaderWriter& writer
 			, std::string instanceName
 			, ast::type::BaseStructPtr dataType
 			, LocationHelper location
 			, bool enabled );
 
 		template< typename ... ParamsT >
-		ArraySsboT(ShaderWriter& writer
+		ArrayStorageBufferT(ShaderWriter& writer
 			, std::string instanceName
 			, LocationHelper location
 			, bool enabled
@@ -97,6 +97,6 @@ namespace sdw
 		, SsboInfo const & info );
 }
 
-#include "ArraySsbo.inl"
+#include "ArrayStorageBuffer.inl"
 
 #endif

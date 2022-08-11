@@ -4,12 +4,12 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 
 #include "ShaderWriter/CompositeTypes/Function.hpp"
-#include "ShaderWriter/CompositeTypes/Pcb.hpp"
-#include "ShaderWriter/CompositeTypes/Ssbo.hpp"
+#include "ShaderWriter/CompositeTypes/PushConstantBuffer.hpp"
+#include "ShaderWriter/CompositeTypes/StorageBuffer.hpp"
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
-#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
-#include "ShaderWriter/CompositeTypes/Ubo.hpp"
+#include "ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp"
+#include "ShaderWriter/CompositeTypes/UniformBuffer.hpp"
 
 #include "ShaderWriter/MatTypes/Mat2.hpp"
 #include "ShaderWriter/MatTypes/Mat2x3.hpp"

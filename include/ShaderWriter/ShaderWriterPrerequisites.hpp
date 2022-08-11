@@ -160,12 +160,12 @@ namespace sdw
 	class Struct;
 	class StructInstance;
 
-	class Pcb;
-	class Ssbo;
-	class Ubo;
+	class PushConstantBuffer;
+	class StorageBuffer;
+	class UniformBuffer;
 
 	template< typename InstanceT >
-	class ArraySsboT;
+	class ArrayStorageBufferT;
 	/**@}*/
 #pragma endregion
 #pragma region Shader I/O

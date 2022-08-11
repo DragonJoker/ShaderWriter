@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/CompositeTypes/Ubo.hpp"
+#include "ShaderWriter/CompositeTypes/UniformBuffer.hpp"
 
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
@@ -11,7 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	Ubo::Ubo( ShaderWriter & writer
+	UniformBuffer::UniformBuffer( ShaderWriter & writer
 		, std::string name
 		, uint32_t bind
 		, uint32_t set
@@ -28,7 +28,7 @@ namespace sdw
 	{
 	}
 
-	void Ubo::end()
+	void UniformBuffer::end()
 	{
 		if ( isEnabled() )
 		{
@@ -37,7 +37,7 @@ namespace sdw
 		}
 	}
 
-	StructInstance Ubo::declStructMember( std::string name
+	StructInstance UniformBuffer::declStructMember( std::string name
 		, Struct const & s
 		, bool enabled )
 	{
@@ -54,7 +54,7 @@ namespace sdw
 			, isEnabled() && enabled };
 	}
 
-	Array< StructInstance > Ubo::declStructMember( std::string name
+	Array< StructInstance > UniformBuffer::declStructMember( std::string name
 		, Struct const & s
 		, uint32_t dimension
 		, bool enabled )

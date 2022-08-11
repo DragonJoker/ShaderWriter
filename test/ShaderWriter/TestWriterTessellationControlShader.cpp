@@ -1009,7 +1009,7 @@ namespace
 			TessellationControlWriter writer;
 
 			// TCS inputs
-			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();

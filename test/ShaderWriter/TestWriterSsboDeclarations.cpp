@@ -17,7 +17,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
+			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -42,7 +42,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
+			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -74,7 +74,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
+			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -99,7 +99,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
+			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -131,7 +131,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
+			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -156,7 +156,7 @@ namespace
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnum< T > );
-			sdw::Ssbo bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
+			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
@@ -189,7 +189,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::SsboHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", 1u, 1u };
+			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == ast::type::NotArray );
@@ -208,7 +208,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::SsboHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
+			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == ast::type::NotArray );
@@ -238,7 +238,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::SsboHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", 1u, 1u };
+			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
@@ -257,7 +257,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::SsboHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
+			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
@@ -287,7 +287,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::SsboHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", 1u, 1u };
+			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
@@ -306,7 +306,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			sdw::SsboHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
+			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
 			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );

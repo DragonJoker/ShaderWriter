@@ -108,7 +108,7 @@ namespace
 		testBegin( "compute" );
 		using namespace sdw;
 		ComputeWriter writer;
-		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
@@ -252,7 +252,7 @@ namespace
 			ComputeWriter writer;
 
 			// Inputs
-			sdw::Ubo voxelizer{ writer
+			sdw::UniformBuffer voxelizer{ writer
 				, "VoxelUbo"
 				, eVoxelUbo
 				, 0u };
@@ -373,7 +373,7 @@ namespace
 		{
 			auto writer = ComputeWriter{};
 
-			sdw::Ubo ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
@@ -479,7 +479,7 @@ namespace
 		testBegin( "subgroupCompute" );
 		using namespace sdw;
 		ComputeWriter writer;
-		ArraySsboT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )

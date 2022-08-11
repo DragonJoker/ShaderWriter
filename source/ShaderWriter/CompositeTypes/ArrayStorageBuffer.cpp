@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/CompositeTypes/ArraySsbo.hpp"
+#include "ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp"
 #include "ShaderWriter/Writer.hpp"
 
 #include <ShaderAST/Shader.hpp>
