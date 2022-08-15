@@ -290,6 +290,11 @@ namespace ast::type
 			, bool enabled = true );
 		SDAST_API void declMember( std::string name
 			, TypePtr type
+			, uint32_t arraySize
+			, uint32_t location
+			, bool enabled = true );
+		SDAST_API void declMember( std::string name
+			, TypePtr type
 			, uint32_t location
 			, bool enabled = true );
 		SDAST_API void declMember( std::string name

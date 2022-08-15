@@ -1012,7 +1012,26 @@ namespace ast::type
 		declMember( std::move( name )
 			, getNonArrayKind( type )
 			, getArraySize( type )
-			, location );
+			, location
+			, enabled );
+	}
+
+	void IOStruct::declMember( std::string name
+		, TypePtr type
+		, uint32_t arraySize
+		, uint32_t location
+		, bool enabled )
+	{
+		auto internalArraySize = getArraySize( type );
+		declMember( std::move( name )
+			, getNonArrayKind( type )
+			, ( arraySize == NotArray
+				? internalArraySize
+				: ( internalArraySize == NotArray
+					? arraySize
+					: internalArraySize * arraySize ) )
+			, location
+			, enabled );
 	}
 
 	void IOStruct::declMember( std::string name
