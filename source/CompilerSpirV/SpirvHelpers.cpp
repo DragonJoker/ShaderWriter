@@ -987,12 +987,23 @@ namespace spirv
 	{
 		auto compType = getComponentType( type );
 
-		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
+		if ( stage != ast::ShaderStage::eCompute
 			&& !isMeshStage( stage )
 			&& !isRayTraceStage( stage )
-			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
+			&& ( isSignedIntType( compType ) || isUnsignedIntType( compType ) ) )
 		{
-			flags = flags | ast::var::Flag::eFlat;
+			if ( isInput )
+			{
+				if ( stage != ast::ShaderStage::eVertex
+					|| ( stage == ast::ShaderStage::eFragment && builtin == ast::Builtin::ePrimitiveID ) )
+				{
+					flags = flags | ast::var::Flag::eFlat;
+				}
+			}
+			else if ( stage != ast::ShaderStage::eFragment )
+			{
+				flags = flags | ast::var::Flag::eFlat;
+			}
 		}
 
 		if ( builtin == ast::Builtin::ePrimitiveIndicesNV )
@@ -3313,7 +3324,9 @@ namespace spirv
 		, ValueId varId
 		, Module & module )
 	{
-		if ( var.isFlat() && !var.isBuiltin() )
+		if ( var.isFlat()
+			&& ( !var.isBuiltin()
+				|| var.getBuiltin() == ast::Builtin::ePrimitiveID ) )
 		{
 			module.decorate( varId, spv::DecorationFlat );
 		}
