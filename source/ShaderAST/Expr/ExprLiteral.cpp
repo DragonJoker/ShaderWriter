@@ -155,7 +155,7 @@ namespace ast::expr
 			{
 			case LiteralType::eBool:
 				return std::make_unique< Literal >( rhs.getCache()
-					, lhs.getValue< LiteralType::eBool >() | rhs.getValue< LiteralType::eBool >() );
+					, lhs.getValue< LiteralType::eBool >() || rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( rhs.getCache()
 					, int32_t( lhs.getValue< LiteralType::eBool >() ) | rhs.getValue< LiteralType::eInt >() );
@@ -241,7 +241,7 @@ namespace ast::expr
 			{
 			case LiteralType::eBool:
 				return std::make_unique< Literal >( rhs.getCache()
-					, lhs.getValue< LiteralType::eBool >() & rhs.getValue< LiteralType::eBool >() );
+					, lhs.getValue< LiteralType::eBool >() && rhs.getValue< LiteralType::eBool >() );
 			case LiteralType::eInt:
 				return std::make_unique< Literal >( rhs.getCache()
 					, int32_t( lhs.getValue< LiteralType::eBool >() ) & rhs.getValue< LiteralType::eInt >() );

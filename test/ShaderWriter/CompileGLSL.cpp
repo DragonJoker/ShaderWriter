@@ -248,19 +248,20 @@ namespace test
 	}
 
 #if defined( _WIN32 )
+
+#pragma warning( push )
+#pragma warning( disable: 4191 )
 	template< typename FuncT >
 	void getFunction( char const * const name, FuncT & function )
 	{
-#pragma warning( push )
-#pragma warning( disable: 4191 )
 		function = reinterpret_cast< FuncT >( wglGetProcAddress( name ) );
-#pragma warning( pop )
 
 		if ( function == nullptr )
 		{
 			throw std::runtime_error{ std::string( "Couldn't load function" ) + name };
 		}
 	}
+#pragma warning( pop )
 
 	enum ContextParameter
 	{

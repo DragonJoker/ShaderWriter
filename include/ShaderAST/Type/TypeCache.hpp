@@ -198,7 +198,7 @@ namespace ast::type
 			break;
 		case ast::type::Kind::eFunction:
 			{
-				auto funcType = static_cast< Function const & >( *type );
+				auto & funcType = static_cast< Function const & >( *type );
 				traverseType( funcType.getReturnType(), arrayDim, func );
 
 				for ( auto & arg : funcType )

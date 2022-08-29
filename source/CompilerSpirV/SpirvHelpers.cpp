@@ -994,8 +994,7 @@ namespace spirv
 		{
 			if ( isInput )
 			{
-				if ( stage != ast::ShaderStage::eVertex
-					|| ( stage == ast::ShaderStage::eFragment && builtin == ast::Builtin::ePrimitiveID ) )
+				if ( stage != ast::ShaderStage::eVertex )
 				{
 					flags = flags | ast::var::Flag::eFlat;
 				}
@@ -3324,9 +3323,7 @@ namespace spirv
 		, ValueId varId
 		, Module & module )
 	{
-		if ( var.isFlat()
-			&& ( !var.isBuiltin()
-				|| var.getBuiltin() == ast::Builtin::ePrimitiveID ) )
+		if ( var.isFlat() )
 		{
 			module.decorate( varId, spv::DecorationFlat );
 		}

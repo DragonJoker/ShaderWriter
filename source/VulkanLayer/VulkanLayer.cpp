@@ -103,6 +103,9 @@ namespace ast::vk
 #if VK_NV_glsl_shader
 		case VK_ERROR_INVALID_SHADER_NV: stream << "vk_error_invalid_shader"; break;
 #endif
+#if VK_EXT_image_compression_control
+		case VK_ERROR_COMPRESSION_EXHAUSTED_EXT: stream << "vk_error_compression_exhausted"; break;
+#endif
 #if VK_HEADER_VERSION < 140
 		case VK_RESULT_RANGE_SIZE: stream << "vk_result_range_size"; break;
 #endif
