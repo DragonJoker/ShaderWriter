@@ -1827,7 +1827,8 @@ namespace spirv
 				auto colType = m_cache->getBasicType( colKind );
 				auto rowCount = getComponentCount( colType );
 
-				if ( rowCount == 3 )
+				if ( rowCount == 3
+					|| ( rowCount == 2 && type->getMemoryLayout() == ast::type::MemoryLayout::eStd140 ) )
 				{
 					colType = m_cache->getVector( getComponentType( colKind ), 4u );
 				}

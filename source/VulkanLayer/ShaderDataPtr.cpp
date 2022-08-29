@@ -79,7 +79,11 @@ namespace ast::vk
 			{
 				auto lit = std::find_if( result.begin()
 					, result.end()
+// WTF ???
+#pragma warning( push )
+#pragma warning( disable: 5233 )
 					, [&rit]( DescriptorMapVt const & lookup )
+#pragma warning( pop )
 					{
 						return lookup.second->binding == rit.second->binding;
 					} );

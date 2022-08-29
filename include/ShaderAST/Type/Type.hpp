@@ -142,6 +142,8 @@ namespace ast::type
 		SDAST_API Type const * getNonMemberType()const;
 
 		SDAST_API virtual ~Type()noexcept = default;
+		SDAST_API Type( Type const & ) = delete;
+		SDAST_API Type & operator=( Type const & ) = delete;
 
 		Kind getRawKind()const
 		{
