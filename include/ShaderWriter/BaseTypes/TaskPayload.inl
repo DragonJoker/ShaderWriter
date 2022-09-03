@@ -31,7 +31,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void TaskPayloadOutT< DataT >::dispatchMesh( UInt taskCount )
+	void TaskPayloadOutT< DataT >::dispatchMesh( UInt32 taskCount )
 	{
 		m_internal.dispatchMesh( taskCount );
 	}

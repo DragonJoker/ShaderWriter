@@ -781,11 +781,27 @@ namespace spirv
 			{
 				switch ( value.getLiteralType() )
 				{
-				case ast::expr::LiteralType::eInt:
-					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eInt >() ) );
+				case ast::expr::LiteralType::eInt8:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eInt8 >() ) );
 					break;
-				case ast::expr::LiteralType::eUInt:
-					operands.emplace_back( value.getValue< ast::expr::LiteralType::eUInt >() );
+				case ast::expr::LiteralType::eInt16:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eInt16 >() ) );
+					break;
+				case ast::expr::LiteralType::eInt32:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eInt32 >() ) );
+					break;
+				case ast::expr::LiteralType::eInt64:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eInt64 >() >> 32 ) );
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eInt64 >() & 0x00000000FFFFFFFFull ) );
+					break;
+				case ast::expr::LiteralType::eUInt8:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eUInt8 >() ) );
+					break;
+				case ast::expr::LiteralType::eUInt16:
+					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eUInt16 >() ) );
+					break;
+				case ast::expr::LiteralType::eUInt32:
+					operands.emplace_back( value.getValue< ast::expr::LiteralType::eUInt32 >() );
 					break;
 				case ast::expr::LiteralType::eUInt64:
 					operands.emplace_back( uint32_t( value.getValue< ast::expr::LiteralType::eUInt64 >() >> 32 ) );
@@ -932,19 +948,110 @@ namespace spirv
 		return it->second;
 	}
 
-	ValueId Module::registerLiteral( int32_t value )
+	ValueId Module::registerLiteral( int8_t value )
 	{
-		auto it = m_registeredIntConstants.find( value );
+		auto it = m_registeredInt8Constants.find( value );
 
-		if ( it == m_registeredIntConstants.end() )
+		if ( it == m_registeredInt8Constants.end() )
 		{
-			auto type = registerType( m_cache->getInt() );
+			auto type = registerType( m_cache->getInt8() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ spv::Id( value ) } } ) );
-			it = m_registeredIntConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getInt() );
+			it = m_registeredInt8Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getInt8() );
+		}
+
+		return it->second;
+	}
+
+	ValueId Module::registerLiteral( int16_t value )
+	{
+		auto it = m_registeredInt16Constants.find( value );
+
+		if ( it == m_registeredInt16Constants.end() )
+		{
+			auto type = registerType( m_cache->getInt16() );
+			ValueId result{ getNextId(), type.type };
+			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
+				, result
+				, ValueIdList{ ValueId{ spv::Id( value ) } } ) );
+			it = m_registeredInt16Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getInt16() );
+		}
+
+		return it->second;
+	}
+
+	ValueId Module::registerLiteral( int32_t value )
+	{
+		auto it = m_registeredInt32Constants.find( value );
+
+		if ( it == m_registeredInt32Constants.end() )
+		{
+			auto type = registerType( m_cache->getInt32() );
+			ValueId result{ getNextId(), type.type };
+			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
+				, result
+				, ValueIdList{ ValueId{ spv::Id( value ) } } ) );
+			it = m_registeredInt32Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getInt32() );
+		}
+
+		return it->second;
+	}
+
+	ValueId Module::registerLiteral( int64_t value )
+	{
+		auto it = m_registeredInt64Constants.find( value );
+
+		if ( it == m_registeredInt64Constants.end() )
+		{
+			auto type = registerType( m_cache->getInt64() );
+			ValueId result{ getNextId(), type.type };
+			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
+				, result
+				, ValueIdList{ ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFll ) }
+			, ValueId{ uint32_t( value & 0x00000000FFFFFFFFll ) } } ) );
+			it = m_registeredInt64Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getInt64() );
+		}
+
+		return it->second;
+	}
+
+	ValueId Module::registerLiteral( uint8_t value )
+	{
+		auto it = m_registeredUInt8Constants.find( value );
+
+		if ( it == m_registeredUInt8Constants.end() )
+		{
+			auto type = registerType( m_cache->getUInt8() );
+			ValueId result{ getNextId(), type.type };
+			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
+				, result
+				, ValueIdList{ ValueId{ value } } ) );
+			it = m_registeredUInt8Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getUInt8() );
+		}
+
+		return it->second;
+	}
+
+	ValueId Module::registerLiteral( uint16_t value )
+	{
+		auto it = m_registeredUInt16Constants.find( value );
+
+		if ( it == m_registeredUInt16Constants.end() )
+		{
+			auto type = registerType( m_cache->getUInt16() );
+			ValueId result{ getNextId(), type.type };
+			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
+				, result
+				, ValueIdList{ ValueId{ value } } ) );
+			it = m_registeredUInt16Constants.emplace( value, result ).first;
+			m_registeredConstants.emplace( result, m_cache->getUInt16() );
 		}
 
 		return it->second;
@@ -952,16 +1059,16 @@ namespace spirv
 
 	ValueId Module::registerLiteral( uint32_t value )
 	{
-		auto it = m_registeredUIntConstants.find( value );
+		auto it = m_registeredUInt32Constants.find( value );
 
-		if ( it == m_registeredUIntConstants.end() )
+		if ( it == m_registeredUInt32Constants.end() )
 		{
 			auto type = registerType( m_cache->getUInt32() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ value } } ) );
-			it = m_registeredUIntConstants.emplace( value, result ).first;
+			it = m_registeredUInt32Constants.emplace( value, result ).first;
 			m_registeredConstants.emplace( result, m_cache->getUInt32() );
 		}
 

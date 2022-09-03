@@ -47,9 +47,9 @@ namespace sdw
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//in int gl_PrimitiveIDIn;
-		Int const primitiveID;
+		Int32 const primitiveID;
 		//in int gl_InvocationID;
-		Int const invocationID;
+		Int32 const invocationID;
 	};
 	/**
 	*	Holds vertex input data for a geometry shader.
@@ -117,11 +117,11 @@ namespace sdw
 
 		PerVertex vtx;
 		//out int gl_PrimitiveID;
-		Int primitiveID;
+		Int32 primitiveID;
 		//out int gl_Layer;
-		Int layer;
+		Int32 layer;
 		//out int gl_ViewportIndex;
-		Int viewportIndex;
+		Int32 viewportIndex;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >

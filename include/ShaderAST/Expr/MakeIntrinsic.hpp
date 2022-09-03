@@ -1461,57 +1461,57 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] x
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAbs1I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAbs1I
 			, std::move( x ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeAbs2I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eAbs2I
 			, std::move( x ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeAbs3I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eAbs3I
 			, std::move( x ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeAbs4I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eAbs4I
 			, std::move( x ) );
 	}
@@ -1629,57 +1629,57 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] x
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSign1I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSign1I
 			, std::move( x ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSign2I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSign2I
 			, std::move( x ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSign3I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSign3I
 			, std::move( x ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSign4I( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSign4I
 			, std::move( x ) );
 	}
@@ -2869,152 +2869,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] x
-	*	int
+	*	int32
 	*@param[in] y
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeMin1I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
-		assert( y->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eMin1I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeMin2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eMin2I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeMin3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eMin3I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeMin4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eMin4I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] x
-	*	uint
+	*	uint32
 	*@param[in] y
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeMin1U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
-		assert( y->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eMin1U
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeMin2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eMin2U
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeMin3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eMin3U
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeMin4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eMin4U
 			, std::move( x )
 			, std::move( y ) );
@@ -3173,152 +3173,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] x
-	*	int
+	*	int32
 	*@param[in] y
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeMax1I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
-		assert( y->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eMax1I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeMax2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eMax2I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeMax3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eMax3I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeMax4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eMax4I
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] x
-	*	uint
+	*	uint32
 	*@param[in] y
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeMax1U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
-		assert( y->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eMax1U
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeMax2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eMax2U
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeMax3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eMax3U
 			, std::move( x )
 			, std::move( y ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeMax4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eMax4U
 			, std::move( x )
 			, std::move( y ) );
@@ -3517,23 +3517,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] x
-	*	int
+	*	int32
 	*@param[in] minVal
-	*	int
+	*	int32
 	*@param[in] maxVal
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeClamp1I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
-		assert( minVal->getType()->getRawKind() == type::Kind::eInt );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eClamp1I
 			, std::move( x )
 			, std::move( minVal )
@@ -3541,23 +3541,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] minVal
-	*	vec2i
+	*	vec2i32
 	*@param[in] maxVal
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeClamp2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( minVal->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eClamp2I
 			, std::move( x )
 			, std::move( minVal )
@@ -3565,23 +3565,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] minVal
-	*	vec3i
+	*	vec3i32
 	*@param[in] maxVal
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeClamp3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( minVal->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eClamp3I
 			, std::move( x )
 			, std::move( minVal )
@@ -3589,23 +3589,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] minVal
-	*	vec4i
+	*	vec4i32
 	*@param[in] maxVal
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeClamp4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( minVal->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eClamp4I
 			, std::move( x )
 			, std::move( minVal )
@@ -3613,23 +3613,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] x
-	*	uint
+	*	uint32
 	*@param[in] minVal
-	*	uint
+	*	uint32
 	*@param[in] maxVal
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeClamp1U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
-		assert( minVal->getType()->getRawKind() == type::Kind::eUInt );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eClamp1U
 			, std::move( x )
 			, std::move( minVal )
@@ -3637,23 +3637,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] minVal
-	*	vec2u
+	*	vec2u32
 	*@param[in] maxVal
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeClamp2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( minVal->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eClamp2U
 			, std::move( x )
 			, std::move( minVal )
@@ -3661,23 +3661,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] minVal
-	*	vec3u
+	*	vec3u32
 	*@param[in] maxVal
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeClamp3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( minVal->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eClamp3U
 			, std::move( x )
 			, std::move( minVal )
@@ -3685,23 +3685,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] minVal
-	*	vec4u
+	*	vec4u32
 	*@param[in] maxVal
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeClamp4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr minVal
 		, ExprPtr maxVal )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( minVal->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( maxVal->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( minVal->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( maxVal->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eClamp4U
 			, std::move( x )
 			, std::move( minVal )
@@ -4469,7 +4469,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
 	*	float
 	*/
@@ -4477,13 +4477,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eFloatBitsToInt1
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
 	*	vec2f
 	*/
@@ -4491,13 +4491,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eFloatBitsToInt2
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
 	*	vec3f
 	*/
@@ -4505,13 +4505,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eFloatBitsToInt3
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
 	*	vec4f
 	*/
@@ -4519,13 +4519,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eFloatBitsToInt4
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
 	*	float
 	*/
@@ -4533,13 +4533,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eFloatBitsToUInt1
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
 	*	vec2f
 	*/
@@ -4547,13 +4547,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eFloatBitsToUInt2
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
 	*	vec3f
 	*/
@@ -4561,13 +4561,13 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eFloatBitsToUInt3
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
 	*	vec4f
 	*/
@@ -4575,7 +4575,7 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eFloatBitsToUInt4
 			, std::move( value ) );
 	}
@@ -4583,12 +4583,12 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param[in] x
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeIntBitsToFloat1( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eIntBitsToFloat1
 			, std::move( x ) );
@@ -4597,12 +4597,12 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeIntBitsToFloat2( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eIntBitsToFloat2
 			, std::move( x ) );
@@ -4611,12 +4611,12 @@ namespace ast::expr
 	*@return
 	*	vec3f
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeIntBitsToFloat3( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eIntBitsToFloat3
 			, std::move( x ) );
@@ -4625,12 +4625,12 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeIntBitsToFloat4( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eIntBitsToFloat4
 			, std::move( x ) );
@@ -4639,12 +4639,12 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param[in] x
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUintBitsToFloat1( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eUintBitsToFloat1
 			, std::move( x ) );
@@ -4653,12 +4653,12 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeUintBitsToFloat2( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eUintBitsToFloat2
 			, std::move( x ) );
@@ -4667,12 +4667,12 @@ namespace ast::expr
 	*@return
 	*	vec3f
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeUintBitsToFloat3( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eUintBitsToFloat3
 			, std::move( x ) );
@@ -4681,12 +4681,12 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeUintBitsToFloat4( type::TypesCache & cache
 		, ExprPtr x )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eUintBitsToFloat4
 			, std::move( x ) );
@@ -4889,14 +4889,14 @@ namespace ast::expr
 	*@param[in] x
 	*	float
 	*@param[out] exp
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeFrexp1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eFloat );
-		assert( exp->getType()->getRawKind() == type::Kind::eInt );
+		assert( exp->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eFrexp1F
 			, std::move( x )
@@ -4908,14 +4908,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec2f
 	*@param[out] exp
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeFrexp2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eFrexp2F
 			, std::move( x )
@@ -4927,14 +4927,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec3f
 	*@param[out] exp
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeFrexp3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eFrexp3F
 			, std::move( x )
@@ -4946,14 +4946,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec4f
 	*@param[out] exp
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeFrexp4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eFrexp4F
 			, std::move( x )
@@ -4965,14 +4965,14 @@ namespace ast::expr
 	*@param[in] x
 	*	double
 	*@param[out] exp
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeFrexp1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eDouble );
-		assert( exp->getType()->getRawKind() == type::Kind::eInt );
+		assert( exp->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eFrexp1D
 			, std::move( x )
@@ -4984,14 +4984,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec2d
 	*@param[out] exp
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeFrexp2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eFrexp2D
 			, std::move( x )
@@ -5003,14 +5003,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec3d
 	*@param[out] exp
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeFrexp3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eFrexp3D
 			, std::move( x )
@@ -5022,14 +5022,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec4d
 	*@param[out] exp
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeFrexp4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eFrexp4D
 			, std::move( x )
@@ -5041,14 +5041,14 @@ namespace ast::expr
 	*@param[in] x
 	*	float
 	*@param[in] exp
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeLdexp1F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eFloat );
-		assert( exp->getType()->getRawKind() == type::Kind::eInt );
+		assert( exp->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eLdexp1F
 			, std::move( x )
@@ -5060,14 +5060,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec2f
 	*@param[in] exp
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeLdexp2F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eLdexp2F
 			, std::move( x )
@@ -5079,14 +5079,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec3f
 	*@param[in] exp
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeLdexp3F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eLdexp3F
 			, std::move( x )
@@ -5098,14 +5098,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec4f
 	*@param[in] exp
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeLdexp4F( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eLdexp4F
 			, std::move( x )
@@ -5117,14 +5117,14 @@ namespace ast::expr
 	*@param[in] x
 	*	double
 	*@param[in] exp
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeLdexp1D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eDouble );
-		assert( exp->getType()->getRawKind() == type::Kind::eInt );
+		assert( exp->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eLdexp1D
 			, std::move( x )
@@ -5136,14 +5136,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec2d
 	*@param[in] exp
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeLdexp2D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eLdexp2D
 			, std::move( x )
@@ -5155,14 +5155,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec3d
 	*@param[in] exp
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeLdexp3D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eLdexp3D
 			, std::move( x )
@@ -5174,14 +5174,14 @@ namespace ast::expr
 	*@param[in] x
 	*	vec4d
 	*@param[in] exp
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeLdexp4D( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr exp )
 	{
 		assert( x->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( exp->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( exp->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eLdexp4D
 			, std::move( x )
@@ -5193,19 +5193,19 @@ namespace ast::expr
 	*@return
 	*	double
 	*@param[in] v
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makePackDouble2x32( type::TypesCache & cache
 		, ExprPtr v )
 	{
-		assert( v->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( v->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::ePackDouble2x32
 			, std::move( v ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] v
 	*	vec2f
 	*/
@@ -5213,13 +5213,13 @@ namespace ast::expr
 		, ExprPtr v )
 	{
 		assert( v->getType()->getRawKind() == type::Kind::eVec2F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::ePackHalf2x16
 			, std::move( v ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] v
 	*	vec2f
 	*/
@@ -5227,13 +5227,13 @@ namespace ast::expr
 		, ExprPtr v )
 	{
 		assert( v->getType()->getRawKind() == type::Kind::eVec2F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::ePackSnorm2x16
 			, std::move( v ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] v
 	*	vec4f
 	*/
@@ -5241,13 +5241,13 @@ namespace ast::expr
 		, ExprPtr v )
 	{
 		assert( v->getType()->getRawKind() == type::Kind::eVec4F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::ePackSnorm4x8
 			, std::move( v ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] v
 	*	vec2f
 	*/
@@ -5255,13 +5255,13 @@ namespace ast::expr
 		, ExprPtr v )
 	{
 		assert( v->getType()->getRawKind() == type::Kind::eVec2F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::ePackUnorm2x16
 			, std::move( v ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] v
 	*	vec4f
 	*/
@@ -5269,13 +5269,13 @@ namespace ast::expr
 		, ExprPtr v )
 	{
 		assert( v->getType()->getRawKind() == type::Kind::eVec4F );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::ePackUnorm4x8
 			, std::move( v ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] d
 	*	double
 	*/
@@ -5283,7 +5283,7 @@ namespace ast::expr
 		, ExprPtr d )
 	{
 		assert( d->getType()->getRawKind() == type::Kind::eDouble );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eUnpackDouble2x32
 			, std::move( d ) );
 	}
@@ -5291,12 +5291,12 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param[in] v
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUnpackHalf2x16( type::TypesCache & cache
 		, ExprPtr v )
 	{
-		assert( v->getType()->getRawKind() == type::Kind::eUInt );
+		assert( v->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eUnpackHalf2x16
 			, std::move( v ) );
@@ -5305,12 +5305,12 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param[in] p
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUnpackSnorm2x16( type::TypesCache & cache
 		, ExprPtr p )
 	{
-		assert( p->getType()->getRawKind() == type::Kind::eUInt );
+		assert( p->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eUnpackSnorm2x16
 			, std::move( p ) );
@@ -5319,12 +5319,12 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param[in] p
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUnpackSnorm4x8( type::TypesCache & cache
 		, ExprPtr p )
 	{
-		assert( p->getType()->getRawKind() == type::Kind::eUInt );
+		assert( p->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eUnpackSnorm4x8
 			, std::move( p ) );
@@ -5333,12 +5333,12 @@ namespace ast::expr
 	*@return
 	*	vec2f
 	*@param[in] p
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUnpackUnorm2x16( type::TypesCache & cache
 		, ExprPtr p )
 	{
-		assert( p->getType()->getRawKind() == type::Kind::eUInt );
+		assert( p->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eUnpackUnorm2x16
 			, std::move( p ) );
@@ -5347,12 +5347,12 @@ namespace ast::expr
 	*@return
 	*	vec4f
 	*@param[in] p
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUnpackUnorm4x8( type::TypesCache & cache
 		, ExprPtr p )
 	{
-		assert( p->getType()->getRawKind() == type::Kind::eUInt );
+		assert( p->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eUnpackUnorm4x8
 			, std::move( p ) );
@@ -7687,16 +7687,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeLessThan2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eLessThan2I
 			, std::move( x )
@@ -7706,16 +7706,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeLessThan3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eLessThan3I
 			, std::move( x )
@@ -7725,16 +7725,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeLessThan4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eLessThan4I
 			, std::move( x )
@@ -7744,16 +7744,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeLessThan2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eLessThan2U
 			, std::move( x )
@@ -7763,16 +7763,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeLessThan3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eLessThan3U
 			, std::move( x )
@@ -7782,16 +7782,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeLessThan4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eLessThan4U
 			, std::move( x )
@@ -7915,16 +7915,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeLessThanEqual2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eLessThanEqual2I
 			, std::move( x )
@@ -7934,16 +7934,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeLessThanEqual3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eLessThanEqual3I
 			, std::move( x )
@@ -7953,16 +7953,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeLessThanEqual4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eLessThanEqual4I
 			, std::move( x )
@@ -7972,16 +7972,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeLessThanEqual2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eLessThanEqual2U
 			, std::move( x )
@@ -7991,16 +7991,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeLessThanEqual3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eLessThanEqual3U
 			, std::move( x )
@@ -8010,16 +8010,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeLessThanEqual4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eLessThanEqual4U
 			, std::move( x )
@@ -8143,16 +8143,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeGreaterThan2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eGreaterThan2I
 			, std::move( x )
@@ -8162,16 +8162,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeGreaterThan3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eGreaterThan3I
 			, std::move( x )
@@ -8181,16 +8181,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeGreaterThan4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eGreaterThan4I
 			, std::move( x )
@@ -8200,16 +8200,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeGreaterThan2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eGreaterThan2U
 			, std::move( x )
@@ -8219,16 +8219,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeGreaterThan3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eGreaterThan3U
 			, std::move( x )
@@ -8238,16 +8238,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeGreaterThan4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eGreaterThan4U
 			, std::move( x )
@@ -8371,16 +8371,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeGreaterThanEqual2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eGreaterThanEqual2I
 			, std::move( x )
@@ -8390,16 +8390,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeGreaterThanEqual3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eGreaterThanEqual3I
 			, std::move( x )
@@ -8409,16 +8409,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeGreaterThanEqual4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eGreaterThanEqual4I
 			, std::move( x )
@@ -8428,16 +8428,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeGreaterThanEqual2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eGreaterThanEqual2U
 			, std::move( x )
@@ -8447,16 +8447,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeGreaterThanEqual3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eGreaterThanEqual3U
 			, std::move( x )
@@ -8466,16 +8466,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeGreaterThanEqual4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eGreaterThanEqual4U
 			, std::move( x )
@@ -8599,16 +8599,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeEqual2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eEqual2I
 			, std::move( x )
@@ -8618,16 +8618,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeEqual3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eEqual3I
 			, std::move( x )
@@ -8637,16 +8637,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeEqual4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eEqual4I
 			, std::move( x )
@@ -8656,16 +8656,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeEqual2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eEqual2U
 			, std::move( x )
@@ -8675,16 +8675,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeEqual3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eEqual3U
 			, std::move( x )
@@ -8694,16 +8694,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeEqual4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eEqual4U
 			, std::move( x )
@@ -8827,16 +8827,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeNotEqual2I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eNotEqual2I
 			, std::move( x )
@@ -8846,16 +8846,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeNotEqual3I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eNotEqual3I
 			, std::move( x )
@@ -8865,16 +8865,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeNotEqual4I( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eNotEqual4I
 			, std::move( x )
@@ -8884,16 +8884,16 @@ namespace ast::expr
 	*@return
 	*	vec2b
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeNotEqual2U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eNotEqual2U
 			, std::move( x )
@@ -8903,16 +8903,16 @@ namespace ast::expr
 	*@return
 	*	vec3b
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeNotEqual3U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eNotEqual3U
 			, std::move( x )
@@ -8922,16 +8922,16 @@ namespace ast::expr
 	*@return
 	*	vec4b
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeNotEqual4U( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eNotEqual4U
 			, std::move( x )
@@ -9067,23 +9067,23 @@ namespace ast::expr
 
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] x
-	*	uint
+	*	uint32
 	*@param[in] y
-	*	uint
+	*	uint32
 	*@param[in] carry
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUaddCarry1( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr carry )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
-		assert( y->getType()->getRawKind() == type::Kind::eUInt );
-		assert( carry->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( carry->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eUaddCarry1
 			, std::move( x )
 			, std::move( y )
@@ -9091,23 +9091,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*@param[in] carry
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeUaddCarry2( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr carry )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( carry->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( carry->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eUaddCarry2
 			, std::move( x )
 			, std::move( y )
@@ -9115,23 +9115,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*@param[in] carry
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeUaddCarry3( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr carry )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( carry->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( carry->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eUaddCarry3
 			, std::move( x )
 			, std::move( y )
@@ -9139,23 +9139,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*@param[in] carry
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeUaddCarry4( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr carry )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( carry->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( carry->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eUaddCarry4
 			, std::move( x )
 			, std::move( y )
@@ -9163,23 +9163,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] x
-	*	uint
+	*	uint32
 	*@param[in] y
-	*	uint
+	*	uint32
 	*@param[in] borrow
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUsubBorrow1( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr borrow )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
-		assert( y->getType()->getRawKind() == type::Kind::eUInt );
-		assert( borrow->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( borrow->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eUsubBorrow1
 			, std::move( x )
 			, std::move( y )
@@ -9187,23 +9187,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*@param[in] borrow
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeUsubBorrow2( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr borrow )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( borrow->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( borrow->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eUsubBorrow2
 			, std::move( x )
 			, std::move( y )
@@ -9211,23 +9211,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*@param[in] borrow
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeUsubBorrow3( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr borrow )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( borrow->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( borrow->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eUsubBorrow3
 			, std::move( x )
 			, std::move( y )
@@ -9235,23 +9235,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*@param[in] borrow
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeUsubBorrow4( type::TypesCache & cache
 		, ExprPtr x
 		, ExprPtr y
 		, ExprPtr borrow )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( borrow->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( borrow->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eUsubBorrow4
 			, std::move( x )
 			, std::move( y )
@@ -9261,13 +9261,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	uint
+	*	uint32
 	*@param[in] y
-	*	uint
+	*	uint32
 	*@param[in] msb
-	*	uint
+	*	uint32
 	*@param[in] lsb
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeUmulExtended1( type::TypesCache & cache
 		, ExprPtr x
@@ -9275,10 +9275,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eUInt );
-		assert( y->getType()->getRawKind() == type::Kind::eUInt );
-		assert( msb->getType()->getRawKind() == type::Kind::eUInt );
-		assert( lsb->getType()->getRawKind() == type::Kind::eUInt );
+		assert( x->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eUmulExtended1
 			, std::move( x )
@@ -9290,13 +9290,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	vec2u
+	*	vec2u32
 	*@param[in] y
-	*	vec2u
+	*	vec2u32
 	*@param[in] msb
-	*	vec2u
+	*	vec2u32
 	*@param[in] lsb
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeUmulExtended2( type::TypesCache & cache
 		, ExprPtr x
@@ -9304,10 +9304,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( msb->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( lsb->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eUmulExtended2
 			, std::move( x )
@@ -9319,13 +9319,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	vec3u
+	*	vec3u32
 	*@param[in] y
-	*	vec3u
+	*	vec3u32
 	*@param[in] msb
-	*	vec3u
+	*	vec3u32
 	*@param[in] lsb
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeUmulExtended3( type::TypesCache & cache
 		, ExprPtr x
@@ -9333,10 +9333,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( msb->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( lsb->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eUmulExtended3
 			, std::move( x )
@@ -9348,13 +9348,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	vec4u
+	*	vec4u32
 	*@param[in] y
-	*	vec4u
+	*	vec4u32
 	*@param[in] msb
-	*	vec4u
+	*	vec4u32
 	*@param[in] lsb
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeUmulExtended4( type::TypesCache & cache
 		, ExprPtr x
@@ -9362,10 +9362,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( msb->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( lsb->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eUmulExtended4
 			, std::move( x )
@@ -9377,13 +9377,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	int
+	*	int32
 	*@param[in] y
-	*	int
+	*	int32
 	*@param[in] msb
-	*	int
+	*	int32
 	*@param[in] lsb
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeImulExtended1( type::TypesCache & cache
 		, ExprPtr x
@@ -9391,10 +9391,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eInt );
-		assert( y->getType()->getRawKind() == type::Kind::eInt );
-		assert( msb->getType()->getRawKind() == type::Kind::eInt );
-		assert( lsb->getType()->getRawKind() == type::Kind::eInt );
+		assert( x->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( y->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eImulExtended1
 			, std::move( x )
@@ -9406,13 +9406,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	vec2i
+	*	vec2i32
 	*@param[in] y
-	*	vec2i
+	*	vec2i32
 	*@param[in] msb
-	*	vec2i
+	*	vec2i32
 	*@param[in] lsb
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeImulExtended2( type::TypesCache & cache
 		, ExprPtr x
@@ -9420,10 +9420,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( msb->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( lsb->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eImulExtended2
 			, std::move( x )
@@ -9435,13 +9435,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	vec3i
+	*	vec3i32
 	*@param[in] y
-	*	vec3i
+	*	vec3i32
 	*@param[in] msb
-	*	vec3i
+	*	vec3i32
 	*@param[in] lsb
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeImulExtended3( type::TypesCache & cache
 		, ExprPtr x
@@ -9449,10 +9449,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( msb->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( lsb->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eImulExtended3
 			, std::move( x )
@@ -9464,13 +9464,13 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] x
-	*	vec4i
+	*	vec4i32
 	*@param[in] y
-	*	vec4i
+	*	vec4i32
 	*@param[in] msb
-	*	vec4i
+	*	vec4i32
 	*@param[in] lsb
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeImulExtended4( type::TypesCache & cache
 		, ExprPtr x
@@ -9478,10 +9478,10 @@ namespace ast::expr
 		, ExprPtr msb
 		, ExprPtr lsb )
 	{
-		assert( x->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( y->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( msb->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( lsb->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( x->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( y->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( msb->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( lsb->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eImulExtended4
 			, std::move( x )
@@ -9491,23 +9491,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eBitfieldExtract1I
 			, std::move( value )
 			, std::move( offset )
@@ -9515,23 +9515,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eBitfieldExtract2I
 			, std::move( value )
 			, std::move( offset )
@@ -9539,23 +9539,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eBitfieldExtract3I
 			, std::move( value )
 			, std::move( offset )
@@ -9563,23 +9563,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eBitfieldExtract4I
 			, std::move( value )
 			, std::move( offset )
@@ -9587,23 +9587,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eBitfieldExtract1U
 			, std::move( value )
 			, std::move( offset )
@@ -9611,23 +9611,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eBitfieldExtract2U
 			, std::move( value )
 			, std::move( offset )
@@ -9635,23 +9635,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eBitfieldExtract3U
 			, std::move( value )
 			, std::move( offset )
@@ -9659,23 +9659,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldExtract4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eBitfieldExtract4U
 			, std::move( value )
 			, std::move( offset )
@@ -9683,15 +9683,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] base
-	*	int
+	*	int32
 	*@param[in] insert
-	*	int
+	*	int32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert1I( type::TypesCache & cache
 		, ExprPtr base
@@ -9699,11 +9699,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eInt );
-		assert( insert->getType()->getRawKind() == type::Kind::eInt );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( base->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eBitfieldInsert1I
 			, std::move( base )
 			, std::move( insert )
@@ -9712,15 +9712,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] base
-	*	vec2i
+	*	vec2i32
 	*@param[in] insert
-	*	vec2i
+	*	vec2i32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert2I( type::TypesCache & cache
 		, ExprPtr base
@@ -9728,11 +9728,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( insert->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( base->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eBitfieldInsert2I
 			, std::move( base )
 			, std::move( insert )
@@ -9741,15 +9741,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] base
-	*	vec3i
+	*	vec3i32
 	*@param[in] insert
-	*	vec3i
+	*	vec3i32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert3I( type::TypesCache & cache
 		, ExprPtr base
@@ -9757,11 +9757,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( insert->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( base->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eBitfieldInsert3I
 			, std::move( base )
 			, std::move( insert )
@@ -9770,15 +9770,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] base
-	*	vec4i
+	*	vec4i32
 	*@param[in] insert
-	*	vec4i
+	*	vec4i32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert4I( type::TypesCache & cache
 		, ExprPtr base
@@ -9786,11 +9786,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( insert->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( base->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eBitfieldInsert4I
 			, std::move( base )
 			, std::move( insert )
@@ -9799,15 +9799,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] base
-	*	uint
+	*	uint32
 	*@param[in] insert
-	*	uint
+	*	uint32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert1U( type::TypesCache & cache
 		, ExprPtr base
@@ -9815,11 +9815,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eUInt );
-		assert( insert->getType()->getRawKind() == type::Kind::eUInt );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( base->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eBitfieldInsert1U
 			, std::move( base )
 			, std::move( insert )
@@ -9828,15 +9828,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] base
-	*	vec2u
+	*	vec2u32
 	*@param[in] insert
-	*	vec2u
+	*	vec2u32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert2U( type::TypesCache & cache
 		, ExprPtr base
@@ -9844,11 +9844,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( insert->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( base->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eBitfieldInsert2U
 			, std::move( base )
 			, std::move( insert )
@@ -9857,15 +9857,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] base
-	*	vec3u
+	*	vec3u32
 	*@param[in] insert
-	*	vec3u
+	*	vec3u32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert3U( type::TypesCache & cache
 		, ExprPtr base
@@ -9873,11 +9873,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( insert->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( base->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eBitfieldInsert3U
 			, std::move( base )
 			, std::move( insert )
@@ -9886,15 +9886,15 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] base
-	*	vec4u
+	*	vec4u32
 	*@param[in] insert
-	*	vec4u
+	*	vec4u32
 	*@param[in] offset
-	*	int
+	*	int32
 	*@param[in] bits
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldInsert4U( type::TypesCache & cache
 		, ExprPtr base
@@ -9902,11 +9902,11 @@ namespace ast::expr
 		, ExprPtr offset
 		, ExprPtr bits )
 	{
-		assert( base->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( insert->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( offset->getType()->getRawKind() == type::Kind::eInt );
-		assert( bits->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( base->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( insert->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( offset->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( bits->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eBitfieldInsert4U
 			, std::move( base )
 			, std::move( insert )
@@ -9915,449 +9915,449 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eBitfieldReverse1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eBitfieldReverse2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eBitfieldReverse3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eBitfieldReverse4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eBitfieldReverse1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eBitfieldReverse2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eBitfieldReverse3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeBitfieldReverse4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eBitfieldReverse4U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeBitCount1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eBitCount1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeBitCount2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eBitCount2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeBitCount3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eBitCount3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeBitCount4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eBitCount4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeBitCount1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eBitCount1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeBitCount2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eBitCount2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeBitCount3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eBitCount3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeBitCount4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eBitCount4U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeFindLSB1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eFindLSB1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeFindLSB2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eFindLSB2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeFindLSB3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eFindLSB3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeFindLSB4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eFindLSB4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeFindLSB1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eFindLSB1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeFindLSB2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eFindLSB2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeFindLSB3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eFindLSB3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeFindLSB4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eFindLSB4U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeFindMSB1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eFindMSB1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeFindMSB2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eFindMSB2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeFindMSB3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eFindMSB3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeFindMSB4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eFindMSB4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeFindMSB1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eFindMSB1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeFindMSB2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eFindMSB2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeFindMSB3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eFindMSB3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeFindMSB4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eFindMSB4U
 			, std::move( value ) );
 	}
@@ -10365,38 +10365,38 @@ namespace ast::expr
 
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicAddI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicAddI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicAddU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicAddU
 			, std::move( mem )
 			, std::move( data ) );
@@ -10460,228 +10460,228 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicMinI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicMinI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicMinU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicMinU
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicMaxI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicMaxI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicMaxU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicMaxU
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicAndI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicAndI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicAndU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicAndU
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicOrI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicOrI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicOrU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicOrU
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicXorI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicXorI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicXorU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicXorU
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicExchangeI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicExchangeI
 			, std::move( mem )
 			, std::move( data ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicExchangeU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicExchangeU
 			, std::move( mem )
 			, std::move( data ) );
@@ -10745,23 +10745,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] mem
-	*	int
+	*	int32
 	*@param[in] compare
-	*	int
+	*	int32
 	*@param[in] data
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeAtomicCompSwapI( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( compare->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eAtomicCompSwapI
 			, std::move( mem )
 			, std::move( compare )
@@ -10769,23 +10769,23 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] mem
-	*	uint
+	*	uint32
 	*@param[in] compare
-	*	uint
+	*	uint32
 	*@param[in] data
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeAtomicCompSwapU( type::TypesCache & cache
 		, ExprPtr mem
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( mem->getType()->getRawKind() == type::Kind::eUInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( mem->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( compare->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( data->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eAtomicCompSwapU
 			, std::move( mem )
 			, std::move( compare )
@@ -11249,14 +11249,14 @@ namespace ast::expr
 	*@param[in] interpolant
 	*	float
 	*@param[in] sample
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeInterpolateAtSample1( type::TypesCache & cache
 		, ExprPtr interpolant
 		, ExprPtr sample )
 	{
 		assert( interpolant->getType()->getRawKind() == type::Kind::eFloat );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		assert( sample->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eInterpolateAtSample1
 			, std::move( interpolant )
@@ -11268,14 +11268,14 @@ namespace ast::expr
 	*@param[in] interpolant
 	*	vec2f
 	*@param[in] sample
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeInterpolateAtSample2( type::TypesCache & cache
 		, ExprPtr interpolant
 		, ExprPtr sample )
 	{
 		assert( interpolant->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		assert( sample->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eInterpolateAtSample2
 			, std::move( interpolant )
@@ -11287,14 +11287,14 @@ namespace ast::expr
 	*@param[in] interpolant
 	*	vec3f
 	*@param[in] sample
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeInterpolateAtSample3( type::TypesCache & cache
 		, ExprPtr interpolant
 		, ExprPtr sample )
 	{
 		assert( interpolant->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		assert( sample->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eInterpolateAtSample3
 			, std::move( interpolant )
@@ -11306,14 +11306,14 @@ namespace ast::expr
 	*@param[in] interpolant
 	*	vec4f
 	*@param[in] sample
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeInterpolateAtSample4( type::TypesCache & cache
 		, ExprPtr interpolant
 		, ExprPtr sample )
 	{
 		assert( interpolant->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		assert( sample->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eInterpolateAtSample4
 			, std::move( interpolant )
@@ -11401,12 +11401,12 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] stream
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeEmitStreamVertex( type::TypesCache & cache
 		, ExprPtr stream )
 	{
-		assert( stream->getType()->getRawKind() == type::Kind::eInt );
+		assert( stream->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eEmitStreamVertex
 			, std::move( stream ) );
@@ -11415,12 +11415,12 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] stream
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeEndStreamPrimitive( type::TypesCache & cache
 		, ExprPtr stream )
 	{
-		assert( stream->getType()->getRawKind() == type::Kind::eInt );
+		assert( stream->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eEndStreamPrimitive
 			, std::move( stream ) );
@@ -11469,11 +11469,11 @@ namespace ast::expr
 
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeMemoryBarrier( type::TypesCache & cache )
 	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eMemoryBarrier );
 	}
 	/**
@@ -11520,15 +11520,15 @@ namespace ast::expr
 	*@param[in] topLevel
 	*	accelerationstructure
 	*@param[in] rayFlags
-	*	uint
+	*	uint32
 	*@param[in] cullMask
-	*	uint
+	*	uint32
 	*@param[in] sbtRecordOffset
-	*	uint
+	*	uint32
 	*@param[in] sbtRecordStride
-	*	uint
+	*	uint32
 	*@param[in] missIndex
-	*	uint
+	*	uint32
 	*@param[in] rayDesc
 	*	raydesc
 	*@param[in] payload
@@ -11545,11 +11545,11 @@ namespace ast::expr
 		, ExprPtr payload )
 	{
 		assert( topLevel->getType()->getRawKind() == type::Kind::eAccelerationStructure );
-		assert( rayFlags->getType()->getRawKind() == type::Kind::eUInt );
-		assert( cullMask->getType()->getRawKind() == type::Kind::eUInt );
-		assert( sbtRecordOffset->getType()->getRawKind() == type::Kind::eUInt );
-		assert( sbtRecordStride->getType()->getRawKind() == type::Kind::eUInt );
-		assert( missIndex->getType()->getRawKind() == type::Kind::eUInt );
+		assert( rayFlags->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( cullMask->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( sbtRecordOffset->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( sbtRecordStride->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( missIndex->getType()->getRawKind() == type::Kind::eUInt32 );
 		assert( rayDesc->getType()->getRawKind() == type::Kind::eRayDesc );
 		assert( payload->getType()->getRawKind() == type::Kind::eRayPayload );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
@@ -11569,7 +11569,7 @@ namespace ast::expr
 	*@param[in] hitT
 	*	float
 	*@param[in] hitKind
-	*	uint
+	*	uint32
 	*@param[in] attribs
 	*	hitattribute
 	*/
@@ -11579,7 +11579,7 @@ namespace ast::expr
 		, ExprPtr attribs )
 	{
 		assert( hitT->getType()->getRawKind() == type::Kind::eFloat );
-		assert( hitKind->getType()->getRawKind() == type::Kind::eUInt );
+		assert( hitKind->getType()->getRawKind() == type::Kind::eUInt32 );
 		assert( attribs->getType()->getRawKind() == type::Kind::eHitAttribute );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eReportIntersection
@@ -11591,7 +11591,7 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] sbtRecordIndex
-	*	uint
+	*	uint32
 	*@param[in] callable
 	*	callabledata
 	*/
@@ -11599,7 +11599,7 @@ namespace ast::expr
 		, ExprPtr sbtRecordIndex
 		, ExprPtr callable )
 	{
-		assert( sbtRecordIndex->getType()->getRawKind() == type::Kind::eUInt );
+		assert( sbtRecordIndex->getType()->getRawKind() == type::Kind::eUInt32 );
 		assert( callable->getType()->getRawKind() == type::Kind::eCallableData );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eExecuteCallable
@@ -11612,16 +11612,16 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] numVertices
-	*	uint
+	*	uint32
 	*@param[in] numPrimitives
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSetMeshOutputCounts( type::TypesCache & cache
 		, ExprPtr numVertices
 		, ExprPtr numPrimitives )
 	{
-		assert( numVertices->getType()->getRawKind() == type::Kind::eUInt );
-		assert( numPrimitives->getType()->getRawKind() == type::Kind::eUInt );
+		assert( numVertices->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( numPrimitives->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eSetMeshOutputCounts
 			, std::move( numVertices )
@@ -11633,14 +11633,14 @@ namespace ast::expr
 	*@param[in] payload
 	*	taskpayload
 	*@param[in] numTasks
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeDispatchMesh( type::TypesCache & cache
 		, ExprPtr payload
 		, ExprPtr numTasks )
 	{
 		assert( payload->getType()->getRawKind() == type::Kind::eTaskPayload );
-		assert( numTasks->getType()->getRawKind() == type::Kind::eUInt );
+		assert( numTasks->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eDispatchMesh
 			, std::move( payload )
@@ -11650,16 +11650,16 @@ namespace ast::expr
 	*@return
 	*	void
 	*@param[in] indexOffset
-	*	uint
+	*	uint32
 	*@param[in] packedIndices
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeWritePackedPrimitiveIndices4x8( type::TypesCache & cache
 		, ExprPtr indexOffset
 		, ExprPtr packedIndices )
 	{
-		assert( indexOffset->getType()->getRawKind() == type::Kind::eUInt );
-		assert( packedIndices->getType()->getRawKind() == type::Kind::eUInt );
+		assert( indexOffset->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( packedIndices->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eWritePackedPrimitiveIndices4x8
 			, std::move( indexOffset )
@@ -11809,12 +11809,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual1I
 			, std::move( value ) );
@@ -11823,12 +11823,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual2I
 			, std::move( value ) );
@@ -11837,12 +11837,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual3I
 			, std::move( value ) );
@@ -11851,12 +11851,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual4I
 			, std::move( value ) );
@@ -11865,12 +11865,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual1U
 			, std::move( value ) );
@@ -11879,12 +11879,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual2U
 			, std::move( value ) );
@@ -11893,12 +11893,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual3U
 			, std::move( value ) );
@@ -11907,12 +11907,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAllEqual4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupAllEqual4U
 			, std::move( value ) );
@@ -12035,14 +12035,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupBroadcast1F
 			, std::move( value )
@@ -12054,14 +12054,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupBroadcast2F
 			, std::move( value )
@@ -12073,14 +12073,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupBroadcast3F
 			, std::move( value )
@@ -12092,14 +12092,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupBroadcast4F
 			, std::move( value )
@@ -12107,152 +12107,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupBroadcast1I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupBroadcast2I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupBroadcast3I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupBroadcast4I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBroadcast1U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupBroadcast2U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupBroadcast3U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupBroadcast4U
 			, std::move( value )
 			, std::move( id ) );
@@ -12263,14 +12263,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupBroadcast1B
 			, std::move( value )
@@ -12282,14 +12282,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupBroadcast2B
 			, std::move( value )
@@ -12301,14 +12301,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupBroadcast3B
 			, std::move( value )
@@ -12320,14 +12320,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupBroadcast4B
 			, std::move( value )
@@ -12339,14 +12339,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupBroadcast1D
 			, std::move( value )
@@ -12358,14 +12358,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupBroadcast2D
 			, std::move( value )
@@ -12377,14 +12377,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupBroadcast3D
 			, std::move( value )
@@ -12396,14 +12396,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcast4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupBroadcast4D
 			, std::move( value )
@@ -12467,113 +12467,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupBroadcastFirst1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupBroadcastFirst2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupBroadcastFirst3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupBroadcastFirst4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBroadcastFirst1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupBroadcastFirst2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupBroadcastFirst3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBroadcastFirst4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupBroadcastFirst4U
 			, std::move( value ) );
 	}
@@ -12691,7 +12691,7 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
 	*	boolean
 	*/
@@ -12699,7 +12699,7 @@ namespace ast::expr
 		, ExprPtr value )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupBallot
 			, std::move( value ) );
 	}
@@ -12707,12 +12707,12 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInverseBallot( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupInverseBallot
 			, std::move( value ) );
@@ -12721,16 +12721,16 @@ namespace ast::expr
 	*@return
 	*	boolean
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] index
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBallotBitExtract( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr index )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( index->getType()->getRawKind() == type::Kind::eUInt );
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( index->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupBallotBitExtract
 			, std::move( value )
@@ -12738,71 +12738,71 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBallotBitCount( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBallotBitCount
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBallotInclusiveBitCount( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBallotInclusiveBitCount
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBallotExclusiveBitCount( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBallotExclusiveBitCount
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBallotFindLSB( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBallotFindLSB
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupBallotFindMSB( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupBallotFindMSB
 			, std::move( value ) );
 	}
@@ -12812,14 +12812,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupShuffle1F
 			, std::move( value )
@@ -12831,14 +12831,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupShuffle2F
 			, std::move( value )
@@ -12850,14 +12850,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupShuffle3F
 			, std::move( value )
@@ -12869,14 +12869,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupShuffle4F
 			, std::move( value )
@@ -12884,152 +12884,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupShuffle1I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupShuffle2I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupShuffle3I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupShuffle4I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupShuffle1U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupShuffle2U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupShuffle3U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupShuffle4U
 			, std::move( value )
 			, std::move( id ) );
@@ -13040,14 +13040,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupShuffle1B
 			, std::move( value )
@@ -13059,14 +13059,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupShuffle2B
 			, std::move( value )
@@ -13078,14 +13078,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupShuffle3B
 			, std::move( value )
@@ -13097,14 +13097,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupShuffle4B
 			, std::move( value )
@@ -13116,14 +13116,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupShuffle1D
 			, std::move( value )
@@ -13135,14 +13135,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupShuffle2D
 			, std::move( value )
@@ -13154,14 +13154,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupShuffle3D
 			, std::move( value )
@@ -13173,14 +13173,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffle4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupShuffle4D
 			, std::move( value )
@@ -13192,14 +13192,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupShuffleXor1F
 			, std::move( value )
@@ -13211,14 +13211,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupShuffleXor2F
 			, std::move( value )
@@ -13230,14 +13230,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupShuffleXor3F
 			, std::move( value )
@@ -13249,14 +13249,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupShuffleXor4F
 			, std::move( value )
@@ -13264,152 +13264,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupShuffleXor1I
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupShuffleXor2I
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupShuffleXor3I
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupShuffleXor4I
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupShuffleXor1U
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupShuffleXor2U
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupShuffleXor3U
 			, std::move( value )
 			, std::move( mask ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupShuffleXor4U
 			, std::move( value )
 			, std::move( mask ) );
@@ -13420,14 +13420,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupShuffleXor1B
 			, std::move( value )
@@ -13439,14 +13439,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupShuffleXor2B
 			, std::move( value )
@@ -13458,14 +13458,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupShuffleXor3B
 			, std::move( value )
@@ -13477,14 +13477,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupShuffleXor4B
 			, std::move( value )
@@ -13496,14 +13496,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupShuffleXor1D
 			, std::move( value )
@@ -13515,14 +13515,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupShuffleXor2D
 			, std::move( value )
@@ -13534,14 +13534,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupShuffleXor3D
 			, std::move( value )
@@ -13553,14 +13553,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] mask
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleXor4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr mask )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( mask->getType()->getRawKind() == type::Kind::eUInt );
+		assert( mask->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupShuffleXor4D
 			, std::move( value )
@@ -13572,14 +13572,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupShuffleUp1F
 			, std::move( value )
@@ -13591,14 +13591,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupShuffleUp2F
 			, std::move( value )
@@ -13610,14 +13610,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupShuffleUp3F
 			, std::move( value )
@@ -13629,14 +13629,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupShuffleUp4F
 			, std::move( value )
@@ -13644,152 +13644,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupShuffleUp1I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupShuffleUp2I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupShuffleUp3I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupShuffleUp4I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupShuffleUp1U
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupShuffleUp2U
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupShuffleUp3U
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupShuffleUp4U
 			, std::move( value )
 			, std::move( delta ) );
@@ -13800,14 +13800,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupShuffleUp1B
 			, std::move( value )
@@ -13819,14 +13819,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupShuffleUp2B
 			, std::move( value )
@@ -13838,14 +13838,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupShuffleUp3B
 			, std::move( value )
@@ -13857,14 +13857,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupShuffleUp4B
 			, std::move( value )
@@ -13876,14 +13876,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupShuffleUp1D
 			, std::move( value )
@@ -13895,14 +13895,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupShuffleUp2D
 			, std::move( value )
@@ -13914,14 +13914,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupShuffleUp3D
 			, std::move( value )
@@ -13933,14 +13933,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleUp4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupShuffleUp4D
 			, std::move( value )
@@ -13952,14 +13952,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupShuffleDown1F
 			, std::move( value )
@@ -13971,14 +13971,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupShuffleDown2F
 			, std::move( value )
@@ -13990,14 +13990,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupShuffleDown3F
 			, std::move( value )
@@ -14009,14 +14009,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupShuffleDown4F
 			, std::move( value )
@@ -14024,152 +14024,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupShuffleDown1I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupShuffleDown2I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupShuffleDown3I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupShuffleDown4I
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupShuffleDown1U
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupShuffleDown2U
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupShuffleDown3U
 			, std::move( value )
 			, std::move( delta ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupShuffleDown4U
 			, std::move( value )
 			, std::move( delta ) );
@@ -14180,14 +14180,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupShuffleDown1B
 			, std::move( value )
@@ -14199,14 +14199,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupShuffleDown2B
 			, std::move( value )
@@ -14218,14 +14218,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupShuffleDown3B
 			, std::move( value )
@@ -14237,14 +14237,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupShuffleDown4B
 			, std::move( value )
@@ -14256,14 +14256,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupShuffleDown1D
 			, std::move( value )
@@ -14275,14 +14275,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupShuffleDown2D
 			, std::move( value )
@@ -14294,14 +14294,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupShuffleDown3D
 			, std::move( value )
@@ -14313,14 +14313,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] delta
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupShuffleDown4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr delta )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( delta->getType()->getRawKind() == type::Kind::eUInt );
+		assert( delta->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupShuffleDown4D
 			, std::move( value )
@@ -14384,113 +14384,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupAdd1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupAdd2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupAdd3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupAdd4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupAdd1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupAdd2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupAdd3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAdd4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupAdd4U
 			, std::move( value ) );
 	}
@@ -14608,113 +14608,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupMul1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupMul2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupMul3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupMul4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupMul1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupMul2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupMul3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMul4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupMul4U
 			, std::move( value ) );
 	}
@@ -14832,113 +14832,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupMin1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupMin2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupMin3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupMin4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupMin1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupMin2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupMin3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMin4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupMin4U
 			, std::move( value ) );
 	}
@@ -15056,113 +15056,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupMax1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupMax2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupMax3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupMax4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupMax1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupMax2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupMax3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupMax4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupMax4U
 			, std::move( value ) );
 	}
@@ -15224,113 +15224,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupAnd1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupAnd2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupAnd3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupAnd4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupAnd1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupAnd2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupAnd3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupAnd4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupAnd4U
 			, std::move( value ) );
 	}
@@ -15392,113 +15392,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupOr1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupOr2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupOr3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupOr4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupOr1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupOr2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupOr3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupOr4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupOr4U
 			, std::move( value ) );
 	}
@@ -15560,113 +15560,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupXor1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupXor2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupXor3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupXor4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupXor1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupXor2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupXor3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupXor4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupXor4U
 			, std::move( value ) );
 	}
@@ -15784,113 +15784,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveAdd1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveAdd2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveAdd3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveAdd4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveAdd1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveAdd2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveAdd3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAdd4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveAdd4U
 			, std::move( value ) );
 	}
@@ -16008,113 +16008,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveMul1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveMul2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveMul3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveMul4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveMul1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveMul2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveMul3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMul4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveMul4U
 			, std::move( value ) );
 	}
@@ -16232,113 +16232,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveMin1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveMin2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveMin3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveMin4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveMin1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveMin2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveMin3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMin4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveMin4U
 			, std::move( value ) );
 	}
@@ -16456,113 +16456,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveMax1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveMax2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveMax3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveMax4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveMax1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveMax2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveMax3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveMax4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveMax4U
 			, std::move( value ) );
 	}
@@ -16624,113 +16624,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveAnd1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveAnd2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveAnd3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveAnd4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveAnd1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveAnd2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveAnd3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveAnd4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveAnd4U
 			, std::move( value ) );
 	}
@@ -16792,113 +16792,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveOr1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveOr2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveOr3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveOr4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveOr1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveOr2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveOr3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveOr4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveOr4U
 			, std::move( value ) );
 	}
@@ -16960,113 +16960,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupInclusiveXor1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupInclusiveXor2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupInclusiveXor3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupInclusiveXor4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupInclusiveXor1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupInclusiveXor2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupInclusiveXor3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupInclusiveXor4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupInclusiveXor4U
 			, std::move( value ) );
 	}
@@ -17184,113 +17184,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveAdd1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveAdd2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveAdd3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveAdd4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveAdd1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveAdd2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveAdd3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAdd4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveAdd4U
 			, std::move( value ) );
 	}
@@ -17408,113 +17408,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveMul1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveMul2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveMul3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveMul4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveMul1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveMul2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveMul3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMul4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveMul4U
 			, std::move( value ) );
 	}
@@ -17632,113 +17632,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveMin1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveMin2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveMin3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveMin4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveMin1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveMin2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveMin3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMin4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveMin4U
 			, std::move( value ) );
 	}
@@ -17856,113 +17856,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveMax1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveMax2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveMax3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveMax4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveMax1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveMax2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveMax3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveMax4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveMax4U
 			, std::move( value ) );
 	}
@@ -18024,113 +18024,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveAnd1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveAnd2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveAnd3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveAnd4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveAnd1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveAnd2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveAnd3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveAnd4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveAnd4U
 			, std::move( value ) );
 	}
@@ -18192,113 +18192,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveOr1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveOr2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveOr3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveOr4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveOr1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveOr2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveOr3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveOr4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveOr4U
 			, std::move( value ) );
 	}
@@ -18360,113 +18360,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupExclusiveXor1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupExclusiveXor2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupExclusiveXor3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupExclusiveXor4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupExclusiveXor1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupExclusiveXor2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupExclusiveXor3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupExclusiveXor4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupExclusiveXor4U
 			, std::move( value ) );
 	}
@@ -18532,14 +18532,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupClusterAdd1F
 			, std::move( value )
@@ -18551,14 +18551,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupClusterAdd2F
 			, std::move( value )
@@ -18570,14 +18570,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupClusterAdd3F
 			, std::move( value )
@@ -18589,14 +18589,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupClusterAdd4F
 			, std::move( value )
@@ -18604,152 +18604,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterAdd1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterAdd2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterAdd3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterAdd4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterAdd1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterAdd2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterAdd3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterAdd4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -18760,14 +18760,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupClusterAdd1D
 			, std::move( value )
@@ -18779,14 +18779,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupClusterAdd2D
 			, std::move( value )
@@ -18798,14 +18798,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupClusterAdd3D
 			, std::move( value )
@@ -18817,14 +18817,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAdd4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupClusterAdd4D
 			, std::move( value )
@@ -18836,14 +18836,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupClusterMul1F
 			, std::move( value )
@@ -18855,14 +18855,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupClusterMul2F
 			, std::move( value )
@@ -18874,14 +18874,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupClusterMul3F
 			, std::move( value )
@@ -18893,14 +18893,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupClusterMul4F
 			, std::move( value )
@@ -18908,152 +18908,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterMul1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterMul2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterMul3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterMul4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterMul1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterMul2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterMul3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterMul4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -19064,14 +19064,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupClusterMul1D
 			, std::move( value )
@@ -19083,14 +19083,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupClusterMul2D
 			, std::move( value )
@@ -19102,14 +19102,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupClusterMul3D
 			, std::move( value )
@@ -19121,14 +19121,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMul4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupClusterMul4D
 			, std::move( value )
@@ -19140,14 +19140,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupClusterMin1F
 			, std::move( value )
@@ -19159,14 +19159,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupClusterMin2F
 			, std::move( value )
@@ -19178,14 +19178,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupClusterMin3F
 			, std::move( value )
@@ -19197,14 +19197,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupClusterMin4F
 			, std::move( value )
@@ -19212,152 +19212,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterMin1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterMin2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterMin3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterMin4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterMin1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterMin2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterMin3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterMin4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -19368,14 +19368,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupClusterMin1D
 			, std::move( value )
@@ -19387,14 +19387,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupClusterMin2D
 			, std::move( value )
@@ -19406,14 +19406,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupClusterMin3D
 			, std::move( value )
@@ -19425,14 +19425,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMin4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupClusterMin4D
 			, std::move( value )
@@ -19444,14 +19444,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupClusterMax1F
 			, std::move( value )
@@ -19463,14 +19463,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupClusterMax2F
 			, std::move( value )
@@ -19482,14 +19482,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupClusterMax3F
 			, std::move( value )
@@ -19501,14 +19501,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupClusterMax4F
 			, std::move( value )
@@ -19516,152 +19516,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterMax1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterMax2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterMax3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterMax4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterMax1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterMax2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterMax3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterMax4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -19672,14 +19672,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupClusterMax1D
 			, std::move( value )
@@ -19691,14 +19691,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupClusterMax2D
 			, std::move( value )
@@ -19710,14 +19710,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupClusterMax3D
 			, std::move( value )
@@ -19729,14 +19729,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterMax4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupClusterMax4D
 			, std::move( value )
@@ -19744,152 +19744,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterAnd1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterAnd2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterAnd3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterAnd4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterAnd1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterAnd2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterAnd3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterAnd4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -19900,14 +19900,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupClusterAnd1B
 			, std::move( value )
@@ -19919,14 +19919,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupClusterAnd2B
 			, std::move( value )
@@ -19938,14 +19938,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupClusterAnd3B
 			, std::move( value )
@@ -19957,14 +19957,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterAnd4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupClusterAnd4B
 			, std::move( value )
@@ -19972,152 +19972,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterOr1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterOr2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterOr3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterOr4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterOr1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterOr2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterOr3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterOr4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -20128,14 +20128,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupClusterOr1B
 			, std::move( value )
@@ -20147,14 +20147,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupClusterOr2B
 			, std::move( value )
@@ -20166,14 +20166,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupClusterOr3B
 			, std::move( value )
@@ -20185,14 +20185,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterOr4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupClusterOr4B
 			, std::move( value )
@@ -20200,152 +20200,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupClusterXor1I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupClusterXor2I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupClusterXor3I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupClusterXor4I
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupClusterXor1U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupClusterXor2U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupClusterXor3U
 			, std::move( value )
 			, std::move( clusterSize ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupClusterXor4U
 			, std::move( value )
 			, std::move( clusterSize ) );
@@ -20356,14 +20356,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupClusterXor1B
 			, std::move( value )
@@ -20375,14 +20375,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupClusterXor2B
 			, std::move( value )
@@ -20394,14 +20394,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupClusterXor3B
 			, std::move( value )
@@ -20413,14 +20413,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] clusterSize
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupClusterXor4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr clusterSize )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt );
+		assert( clusterSize->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupClusterXor4B
 			, std::move( value )
@@ -20432,14 +20432,14 @@ namespace ast::expr
 	*@param[in] value
 	*	float
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast1F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eFloat );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eFloat )
 			, Intrinsic::eSubgroupQuadBroadcast1F
 			, std::move( value )
@@ -20451,14 +20451,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast2F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2F )
 			, Intrinsic::eSubgroupQuadBroadcast2F
 			, std::move( value )
@@ -20470,14 +20470,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast3F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3F )
 			, Intrinsic::eSubgroupQuadBroadcast3F
 			, std::move( value )
@@ -20489,14 +20489,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4f
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast4F( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4F )
 			, Intrinsic::eSubgroupQuadBroadcast4F
 			, std::move( value )
@@ -20504,152 +20504,152 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast1I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupQuadBroadcast1I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast2I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupQuadBroadcast2I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast3I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupQuadBroadcast3I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast4I( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupQuadBroadcast4I
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast1U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupQuadBroadcast1U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast2U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupQuadBroadcast2U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast3U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupQuadBroadcast3U
 			, std::move( value )
 			, std::move( id ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast4U( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupQuadBroadcast4U
 			, std::move( value )
 			, std::move( id ) );
@@ -20660,14 +20660,14 @@ namespace ast::expr
 	*@param[in] value
 	*	boolean
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast1B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eBoolean );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eSubgroupQuadBroadcast1B
 			, std::move( value )
@@ -20679,14 +20679,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast2B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2B )
 			, Intrinsic::eSubgroupQuadBroadcast2B
 			, std::move( value )
@@ -20698,14 +20698,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast3B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3B )
 			, Intrinsic::eSubgroupQuadBroadcast3B
 			, std::move( value )
@@ -20717,14 +20717,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4b
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast4B( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4B );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4B )
 			, Intrinsic::eSubgroupQuadBroadcast4B
 			, std::move( value )
@@ -20736,14 +20736,14 @@ namespace ast::expr
 	*@param[in] value
 	*	double
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast1D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eDouble );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eDouble )
 			, Intrinsic::eSubgroupQuadBroadcast1D
 			, std::move( value )
@@ -20755,14 +20755,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec2d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast2D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2D )
 			, Intrinsic::eSubgroupQuadBroadcast2D
 			, std::move( value )
@@ -20774,14 +20774,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec3d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast3D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3D )
 			, Intrinsic::eSubgroupQuadBroadcast3D
 			, std::move( value )
@@ -20793,14 +20793,14 @@ namespace ast::expr
 	*@param[in] value
 	*	vec4d
 	*@param[in] id
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadBroadcast4D( type::TypesCache & cache
 		, ExprPtr value
 		, ExprPtr id )
 	{
 		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
-		assert( id->getType()->getRawKind() == type::Kind::eUInt );
+		assert( id->getType()->getRawKind() == type::Kind::eUInt32 );
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4D )
 			, Intrinsic::eSubgroupQuadBroadcast4D
 			, std::move( value )
@@ -20864,113 +20864,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapHorizontal4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupQuadSwapHorizontal4U
 			, std::move( value ) );
 	}
@@ -21144,113 +21144,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupQuadSwapVertical1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupQuadSwapVertical2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupQuadSwapVertical3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupQuadSwapVertical4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupQuadSwapVertical1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupQuadSwapVertical2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupQuadSwapVertical3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapVertical4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupQuadSwapVertical4U
 			, std::move( value ) );
 	}
@@ -21424,113 +21424,113 @@ namespace ast::expr
 	}
 	/**
 	*@return
-	*	int
+	*	int32
 	*@param[in] value
-	*	int
+	*	int32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal1I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt )
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eInt32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal1I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2i
+	*	vec2i32
 	*@param[in] value
-	*	vec2i
+	*	vec2i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal2I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2I32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal2I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3i
+	*	vec3i32
 	*@param[in] value
-	*	vec3i
+	*	vec3i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal3I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3I32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal3I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4i
+	*	vec4i32
 	*@param[in] value
-	*	vec4i
+	*	vec4i32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal4I( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4I );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4I32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal4I
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	uint
+	*	uint32
 	*@param[in] value
-	*	uint
+	*	uint32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal1U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eUInt );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt )
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal1U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec2u
+	*	vec2u32
 	*@param[in] value
-	*	vec2u
+	*	vec2u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal2U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec2U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec2U32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal2U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec3u
+	*	vec3u32
 	*@param[in] value
-	*	vec3u
+	*	vec3u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal3U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec3U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec3U32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal3U
 			, std::move( value ) );
 	}
 	/**
 	*@return
-	*	vec4u
+	*	vec4u32
 	*@param[in] value
-	*	vec4u
+	*	vec4u32
 	*/
 	inline IntrinsicCallPtr makeSubgroupQuadSwapDiagonal4U( type::TypesCache & cache
 		, ExprPtr value )
 	{
-		assert( value->getType()->getRawKind() == type::Kind::eVec4U );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U )
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVec4U32 )
 			, Intrinsic::eSubgroupQuadSwapDiagonal4U
 			, std::move( value ) );
 	}

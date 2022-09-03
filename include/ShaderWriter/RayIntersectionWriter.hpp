@@ -30,19 +30,19 @@ namespace sdw
 
 		// Work dimensions
 		// in uvec3 gl_LaunchIDEXT;
-		UVec3 launchID;
+		U32Vec3 launchID;
 		// in uvec3 gl_LaunchSizeEXT;
-		UVec3 launchSize;
+		U32Vec3 launchSize;
 
 		// Geometry instance ids
 		// in int gl_PrimitiveID;
-		Int primitiveID;
+		Int32 primitiveID;
 		// in int gl_InstanceID;
-		Int instanceID;
+		Int32 instanceID;
 		// in int gl_InstanceCustomIndexEXT;
-		Int instanceCustomIndex;
+		Int32 instanceCustomIndex;
 		// in int gl_GeometryIndexEXT;
-		Int geometryIndex;
+		Int32 geometryIndex;
 
 		// World space parameters
 		// in vec3 gl_WorldRayOriginEXT;
@@ -60,7 +60,7 @@ namespace sdw
 		// in volatile float gl_RayTmaxEXT;
 		Float rayTmax;
 		// in uint gl_IncomingRayFlagsEXT;
-		UInt incomingRayFlags;
+		UInt32 incomingRayFlags;
 
 		// Transform matrices
 		// in mat4x3 gl_ObjectToWorldEXT;

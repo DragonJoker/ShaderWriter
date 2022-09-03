@@ -49,7 +49,7 @@ namespace sdw
 
 	template< typename ValueT >
 	ReturnWrapperT< Boolean > HitAttributeT< ValueT >::reportIntersection( Float tHit
-		, UInt const & hitKind )
+		, UInt32 const & hitKind )
 	{
 		return m_internal.reportIntersection( tHit
 			, hitKind );

@@ -568,9 +568,19 @@ namespace ast
 		{
 			switch ( scalarType )
 			{
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				return ast::expr::makeLiteral( cache, int8_t( 1 ) );
+			case ast::type::Kind::eInt16:
+				return ast::expr::makeLiteral( cache, int16_t( 1 ) );
+			case ast::type::Kind::eInt32:
 				return ast::expr::makeLiteral( cache, 1 );
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				return ast::expr::makeLiteral( cache, 1ll );
+			case ast::type::Kind::eUInt8:
+				return ast::expr::makeLiteral( cache, uint8_t( 1u ) );
+			case ast::type::Kind::eUInt16:
+				return ast::expr::makeLiteral( cache, uint16_t( 1u ) );
+			case ast::type::Kind::eUInt32:
 				return ast::expr::makeLiteral( cache, 1u );
 			case ast::type::Kind::eUInt64:
 				return ast::expr::makeLiteral( cache, 1ull );
@@ -594,9 +604,19 @@ namespace ast
 		{
 			switch ( scalarType )
 			{
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				return ast::expr::makeLiteral( cache, int8_t( 0 ) );
+			case ast::type::Kind::eInt16:
+				return ast::expr::makeLiteral( cache, int16_t( 0 ) );
+			case ast::type::Kind::eInt32:
 				return ast::expr::makeLiteral( cache, 0 );
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				return ast::expr::makeLiteral( cache, 0ll );
+			case ast::type::Kind::eUInt8:
+				return ast::expr::makeLiteral( cache, uint8_t( 0u ) );
+			case ast::type::Kind::eUInt16:
+				return ast::expr::makeLiteral( cache, uint16_t( 0u ) );
+			case ast::type::Kind::eUInt32:
 				return ast::expr::makeLiteral( cache, 0u );
 			case ast::type::Kind::eUInt64:
 				return ast::expr::makeLiteral( cache, 0ull );

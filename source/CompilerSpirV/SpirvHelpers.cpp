@@ -369,7 +369,15 @@ namespace spirv
 			{
 				config.registerCapability( spv::CapabilityFloat16 );
 			}
-			else if ( isUnsignedInt64Type( kind ) )
+			else if ( isUnsignedInt8Type( kind ) || isSignedInt8Type( kind ) )
+			{
+				config.registerCapability( spv::CapabilityInt8 );
+			}
+			else if ( isUnsignedInt16Type( kind ) || isSignedInt16Type( kind ) )
+			{
+				config.registerCapability( spv::CapabilityInt16 );
+			}
+			else if ( isUnsignedInt64Type( kind ) || isSignedInt64Type( kind ) )
 			{
 				config.registerCapability( spv::CapabilityInt64 );
 			}
@@ -2722,9 +2730,19 @@ namespace spirv
 			return makeInstruction< VoidTypeInstruction >( id );
 		case ast::type::Kind::eBoolean:
 			return makeInstruction< BooleanTypeInstruction >( id );
-		case ast::type::Kind::eInt:
+		case ast::type::Kind::eInt8:
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 8u }, ValueId{ 1u } );
+		case ast::type::Kind::eInt16:
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 16u }, ValueId{ 1u } );
+		case ast::type::Kind::eInt32:
 			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 1u } );
-		case ast::type::Kind::eUInt:
+		case ast::type::Kind::eInt64:
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 64u }, ValueId{ 1u } );
+		case ast::type::Kind::eUInt8:
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 8u }, ValueId{ 0u } );
+		case ast::type::Kind::eUInt16:
+			return makeInstruction< IntTypeInstruction >( id, ValueId{ 16u }, ValueId{ 0u } );
+		case ast::type::Kind::eUInt32:
 			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 0u } );
 		case ast::type::Kind::eUInt64:
 			return makeInstruction< IntTypeInstruction >( id, ValueId{ 64u }, ValueId{ 0u } );
@@ -3180,12 +3198,22 @@ namespace spirv
 		using ast::type::Kind;
 		switch ( kind )
 		{
-		case Kind::eInt:
-			return ast::expr::makeLiteral( cache, 0 );
-		case Kind::eUInt:
-			return ast::expr::makeLiteral( cache, 0u );
+		case Kind::eInt8:
+			return ast::expr::makeLiteral( cache, int8_t( 0 ) );
+		case Kind::eInt16:
+			return ast::expr::makeLiteral( cache, int16_t( 0 ) );
+		case Kind::eInt32:
+			return ast::expr::makeLiteral( cache, int32_t( 0 ) );
+		case Kind::eInt64:
+			return ast::expr::makeLiteral( cache, int64_t( 0 ) );
+		case Kind::eUInt8:
+			return ast::expr::makeLiteral( cache, uint8_t( 0u ) );
+		case Kind::eUInt16:
+			return ast::expr::makeLiteral( cache, uint16_t( 0u ) );
+		case Kind::eUInt32:
+			return ast::expr::makeLiteral( cache, uint32_t( 0u ) );
 		case Kind::eUInt64:
-			return ast::expr::makeLiteral( cache, 0ull );
+			return ast::expr::makeLiteral( cache, uint64_t( 0u ) );
 		case Kind::eHalf:
 		case Kind::eFloat:
 			return ast::expr::makeLiteral( cache, 0.0f );
@@ -3203,12 +3231,22 @@ namespace spirv
 		using ast::type::Kind;
 		switch ( kind )
 		{
-		case Kind::eInt:
-			return ast::expr::makeLiteral( cache, 1 );
-		case Kind::eUInt:
-			return ast::expr::makeLiteral( cache, 1u );
+		case Kind::eInt8:
+			return ast::expr::makeLiteral( cache, int8_t( 1 ) );
+		case Kind::eInt16:
+			return ast::expr::makeLiteral( cache, int16_t( 1 ) );
+		case Kind::eInt32:
+			return ast::expr::makeLiteral( cache, int32_t( 1 ) );
+		case Kind::eInt64:
+			return ast::expr::makeLiteral( cache, int64_t( 1 ) );
+		case Kind::eUInt8:
+			return ast::expr::makeLiteral( cache, uint8_t( 1u ) );
+		case Kind::eUInt16:
+			return ast::expr::makeLiteral( cache, uint16_t( 1u ) );
+		case Kind::eUInt32:
+			return ast::expr::makeLiteral( cache, uint32_t( 1u ) );
 		case Kind::eUInt64:
-			return ast::expr::makeLiteral( cache, 1ull );
+			return ast::expr::makeLiteral( cache, uint64_t( 1u ) );
 		case Kind::eHalf:
 		case Kind::eFloat:
 			return ast::expr::makeLiteral( cache, 1.0f );

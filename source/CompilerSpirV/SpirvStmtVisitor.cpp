@@ -39,11 +39,26 @@ namespace spirv
 			case ast::expr::LiteralType::eBool:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
 				break;
-			case ast::expr::LiteralType::eInt:
-				result = lit.getValue< ast::expr::LiteralType::eInt >();
+			case ast::expr::LiteralType::eInt8:
+				result = lit.getValue< ast::expr::LiteralType::eInt8 >();
 				break;
-			case ast::expr::LiteralType::eUInt:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt >() );
+			case ast::expr::LiteralType::eInt16:
+				result = lit.getValue< ast::expr::LiteralType::eInt16 >();
+				break;
+			case ast::expr::LiteralType::eInt32:
+				result = lit.getValue< ast::expr::LiteralType::eInt32 >();
+				break;
+			case ast::expr::LiteralType::eInt64:
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eInt64 >() );
+				break;
+			case ast::expr::LiteralType::eUInt8:
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt8 >() );
+				break;
+			case ast::expr::LiteralType::eUInt16:
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt16 >() );
+				break;
+			case ast::expr::LiteralType::eUInt32:
+				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt32 >() );
 				break;
 			case ast::expr::LiteralType::eUInt64:
 				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt64 >() );

@@ -87,7 +87,12 @@ namespace spirv
 			, std::string name
 			, ast::type::TypePtr type );
 		SDWSPIRV_API ValueId registerLiteral( bool value );
+		SDWSPIRV_API ValueId registerLiteral( int8_t value );
+		SDWSPIRV_API ValueId registerLiteral( int16_t value );
 		SDWSPIRV_API ValueId registerLiteral( int32_t value );
+		SDWSPIRV_API ValueId registerLiteral( int64_t value );
+		SDWSPIRV_API ValueId registerLiteral( uint8_t value );
+		SDWSPIRV_API ValueId registerLiteral( uint16_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint32_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint64_t value );
 		SDWSPIRV_API ValueId registerLiteral( float value );
@@ -259,8 +264,13 @@ namespace spirv
 		std::map< uint64_t, ValueId > m_registeredForwardPointerTypes;
 		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > m_registeredFunctionTypes;
 		std::map< bool, ValueId > m_registeredBoolConstants;
-		std::map< int32_t, ValueId > m_registeredIntConstants;
-		std::map< uint32_t, ValueId > m_registeredUIntConstants;
+		std::map< int8_t, ValueId > m_registeredInt8Constants;
+		std::map< int16_t, ValueId > m_registeredInt16Constants;
+		std::map< int32_t, ValueId > m_registeredInt32Constants;
+		std::map< int64_t, ValueId > m_registeredInt64Constants;
+		std::map< uint8_t, ValueId > m_registeredUInt8Constants;
+		std::map< uint16_t, ValueId > m_registeredUInt16Constants;
+		std::map< uint32_t, ValueId > m_registeredUInt32Constants;
 		std::map< uint64_t, ValueId > m_registeredUInt64Constants;
 		std::map< float, ValueId > m_registeredFloatConstants;
 		std::map< double, ValueId > m_registeredDoubleConstants;

@@ -9,13 +9,13 @@ namespace sdw
 {
 	//*********************************************************************************************
 
-	UVec3 getWorkGroupSize( ast::type::TypePtr type )
+	U32Vec3 getWorkGroupSize( ast::type::TypePtr type )
 	{
 		assert( type->getKind() == ast::type::Kind::eComputeInput );
 		auto & compType = static_cast< ast::type::ComputeInput const & >( *type );
-		return uvec3( UInt{ compType.getLocalSizeX() }
-			, UInt{ compType.getLocalSizeY() }
-			, UInt{ compType.getLocalSizeZ() } );
+		return uvec3( UInt32{ compType.getLocalSizeX() }
+			, UInt32{ compType.getLocalSizeY() }
+			, UInt32{ compType.getLocalSizeZ() } );
 	}
 
 	//*********************************************************************************************

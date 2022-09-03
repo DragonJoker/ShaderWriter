@@ -66,9 +66,9 @@ namespace sdw
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//in int gl_PatchVerticesIn;
-		Int patchVerticesIn;
+		Int32 patchVerticesIn;
 		//in int gl_PrimitiveID;
-		Int primitiveID;
+		Int32 primitiveID;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT

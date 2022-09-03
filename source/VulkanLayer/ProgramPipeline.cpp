@@ -248,10 +248,22 @@ namespace ast::vk
 			{
 			case ast::type::Kind::eBoolean:
 				return VK_FORMAT_R8_UNORM;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				return VK_FORMAT_R8_SINT;
+			case ast::type::Kind::eInt16:
+				return VK_FORMAT_R16_SINT;
+			case ast::type::Kind::eInt32:
 				return VK_FORMAT_R32_SINT;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				return VK_FORMAT_R64_SINT;
+			case ast::type::Kind::eUInt8:
+				return VK_FORMAT_R8_UINT;
+			case ast::type::Kind::eUInt16:
+				return VK_FORMAT_R16_UINT;
+			case ast::type::Kind::eUInt32:
 				return VK_FORMAT_R32_UINT;
+			case ast::type::Kind::eUInt64:
+				return VK_FORMAT_R64_UINT;
 			case ast::type::Kind::eHalf:
 				return VK_FORMAT_R16_SFLOAT;
 			case ast::type::Kind::eFloat:
@@ -264,18 +276,54 @@ namespace ast::vk
 				return VK_FORMAT_R8G8B8_UNORM;
 			case ast::type::Kind::eVec4B:
 				return VK_FORMAT_R8G8B8A8_UNORM;
-			case ast::type::Kind::eVec2I:
+			case ast::type::Kind::eVec2I8:
+				return VK_FORMAT_R8G8_SINT;
+			case ast::type::Kind::eVec3I8:
+				return VK_FORMAT_R8G8B8_SINT;
+			case ast::type::Kind::eVec4I8:
+				return VK_FORMAT_R8G8B8A8_SINT;
+			case ast::type::Kind::eVec2I16:
+				return VK_FORMAT_R16G16_SINT;
+			case ast::type::Kind::eVec3I16:
+				return VK_FORMAT_R16G16B16_SINT;
+			case ast::type::Kind::eVec4I16:
+				return VK_FORMAT_R16G16B16A16_SINT;
+			case ast::type::Kind::eVec2I32:
 				return VK_FORMAT_R32G32_SINT;
-			case ast::type::Kind::eVec3I:
+			case ast::type::Kind::eVec3I32:
 				return VK_FORMAT_R32G32B32_SINT;
-			case ast::type::Kind::eVec4I:
+			case ast::type::Kind::eVec4I32:
 				return VK_FORMAT_R32G32B32A32_SINT;
-			case ast::type::Kind::eVec2U:
+			case ast::type::Kind::eVec2I64:
+				return VK_FORMAT_R64G64_SINT;
+			case ast::type::Kind::eVec3I64:
+				return VK_FORMAT_R64G64B64_SINT;
+			case ast::type::Kind::eVec4I64:
+				return VK_FORMAT_R64G64B64A64_SINT;
+			case ast::type::Kind::eVec2U8:
+				return VK_FORMAT_R8G8_UINT;
+			case ast::type::Kind::eVec3U8:
+				return VK_FORMAT_R8G8B8_UINT;
+			case ast::type::Kind::eVec4U8:
+				return VK_FORMAT_R8G8B8A8_UINT;
+			case ast::type::Kind::eVec2U16:
+				return VK_FORMAT_R16G16_UINT;
+			case ast::type::Kind::eVec3U16:
+				return VK_FORMAT_R16G16B16_UINT;
+			case ast::type::Kind::eVec4U16:
+				return VK_FORMAT_R16G16B16A16_UINT;
+			case ast::type::Kind::eVec2U32:
 				return VK_FORMAT_R32G32_UINT;
-			case ast::type::Kind::eVec3U:
+			case ast::type::Kind::eVec3U32:
 				return VK_FORMAT_R32G32B32_UINT;
-			case ast::type::Kind::eVec4U:
+			case ast::type::Kind::eVec4U32:
 				return VK_FORMAT_R32G32B32A32_UINT;
+			case ast::type::Kind::eVec2U64:
+				return VK_FORMAT_R64G64_UINT;
+			case ast::type::Kind::eVec3U64:
+				return VK_FORMAT_R64G64B64_UINT;
+			case ast::type::Kind::eVec4U64:
+				return VK_FORMAT_R64G64B64A64_UINT;
 			case ast::type::Kind::eVec2H:
 				return VK_FORMAT_R16G16B16_SFLOAT;
 			case ast::type::Kind::eVec4H:
@@ -344,10 +392,22 @@ namespace ast::vk
 			{
 			case ast::type::Kind::eBoolean:
 				return VK_FORMAT_R8_UNORM;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				return VK_FORMAT_R8_SINT;
+			case ast::type::Kind::eInt16:
+				return VK_FORMAT_R16_SINT;
+			case ast::type::Kind::eInt32:
 				return VK_FORMAT_R32_SINT;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				return VK_FORMAT_R64_SINT;
+			case ast::type::Kind::eUInt8:
+				return VK_FORMAT_R8_UINT;
+			case ast::type::Kind::eUInt16:
+				return VK_FORMAT_R16_UINT;
+			case ast::type::Kind::eUInt32:
 				return VK_FORMAT_R32_UINT;
+			case ast::type::Kind::eUInt64:
+				return VK_FORMAT_R64_UINT;
 			case ast::type::Kind::eHalf:
 				return VK_FORMAT_R16_SFLOAT;
 			case ast::type::Kind::eFloat:
@@ -360,18 +420,54 @@ namespace ast::vk
 				return VK_FORMAT_R8G8B8A8_UNORM;
 			case ast::type::Kind::eVec4B:
 				return VK_FORMAT_R8G8B8A8_UNORM;
-			case ast::type::Kind::eVec2I:
+			case ast::type::Kind::eVec2I8:
+				return VK_FORMAT_R8G8_SINT;
+			case ast::type::Kind::eVec3I8:
+				return VK_FORMAT_R8G8B8A8_SINT;
+			case ast::type::Kind::eVec4I8:
+				return VK_FORMAT_R8G8B8A8_SINT;
+			case ast::type::Kind::eVec2I16:
+				return VK_FORMAT_R16G16_SINT;
+			case ast::type::Kind::eVec3I16:
+				return VK_FORMAT_R16G16B16A16_SINT;
+			case ast::type::Kind::eVec4I16:
+				return VK_FORMAT_R16G16B16A16_SINT;
+			case ast::type::Kind::eVec2I32:
 				return VK_FORMAT_R32G32_SINT;
-			case ast::type::Kind::eVec3I:
+			case ast::type::Kind::eVec3I32:
 				return VK_FORMAT_R32G32B32A32_SINT;
-			case ast::type::Kind::eVec4I:
+			case ast::type::Kind::eVec4I32:
 				return VK_FORMAT_R32G32B32A32_SINT;
-			case ast::type::Kind::eVec2U:
+			case ast::type::Kind::eVec2I64:
+				return VK_FORMAT_R64G64_SINT;
+			case ast::type::Kind::eVec3I64:
+				return VK_FORMAT_R64G64B64A64_SINT;
+			case ast::type::Kind::eVec4I64:
+				return VK_FORMAT_R64G64B64A64_SINT;
+			case ast::type::Kind::eVec2U8:
+				return VK_FORMAT_R8G8_UINT;
+			case ast::type::Kind::eVec3U8:
+				return VK_FORMAT_R8G8B8A8_UINT;
+			case ast::type::Kind::eVec4U8:
+				return VK_FORMAT_R8G8B8A8_UINT;
+			case ast::type::Kind::eVec2U16:
+				return VK_FORMAT_R16G16_UINT;
+			case ast::type::Kind::eVec3U16:
+				return VK_FORMAT_R16G16B16A16_UINT;
+			case ast::type::Kind::eVec4U16:
+				return VK_FORMAT_R16G16B16A16_UINT;
+			case ast::type::Kind::eVec2U32:
 				return VK_FORMAT_R32G32_UINT;
-			case ast::type::Kind::eVec3U:
+			case ast::type::Kind::eVec3U32:
 				return VK_FORMAT_R32G32B32A32_UINT;
-			case ast::type::Kind::eVec4U:
+			case ast::type::Kind::eVec4U32:
 				return VK_FORMAT_R32G32B32A32_UINT;
+			case ast::type::Kind::eVec2U64:
+				return VK_FORMAT_R64G64_UINT;
+			case ast::type::Kind::eVec3U64:
+				return VK_FORMAT_R64G64B64A64_UINT;
+			case ast::type::Kind::eVec4U64:
+				return VK_FORMAT_R64G64B64A64_UINT;
 			case ast::type::Kind::eVec2H:
 				return VK_FORMAT_R16G16B16A16_SFLOAT;
 			case ast::type::Kind::eVec4H:

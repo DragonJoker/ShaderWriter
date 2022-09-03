@@ -222,7 +222,7 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArrayStorageBufferT< InstanceT >::operator[]( UInt const & index )const
+	InstanceT ArrayStorageBufferT< InstanceT >::operator[]( UInt32 const & index )const
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )

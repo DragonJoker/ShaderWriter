@@ -16,8 +16,15 @@ namespace ast::type
 		eUndefined,
 		eVoid,
 		eBoolean,
-		eInt,
-		eUInt,
+		eInt8,// Submitted to extension enabling
+		eInt16,// Submitted to extension enabling
+		eInt32,
+		eInt = eInt32,
+		eInt64,// Submitted to extension enabling
+		eUInt8,// Submitted to extension enabling
+		eUInt16,// Submitted to extension enabling
+		eUInt32,
+		eUInt = eUInt32,
 		eUInt64,// Submitted to extension enabling
 		eHalf,// Submitted to extension enabling
 		eFloat,
@@ -25,12 +32,33 @@ namespace ast::type
 		eVec2B,
 		eVec3B,
 		eVec4B,
-		eVec2I,
-		eVec3I,
-		eVec4I,
-		eVec2U,
-		eVec3U,
-		eVec4U,
+		eVec2I8,// Submitted to extension enabling
+		eVec3I8,// Submitted to extension enabling
+		eVec4I8,// Submitted to extension enabling
+		eVec2I16,// Submitted to extension enabling
+		eVec3I16,// Submitted to extension enabling
+		eVec4I16,// Submitted to extension enabling
+		eVec2I32,
+		eVec3I32,
+		eVec4I32,
+		eVec2I = eVec2I32,
+		eVec3I = eVec3I32,
+		eVec4I = eVec4I32,
+		eVec2I64,// Submitted to extension enabling
+		eVec3I64,// Submitted to extension enabling
+		eVec4I64,// Submitted to extension enabling
+		eVec2U8,// Submitted to extension enabling
+		eVec3U8,// Submitted to extension enabling
+		eVec4U8,// Submitted to extension enabling
+		eVec2U16,// Submitted to extension enabling
+		eVec3U16,// Submitted to extension enabling
+		eVec4U16,// Submitted to extension enabling
+		eVec2U32,
+		eVec3U32,
+		eVec4U32,
+		eVec2U = eVec2U32,
+		eVec3U = eVec3U32,
+		eVec4U = eVec4U32,
 		eVec2U64,// Submitted to extension enabling
 		eVec3U64,// Submitted to extension enabling
 		eVec4U64,// Submitted to extension enabling
@@ -190,8 +218,15 @@ namespace ast::type
 	SDAST_API bool operator==( Type const & lhs, Type const & rhs );
 
 	SDAST_API bool isBoolType( Kind kind );
-	SDAST_API bool isUnsignedIntType( Kind kind );
+	SDAST_API bool isUnsignedInt8Type( Kind kind );
+	SDAST_API bool isSignedInt8Type( Kind kind );
+	SDAST_API bool isUnsignedInt16Type( Kind kind );
+	SDAST_API bool isSignedInt16Type( Kind kind );
+	SDAST_API bool isUnsignedInt32Type( Kind kind );
+	SDAST_API bool isSignedInt32Type( Kind kind );
 	SDAST_API bool isUnsignedInt64Type( Kind kind );
+	SDAST_API bool isSignedInt64Type( Kind kind );
+	SDAST_API bool isUnsignedIntType( Kind kind );
 	SDAST_API bool isSignedIntType( Kind kind );
 	SDAST_API bool isHalfType( Kind kind );
 	SDAST_API bool isFloatType( Kind kind );

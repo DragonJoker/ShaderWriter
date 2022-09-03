@@ -16,7 +16,7 @@ namespace sdw
 	}
 
 	ReturnWrapperT< Boolean > HitAttribute::reportIntersection( Float tHit
-		, UInt const & hitKind )
+		, UInt32 const & hitKind )
 	{
 		return sdw::reportIntersection( tHit
 			, hitKind

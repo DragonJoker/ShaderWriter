@@ -72,9 +72,9 @@ namespace sdw
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
-		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
-		, layer{ getIntMember( *this, ast::Builtin::eLayer ) }
-		, viewportIndex{ getIntMember( *this, ast::Builtin::eViewportIndex ) }
+		, primitiveID{ getInt32Member( *this, ast::Builtin::ePrimitiveID ) }
+		, layer{ getInt32Member( *this, ast::Builtin::eLayer ) }
+		, viewportIndex{ getInt32Member( *this, ast::Builtin::eViewportIndex ) }
 	{
 	}
 

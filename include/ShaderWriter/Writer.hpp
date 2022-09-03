@@ -34,53 +34,53 @@ namespace sdw
 {
 	struct RayFlags
 	{
-		static UInt None()
+		static UInt32 None()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eNone ) };
+			return UInt32{ uint32_t( ast::RayFlag::eNone ) };
 		}
-		static UInt Opaque()
+		static UInt32 Opaque()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eOpaque ) };
+			return UInt32{ uint32_t( ast::RayFlag::eOpaque ) };
 		}
-		static UInt NoOpaque()
+		static UInt32 NoOpaque()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eNoOpaque ) };
+			return UInt32{ uint32_t( ast::RayFlag::eNoOpaque ) };
 		}
-		static UInt TerminateOnFirstHit()
+		static UInt32 TerminateOnFirstHit()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eTerminateOnFirstHit ) };
+			return UInt32{ uint32_t( ast::RayFlag::eTerminateOnFirstHit ) };
 		}
-		static UInt SkipClosestHitShader()
+		static UInt32 SkipClosestHitShader()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eSkipClosestHitShader ) };
+			return UInt32{ uint32_t( ast::RayFlag::eSkipClosestHitShader ) };
 		}
-		static UInt CullBackFacingTriangles()
+		static UInt32 CullBackFacingTriangles()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eCullBackFacingTriangles ) };
+			return UInt32{ uint32_t( ast::RayFlag::eCullBackFacingTriangles ) };
 		}
-		static UInt CullFrontFacingTriangles()
+		static UInt32 CullFrontFacingTriangles()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eCullFrontFacingTriangles ) };
+			return UInt32{ uint32_t( ast::RayFlag::eCullFrontFacingTriangles ) };
 		}
-		static UInt CullOpaque()
+		static UInt32 CullOpaque()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eCullOpaque ) };
+			return UInt32{ uint32_t( ast::RayFlag::eCullOpaque ) };
 		}
-		static UInt CullNoOpaque()
+		static UInt32 CullNoOpaque()
 		{
-			return UInt{ uint32_t( ast::RayFlag::eCullNoOpaque ) };
+			return UInt32{ uint32_t( ast::RayFlag::eCullNoOpaque ) };
 		}
 	};
 
 	struct RayHitKinds
 	{
-		static UInt FrontFacingTriangle()
+		static UInt32 FrontFacingTriangle()
 		{
-			return UInt{ uint32_t( ast::RayHitKind::eFrontFacingTriangle ) };
+			return UInt32{ uint32_t( ast::RayHitKind::eFrontFacingTriangle ) };
 		}
-		static UInt BackFacingTriangle()
+		static UInt32 BackFacingTriangle()
 		{
-			return UInt{ uint32_t( ast::RayHitKind::eBackFacingTriangle ) };
+			return UInt32{ uint32_t( ast::RayHitKind::eBackFacingTriangle ) };
 		}
 	};
 
@@ -260,13 +260,37 @@ namespace sdw
 			, uint32_t location
 			, bool rhs
 			, bool enabled = true );
-		SDW_API Int declSpecConstant( std::string name
+		SDW_API Int8 declSpecConstant( std::string name
+			, uint32_t location
+			, int8_t rhs
+			, bool enabled = true );
+		SDW_API Int16 declSpecConstant( std::string name
+			, uint32_t location
+			, int16_t rhs
+			, bool enabled = true );
+		SDW_API Int32 declSpecConstant( std::string name
 			, uint32_t location
 			, int32_t rhs
 			, bool enabled = true );
-		SDW_API UInt declSpecConstant( std::string name
+		SDW_API Int64 declSpecConstant( std::string name
+			, uint32_t location
+			, int64_t rhs
+			, bool enabled = true );
+		SDW_API UInt8 declSpecConstant( std::string name
+			, uint32_t location
+			, uint8_t rhs
+			, bool enabled = true );
+		SDW_API UInt16 declSpecConstant( std::string name
+			, uint32_t location
+			, uint16_t rhs
+			, bool enabled = true );
+		SDW_API UInt32 declSpecConstant( std::string name
 			, uint32_t location
 			, uint32_t rhs
+			, bool enabled = true );
+		SDW_API UInt64 declSpecConstant( std::string name
+			, uint32_t location
+			, uint64_t rhs
 			, bool enabled = true );
 		SDW_API Float declSpecConstant( std::string name
 			, uint32_t location

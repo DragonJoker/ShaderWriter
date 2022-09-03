@@ -218,14 +218,39 @@ namespace ast::type
 		return getBasicType( Kind::eBoolean );
 	}
 
-	TypePtr TypesCache::getInt()
+	TypePtr TypesCache::getInt8()
 	{
-		return getBasicType( Kind::eInt );
+		return getBasicType( Kind::eInt8 );
+	}
+
+	TypePtr TypesCache::getInt16()
+	{
+		return getBasicType( Kind::eInt16 );
+	}
+
+	TypePtr TypesCache::getInt32()
+	{
+		return getBasicType( Kind::eInt32 );
+	}
+
+	TypePtr TypesCache::getInt64()
+	{
+		return getBasicType( Kind::eInt64 );
+	}
+
+	TypePtr TypesCache::getUInt8()
+	{
+		return getBasicType( Kind::eUInt8 );
+	}
+
+	TypePtr TypesCache::getUInt16()
+	{
+		return getBasicType( Kind::eUInt16 );
 	}
 
 	TypePtr TypesCache::getUInt32()
 	{
-		return getBasicType( Kind::eUInt );
+		return getBasicType( Kind::eUInt32 );
 	}
 
 	TypePtr TypesCache::getUInt64()
@@ -263,34 +288,109 @@ namespace ast::type
 		return getBasicType( Kind::eVec4B );
 	}
 
-	TypePtr TypesCache::getVec2I()
+	TypePtr TypesCache::getVec2I8()
 	{
-		return getBasicType( Kind::eVec2I );
+		return getBasicType( Kind::eVec2I8 );
 	}
 
-	TypePtr TypesCache::getVec3I()
+	TypePtr TypesCache::getVec3I8()
 	{
-		return getBasicType( Kind::eVec3I );
+		return getBasicType( Kind::eVec3I8 );
 	}
 
-	TypePtr TypesCache::getVec4I()
+	TypePtr TypesCache::getVec4I8()
 	{
-		return getBasicType( Kind::eVec4I );
+		return getBasicType( Kind::eVec4I8 );
+	}
+
+	TypePtr TypesCache::getVec2I16()
+	{
+		return getBasicType( Kind::eVec2I16 );
+	}
+
+	TypePtr TypesCache::getVec3I16()
+	{
+		return getBasicType( Kind::eVec3I16 );
+	}
+
+	TypePtr TypesCache::getVec4I16()
+	{
+		return getBasicType( Kind::eVec4I16 );
+	}
+
+	TypePtr TypesCache::getVec2I32()
+	{
+		return getBasicType( Kind::eVec2I32 );
+	}
+
+	TypePtr TypesCache::getVec3I32()
+	{
+		return getBasicType( Kind::eVec3I32 );
+	}
+
+	TypePtr TypesCache::getVec4I32()
+	{
+		return getBasicType( Kind::eVec4I32 );
+	}
+
+	TypePtr TypesCache::getVec2I64()
+	{
+		return getBasicType( Kind::eVec2I64 );
+	}
+
+	TypePtr TypesCache::getVec3I64()
+	{
+		return getBasicType( Kind::eVec3I64 );
+	}
+
+	TypePtr TypesCache::getVec4I64()
+	{
+		return getBasicType( Kind::eVec4I64 );
+	}
+
+	TypePtr TypesCache::getVec2U8()
+	{
+		return getBasicType( Kind::eVec2U8 );
+	}
+
+	TypePtr TypesCache::getVec3U8()
+	{
+		return getBasicType( Kind::eVec3U8 );
+	}
+
+	TypePtr TypesCache::getVec4U8()
+	{
+		return getBasicType( Kind::eVec4U8 );
+	}
+
+	TypePtr TypesCache::getVec2U16()
+	{
+		return getBasicType( Kind::eVec2U16 );
+	}
+
+	TypePtr TypesCache::getVec3U16()
+	{
+		return getBasicType( Kind::eVec3U16 );
+	}
+
+	TypePtr TypesCache::getVec4U16()
+	{
+		return getBasicType( Kind::eVec4U16 );
 	}
 
 	TypePtr TypesCache::getVec2U32()
 	{
-		return getBasicType( Kind::eVec2U );
+		return getBasicType( Kind::eVec2U32 );
 	}
 
 	TypePtr TypesCache::getVec3U32()
 	{
-		return getBasicType( Kind::eVec3U );
+		return getBasicType( Kind::eVec3U32 );
 	}
 
 	TypePtr TypesCache::getVec4U32()
 	{
-		return getBasicType( Kind::eVec4U );
+		return getBasicType( Kind::eVec4U32 );
 	}
 
 	TypePtr TypesCache::getVec2U64()
@@ -453,10 +553,20 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eFunction )];
 		case Kind::eBoolean:
 			return m_basicTypes[size_t( Kind::eBoolean )];
-		case Kind::eInt:
-			return m_basicTypes[size_t( Kind::eInt )];
-		case Kind::eUInt:
-			return m_basicTypes[size_t( Kind::eUInt )];
+		case Kind::eInt8:
+			return m_basicTypes[size_t( Kind::eInt8 )];
+		case Kind::eInt16:
+			return m_basicTypes[size_t( Kind::eInt16 )];
+		case Kind::eInt32:
+			return m_basicTypes[size_t( Kind::eInt32 )];
+		case Kind::eInt64:
+			return m_basicTypes[size_t( Kind::eInt64 )];
+		case Kind::eUInt8:
+			return m_basicTypes[size_t( Kind::eUInt8 )];
+		case Kind::eUInt16:
+			return m_basicTypes[size_t( Kind::eUInt16 )];
+		case Kind::eUInt32:
+			return m_basicTypes[size_t( Kind::eUInt32 )];
 		case Kind::eUInt64:
 			return m_basicTypes[size_t( Kind::eUInt64 )];
 		case Kind::eHalf:
@@ -471,18 +581,48 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eVec3B )];
 		case Kind::eVec4B:
 			return m_basicTypes[size_t( Kind::eVec4B )];
-		case Kind::eVec2I:
-			return m_basicTypes[size_t( Kind::eVec2I )];
-		case Kind::eVec3I:
-			return m_basicTypes[size_t( Kind::eVec3I )];
-		case Kind::eVec4I:
-			return m_basicTypes[size_t( Kind::eVec4I )];
-		case Kind::eVec2U:
-			return m_basicTypes[size_t( Kind::eVec2U )];
-		case Kind::eVec3U:
-			return m_basicTypes[size_t( Kind::eVec3U )];
-		case Kind::eVec4U:
-			return m_basicTypes[size_t( Kind::eVec4U )];
+		case Kind::eVec2I8:
+			return m_basicTypes[size_t( Kind::eVec2I8 )];
+		case Kind::eVec3I8:
+			return m_basicTypes[size_t( Kind::eVec3I8 )];
+		case Kind::eVec4I8:
+			return m_basicTypes[size_t( Kind::eVec4I8 )];
+		case Kind::eVec2I16:
+			return m_basicTypes[size_t( Kind::eVec2I16 )];
+		case Kind::eVec3I16:
+			return m_basicTypes[size_t( Kind::eVec3I16 )];
+		case Kind::eVec4I16:
+			return m_basicTypes[size_t( Kind::eVec4I16 )];
+		case Kind::eVec2I32:
+			return m_basicTypes[size_t( Kind::eVec2I32 )];
+		case Kind::eVec3I32:
+			return m_basicTypes[size_t( Kind::eVec3I32 )];
+		case Kind::eVec4I32:
+			return m_basicTypes[size_t( Kind::eVec4I32 )];
+		case Kind::eVec2I64:
+			return m_basicTypes[size_t( Kind::eVec2I64 )];
+		case Kind::eVec3I64:
+			return m_basicTypes[size_t( Kind::eVec3I64 )];
+		case Kind::eVec4I64:
+			return m_basicTypes[size_t( Kind::eVec4I64 )];
+		case Kind::eVec2U8:
+			return m_basicTypes[size_t( Kind::eVec2U8 )];
+		case Kind::eVec3U8:
+			return m_basicTypes[size_t( Kind::eVec3U8 )];
+		case Kind::eVec4U8:
+			return m_basicTypes[size_t( Kind::eVec4U8 )];
+		case Kind::eVec2U16:
+			return m_basicTypes[size_t( Kind::eVec2U16 )];
+		case Kind::eVec3U16:
+			return m_basicTypes[size_t( Kind::eVec3U16 )];
+		case Kind::eVec4U16:
+			return m_basicTypes[size_t( Kind::eVec4U16 )];
+		case Kind::eVec2U32:
+			return m_basicTypes[size_t( Kind::eVec2U32 )];
+		case Kind::eVec3U32:
+			return m_basicTypes[size_t( Kind::eVec3U32 )];
+		case Kind::eVec4U32:
+			return m_basicTypes[size_t( Kind::eVec4U32 )];
 		case Kind::eVec2U64:
 			return m_basicTypes[size_t( Kind::eVec2U64 )];
 		case Kind::eVec3U64:
@@ -555,9 +695,19 @@ namespace ast::type
 		{
 		case Kind::eBoolean:
 			return getVec2B();
-		case Kind::eInt:
-			return getVec2I();
-		case Kind::eUInt:
+		case Kind::eInt8:
+			return getVec2I8();
+		case Kind::eInt16:
+			return getVec2I16();
+		case Kind::eInt32:
+			return getVec2I32();
+		case Kind::eInt64:
+			return getVec2I64();
+		case Kind::eUInt8:
+			return getVec2U8();
+		case Kind::eUInt16:
+			return getVec2U16();
+		case Kind::eUInt32:
 			return getVec2U32();
 		case Kind::eUInt64:
 			return getVec2U64();
@@ -579,9 +729,19 @@ namespace ast::type
 		{
 		case Kind::eBoolean:
 			return getVec3B();
-		case Kind::eInt:
-			return getVec3I();
-		case Kind::eUInt:
+		case Kind::eInt8:
+			return getVec3I8();
+		case Kind::eInt16:
+			return getVec3I16();
+		case Kind::eInt32:
+			return getVec3I32();
+		case Kind::eInt64:
+			return getVec3I64();
+		case Kind::eUInt8:
+			return getVec3U8();
+		case Kind::eUInt16:
+			return getVec3U16();
+		case Kind::eUInt32:
 			return getVec3U32();
 		case Kind::eUInt64:
 			return getVec3U64();
@@ -601,9 +761,19 @@ namespace ast::type
 		{
 		case Kind::eBoolean:
 			return getVec4B();
-		case Kind::eInt:
-			return getVec4I();
-		case Kind::eUInt:
+		case Kind::eInt8:
+			return getVec4I8();
+		case Kind::eInt16:
+			return getVec4I16();
+		case Kind::eInt32:
+			return getVec4I32();
+		case Kind::eInt64:
+			return getVec4I64();
+		case Kind::eUInt8:
+			return getVec4U8();
+		case Kind::eUInt16:
+			return getVec4U16();
+		case Kind::eUInt32:
 			return getVec4U32();
 		case Kind::eUInt64:
 			return getVec4U64();

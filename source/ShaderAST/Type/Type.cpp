@@ -91,18 +91,89 @@ namespace ast::type
 		}
 	}
 
-	bool isUnsignedIntType( Kind kind )
+	bool isUnsignedInt8Type( Kind kind )
 	{
 		switch ( kind )
 		{
-		case Kind::eUInt:
-		case Kind::eUInt64:
-		case Kind::eVec2U:
-		case Kind::eVec3U:
-		case Kind::eVec4U:
-		case Kind::eVec2U64:
-		case Kind::eVec3U64:
-		case Kind::eVec4U64:
+		case Kind::eUInt8:
+		case Kind::eVec2U8:
+		case Kind::eVec3U8:
+		case Kind::eVec4U8:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isSignedInt8Type( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eInt8:
+		case Kind::eVec2I8:
+		case Kind::eVec3I8:
+		case Kind::eVec4I8:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isUnsignedInt16Type( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eUInt16:
+		case Kind::eVec2U16:
+		case Kind::eVec3U16:
+		case Kind::eVec4U16:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isSignedInt16Type( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eInt16:
+		case Kind::eVec2I16:
+		case Kind::eVec3I16:
+		case Kind::eVec4I16:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isUnsignedInt32Type( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eUInt32:
+		case Kind::eVec2U32:
+		case Kind::eVec3U32:
+		case Kind::eVec4U32:
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	bool isSignedInt32Type( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eInt32:
+		case Kind::eVec2I32:
+		case Kind::eVec3I32:
+		case Kind::eVec4I32:
 			return true;
 
 		default:
@@ -125,19 +196,35 @@ namespace ast::type
 		}
 	}
 
-	bool isSignedIntType( Kind kind )
+	bool isSignedInt64Type( Kind kind )
 	{
 		switch ( kind )
 		{
-		case Kind::eInt:
-		case Kind::eVec2I:
-		case Kind::eVec3I:
-		case Kind::eVec4I:
+		case Kind::eInt64:
+		case Kind::eVec2I64:
+		case Kind::eVec3I64:
+		case Kind::eVec4I64:
 			return true;
 
 		default:
 			return false;
 		}
+	}
+
+	bool isUnsignedIntType( Kind kind )
+	{
+		return isUnsignedInt8Type( kind )
+			|| isUnsignedInt16Type( kind )
+			|| isUnsignedInt32Type( kind )
+			|| isUnsignedInt64Type( kind );
+	}
+
+	bool isSignedIntType( Kind kind )
+	{
+		return isSignedInt8Type( kind )
+			|| isSignedInt16Type( kind )
+			|| isSignedInt32Type( kind )
+			|| isSignedInt64Type( kind );
 	}
 
 	bool isHalfType( Kind kind )
@@ -207,8 +294,13 @@ namespace ast::type
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-		case Kind::eInt:
-		case Kind::eUInt:
+		case Kind::eInt8:
+		case Kind::eInt16:
+		case Kind::eInt32:
+		case Kind::eInt64:
+		case Kind::eUInt8:
+		case Kind::eUInt16:
+		case Kind::eUInt32:
 		case Kind::eUInt64:
 		case Kind::eFloat:
 		case Kind::eDouble:
@@ -232,12 +324,27 @@ namespace ast::type
 		case Kind::eVec2B:
 		case Kind::eVec3B:
 		case Kind::eVec4B:
-		case Kind::eVec2I:
-		case Kind::eVec3I:
-		case Kind::eVec4I:
-		case Kind::eVec2U:
-		case Kind::eVec3U:
-		case Kind::eVec4U:
+		case Kind::eVec2I8:
+		case Kind::eVec3I8:
+		case Kind::eVec4I8:
+		case Kind::eVec2I16:
+		case Kind::eVec3I16:
+		case Kind::eVec4I16:
+		case Kind::eVec2I32:
+		case Kind::eVec3I32:
+		case Kind::eVec4I32:
+		case Kind::eVec2I64:
+		case Kind::eVec3I64:
+		case Kind::eVec4I64:
+		case Kind::eVec2U8:
+		case Kind::eVec3U8:
+		case Kind::eVec4U8:
+		case Kind::eVec2U16:
+		case Kind::eVec3U16:
+		case Kind::eVec4U16:
+		case Kind::eVec2U32:
+		case Kind::eVec3U32:
+		case Kind::eVec4U32:
 		case Kind::eVec2U64:
 		case Kind::eVec3U64:
 		case Kind::eVec4U64:
@@ -373,8 +480,13 @@ namespace ast::type
 		switch ( kind )
 		{
 		case Kind::eVec2B:
-		case Kind::eVec2I:
-		case Kind::eVec2U:
+		case Kind::eVec2I8:
+		case Kind::eVec2I16:
+		case Kind::eVec2I32:
+		case Kind::eVec2I64:
+		case Kind::eVec2U8:
+		case Kind::eVec2U16:
+		case Kind::eVec2U32:
 		case Kind::eVec2U64:
 		case Kind::eVec2F:
 		case Kind::eVec2D:
@@ -388,8 +500,13 @@ namespace ast::type
 			return 2u;
 
 		case Kind::eVec3B:
-		case Kind::eVec3I:
-		case Kind::eVec3U:
+		case Kind::eVec3I8:
+		case Kind::eVec3I16:
+		case Kind::eVec3I32:
+		case Kind::eVec3I64:
+		case Kind::eVec3U8:
+		case Kind::eVec3U16:
+		case Kind::eVec3U32:
 		case Kind::eVec3U64:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
@@ -402,8 +519,13 @@ namespace ast::type
 			return 3u;
 
 		case Kind::eVec4B:
-		case Kind::eVec4I:
-		case Kind::eVec4U:
+		case Kind::eVec4I8:
+		case Kind::eVec4I16:
+		case Kind::eVec4I32:
+		case Kind::eVec4I64:
+		case Kind::eVec4U8:
+		case Kind::eVec4U16:
+		case Kind::eVec4U32:
 		case Kind::eVec4U64:
 		case Kind::eVec4F:
 		case Kind::eVec4D:
@@ -442,15 +564,40 @@ namespace ast::type
 		case Kind::eVec4B:
 			return Kind::eBoolean;
 
-		case Kind::eVec2I:
-		case Kind::eVec3I:
-		case Kind::eVec4I:
-			return Kind::eInt;
+		case Kind::eVec2I8:
+		case Kind::eVec3I8:
+		case Kind::eVec4I8:
+			return Kind::eInt8;
 
-		case Kind::eVec2U:
-		case Kind::eVec3U:
-		case Kind::eVec4U:
-			return Kind::eUInt;
+		case Kind::eVec2I16:
+		case Kind::eVec3I16:
+		case Kind::eVec4I16:
+			return Kind::eInt16;
+
+		case Kind::eVec2I32:
+		case Kind::eVec3I32:
+		case Kind::eVec4I32:
+			return Kind::eInt32;
+
+		case Kind::eVec2I64:
+		case Kind::eVec3I64:
+		case Kind::eVec4I64:
+			return Kind::eInt64;
+
+		case Kind::eVec2U8:
+		case Kind::eVec3U8:
+		case Kind::eVec4U8:
+			return Kind::eUInt8;
+
+		case Kind::eVec2U16:
+		case Kind::eVec3U16:
+		case Kind::eVec4U16:
+			return Kind::eUInt16;
+
+		case Kind::eVec2U32:
+		case Kind::eVec3U32:
+		case Kind::eVec4U32:
+			return Kind::eUInt32;
 
 		case Kind::eVec2U64:
 		case Kind::eVec3U64:
@@ -541,8 +688,13 @@ namespace ast::type
 		switch ( kind )
 		{
 		case Kind::eVec2B:
-		case Kind::eVec2I:
-		case Kind::eVec2U:
+		case Kind::eVec2I8:
+		case Kind::eVec2I16:
+		case Kind::eVec2I32:
+		case Kind::eVec2I64:
+		case Kind::eVec2U8:
+		case Kind::eVec2U16:
+		case Kind::eVec2U32:
 		case Kind::eVec2U64:
 		case Kind::eVec2F:
 		case Kind::eVec2D:
@@ -550,16 +702,26 @@ namespace ast::type
 			return expr::CompositeType::eVec2;
 
 		case Kind::eVec3B:
-		case Kind::eVec3I:
-		case Kind::eVec3U:
+		case Kind::eVec3I8:
+		case Kind::eVec3I16:
+		case Kind::eVec3I32:
+		case Kind::eVec3I64:
+		case Kind::eVec3U8:
+		case Kind::eVec3U16:
+		case Kind::eVec3U32:
 		case Kind::eVec3U64:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
 			return expr::CompositeType::eVec3;
 
 		case Kind::eVec4B:
-		case Kind::eVec4I:
-		case Kind::eVec4U:
+		case Kind::eVec4I8:
+		case Kind::eVec4I16:
+		case Kind::eVec4I32:
+		case Kind::eVec4I64:
+		case Kind::eVec4U8:
+		case Kind::eVec4U16:
+		case Kind::eVec4U32:
 		case Kind::eVec4U64:
 		case Kind::eVec4F:
 		case Kind::eVec4D:

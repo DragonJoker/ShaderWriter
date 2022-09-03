@@ -17,11 +17,11 @@ namespace sdw
 			, bool enabled );
 
 		SDW_API void traceRay( AccelerationStructure const & topLevel
-			, UInt const & rayFlags
-			, UInt const & cullMask
-			, UInt const & sbtRecordOffset
-			, UInt const & sbtRecordStride
-			, UInt const & missIndex
+			, UInt32 const & rayFlags
+			, UInt32 const & cullMask
+			, UInt32 const & sbtRecordOffset
+			, UInt32 const & sbtRecordStride
+			, UInt32 const & missIndex
 			, RayDesc const & rayDesc );
 
 		ShaderWriter * getWriter()const
@@ -67,11 +67,11 @@ namespace sdw
 			, ParamsT ... params );
 
 		void traceRay( AccelerationStructure const & topLevel
-			, UInt const & rayFlags
-			, UInt const & cullMask
-			, UInt const & sbtRecordOffset
-			, UInt const & sbtRecordStride
-			, UInt const & missIndex
+			, UInt32 const & rayFlags
+			, UInt32 const & cullMask
+			, UInt32 const & sbtRecordOffset
+			, UInt32 const & sbtRecordStride
+			, UInt32 const & missIndex
 			, RayDesc const & rayDesc );
 
 	private:

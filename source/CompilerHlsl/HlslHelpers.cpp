@@ -344,10 +344,25 @@ namespace hlsl
 		case ast::type::Kind::eBoolean:
 			result = "bool";
 			break;
-		case ast::type::Kind::eInt:
+		case ast::type::Kind::eInt8:
+			result = "int8_t";
+			break;
+		case ast::type::Kind::eInt16:
+			result = "int16_t";
+			break;
+		case ast::type::Kind::eInt32:
 			result = "int";
 			break;
-		case ast::type::Kind::eUInt:
+		case ast::type::Kind::eInt64:
+			result = "int64_t";
+			break;
+		case ast::type::Kind::eUInt8:
+			result = "uint8_t";
+			break;
+		case ast::type::Kind::eUInt16:
+			result = "uint16_t";
+			break;
+		case ast::type::Kind::eUInt32:
 			result = "uint";
 			break;
 		case ast::type::Kind::eUInt64:
@@ -368,22 +383,67 @@ namespace hlsl
 		case ast::type::Kind::eVec4B:
 			result = "bool4";
 			break;
-		case ast::type::Kind::eVec2I:
+		case ast::type::Kind::eVec2I8:
+			result = "int8_t2";
+			break;
+		case ast::type::Kind::eVec3I8:
+			result = "int8_t3";
+			break;
+		case ast::type::Kind::eVec4I8:
+			result = "int8_t4";
+			break;
+		case ast::type::Kind::eVec2I16:
+			result = "int16_t2";
+			break;
+		case ast::type::Kind::eVec3I16:
+			result = "int16_t3";
+			break;
+		case ast::type::Kind::eVec4I16:
+			result = "int16_t4";
+			break;
+		case ast::type::Kind::eVec2I32:
 			result = "int2";
 			break;
-		case ast::type::Kind::eVec3I:
+		case ast::type::Kind::eVec3I32:
 			result = "int3";
 			break;
-		case ast::type::Kind::eVec4I:
+		case ast::type::Kind::eVec4I32:
 			result = "int4";
 			break;
-		case ast::type::Kind::eVec2U:
+		case ast::type::Kind::eVec2I64:
+			result = "int64_t2";
+			break;
+		case ast::type::Kind::eVec3I64:
+			result = "int64_t3";
+			break;
+		case ast::type::Kind::eVec4I64:
+			result = "int64_t4";
+			break;
+		case ast::type::Kind::eVec2U8:
+			result = "uint8_t2";
+			break;
+		case ast::type::Kind::eVec3U8:
+			result = "uint8_t3";
+			break;
+		case ast::type::Kind::eVec4U8:
+			result = "uint8_t4";
+			break;
+		case ast::type::Kind::eVec2U16:
+			result = "uint16_t2";
+			break;
+		case ast::type::Kind::eVec3U16:
+			result = "uint16_t3";
+			break;
+		case ast::type::Kind::eVec4U16:
+			result = "uint16_t4";
+			break;
+		case ast::type::Kind::eVec2U32:
 			result = "uint2";
 			break;
-		case ast::type::Kind::eVec3U:
+		case ast::type::Kind::eVec3U32:
 			result = "uint3";
 			break;
-		case ast::type::Kind::eVec4U:
+		case ast::type::Kind::eVec4U32:
 			result = "uint4";
 			break;
 		case ast::type::Kind::eVec2U64:
@@ -1012,10 +1072,25 @@ namespace hlsl
 			case ast::type::Kind::eBoolean:
 				result = "bool2";
 				break;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				result = "int8_t2";
+				break;
+			case ast::type::Kind::eInt16:
+				result = "int16_t2";
+				break;
+			case ast::type::Kind::eInt32:
 				result = "int2";
 				break;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				result = "int64_t2";
+				break;
+			case ast::type::Kind::eUInt8:
+				result = "uint8_t2";
+				break;
+			case ast::type::Kind::eUInt16:
+				result = "uint16_t2";
+				break;
+			case ast::type::Kind::eUInt32:
 				result = "uint2";
 				break;
 			case ast::type::Kind::eUInt64:
@@ -1040,10 +1115,25 @@ namespace hlsl
 			case ast::type::Kind::eBoolean:
 				result = "bool3";
 				break;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				result = "int8_t3";
+				break;
+			case ast::type::Kind::eInt16:
+				result = "int16_t3";
+				break;
+			case ast::type::Kind::eInt32:
 				result = "int3";
 				break;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				result = "int64_t3";
+				break;
+			case ast::type::Kind::eUInt8:
+				result = "uint8_t3";
+				break;
+			case ast::type::Kind::eUInt16:
+				result = "uint16_t3";
+				break;
+			case ast::type::Kind::eUInt32:
 				result = "uint3";
 				break;
 			case ast::type::Kind::eUInt64:
@@ -1065,10 +1155,25 @@ namespace hlsl
 			case ast::type::Kind::eBoolean:
 				result = "bool4";
 				break;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				result = "int8_t4";
+				break;
+			case ast::type::Kind::eInt16:
+				result = "int16_t4";
+				break;
+			case ast::type::Kind::eInt32:
 				result = "int4";
 				break;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				result = "int64_t4";
+				break;
+			case ast::type::Kind::eUInt8:
+				result = "uint8_t4";
+				break;
+			case ast::type::Kind::eUInt16:
+				result = "uint16_t4";
+				break;
+			case ast::type::Kind::eUInt32:
 				result = "uint4";
 				break;
 			case ast::type::Kind::eUInt64:
@@ -1229,7 +1334,7 @@ namespace hlsl
 			|| builtin == ast::Builtin::ePatchVerticesIn
 			|| builtin == ast::Builtin::ePrimitiveIDIn )
 		{
-			result = ast::type::Kind::eUInt;
+			result = ast::type::Kind::eUInt32;
 		}
 
 		return result;
@@ -3407,6 +3512,28 @@ namespace hlsl
 				if ( component == ast::type::Kind::eDouble )
 				{
 					config.requiresDouble = true;
+				}
+
+				if ( component == ast::type::Kind::eInt8
+					|| component == ast::type::Kind::eUInt8 )
+				{
+					config.requiresInt8 = true;
+				}
+
+				if ( component == ast::type::Kind::eInt16
+					|| component == ast::type::Kind::eUInt16 )
+				{
+					config.requiresInt16 = true;
+				}
+
+				if ( component == ast::type::Kind::eInt64 )
+				{
+					config.requiresSInt64 = true;
+				}
+
+				if ( component == ast::type::Kind::eUInt64 )
+				{
+					config.requiresUInt64 = true;
 				}
 			} );
 	}

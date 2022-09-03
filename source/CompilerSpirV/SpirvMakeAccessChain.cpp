@@ -454,11 +454,26 @@ namespace spirv
 				case ast::expr::LiteralType::eBool:
 					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eBool >() );
 					break;
-				case ast::expr::LiteralType::eInt:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt >() );
+				case ast::expr::LiteralType::eInt8:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt8 >() );
 					break;
-				case ast::expr::LiteralType::eUInt:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt >() );
+				case ast::expr::LiteralType::eInt16:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt16 >() );
+					break;
+				case ast::expr::LiteralType::eInt32:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt32 >() );
+					break;
+				case ast::expr::LiteralType::eInt64:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt64 >() );
+					break;
+				case ast::expr::LiteralType::eUInt8:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt8 >() );
+					break;
+				case ast::expr::LiteralType::eUInt16:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt16 >() );
+					break;
+				case ast::expr::LiteralType::eUInt32:
+					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt32 >() );
 					break;
 				case ast::expr::LiteralType::eUInt64:
 					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt64 >() );

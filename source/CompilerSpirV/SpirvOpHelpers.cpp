@@ -44,10 +44,22 @@ namespace spirv
 
 		bool isSigned( ast::type::Kind kind )
 		{
-			return kind == ast::type::Kind::eInt
-				|| kind == ast::type::Kind::eVec2I
-				|| kind == ast::type::Kind::eVec3I
-				|| kind == ast::type::Kind::eVec4I;
+			return kind == ast::type::Kind::eInt8
+				|| kind == ast::type::Kind::eInt16
+				|| kind == ast::type::Kind::eInt32
+				|| kind == ast::type::Kind::eInt64
+				|| kind == ast::type::Kind::eVec2I8
+				|| kind == ast::type::Kind::eVec3I8
+				|| kind == ast::type::Kind::eVec4I8
+				|| kind == ast::type::Kind::eVec2I16
+				|| kind == ast::type::Kind::eVec3I16
+				|| kind == ast::type::Kind::eVec4I16
+				|| kind == ast::type::Kind::eVec2I32
+				|| kind == ast::type::Kind::eVec3I32
+				|| kind == ast::type::Kind::eVec4I32
+				|| kind == ast::type::Kind::eVec2I64
+				|| kind == ast::type::Kind::eVec3I64
+				|| kind == ast::type::Kind::eVec4I64;
 		}
 
 		bool isBool( ast::type::Kind kind )
@@ -1805,8 +1817,13 @@ namespace spirv
 		case ast::type::Kind::eBoolean:
 			result = spv::OpTypeBool;
 			break;
-		case ast::type::Kind::eInt:
-		case ast::type::Kind::eUInt:
+		case ast::type::Kind::eInt8:
+		case ast::type::Kind::eInt16:
+		case ast::type::Kind::eInt32:
+		case ast::type::Kind::eInt64:
+		case ast::type::Kind::eUInt8:
+		case ast::type::Kind::eUInt16:
+		case ast::type::Kind::eUInt32:
 		case ast::type::Kind::eUInt64:
 			result = spv::OpTypeInt;
 			break;
@@ -1817,12 +1834,27 @@ namespace spirv
 		case ast::type::Kind::eVec2B:
 		case ast::type::Kind::eVec3B:
 		case ast::type::Kind::eVec4B:
-		case ast::type::Kind::eVec2I:
-		case ast::type::Kind::eVec3I:
-		case ast::type::Kind::eVec4I:
-		case ast::type::Kind::eVec2U:
-		case ast::type::Kind::eVec3U:
-		case ast::type::Kind::eVec4U:
+		case ast::type::Kind::eVec2I8:
+		case ast::type::Kind::eVec3I8:
+		case ast::type::Kind::eVec4I8:
+		case ast::type::Kind::eVec2I16:
+		case ast::type::Kind::eVec3I16:
+		case ast::type::Kind::eVec4I16:
+		case ast::type::Kind::eVec2I32:
+		case ast::type::Kind::eVec3I32:
+		case ast::type::Kind::eVec4I32:
+		case ast::type::Kind::eVec2I64:
+		case ast::type::Kind::eVec3I64:
+		case ast::type::Kind::eVec4I64:
+		case ast::type::Kind::eVec2U8:
+		case ast::type::Kind::eVec3U8:
+		case ast::type::Kind::eVec4U8:
+		case ast::type::Kind::eVec2U16:
+		case ast::type::Kind::eVec3U16:
+		case ast::type::Kind::eVec4U16:
+		case ast::type::Kind::eVec2U32:
+		case ast::type::Kind::eVec3U32:
+		case ast::type::Kind::eVec4U32:
 		case ast::type::Kind::eVec2U64:
 		case ast::type::Kind::eVec3U64:
 		case ast::type::Kind::eVec4U64:

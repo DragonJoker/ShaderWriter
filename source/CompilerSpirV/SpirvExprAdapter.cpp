@@ -101,12 +101,12 @@ namespace spirv
 
 					switch ( mbr.type->getKind() )
 					{
-					case ast::type::Kind::eUInt:
+					case ast::type::Kind::eUInt32:
 						break;
-					case ast::type::Kind::eVec2U:
+					case ast::type::Kind::eVec2U32:
 						multiplier = ast::expr::makeLiteral( m_cache, 2u );
 						break;
-					case ast::type::Kind::eVec3U:
+					case ast::type::Kind::eVec3U32:
 						multiplier = ast::expr::makeLiteral( m_cache, 3u );
 						break;
 					default:

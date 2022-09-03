@@ -60,7 +60,7 @@ namespace sdw
 	}
 
 	template< ast::var::Flag FlagT, typename ValueT >
-	void CallableDataBaseT< FlagT, ValueT >::execute( UInt const & sbtRecordIndex )
+	void CallableDataBaseT< FlagT, ValueT >::execute( UInt32 const & sbtRecordIndex )
 	{
 		m_internal.execute( sbtRecordIndex );
 	}

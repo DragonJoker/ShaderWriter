@@ -33,9 +33,9 @@ namespace
 			auto expr = ast::expr::makeLiteral( cache, 10 );
 
 			require( expr->getKind() == ast::expr::Kind::eLiteral );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
-			require( expr->getLiteralType() == ast::expr::LiteralType::eInt );
-			check( expr->getValue< ast::expr::LiteralType::eInt >() == 10 );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			require( expr->getLiteralType() == ast::expr::LiteralType::eInt32 );
+			check( expr->getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
@@ -43,9 +43,9 @@ namespace
 			auto expr = ast::expr::makeLiteral( cache, 10u );
 
 			require( expr->getKind() == ast::expr::Kind::eLiteral );
-			check( expr->getType()->getKind() == ast::type::Kind::eUInt );
-			require( expr->getLiteralType() == ast::expr::LiteralType::eUInt );
-			check( expr->getValue< ast::expr::LiteralType::eUInt >() == 10u );
+			check( expr->getType()->getKind() == ast::type::Kind::eUInt32 );
+			require( expr->getLiteralType() == ast::expr::LiteralType::eUInt32 );
+			check( expr->getValue< ast::expr::LiteralType::eUInt32 >() == 10u );
 			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
@@ -55,12 +55,12 @@ namespace
 	{
 		testBegin( "testExprIdentifier" );
 		ast::type::TypesCache cache;
-		auto expr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "var0" ) );
+		auto expr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "var0" ) );
 
 		require( expr->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( expr->getVariable()->getName() == "var0" );
-		check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprIdentifier: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -69,22 +69,22 @@ namespace
 	{
 		testBegin( "testExprAdd" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeAdd( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeAdd( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eAdd );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprAdd: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -93,22 +93,22 @@ namespace
 	{
 		testBegin( "testExprMinus" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeMinus( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeMinus( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eMinus );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -117,22 +117,22 @@ namespace
 	{
 		testBegin( "testExprTimes" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeTimes( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeTimes( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eTimes );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprTimes: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -141,22 +141,22 @@ namespace
 	{
 		testBegin( "testExprTimes" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr= ast::expr::makeDivide( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr= ast::expr::makeDivide( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eDivide );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprDivide: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -165,22 +165,22 @@ namespace
 	{
 		testBegin( "testExprBitAnd" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeBitAnd( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeBitAnd( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eBitAnd );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprBitAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -189,16 +189,16 @@ namespace
 	{
 		testBegin( "testExprBitNot" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makeBitNot( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eBitNot );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprBitNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -207,22 +207,22 @@ namespace
 	{
 		testBegin( "testExprBitOr" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeBitOr( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeBitOr( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eBitOr );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprBitOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -231,22 +231,22 @@ namespace
 	{
 		testBegin( "testExprBitXor" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeBitXor( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeBitXor( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eBitXor );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprBitXor: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -255,7 +255,7 @@ namespace
 	{
 		testBegin( "testExprLogAnd" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLogAnd( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -263,14 +263,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprLogAnd: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -279,7 +279,7 @@ namespace
 	{
 		testBegin( "testExprLogNot" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLogNot( cache, std::move( op ) );
 
@@ -287,9 +287,9 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprLogNot: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -298,7 +298,7 @@ namespace
 	{
 		testBegin( "testExprLogOr" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLogOr( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -306,14 +306,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprLogOr: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -322,22 +322,22 @@ namespace
 	{
 		testBegin( "testExprModulo" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeModulo( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeModulo( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eModulo );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprModulo: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -346,22 +346,22 @@ namespace
 	{
 		testBegin( "testExprLShift" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeLShift( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeLShift( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLShift );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprLShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -370,22 +370,22 @@ namespace
 	{
 		testBegin( "testExprRShift" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeRShift( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeRShift( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eRShift );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprRShift: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -394,22 +394,22 @@ namespace
 	{
 		testBegin( "testExprComma" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeComma( std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eComma );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprComma: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -418,12 +418,12 @@ namespace
 	{
 		testBegin( "testExprArrayAccess" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getArray( cache.getInt() ), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getArray( cache.getInt32() ), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeArrayAccess( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeArrayAccess( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eArrayAccess );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eArray );
@@ -431,9 +431,9 @@ namespace
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eArray );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprArrayAccess: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -442,22 +442,22 @@ namespace
 	{
 		testBegin( "testExprAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -466,22 +466,22 @@ namespace
 	{
 		testBegin( "testExprAddAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeAddAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeAddAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eAddAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprAddAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -490,22 +490,22 @@ namespace
 	{
 		testBegin( "testExprDivideAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeDivideAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeDivideAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eDivideAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprDivideAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -514,22 +514,22 @@ namespace
 	{
 		testBegin( "testExprMinusAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeMinusAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeMinusAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eMinusAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprMinusAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -538,22 +538,22 @@ namespace
 	{
 		testBegin( "testExprTimesAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeTimesAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeTimesAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eTimesAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprTimesAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -562,22 +562,22 @@ namespace
 	{
 		testBegin( "testExprModuloAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeModuloAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeModuloAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eModuloAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprModuloAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -586,22 +586,22 @@ namespace
 	{
 		testBegin( "testExprLShiftAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeLShiftAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeLShiftAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eLShiftAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprLShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -610,22 +610,22 @@ namespace
 	{
 		testBegin( "testExprRShiftAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeRShiftAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeRShiftAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eRShiftAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprRShiftAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -634,22 +634,22 @@ namespace
 	{
 		testBegin( "testExprAndAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeAndAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeAndAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eAndAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprAndAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -658,22 +658,22 @@ namespace
 	{
 		testBegin( "testExprOrAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeOrAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeOrAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eOrAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprOrAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -682,22 +682,22 @@ namespace
 	{
 		testBegin( "testExprXorAssign" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeXorAssign( cache.getInt(), std::move( lhs ), std::move( rhs ) );
+		auto expr = ast::expr::makeXorAssign( cache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
 		check( expr->getKind() == ast::expr::Kind::eXorAssign );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprXorAssign: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -706,7 +706,7 @@ namespace
 	{
 		testBegin( "testExprEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeEqual( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -714,14 +714,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -730,7 +730,7 @@ namespace
 	{
 		testBegin( "testExprGreater" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeGreater( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -738,14 +738,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprGreater: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -754,7 +754,7 @@ namespace
 	{
 		testBegin( "testExprGreaterEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeGreaterEqual( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -762,14 +762,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprGreaterEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -778,7 +778,7 @@ namespace
 	{
 		testBegin( "testExprLess" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLess( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -786,14 +786,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprLess: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -802,7 +802,7 @@ namespace
 	{
 		testBegin( "testExprLessEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeLessEqual( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -810,14 +810,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprLessEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -826,7 +826,7 @@ namespace
 	{
 		testBegin( "testExprNotEqual" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeNotEqual( cache, std::move( lhs ), std::move( rhs ) );
 
@@ -834,14 +834,14 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 
 		require( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt );
-		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprNotEqual: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -850,16 +850,16 @@ namespace
 	{
 		testBegin( "testExprPostDecrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makePostDecrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePostDecrement );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprPostDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -868,16 +868,16 @@ namespace
 	{
 		testBegin( "testExprPostIncrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makePostIncrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePostIncrement );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprPostIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -886,16 +886,16 @@ namespace
 	{
 		testBegin( "testExprPreDecrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makePreDecrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePreDecrement );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprPreDecrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -904,16 +904,16 @@ namespace
 	{
 		testBegin( "testExprPreIncrement" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makePreIncrement( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::ePreIncrement );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprPreIncrement: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -922,16 +922,16 @@ namespace
 	{
 		testBegin( "testExprUnaryMinus" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makeUnaryMinus( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eUnaryMinus );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprUnaryMinus: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -940,16 +940,16 @@ namespace
 	{
 		testBegin( "testExprUnaryPlus" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makeUnaryPlus( std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eUnaryPlus );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprUnaryPlus: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -958,16 +958,16 @@ namespace
 	{
 		testBegin( "testExprCast" );
 		ast::type::TypesCache cache;
-		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "op" ) );
+		auto op = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "op" ) );
 		auto expr = ast::expr::makeCast( cache.getFloat(), std::move( op ) );
 
 		check( expr->getKind() == ast::expr::Kind::eCast );
 		check( expr->getType()->getKind() == ast::type::Kind::eFloat );
 
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		testCounts << "ExprCast: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -999,12 +999,12 @@ namespace
 		{
 			ast::expr::ExprList argList;
 			ast::type::TypesCache cache;
-			auto functionType = cache.getFunction( cache.getInt(), ast::var::VariableList{} );
+			auto functionType = cache.getFunction( cache.getInt32(), ast::var::VariableList{} );
 			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, functionType, "func" ) );
-			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
+			auto expr = ast::expr::makeFnCall( cache.getInt32(), std::move( funcName ), std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eFnCall );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 			check( expr->getFn()->getType()->getKind() == ast::type::Kind::eFunction );
 			check( expr->getFn()->getVariable()->getType()->getKind() == ast::type::Kind::eFunction );
@@ -1017,15 +1017,15 @@ namespace
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
-			auto functionType = cache.getFunction( cache.getInt()
+			auto functionType = cache.getFunction( cache.getInt32()
 				, {
-					ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "p" ),
+					ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "p" ),
 				} );
 			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, functionType, "func" ) );
-			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
+			auto expr = ast::expr::makeFnCall( cache.getInt32(), std::move( funcName ), std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eFnCall );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 			check( expr->getFn()->getType()->getKind() == ast::type::Kind::eFunction );
 			check( expr->getFn()->getVariable()->getType()->getKind() == ast::type::Kind::eFunction );
@@ -1034,9 +1034,9 @@ namespace
 			check( expr->getArgList().size() == 1u );
 
 			require( expr->getArgList()[0]->getKind() == ast::expr::Kind::eLiteral );
-			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt );
-			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt32 );
+			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 			testCounts << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
@@ -1044,16 +1044,16 @@ namespace
 			ast::expr::ExprList argList;
 			argList.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
 			argList.emplace_back( ast::expr::makeLiteral( cache, 1.0f ) );
-			auto functionType = cache.getFunction( cache.getInt()
+			auto functionType = cache.getFunction( cache.getInt32()
 				, {
-					ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "p0" ),
+					ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "p0" ),
 					ast::var::makeVariable( ++testCounts.nextVarId, cache.getFloat(), "p1" ),
 				} );
 			auto funcName = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, functionType, "func" ) );
-			auto expr = ast::expr::makeFnCall( cache.getInt(), std::move( funcName ), std::move( argList ) );
+			auto expr = ast::expr::makeFnCall( cache.getInt32(), std::move( funcName ), std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eFnCall );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 			check( expr->getFn()->getType()->getKind() == ast::type::Kind::eFunction );
 			check( expr->getFn()->getVariable()->getType()->getKind() == ast::type::Kind::eFunction );
@@ -1062,9 +1062,9 @@ namespace
 			check( expr->getArgList().size() == 2u );
 
 			require( expr->getArgList()[0]->getKind() == ast::expr::Kind::eLiteral );
-			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt );
-			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt );
-			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt32 );
+			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 
 			require( expr->getArgList()[1]->getKind() == ast::expr::Kind::eLiteral );
 			check( expr->getArgList()[1]->getType()->getKind() == ast::type::Kind::eFloat );
@@ -1081,17 +1081,17 @@ namespace
 		{
 			ast::type::TypesCache cache;
 			ast::expr::ExprList argList;
-			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "x" ) ) );
-			auto expr = ast::expr::makeIntrinsicCall( cache.getInt(), ast::expr::Intrinsic::eAbs1I, std::move( argList ) );
+			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "x" ) ) );
+			auto expr = ast::expr::makeIntrinsicCall( cache.getInt32(), ast::expr::Intrinsic::eAbs1I, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eIntrinsicCall );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 			check( expr->getIntrinsic() == ast::expr::Intrinsic::eAbs1I );
 
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
-			check( expr->getArgList().back()->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getArgList().back()->getType()->getKind() == ast::type::Kind::eInt32 );
 			testCounts << "ExprIntrinsicCall: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		testEnd();
@@ -1105,10 +1105,10 @@ namespace
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getImage( config ), "x" ) ) );
-			auto expr = ast::expr::makeImageAccessCall( cache.getInt(), ast::expr::StorageImageAccess::eImageSize1DI, std::move( argList ) );
+			auto expr = ast::expr::makeImageAccessCall( cache.getInt32(), ast::expr::StorageImageAccess::eImageSize1DI, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eImageAccessCall );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 			check( expr->getImageAccess() == ast::expr::StorageImageAccess::eImageSize1DI );
 
@@ -1128,10 +1128,10 @@ namespace
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getCombinedImage( config ), "x" ) ) );
-			auto expr = ast::expr::makeCombinedImageAccessCall( cache.getInt(), ast::expr::CombinedImageAccess::eTextureSize1DI, std::move( argList ) );
+			auto expr = ast::expr::makeCombinedImageAccessCall( cache.getInt32(), ast::expr::CombinedImageAccess::eTextureSize1DI, std::move( argList ) );
 
 			require( expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall );
-			check( expr->getType()->getKind() == ast::type::Kind::eInt );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 			check( expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureSize1DI );
 
@@ -1148,26 +1148,26 @@ namespace
 		testBegin( "testExprAggrInit" );
 		{
 			ast::type::TypesCache cache;
-			auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getArray( cache.getInt(), 4u ), "lhs" ) );
+			auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getArray( cache.getInt32(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			auto expr = ast::expr::makeAggrInit( std::move( lhs ), std::move( rhs ) );
 
 			require( expr->getKind() == ast::expr::Kind::eAggrInit );
 			check( expr->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt );
+			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt32 );
 
 			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt );
+			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt32 );
 			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
 			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt );
+			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt32 );
 
 			check( expr->getInitialisers().empty() );
 			testCounts << "ExprAggrInit (empty): " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		}
 		{
 			ast::type::TypesCache cache;
-			auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getArray( cache.getInt(), 4u ), "lhs" ) );
+			auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getArray( cache.getInt32(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			rhs.emplace_back( ast::expr::makeLiteral( cache, 10 ) );
 			rhs.emplace_back( ast::expr::makeLiteral( cache, 20 ) );
@@ -1177,13 +1177,13 @@ namespace
 
 			require( expr->getKind() == ast::expr::Kind::eAggrInit );
 			check( expr->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt );
+			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt32 );
 
 			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt );
+			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt32 );
 			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
 			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt );
+			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt32 );
 
 			check( expr->getInitialisers().size() == 4u );
 			int v = 10;
@@ -1191,9 +1191,9 @@ namespace
 			for ( auto & init : expr->getInitialisers() )
 			{
 				check( init->getKind() == ast::expr::Kind::eLiteral );
-				check( init->getType()->getKind() == ast::type::Kind::eInt );
-				check( static_cast< ast::expr::Literal const & >( *init ).getLiteralType() == ast::expr::LiteralType::eInt );
-				check( static_cast< ast::expr::Literal const & >( *init ).getValue< ast::expr::LiteralType::eInt >() == v );
+				check( init->getType()->getKind() == ast::type::Kind::eInt32 );
+				check( static_cast< ast::expr::Literal const & >( *init ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+				check( static_cast< ast::expr::Literal const & >( *init ).getValue< ast::expr::LiteralType::eInt32 >() == v );
 				v += 10;
 			}
 
@@ -1206,21 +1206,21 @@ namespace
 	{
 		testBegin( "testExprInit" );
 		ast::type::TypesCache cache;
-		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto lhs = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto rhs = ast::expr::makeLiteral( cache, 10 );
 		auto expr = ast::expr::makeInit( std::move( lhs ), std::move( rhs ) );
 
 		require( expr->getKind() == ast::expr::Kind::eInit );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
-		check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getInitialiser()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getInitialiser()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getInitialiser()->getType()->getKind() == ast::type::Kind::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprInit: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -1230,14 +1230,14 @@ namespace
 		testBegin( "testExprMbrSelect" );
 		ast::type::TypesCache cache;
 		auto type = cache.getStruct( ast::type::MemoryLayout::eStd140, "outer" );
-		type->declMember( "inner", cache.getInt() );
+		type->declMember( "inner", cache.getInt32() );
 		auto outerVar = ast::var::makeVariable( ++testCounts.nextVarId, type, "outerVar" );
 		auto expr = ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, outerVar ), 0u, uint64_t( ast::var::Flag::eShaderInput ) );
 
 		require( expr->getKind() == ast::expr::Kind::eMbrSelect );
 		check( expr->getOuterExpr()->getType()->getKind() == ast::type::Kind::eStruct );
 
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getName() == "outerVar" );
 
@@ -1252,12 +1252,12 @@ namespace
 		testBegin( "testExprQuestion" );
 		ast::type::TypesCache cache;
 		auto ctrlExpr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getBool(), "ctrl" ) );
-		auto trueExpr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( 2u, cache.getInt(), "lhs" ) );
+		auto trueExpr = ast::expr::makeIdentifier( cache, ast::var::makeVariable( 2u, cache.getInt32(), "lhs" ) );
 		auto falseExpr = ast::expr::makeLiteral( cache, 10 );
-		auto expr = ast::expr::makeQuestion( cache.getInt(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
+		auto expr = ast::expr::makeQuestion( cache.getInt32(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
 
 		require( expr->getKind() == ast::expr::Kind::eQuestion );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
@@ -1265,14 +1265,14 @@ namespace
 		check( static_cast< ast::expr::Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getName() == "ctrl" );
 
 		require( expr->getTrueExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getTrueExpr() ).getVariable()->getName() == "lhs" );
 
 		require( expr->getFalseExpr()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprQuestion: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -1285,12 +1285,12 @@ namespace
 		auto expr = ast::expr::makeSwitchCase( std::move( label ) );
 
 		require( expr->getKind() == ast::expr::Kind::eSwitchCase );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getLabel()->getKind() == ast::expr::Kind::eLiteral );
-		check( expr->getLabel()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getLiteralType() == ast::expr::LiteralType::eInt );
-		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue< ast::expr::LiteralType::eInt >() == 10 );
+		check( expr->getLabel()->getType()->getKind() == ast::type::Kind::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
 		testCounts << "ExprSwitchCase: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
 	}
@@ -1299,15 +1299,15 @@ namespace
 	{
 		testBegin( "testExprSwitchTest" );
 		ast::type::TypesCache cache;
-		auto value = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "lhs" ) );
+		auto value = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "lhs" ) );
 		auto expr = ast::expr::makeSwitchTest( std::move( value ) );
 
 		require( expr->getKind() == ast::expr::Kind::eSwitchTest );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getValue()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getValue()->getType()->getKind() == ast::type::Kind::eInt );
-		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getValue()->getType()->getKind() == ast::type::Kind::eInt32 );
+		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getName() == "lhs" );
 		testCounts << "ExprSwitchTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();
@@ -1317,11 +1317,11 @@ namespace
 	{
 		testBegin( "testExprCopy" );
 		ast::type::TypesCache cache;
-		auto value = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt(), "operand" ) );
+		auto value = ast::expr::makeIdentifier( cache, ast::var::makeVariable( ++testCounts.nextVarId, cache.getInt32(), "operand" ) );
 		auto expr = ast::expr::makeCopy( std::move( value ) );
 
 		require( expr->getKind() == ast::expr::Kind::eCopy );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		testCounts << "ExprCopyTest: " << ast::debug::ExprVisitor::submit( expr.get() ) << test::endl;
 		testEnd();

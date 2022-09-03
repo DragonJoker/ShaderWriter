@@ -16,7 +16,7 @@ namespace sdw
 			, expr::Expr * expr
 			, bool enabled );
 
-		SDW_API void dispatchMesh( UInt taskCount );
+		SDW_API void dispatchMesh( UInt32 taskCount );
 
 		ShaderWriter * getWriter()const
 		{
@@ -54,7 +54,7 @@ namespace sdw
 		TaskPayloadOutT( ShaderWriter & writer
 			, ParamsT ... params );
 
-		void dispatchMesh( UInt taskCount );
+		void dispatchMesh( UInt32 taskCount );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache

@@ -15,7 +15,7 @@ namespace sdw
 			, expr::Expr * expr
 			, bool enabled );
 
-		SDW_API void execute( UInt const & sbtRecordIndex );
+		SDW_API void execute( UInt32 const & sbtRecordIndex );
 
 		ShaderWriter * getWriter()const
 		{
@@ -59,7 +59,7 @@ namespace sdw
 			, uint32_t location
 			, ParamsT ... params );
 
-		void execute( UInt const & sbtRecordIndex );
+		void execute( UInt32 const & sbtRecordIndex );
 
 	private:
 		CallableData m_internal;

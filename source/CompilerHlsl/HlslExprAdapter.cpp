@@ -499,9 +499,38 @@ namespace hlsl
 			{
 				assert( arrayIndex->getKind() == ast::expr::Kind::eLiteral );
 				auto & lit = static_cast< ast::expr::Literal const & >( *arrayIndex );
-				auto index = ( lit.getLiteralType() == ast::expr::LiteralType::eInt
-					? uint32_t( lit.getValue< ast::expr::LiteralType::eInt >() )
-					: lit.getValue< ast::expr::LiteralType::eUInt >() );
+				uint32_t index{};
+
+				switch ( lit.getLiteralType() )
+				{
+				case ast::expr::LiteralType::eInt8:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eInt8 >() );
+					break;
+				case ast::expr::LiteralType::eInt16:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eInt16 >() );
+					break;
+				case ast::expr::LiteralType::eInt32:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eInt32 >() );
+					break;
+				case ast::expr::LiteralType::eInt64:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eInt64 >() );
+					break;
+				case ast::expr::LiteralType::eUInt8:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eUInt8 >() );
+					break;
+				case ast::expr::LiteralType::eUInt16:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eUInt16 >() );
+					break;
+				case ast::expr::LiteralType::eUInt32:
+					index = lit.getValue< ast::expr::LiteralType::eUInt32 >();
+					break;
+				case ast::expr::LiteralType::eUInt64:
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eUInt64 >() );
+					break;
+				default:
+					break;
+				}
+
 				auto mbrIndex = mbrSelect.getMemberIndex();
 
 				if ( index > 3 )
@@ -1355,7 +1384,7 @@ namespace hlsl
 
 			for ( auto & var : resVars )
 			{
-				resArgs.emplace_back( ast::expr::makeCast( m_cache.getInt()
+				resArgs.emplace_back( ast::expr::makeCast( m_cache.getInt32()
 					, ast::expr::makeIdentifier( m_cache, var ) ) );
 			}
 
@@ -1366,7 +1395,7 @@ namespace hlsl
 			else
 			{
 				cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( composite
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, std::move( resArgs ) ) ) );
 			}
 
@@ -1794,7 +1823,7 @@ namespace hlsl
 
 			for ( auto & var : resVars )
 			{
-				resArgs.emplace_back( ast::expr::makeCast( m_cache.getInt()
+				resArgs.emplace_back( ast::expr::makeCast( m_cache.getInt32()
 					, ast::expr::makeIdentifier( m_cache, var ) ) );
 			}
 
@@ -1805,7 +1834,7 @@ namespace hlsl
 			else
 			{
 				cont->addStmt( ast::stmt::makeReturn( ast::expr::makeCompositeConstruct( composite
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, std::move( resArgs ) ) ) );
 			}
 
@@ -2078,19 +2107,19 @@ namespace hlsl
 
 			switch ( merged[0]->getType()->getKind() )
 			{
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt32:
 				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, std::move( merged ) ) );
 				break;
-			case ast::type::Kind::eVec2I:
+			case ast::type::Kind::eVec2I32:
 				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, std::move( merged ) ) );
 				break;
-			case ast::type::Kind::eVec3I:
+			case ast::type::Kind::eVec3I32:
 				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, std::move( merged ) ) );
 				break;
 			default:

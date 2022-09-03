@@ -11,8 +11,8 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, patchVerticesIn{ getMember< Int >( ast::Builtin::ePatchVerticesIn ) }
-		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
+		, patchVerticesIn{ getMember< Int32 >( ast::Builtin::ePatchVerticesIn ) }
+		, primitiveID{ getMember< Int32 >( ast::Builtin::ePrimitiveID ) }
 	{
 	}
 
@@ -34,10 +34,10 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
 		{
 			result->declMember( ast::Builtin::ePatchVerticesIn
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::ePrimitiveID
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 

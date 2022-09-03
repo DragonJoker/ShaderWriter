@@ -142,21 +142,26 @@ namespace glsl
 		{
 			switch ( value )
 			{
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				return "i8";
+			case ast::type::Kind::eInt16:
+				return "i16";
+			case ast::type::Kind::eInt32:
 				return "i";
-
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				return "i64";
+			case ast::type::Kind::eUInt8:
+				return "u8";
+			case ast::type::Kind::eUInt16:
+				return "u16";
+			case ast::type::Kind::eUInt32:
 				return "u";
-
 			case ast::type::Kind::eUInt64:
 				return "ul";
-
 			case ast::type::Kind::eFloat:
 				return std::string{};
-
 			case ast::type::Kind::eHalf:
 				return "h";
-
 			default:
 				AST_Failure( "Unsupported ast::type::Kind" );
 				return std::string{};
@@ -224,10 +229,25 @@ namespace glsl
 		case ast::type::Kind::eBoolean:
 			result = "bool";
 			break;
-		case ast::type::Kind::eInt:
+		case ast::type::Kind::eInt8:
+			result = "int8_t";
+			break;
+		case ast::type::Kind::eInt16:
+			result = "int16_t";
+			break;
+		case ast::type::Kind::eInt32:
 			result = "int";
 			break;
-		case ast::type::Kind::eUInt:
+		case ast::type::Kind::eInt64:
+			result = "int64_t";
+			break;
+		case ast::type::Kind::eUInt8:
+			result = "uint8_t";
+			break;
+		case ast::type::Kind::eUInt16:
+			result = "uint16_t";
+			break;
+		case ast::type::Kind::eUInt32:
 			result = "uint";
 			break;
 		case ast::type::Kind::eUInt64:
@@ -249,22 +269,67 @@ namespace glsl
 		case ast::type::Kind::eVec4B:
 			result = "bvec4";
 			break;
-		case ast::type::Kind::eVec2I:
+		case ast::type::Kind::eVec2I8:
+			result = "i8vec2";
+			break;
+		case ast::type::Kind::eVec3I8:
+			result = "i8vec3";
+			break;
+		case ast::type::Kind::eVec4I8:
+			result = "i8vec4";
+			break;
+		case ast::type::Kind::eVec2I16:
+			result = "i16vec2";
+			break;
+		case ast::type::Kind::eVec3I16:
+			result = "i16vec3";
+			break;
+		case ast::type::Kind::eVec4I16:
+			result = "i16vec4";
+			break;
+		case ast::type::Kind::eVec2I32:
 			result = "ivec2";
 			break;
-		case ast::type::Kind::eVec3I:
+		case ast::type::Kind::eVec3I32:
 			result = "ivec3";
 			break;
-		case ast::type::Kind::eVec4I:
+		case ast::type::Kind::eVec4I32:
 			result = "ivec4";
 			break;
-		case ast::type::Kind::eVec2U:
+		case ast::type::Kind::eVec2I64:
+			result = "i64vec2";
+			break;
+		case ast::type::Kind::eVec3I64:
+			result = "i64vec3";
+			break;
+		case ast::type::Kind::eVec4I64:
+			result = "i64vec4";
+			break;
+		case ast::type::Kind::eVec2U8:
+			result = "u8vec2";
+			break;
+		case ast::type::Kind::eVec3U8:
+			result = "u8vec3";
+			break;
+		case ast::type::Kind::eVec4U8:
+			result = "u8vec4";
+			break;
+		case ast::type::Kind::eVec2U16:
+			result = "u16vec2";
+			break;
+		case ast::type::Kind::eVec3U16:
+			result = "u16vec3";
+			break;
+		case ast::type::Kind::eVec4U16:
+			result = "u16vec4";
+			break;
+		case ast::type::Kind::eVec2U32:
 			result = "uvec2";
 			break;
-		case ast::type::Kind::eVec3U:
+		case ast::type::Kind::eVec3U32:
 			result = "uvec3";
 			break;
-		case ast::type::Kind::eVec4U:
+		case ast::type::Kind::eVec4U32:
 			result = "uvec4";
 			break;
 		case ast::type::Kind::eVec2U64:
@@ -880,10 +945,25 @@ namespace glsl
 			case ast::type::Kind::eBoolean:
 				result = "bvec2";
 				break;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				result = "i8vec2";
+				break;
+			case ast::type::Kind::eInt16:
+				result = "i16vec2";
+				break;
+			case ast::type::Kind::eInt32:
 				result = "ivec2";
 				break;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				result = "i64vec2";
+				break;
+			case ast::type::Kind::eUInt8:
+				result = "u8vec2";
+				break;
+			case ast::type::Kind::eUInt16:
+				result = "u16vec2";
+				break;
+			case ast::type::Kind::eUInt32:
 				result = "uvec2";
 				break;
 			case ast::type::Kind::eUInt64:
@@ -909,10 +989,25 @@ namespace glsl
 			case ast::type::Kind::eBoolean:
 				result = "bvec3";
 				break;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				result = "i8vec3";
+				break;
+			case ast::type::Kind::eInt16:
+				result = "i16vec3";
+				break;
+			case ast::type::Kind::eInt32:
 				result = "ivec3";
 				break;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				result = "i64vec3";
+				break;
+			case ast::type::Kind::eUInt8:
+				result = "u8vec3";
+				break;
+			case ast::type::Kind::eUInt16:
+				result = "u16vec3";
+				break;
+			case ast::type::Kind::eUInt32:
 				result = "uvec3";
 				break;
 			case ast::type::Kind::eUInt64:
@@ -938,10 +1033,25 @@ namespace glsl
 			case ast::type::Kind::eBoolean:
 				result = "bvec4";
 				break;
-			case ast::type::Kind::eInt:
+			case ast::type::Kind::eInt8:
+				result = "i8vec4";
+				break;
+			case ast::type::Kind::eInt16:
+				result = "i16vec4";
+				break;
+			case ast::type::Kind::eInt32:
 				result = "ivec4";
 				break;
-			case ast::type::Kind::eUInt:
+			case ast::type::Kind::eInt64:
+				result = "i64vec4";
+				break;
+			case ast::type::Kind::eUInt8:
+				result = "u8vec4";
+				break;
+			case ast::type::Kind::eUInt16:
+				result = "u16vec4";
+				break;
+			case ast::type::Kind::eUInt32:
 				result = "uvec4";
 				break;
 			case ast::type::Kind::eUInt64:
@@ -1190,9 +1300,22 @@ namespace glsl
 					config.requiredExtensions.insert( ARB_gpu_shader_fp64 );
 				}
 
-				if ( component == ast::type::Kind::eUInt64 )
+				if ( component == ast::type::Kind::eInt8
+					|| component == ast::type::Kind::eUInt8 )
 				{
-					config.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
+					config.requiresInt8 = true;
+				}
+
+				if ( component == ast::type::Kind::eUInt16
+					|| component == ast::type::Kind::eInt16 )
+				{
+					config.requiresInt16 = true;
+				}
+
+				if ( component == ast::type::Kind::eUInt64
+					|| component == ast::type::Kind::eInt64 )
+				{
+					config.requiresInt64 = true;
 				}
 			} );
 	}

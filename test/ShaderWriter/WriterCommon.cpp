@@ -88,13 +88,13 @@ namespace test
 				result.insert( glsl::ARB_separate_shader_objects );
 				result.insert( glsl::ARB_texture_cube_map_array );
 				result.insert( glsl::ARB_texture_gather );
+				result.insert( glsl::ARB_gpu_shader_int64 );
 			}
 
 			if ( glslVersion >= glsl::v3_3 )
 			{
 				result.insert( glsl::ARB_shader_stencil_export );
 				result.insert( glsl::KHR_vulkan_glsl );
-				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int64 );
 				result.insert( glsl::EXT_multiview );
 				result.insert( glsl::ARB_explicit_attrib_location );
 				result.insert( glsl::ARB_shader_image_load_store );
@@ -106,6 +106,18 @@ namespace test
 				result.insert( glsl::ARB_shader_draw_parameters );
 				result.insert( glsl::ARB_fragment_layer_viewport );
 				result.insert( glsl::ARB_tessellation_shader );
+			}
+
+			if ( glslVersion >= glsl::v1_5 )
+			{
+				result.insert( glsl::NV_gpu_shader5 );
+			}
+
+			if ( glslVersion >= glsl::v1_4 )
+			{
+				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int8 );
+				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int16 );
+				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int64 );
 			}
 
 			return result;

@@ -12,8 +12,13 @@ namespace ast::expr
 	enum class LiteralType
 	{
 		eBool,
-		eInt,
-		eUInt,
+		eInt8,
+		eInt16,
+		eInt32,
+		eInt64,
+		eUInt8,
+		eUInt16,
+		eUInt32,
 		eUInt64,
 		eFloat,
 		eDouble,
@@ -29,13 +34,43 @@ namespace ast::expr
 	};
 
 	template<>
-	struct LiteralValueTraits< LiteralType::eInt >
+	struct LiteralValueTraits< LiteralType::eInt8 >
+	{
+		using type = int8_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eInt16 >
+	{
+		using type = int16_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eInt32 >
 	{
 		using type = int32_t;
 	};
 
 	template<>
-	struct LiteralValueTraits< LiteralType::eUInt >
+	struct LiteralValueTraits< LiteralType::eInt64 >
+	{
+		using type = int64_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eUInt8 >
+	{
+		using type = uint8_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eUInt16 >
+	{
+		using type = uint16_t;
+	};
+
+	template<>
+	struct LiteralValueTraits< LiteralType::eUInt32 >
 	{
 		using type = uint32_t;
 	};
@@ -64,7 +99,12 @@ namespace ast::expr
 	union LiteralValue
 	{
 		bool boolv;
-		int32_t intv;
+		int8_t int8v;
+		int16_t int16v;
+		int32_t int32v;
+		int64_t int64v;
+		uint8_t uint8v;
+		uint16_t uint16v;
 		uint32_t uint32v;
 		uint64_t uint64v;
 		float floatv;
@@ -76,8 +116,13 @@ namespace ast::expr
 	{
 	private:
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, bool value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, int value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, long value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed char value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed short value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed int value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed long value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed long long value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned char value );
+		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned short value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned int value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned long value );
 		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned long long value );
@@ -86,8 +131,13 @@ namespace ast::expr
 
 	public:
 		SDAST_API Literal( type::TypesCache & cache, bool value );
-		SDAST_API Literal( type::TypesCache & cache, int value );
-		SDAST_API Literal( type::TypesCache & cache, long value );
+		SDAST_API Literal( type::TypesCache & cache, signed char value );
+		SDAST_API Literal( type::TypesCache & cache, signed short value );
+		SDAST_API Literal( type::TypesCache & cache, signed int value );
+		SDAST_API Literal( type::TypesCache & cache, signed long value );
+		SDAST_API Literal( type::TypesCache & cache, signed long long value );
+		SDAST_API Literal( type::TypesCache & cache, unsigned char value );
+		SDAST_API Literal( type::TypesCache & cache, unsigned short value );
 		SDAST_API Literal( type::TypesCache & cache, unsigned int value );
 		SDAST_API Literal( type::TypesCache & cache, unsigned long value );
 		SDAST_API Literal( type::TypesCache & cache, unsigned long long value );
@@ -116,6 +166,13 @@ namespace ast::expr
 	{
 		return std::make_unique< Literal >( cache, value );
 	}
+
+	template< expr::LiteralType TargetT, typename SourceT >
+	expr::LiteralValueType< TargetT > convert( SourceT const & v );
+	template< template< typename TypeT > typename OperatorT >
+	expr::LiteralPtr replaceLiterals( type::TypesCache & cache
+		, expr::Literal const & lhs
+		, expr::Literal const & rhs );
 
 	SDAST_API LiteralPtr operator~( Literal const & operand );
 	SDAST_API LiteralPtr operator|( Literal const & lhs, Literal const & rhs );

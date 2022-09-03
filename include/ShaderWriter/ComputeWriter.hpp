@@ -13,7 +13,7 @@ namespace sdw
 	*	Compute.
 	*/
 	/**@{*/
-	SDW_API UVec3 getWorkGroupSize( ast::type::TypePtr type );
+	SDW_API U32Vec3 getWorkGroupSize( ast::type::TypePtr type );
 	/**
 	*name
 	*	Compute inputs.
@@ -40,17 +40,17 @@ namespace sdw
 			, ParamsT ... params );
 
 		//in uvec3 gl_NumWorkGroups;
-		UVec3 const numWorkGroups;
+		U32Vec3 const numWorkGroups;
 		//in uvec3 gl_WorkGroupID;
-		UVec3 const workGroupID;
+		U32Vec3 const workGroupID;
 		//in uvec3 gl_LocalInvocationID;
-		UVec3 const localInvocationID;
+		U32Vec3 const localInvocationID;
 		//in uvec3 gl_GlobalInvocationID;
-		UVec3 const globalInvocationID;
+		U32Vec3 const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex;
-		UInt const localInvocationIndex;
+		UInt32 const localInvocationIndex;
 		//const uvec3 gl_WorkGroupSize;
-		UVec3 const workGroupSize;
+		U32Vec3 const workGroupSize;
 	};
 
 	using ComputeIn = ComputeInT< VoidT >;
@@ -98,23 +98,23 @@ namespace sdw
 		using ComputeInT< DataT >::workGroupSize;
 
 		//in uint gl_NumSubgroups;
-		UInt const numSubgroups;
+		UInt32 const numSubgroups;
 		//in uint gl_SubgroupID;
-		UInt const subgroupID;
+		UInt32 const subgroupID;
 		//in uint gl_SubgroupSize;
-		UInt const subgroupSize;
+		UInt32 const subgroupSize;
 		//in uint gl_SubgroupInvocationID;
-		UInt const subgroupInvocationID;
+		UInt32 const subgroupInvocationID;
 		//in uvec4 gl_SubgroupEqMask;
-		UVec4 const subgroupEqMask;
+		U32Vec4 const subgroupEqMask;
 		//const uvec4 gl_SubgroupGeMask;
-		UVec4 const subgroupGeMask;
+		U32Vec4 const subgroupGeMask;
 		//const uvec4 gl_SubgroupGtMask;
-		UVec4 const subgroupGtMask;
+		U32Vec4 const subgroupGtMask;
 		//const uvec4 gl_SubgroupLeMask;
-		UVec4 const subgroupLeMask;
+		U32Vec4 const subgroupLeMask;
 		//const uvec4 gl_SubgroupLtMask;
-		UVec4 const subgroupLtMask;
+		U32Vec4 const subgroupLtMask;
 	};
 
 	using SubgroupIn = SubgroupInT< VoidT >;

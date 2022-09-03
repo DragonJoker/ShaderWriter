@@ -27,9 +27,9 @@ namespace sdw
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//in uvec3 gl_LaunchIDEXT;
-		UVec3 const launchID;
+		U32Vec3 const launchID;
 		//in uvec3 gl_LaunchSizeEXT;
-		UVec3 const launchSize;
+		U32Vec3 const launchSize;
 	};
 
 	using RayGenerationMainFunc = std::function< void( RayGenerationIn ) >;

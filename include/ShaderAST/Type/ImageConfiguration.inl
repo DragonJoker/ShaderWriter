@@ -62,145 +62,145 @@ namespace ast::type
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba32i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eVec4I;
-		static Kind constexpr TexelType = Kind::eVec4I;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eVec4I32;
+		static Kind constexpr TexelType = Kind::eVec4I32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba16i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eVec4I;
-		static Kind constexpr TexelType = Kind::eVec4I;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eVec4I32;
+		static Kind constexpr TexelType = Kind::eVec4I32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba8i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eVec4I;
-		static Kind constexpr TexelType = Kind::eVec4I;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eVec4I32;
+		static Kind constexpr TexelType = Kind::eVec4I32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRg32i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eVec2I;
-		static Kind constexpr TexelType = Kind::eVec2I;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eVec2I32;
+		static Kind constexpr TexelType = Kind::eVec2I32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRg16i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eVec2I;
-		static Kind constexpr TexelType = Kind::eVec2I;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eVec2I32;
+		static Kind constexpr TexelType = Kind::eVec2I32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRg8i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eVec2I;
-		static Kind constexpr TexelType = Kind::eVec2I;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eVec2I32;
+		static Kind constexpr TexelType = Kind::eVec2I32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eR32i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eInt;
-		static Kind constexpr TexelType = Kind::eInt;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eInt32;
+		static Kind constexpr TexelType = Kind::eInt32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eR16i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eInt;
-		static Kind constexpr TexelType = Kind::eInt;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eInt32;
+		static Kind constexpr TexelType = Kind::eInt32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eR8i >
 	{
-		static Kind constexpr SampledBaseType = Kind::eInt;
-		static Kind constexpr SampledType = Kind::eInt;
-		static Kind constexpr TexelType = Kind::eInt;
+		static Kind constexpr SampledBaseType = Kind::eInt32;
+		static Kind constexpr SampledType = Kind::eInt32;
+		static Kind constexpr TexelType = Kind::eInt32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba32u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eVec4U;
-		static Kind constexpr TexelType = Kind::eVec4U;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec4U32;
+		static Kind constexpr TexelType = Kind::eVec4U32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba16u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eVec4U;
-		static Kind constexpr TexelType = Kind::eVec4U;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec4U32;
+		static Kind constexpr TexelType = Kind::eVec4U32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba8u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eVec4U;
-		static Kind constexpr TexelType = Kind::eVec4U;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec4U32;
+		static Kind constexpr TexelType = Kind::eVec4U32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRg32u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eVec2U;
-		static Kind constexpr TexelType = Kind::eVec2U;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec2U32;
+		static Kind constexpr TexelType = Kind::eVec2U32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRg16u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eVec2U;
-		static Kind constexpr TexelType = Kind::eVec2U;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec2U32;
+		static Kind constexpr TexelType = Kind::eVec2U32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eRg8u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eVec2U;
-		static Kind constexpr TexelType = Kind::eVec2U;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec2U32;
+		static Kind constexpr TexelType = Kind::eVec2U32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eR32u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eUInt;
-		static Kind constexpr TexelType = Kind::eUInt;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eUInt32;
+		static Kind constexpr TexelType = Kind::eUInt32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eR16u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eUInt;
-		static Kind constexpr TexelType = Kind::eUInt;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eUInt32;
+		static Kind constexpr TexelType = Kind::eUInt32;
 	};
 
 	template<>
 	struct ImageFormatTraits< ImageFormat::eR8u >
 	{
-		static Kind constexpr SampledBaseType = Kind::eUInt;
-		static Kind constexpr SampledType = Kind::eUInt;
-		static Kind constexpr TexelType = Kind::eUInt;
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eUInt32;
+		static Kind constexpr TexelType = Kind::eUInt32;
 	};
 
 	template< ImageFormat FormatT

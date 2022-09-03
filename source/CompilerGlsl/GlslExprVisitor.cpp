@@ -419,11 +419,26 @@ namespace glsl
 				? std::string{ "true" }
 				: std::string{ "false" } );
 			break;
-		case ast::expr::LiteralType::eInt:
-			stream << expr->getValue< ast::expr::LiteralType::eInt >();
+		case ast::expr::LiteralType::eInt8:
+			stream << "int8_t(" << int16_t( expr->getValue< ast::expr::LiteralType::eInt8 >() ) << ")";
 			break;
-		case ast::expr::LiteralType::eUInt:
-			stream << expr->getValue< ast::expr::LiteralType::eUInt >() << "u";
+		case ast::expr::LiteralType::eInt16:
+			stream << "int16_t(" << expr->getValue< ast::expr::LiteralType::eInt16 >() << ")";
+			break;
+		case ast::expr::LiteralType::eInt32:
+			stream << expr->getValue< ast::expr::LiteralType::eInt32 >();
+			break;
+		case ast::expr::LiteralType::eInt64:
+			stream << expr->getValue< ast::expr::LiteralType::eInt64 >() << "l";
+			break;
+		case ast::expr::LiteralType::eUInt8:
+			stream << "uint8_t(" << uint16_t( expr->getValue< ast::expr::LiteralType::eUInt8 >() ) << "u)";
+			break;
+		case ast::expr::LiteralType::eUInt16:
+			stream << "uint16_t(" << expr->getValue< ast::expr::LiteralType::eUInt16 >() << "u)";
+			break;
+		case ast::expr::LiteralType::eUInt32:
+			stream << expr->getValue< ast::expr::LiteralType::eUInt32 >() << "u";
 			break;
 		case ast::expr::LiteralType::eUInt64:
 			stream << expr->getValue< ast::expr::LiteralType::eUInt64 >() << "ul";

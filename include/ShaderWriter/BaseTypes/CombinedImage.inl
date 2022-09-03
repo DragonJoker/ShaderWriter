@@ -1352,9 +1352,9 @@ namespace sdw
 	template<>
 	struct CombinedImageCoordsGetterT< ast::type::ImageDim::eBuffer, false >
 	{
-		using SampleType = sdw::Int;
-		using FetchType = sdw::Int;
-		using SizeType = sdw::Int;
+		using SampleType = sdw::Int32;
+		using FetchType = sdw::Int32;
+		using SizeType = sdw::Int32;
 	};
 
 	template<>
@@ -1363,10 +1363,10 @@ namespace sdw
 		using QueryLodType = sdw::Float;
 		using SampleType = sdw::Float;
 		using ProjType = sdw::Vec2;
-		using OffsetType = sdw::Int;
-		using FetchType = sdw::Int;
+		using OffsetType = sdw::Int32;
+		using FetchType = sdw::Int32;
 		using DerivativeType = sdw::Float;
-		using SizeType = sdw::Int;
+		using SizeType = sdw::Int32;
 	};
 
 	template<>
@@ -1375,11 +1375,11 @@ namespace sdw
 		using QueryLodType = sdw::Vec2;
 		using SampleType = sdw::Vec2;
 		using ProjType = sdw::Vec3;
-		using OffsetType = sdw::IVec2;
-		using FetchType = sdw::IVec2;
+		using OffsetType = sdw::I32Vec2;
+		using FetchType = sdw::I32Vec2;
 		using DerivativeType = sdw::Vec2;
 		using GatherType = sdw::Vec2;
-		using SizeType = sdw::IVec2;
+		using SizeType = sdw::I32Vec2;
 	};
 
 	template<>
@@ -1388,10 +1388,10 @@ namespace sdw
 		using QueryLodType = sdw::Vec3;
 		using SampleType = sdw::Vec3;
 		using ProjType = sdw::Vec4;
-		using OffsetType = sdw::IVec3;
-		using FetchType = sdw::IVec3;
+		using OffsetType = sdw::I32Vec3;
+		using FetchType = sdw::I32Vec3;
 		using DerivativeType = sdw::Vec3;
-		using SizeType = sdw::IVec3;
+		using SizeType = sdw::I32Vec3;
 	};
 
 	template<>
@@ -1402,7 +1402,7 @@ namespace sdw
 		using DerivativeType = sdw::Vec3;
 		using FetchType = sdw::Vec3;
 		using GatherType = sdw::Vec3;
-		using SizeType = sdw::IVec2;
+		using SizeType = sdw::I32Vec2;
 	};
 
 	template<>
@@ -1410,10 +1410,10 @@ namespace sdw
 	{
 		using QueryLodType = sdw::Float;
 		using SampleType = sdw::Vec2;
-		using OffsetType = sdw::Int;
-		using FetchType = sdw::IVec2;
+		using OffsetType = sdw::Int32;
+		using FetchType = sdw::I32Vec2;
 		using DerivativeType = sdw::Float;
-		using SizeType = sdw::IVec2;
+		using SizeType = sdw::I32Vec2;
 	};
 
 	template<>
@@ -1421,11 +1421,11 @@ namespace sdw
 	{
 		using QueryLodType = sdw::Vec2;
 		using SampleType = sdw::Vec3;
-		using OffsetType = sdw::IVec2;
-		using FetchType = sdw::IVec3;
+		using OffsetType = sdw::I32Vec2;
+		using FetchType = sdw::I32Vec3;
 		using DerivativeType = sdw::Vec2;
 		using GatherType = sdw::Vec3;
-		using SizeType = sdw::IVec3;
+		using SizeType = sdw::I32Vec3;
 	};
 
 	template<>
@@ -1436,7 +1436,7 @@ namespace sdw
 		using FetchType = sdw::Vec3;
 		using DerivativeType = sdw::Vec3;
 		using GatherType = sdw::Vec4;
-		using SizeType = sdw::IVec3;
+		using SizeType = sdw::I32Vec3;
 	};
 
 	namespace combinedSmplImg
@@ -1501,7 +1501,7 @@ namespace sdw
 		{
 			using SizeT = CombinedImageSizeT< DimT, ArrayedT >;
 
-			auto getSize( Int const & level )const
+			auto getSize( Int32 const & level )const
 			{
 				return writeCombinedImageAccessCall< SizeT, FormatT, DimT, ArrayedT, MsT, DepthT
 					, CombinedImageFormatTraitsT< FormatT >::textureSize[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get()
@@ -1551,7 +1551,7 @@ namespace sdw
 		{
 			auto getLevels()const
 			{
-				return writeCombinedImageAccessCall< Int, FormatT, DimT, ArrayedT, MsT, DepthT
+				return writeCombinedImageAccessCall< Int32, FormatT, DimT, ArrayedT, MsT, DepthT
 					, CombinedImageFormatTraitsT< FormatT >::textureQueryLevels[combinedSmplImg::getIndex< DimT, ArrayedT, DepthT >()] >( get() );
 			}
 
@@ -2277,7 +2277,7 @@ namespace sdw
 			using FetchT = CombinedImageFetchT< DimT, ArrayedT >;
 
 			auto fetch( FetchT const & coord
-				, Int const & level )const
+				, Int32 const & level )const
 			{
 				return writeCombinedImageAccessCall< ImageSampleT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, CombinedImageFormatTraitsT< FormatT >::texelFetch[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2304,7 +2304,7 @@ namespace sdw
 			using OffsetT = CombinedImageOffsetT< DimT, ArrayedT >;
 
 			auto fetch( FetchT const & coord
-				, Int const & level
+				, Int32 const & level
 				, OffsetT const & offset )const
 			{
 				assert( offset.getExpr()->isConstant() );
@@ -2588,7 +2588,7 @@ namespace sdw
 			using GatherT = CombinedImageGatherT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
-				, Int const & comp )const
+				, Int32 const & comp )const
 			{
 				return writeCombinedImageAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
 					, CombinedImageFormatTraitsT< FormatT >::textureGather[combinedSmplImg::getIndex< DimT, ArrayedT, false >()] >( get()
@@ -2641,7 +2641,7 @@ namespace sdw
 			using OffsetT = CombinedImageOffsetT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
-				, Int const & comp
+				, Int32 const & comp
 				, OffsetT const & offset )const
 			{
 				return writeCombinedImageAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, false
@@ -2699,7 +2699,7 @@ namespace sdw
 			using OffsetT = CombinedImageOffsetT< DimT, ArrayedT >;
 
 			auto gather( GatherT const & coord
-				, Int const & comp
+				, Int32 const & comp
 				, Array< OffsetT > const & offsets )const
 			{
 				return writeCombinedImageAccessCall< ImageGatherT< FormatT >, FormatT, DimT, ArrayedT, MsT, false

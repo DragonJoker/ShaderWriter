@@ -52,13 +52,43 @@ namespace ast
 				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< bool const * >( it->data.data() ) ) );
 			break;
-		case type::Kind::eInt:
+		case type::Kind::eInt8:
+			assert( it->data.size() == sizeof( int8_t ) );
+			m_specialisations.emplace( stmt->getVariable()
+				, expr::makeLiteral( m_cache
+					, *reinterpret_cast< int8_t const * >( it->data.data() ) ) );
+			break;
+		case type::Kind::eInt16:
+			assert( it->data.size() == sizeof( int16_t ) );
+			m_specialisations.emplace( stmt->getVariable()
+				, expr::makeLiteral( m_cache
+					, *reinterpret_cast< int16_t const * >( it->data.data() ) ) );
+			break;
+		case type::Kind::eInt32:
 			assert( it->data.size() == sizeof( int32_t ) );
 			m_specialisations.emplace( stmt->getVariable()
 				, expr::makeLiteral( m_cache
 					, *reinterpret_cast< int32_t const * >( it->data.data() ) ) );
 			break;
-		case type::Kind::eUInt:
+		case type::Kind::eInt64:
+			assert( it->data.size() == sizeof( int64_t ) );
+			m_specialisations.emplace( stmt->getVariable()
+				, expr::makeLiteral( m_cache
+					, *reinterpret_cast< int64_t const * >( it->data.data() ) ) );
+			break;
+		case type::Kind::eUInt8:
+			assert( it->data.size() == sizeof( uint8_t ) );
+			m_specialisations.emplace( stmt->getVariable()
+				, expr::makeLiteral( m_cache
+					, *reinterpret_cast< uint8_t const * >( it->data.data() ) ) );
+			break;
+		case type::Kind::eUInt16:
+			assert( it->data.size() == sizeof( uint16_t ) );
+			m_specialisations.emplace( stmt->getVariable()
+				, expr::makeLiteral( m_cache
+					, *reinterpret_cast< uint16_t const * >( it->data.data() ) ) );
+			break;
+		case type::Kind::eUInt32:
 			assert( it->data.size() == sizeof( uint32_t ) );
 			m_specialisations.emplace( stmt->getVariable()
 				, expr::makeLiteral( m_cache

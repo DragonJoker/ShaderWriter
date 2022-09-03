@@ -102,9 +102,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba32i >
 	{
-		using SampleType = IVec4;
+		using SampleType = I32Vec4;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -115,9 +115,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba16i >
 	{
-		using SampleType = IVec4;
+		using SampleType = I32Vec4;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -128,9 +128,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba8i >
 	{
-		using SampleType = IVec4;
+		using SampleType = I32Vec4;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -141,9 +141,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRg32i >
 	{
-		using SampleType = IVec2;
+		using SampleType = I32Vec2;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -154,9 +154,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRg16i >
 	{
-		using SampleType = IVec2;
+		using SampleType = I32Vec2;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -167,9 +167,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRg8i >
 	{
-		using SampleType = IVec2;
+		using SampleType = I32Vec2;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -180,9 +180,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR32i >
 	{
-		using SampleType = Int;
+		using SampleType = Int32;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -193,9 +193,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR16i >
 	{
-		using SampleType = Int;
+		using SampleType = Int32;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -206,9 +206,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR8i >
 	{
-		using SampleType = Int;
+		using SampleType = Int32;
 		using FetchType = SampleType;
-		using GatherType = IVec4;
+		using GatherType = I32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -219,9 +219,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba32u >
 	{
-		using SampleType = UVec4;
+		using SampleType = U32Vec4;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -232,9 +232,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba16u >
 	{
-		using SampleType = UVec4;
+		using SampleType = U32Vec4;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -245,9 +245,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRgba8u >
 	{
-		using SampleType = UVec4;
+		using SampleType = U32Vec4;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -258,9 +258,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRg32u >
 	{
-		using SampleType = UVec2;
+		using SampleType = U32Vec2;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -271,9 +271,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRg16u >
 	{
-		using SampleType = UVec2;
+		using SampleType = U32Vec2;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -284,9 +284,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eRg8u >
 	{
-		using SampleType = UVec2;
+		using SampleType = U32Vec2;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -297,9 +297,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR32u >
 	{
-		using SampleType = UInt;
+		using SampleType = UInt32;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -310,9 +310,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR16u >
 	{
-		using SampleType = UInt;
+		using SampleType = UInt32;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -323,9 +323,9 @@ namespace sdw
 	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR8u >
 	{
-		using SampleType = UInt;
+		using SampleType = UInt32;
 		using FetchType = SampleType;
-		using GatherType = UVec4;
+		using GatherType = U32Vec4;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;

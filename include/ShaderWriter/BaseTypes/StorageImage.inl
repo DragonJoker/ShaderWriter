@@ -813,57 +813,57 @@ namespace sdw
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::e1D, false >
 	{
-		using CoordsType = Int;
-		using SizeType = Int;
+		using CoordsType = Int32;
+		using SizeType = Int32;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::e2D, false >
 	{
-		using CoordsType = IVec2;
-		using SizeType = IVec2;
+		using CoordsType = I32Vec2;
+		using SizeType = I32Vec2;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::e3D, false >
 	{
-		using CoordsType = IVec3;
-		using SizeType = IVec3;
+		using CoordsType = I32Vec3;
+		using SizeType = I32Vec3;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::eCube, false >
 	{
-		using CoordsType = IVec3;
-		using SizeType = IVec2;
+		using CoordsType = I32Vec3;
+		using SizeType = I32Vec2;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::eBuffer, false >
 	{
-		using CoordsType = Int;
-		using SizeType = Int;
+		using CoordsType = Int32;
+		using SizeType = Int32;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::e1D, true >
 	{
-		using CoordsType = IVec2;
-		using SizeType = IVec2;
+		using CoordsType = I32Vec2;
+		using SizeType = I32Vec2;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::e2D, true >
 	{
-		using CoordsType = IVec3;
-		using SizeType = IVec3;
+		using CoordsType = I32Vec3;
+		using SizeType = I32Vec3;
 	};
 
 	template<>
 	struct StorageImageCoordsGetterT< type::ImageDim::eCube, true >
 	{
-		using CoordsType = IVec3;
-		using SizeType = IVec3;
+		using CoordsType = I32Vec3;
+		using SizeType = I32Vec3;
 	};
 
 	namespace storageImg
@@ -955,7 +955,7 @@ namespace sdw
 		{
 			auto getSamples()const
 			{
-				return writeImageAccessCall< Int, FormatT, AccessT, DimT, ArrayedT, true
+				return writeImageAccessCall< Int32, FormatT, AccessT, DimT, ArrayedT, true
 					, StorageImageFormatTraitsT< FormatT >::imageSamples[getImgArrayIndex< DimT, ArrayedT, true >()] >( get() );
 			}
 
@@ -1003,7 +1003,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto load( CoordsT const & coord
-				, Int const & sample )const
+				, Int32 const & sample )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
 					, StorageImageFormatTraitsT< FormatT >::imageLoad[getImgArrayIndex< DimT, ArrayedT, true >()] >( get()
@@ -1057,7 +1057,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			void store( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				writeVoidImageAccessCall<  FormatT, AccessT, DimT, ArrayedT, true
@@ -1113,7 +1113,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicAdd( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1169,7 +1169,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicMin( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1225,7 +1225,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicMax( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1281,7 +1281,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicAnd( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1337,7 +1337,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicOr( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1393,7 +1393,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicXor( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1449,7 +1449,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicExchange( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & value )const
 			{
 				return writeImageAccessCall< FetchT, FormatT, AccessT, DimT, ArrayedT, true
@@ -1507,7 +1507,7 @@ namespace sdw
 			using FetchT = ImageFetchT< FormatT >;
 
 			auto atomicCompSwap( CoordsT const & coord
-				, Int const & sample
+				, Int32 const & sample
 				, FetchT const & compare
 				, FetchT const & data )const
 			{

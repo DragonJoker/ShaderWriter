@@ -11,13 +11,13 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, launchID{ getUVec3Member( *this, ast::Builtin::eLaunchID ) }
-		, launchSize{ getUVec3Member( *this, ast::Builtin::eLaunchSize ) }
+		, launchID{ getU32Vec3Member( *this, ast::Builtin::eLaunchID ) }
+		, launchSize{ getU32Vec3Member( *this, ast::Builtin::eLaunchSize ) }
 		, worldRayOrigin{ getVec3Member( *this, ast::Builtin::eWorldRayOrigin ) }
 		, worldRayDirection{ getVec3Member( *this, ast::Builtin::eWorldRayDirection ) }
 		, rayTmin{ getFloatMember( *this, ast::Builtin::eRayTmin ) }
 		, rayTmax{ getFloatMember( *this, ast::Builtin::eRayTmax ) }
-		, incomingRayFlags{ getUIntMember( *this, ast::Builtin::eIncomingRayFlags ) }
+		, incomingRayFlags{ getUInt32Member( *this, ast::Builtin::eIncomingRayFlags ) }
 		, hitT{ rayTmax }
 	{
 	}
@@ -39,10 +39,10 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
 			result->declMember( ast::Builtin::eLaunchID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLaunchSize
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eWorldRayOrigin
 				, type::Kind::eVec3F
@@ -57,7 +57,7 @@ namespace sdw
 				, type::Kind::eFloat
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eIncomingRayFlags
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 		}
 

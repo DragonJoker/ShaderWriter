@@ -15,7 +15,7 @@ namespace sdw
 	{
 	}
 
-	void CallableData::execute( UInt const & sbtRecordIndex )
+	void CallableData::execute( UInt32 const & sbtRecordIndex )
 	{
 		sdw::executeCallable( sbtRecordIndex
 			, *this );

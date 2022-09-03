@@ -34,15 +34,15 @@ namespace sdw
 			, ParamsT ... params );
 
 		//in int gl_VertexIndex;
-		Int const vertexIndex;
+		Int32 const vertexIndex;
 		//in int gl_InstanceIndex;
-		Int const instanceIndex;
+		Int32 const instanceIndex;
 		//in int gl_DrawID;
-		Int const drawID;
+		Int32 const drawID;
 		//in int gl_BaseVertex;
-		Int const baseVertex;
+		Int32 const baseVertex;
 		//in int gl_BaseInstance;
-		Int const baseInstance;
+		Int32 const baseInstance;
 	};
 	/**
 	*	Holds per vertex output data.
