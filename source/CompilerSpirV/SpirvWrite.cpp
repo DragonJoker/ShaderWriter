@@ -2203,19 +2203,37 @@ namespace spirv
 						names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
 						stream << " " << bool( instruction->operands[0] );
 						break;
-					case ast::type::Kind::eInt:
+					case ast::type::Kind::eInt8:
 						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
 						stream << " " << int32_t( instruction->operands[0] );
 						break;
-					case ast::type::Kind::eUInt:
+					case ast::type::Kind::eInt16:
+						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+						stream << " " << int32_t( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eInt32:
+						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+						stream << " " << int32_t( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eInt64:
+						names.add( instruction->resultId.value(), std::to_string( ( int64_t( instruction->operands[0] ) << 32 ) + int64_t( instruction->operands[1] ) ) );
+						stream << " " << ( ( int64_t( instruction->operands[0] ) << 32 ) + int64_t( instruction->operands[1] ) );
+						break;
+					case ast::type::Kind::eUInt8:
+						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eUInt16:
+						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eUInt32:
 						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
 						stream << " " << instruction->operands[0];
 						break;
 					case ast::type::Kind::eUInt64:
-						names.add( instruction->resultId.value()
-							, std::to_string( ( uint64_t( instruction->operands[0] ) << 32 )
-								+ instruction->operands[1] ) );
-						stream << " " << instruction->operands[0];
+						names.add( instruction->resultId.value(), std::to_string( ( uint64_t( instruction->operands[0] ) << 32 )+ instruction->operands[1] ) );
+						stream << " " << ( ( uint64_t( instruction->operands[0] ) << 32 ) + uint64_t( instruction->operands[1] ) );
 						break;
 					case ast::type::Kind::eFloat:
 	#pragma GCC diagnostic push
@@ -2285,19 +2303,37 @@ namespace spirv
 						names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
 						stream << " " << bool( instruction->operands[0] );
 						break;
-					case ast::type::Kind::eInt:
+					case ast::type::Kind::eInt8:
 						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
 						stream << " " << int32_t( instruction->operands[0] );
 						break;
-					case ast::type::Kind::eUInt:
+					case ast::type::Kind::eInt16:
+						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+						stream << " " << int32_t( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eInt32:
+						names.add( instruction->resultId.value(), std::to_string( int32_t( instruction->operands[0] ) ) );
+						stream << " " << int32_t( instruction->operands[0] );
+						break;
+					case ast::type::Kind::eInt64:
+						names.add( instruction->resultId.value(), std::to_string( ( int64_t( instruction->operands[0] ) << 32 ) + int64_t( instruction->operands[1] ) ) );
+						stream << " " << ( ( int64_t( instruction->operands[0] ) << 32 ) + int64_t( instruction->operands[1] ) );
+						break;
+					case ast::type::Kind::eUInt8:
+						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eUInt16:
+						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
+						stream << " " << instruction->operands[0];
+						break;
+					case ast::type::Kind::eUInt32:
 						names.add( instruction->resultId.value(), std::to_string( instruction->operands[0] ) );
 						stream << " " << instruction->operands[0];
 						break;
 					case ast::type::Kind::eUInt64:
-						names.add( instruction->resultId.value()
-							, std::to_string( ( uint64_t( instruction->operands[0] ) << 32 )
-								+ instruction->operands[1] ) );
-						stream << " " << instruction->operands[0];
+						names.add( instruction->resultId.value(), std::to_string( ( uint64_t( instruction->operands[0] ) << 32 ) + instruction->operands[1] ) );
+						stream << " " << ( ( uint64_t( instruction->operands[0] ) << 32 ) + uint64_t( instruction->operands[1] ) );
 						break;
 					case ast::type::Kind::eFloat:
 	#pragma GCC diagnostic push

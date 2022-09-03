@@ -64,6 +64,9 @@ namespace glsl
 		bool requiresRayDescDecl{ false };
 		bool requiresBlendIndex{ false };
 		bool requiresSeparateSamplers{ false };
+		bool requiresInt8{ false };
+		bool requiresInt16{ false };
+		bool requiresInt64{ false };
 
 		GlslExtensionSet requiredExtensions{};
 	};

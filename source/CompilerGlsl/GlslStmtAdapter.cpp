@@ -211,22 +211,22 @@ namespace glsl
 			if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
 			{
 				result->declMember( ast::Builtin::ePrimitiveID
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, ast::type::NotArray );
 				result->declMember( ast::Builtin::eLayer
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, ast::type::NotArray );
 				result->declMember( ast::Builtin::eLayerPerViewNV
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, ast::type::UnknownArraySize );
 				result->declMember( ast::Builtin::eViewportIndex
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, ast::type::NotArray );
 				result->declMember( ast::Builtin::eViewportMaskNV
-					, ast::type::Kind::eInt
+					, ast::type::Kind::eInt32
 					, 1u );
 				result->declMember( ast::Builtin::eViewportMaskPerViewNV
-					, cache.getArray( cache.getInt(), 1u )
+					, cache.getArray( cache.getInt32(), 1u )
 					, ast::type::UnknownArraySize );
 			}
 

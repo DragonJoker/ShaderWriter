@@ -15,7 +15,7 @@ namespace sdw
 	{
 	}
 
-	void TaskPayload::dispatchMesh( UInt taskCount )
+	void TaskPayload::dispatchMesh( UInt32 taskCount )
 	{
 		sdw::dispatchMesh( *this, taskCount );
 	}

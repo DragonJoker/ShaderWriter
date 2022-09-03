@@ -48,7 +48,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
+		, primitiveID{ getMember< Int32 >( ast::Builtin::ePrimitiveID ) }
 	{
 	}
 
@@ -70,7 +70,7 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::ePatchVerticesIn ) )
 		{
 			result->declMember( ast::Builtin::ePrimitiveID
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 
@@ -83,8 +83,8 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, primitiveID{ getMember< Int >( ast::Builtin::ePrimitiveID ) }
-		, invocationID{ getMember< Int >( ast::Builtin::eInvocationID ) }
+		, primitiveID{ getMember< Int32 >( ast::Builtin::ePrimitiveID ) }
+		, invocationID{ getMember< Int32 >( ast::Builtin::eInvocationID ) }
 	{
 	}
 
@@ -106,10 +106,10 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
 		{
 			result->declMember( ast::Builtin::ePrimitiveID
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eInvocationID
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 

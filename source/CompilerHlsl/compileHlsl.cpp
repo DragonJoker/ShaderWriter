@@ -45,6 +45,26 @@ namespace hlsl
 				throw std::runtime_error{ "Unsupported double type for this shader model" };
 			}
 
+			if ( intrinsicsConfig.requiresInt8 )
+			{
+				throw std::runtime_error{ "Unsupported byte type for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresInt16 && writerConfig.shaderModel <= hlsl::v6_0 )
+			{
+				throw std::runtime_error{ "Unsupported short type for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresSInt64 )
+			{
+				throw std::runtime_error{ "Unsupported int64_t type" };
+			}
+
+			if ( intrinsicsConfig.requiresUInt64 && writerConfig.shaderModel <= hlsl::v6_0 )
+			{
+				throw std::runtime_error{ "Unsupported uint64_t type for this shader model" };
+			}
+
 			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
 				throw std::runtime_error{ "Unsupported UAV for this shader model" };

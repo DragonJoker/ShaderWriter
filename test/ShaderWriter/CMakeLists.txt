@@ -275,8 +275,14 @@ set( IMAGE_FORMATS
 )
 
 set( BO_TYPES
-	Int
-	UInt
+	Int8
+	Int16
+	Int32
+	Int64
+	UInt8
+	UInt16
+	UInt32
+	UInt64
 	Float
 	Double
 	Vec2
@@ -285,12 +291,30 @@ set( BO_TYPES
 	DVec2
 	DVec3
 	DVec4
-	IVec2
-	IVec3
-	IVec4
-	UVec2
-	UVec3
-	UVec4
+	I8Vec2
+	I8Vec3
+	I8Vec4
+	I16Vec2
+	I16Vec3
+	I16Vec4
+	I32Vec2
+	I32Vec3
+	I32Vec4
+	I64Vec2
+	I64Vec3
+	I64Vec4
+	U8Vec2
+	U8Vec3
+	U8Vec4
+	U16Vec2
+	U16Vec3
+	U16Vec4
+	U32Vec2
+	U32Vec3
+	U32Vec4
+	U64Vec2
+	U64Vec3
+	U64Vec4
 	Mat2x2
 	Mat2x3
 	Mat2x4

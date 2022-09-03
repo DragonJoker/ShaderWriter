@@ -12,12 +12,12 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
-		, workGroupSize{ getUVec3Member( *this, ast::Builtin::eWorkGroupSize ).x() }
-		, workGroupID{ getUVec3Member( *this, ast::Builtin::eWorkGroupID ).x() }
-		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
-		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
-		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
+		, drawID{ getInt32Member( *this, ast::Builtin::eDrawIndex ) }
+		, workGroupSize{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupSize ).x() }
+		, workGroupID{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupID ).x() }
+		, localInvocationID{ getU32Vec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
+		, globalInvocationID{ getU32Vec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
+		, localInvocationIndex{ getUInt32Member( *this, ast::Builtin::eLocalInvocationIndex ) }
 	{
 	}
 
@@ -43,22 +43,22 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eWorkGroupID ) )
 		{
 			result->declMember( ast::Builtin::eWorkGroupSize
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eWorkGroupID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLocalInvocationID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eGlobalInvocationID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLocalInvocationIndex
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eDrawIndex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 
@@ -71,15 +71,15 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: TaskIn{ writer, std::move( expr ), enabled }
-		, numSubgroups{ getUIntMember( *this, ast::Builtin::eNumSubgroups ) }
-		, subgroupID{ getUIntMember( *this, ast::Builtin::eSubgroupID ) }
-		, subgroupSize{ getUIntMember( *this, ast::Builtin::eSubgroupSize ) }
-		, subgroupInvocationID{ getUIntMember( *this, ast::Builtin::eSubgroupLocalInvocationID ) }
-		, subgroupEqMask{ getUVec4Member( *this, ast::Builtin::eSubgroupEqMask ) }
-		, subgroupGeMask{ getUVec4Member( *this, ast::Builtin::eSubgroupGeMask ) }
-		, subgroupGtMask{ getUVec4Member( *this, ast::Builtin::eSubgroupGtMask ) }
-		, subgroupLeMask{ getUVec4Member( *this, ast::Builtin::eSubgroupLeMask ) }
-		, subgroupLtMask{ getUVec4Member( *this, ast::Builtin::eSubgroupLtMask ) }
+		, numSubgroups{ getUInt32Member( *this, ast::Builtin::eNumSubgroups ) }
+		, subgroupID{ getUInt32Member( *this, ast::Builtin::eSubgroupID ) }
+		, subgroupSize{ getUInt32Member( *this, ast::Builtin::eSubgroupSize ) }
+		, subgroupInvocationID{ getUInt32Member( *this, ast::Builtin::eSubgroupLocalInvocationID ) }
+		, subgroupEqMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupEqMask ) }
+		, subgroupGeMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupGeMask ) }
+		, subgroupGtMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupGtMask ) }
+		, subgroupLeMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupLeMask ) }
+		, subgroupLtMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupLtMask ) }
 	{
 	}
 
@@ -103,31 +103,31 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{
 			result->declMember( ast::Builtin::eNumSubgroups
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupID
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupSize
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupLocalInvocationID
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupEqMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupGeMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupGtMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupLeMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupLtMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 		}
 

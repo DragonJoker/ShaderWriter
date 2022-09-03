@@ -42,19 +42,19 @@ namespace sdw
 		//in vec2 gl_PointCoord;
 		Vec2 const pointCoord;
 		//in int gl_SampleID;
-		Int const sampleID;
+		Int32 const sampleID;
 		//in vec2 gl_SamplePosition;
 		Vec2 const samplePosition;
 		//in int gl_SampleMaskIn[];
-		Array< Int > const sampleMask;
+		Array< Int32 > const sampleMask;
 		//in float gl_ClipDistance[];
 		Array < Float > const clipDistance;
 		//in int gl_PrimitiveID;
-		Int const primitiveID;
+		Int32 const primitiveID;
 		//in int gl_Layer;
-		Int const layer;
+		Int32 const layer;
 		//in int gl_ViewportIndex;
-		Int const viewportIndex;
+		Int32 const viewportIndex;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -77,7 +77,7 @@ namespace sdw
 		//out float gl_FragDepth;
 		Float fragDepth;
 		//out int gl_SampleMask[];
-		Array< Int > sampleMask;
+		Array< Int32 > sampleMask;
 	};
 
 	using FragmentIn = FragmentInT< VoidT >;

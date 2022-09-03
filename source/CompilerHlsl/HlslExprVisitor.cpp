@@ -448,11 +448,26 @@ namespace hlsl
 				? std::string{ "true" }
 			: std::string{ "false" } );
 			break;
-		case ast::expr::LiteralType::eInt:
-			stream << expr->getValue< ast::expr::LiteralType::eInt >() << "l";
+		case ast::expr::LiteralType::eInt8:
+			stream << "int8_t(" << int16_t( expr->getValue< ast::expr::LiteralType::eInt8 >() ) << ")";
 			break;
-		case ast::expr::LiteralType::eUInt:
-			stream << expr->getValue< ast::expr::LiteralType::eUInt >() << "u";
+		case ast::expr::LiteralType::eInt16:
+			stream << "int16_t(" << expr->getValue< ast::expr::LiteralType::eInt16 >() << ")";
+			break;
+		case ast::expr::LiteralType::eInt32:
+			stream << expr->getValue< ast::expr::LiteralType::eInt32 >() << "l";
+			break;
+		case ast::expr::LiteralType::eInt64:
+			stream << expr->getValue< ast::expr::LiteralType::eInt64 >() << "ll";
+			break;
+		case ast::expr::LiteralType::eUInt8:
+			stream << "uint8_t(" << uint16_t( expr->getValue< ast::expr::LiteralType::eUInt8 >() ) << ")";
+			break;
+		case ast::expr::LiteralType::eUInt16:
+			stream << "uint16_t(" << expr->getValue< ast::expr::LiteralType::eUInt16 >() << ")";
+			break;
+		case ast::expr::LiteralType::eUInt32:
+			stream << expr->getValue< ast::expr::LiteralType::eUInt32 >() << "u";
 			break;
 		case ast::expr::LiteralType::eUInt64:
 			stream << expr->getValue< ast::expr::LiteralType::eUInt64 >() << "ul";
@@ -613,14 +628,14 @@ namespace hlsl
 		{
 			auto lit = static_cast< ast::expr::Literal const * >( component );
 
-			if ( lit->getLiteralType() == ast::expr::LiteralType::eInt )
+			if ( lit->getLiteralType() == ast::expr::LiteralType::eInt32 )
 			{
-				compValue = uint32_t( lit->getValue< ast::expr::LiteralType::eInt >() );
+				compValue = uint32_t( lit->getValue< ast::expr::LiteralType::eInt32 >() );
 			}
 			else
 			{
-				assert( lit->getLiteralType() == ast::expr::LiteralType::eUInt );
-				compValue = lit->getValue< ast::expr::LiteralType::eUInt >();
+				assert( lit->getLiteralType() == ast::expr::LiteralType::eUInt32 );
+				compValue = lit->getValue< ast::expr::LiteralType::eUInt32 >();
 			}
 		}
 

@@ -46,28 +46,28 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eWorkGroupID ) )
 		{
 			result->declMember( ast::Builtin::eWorkGroupSize
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eWorkGroupID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLocalInvocationID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eGlobalInvocationID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLocalInvocationIndex
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eMeshViewCountNV
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eMeshViewIndicesNV
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::UnknownArraySize );
 			result->declMember( ast::Builtin::eDrawIndex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 
@@ -112,31 +112,31 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{
 			result->declMember( ast::Builtin::eNumSubgroups
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupID
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupSize
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupLocalInvocationID
-				, type::Kind::eUInt
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupEqMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupGeMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupGtMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupLeMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSubgroupLtMask
-				, type::Kind::eVec4U
+				, type::Kind::eVec4U32
 				, ast::type::NotArray );
 		}
 

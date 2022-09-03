@@ -13,8 +13,8 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, launchID{ getUVec3Member( *this, ast::Builtin::eLaunchID ) }
-		, launchSize{ getUVec3Member( *this, ast::Builtin::eLaunchSize ) }
+		, launchID{ getU32Vec3Member( *this, ast::Builtin::eLaunchID ) }
+		, launchSize{ getU32Vec3Member( *this, ast::Builtin::eLaunchSize ) }
 	{
 	}
 
@@ -35,10 +35,10 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
 			result->declMember( ast::Builtin::eLaunchID
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLaunchSize
-				, type::Kind::eVec3U
+				, type::Kind::eVec3U32
 				, ast::type::NotArray );
 		}
 

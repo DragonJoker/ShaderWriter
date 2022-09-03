@@ -35,22 +35,76 @@ namespace sdw
 	inline HVec4 f16vec4( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
-	inline IVec2 ivec2( Value const & value
+	inline I8Vec2 i8vec2( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
-	inline IVec3 ivec3( Value const & value
+	inline I8Vec3 i8vec3( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
-	inline IVec4 ivec4( Value const & value
+	inline I8Vec4 i8vec4( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
-	inline UVec2 uvec2( Value const & value
+	inline I16Vec2 i16vec2( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
-	inline UVec3 uvec3( Value const & value
+	inline I16Vec3 i16vec3( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
-	inline UVec4 uvec4( Value const & value
+	inline I16Vec4 i16vec4( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline I32Vec2 ivec2( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline I32Vec3 ivec3( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline I32Vec4 ivec4( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline I64Vec2 i64vec2( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline I64Vec3 i64vec3( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline I64Vec4 i64vec4( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U8Vec2 u8vec2( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U8Vec3 u8vec3( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U8Vec4 u8vec4( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U16Vec2 u16vec2( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U16Vec3 u16vec3( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U16Vec4 u16vec4( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U32Vec2 uvec2( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U32Vec3 uvec3( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U32Vec4 uvec4( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U64Vec2 u64vec2( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U64Vec3 u64vec3( Value const & value
+		, ValuesT ... values );
+	template< typename ... ValuesT >
+	inline U64Vec4 u64vec4( Value const & value
 		, ValuesT ... values );
 	template< typename ... ValuesT >
 	inline BVec2 bvec2( Value const & value

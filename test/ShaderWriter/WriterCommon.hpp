@@ -84,18 +84,66 @@ namespace test
 	}
 
 	template<>
-	inline sdw::Int getDefault< sdw::Int >( sdw::ShaderWriter & writer )
+	inline sdw::Int8 getDefault< sdw::Int8 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::Int{ writer
+		return sdw::Int8{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), int8_t( 1 ) )
+			, true };
+	}
+
+	template<>
+	inline sdw::Int16 getDefault< sdw::Int16 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::Int16{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), int16_t( 1 ) )
+			, true };
+	}
+
+	template<>
+	inline sdw::Int32 getDefault< sdw::Int32 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::Int32{ writer
 			, sdw::expr::makeLiteral( writer.getTypesCache(), 1 )
 			, true };
 	}
 
 	template<>
-	inline sdw::UInt getDefault< sdw::UInt >( sdw::ShaderWriter & writer )
+	inline sdw::Int64 getDefault< sdw::Int64 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::UInt{ writer
+		return sdw::Int64{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1ll )
+			, true };
+	}
+
+	template<>
+	inline sdw::UInt8 getDefault< sdw::UInt8 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::UInt8{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), uint8_t( 1 ) )
+			, true };
+	}
+
+	template<>
+	inline sdw::UInt16 getDefault< sdw::UInt16 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::UInt16{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), uint16_t( 1 ) )
+			, true };
+	}
+
+	template<>
+	inline sdw::UInt32 getDefault< sdw::UInt32 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::UInt32{ writer
 			, sdw::expr::makeLiteral( writer.getTypesCache(), 1u )
+			, true };
+	}
+
+	template<>
+	inline sdw::UInt64 getDefault< sdw::UInt64 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::UInt64{ writer
+			, sdw::expr::makeLiteral( writer.getTypesCache(), 1ull )
 			, true };
 	}
 
@@ -209,51 +257,195 @@ namespace test
 	}
 
 	template<>
-	inline sdw::IVec2 getDefault< sdw::IVec2 >( sdw::ShaderWriter & writer )
+	inline sdw::I8Vec2 getDefault< sdw::I8Vec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::ivec2( getDefault< sdw::Int >( writer )
-			, getDefault< sdw::Int >( writer ) );
+		return sdw::i8vec2( getDefault< sdw::Int8 >( writer )
+			, getDefault< sdw::Int8 >( writer ) );
 	}
 
 	template<>
-	inline sdw::IVec3 getDefault< sdw::IVec3 >( sdw::ShaderWriter & writer )
+	inline sdw::I8Vec3 getDefault< sdw::I8Vec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::ivec3( getDefault< sdw::Int >( writer )
-			, getDefault< sdw::Int >( writer )
-			, getDefault< sdw::Int >( writer ) );
+		return sdw::i8vec3( getDefault< sdw::Int8 >( writer )
+			, getDefault< sdw::Int8 >( writer )
+			, getDefault< sdw::Int8 >( writer ) );
 	}
 
 	template<>
-	inline sdw::IVec4 getDefault< sdw::IVec4 >( sdw::ShaderWriter & writer )
+	inline sdw::I8Vec4 getDefault< sdw::I8Vec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::ivec4( getDefault< sdw::Int >( writer )
-			, getDefault< sdw::Int >( writer )
-			, getDefault< sdw::Int >( writer )
-			, getDefault< sdw::Int >( writer ) );
+		return sdw::i8vec4( getDefault< sdw::Int8 >( writer )
+			, getDefault< sdw::Int8 >( writer )
+			, getDefault< sdw::Int8 >( writer )
+			, getDefault< sdw::Int8 >( writer ) );
 	}
 
 	template<>
-	inline sdw::UVec2 getDefault< sdw::UVec2 >( sdw::ShaderWriter & writer )
+	inline sdw::I16Vec2 getDefault< sdw::I16Vec2 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::uvec2( getDefault< sdw::UInt >( writer )
-			, getDefault< sdw::UInt >( writer ) );
+		return sdw::i16vec2( getDefault< sdw::Int16 >( writer )
+			, getDefault< sdw::Int16 >( writer ) );
 	}
 
 	template<>
-	inline sdw::UVec3 getDefault< sdw::UVec3 >( sdw::ShaderWriter & writer )
+	inline sdw::I16Vec3 getDefault< sdw::I16Vec3 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::uvec3( getDefault< sdw::UInt >( writer )
-			, getDefault< sdw::UInt >( writer )
-			, getDefault< sdw::UInt >( writer ) );
+		return sdw::i16vec3( getDefault< sdw::Int16 >( writer )
+			, getDefault< sdw::Int16 >( writer )
+			, getDefault< sdw::Int16 >( writer ) );
 	}
 
 	template<>
-	inline sdw::UVec4 getDefault< sdw::UVec4 >( sdw::ShaderWriter & writer )
+	inline sdw::I16Vec4 getDefault< sdw::I16Vec4 >( sdw::ShaderWriter & writer )
 	{
-		return sdw::uvec4( getDefault< sdw::UInt >( writer )
-			, getDefault< sdw::UInt >( writer )
-			, getDefault< sdw::UInt >( writer )
-			, getDefault< sdw::UInt >( writer ) );
+		return sdw::i16vec4( getDefault< sdw::Int16 >( writer )
+			, getDefault< sdw::Int16 >( writer )
+			, getDefault< sdw::Int16 >( writer )
+			, getDefault< sdw::Int16 >( writer ) );
+	}
+
+	template<>
+	inline sdw::I32Vec2 getDefault< sdw::I32Vec2 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::ivec2( getDefault< sdw::Int32 >( writer )
+			, getDefault< sdw::Int32 >( writer ) );
+	}
+
+	template<>
+	inline sdw::I32Vec3 getDefault< sdw::I32Vec3 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::ivec3( getDefault< sdw::Int32 >( writer )
+			, getDefault< sdw::Int32 >( writer )
+			, getDefault< sdw::Int32 >( writer ) );
+	}
+
+	template<>
+	inline sdw::I32Vec4 getDefault< sdw::I32Vec4 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::ivec4( getDefault< sdw::Int32 >( writer )
+			, getDefault< sdw::Int32 >( writer )
+			, getDefault< sdw::Int32 >( writer )
+			, getDefault< sdw::Int32 >( writer ) );
+	}
+
+	template<>
+	inline sdw::I64Vec2 getDefault< sdw::I64Vec2 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::i64vec2( getDefault< sdw::Int64 >( writer )
+			, getDefault< sdw::Int64 >( writer ) );
+	}
+
+	template<>
+	inline sdw::I64Vec3 getDefault< sdw::I64Vec3 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::i64vec3( getDefault< sdw::Int64 >( writer )
+			, getDefault< sdw::Int64 >( writer )
+			, getDefault< sdw::Int64 >( writer ) );
+	}
+
+	template<>
+	inline sdw::I64Vec4 getDefault< sdw::I64Vec4 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::i64vec4( getDefault< sdw::Int64 >( writer )
+			, getDefault< sdw::Int64 >( writer )
+			, getDefault< sdw::Int64 >( writer )
+			, getDefault< sdw::Int64 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U8Vec2 getDefault< sdw::U8Vec2 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u8vec2( getDefault< sdw::UInt8 >( writer )
+			, getDefault< sdw::UInt8 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U8Vec3 getDefault< sdw::U8Vec3 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u8vec3( getDefault< sdw::UInt8 >( writer )
+			, getDefault< sdw::UInt8 >( writer )
+			, getDefault< sdw::UInt8 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U8Vec4 getDefault< sdw::U8Vec4 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u8vec4( getDefault< sdw::UInt8 >( writer )
+			, getDefault< sdw::UInt8 >( writer )
+			, getDefault< sdw::UInt8 >( writer )
+			, getDefault< sdw::UInt8 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U16Vec2 getDefault< sdw::U16Vec2 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u16vec2( getDefault< sdw::UInt16 >( writer )
+			, getDefault< sdw::UInt16 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U16Vec3 getDefault< sdw::U16Vec3 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u16vec3( getDefault< sdw::UInt16 >( writer )
+			, getDefault< sdw::UInt16 >( writer )
+			, getDefault< sdw::UInt16 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U16Vec4 getDefault< sdw::U16Vec4 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u16vec4( getDefault< sdw::UInt16 >( writer )
+			, getDefault< sdw::UInt16 >( writer )
+			, getDefault< sdw::UInt16 >( writer )
+			, getDefault< sdw::UInt16 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U32Vec2 getDefault< sdw::U32Vec2 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::uvec2( getDefault< sdw::UInt32 >( writer )
+			, getDefault< sdw::UInt32 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U32Vec3 getDefault< sdw::U32Vec3 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::uvec3( getDefault< sdw::UInt32 >( writer )
+			, getDefault< sdw::UInt32 >( writer )
+			, getDefault< sdw::UInt32 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U32Vec4 getDefault< sdw::U32Vec4 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::uvec4( getDefault< sdw::UInt32 >( writer )
+			, getDefault< sdw::UInt32 >( writer )
+			, getDefault< sdw::UInt32 >( writer )
+			, getDefault< sdw::UInt32 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U64Vec2 getDefault< sdw::U64Vec2 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u64vec2( getDefault< sdw::UInt64 >( writer )
+			, getDefault< sdw::UInt64 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U64Vec3 getDefault< sdw::U64Vec3 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u64vec3( getDefault< sdw::UInt64 >( writer )
+			, getDefault< sdw::UInt64 >( writer )
+			, getDefault< sdw::UInt64 >( writer ) );
+	}
+
+	template<>
+	inline sdw::U64Vec4 getDefault< sdw::U64Vec4 >( sdw::ShaderWriter & writer )
+	{
+		return sdw::u64vec4( getDefault< sdw::UInt64 >( writer )
+			, getDefault< sdw::UInt64 >( writer )
+			, getDefault< sdw::UInt64 >( writer )
+			, getDefault< sdw::UInt64 >( writer ) );
 	}
 
 	template<>

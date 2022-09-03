@@ -180,10 +180,25 @@ namespace ast::expr
 			case type::Kind::eBoolean:
 				result = cache.getBool();
 				break;
-			case type::Kind::eInt:
-				result = cache.getInt();
+			case type::Kind::eInt8:
+				result = cache.getInt8();
 				break;
-			case type::Kind::eUInt:
+			case type::Kind::eInt16:
+				result = cache.getInt16();
+				break;
+			case type::Kind::eInt32:
+				result = cache.getInt32();
+				break;
+			case type::Kind::eInt64:
+				result = cache.getInt64();
+				break;
+			case type::Kind::eUInt8:
+				result = cache.getUInt8();
+				break;
+			case type::Kind::eUInt16:
+				result = cache.getUInt16();
+				break;
+			case type::Kind::eUInt32:
 				result = cache.getUInt32();
 				break;
 			case type::Kind::eUInt64:
@@ -209,10 +224,25 @@ namespace ast::expr
 			case type::Kind::eBoolean:
 				result = cache.getVec2B();
 				break;
-			case type::Kind::eInt:
-				result = cache.getVec2I();
+			case type::Kind::eInt8:
+				result = cache.getVec2I8();
 				break;
-			case type::Kind::eUInt:
+			case type::Kind::eInt16:
+				result = cache.getVec2I16();
+				break;
+			case type::Kind::eInt32:
+				result = cache.getVec2I32();
+				break;
+			case type::Kind::eInt64:
+				result = cache.getVec2I64();
+				break;
+			case type::Kind::eUInt8:
+				result = cache.getVec2U8();
+				break;
+			case type::Kind::eUInt16:
+				result = cache.getVec2U16();
+				break;
+			case type::Kind::eUInt32:
 				result = cache.getVec2U32();
 				break;
 			case type::Kind::eUInt64:
@@ -238,10 +268,25 @@ namespace ast::expr
 			case type::Kind::eBoolean:
 				result = cache.getVec3B();
 				break;
-			case type::Kind::eInt:
-				result = cache.getVec3I();
+			case type::Kind::eInt8:
+				result = cache.getVec3I8();
 				break;
-			case type::Kind::eUInt:
+			case type::Kind::eInt16:
+				result = cache.getVec3I16();
+				break;
+			case type::Kind::eInt32:
+				result = cache.getVec3I32();
+				break;
+			case type::Kind::eInt64:
+				result = cache.getVec3I64();
+				break;
+			case type::Kind::eUInt8:
+				result = cache.getVec3U8();
+				break;
+			case type::Kind::eUInt16:
+				result = cache.getVec3U16();
+				break;
+			case type::Kind::eUInt32:
 				result = cache.getVec3U32();
 				break;
 			case type::Kind::eUInt64:
@@ -264,10 +309,25 @@ namespace ast::expr
 			case type::Kind::eBoolean:
 				result = cache.getVec4B();
 				break;
-			case type::Kind::eInt:
-				result = cache.getVec4I();
+			case type::Kind::eInt8:
+				result = cache.getVec4I8();
 				break;
-			case type::Kind::eUInt:
+			case type::Kind::eInt16:
+				result = cache.getVec4I16();
+				break;
+			case type::Kind::eInt32:
+				result = cache.getVec4I32();
+				break;
+			case type::Kind::eInt64:
+				result = cache.getVec4I64();
+				break;
+			case type::Kind::eUInt8:
+				result = cache.getVec4U8();
+				break;
+			case type::Kind::eUInt16:
+				result = cache.getVec4U16();
+				break;
+			case type::Kind::eUInt32:
 				result = cache.getVec4U32();
 				break;
 			case type::Kind::eUInt64:

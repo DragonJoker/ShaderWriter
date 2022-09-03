@@ -31,9 +31,9 @@ namespace sdw
 
 		// Work dimensions
 		//in uvec3 gl_LaunchIDEXT;
-		UVec3 launchID;
+		U32Vec3 launchID;
 		//in uvec3 gl_LaunchSizeEXT;
-		UVec3 launchSize;
+		U32Vec3 launchSize;
 
 		// World space parameters
 		//in vec3 gl_WorldRayOriginEXT;
@@ -47,7 +47,7 @@ namespace sdw
 		//in float gl_RayTmaxEXT;
 		Float rayTmax;
 		//in uint gl_IncomingRayFlagsEXT;
-		UInt incomingRayFlags;
+		UInt32 incomingRayFlags;
 
 		Float hitT;
 	};

@@ -33,21 +33,21 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		UInt const meshViewCount;
+		UInt32 const meshViewCount;
 		//in uint  gl_MeshViewIndicesNV[];
-		Array< UInt > const meshViewIndices;
+		Array< UInt32 > const meshViewIndices;
 		//in uint  gl_DrawID;
-		Int const drawID;
+		Int32 const drawID;
 		//const uvec3 gl_WorkGroupSize;
-		UInt const workGroupSize;
+		UInt32 const workGroupSize;
 		//in uvec3 gl_WorkGroupID;
-		UInt const workGroupID;
+		UInt32 const workGroupID;
 		//in uvec3 gl_LocalInvocationID;
-		UInt const localInvocationID;
+		UInt32 const localInvocationID;
 		//in uvec3 gl_GlobalInvocationID;
-		UInt const globalInvocationID;
+		UInt32 const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex;
-		UInt const localInvocationIndex;
+		UInt32 const localInvocationIndex;
 		//in uint  gl_MeshViewCountNV;
 	};
 	/**
@@ -90,23 +90,23 @@ namespace sdw
 		using MeshIn::localInvocationIndex;
 
 		//in uint gl_NumSubgroups;
-		UInt const numSubgroups;
+		UInt32 const numSubgroups;
 		//in uint gl_SubgroupID;
-		UInt const subgroupID;
+		UInt32 const subgroupID;
 		//in uint gl_SubgroupSize;
-		UInt const subgroupSize;
+		UInt32 const subgroupSize;
 		//in uint gl_SubgroupInvocationID;
-		UInt const subgroupInvocationID;
+		UInt32 const subgroupInvocationID;
 		//in uvec4 gl_SubgroupEqMask;
-		UVec4 const subgroupEqMask;
+		U32Vec4 const subgroupEqMask;
 		//const uvec4 gl_SubgroupGeMask;
-		UVec4 const subgroupGeMask;
+		U32Vec4 const subgroupGeMask;
 		//const uvec4 gl_SubgroupGtMask;
-		UVec4 const subgroupGtMask;
+		U32Vec4 const subgroupGtMask;
 		//const uvec4 gl_SubgroupLeMask;
-		UVec4 const subgroupLeMask;
+		U32Vec4 const subgroupLeMask;
 		//const uvec4 gl_SubgroupLtMask;
-		UVec4 const subgroupLtMask;
+		U32Vec4 const subgroupLtMask;
 	};
 	/**
 	*	Holds per vertex data
@@ -163,24 +163,24 @@ namespace sdw
 	template<>
 	struct PrimitiveIndexT< ast::type::OutputTopology::ePoint >
 	{
-		using Type = UInt;
-		static constexpr ast::type::Kind Kind = ast::type::Kind::eUInt;
+		using Type = UInt32;
+		static constexpr ast::type::Kind Kind = ast::type::Kind::eUInt32;
 		using FnType = std::function< Type( StructInstance const &, ast::Builtin ) >;
 		SDW_API static FnType const getMember;
 	};
 	template<>
 	struct PrimitiveIndexT< ast::type::OutputTopology::eLine >
 	{
-		using Type = UVec2;
-		static constexpr ast::type::Kind Kind = ast::type::Kind::eVec2U;
+		using Type = U32Vec2;
+		static constexpr ast::type::Kind Kind = ast::type::Kind::eVec2U32;
 		using FnType = std::function< Type( StructInstance const &, ast::Builtin ) >;
 		SDW_API static FnType const getMember;
 	};
 	template<>
 	struct PrimitiveIndexT< ast::type::OutputTopology::eTriangle >
 	{
-		using Type = UVec3;
-		static constexpr ast::type::Kind Kind = ast::type::Kind::eVec3U;
+		using Type = U32Vec3;
+		static constexpr ast::type::Kind Kind = ast::type::Kind::eVec3U32;
 		using FnType = std::function< Type( StructInstance const &, ast::Builtin ) >;
 		SDW_API static FnType const getMember;
 	};
@@ -226,13 +226,13 @@ namespace sdw
 			, ParamsT ... params );
 
 		// int gl_PrimitiveID;
-		Int primitiveID;
+		Int32 primitiveID;
 		// int gl_Layer;
-		Int layer;
+		Int32 layer;
 		// int gl_ViewportIndex;
-		Int viewportIndex;
+		Int32 viewportIndex;
 		// int gl_ViewportMask[];          // NV_viewport_array2
-		Array< Int > viewportMask;
+		Array< Int32 > viewportMask;
 	};
 	/**
 	*	Holds list of per primitive data
@@ -252,8 +252,8 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		void setMeshOutputCounts( UInt const & numVertices
-			, UInt const & numPrimitives );
+		void setMeshOutputCounts( UInt32 const & numVertices
+			, UInt32 const & numPrimitives );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache

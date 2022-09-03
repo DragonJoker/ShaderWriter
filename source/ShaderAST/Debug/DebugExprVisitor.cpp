@@ -454,14 +454,29 @@ namespace ast::debug
 				? std::string{ "true" }
 				: std::string{ "false" } );
 			break;
-		case expr::LiteralType::eInt:
-			stream << expr->getValue< expr::LiteralType::eInt >();
+		case expr::LiteralType::eInt8:
+			stream << int( expr->getValue< expr::LiteralType::eInt8 >() ) << "i8";
 			break;
-		case expr::LiteralType::eUInt:
-			stream << expr->getValue< expr::LiteralType::eUInt >() << "u";
+		case expr::LiteralType::eInt16:
+			stream << expr->getValue< expr::LiteralType::eInt16 >() << "i16";
+			break;
+		case expr::LiteralType::eInt32:
+			stream << expr->getValue< expr::LiteralType::eInt32 >() << "i32";
+			break;
+		case expr::LiteralType::eInt64:
+			stream << expr->getValue< expr::LiteralType::eInt64 >() << "i64";
+			break;
+		case expr::LiteralType::eUInt8:
+			stream << uint32_t( expr->getValue< expr::LiteralType::eUInt32 >() ) << "u8";
+			break;
+		case expr::LiteralType::eUInt16:
+			stream << expr->getValue< expr::LiteralType::eUInt16 >() << "u16";
+			break;
+		case expr::LiteralType::eUInt32:
+			stream << expr->getValue< expr::LiteralType::eUInt32 >() << "u32";
 			break;
 		case expr::LiteralType::eUInt64:
-			stream << expr->getValue< expr::LiteralType::eUInt64 >() << "ull";
+			stream << expr->getValue< expr::LiteralType::eUInt64 >() << "u64";
 			break;
 		case expr::LiteralType::eFloat:
 			{

@@ -39,11 +39,47 @@ namespace sdw
 		};
 
 		template<>
+		struct TypeGetter< int8_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, int8_t )
+			{
+				return getTypesCache( writer ).getInt8();
+			}
+		};
+
+		template<>
+		struct TypeGetter< uint8_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, uint8_t )
+			{
+				return getTypesCache( writer ).getUInt8();
+			}
+		};
+
+		template<>
+		struct TypeGetter< int16_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, int16_t )
+			{
+				return getTypesCache( writer ).getInt16();
+			}
+		};
+
+		template<>
+		struct TypeGetter< uint16_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, uint16_t )
+			{
+				return getTypesCache( writer ).getUInt16();
+			}
+		};
+
+		template<>
 		struct TypeGetter< int32_t >
 		{
 			static inline ast::type::TypePtr get( ShaderWriter & writer, int32_t )
 			{
-				return getTypesCache( writer ).getInt();
+				return getTypesCache( writer ).getInt32();
 			}
 		};
 
@@ -53,6 +89,15 @@ namespace sdw
 			static inline ast::type::TypePtr get( ShaderWriter & writer, uint32_t )
 			{
 				return getTypesCache( writer ).getUInt32();
+			}
+		};
+
+		template<>
+		struct TypeGetter< int64_t >
+		{
+			static inline ast::type::TypePtr get( ShaderWriter & writer, int64_t )
+			{
+				return getTypesCache( writer ).getInt64();
 			}
 		};
 

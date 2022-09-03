@@ -198,8 +198,8 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
-	void MeshPrimitiveListOutT< DataT, TopologyT >::setMeshOutputCounts( UInt const & numVertices
-		, UInt const & numPrimitives )
+	void MeshPrimitiveListOutT< DataT, TopologyT >::setMeshOutputCounts( UInt32 const & numVertices
+		, UInt32 const & numPrimitives )
 	{
 		sdw::setMeshOutputCounts( numVertices, numPrimitives );
 	}

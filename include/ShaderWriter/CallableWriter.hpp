@@ -29,9 +29,9 @@ namespace sdw
 
 		// Work dimensions
 		//in uvec3 gl_LaunchIDEXT;
-		UVec3 launchID;
+		U32Vec3 launchID;
 		//in uvec3 gl_LaunchSizeEXT;
-		UVec3 launchSize;
+		U32Vec3 launchSize;
 	};
 
 	template< typename ValueT >

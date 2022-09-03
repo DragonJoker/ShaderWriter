@@ -7,9 +7,14 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/IntegerValue.hpp"
 
-inline sdw::Int operator "" _i( unsigned long long value )
+inline sdw::Int32 operator "" _i( unsigned long long value )
 {
-	return sdw::Int{ int( value ) };
+	return sdw::Int32{ int( value ) };
+}
+
+inline sdw::Int64 operator "" _ill( unsigned long long value )
+{
+	return sdw::Int64{ int64_t( value ) };
 }
 
 #endif

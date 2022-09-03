@@ -42,13 +42,13 @@ namespace sdw
 		, fragCoord{ getVec4Member( *this, ast::Builtin::eFragCoord ) }
 		, frontFacing{ getBoolMember( *this, ast::Builtin::eFrontFacing ) }
 		, pointCoord{ getVec2Member( *this, ast::Builtin::ePointCoord ) }
-		, sampleID{ getIntMember( *this, ast::Builtin::eSampleID ) }
+		, sampleID{ getInt32Member( *this, ast::Builtin::eSampleID ) }
 		, samplePosition{ getVec2Member( *this, ast::Builtin::eSamplePosition ) }
 		, sampleMask{ getIntMemberArray( *this, ast::Builtin::eSampleMaskIn ) }
 		, clipDistance{ getFloatMemberArray( *this, ast::Builtin::eClipDistance ) }
-		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
-		, layer{ getIntMember( *this, ast::Builtin::eLayer ) }
-		, viewportIndex{ getIntMember( *this, ast::Builtin::eViewportIndex ) }
+		, primitiveID{ getInt32Member( *this, ast::Builtin::ePrimitiveID ) }
+		, layer{ getInt32Member( *this, ast::Builtin::eLayer ) }
+		, viewportIndex{ getInt32Member( *this, ast::Builtin::eViewportIndex ) }
 	{
 	}
 
@@ -71,25 +71,25 @@ namespace sdw
 				, type::Kind::eVec2F
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSampleID
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSamplePosition
 				, type::Kind::eVec2F
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSampleMaskIn
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, 8u );
 			result->declMember( ast::Builtin::eClipDistance
 				, type::Kind::eFloat
 				, 8u );
 			result->declMember( ast::Builtin::ePrimitiveID
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eLayer
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eViewportIndex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 
@@ -133,7 +133,7 @@ namespace sdw
 				, type::Kind::eFloat
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eSampleMask
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, 8u );
 		}
 

@@ -176,10 +176,25 @@ namespace ast::debug
 		case type::Kind::eBoolean:
 			result = "BOOL";
 			break;
-		case type::Kind::eInt:
-			result = "INT";
+		case type::Kind::eInt8:
+			result = "INT8";
 			break;
-		case type::Kind::eUInt:
+		case type::Kind::eInt16:
+			result = "INT16";
+			break;
+		case type::Kind::eInt32:
+			result = "INT32";
+			break;
+		case type::Kind::eInt64:
+			result = "INT64";
+			break;
+		case type::Kind::eUInt8:
+			result = "UINT8";
+			break;
+		case type::Kind::eUInt16:
+			result = "UINT16";
+			break;
+		case type::Kind::eUInt32:
 			result = "UINT32";
 			break;
 		case type::Kind::eUInt64:
@@ -203,22 +218,67 @@ namespace ast::debug
 		case type::Kind::eVec4B:
 			result = "BVEC4";
 			break;
-		case type::Kind::eVec2I:
-			result = "IVEC2";
+		case type::Kind::eVec2I8:
+			result = "I8VEC2";
 			break;
-		case type::Kind::eVec3I:
-			result = "IVEC3";
+		case type::Kind::eVec3I8:
+			result = "I8VEC3";
 			break;
-		case type::Kind::eVec4I:
-			result = "IVEC4";
+		case type::Kind::eVec4I8:
+			result = "I8VEC4";
 			break;
-		case type::Kind::eVec2U:
+		case type::Kind::eVec2I16:
+			result = "I16VEC2";
+			break;
+		case type::Kind::eVec3I16:
+			result = "I16VEC3";
+			break;
+		case type::Kind::eVec4I16:
+			result = "I16VEC4";
+			break;
+		case type::Kind::eVec2I32:
+			result = "I32VEC2";
+			break;
+		case type::Kind::eVec3I32:
+			result = "I32VEC3";
+			break;
+		case type::Kind::eVec4I32:
+			result = "I32VEC4";
+			break;
+		case type::Kind::eVec2I64:
+			result = "I64VEC2";
+			break;
+		case type::Kind::eVec3I64:
+			result = "I64VEC3";
+			break;
+		case type::Kind::eVec4I64:
+			result = "I64VEC4";
+			break;
+		case type::Kind::eVec2U8:
+			result = "U8VEC2";
+			break;
+		case type::Kind::eVec3U8:
+			result = "U8VEC3";
+			break;
+		case type::Kind::eVec4U8:
+			result = "U8VEC4";
+			break;
+		case type::Kind::eVec2U16:
+			result = "U16VEC2";
+			break;
+		case type::Kind::eVec3U16:
+			result = "U16VEC3";
+			break;
+		case type::Kind::eVec4U16:
+			result = "U16VEC4";
+			break;
+		case type::Kind::eVec2U32:
 			result = "U32VEC2";
 			break;
-		case type::Kind::eVec3U:
+		case type::Kind::eVec3U32:
 			result = "U32VEC3";
 			break;
-		case type::Kind::eVec4U:
+		case type::Kind::eVec4U32:
 			result = "U32VEC4";
 			break;
 		case type::Kind::eVec2U64:

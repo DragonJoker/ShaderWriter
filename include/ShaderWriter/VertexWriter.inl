@@ -14,11 +14,11 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< DataT >{ writer, std::move( expr ), enabled }
-		, vertexIndex{ getIntMember( *this, ast::Builtin::eVertexIndex ) }
-		, instanceIndex{ getIntMember( *this, ast::Builtin::eInstanceIndex ) }
-		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
-		, baseVertex{ getIntMember( *this, ast::Builtin::eBaseVertex ) }
-		, baseInstance{ getIntMember( *this, ast::Builtin::eBaseInstance ) }
+		, vertexIndex{ getInt32Member( *this, ast::Builtin::eVertexIndex ) }
+		, instanceIndex{ getInt32Member( *this, ast::Builtin::eInstanceIndex ) }
+		, drawID{ getInt32Member( *this, ast::Builtin::eDrawIndex ) }
+		, baseVertex{ getInt32Member( *this, ast::Builtin::eBaseVertex ) }
+		, baseInstance{ getInt32Member( *this, ast::Builtin::eBaseInstance ) }
 	{
 	}
 
@@ -47,19 +47,19 @@ namespace sdw
 		if ( !result->hasMember( ast::Builtin::eVertexIndex ) )
 		{
 			result->declMember( ast::Builtin::eVertexIndex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eInstanceIndex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eDrawIndex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eBaseVertex
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eBaseInstance
-				, type::Kind::eInt
+				, type::Kind::eInt32
 				, ast::type::NotArray );
 		}
 

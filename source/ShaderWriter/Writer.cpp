@@ -291,12 +291,12 @@ namespace sdw
 			, enabled };
 	}
 
-	Int ShaderWriter::declSpecConstant( std::string name
+	Int8 ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
-		, int32_t rhs
+		, int8_t rhs
 		, bool enabled )
 	{
-		auto type = Int::makeType( getTypesCache() );
+		auto type = Int8::makeType( getTypesCache() );
 		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
@@ -308,17 +308,17 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return Int{ *this
+		return Int8{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}
 
-	UInt ShaderWriter::declSpecConstant( std::string name
+	Int16 ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
-		, uint32_t rhs
+		, int16_t rhs
 		, bool enabled )
 	{
-		auto type = UInt::makeType( getTypesCache() );
+		auto type = Int16::makeType( getTypesCache() );
 		auto var = registerSpecConstant( std::move( name )
 			, location
 			, type );
@@ -330,7 +330,139 @@ namespace sdw
 				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
-		return UInt{ *this
+		return Int16{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	Int32 ShaderWriter::declSpecConstant( std::string name
+		, uint32_t location
+		, int32_t rhs
+		, bool enabled )
+	{
+		auto type = Int32::makeType( getTypesCache() );
+		auto var = registerSpecConstant( std::move( name )
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+		}
+
+		return Int32{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	Int64 ShaderWriter::declSpecConstant( std::string name
+		, uint32_t location
+		, int64_t rhs
+		, bool enabled )
+	{
+		auto type = Int64::makeType( getTypesCache() );
+		auto var = registerSpecConstant( std::move( name )
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+		}
+
+		return Int64{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	UInt8 ShaderWriter::declSpecConstant( std::string name
+		, uint32_t location
+		, uint8_t rhs
+		, bool enabled )
+	{
+		auto type = UInt8::makeType( getTypesCache() );
+		auto var = registerSpecConstant( std::move( name )
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+		}
+
+		return UInt8{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	UInt16 ShaderWriter::declSpecConstant( std::string name
+		, uint32_t location
+		, uint16_t rhs
+		, bool enabled )
+	{
+		auto type = UInt16::makeType( getTypesCache() );
+		auto var = registerSpecConstant( std::move( name )
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+		}
+
+		return UInt16{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	UInt32 ShaderWriter::declSpecConstant( std::string name
+		, uint32_t location
+		, uint32_t rhs
+		, bool enabled )
+	{
+		auto type = UInt32::makeType( getTypesCache() );
+		auto var = registerSpecConstant( std::move( name )
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+		}
+
+		return UInt32{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	UInt64 ShaderWriter::declSpecConstant( std::string name
+		, uint32_t location
+		, uint64_t rhs
+		, bool enabled )
+	{
+		auto type = UInt64::makeType( getTypesCache() );
+		auto var = registerSpecConstant( std::move( name )
+			, location
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSpecConstantDecl( var
+				, location
+				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+		}
+
+		return UInt64{ *this
 			, makeExpr( *this, var )
 			, enabled };
 	}

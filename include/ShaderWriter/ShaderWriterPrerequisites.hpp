@@ -72,8 +72,13 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	struct IntegerValue;
-	using Int = IntegerValue< ast::type::Kind::eInt >;
-	using UInt = IntegerValue< ast::type::Kind::eUInt >;
+	using Int8 = IntegerValue< ast::type::Kind::eInt8 >;
+	using Int16 = IntegerValue< ast::type::Kind::eInt16 >;
+	using Int32 = IntegerValue< ast::type::Kind::eInt32 >;
+	using Int64 = IntegerValue< ast::type::Kind::eInt64 >;
+	using UInt8 = IntegerValue< ast::type::Kind::eUInt8 >;
+	using UInt16 = IntegerValue< ast::type::Kind::eUInt16 >;
+	using UInt32 = IntegerValue< ast::type::Kind::eUInt32 >;
 	using UInt64 = IntegerValue< ast::type::Kind::eUInt64 >;
 
 	template< typename T >
@@ -113,12 +118,27 @@ namespace sdw
 	using DVec4 = Vec4T< Double >;
 	using HVec2 = Vec2T< Half >;
 	using HVec4 = Vec4T< Half >;
-	using IVec2 = Vec2T< Int >;
-	using IVec3 = Vec3T< Int >;
-	using IVec4 = Vec4T< Int >;
-	using UVec2 = Vec2T< UInt >;
-	using UVec3 = Vec3T< UInt >;
-	using UVec4 = Vec4T< UInt >;
+	using I8Vec2 = Vec2T< Int8 >;
+	using I8Vec3 = Vec3T< Int8 >;
+	using I8Vec4 = Vec4T< Int8 >;
+	using I16Vec2 = Vec2T< Int16 >;
+	using I16Vec3 = Vec3T< Int16 >;
+	using I16Vec4 = Vec4T< Int16 >;
+	using I32Vec2 = Vec2T< Int32 >;
+	using I32Vec3 = Vec3T< Int32 >;
+	using I32Vec4 = Vec4T< Int32 >;
+	using I64Vec2 = Vec2T< Int64 >;
+	using I64Vec3 = Vec3T< Int64 >;
+	using I64Vec4 = Vec4T< Int64 >;
+	using U8Vec2 = Vec2T< UInt8 >;
+	using U8Vec3 = Vec3T< UInt8 >;
+	using U8Vec4 = Vec4T< UInt8 >;
+	using U16Vec2 = Vec2T< UInt16 >;
+	using U16Vec3 = Vec3T< UInt16 >;
+	using U16Vec4 = Vec4T< UInt16 >;
+	using U32Vec2 = Vec2T< UInt32 >;
+	using U32Vec3 = Vec3T< UInt32 >;
+	using U32Vec4 = Vec4T< UInt32 >;
 	using U64Vec2 = Vec2T< UInt64 >;
 	using U64Vec3 = Vec3T< UInt64 >;
 	using U64Vec4 = Vec4T< UInt64 >;
@@ -149,6 +169,15 @@ namespace sdw
 	using DMat4x2 = Mat4x2T< Double >;
 	using DMat4x3 = Mat4x3T< Double >;
 	using DMat4x4 = Mat4x4T< Double >;
+
+	using Int = Int32;
+	using UInt = UInt32;
+	using IVec2 = I32Vec2;
+	using IVec3 = I32Vec3;
+	using IVec4 = I32Vec4;
+	using UVec2 = U32Vec2;
+	using UVec3 = U32Vec3;
+	using UVec4 = U32Vec4;
 	/**@}*/
 #pragma endregion
 #pragma region Shader interface types
@@ -559,8 +588,13 @@ namespace sdw
 
 	Writer_Parameter( Double );
 	Writer_Parameter( Float );
-	Writer_Parameter( Int );
-	Writer_Parameter( UInt );
+	Writer_Parameter( Int8 );
+	Writer_Parameter( Int16 );
+	Writer_Parameter( Int32 );
+	Writer_Parameter( Int64 );
+	Writer_Parameter( UInt8 );
+	Writer_Parameter( UInt16 );
+	Writer_Parameter( UInt32 );
 	Writer_Parameter( UInt64 );
 	Writer_Parameter( Boolean );
 	Writer_Parameter( Vec2 );
@@ -571,12 +605,30 @@ namespace sdw
 	Writer_Parameter( DVec4 );
 	Writer_Parameter( HVec2 );
 	Writer_Parameter( HVec4 );
-	Writer_Parameter( IVec2 );
-	Writer_Parameter( IVec3 );
-	Writer_Parameter( IVec4 );
-	Writer_Parameter( UVec2 );
-	Writer_Parameter( UVec3 );
-	Writer_Parameter( UVec4 );
+	Writer_Parameter( I8Vec2 );
+	Writer_Parameter( I8Vec3 );
+	Writer_Parameter( I8Vec4 );
+	Writer_Parameter( I16Vec2 );
+	Writer_Parameter( I16Vec3 );
+	Writer_Parameter( I16Vec4 );
+	Writer_Parameter( I32Vec2 );
+	Writer_Parameter( I32Vec3 );
+	Writer_Parameter( I32Vec4 );
+	Writer_Parameter( I64Vec2 );
+	Writer_Parameter( I64Vec3 );
+	Writer_Parameter( I64Vec4 );
+	Writer_Parameter( U8Vec2 );
+	Writer_Parameter( U8Vec3 );
+	Writer_Parameter( U8Vec4 );
+	Writer_Parameter( U16Vec2 );
+	Writer_Parameter( U16Vec3 );
+	Writer_Parameter( U16Vec4 );
+	Writer_Parameter( U32Vec2 );
+	Writer_Parameter( U32Vec3 );
+	Writer_Parameter( U32Vec4 );
+	Writer_Parameter( U64Vec2 );
+	Writer_Parameter( U64Vec3 );
+	Writer_Parameter( U64Vec4 );
 	Writer_Parameter( BVec2 );
 	Writer_Parameter( BVec3 );
 	Writer_Parameter( BVec4 );
@@ -601,8 +653,8 @@ namespace sdw
 
 	Writer_ArrayParameter( Double );
 	Writer_ArrayParameter( Float );
-	Writer_ArrayParameter( Int );
-	Writer_ArrayParameter( UInt );
+	Writer_ArrayParameter( Int8 );
+	Writer_ArrayParameter( UInt8 );
 	Writer_ArrayParameter( UInt64 );
 	Writer_ArrayParameter( Boolean );
 	Writer_ArrayParameter( Vec2 );
@@ -611,12 +663,12 @@ namespace sdw
 	Writer_ArrayParameter( DVec2 );
 	Writer_ArrayParameter( DVec3 );
 	Writer_ArrayParameter( DVec4 );
-	Writer_ArrayParameter( IVec2 );
-	Writer_ArrayParameter( IVec3 );
-	Writer_ArrayParameter( IVec4 );
-	Writer_ArrayParameter( UVec2 );
-	Writer_ArrayParameter( UVec3 );
-	Writer_ArrayParameter( UVec4 );
+	Writer_ArrayParameter( I8Vec2 );
+	Writer_ArrayParameter( I8Vec3 );
+	Writer_ArrayParameter( I8Vec4 );
+	Writer_ArrayParameter( U8Vec2 );
+	Writer_ArrayParameter( U8Vec3 );
+	Writer_ArrayParameter( U8Vec4 );
 	Writer_ArrayParameter( BVec2 );
 	Writer_ArrayParameter( BVec3 );
 	Writer_ArrayParameter( BVec4 );
@@ -638,6 +690,24 @@ namespace sdw
 	Writer_ArrayParameter( DMat4 );
 	Writer_ArrayParameter( DMat4x2 );
 	Writer_ArrayParameter( DMat4x3 );
+
+	Writer_Parameter( Int );
+	Writer_Parameter( UInt );
+	Writer_Parameter( IVec2 );
+	Writer_Parameter( IVec3 );
+	Writer_Parameter( IVec4 );
+	Writer_Parameter( UVec2 );
+	Writer_Parameter( UVec3 );
+	Writer_Parameter( UVec4 );
+
+	Writer_ArrayParameter( Int );
+	Writer_ArrayParameter( UInt );
+	Writer_ArrayParameter( IVec2 );
+	Writer_ArrayParameter( IVec3 );
+	Writer_ArrayParameter( IVec4 );
+	Writer_ArrayParameter( UVec2 );
+	Writer_ArrayParameter( UVec3 );
+	Writer_ArrayParameter( UVec4 );
 	/**@}*/
 #pragma endregion
 #pragma region Function and images related
@@ -1472,16 +1542,20 @@ namespace sdw
 	*/
 	/**@{*/
 	template< ast::type::Kind KindT >
-	static bool constexpr isArithmeticV = ( KindT == ast::type::Kind::eInt
-		|| KindT == ast::type::Kind::eUInt
+	static bool constexpr isArithmeticV = ( KindT == ast::type::Kind::eInt8
+		|| KindT == ast::type::Kind::eInt32
+		|| KindT == ast::type::Kind::eUInt8
+		|| KindT == ast::type::Kind::eUInt32
 		|| KindT == ast::type::Kind::eUInt64
 		|| KindT == ast::type::Kind::eHalf
 		|| KindT == ast::type::Kind::eFloat
 		|| KindT == ast::type::Kind::eDouble );
 
 	template< ast::type::Kind KindT >
-	static bool constexpr isIntegerV = ( KindT == ast::type::Kind::eInt
-		|| KindT == ast::type::Kind::eUInt
+	static bool constexpr isIntegerV = ( KindT == ast::type::Kind::eInt8
+		|| KindT == ast::type::Kind::eInt32
+		|| KindT == ast::type::Kind::eUInt8
+		|| KindT == ast::type::Kind::eUInt32
 		|| KindT == ast::type::Kind::eUInt64 );
 
 	template< typename TypeT >

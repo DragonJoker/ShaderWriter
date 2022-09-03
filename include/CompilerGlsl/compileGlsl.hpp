@@ -72,8 +72,10 @@ namespace glsl
 	makeGlExtension( v1_4, v1_4, v4_2, ARB_shading_language_420pack );
 	makeGlExtension( v1_4, v1_4, vUnk, ARB_shader_stencil_export );
 	makeGlExtension( v1_4, v4_5, vUnk, KHR_vulkan_glsl );
-	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int64 );
 	makeGlExtension( v1_4, v4_5, vUnk, EXT_multiview );
+	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int8 );
+	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int16 );
+	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int64 );
 	makeGlExtension( v1_5, v1_5, v4_0, ARB_gpu_shader5 );
 	makeGlExtension( v1_5, v1_5, v4_0, ARB_gpu_shader_fp64 );
 	makeGlExtension( v1_5, v1_5, v4_0, ARB_tessellation_shader );
@@ -85,6 +87,7 @@ namespace glsl
 	makeGlExtension( v4_0, v4_0, v4_1, ARB_separate_shader_objects );
 	makeGlExtension( v4_0, v4_0, vUnk, ARB_texture_cube_map_array );
 	makeGlExtension( v4_0, v4_0, vUnk, ARB_texture_gather );
+	makeGlExtension( v4_0, v4_0, vUnk, ARB_gpu_shader_int64 );
 	makeGlExtension( v4_0, v4_2, v4_3, ARB_shader_storage_buffer_object );
 	makeGlExtension( v4_1, v4_1, v4_2, ARB_shading_language_packing );
 	makeGlExtension( v4_2, v4_2, v4_3, ARB_shader_image_size );

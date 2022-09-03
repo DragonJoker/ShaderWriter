@@ -19,7 +19,7 @@ namespace sdw
 			, bool enabled );
 
 		SDW_API ReturnWrapperT< Boolean > reportIntersection( Float tHit
-			, UInt const & hitKind );
+			, UInt32 const & hitKind );
 
 		ShaderWriter * getWriter()const
 		{
@@ -62,7 +62,7 @@ namespace sdw
 			, ParamsT ... params );
 
 		ReturnWrapperT< Boolean > reportIntersection( Float tHit
-			, UInt const & hitKind );
+			, UInt32 const & hitKind );
 
 	private:
 		HitAttribute m_internal;

@@ -83,6 +83,62 @@ namespace glsl
 				intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
 			}
 
+			if ( intrinsicsConfig.requiresInt8 )
+			{
+				if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( NV_gpu_shader5 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
+				}
+				else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( EXT_shader_explicit_arithmetic_types_int8 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int8 );
+				}
+				else
+				{
+					throw std::runtime_error{ "int8_t and uint8_t need either of [" + EXT_shader_explicit_arithmetic_types_int8.name
+						+ "] or [" + NV_gpu_shader5.name + "]" };
+				}
+			}
+
+			if ( intrinsicsConfig.requiresInt16 )
+			{
+				if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( NV_gpu_shader5 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
+				}
+				else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( EXT_shader_explicit_arithmetic_types_int16 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int16 );
+				}
+				else
+				{
+					throw std::runtime_error{ "int16_t and uint16_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
+						+ "] or [" + NV_gpu_shader5.name + "]" };
+				}
+			}
+
+			if ( intrinsicsConfig.requiresInt64 )
+			{
+				if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( ARB_gpu_shader_int64 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( ARB_gpu_shader_int64 );
+				}
+				else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( NV_gpu_shader5 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
+				}
+				else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( EXT_shader_explicit_arithmetic_types_int64 ) )
+				{
+					intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
+				}
+				else
+				{
+					throw std::runtime_error{ "int64_t and uint64_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
+						+ "] or [" + ARB_gpu_shader_int64.name + "]"
+						+ "] or [" + NV_gpu_shader5.name };
+				}
+			}
+
 			for ( auto & extension : intrinsicsConfig.requiredExtensions )
 			{
 				if ( extension.reqVersion > writerConfig.wantedVersion )

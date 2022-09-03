@@ -1139,11 +1139,26 @@ namespace spirv
 		case ast::expr::LiteralType::eBool:
 			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eBool >() );
 			break;
-		case ast::expr::LiteralType::eInt:
-			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt >() );
+		case ast::expr::LiteralType::eInt8:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt8 >() );
 			break;
-		case ast::expr::LiteralType::eUInt:
-			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt >() );
+		case ast::expr::LiteralType::eInt16:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt16 >() );
+			break;
+		case ast::expr::LiteralType::eInt32:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt32 >() );
+			break;
+		case ast::expr::LiteralType::eInt64:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt64 >() );
+			break;
+		case ast::expr::LiteralType::eUInt8:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt8 >() );
+			break;
+		case ast::expr::LiteralType::eUInt16:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt16 >() );
+			break;
+		case ast::expr::LiteralType::eUInt32:
+			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt32 >() );
 			break;
 		case ast::expr::LiteralType::eUInt64:
 			m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt64 >() );
@@ -1688,12 +1703,12 @@ namespace spirv
 			if ( m_signedExtendedTypes[count]->empty() )
 			{
 				auto type = count == 3
-					? m_module.getCache().getVec4I()
+					? m_module.getCache().getVec4I32()
 					: ( count == 2
-						? m_module.getCache().getVec3I()
+						? m_module.getCache().getVec3I32()
 						: ( count == 1
-							? m_module.getCache().getVec2I()
-							: m_module.getCache().getInt() ) );
+							? m_module.getCache().getVec2I32()
+							: m_module.getCache().getInt32() ) );
 				m_signedExtendedTypes[count]->declMember( "result", type );
 				m_signedExtendedTypes[count]->declMember( "extended", type );
 			}

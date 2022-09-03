@@ -18,10 +18,10 @@ namespace sdw
 			, StructInstance & instance
 			, ast::var::Flag flag );
 
-		Int primitiveID;
-		Int layer;
-		Int viewportIndex;
-		Array< Int > viewportMask;
+		Int32 primitiveID;
+		Int32 layer;
+		Int32 viewportIndex;
+		Array< Int32 > viewportMask;
 
 		SDW_API static void fillType( ast::type::IOStruct & structType );
 	};

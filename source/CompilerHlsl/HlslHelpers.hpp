@@ -498,6 +498,10 @@ namespace hlsl
 		bool requiresShadowOnTiled{ false };
 		bool requiresGather{ false };
 		bool requiresDouble{ false };
+		bool requiresInt8{ false };
+		bool requiresInt16{ false };
+		bool requiresSInt64{ false };
+		bool requiresUInt64{ false };
 		bool requiresSampledIndex{ false };
 		bool requiresUAV{ false };
 		bool requiresInterpolate{ false };

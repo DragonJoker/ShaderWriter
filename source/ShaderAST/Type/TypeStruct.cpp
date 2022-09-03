@@ -48,15 +48,20 @@ namespace ast::type
 			switch ( kind )
 			{
 			case Kind::eDouble:
+			case Kind::eInt64:
 			case Kind::eUInt64:
 				return mult * 8u;
 			case Kind::eFloat:
-			case Kind::eInt:
-			case Kind::eUInt:
+			case Kind::eInt32:
+			case Kind::eUInt32:
 				return mult * 4u;
+			case Kind::eInt16:
+			case Kind::eUInt16:
 			case Kind::eHalf:
 				return mult * 2u;
 			case Kind::eBoolean:
+			case Kind::eInt8:
+			case Kind::eUInt8:
 				return mult * 1u;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -136,15 +141,20 @@ namespace ast::type
 			switch ( kind )
 			{
 			case Kind::eDouble:
+			case Kind::eInt64:
 			case Kind::eUInt64:
 				return 8u;
 			case Kind::eFloat:
-			case Kind::eInt:
-			case Kind::eUInt:
+			case Kind::eInt32:
+			case Kind::eUInt32:
 				return 4u;
+			case Kind::eInt16:
+			case Kind::eUInt16:
 			case Kind::eHalf:
 				return 2u;
 			case Kind::eBoolean:
+			case Kind::eInt8:
+			case Kind::eUInt8:
 				return 1u;
 
 			default:

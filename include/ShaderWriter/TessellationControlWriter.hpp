@@ -67,7 +67,7 @@ namespace sdw
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//in int gl_PrimitiveID;
-		Int primitiveID;
+		Int32 primitiveID;
 	};
 
 	struct TessControlMainIn
@@ -83,9 +83,9 @@ namespace sdw
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//in int gl_PrimitiveID;
-		Int primitiveID;
+		Int32 primitiveID;
 		//in int gl_InvocationID;
-		Int invocationID;
+		Int32 invocationID;
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT
