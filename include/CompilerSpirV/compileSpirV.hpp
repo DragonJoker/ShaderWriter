@@ -81,6 +81,10 @@ namespace spirv
 	makeSpirVExtension( v1_0, v1_1, vUnk, NV_stereo_view_rendering );
 	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, vUnk, NVX_multiview_per_view_attributes );
+	// Allows conversions from/to int16/uint16.
+	makeSpirVExtension( v1_0, v1_1, v1_1, KHR_16bit_storage );
+	// Allows conversions from/to int8/uint8.
+	makeSpirVExtension( v1_0, v1_2, v1_2, KHR_8bit_storage );
 	// Enable this extension to be able to use Mesh and Task shader stages
 	makeSpirVExtension( v1_0, v1_3, vUnk, NV_mesh_shader );
 	// Enable this extension to prevent mapping of demote instruction to discard instruction.

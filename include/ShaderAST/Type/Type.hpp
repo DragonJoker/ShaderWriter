@@ -19,12 +19,10 @@ namespace ast::type
 		eInt8,// Submitted to extension enabling
 		eInt16,// Submitted to extension enabling
 		eInt32,
-		eInt = eInt32,
 		eInt64,// Submitted to extension enabling
 		eUInt8,// Submitted to extension enabling
 		eUInt16,// Submitted to extension enabling
 		eUInt32,
-		eUInt = eUInt32,
 		eUInt64,// Submitted to extension enabling
 		eHalf,// Submitted to extension enabling
 		eFloat,
@@ -41,9 +39,6 @@ namespace ast::type
 		eVec2I32,
 		eVec3I32,
 		eVec4I32,
-		eVec2I = eVec2I32,
-		eVec3I = eVec3I32,
-		eVec4I = eVec4I32,
 		eVec2I64,// Submitted to extension enabling
 		eVec3I64,// Submitted to extension enabling
 		eVec4I64,// Submitted to extension enabling
@@ -56,9 +51,6 @@ namespace ast::type
 		eVec2U32,
 		eVec3U32,
 		eVec4U32,
-		eVec2U = eVec2U32,
-		eVec3U = eVec3U32,
-		eVec4U = eVec4U32,
 		eVec2U64,// Submitted to extension enabling
 		eVec3U64,// Submitted to extension enabling
 		eVec4U64,// Submitted to extension enabling
@@ -116,6 +108,14 @@ namespace ast::type
 		eTaskPayload,
 		eTaskPayloadIn,
 		eCount,
+		eInt = eInt32,
+		eUInt = eUInt32,
+		eVec2I = eVec2I32,
+		eVec3I = eVec3I32,
+		eVec4I = eVec4I32,
+		eVec2U = eVec2U32,
+		eVec3U = eVec3U32,
+		eVec4U = eVec4U32,
 		eMin = eUndefined,
 		eMax = eArray,
 	};
