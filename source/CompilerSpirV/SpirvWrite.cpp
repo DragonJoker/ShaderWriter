@@ -1681,7 +1681,11 @@ namespace spirv
 				auto signedness = instruction.operands[1];
 				std::string result;
 
-				if ( width <= 16u )
+				if ( width <= 8u )
+				{
+					result = "i8";
+				}
+				else if ( width <= 16u )
 				{
 					result = "i16";
 				}

@@ -258,6 +258,10 @@ namespace spirv
 				}
 				else if ( isSignedIntType( dst ) )
 				{
+					if ( dst != src )
+					{
+						result = spv::OpSConvert;
+					}
 				}
 				else if ( isUnsignedIntType( dst ) )
 				{
@@ -281,6 +285,10 @@ namespace spirv
 				}
 				else if ( isUnsignedIntType( dst ) )
 				{
+					if ( dst != src )
+					{
+						result = spv::OpUConvert;
+					}
 				}
 				else if ( isAccelerationStructureType( dst ) )
 				{

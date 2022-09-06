@@ -372,10 +372,12 @@ namespace spirv
 			else if ( isUnsignedInt8Type( kind ) || isSignedInt8Type( kind ) )
 			{
 				config.registerCapability( spv::CapabilityInt8 );
+				config.registerCapability( spv::CapabilityStorageBuffer8BitAccess );
 			}
 			else if ( isUnsignedInt16Type( kind ) || isSignedInt16Type( kind ) )
 			{
 				config.registerCapability( spv::CapabilityInt16 );
+				config.registerCapability( spv::CapabilityStorageBuffer16BitAccess );
 			}
 			else if ( isUnsignedInt64Type( kind ) || isSignedInt64Type( kind ) )
 			{
@@ -1236,6 +1238,7 @@ namespace spirv
 		case spv::CapabilitySubgroupVoteKHR:
 			break;
 		case spv::CapabilityStorageBuffer16BitAccess:
+			registerExtension( KHR_16bit_storage );
 			break;
 		case spv::CapabilityStorageUniform16:
 			break;
@@ -1258,6 +1261,7 @@ namespace spirv
 		case spv::CapabilitySampleMaskPostDepthCoverage:
 			break;
 		case spv::CapabilityStorageBuffer8BitAccess:
+			registerExtension( KHR_8bit_storage );
 			break;
 		case spv::CapabilityUniformAndStorageBuffer8BitAccess:
 			break;
@@ -3129,6 +3133,10 @@ namespace spirv
 			return makeInstruction< UnInstructionT< spv::OpConvertUToF > >( returnTypeId, resultId, operandId );
 		case spv::OpBitcast:
 			return makeInstruction< UnInstructionT< spv::OpBitcast > >( returnTypeId, resultId, operandId );
+		case spv::OpUConvert:
+			return makeInstruction< UnInstructionT< spv::OpUConvert > >( returnTypeId, resultId, operandId );
+		case spv::OpSConvert:
+			return makeInstruction< UnInstructionT< spv::OpSConvert > >( returnTypeId, resultId, operandId );
 		case spv::OpConvertUToAccelerationStructureKHR:
 			return makeInstruction< UnInstructionT< spv::OpConvertUToAccelerationStructureKHR > >( returnTypeId, resultId, operandId );
 		case spv::OpConvertUToPtr:
