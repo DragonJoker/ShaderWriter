@@ -28,6 +28,7 @@ namespace spirv
 		void visitContainerStmt( ast::stmt::Container * cont )override;
 		void visitContinueStmt( ast::stmt::Continue * cont )override;
 		void visitDemoteStmt( ast::stmt::Demote * stmt )override;
+		void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override;
 		void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override;
 		void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override;
 		void visitCommentStmt( ast::stmt::Comment * stmt )override;

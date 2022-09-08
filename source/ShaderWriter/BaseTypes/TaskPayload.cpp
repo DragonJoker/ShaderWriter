@@ -15,11 +15,6 @@ namespace sdw
 	{
 	}
 
-	void TaskPayload::dispatchMesh( UInt32 taskCount )
-	{
-		sdw::dispatchMesh( *this, taskCount );
-	}
-
 	expr::ExprPtr makeExpr( TaskPayload const & value )
 	{
 		return makeExpr( *value.getWriter()

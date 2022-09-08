@@ -178,6 +178,9 @@ namespace ast::debug
 			case ast::stmt::Kind::eOutputMeshLayout:
 				result = "STOUTMESHLAYOUT";
 				break;
+			case ast::stmt::Kind::eDispatchMesh:
+				result = "STDISPATCHMESH";
+				break;
 			}
 
 			if ( result.empty() )
@@ -278,6 +281,15 @@ namespace ast::debug
 	void StmtVisitor::visitDemoteStmt( stmt::Demote * stmt )
 	{
 		displayStmtName( stmt, true );
+	}
+
+	void StmtVisitor::visitDispatchMeshStmt( stmt::DispatchMesh * stmt )
+	{
+		displayStmtName( stmt, true );
+		m_result += ExprVisitor::submit( stmt->getNumGroupsX() ) + ", ";
+		m_result += ExprVisitor::submit( stmt->getNumGroupsY() ) + ", ";
+		m_result += ExprVisitor::submit( stmt->getNumGroupsZ() ) + ", ";
+		m_result += ExprVisitor::submit( stmt->getPayload() ) + "\n";
 	}
 
 	void StmtVisitor::visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )

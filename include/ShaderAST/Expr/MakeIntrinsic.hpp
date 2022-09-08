@@ -11606,6 +11606,65 @@ namespace ast::expr
 			, std::move( sbtRecordIndex )
 			, std::move( callable ) );
 	}
+	//Mesh Shader NV Functions
+
+	/**
+	*@return
+	*	void
+	*@param[in] numVertices
+	*	uint32
+	*@param[in] numPrimitives
+	*	uint32
+	*/
+	inline IntrinsicCallPtr makeSetMeshOutputCountsNV( type::TypesCache & cache
+		, ExprPtr numVertices
+		, ExprPtr numPrimitives )
+	{
+		assert( numVertices->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( numPrimitives->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eSetMeshOutputCountsNV
+			, std::move( numVertices )
+			, std::move( numPrimitives ) );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] payload
+	*	taskpayloadnv
+	*@param[in] numTasks
+	*	uint32
+	*/
+	inline IntrinsicCallPtr makeDispatchMeshNV( type::TypesCache & cache
+		, ExprPtr payload
+		, ExprPtr numTasks )
+	{
+		assert( payload->getType()->getRawKind() == type::Kind::eTaskPayloadNV );
+		assert( numTasks->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eDispatchMeshNV
+			, std::move( payload )
+			, std::move( numTasks ) );
+	}
+	/**
+	*@return
+	*	void
+	*@param[in] indexOffset
+	*	uint32
+	*@param[in] packedIndices
+	*	uint32
+	*/
+	inline IntrinsicCallPtr makeWritePackedPrimitiveIndices4x8NV( type::TypesCache & cache
+		, ExprPtr indexOffset
+		, ExprPtr packedIndices )
+	{
+		assert( indexOffset->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( packedIndices->getType()->getRawKind() == type::Kind::eUInt32 );
+		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eWritePackedPrimitiveIndices4x8NV
+			, std::move( indexOffset )
+			, std::move( packedIndices ) );
+	}
 	//Mesh Shader Functions
 
 	/**
@@ -11626,44 +11685,6 @@ namespace ast::expr
 			, Intrinsic::eSetMeshOutputCounts
 			, std::move( numVertices )
 			, std::move( numPrimitives ) );
-	}
-	/**
-	*@return
-	*	void
-	*@param[in] payload
-	*	taskpayload
-	*@param[in] numTasks
-	*	uint32
-	*/
-	inline IntrinsicCallPtr makeDispatchMesh( type::TypesCache & cache
-		, ExprPtr payload
-		, ExprPtr numTasks )
-	{
-		assert( payload->getType()->getRawKind() == type::Kind::eTaskPayload );
-		assert( numTasks->getType()->getRawKind() == type::Kind::eUInt32 );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eDispatchMesh
-			, std::move( payload )
-			, std::move( numTasks ) );
-	}
-	/**
-	*@return
-	*	void
-	*@param[in] indexOffset
-	*	uint32
-	*@param[in] packedIndices
-	*	uint32
-	*/
-	inline IntrinsicCallPtr makeWritePackedPrimitiveIndices4x8( type::TypesCache & cache
-		, ExprPtr indexOffset
-		, ExprPtr packedIndices )
-	{
-		assert( indexOffset->getType()->getRawKind() == type::Kind::eUInt32 );
-		assert( packedIndices->getType()->getRawKind() == type::Kind::eUInt32 );
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eWritePackedPrimitiveIndices4x8
-			, std::move( indexOffset )
-			, std::move( packedIndices ) );
 	}
 	//Shader Subgroup Functions
 

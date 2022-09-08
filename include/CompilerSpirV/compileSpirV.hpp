@@ -44,6 +44,7 @@ namespace spirv
 		uint32_t specVersion{ vUnk };
 		uint32_t coreInVersion{ vUnk };
 		std::string name{};
+		bool isMarker{};
 	};
 
 	struct CompSpirVExtension
@@ -58,6 +59,9 @@ namespace spirv
 
 #define makeSpirVExtension( reqVersion, specVersion, coreInVersion, name )\
 	static SpirVExtension const name{ reqVersion, specVersion, coreInVersion, "SPV_"#name }
+
+#define makeSpirVMarker( reqVersion, specVersion, coreInVersion, name )\
+	static SpirVExtension const name{ reqVersion, specVersion, coreInVersion, "SDW_"#name, true }
 
 	// Not used yet.
 	makeSpirVExtension( v1_0, v1_1, v1_3, KHR_device_group );
@@ -85,7 +89,7 @@ namespace spirv
 	makeSpirVExtension( v1_0, v1_1, v1_1, KHR_16bit_storage );
 	// Allows conversions from/to int8/uint8.
 	makeSpirVExtension( v1_0, v1_2, v1_2, KHR_8bit_storage );
-	// Enable this extension to be able to use Mesh and Task shader stages
+	// Enable this extension to be able to use NVIDIA Mesh and Task shader stages
 	makeSpirVExtension( v1_0, v1_3, vUnk, NV_mesh_shader );
 	// Enable this extension to prevent mapping of demote instruction to discard instruction.
 	makeSpirVExtension( v1_0, v1_4, v1_6, EXT_demote_to_helper_invocation );
@@ -103,9 +107,12 @@ namespace spirv
 	makeSpirVExtension( v1_3, v1_3, v1_5, EXT_physical_storage_buffer );
 	// Enable this extension to be able to use any ray tracing shader stage.
 	makeSpirVExtension( v1_4, v1_5, vUnk, KHR_ray_tracing );
-	// This one is more of a marker to tell that the shader uses subgroup intrinsics.
-	makeSpirVExtension( v1_3, v1_3, v1_3, KHR_shader_subgroup );
+	// Enable this extension to be able to use EXT Mesh and Task shader stages
+	makeSpirVExtension( v1_6, v1_6, vUnk, EXT_mesh_shader );
+	// Marker used to tell that the shader uses subgroup intrinsics.
+	makeSpirVMarker( v1_3, v1_3, v1_3, KHR_shader_subgroup );
 
+#undef makeSpirVMarker
 #undef makeSpirVExtension
 
 	struct SpirVConfig

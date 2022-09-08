@@ -48,9 +48,13 @@ namespace spirv
 		case ast::ShaderStage::eCompute:
 			m_result.registerCapability( spv::CapabilityShader );
 			break;
+		case ast::ShaderStage::eTaskNV:
+		case ast::ShaderStage::eMeshNV:
+			m_result.registerCapability( spv::CapabilityMeshShadingNV );
+			break;
 		case ast::ShaderStage::eTask:
 		case ast::ShaderStage::eMesh:
-			m_result.registerCapability( spv::CapabilityMeshShadingNV );
+			m_result.registerCapability( spv::CapabilityMeshShadingEXT );
 			break;
 		case ast::ShaderStage::eRayGeneration:
 		case ast::ShaderStage::eRayClosestHit:
@@ -88,6 +92,10 @@ namespace spirv
 	void StmtConfigFiller::visitDemoteStmt( ast::stmt::Demote * stmt )
 	{
 		m_result.registerCapability( spv::CapabilityDemoteToHelperInvocation );
+	}
+
+	void StmtConfigFiller::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
+	{
 	}
 
 	void StmtConfigFiller::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )

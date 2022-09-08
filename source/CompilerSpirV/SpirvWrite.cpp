@@ -104,6 +104,10 @@ namespace spirv
 				return "TaskNV";
 			case spv::ExecutionModelMeshNV:
 				return "MeshNV";
+			case spv::ExecutionModelTaskEXT:
+				return "TaskEXT";
+			case spv::ExecutionModelMeshEXT:
+				return "MeshEXT";
 			case spv::ExecutionModelRayGenerationKHR:
 				return "RayGeneration";
 			case spv::ExecutionModelIntersectionKHR:
@@ -818,6 +822,12 @@ namespace spirv
 				return "WarpIDNV";
 			case spv::BuiltInSMIDNV:
 				return "SMIDNV";
+			case spv::BuiltInPrimitiveLineIndicesEXT:
+				return "PrimitiveLineIndicesEXT";
+			case spv::BuiltInPrimitiveTriangleIndicesEXT:
+				return "PrimitiveTriangleIndicesEXT";
+			case spv::BuiltInCullPrimitiveEXT:
+				return "CullPrimitiveEXT";
 			default:
 				AST_Failure( "Unsupported BuiltIn" );
 				return "Undefined";

@@ -153,6 +153,8 @@ namespace ast::type
 		SDAST_API RayDescPtr getRayDesc();
 		SDAST_API MeshVertexOutputPtr getMeshVertexOutput( TypePtr type, uint32_t maxVertices );
 		SDAST_API MeshPrimitiveOutputPtr getMeshPrimitiveOutput( TypePtr type, OutputTopology topology, uint32_t maxPrimitives );
+		SDAST_API TaskPayloadNVPtr getTaskPayloadNV( TypePtr type );
+		SDAST_API TaskPayloadInNVPtr getTaskPayloadInNV( TypePtr type );
 		SDAST_API TaskPayloadPtr getTaskPayload( TypePtr type );
 		SDAST_API TaskPayloadInPtr getTaskPayloadIn( TypePtr type );
 		SDAST_API ImagePtr getImage( ImageConfiguration func );
@@ -191,6 +193,8 @@ namespace ast::type
 		TypeCache< HitAttribute, std::function< HitAttributePtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_hitAttribute;
 		TypeCache< MeshVertexOutput, std::function< MeshVertexOutputPtr( TypePtr, uint32_t ) >, std::function< size_t( TypePtr, uint32_t ) > > m_meshVertexOutput;
 		TypeCache< MeshPrimitiveOutput, std::function< MeshPrimitiveOutputPtr( TypePtr, OutputTopology, uint32_t ) >, std::function< size_t( TypePtr, OutputTopology, uint32_t ) > > m_meshPrimitiveOutput;
+		TypeCache< TaskPayloadNV, std::function< TaskPayloadNVPtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_taskPayloadNV;
+		TypeCache< TaskPayloadInNV, std::function< TaskPayloadInNVPtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_taskPayloadInNV;
 		TypeCache< TaskPayload, std::function< TaskPayloadPtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_taskPayload;
 		TypeCache< TaskPayloadIn, std::function< TaskPayloadInPtr( TypePtr ) >, std::function< size_t( TypePtr ) > > m_taskPayloadIn;
 		struct MemberTypeInfo
@@ -282,8 +286,14 @@ namespace ast::type
 		case ast::type::Kind::eMeshPrimitiveOutput:
 			traverseType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), arrayDim, func );
 			break;
+		case ast::type::Kind::eTaskPayloadNV:
+			traverseType( static_cast< ast::type::TaskPayloadNV const & >( *type ).getType(), arrayDim, func );
+			break;
 		case ast::type::Kind::eTaskPayload:
 			traverseType( static_cast< ast::type::TaskPayload const & >( *type ).getType(), arrayDim, func );
+			break;
+		case ast::type::Kind::eTaskPayloadInNV:
+			traverseType( static_cast< ast::type::TaskPayloadInNV const & >( *type ).getType(), arrayDim, func );
 			break;
 		case ast::type::Kind::eTaskPayloadIn:
 			traverseType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), arrayDim, func );

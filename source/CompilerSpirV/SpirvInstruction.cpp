@@ -663,6 +663,8 @@ namespace spirv
 			return ast::type::Storage::ePhysicalStorageBuffer;
 		case spv::StorageClassCodeSectionINTEL:
 			return ast::type::Storage::eCodeSection;
+		case spv::StorageClassTaskPayloadWorkgroupEXT:
+			return ast::type::Storage::eTaskPayloadWorkgroup;
 		default:
 			AST_Failure( "Unsupported spv::StorageClass" );
 			return ast::type::Storage::eFunction;
@@ -715,6 +717,8 @@ namespace spirv
 			return spv::StorageClassPhysicalStorageBuffer;
 		case ast::type::Storage::eCodeSection:
 			return spv::StorageClassCodeSectionINTEL;
+		case ast::type::Storage::eTaskPayloadWorkgroup:
+			return spv::StorageClassTaskPayloadWorkgroupEXT;
 		default:
 			AST_Failure( "Unsupported ast::type::Storage" );
 			return spv::StorageClassFunction;

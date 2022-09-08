@@ -117,6 +117,22 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT ... params );
 	};
+	/**
+	*	Holds output data for shaders.
+	*/
+	template< template< ast::var::Flag FlagT > typename DataT
+		, ast::var::Flag FlagT >
+	struct PerTaskNVT
+		: public DataT< ast::var::Flag::ePerTaskNV >
+	{
+		PerTaskNVT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT ... params );
+	};
 	/**@}*/
 #pragma endregion
 }

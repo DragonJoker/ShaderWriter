@@ -110,10 +110,18 @@ namespace ast::vk
 				return VK_SHADER_STAGE_COMPUTE_BIT;
 			case ast::ShaderStage::eFragment:
 				return VK_SHADER_STAGE_FRAGMENT_BIT;
-			case ast::ShaderStage::eMesh:
+#if VK_NV_mesh_shader
+			case ast::ShaderStage::eMeshNV:
 				return VK_SHADER_STAGE_MESH_BIT_NV;
-			case ast::ShaderStage::eTask:
+			case ast::ShaderStage::eTaskNV:
 				return VK_SHADER_STAGE_TASK_BIT_NV;
+#endif
+#if VK_EXT_mesh_shader
+			case ast::ShaderStage::eMesh:
+				return VK_SHADER_STAGE_MESH_BIT_EXT;
+			case ast::ShaderStage::eTask:
+				return VK_SHADER_STAGE_TASK_BIT_EXT;
+#endif
 #if VK_KHR_ray_tracing_pipeline
 			case ast::ShaderStage::eRayGeneration:
 				return VK_SHADER_STAGE_RAYGEN_BIT_KHR;
@@ -163,6 +171,10 @@ namespace ast::vk
 				return "Compute";
 			case ast::ShaderStage::eFragment:
 				return "Fragment";
+			case ast::ShaderStage::eTaskNV:
+				return "TaskNV";
+			case ast::ShaderStage::eMeshNV:
+				return "MeshNV";
 			case ast::ShaderStage::eTask:
 				return "Task";
 			case ast::ShaderStage::eMesh:
@@ -865,7 +877,6 @@ namespace ast::vk
 			extensions.emplace( spirv::NV_mesh_shader );
 			extensions.emplace( spirv::EXT_descriptor_indexing );
 			extensions.emplace( spirv::EXT_physical_storage_buffer );
-			extensions.emplace( spirv::KHR_shader_subgroup );
 		}
 
 		if ( config.specVersion >= spirv::v1_1 )

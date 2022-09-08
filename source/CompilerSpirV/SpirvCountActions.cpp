@@ -302,6 +302,18 @@ namespace spirv
 				visitContainerStmt( stmt );
 			}
 
+			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
+			{
+				submit( stmt->getNumGroupsX() );
+				submit( stmt->getNumGroupsY() );
+				submit( stmt->getNumGroupsZ() );
+
+				if ( stmt->getPayload() )
+				{
+					submit( stmt->getPayload() );
+				}
+			}
+
 			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override
 			{
 			}

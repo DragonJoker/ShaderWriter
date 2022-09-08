@@ -188,6 +188,11 @@ namespace ast::type
 			return hasFlag( getFlag(), var::Flag::ePatchOutput );
 		}
 
+		bool isPerTaskNV()const
+		{
+			return hasFlag( getFlag(), var::Flag::ePerTaskNV );
+		}
+
 		bool isPerTask()const
 		{
 			return hasFlag( getFlag(), var::Flag::ePerTask );

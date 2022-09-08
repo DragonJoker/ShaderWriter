@@ -392,7 +392,7 @@ namespace glsl
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCounts )
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCountsNV )
 		{
 			ast::expr::ExprList args;
 
@@ -414,7 +414,7 @@ namespace glsl
 				, ast::expr::makeIdentifier( m_cache, var )
 				, std::move( numPrimitives ) );
 		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMesh )
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMeshNV )
 		{
 			ast::expr::ExprList args;
 

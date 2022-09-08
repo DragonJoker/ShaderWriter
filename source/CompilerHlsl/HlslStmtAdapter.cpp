@@ -148,7 +148,8 @@ namespace hlsl
 				{
 					auto type = ( *it )->getType();
 
-					if ( type->getRawKind() == ast::type::Kind::eTaskPayload )
+					if ( type->getRawKind() == ast::type::Kind::eTaskPayload
+						|| type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
 					{
 						// HLSL Amplification payload must be declared as a global.
 						declareType( type );

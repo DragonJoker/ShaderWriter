@@ -58,6 +58,7 @@ namespace ast::stmt
 		eBufferReferenceDecl,
 		eTerminateRay,
 		eIgnoreIntersection,
+		eDispatchMesh,
 		ePreprocDefine,
 		ePreprocIf,
 		ePreprocElif,

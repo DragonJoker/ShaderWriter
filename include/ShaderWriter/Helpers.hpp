@@ -299,6 +299,10 @@ namespace sdw
 		, uint32_t bindingSet );
 	SDW_API stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type
 		, std::string name );
+	SDW_API stmt::StmtPtr makeDispatchMesh( expr::ExprPtr numGroupsX
+		, expr::ExprPtr numGroupsY
+		, expr::ExprPtr numGroupsZ
+		, expr::ExprPtr payload );
 
 	template< typename T >
 	expr::ExprList makeExpr( ShaderWriter const & writer

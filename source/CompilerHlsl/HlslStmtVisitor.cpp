@@ -110,8 +110,8 @@ namespace hlsl
 			}
 			else
 			{
-				if ( isSignedIntType( type->getKind() )
-					|| isUnsignedIntType( type->getKind() ) )
+				if ( isSignedIntType( getNonArrayType( type )->getKind() )
+					|| isUnsignedIntType( getNonArrayType( type )->getKind() ) )
 				{
 					semantic = ": " + getSemantic( stage, builtin, isInput, location, type, intSem );
 				}
@@ -129,7 +129,10 @@ namespace hlsl
 			std::string result;
 
 			if ( isMeshStage( stage )
-				&& builtin == ast::Builtin::ePrimitiveIndicesNV )
+				&& ( builtin == ast::Builtin::ePrimitiveIndicesNV
+					|| builtin == ast::Builtin::ePrimitivePointIndices
+					|| builtin == ast::Builtin::ePrimitiveLineIndices
+					|| builtin == ast::Builtin::ePrimitiveTriangleIndices ) )
 			{
 				result += "indices ";
 			}
@@ -138,7 +141,10 @@ namespace hlsl
 			result += adaptName( name );
 			result += getTypeArraySize( type );
 
-			if ( builtin != ast::Builtin::ePrimitiveIndicesNV )
+			if ( builtin != ast::Builtin::ePrimitiveIndicesNV
+				&& builtin != ast::Builtin::ePrimitivePointIndices
+				&& builtin != ast::Builtin::ePrimitiveLineIndices
+				&& builtin != ast::Builtin::ePrimitiveTriangleIndices )
 			{
 				result += semantic;
 			}
@@ -233,7 +239,7 @@ namespace hlsl
 			, ast::type::Struct const & structType )
 		{
 			if ( structType.isShaderInput()
-				|| ( structType.isShaderOutput() && !structType.isPerTask() )
+				|| ( structType.isShaderOutput() && !structType.isPerTaskNV() && !structType.isPerTask() )
 				|| structType.isPatchInput() )
 			{
 				return writeIOMembers( stage
@@ -309,6 +315,7 @@ namespace hlsl
 			, uint32_t year = MAIN_VERSION_YEAR )
 		{
 			std::stringstream stream;
+			stream.imbue( std::locale{ "C" } );
 			stream << major << "." << minor << "." << build << "-" << year;
 			return stream.str();
 		}
@@ -392,6 +399,22 @@ namespace hlsl
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "discard;\n";
+	}
+
+	void StmtVisitor::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "DispatchMesh";
+		m_result += "(" + doSubmit( stmt->getNumGroupsX() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
+
+		if ( stmt->getPayload() )
+		{
+			m_result += ", " + doSubmit( stmt->getPayload() );
+		}
+
+		m_result += ");\n";
 	}
 
 	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
@@ -628,7 +651,8 @@ namespace hlsl
 				}
 			}
 
-			if ( m_writerConfig.shaderStage == ast::ShaderStage::eMesh )
+			if ( m_writerConfig.shaderStage == ast::ShaderStage::eMeshNV
+				|| m_writerConfig.shaderStage == ast::ShaderStage::eMesh )
 			{
 				m_result += writeMeshPrimOut( m_routines
 					, m_indent );
@@ -1079,7 +1103,8 @@ namespace hlsl
 			m_result += "static ";
 		}
 
-		if ( var.isPerTask()
+		if ( var.isPerTaskNV()
+			|| var.isPerTask()
 			|| var.isShared() )
 		{
 			m_result += "groupshared ";

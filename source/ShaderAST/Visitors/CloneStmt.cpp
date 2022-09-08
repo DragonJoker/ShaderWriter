@@ -104,6 +104,14 @@ namespace ast
 		m_current->addStmt( std::move( cont ) );
 	}
 
+	void StmtCloner::visitDispatchMeshStmt( stmt::DispatchMesh * stmt )
+	{
+		m_current->addStmt( stmt::makeDispatchMesh( doSubmit( stmt->getNumGroupsX() )
+			, doSubmit( stmt->getNumGroupsY() )
+			, doSubmit( stmt->getNumGroupsZ() )
+			, doSubmit( stmt->getPayload() ) ) );
+	}
+
 	void StmtCloner::visitDoWhileStmt( stmt::DoWhile * stmt )
 	{
 		auto save = m_current;

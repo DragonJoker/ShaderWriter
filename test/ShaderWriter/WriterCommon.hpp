@@ -11,6 +11,8 @@
 #include <ShaderWriter/Writer.hpp>
 #include <ShaderWriter/WriterDebug.hpp>
 #include <ShaderWriter/Source.hpp>
+#include <ShaderWriter/MeshWriterNV.hpp>
+#include <ShaderWriter/TaskWriterNV.hpp>
 
 #define ForceDisplayShaders false
 
@@ -23,6 +25,7 @@
 #define Compilers_NoSPIRV { false, true, true, ForceDisplayShaders }
 
 #define Compilers_All { true, true, true, ForceDisplayShaders }
+#define Compilers_AllButSpv16 { true, true, true, ForceDisplayShaders, 0x00010600u }
 
 #define CurrentCompilers Compilers_All
 
@@ -40,6 +43,7 @@ namespace test
 			TestCounts( test::TestSuite & suite );
 
 			bool isSpirVInitialised( uint32_t infoIndex )const;
+			bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;
 			uint32_t getVulkanVersion( uint32_t infoIndex )const;
 			uint32_t getSpirVVersion( uint32_t infoIndex )const;
 			uint32_t getSpirvInfosSize()const;
@@ -629,6 +633,7 @@ namespace test
 		bool hlsl;
 		bool glsl;
 		bool forceDisplay;
+		uint32_t ignoredSpv{};
 	};
 
 	void writeShader( ast::Shader const & shader

@@ -714,10 +714,13 @@ namespace ast::expr
 		eReportIntersection,
 		eExecuteCallable,
 
+	//Mesh Shader NV Functions
+		eSetMeshOutputCountsNV,
+		eDispatchMeshNV,
+		eWritePackedPrimitiveIndices4x8NV,
+
 	//Mesh Shader Functions
 		eSetMeshOutputCounts,
-		eDispatchMesh,
-		eWritePackedPrimitiveIndices4x8,
 
 	//Shader Subgroup Functions
 		eSubgroupBarrier,

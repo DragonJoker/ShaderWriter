@@ -457,17 +457,19 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			writer.implementMainT< PayloadT >( 32u
+			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutT< PayloadT >{ writer }
 				, [&]( TaskIn in
 					, TaskPayloadOutT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
-					payload.dispatchMesh( 1_u );
+					writer.dispatchMesh( 1_u, 1_u, 1_u, payload );
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -578,7 +580,7 @@ namespace
 				, InParam< Float >{ writer, "scale" }
 				, InParam< Vec3 >{ writer, "viewPos" } );
 
-			writer.implementMainT< PayloadT >( ThreadsPerWave
+			writer.implementMainT< PayloadT >( ThreadsPerWave, 1u, 1u
 				, TaskPayloadOutT< PayloadT >{ writer }
 				, [&]( TaskIn in
 					, TaskPayloadOutT< PayloadT > payload )
@@ -609,11 +611,13 @@ namespace
 
 					// Dispatch the required number of MS threadgroups to render the visible meshlets
 					//auto visibleCount = writer.declLocale( "visibleCount", WaveActiveCountBits( visible ) );
-					payload.dispatchMesh( 18_u/*visibleCount*/ );
+					writer.dispatchMesh( 18_u/*visibleCount*/, 1_u, 1_u, payload );
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -624,17 +628,19 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			writer.implementMainT< PayloadT >( 32u
+			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutT< PayloadT >{ writer }
 			, [&]( TaskSubgroupIn in
 				, TaskPayloadOutT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;
-				payload.dispatchMesh( 1_u );
+				writer.dispatchMesh( 1_u, 1_u, 1_u, payload );
 			} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}

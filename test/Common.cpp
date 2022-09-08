@@ -395,6 +395,7 @@ namespace test
 
 	int TestSuite::run()
 	{
+		std::locale::global( std::locale{ "C" } );
 		std::vector< TestSuiteRunPtr > running;
 		std::swap( tests, running );
 

@@ -41,6 +41,8 @@ namespace ast
 		eGeometry,
 		eFragment,
 		eCompute,
+		eTaskNV,
+		eMeshNV,
 		eTask,
 		eMesh,
 		eRayGeneration,
@@ -54,6 +56,7 @@ namespace ast
 	SDAST_API bool isComputeStage( ShaderStage stage );
 	SDAST_API bool isRayTraceStage( ShaderStage stage );
 	SDAST_API bool isMeshStage( ShaderStage stage );
+	SDAST_API bool isMeshNVStage( ShaderStage stage );
 
 	enum class FragmentOrigin
 	{
@@ -176,6 +179,10 @@ namespace ast
 		eHitKind,
 		eObjectToWorld,
 		eWorldToObject,
+		ePrimitivePointIndices,
+		ePrimitiveLineIndices,
+		ePrimitiveTriangleIndices,
+		eCullPrimitive,
 	};
 	SDAST_API std::string getName( Builtin value );
 	SDAST_API bool isPerVertex( Builtin value

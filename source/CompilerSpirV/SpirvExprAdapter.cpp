@@ -234,7 +234,7 @@ namespace spirv
 			args.emplace_back( doSubmit( arg.get() ) );
 		}
 
-		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCounts )
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCountsNV )
 		{
 			auto numPrimitives = std::move( args.back() );
 			args.pop_back();
@@ -250,7 +250,7 @@ namespace spirv
 				, doSubmit( ident.get() )
 				, std::move( numPrimitives ) );
 		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMesh )
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMeshNV )
 		{
 			auto numTasks = std::move( args.back() );
 			args.pop_back();

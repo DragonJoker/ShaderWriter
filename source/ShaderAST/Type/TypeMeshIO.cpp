@@ -9,6 +9,14 @@ namespace ast::type
 {
 	//*************************************************************************
 
+	TaskPayloadInNV::TaskPayloadInNV( TypePtr type )
+		: Type{ type->getCache(), Kind::eTaskPayloadInNV }
+		, m_type{ type }
+	{
+	}
+
+	//*************************************************************************
+
 	TaskPayloadIn::TaskPayloadIn( TypePtr type )
 		: Type{ type->getCache(), Kind::eTaskPayloadIn }
 		, m_type{ type }

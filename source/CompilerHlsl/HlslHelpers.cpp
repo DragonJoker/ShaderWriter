@@ -679,7 +679,7 @@ namespace hlsl
 		{
 			result = "inout ";
 		}
-		else if ( var.isPerTask() )
+		else if ( var.isPerTaskNV() || var.isPerTask() )
 		{
 			result = "groupshared ";
 		}
@@ -928,11 +928,13 @@ namespace hlsl
 		{
 			result = "primitives ";
 		}
-		else if ( type->getKind() == ast::type::Kind::eTaskPayload )
+		else if ( type->getKind() == ast::type::Kind::eTaskPayload
+			|| type->getKind() == ast::type::Kind::eTaskPayloadNV )
 		{
 			result = "payload ";
 		}
-		else if ( type->getKind() == ast::type::Kind::eTaskPayloadIn )
+		else if ( type->getKind() == ast::type::Kind::eTaskPayloadIn
+			|| type->getKind() == ast::type::Kind::eTaskPayloadInNV )
 		{
 			result = "payload ";
 		}
@@ -1012,8 +1014,14 @@ namespace hlsl
 		case ast::type::Kind::eMeshPrimitiveOutput:
 			result = getTypeName( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType() );
 			break;
+		case ast::type::Kind::eTaskPayloadNV:
+			result = getTypeName( static_cast< ast::type::TaskPayloadNV const & >( *type ).getType() );
+			break;
 		case ast::type::Kind::eTaskPayload:
 			result = getTypeName( static_cast< ast::type::TaskPayload const & >( *type ).getType() );
+			break;
+		case ast::type::Kind::eTaskPayloadInNV:
+			result = getTypeName( static_cast< ast::type::TaskPayloadInNV const & >( *type ).getType() );
 			break;
 		case ast::type::Kind::eTaskPayloadIn:
 			result = getTypeName( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType() );
@@ -1512,13 +1520,20 @@ namespace hlsl
 			, flag );
 		uint64_t flags = flag | paramFlag;
 
-		if ( stage == ast::ShaderStage::eGeometry && !isInput )
+		if ( !isInput )
 		{
-			flags = flags | ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput;
-		}
-		else if ( stage == ast::ShaderStage::eTask && !isInput )
-		{
-			flags = flags | ast::var::Flag::ePerTask;
+			if ( stage == ast::ShaderStage::eGeometry )
+			{
+				flags = flags | ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput;
+			}
+			else if ( stage == ast::ShaderStage::eTaskNV )
+			{
+				flags = flags | ast::var::Flag::ePerTaskNV;
+			}
+			else if ( stage == ast::ShaderStage::eTask )
+			{
+				flags = flags | ast::var::Flag::ePerTask;
+			}
 		}
 
 		paramVar = shader->registerName( "sdw" + suffix + type
@@ -2409,7 +2424,10 @@ namespace hlsl
 				, flags
 				, location );
 		}
-		else if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
+		else if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV
+			|| mbr.builtin == ast::Builtin::ePrimitivePointIndices
+			|| mbr.builtin == ast::Builtin::ePrimitiveLineIndices
+			|| mbr.builtin == ast::Builtin::ePrimitiveTriangleIndices )
 		{
 			//m_primitiveIndices.addPendingMbr( outer
 			//	, mbrIndex
@@ -2463,7 +2481,10 @@ namespace hlsl
 		{
 			auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
 
-			if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
+			if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV
+				|| mbr.builtin == ast::Builtin::ePrimitivePointIndices
+				|| mbr.builtin == ast::Builtin::ePrimitiveLineIndices
+				|| mbr.builtin == ast::Builtin::ePrimitiveTriangleIndices )
 			{
 				assert( outer->getKind() == ast::expr::Kind::eArrayAccess );
 				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
@@ -2524,7 +2545,10 @@ namespace hlsl
 				, mbrFlags
 				, mbrLocation );
 		}
-		else if ( mbrBuiltin == ast::Builtin::ePrimitiveIndicesNV )
+		else if ( mbrBuiltin == ast::Builtin::ePrimitiveIndicesNV
+			|| mbrBuiltin == ast::Builtin::ePrimitivePointIndices
+			|| mbrBuiltin == ast::Builtin::ePrimitiveLineIndices
+			|| mbrBuiltin == ast::Builtin::ePrimitiveTriangleIndices )
 		{
 			auto type = var->getType();
 			assert( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput );
@@ -2634,7 +2658,11 @@ namespace hlsl
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
+			case ast::type::Kind::eTaskPayloadNV:
 			case ast::type::Kind::eTaskPayload:
+				break;
+			case ast::type::Kind::eTaskPayloadInNV:
+				registerParam( param, static_cast< ast::type::TaskPayloadInNV const & >( *type ) );
 				break;
 			case ast::type::Kind::eTaskPayloadIn:
 				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
@@ -3367,6 +3395,32 @@ namespace hlsl
 		}
 
 		m_currentRoutine->initialiseLFOutput( var, meshType );
+	}
+
+	void AdaptationData::registerParam( ast::var::VariablePtr var
+		, ast::type::TaskPayloadInNV const & taskType )
+	{
+		assert( m_currentRoutine );
+		auto type = taskType.getType();
+
+		if ( type->getKind() == ast::type::Kind::eArray )
+		{
+			type = static_cast< ast::type::Array const & >( *type ).getType();
+		}
+
+		if ( isStructType( type ) )
+		{
+			auto & structType = *getStructType( type );
+			assert( structType.isShaderInput() );
+			registerInput( var
+				, static_cast< ast::type::IOStruct const & >( structType )
+				, true );
+		}
+
+		m_highFreqInputs.initialiseMainVar( var
+			, ast::type::makeTaskPayloadInNVType( m_highFreqInputs.paramStruct )
+			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
+			, m_currentRoutine->paramToEntryPoint );
 	}
 
 	void AdaptationData::registerParam( ast::var::VariablePtr var

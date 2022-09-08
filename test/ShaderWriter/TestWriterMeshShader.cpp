@@ -88,10 +88,41 @@ namespace
 		sdw::Vec3 normal;
 	};
 
-	struct Index
+	struct TriIndex
 		: public sdw::StructInstance
 	{
-		Index( sdw::ShaderWriter & writer
+		TriIndex( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, index{ getMember< sdw::U8Vec3 >( "index" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , TriIndex );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "TriIndex" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "index"
+					, sdw::type::Kind::eVec3U8
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::U8Vec3 index;
+	};
+
+	struct VtxIndex
+		: public sdw::StructInstance
+	{
+		VtxIndex( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
@@ -99,12 +130,12 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , Index );
+		SDW_DeclStructInstance( , VtxIndex );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
 			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-				, "Index" );
+				, "VtxIndex" );
 
 			if ( result->empty() )
 			{
@@ -778,7 +809,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshIn in
@@ -786,9 +817,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoHLSL );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -799,7 +832,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, PointsMeshPrimitiveListOut{ writer, 126u }
@@ -808,9 +841,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoHLSL );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -821,7 +856,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshIn in
@@ -829,9 +864,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -842,7 +879,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, LinesMeshPrimitiveListOut{ writer, 126u }
@@ -851,9 +888,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -864,7 +903,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshIn in
@@ -873,9 +912,11 @@ namespace
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -886,7 +927,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, TrianglesMeshPrimitiveListOut{ writer, 126u }
@@ -895,9 +936,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -912,7 +955,7 @@ namespace
 				, std::vector< Vec3 >{ vec3( -1.0_f, -1.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 1.0_f, -1.0_f, 0.0_f ) } );
 			const auto colors = writer.declConstantArray< Vec3 >( "colors"
 				, std::vector< Vec3 >{ vec3( 1.0_f, 0.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 0.0_f, 0.0_f, 1.0_f ) } );
-			writer.implementMainT< VoidT, PerVertexColourT, VoidT >( 32u
+			writer.implementMainT< VoidT, PerVertexColourT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOutT< PerVertexColourT >{ writer, 3u }
 				, TrianglesMeshPrimitiveListOut{ writer, 1u }
@@ -934,9 +977,11 @@ namespace
 
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -947,7 +992,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< payload::PayloadT, VoidT, VoidT >( 32u
+			writer.implementMainT< payload::PayloadT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInT< payload::PayloadT >{ writer }
 				, MeshVertexListOut{ writer, 3u }
 				, TrianglesMeshPrimitiveListOut{ writer, 1u }
@@ -959,9 +1004,11 @@ namespace
 				primOut.setMeshOutputCounts( 3_u, payload.meshletIndices[0u] );
 				primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 			} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -984,24 +1031,15 @@ namespace
 
 			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
 			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
-
-			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
-				, [&]( UInt primitive )
-				{
-					// Unpacks a 10 bits per index triangle from a 32-bit uint.
-					writer.returnStmt( uvec3( primitive & 0x3FF_u
-						, ( primitive >> 10_u ) & 0x3FF_u
-						, ( primitive >> 20_u ) & 0x3FF_u ) );
-				}
-				, InUInt{ writer, "primitive" } );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 
 			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
 				, [&]( Meshlet m
 					, UInt index )
 				{
-					writer.returnStmt( unpackPrimitive( primitiveIndices[m.primOffset + index].index ) );
+					auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + index].index );
+					writer.returnStmt( uvec3( primIndices ) );
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "index" } );
@@ -1050,7 +1088,7 @@ namespace
 				, InUInt{ writer, "meshletIndex" }
 				, InUInt{ writer, "vertexIndex" } );
 
-			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( 32u
+			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, 252u }
 				, TrianglesMeshPrimitiveListOut{ writer, 84u }
@@ -1082,9 +1120,11 @@ namespace
 					}
 					FI;
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1111,25 +1151,16 @@ namespace
 
 			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
 			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 			auto instances = writer.declArrayStorageBuffer< Instance >( "bufferInstances", 4u, 1u );
-
-			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
-				, [&]( UInt primitive )
-				{
-					// Unpacks a 10 bits per index triangle from a 32-bit uint.
-					writer.returnStmt( uvec3( primitive & 0x3FF_u
-						, ( primitive >> 10_u ) & 0x3FF_u
-						, ( primitive >> 20_u ) & 0x3FF_u ) );
-				}
-				, InUInt{ writer, "primitive" } );
 
 			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
 				, [&]( Meshlet m
 					, UInt index )
 				{
-					writer.returnStmt( unpackPrimitive( primitiveIndices[m.primOffset + index].index ) );
+					auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + index].index );
+					writer.returnStmt( uvec3( primIndices ) );
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "index" } );
@@ -1186,7 +1217,7 @@ namespace
 			static uint32_t constexpr MaxVerts = 252u;
 			static uint32_t constexpr MaxPrims = 84u;
 
-			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( 32u
+			writer.implementMainT< VoidT, MyVertexOutT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshPrimitiveListOut{ writer, MaxPrims }
@@ -1250,9 +1281,11 @@ namespace
 					}
 					FI;
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1269,7 +1302,7 @@ namespace
 			auto constants = Globals.declMember< Constants >( "constants" );
 			Globals.end();
 
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, TrianglesMeshPrimitiveListOut{ writer, 126u }
@@ -1279,9 +1312,11 @@ namespace
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1308,25 +1343,16 @@ namespace
 
 			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
 			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 			auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
-
-			auto unpackPrimitive = writer.implementFunction< UVec3 >( "unpackPrimitive"
-				, [&]( UInt primitive )
-				{
-					// Unpacks a 10 bits per index triangle from a 32-bit uint.
-					writer.returnStmt( uvec3( primitive & 0x3FF_u
-						, ( primitive >> 10_u ) & 0x3FF_u
-						, ( primitive >> 20_u ) & 0x3FF_u ) );
-				}
-				, InUInt{ writer, "primitive" } );
 
 			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
 				, [&]( Meshlet m
 					, UInt index )
 				{
-					writer.returnStmt( unpackPrimitive( primitiveIndices[m.primOffset + index].index ) );
+					auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + index].index );
+					writer.returnStmt( uvec3( primIndices ) );
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "index" } );
@@ -1380,7 +1406,7 @@ namespace
 			static uint32_t constexpr MaxVerts = 252u;
 			static uint32_t constexpr MaxPrims = 84u;
 
-			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u
+			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInT< PayloadT >{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshPrimitiveListOut{ writer, MaxPrims }
@@ -1428,9 +1454,11 @@ namespace
 					}
 					FI;
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1457,8 +1485,8 @@ namespace
 
 			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
 			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
-			auto uniqueVertexIndices = writer.declArrayStorageBuffer< Index >( "bufferUniqueVertexIndices", 2u, 1u );
-			auto primitiveIndices = writer.declArrayStorageBuffer< Index >( "bufferPrimitiveIndices", 3u, 1u );
+			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 			auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
 
 			auto getVertexIndex = writer.implementFunction< UInt >( "getVertexIndex"
@@ -1510,7 +1538,7 @@ namespace
 			static uint32_t constexpr MaxVerts = 252u;
 			static uint32_t constexpr MaxPrims = 84u;
 
-			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u
+			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInT< PayloadT >{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshPrimitiveListOut{ writer, MaxPrims }
@@ -1554,13 +1582,16 @@ namespace
 
 					IF( writer, gtid < m.primCount )
 					{
-						writePackedPrimitiveIndices4x8( gtid, primitiveIndices[m.primOffset + gtid].index );
+						auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + gtid].index );
+						primOut[gtid].primitiveIndex = uvec3( primIndices );
 					}
 					FI;
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1571,7 +1602,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshSubgroupIn in
@@ -1579,9 +1610,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoHLSL );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -1592,7 +1625,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, PointsMeshPrimitiveListOut{ writer, 126u }
@@ -1601,9 +1634,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoHLSL );
+				, Compilers_SPIRV );
 		}
 		testEnd();
 	}
@@ -1614,7 +1649,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshSubgroupIn in
@@ -1622,9 +1657,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1635,7 +1672,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, LinesMeshPrimitiveListOut{ writer, 126u }
@@ -1644,9 +1681,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1657,7 +1696,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshSubgroupIn in
@@ -1666,9 +1705,11 @@ namespace
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -1679,7 +1720,7 @@ namespace
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadIn{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, TrianglesMeshPrimitiveListOut{ writer, 126u }
@@ -1688,9 +1729,11 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, CurrentCompilers );
+				, Compilers_NoGLSL );
 		}
 		testEnd();
 	}

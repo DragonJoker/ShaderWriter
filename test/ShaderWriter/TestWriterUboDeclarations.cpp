@@ -34,7 +34,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -56,7 +71,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 	}
@@ -85,7 +115,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -107,7 +152,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 	}
@@ -138,7 +198,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -162,7 +237,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 	}
@@ -193,7 +283,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -217,7 +322,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 	}
@@ -248,7 +368,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -272,7 +407,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 	}
@@ -303,7 +453,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -327,7 +492,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 	}
@@ -352,7 +532,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -368,7 +563,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 
@@ -395,7 +605,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		{
 			sdw::FragmentWriter writer;
@@ -411,7 +636,22 @@ namespace
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
 			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-			test::writeShader( writer, testCounts, CurrentCompilers );
+
+			if constexpr ( std::is_same_v< T, sdw::UInt16 >
+				|| std::is_same_v< T, sdw::U16Vec2 >
+				|| std::is_same_v< T, sdw::U16Vec3 >
+				|| std::is_same_v< T, sdw::U16Vec4 >
+				|| std::is_same_v< T, sdw::Int16 >
+				|| std::is_same_v< T, sdw::I16Vec2 >
+				|| std::is_same_v< T, sdw::I16Vec3 >
+				|| std::is_same_v< T, sdw::I16Vec4 > )
+			{
+				test::writeShader( writer, testCounts, Compilers_NoHLSL );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
 		}
 		testEnd();
 

@@ -1363,7 +1363,7 @@ namespace spirv
 		}
 	}
 
-	void Module::registerExecutionMode( ast::type::OutputTopology topology
+	void Module::registerExecutionModeNV( ast::type::OutputTopology topology
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives )
 	{
@@ -1385,6 +1385,30 @@ namespace spirv
 
 		registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ maxVertices } } );
 		registerExecutionMode( spv::ExecutionModeOutputPrimitivesNV, { ValueId{ maxPrimitives } } );
+	}
+
+	void Module::registerExecutionMode( ast::type::OutputTopology topology
+		, uint32_t maxVertices
+		, uint32_t maxPrimitives )
+	{
+		switch ( topology )
+		{
+		case ast::type::OutputTopology::ePoint:
+			registerExecutionMode( spv::ExecutionModeOutputPoints );
+			break;
+		case ast::type::OutputTopology::eLine:
+			registerExecutionMode( spv::ExecutionModeOutputLinesEXT );
+			break;
+		case ast::type::OutputTopology::eTriangle:
+			registerExecutionMode( spv::ExecutionModeOutputTrianglesEXT );
+			break;
+		default:
+			AST_Failure( "Unsupported OutputTopology" );
+			break;
+		}
+
+		registerExecutionMode( spv::ExecutionModeOutputVertices, { ValueId{ maxVertices } } );
+		registerExecutionMode( spv::ExecutionModeOutputPrimitivesEXT, { ValueId{ maxPrimitives } } );
 	}
 
 	spv::Id Module::getIntermediateResult()
@@ -1748,10 +1772,26 @@ namespace spirv
 				, parentId
 				, arrayStride );
 		}
+		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
+		{
+			auto & outputType = static_cast< ast::type::TaskPayloadNV const & >( *type );
+			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayload )
 		{
 			auto & outputType = static_cast< ast::type::TaskPayload const & >( *type );
 			result = registerType( outputType.getType()
+				, mbrIndex
+				, parentId
+				, arrayStride );
+		}
+		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
+		{
+			auto & inputType = static_cast< ast::type::TaskPayloadInNV const & >( *type );
+			result = registerType( inputType.getType()
 				, mbrIndex
 				, parentId
 				, arrayStride );
@@ -2069,6 +2109,11 @@ namespace spirv
 		case spv::ExecutionModelMeshNV:
 			insertCapability( capabilities, spv::CapabilityShader );
 			insertCapability( capabilities, spv::CapabilityMeshShadingNV );
+			break;
+		case spv::ExecutionModelTaskEXT:
+		case spv::ExecutionModelMeshEXT:
+			insertCapability( capabilities, spv::CapabilityShader );
+			insertCapability( capabilities, spv::CapabilityMeshShadingEXT );
 			break;
 		case spv::ExecutionModelAnyHitKHR:
 		case spv::ExecutionModelCallableKHR:

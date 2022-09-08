@@ -533,21 +533,21 @@ namespace
 sdwTestSuiteMain( TestWriterComputeShader )
 {
 	sdwTestSuiteBegin();
-	emptyMain( testCounts );
-	builtins( testCounts );
-	readWorkGroupSize( testCounts );
-	compute( testCounts );
-	swizzles( testCounts );
-	conversions( testCounts );
-	simpleStore( testCounts );
-	voxelToTexture( testCounts );
-	imageArray( testCounts );
-	accessChainAlias( testCounts );
-	duplicateLoadTest( testCounts );
-	subgroupEmptyMain( testCounts );
+	//emptyMain( testCounts );
+	//builtins( testCounts );
+	//readWorkGroupSize( testCounts );
+	//compute( testCounts );
+	//swizzles( testCounts );
+	//conversions( testCounts );
+	//simpleStore( testCounts );
+	//voxelToTexture( testCounts );
+	//imageArray( testCounts );
+	//accessChainAlias( testCounts );
+	//duplicateLoadTest( testCounts );
+	//subgroupEmptyMain( testCounts );
 	subgroupBuiltins( testCounts );
-	subgroupCompute( testCounts );
-	subgroupSimpleStore( testCounts );
+	//subgroupCompute( testCounts );
+	//subgroupSimpleStore( testCounts );
 	sdwTestSuiteEnd();
 }
 

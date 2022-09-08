@@ -26,7 +26,9 @@ namespace sdw
 		: public StructInstance
 	{
 		SDW_API TaskIn( ShaderWriter & writer
-			, uint32_t localSizeX );
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ );
 		SDW_API TaskIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -53,7 +55,9 @@ namespace sdw
 		: private TaskIn
 	{
 		SDW_API TaskSubgroupIn( ShaderWriter & writer
-			, uint32_t localSizeX );
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ );
 		SDW_API TaskSubgroupIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -121,17 +125,34 @@ namespace sdw
 	public:
 		SDW_API TaskWriter();
 
+		SDW_API void dispatchMesh( UInt numGroupsX
+			, UInt numGroupsY
+			, UInt numGroupsZ );
+		template< template< ast::var::Flag FlagT > typename PayloadT >
+		void dispatchMesh( UInt numGroupsX
+			, UInt numGroupsY
+			, UInt numGroupsZ
+			, TaskPayloadOutT< PayloadT > const & payload );
+
 		SDW_API void implementMain( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskMainFunc const & function );
 		SDW_API void implementMain( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskSubgroupMainFunc const & function );
 
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadOutT< PayloadT > payload
 			, TaskMainFuncT< PayloadT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadOutT< PayloadT > payload
 			, TaskSubgroupMainFuncT< PayloadT > const & function );
 	};
