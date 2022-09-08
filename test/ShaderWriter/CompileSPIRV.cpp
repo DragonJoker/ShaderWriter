@@ -4,7 +4,7 @@
 
 #if SDW_Test_HasVulkan
 
-#include "vulkan/vulkan.h"
+#include "./vulkan/vulkan.h"
 
 #if SDW_HasVulkanLayer
 #	include <VulkanLayer/PipelineBuilder.hpp>
@@ -17,6 +17,14 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#pragma GCC diagnostic ignored "-Wtype-limits"
+#if SDW_Test_HasSpirVTools
+#	include "spirv-tools/libspirv.hpp"
+#endif
+#pragma GCC diagnostic pop
 
 #define SDW_Test_ForceVkVersion 1
 
@@ -55,10 +63,10 @@ namespace test
 			uint32_t queueFamilyCount{};
 			std::vector< VkQueueFamilyProperties > queueProps{};
 
-			PFN_vkCreateDebugReportCallbackEXT dbgCreateDebugReportCallback{};
-			PFN_vkDestroyDebugReportCallbackEXT dbgDestroyDebugReportCallback{};
+			PFN_vkCreateDebugUtilsMessengerEXT dbgCreateDebugUtilsMessenger{};
+			PFN_vkDestroyDebugUtilsMessengerEXT dbgDestroyDebugUtilsMessenger{};
 			PFN_vkDebugReportMessageEXT dbgBreakCallback{};
-			std::vector< VkDebugReportCallbackEXT > debugReportCallbacks{};
+			std::vector< VkDebugUtilsMessengerEXT > debugReportCallbacks{};
 
 			bool compiling{};
 			std::vector< std::string > errors{};
@@ -76,43 +84,63 @@ namespace test
 			return is;
 		}
 
-		VkBool32 VKAPI_CALL dbgFunc( VkDebugReportFlagsEXT msgFlags
-			, VkDebugReportObjectTypeEXT objType
-			, uint64_t srcObject
-			, size_t location
-			, int32_t msgCode
-			, const char *pLayerPrefix
-			, const char *pMsg
-			, void *pUserData )
+		VkBool32 VKAPI_CALL dbgFunc( VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity
+			, VkDebugUtilsMessageTypeFlagsEXT messageTypes
+			, VkDebugUtilsMessengerCallbackDataEXT const * pCallbackData
+			, void * pUserData )
 		{
-			std::ostringstream message;
-			message.imbue( std::locale{ "C" } );
+			VkBool32 result = VK_FALSE;
+
+			if ( !pCallbackData->messageIdNumber
+				|| pCallbackData->messageIdNumber == 0x79de34d4 )
+			{
+				return result;
+			}
+
+			std::stringstream stream;
+			stream.imbue( std::locale{ "C" } );
 			bool isError{ false };
 
-			if ( msgFlags & VK_DEBUG_REPORT_ERROR_BIT_EXT )
+			switch ( messageSeverity )
 			{
+			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
 				isError = true;
-				message << "ERROR: ";
+				stream << "Error";
+				break;
+			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+				stream << "Warning";
+				break;
+			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+				stream << "Info";
+				break;
+			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+				stream << "Verbose";
+				break;
+			default:
+				break;
 			}
-			else if ( msgFlags & VK_DEBUG_REPORT_WARNING_BIT_EXT )
+
+			if ( messageTypes & VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT )
 			{
-				message << "WARNING: ";
+				stream << " - General";
 			}
-			else if ( msgFlags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT )
+			if ( messageTypes & VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT )
 			{
-				message << "PERFORMANCE WARNING: ";
+				stream << " - Validation";
 			}
-			else if ( msgFlags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT )
+			if ( messageTypes & VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT )
 			{
-				message << "INFO: ";
+				stream << " - Performance";
 			}
-			else if ( msgFlags & VK_DEBUG_REPORT_DEBUG_BIT_EXT )
+
+			if ( pCallbackData->pMessageIdName )
 			{
-				message << "DEBUG: ";
+				stream << " - Message ID: " << pCallbackData->pMessageIdName << std::endl;
 			}
-			message << "[" << pLayerPrefix << "]" << std::endl;
-			message << "  Code " << msgCode << ":" << std::endl;
-			std::istringstream iss( pMsg );
+
+			stream << "Code: 0x" << std::hex << pCallbackData->messageIdNumber << std::endl;
+			stream << "Message: " << std::endl;
+			std::istringstream iss( pCallbackData->pMessage );
 			std::vector< std::string > results
 			{
 				std::istream_iterator< StringDelimitedByPipes >( iss ),
@@ -121,28 +149,27 @@ namespace test
 
 			for ( auto & line : results )
 			{
-				message << "    " << line << std::endl;
+				stream << "    " << line << std::endl;
 			}
 
 			auto info = reinterpret_cast< Info * >( pUserData );
 
 			if ( info->compiling && isError )
 			{
-				info->errors.push_back( message.str() );
+				info->errors.push_back( stream.str() );
 			}
 			else
 			{
-				std::cout << message.str() << std::endl;
+				std::cout << stream.str() << std::endl;
 			}
 
-		/*
-		 * false indicates that layer should not bail-out of an
-		 * API call that had validation failures. This may mean that the
-		 * app dies inside the driver due to invalid parameter(s).
-		 * That's what would happen without validation layers, so we'll
-		 * keep that behavior here.
-		 */
-			return false;
+			// The return value of this callback controls wether the Vulkan call that caused
+			// the validation message will be aborted or not
+			// Return VK_FALSE if we DON'T want Vulkan calls that cause a validation message 
+			// (and return a VkResult) to abort
+			// Return VK_TRUE if you instead want to have calls abort, and the function will 
+			// return VK_ERROR_VALIDATION_FAILED_EXT 
+			return result;
 		}
 
 		VkResult initInstanceExtensionProperties( LayerProperties & layerProps )
@@ -276,7 +303,7 @@ namespace test
 		{
 			initGlobalLayerProperties( info );
 			info.instanceLayerNames.push_back( "VK_LAYER_KHRONOS_validation" );
-			info.instanceExtensionNames.push_back( VK_EXT_DEBUG_REPORT_EXTENSION_NAME );
+			info.instanceExtensionNames.push_back( VK_EXT_DEBUG_UTILS_EXTENSION_NAME );
 
 			if ( isLayerSupported( VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME
 				, info.instanceLayerProperties ) )
@@ -327,46 +354,54 @@ namespace test
 			{
 	#pragma warning( push )
 	#pragma warning( disable: 4191 )
-				info.dbgCreateDebugReportCallback =
-					( PFN_vkCreateDebugReportCallbackEXT )vkGetInstanceProcAddr( info.instance, "vkCreateDebugReportCallbackEXT" );
-				if ( !info.dbgCreateDebugReportCallback )
+				info.dbgCreateDebugUtilsMessenger =
+					( PFN_vkCreateDebugUtilsMessengerEXT )vkGetInstanceProcAddr( info.instance, "vkCreateDebugUtilsMessengerEXT" );
+				if ( !info.dbgCreateDebugUtilsMessenger )
 				{
 					std::cout << "GetInstanceProcAddr: Unable to find "
-						"vkCreateDebugReportCallbackEXT function."
+						"vkCreateDebugUtilsMessengerEXT function."
 						<< std::endl;
 					exit( 1 );
 				}
 
-				info.dbgDestroyDebugReportCallback =
-					( PFN_vkDestroyDebugReportCallbackEXT )vkGetInstanceProcAddr( info.instance, "vkDestroyDebugReportCallbackEXT" );
-				if ( !info.dbgDestroyDebugReportCallback )
+				info.dbgDestroyDebugUtilsMessenger =
+					( PFN_vkDestroyDebugUtilsMessengerEXT )vkGetInstanceProcAddr( info.instance, "vkDestroyDebugUtilsMessengerEXT" );
+				if ( !info.dbgDestroyDebugUtilsMessenger )
 				{
 					std::cout << "GetInstanceProcAddr: Unable to find "
-						"vkDestroyDebugReportCallbackEXT function."
+						"vkDestroyDebugUtilsMessengerEXT function."
 						<< std::endl;
 					exit( 1 );
 				}
 	#pragma warning( pop )
 
-				auto create_info = ast::vk::makeVkStruct< VkDebugReportCallbackCreateInfoEXT >();
-				create_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
-				create_info.pNext = nullptr;
-				create_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
-				create_info.pfnCallback = dbgFunc;
-				create_info.pUserData = &info;
+				VkDebugUtilsMessageSeverityFlagsEXT severityFlags = 0u
+					| VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
+					| VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT
+					| VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
+					| VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+				VkDebugUtilsMessageTypeFlagsEXT typeFlags = 0u
+					| VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
+					| VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
+					| VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+				auto createInfo = ast::vk::makeVkStruct< VkDebugUtilsMessengerCreateInfoEXT >( 0u
+					, severityFlags
+					, typeFlags
+					, dbgFunc
+					, &info );
 
 				info.debugReportCallbacks.resize( 1u );
-				res = info.dbgCreateDebugReportCallback( info.instance, &create_info, nullptr, info.debugReportCallbacks.data() );
+				res = info.dbgCreateDebugUtilsMessenger( info.instance, &createInfo, nullptr, info.debugReportCallbacks.data() );
 				switch ( res )
 				{
 				case VK_SUCCESS:
 					break;
 				case VK_ERROR_OUT_OF_HOST_MEMORY:
-					std::cout << "dbgCreateDebugReportCallback: out of host memory\n" << std::endl;
+					std::cout << "dbgCreateDebugUtilsMessenger: out of host memory\n" << std::endl;
 					exit( 1 );
 					break;
 				default:
-					std::cout << "dbgCreateDebugReportCallback: unknown failure\n" << std::endl;
+					std::cout << "dbgCreateDebugUtilsMessenger: unknown failure\n" << std::endl;
 					exit( 1 );
 					break;
 				}
@@ -447,7 +482,8 @@ namespace test
 					auto rtPipelineFeature = ast::vk::makeVkStruct< VkPhysicalDeviceRayTracingPipelineFeaturesKHR >();
 					auto demoteFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT >();
 					auto terminateFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
-					auto meshFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
+					auto meshNVFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
+					auto meshEXTFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesEXT >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
 					bool hasFloatControls = false;
@@ -513,11 +549,18 @@ namespace test
 							info.deviceExtensionNames.push_back( "VK_EXT_shader_atomic_float" );
 						}
 
+						if ( isExtensionSupported( "VK_EXT_mesh_shader"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_EXT_mesh_shader" );
+							//featuresStructs.push_back( reinterpret_cast< VkStructure * >( &meshEXTFeature ) );
+						}
+
 						if ( isExtensionSupported( "VK_NV_mesh_shader"
 							, device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_NV_mesh_shader" );
-							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &meshFeature ) );
+							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &meshNVFeature ) );
 						}
 
 						if ( isExtensionSupported( "VK_KHR_shader_terminate_invocation"
@@ -701,7 +744,7 @@ namespace test
 		{
 			SPIRVContext()
 			{
-				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5 };
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
 
 				uint32_t maxApiVersion{};
@@ -744,7 +787,7 @@ namespace test
 				{
 					if ( !createDevice( *result ) )
 					{
-						result->dbgDestroyDebugReportCallback( result->instance
+						result->dbgDestroyDebugUtilsMessenger( result->instance
 							, *result->debugReportCallbacks.data()
 							, nullptr );
 						vkDestroyInstance( result->instance, nullptr );
@@ -791,6 +834,32 @@ namespace test
 	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts )
 	{
 		return uint32_t( testCounts.spirv->infos.size() );
+	}
+
+	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		auto spvVersion = retrieveSPIRVVersion( testCounts, infoIndex );
+
+		switch ( spvVersion )
+		{
+		case sdw_test::spv1_0:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_0;
+		case sdw_test::spv1_1:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_1;
+		case sdw_test::spv1_2:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_2;
+		case sdw_test::spv1_3:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_3;
+		case sdw_test::spv1_4:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_4;
+		case sdw_test::spv1_5:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_5;
+		case sdw_test::spv1_6:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_6;
+		default:
+			return spv_target_env::SPV_ENV_UNIVERSAL_1_6;
+		}
 	}
 
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
@@ -1318,6 +1387,12 @@ namespace test
 	}
 
 	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts )
+	{
+		return 0u;
+	}
+
+	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
 	{
 		return 0u;
 	}

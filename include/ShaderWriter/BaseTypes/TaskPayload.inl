@@ -31,12 +31,6 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void TaskPayloadOutT< DataT >::dispatchMesh( UInt32 taskCount )
-	{
-		m_internal.dispatchMesh( taskCount );
-	}
-
-	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TaskPayloadOutT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT ... params )

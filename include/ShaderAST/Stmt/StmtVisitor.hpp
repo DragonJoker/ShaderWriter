@@ -22,6 +22,7 @@ See LICENSE file in root folder
 #include "StmtContinue.hpp"
 #include "StmtConstantBufferDecl.hpp"
 #include "StmtDemote.hpp"
+#include "StmtDispatchMesh.hpp"
 #include "StmtDoWhile.hpp"
 #include "StmtElse.hpp"
 #include "StmtElseIf.hpp"
@@ -81,6 +82,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitContinueStmt( Continue * ) = 0;
 		SDAST_API virtual void visitConstantBufferDeclStmt( ConstantBufferDecl * ) = 0;
 		SDAST_API virtual void visitDemoteStmt( Demote * ) = 0;
+		SDAST_API virtual void visitDispatchMeshStmt( DispatchMesh * ) = 0;
 		SDAST_API virtual void visitTerminateInvocationStmt( TerminateInvocation * ) = 0;
 		SDAST_API virtual void visitDoWhileStmt( DoWhile * ) = 0;
 		SDAST_API virtual void visitElseIfStmt( ElseIf * ) = 0;

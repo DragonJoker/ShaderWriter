@@ -191,6 +191,7 @@ namespace glsl
 			, uint32_t year = MAIN_VERSION_YEAR )
 		{
 			std::stringstream stream;
+			stream.imbue( std::locale{ "C" } );
 			stream << major << "." << minor << "." << build << "-" << year;
 			return stream.str();
 		}
@@ -335,6 +336,16 @@ namespace glsl
 	{
 		doAppendLineEnd();
 		m_result += m_indent + "discard;\n";
+	}
+
+	void StmtVisitor::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
+	{
+		doAppendLineEnd();
+		m_result += m_indent + "EmitMeshTasksEXT";
+		m_result += "(" + doSubmit( stmt->getNumGroupsX() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
+		m_result += ");\n";
 	}
 
 	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
@@ -1014,7 +1025,7 @@ namespace glsl
 			doAppendLineEnd();
 			auto var = stmt->getVariable();
 
-			if ( var->isPerTask() )
+			if ( var->isPerTaskNV() )
 			{
 				auto structType = getStructType( var->getType() );
 
@@ -1022,8 +1033,26 @@ namespace glsl
 				{
 					m_result += m_indent + "taskNV";
 					GlslStmtVisitorInternal::join( m_result, getDirectionName( *var ), " " );
-					m_result += " " + GlslStmtVisitorInternal::writeBlock( m_indent
-						, *getStructType( var->getType() ) );
+					m_result += " " + GlslStmtVisitorInternal::writeBlock( m_indent, *structType );
+					GlslStmtVisitorInternal::join( m_result, var->getName(), " " );
+					m_result += ";\n";
+				}
+			}
+			else if ( var->isPerTask() )
+			{
+				auto structType = getStructType( var->getType() );
+
+				if ( structType && !structType->empty() )
+				{
+					m_appendLineEnd = true;
+					doAppendLineEnd();
+					m_result += GlslStmtVisitorInternal::writeStruct( m_indent, *structType, std::string{} );
+				}
+
+				if ( !structType || !structType->empty() )
+				{
+					m_result += m_indent + "taskPayloadSharedEXT";
+					GlslStmtVisitorInternal::join( m_result, getTypeName( var->getType() ), " " );
 					GlslStmtVisitorInternal::join( m_result, var->getName(), " " );
 					m_result += ";\n";
 				}

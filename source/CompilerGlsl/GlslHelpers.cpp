@@ -486,8 +486,14 @@ namespace glsl
 		case ast::type::Kind::eTessellationEvaluationInput:
 			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
 			break;
+		case ast::type::Kind::eTaskPayloadNV:
+			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadNV >( type )->getType() );
+			break;
 		case ast::type::Kind::eTaskPayload:
 			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayload >( type )->getType() );
+			break;
+		case ast::type::Kind::eTaskPayloadInNV:
+			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadInNV >( type )->getType() );
 			break;
 		case ast::type::Kind::eTaskPayloadIn:
 			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadIn >( type )->getType() );
@@ -543,6 +549,10 @@ namespace glsl
 		else if ( var.isShared() )
 		{
 			result = "shared";
+		}
+		else if ( var.isPerPrimitive() )
+		{
+			result = "perprimitiveEXT";
 		}
 
 		return result;

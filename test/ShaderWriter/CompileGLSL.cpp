@@ -833,8 +833,10 @@ namespace test
 				return GL_GEOMETRY_SHADER;
 			case ast::ShaderStage::eFragment:
 				return GL_FRAGMENT_SHADER;
+			case ast::ShaderStage::eTaskNV:
 			case ast::ShaderStage::eTask:
 				return GL_TASK_SHADER;
+			case ast::ShaderStage::eMeshNV:
 			case ast::ShaderStage::eMesh:
 				return GL_MESH_SHADER;
 			case ast::ShaderStage::eCompute:

@@ -29,7 +29,9 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 		SDW_API MeshIn( ShaderWriter & writer
-			, uint32_t localSizeX );
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ );
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
@@ -57,7 +59,9 @@ namespace sdw
 		: private MeshIn
 	{
 		SDW_API MeshSubgroupIn( ShaderWriter & writer
-			, uint32_t localSizeX );
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ );
 		SDW_API MeshSubgroupIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -165,6 +169,7 @@ namespace sdw
 	{
 		using Type = UInt32;
 		static constexpr ast::type::Kind Kind = ast::type::Kind::eUInt32;
+		static constexpr ast::Builtin Builtin = ast::Builtin::ePrimitivePointIndices;
 		using FnType = std::function< Type( StructInstance const &, ast::Builtin ) >;
 		SDW_API static FnType const getMember;
 	};
@@ -173,6 +178,7 @@ namespace sdw
 	{
 		using Type = U32Vec2;
 		static constexpr ast::type::Kind Kind = ast::type::Kind::eVec2U32;
+		static constexpr ast::Builtin Builtin = ast::Builtin::ePrimitiveLineIndices;
 		using FnType = std::function< Type( StructInstance const &, ast::Builtin ) >;
 		SDW_API static FnType const getMember;
 	};
@@ -181,6 +187,7 @@ namespace sdw
 	{
 		using Type = U32Vec3;
 		static constexpr ast::type::Kind Kind = ast::type::Kind::eVec3U32;
+		static constexpr ast::Builtin Builtin = ast::Builtin::ePrimitiveTriangleIndices;
 		using FnType = std::function< Type( StructInstance const &, ast::Builtin ) >;
 		SDW_API static FnType const getMember;
 	};
@@ -231,6 +238,8 @@ namespace sdw
 		Int32 layer;
 		// int gl_ViewportIndex;
 		Int32 viewportIndex;
+		// int gl_CullPrimitiveEXT;
+		Int32 cullPrimitive;
 		// int gl_ViewportMask[];          // NV_viewport_array2
 		Array< Int32 > viewportMask;
 	};
@@ -331,6 +340,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
@@ -338,6 +349,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -346,6 +359,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, PointsMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
@@ -353,6 +368,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -366,6 +383,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
@@ -373,6 +392,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -381,6 +402,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, LinesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
@@ -388,6 +411,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -401,6 +426,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
@@ -408,6 +435,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -416,6 +445,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, TrianglesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
@@ -423,6 +454,8 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
 		inline void implementMainT( uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ
 			, TaskPayloadInT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut

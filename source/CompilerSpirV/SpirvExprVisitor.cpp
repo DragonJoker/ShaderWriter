@@ -338,6 +338,10 @@ namespace spirv
 		{
 			result = spv::StorageClassRayPayloadKHR;
 		}
+		else if ( var->isPerTask() )
+		{
+			result = spv::StorageClassTaskPayloadWorkgroupEXT;
+		}
 		else if ( var->isStorageBuffer() )
 		{
 			if ( version > v1_3 )
@@ -1657,7 +1661,8 @@ namespace spirv
 		if ( ( opCode >= spv::OpEmitVertex && opCode <= spv::OpEndStreamPrimitive )
 			|| opCode == spv::OpExecuteCallableKHR
 			|| opCode == spv::OpTraceRayKHR
-			|| opCode == spv::OpWritePackedPrimitiveIndices4x8NV )
+			|| opCode == spv::OpWritePackedPrimitiveIndices4x8NV
+			|| opCode == spv::OpSetMeshOutputsEXT )
 		{
 			m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode
 				, params ) );

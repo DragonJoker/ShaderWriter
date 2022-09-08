@@ -1305,9 +1305,17 @@ namespace ast::type
 			{
 				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadNV )
+			{
+				type = static_cast< type::TaskPayloadNV const & >( *type ).getType().get();
+			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayload )
 			{
 				type = static_cast< type::TaskPayload const & >( *type ).getType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadInNV )
+			{
+				type = static_cast< type::TaskPayloadInNV const & >( *type ).getType().get();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
 			{
@@ -1412,9 +1420,17 @@ namespace ast::type
 			{
 				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
 			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadNV )
+			{
+				type = static_cast< type::TaskPayloadNV const & >( *type ).getType().get();
+			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayload )
 			{
 				type = static_cast< type::TaskPayload const & >( *type ).getType().get();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadInNV )
+			{
+				type = static_cast< type::TaskPayloadInNV const & >( *type ).getType().get();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
 			{
@@ -1510,9 +1526,17 @@ namespace ast::type
 			{
 				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType();
 			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadNV )
+			{
+				type = static_cast< type::TaskPayloadNV const & >( *type ).getType();
+			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayload )
 			{
 				type = static_cast< type::TaskPayload const & >( *type ).getType();
+			}
+			else if ( type->getRawKind() == type::Kind::eTaskPayloadInNV )
+			{
+				type = static_cast< type::TaskPayloadInNV const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
 			{

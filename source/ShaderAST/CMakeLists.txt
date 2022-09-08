@@ -249,6 +249,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtContainer.hpp
 	${INCLUDE_DIR}/Stmt/StmtContinue.hpp
 	${INCLUDE_DIR}/Stmt/StmtDemote.hpp
+	${INCLUDE_DIR}/Stmt/StmtDispatchMesh.hpp
 	${INCLUDE_DIR}/Stmt/StmtDoWhile.hpp
 	${INCLUDE_DIR}/Stmt/StmtElse.hpp
 	${INCLUDE_DIR}/Stmt/StmtElseIf.hpp
@@ -309,6 +310,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtContainer.cpp
 	${SOURCE_DIR}/Stmt/StmtContinue.cpp
 	${SOURCE_DIR}/Stmt/StmtDemote.cpp
+	${SOURCE_DIR}/Stmt/StmtDispatchMesh.cpp
 	${SOURCE_DIR}/Stmt/StmtDoWhile.cpp
 	${SOURCE_DIR}/Stmt/StmtElse.cpp
 	${SOURCE_DIR}/Stmt/StmtElseIf.cpp

@@ -24,14 +24,16 @@ namespace sdw
 	}
 
 	MeshIn::MeshIn( ShaderWriter & writer
-		, uint32_t localSizeX )
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
 		: MeshIn{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "meshIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
-						, 1u
-						, 1u )
+						, localSizeY
+						, localSizeZ )
 					, ast::var::Flag::eShaderInput ) )
 			, true }
 	{
@@ -93,14 +95,16 @@ namespace sdw
 	}
 
 	MeshSubgroupIn::MeshSubgroupIn( ShaderWriter & writer
-		, uint32_t localSizeX )
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
 		: MeshSubgroupIn{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "meshSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
-						, 1u
-						, 1u ) ) )
+						, localSizeY
+						, localSizeZ ) ) )
 			, true }
 	{
 	}

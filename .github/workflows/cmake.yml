@@ -25,20 +25,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@v4
-      with:
-        vcpkgGitCommitId: '11be87ec561d9d70dc527afad886744fe149c2ce'
-        setupOnly: true
-
-    - name: Install dependencies from vcpkg
-      shell: bash
-      run: $VCPKG_ROOT/vcpkg install glslang:${{ matrix.os[1] }}
-  
     - name: Checkout submodules
       run: |
         git submodule update --init -- "CMake"
+        git submodule update --init -- "external/glslang"
         git submodule update --init -- "external/SPIRV-Cross"
+        git submodule update --init -- "external/SPIRV-Headers"
+        git submodule update --init -- "external/SPIRV-Tools"
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
@@ -83,13 +76,13 @@ jobs:
       if: matrix.os[1] == 'x64-osx'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_UNITY_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
 
     - name: Configure CMake (With tests)
       if: matrix.os[1] != 'x64-osx'
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_UNITY_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
 
     - name: Build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}

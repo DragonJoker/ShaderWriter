@@ -324,7 +324,17 @@ namespace spirv
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TaskPayloadNV const & taskType )
+	{
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayload const & taskType )
+	{
+	}
+
+	void StmtAdapter::doProcess( ast::var::VariablePtr var
+		, ast::type::TaskPayloadInNV const & taskType )
 	{
 	}
 
@@ -430,8 +440,14 @@ namespace spirv
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
+			case ast::type::Kind::eTaskPayloadNV:
+				doProcess( param, static_cast< ast::type::TaskPayloadNV const & >( *type ) );
+				break;
 			case ast::type::Kind::eTaskPayload:
 				doProcess( param, static_cast< ast::type::TaskPayload const & >( *type ) );
+				break;
+			case ast::type::Kind::eTaskPayloadInNV:
+				doProcess( param, static_cast< ast::type::TaskPayloadInNV const & >( *type ) );
 				break;
 			case ast::type::Kind::eTaskPayloadIn:
 				doProcess( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );

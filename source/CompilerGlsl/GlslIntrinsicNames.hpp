@@ -1084,8 +1084,12 @@ namespace glsl
 
 
 	//Mesh Shader Functions
-		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8:
+		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8NV:
 			result = "writePackedPrimitiveIndices4x8NV";
+			break;
+
+		case ast::expr::Intrinsic::eSetMeshOutputCounts:
+			result = "SetMeshOutputsEXT";
 			break;
 
 

@@ -143,13 +143,15 @@ namespace hlsl
 				, *expr
 				, 0u );
 		}
-		else if ( !expr->isPerTask()
+		else if ( !expr->isPerTaskNV()
+			&& !expr->isPerTask()
 			&& ( expr->isShaderInput() || expr->isShaderOutput() ) )
 		{
 			auto ident = ast::findIdentifier( expr );
 
 			if ( ident
-				&& ident->getVariable()->isPerTask() )
+				&& ( ident->getVariable()->isPerTaskNV()
+					|| ident->getVariable()->isPerTask() ) )
 			{
 				return;
 			}

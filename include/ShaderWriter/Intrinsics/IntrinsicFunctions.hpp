@@ -17,6 +17,7 @@ This file is generated, don't modify it!
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/BaseTypes/StorageImage.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayload.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/FunctionParam.hpp"
 #include "ShaderWriter/CompositeTypes/RayDesc.hpp"
@@ -1687,6 +1688,33 @@ namespace sdw
 	SDW_API RetVoid executeCallable( UInt32 const sbtRecordIndex, CallableData const callable );
 	/**@}*/
 #pragma endregion
+#pragma region setMeshOutputCountsNV
+	/**
+	*name
+	*	setMeshOutputCountsNV
+	*/
+	/**@{*/
+	SDW_API RetVoid setMeshOutputCountsNV( UInt32 const numVertices, UInt32 const numPrimitives );
+	/**@}*/
+#pragma endregion
+#pragma region dispatchMeshNV
+	/**
+	*name
+	*	dispatchMeshNV
+	*/
+	/**@{*/
+	SDW_API RetVoid dispatchMeshNV( TaskPayloadNV const payload, UInt32 const numTasks );
+	/**@}*/
+#pragma endregion
+#pragma region writePackedPrimitiveIndices4x8NV
+	/**
+	*name
+	*	writePackedPrimitiveIndices4x8NV
+	*/
+	/**@{*/
+	SDW_API RetVoid writePackedPrimitiveIndices4x8NV( UInt32 const indexOffset, UInt32 const packedIndices );
+	/**@}*/
+#pragma endregion
 #pragma region setMeshOutputCounts
 	/**
 	*name
@@ -1694,24 +1722,6 @@ namespace sdw
 	*/
 	/**@{*/
 	SDW_API RetVoid setMeshOutputCounts( UInt32 const numVertices, UInt32 const numPrimitives );
-	/**@}*/
-#pragma endregion
-#pragma region dispatchMesh
-	/**
-	*name
-	*	dispatchMesh
-	*/
-	/**@{*/
-	SDW_API RetVoid dispatchMesh( TaskPayload const payload, UInt32 const numTasks );
-	/**@}*/
-#pragma endregion
-#pragma region writePackedPrimitiveIndices4x8
-	/**
-	*name
-	*	writePackedPrimitiveIndices4x8
-	*/
-	/**@{*/
-	SDW_API RetVoid writePackedPrimitiveIndices4x8( UInt32 const indexOffset, UInt32 const packedIndices );
 	/**@}*/
 #pragma endregion
 #pragma region subgroupBarrier

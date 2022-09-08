@@ -178,6 +178,22 @@ namespace ast::type
 			{
 				return getHash( type, topology, maxPrimitives );
 			} }
+		, m_taskPayloadNV{ []( TypePtr type )
+			{
+				return std::make_shared< TaskPayloadNV >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} }
+		, m_taskPayloadInNV{ []( TypePtr type )
+			{
+				return std::make_shared< TaskPayloadInNV >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} }
 		, m_taskPayload{ []( TypePtr type )
 			{
 				return std::make_shared< TaskPayload >( type );
@@ -844,6 +860,16 @@ namespace ast::type
 		, uint32_t maxPrimitives )
 	{
 		return m_meshPrimitiveOutput.getType( type, topology, maxPrimitives );
+	}
+
+	TaskPayloadNVPtr TypesCache::getTaskPayloadNV( TypePtr type )
+	{
+		return m_taskPayloadNV.getType( type );
+	}
+
+	TaskPayloadInNVPtr TypesCache::getTaskPayloadInNV( TypePtr type )
+	{
+		return m_taskPayloadInNV.getType( type );
 	}
 
 	TaskPayloadPtr TypesCache::getTaskPayload( TypePtr type )

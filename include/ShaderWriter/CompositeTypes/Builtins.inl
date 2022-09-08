@@ -129,6 +129,27 @@ namespace sdw
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );
 	}
+
+	//*************************************************************************
+
+	template< template< ast::var::Flag FlagT > typename DataT
+		, ast::var::Flag FlagT >
+	PerTaskNVT< DataT, FlagT >::PerTaskNVT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: DataT< ast::var::Flag::ePerTaskNV >{ writer, std::move( expr ), enabled }
+	{
+	}
+
+	template< template< ast::var::Flag FlagT > typename DataT
+		, ast::var::Flag FlagT >
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr PerTaskNVT< DataT, FlagT >::makeType( ast::type::TypesCache & cache
+		, ParamsT ... params )
+	{
+		return DataT< FlagT >::makeIOType( cache
+			, std::forward< ParamsT >( params )... );
+	}
 	/**@}*/
 #pragma endregion
 }

@@ -2740,17 +2740,23 @@ namespace ast::expr
 			break;
 
 
+	//Mesh Shader NV Functions
+		case Intrinsic::eSetMeshOutputCountsNV:
+			result = "SETMESHOUTPUTCOUNTSNV";
+			break;
+
+		case Intrinsic::eDispatchMeshNV:
+			result = "DISPATCHMESHNV";
+			break;
+
+		case Intrinsic::eWritePackedPrimitiveIndices4x8NV:
+			result = "WRITEPACKEDPRIMITIVEINDICES4X8NV";
+			break;
+
+
 	//Mesh Shader Functions
 		case Intrinsic::eSetMeshOutputCounts:
 			result = "SETMESHOUTPUTCOUNTS";
-			break;
-
-		case Intrinsic::eDispatchMesh:
-			result = "DISPATCHMESH";
-			break;
-
-		case Intrinsic::eWritePackedPrimitiveIndices4x8:
-			result = "WRITEPACKEDPRIMITIVEINDICES4X8";
 			break;
 
 

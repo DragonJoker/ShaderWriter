@@ -5,9 +5,21 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
+	//*************************************************************************
+
+	TaskPayloadNV::TaskPayloadNV( TypePtr type )
+		: Type{ type->getCache(), Kind::eTaskPayloadNV }
+		, m_type{ type }
+	{
+	}
+
+	//*************************************************************************
+
 	TaskPayload::TaskPayload( TypePtr type )
 		: Type{ type->getCache(), Kind::eTaskPayload }
 		, m_type{ type }
 	{
 	}
+
+	//*************************************************************************
 }

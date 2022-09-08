@@ -89,7 +89,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
-		, primitiveIndex{ PrimitiveIndexT< TopologyT >::getMember( *this, ast::Builtin::ePrimitiveIndicesNV ) }
+		, primitiveIndex{ PrimitiveIndexT< TopologyT >::getMember( *this, PrimitiveIndexT< TopologyT >::Builtin ) }
 	{
 	}
 
@@ -116,9 +116,9 @@ namespace sdw
 				, std::forward< ParamsT >( params )... );
 		}
 
-		if ( !result->hasMember( ast::Builtin::ePrimitiveIndicesNV ) )
+		if ( !result->hasMember( PrimitiveIndexT< TopologyT >::Builtin ) )
 		{
-			result->declMember( ast::Builtin::ePrimitiveIndicesNV
+			result->declMember( PrimitiveIndexT< TopologyT >::Builtin
 				, PrimitiveIndexT< TopologyT >::Kind
 				, ast::type::NotArray );
 		}
@@ -137,6 +137,7 @@ namespace sdw
 		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
 		, layer{ getIntMember( *this, ast::Builtin::eLayer ) }
 		, viewportIndex{ getIntMember( *this, ast::Builtin::eViewportIndex ) }
+		, cullPrimitive{ getBoolMember( *this, ast::Builtin::eCullPrimitive ) }
 		, viewportMask{ getIntMemberArray( *this, ast::Builtin::eViewportMaskNV ) }
 	{
 	}
@@ -150,7 +151,7 @@ namespace sdw
 		ast::type::IOStructPtr result = TopologyOutT< DataT, TopologyT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 
-		if ( !result->hasMember( ast::Builtin::ePosition ) )
+		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
 		{
 			result->declMember( ast::Builtin::ePrimitiveID
 				, type::Kind::eInt
@@ -160,6 +161,9 @@ namespace sdw
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eViewportIndex
 				, type::Kind::eInt
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eCullPrimitive
+				, type::Kind::eBoolean
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eViewportMaskNV
 				, type::Kind::eInt
@@ -224,11 +228,13 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( localSizeX
+		this->implementMainT( localSizeX, localSizeY, localSizeZ
 			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -239,6 +245,8 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -247,7 +255,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX } )
+			, makeInParam( MeshIn{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -257,11 +265,13 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, PointsMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( localSizeX
+		this->implementMainT( localSizeX, localSizeY, localSizeZ
 			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -272,6 +282,8 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -280,7 +292,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX } )
+			, makeInParam( MeshSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -294,11 +306,13 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( localSizeX
+		this->implementMainT( localSizeX, localSizeY, localSizeZ
 			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -309,6 +323,8 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -317,7 +333,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX } )
+			, makeInParam( MeshIn{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -327,11 +343,13 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, LinesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( localSizeX
+		this->implementMainT( localSizeX, localSizeY, localSizeZ
 			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -342,6 +360,8 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -350,7 +370,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX } )
+			, makeInParam( MeshSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -364,11 +384,13 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( localSizeX
+		this->implementMainT( localSizeX, localSizeY, localSizeZ
 			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -379,6 +401,8 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -387,7 +411,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX } )
+			, makeInParam( MeshIn{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -397,11 +421,13 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, TrianglesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementMainT( localSizeX
+		this->implementMainT( localSizeX, localSizeY, localSizeZ
 			, TaskPayloadInT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -412,6 +438,8 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
 	void MeshWriter::implementMainT( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskPayloadInT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -420,7 +448,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX } )
+			, makeInParam( MeshSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );

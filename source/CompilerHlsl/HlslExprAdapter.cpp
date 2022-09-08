@@ -877,19 +877,14 @@ namespace hlsl
 			// The resulting expression is now the alias.
 			m_result = ast::expr::makeIdentifier( m_cache, aliasVar );
 		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8 )
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8NV )
 		{
 			ast::expr::ExprList args;
-			m_preventVarTypeReplacement = expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay
-				|| expr->getIntrinsic() == ast::expr::Intrinsic::eExecuteCallable
-				|| expr->getIntrinsic() == ast::expr::Intrinsic::eReportIntersection;
 
 			for ( auto & arg : expr->getArgList() )
 			{
 				args.emplace_back( doSubmit( arg.get() ) );
 			}
-
-			m_preventVarTypeReplacement = false;
 
 			auto it = std::find_if( m_adaptationData.getRoutines().begin()
 				, m_adaptationData.getRoutines().end()
@@ -966,7 +961,7 @@ namespace hlsl
 				args.insert( args.begin()
 					, ast::expr::makeIdentifier( m_cache, m_adaptationData.getHFOutputs().paramVar ) );
 			}
-			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMesh )
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMeshNV )
 			{
 				auto payload = std::move( args.front() );
 				auto localSizeX = std::move( args.back() );

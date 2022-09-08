@@ -9,6 +9,27 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
+	class TaskPayloadNV
+		: public Type
+	{
+	public:
+		SDAST_API explicit TaskPayloadNV( TypePtr type );
+
+		type::TypePtr getType()const
+		{
+			return m_type;
+		}
+
+	private:
+		TypePtr m_type;
+	};
+	using TaskPayloadNVPtr = std::shared_ptr< TaskPayloadNV >;
+
+	inline TaskPayloadNVPtr makeTaskPayloadNVType( TypePtr type )
+	{
+		return std::make_shared< TaskPayloadNV >( type );
+	}
+
 	class TaskPayload
 		: public Type
 	{

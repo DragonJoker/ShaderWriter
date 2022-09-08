@@ -1133,9 +1133,15 @@ namespace spirv
 			break;
 
 
-	//Mesh Shader Functions
-		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8:
+	//Mesh NV Shader Functions
+		case ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8NV:
 			result = spv::Id( spv::OpWritePackedPrimitiveIndices4x8NV );
+			break;
+
+
+	//Mesh Shader Functions
+		case ast::expr::Intrinsic::eSetMeshOutputCounts:
+			result = spv::Id( spv::OpSetMeshOutputsEXT );
 			break;
 
 

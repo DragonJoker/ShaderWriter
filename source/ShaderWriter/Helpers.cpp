@@ -58,6 +58,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtAccelerationStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtBufferReferenceDecl.hpp>
 #include <ShaderAST/Stmt/StmtCombinedImageDecl.hpp>
+#include <ShaderAST/Stmt/StmtDispatchMesh.hpp>
 #include <ShaderAST/Stmt/StmtFragmentLayout.hpp>
 #include <ShaderAST/Stmt/StmtHitAttributeVariableDecl.hpp>
 #include <ShaderAST/Stmt/StmtImageDecl.hpp>
@@ -917,6 +918,17 @@ namespace sdw
 	{
 		return stmt::makeFunctionDecl( std::move( type )
 			, std::move( name ) );
+	}
+
+	stmt::StmtPtr makeDispatchMesh( expr::ExprPtr numGroupsX
+		, expr::ExprPtr numGroupsY
+		, expr::ExprPtr numGroupsZ
+		, expr::ExprPtr payload )
+	{
+		return stmt::makeDispatchMesh( std::move( numGroupsX )
+			, std::move( numGroupsY )
+			, std::move( numGroupsZ )
+			, std::move( payload ) );
 	}
 
 	void addStmt( Shader & shader

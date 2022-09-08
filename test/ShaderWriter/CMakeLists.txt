@@ -5,6 +5,7 @@ if ( ${CMAKE_VERSION} VERSION_GREATER "3.10.2" )
 endif()
 
 option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
+option( SDW_TESTS_SUBMODULE_GLSLANG "Force use of glslang submodule" OFF )
 
 if ( SDW_TESTS_ENABLE_VALIDATION )
 	set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
@@ -78,7 +79,7 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 	endif ()
 endif ()
 
-if ( VCPKG_TOOLCHAIN )
+if ( VCPKG_TOOLCHAIN AND NOT SDW_TESTS_SUBMODULE_GLSLANG )
 	find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
 	get_target_property( glslang_INCLUDE_DIR SPIRV INTERFACE_INCLUDE_DIRECTORIES )
 	set( TargetLinkLibraries
@@ -89,17 +90,6 @@ if ( VCPKG_TOOLCHAIN )
 		SPIRV
 		SPVRemapper
 	)
-	find_package( SPIRV-Tools CONFIG )
-	if ( SPIRV-Tools_FOUND )
-		set( TargetLinkLibraries
-			${TargetLinkLibraries}
-			SPIRV-Tools-static
-		)
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasSpirVTools=1
-		)
-	endif ()
 elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 	set( glslang_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external )
 	if ( NOT TARGET glslang )
@@ -107,10 +97,13 @@ elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 		set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
 		set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
 		set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
+		set( ENABLE_CTEST FALSE CACHE BOOL "Enables testing" FORCE )
 		set( BUILD_TESTING OFF )
 		set( SKIP_GLSLANG_INSTALL ON )
 		add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang ${CMAKE_BINARY_DIR}/external/glslang )
 		set_property( TARGET glslang PROPERTY FOLDER "External/glslang" )
+		set_property( TARGET GenericCodeGen PROPERTY FOLDER "External/glslang" )
+		set_property( TARGET MachineIndependent PROPERTY FOLDER "External/glslang" )
 		set_property( TARGET OGLCompiler PROPERTY FOLDER "External/glslang" )
 		set_property( TARGET OSDependent PROPERTY FOLDER "External/glslang" )
 		set_property( TARGET SPIRV PROPERTY FOLDER "External/glslang" )
@@ -124,6 +117,67 @@ elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 		SPIRV
 		SPVRemapper
 	)
+else ()
+	message( FATAL_ERROR "glslang_INCLUDE_DIR couldn't be defined." )
+endif ()
+
+set( SPIRV_TOOLS_DIR
+	${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Tools
+)
+if ( EXISTS ${SPIRV_TOOLS_DIR}/include/spirv-tools/libspirv.hpp )
+	set( SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE )
+	set( SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE )
+	set( SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE )
+	set( SPIRV_WERROR OFF CACHE BOOL "" FORCE )
+	set( SPIRV_WARN_EVERYTHING OFF CACHE BOOL "" FORCE )
+	set( SPIRV-Headers_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Headers )
+	add_subdirectory( ${SPIRV_TOOLS_DIR} ${CMAKE_BINARY_DIR}/external/SPIRV-Tools )
+	set_property( TARGET core_tables PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET enum_string_mapping PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET extinst_tables PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-build-version PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-header-DebugInfo PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-header-NonSemanticShaderDebugInfo100 PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-header-OpenCLDebugInfo100 PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-cldi100 PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-clspvreflection PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-debuginfo PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-shdi100 PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-spv-amd-gs PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-spv-amd-sb PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-spv-amd-sevp PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spv-tools-spv-amd-stm PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-pkg-config PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-shared-pkg-config PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET spirv-tools-vimsyntax PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-diff PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-link PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-lint PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-opt PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-reduce PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-shared PROPERTY FOLDER "External/SPIRV-Tools" )
+	set_property( TARGET SPIRV-Tools-static PROPERTY FOLDER "External/SPIRV-Tools" )
+	set( TargetLinkLibraries
+		${TargetLinkLibraries}
+		SPIRV-Tools-static
+	)
+	set( OptionalCompileDefinitions
+		${OptionalCompileDefinitions}
+		SDW_Test_HasSpirVTools=1
+	)
+elseif ( VCPKG_TOOLCHAIN )
+	find_package( SPIRV-Tools CONFIG )
+	if ( SPIRV-Tools_FOUND )
+		set( TargetLinkLibraries
+			${TargetLinkLibraries}
+			SPIRV-Tools-static
+		)
+		set( OptionalCompileDefinitions
+			${OptionalCompileDefinitions}
+			SDW_Test_HasSpirVTools=1
+		)
+	endif ()
+else ()
 	find_package( SPIRV-Tools )
 	if ( SPIRV-Tools_FOUND )
 		set( TargetLinkLibraries
@@ -135,8 +189,6 @@ elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
 			SDW_Test_HasSpirVTools=1
 		)
 	endif ()
-else ()
-	message( FATAL_ERROR "glslang_INCLUDE_DIR couldn't be defined." )
 endif ()
 
 set( SPIRV_CROSS_DIR

@@ -21,9 +21,13 @@ namespace glsl
 			result.requiredExtensions.insert( EXT_ray_tracing );
 		}
 
-		if ( isMeshStage( stage ) )
+		if ( isMeshNVStage( stage ) )
 		{
 			result.requiredExtensions.insert( NV_mesh_shader );
+		}
+		else if ( isMeshStage( stage ) )
+		{
+			result.requiredExtensions.insert( EXT_mesh_shader );
 		}
 
 		StmtConfigFiller vis{ result };
@@ -58,6 +62,10 @@ namespace glsl
 	}
 
 	void StmtConfigFiller::visitDemoteStmt( ast::stmt::Demote * stmt )
+	{
+	}
+
+	void StmtConfigFiller::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
 	{
 	}
 

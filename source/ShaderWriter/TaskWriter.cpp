@@ -22,14 +22,16 @@ namespace sdw
 	}
 
 	TaskIn::TaskIn( ShaderWriter & writer
-		, uint32_t localSizeX )
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
 		: TaskIn{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "taskIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
-						, 1u
-						, 1u ) ) )
+						, localSizeY
+						, localSizeZ ) ) )
 			, true }
 	{
 	}
@@ -84,14 +86,16 @@ namespace sdw
 	}
 
 	TaskSubgroupIn::TaskSubgroupIn( ShaderWriter & writer
-		, uint32_t localSizeX )
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
 		: TaskSubgroupIn{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "taskSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
-						, 1u
-						, 1u ) ) )
+						, localSizeY
+						, localSizeZ ) ) )
 			, true }
 	{
 	}
@@ -141,18 +145,36 @@ namespace sdw
 	{
 	}
 
+	void TaskWriter::dispatchMesh( UInt numGroupsX
+		, UInt numGroupsY
+		, UInt numGroupsZ )
+	{
+		addStmt( makeDispatchMesh( makeExpr( numGroupsX )
+			, makeExpr( numGroupsY )
+			, makeExpr( numGroupsZ )
+			, nullptr ) );
+	}
+
 	void TaskWriter::implementMain( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskMainFunc const & function )
 	{
 		implementMainT< VoidT >( localSizeX
+			, localSizeY
+			, localSizeZ
 			, TaskPayloadOut{ *this }
 			, function );
 	}
 
 	void TaskWriter::implementMain( uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ
 		, TaskSubgroupMainFunc const & function )
 	{
 		implementMainT< VoidT >( localSizeX
+			, localSizeY
+			, localSizeZ
 			, TaskPayloadOut{ *this }
 			, function );
 	}

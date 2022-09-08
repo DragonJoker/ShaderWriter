@@ -118,6 +118,9 @@ namespace spirv
 		SDWSPIRV_API void registerExecutionMode( ast::type::PatchDomain domain
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering order );
+		SDWSPIRV_API void registerExecutionModeNV( ast::type::OutputTopology topology
+			, uint32_t maxVertices
+			, uint32_t maxPrimitives );
 		SDWSPIRV_API void registerExecutionMode( ast::type::OutputTopology topology
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives );

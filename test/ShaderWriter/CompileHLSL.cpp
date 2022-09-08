@@ -51,9 +51,11 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				model = "ps_" + model;
 				break;
+			case ast::ShaderStage::eMeshNV:
 			case ast::ShaderStage::eMesh:
 				model = "ms_" + model;
 				break;
+			case ast::ShaderStage::eTaskNV:
 			case ast::ShaderStage::eTask:
 				model = "as_" + model;
 				break;
@@ -99,9 +101,11 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				model = L"ps_" + model;
 				break;
+			case ast::ShaderStage::eTaskNV:
 			case ast::ShaderStage::eTask:
 				model = L"as_" + model;
 				break;
+			case ast::ShaderStage::eMeshNV:
 			case ast::ShaderStage::eMesh:
 				model = L"ms_" + model;
 				break;

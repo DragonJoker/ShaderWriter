@@ -61,6 +61,7 @@ namespace test
 				result.insert( glsl::NVX_multiview_per_view_attributes );
 				result.insert( glsl::EXT_nonuniform_qualifier );
 				result.insert( glsl::NV_mesh_shader );
+				result.insert( glsl::EXT_mesh_shader );
 				result.insert( glsl::EXT_buffer_reference2 );
 			}
 
@@ -165,11 +166,17 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				result = spv::ExecutionModelFragment;
 				break;
-			case ast::ShaderStage::eTask:
+			case ast::ShaderStage::eTaskNV:
 				result = spv::ExecutionModelTaskNV;
 				break;
-			case ast::ShaderStage::eMesh:
+			case ast::ShaderStage::eTask:
+				result = spv::ExecutionModelTaskEXT;
+				break;
+			case ast::ShaderStage::eMeshNV:
 				result = spv::ExecutionModelMeshNV;
+				break;
+			case ast::ShaderStage::eMesh:
+				result = spv::ExecutionModelMeshEXT;
 				break;
 			case ast::ShaderStage::eCompute:
 				result = spv::ExecutionModelGLCompute;
@@ -448,7 +455,7 @@ namespace test
 				errors += "Index " + std::to_string( position.index ) + ": " + message + std::string{ "\n" };
 			};
 
-			spvtools::SpirvTools tools{ SPV_ENV_UNIVERSAL_1_5 };
+			spvtools::SpirvTools tools{ spv_target_env( getSpirVTargetEnv( testCounts, infoIndex ) ) };
 			tools.SetMessageConsumer( consumer );
 			spvtools::ValidatorOptions valOptions;
 			valOptions.SetScalarBlockLayout( true );
@@ -475,7 +482,9 @@ namespace test
 				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts
 					, ( requiredExtensions.end() != requiredExtensions.find( spirv::KHR_terminate_invocation )
 						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_demote_to_helper_invocation )
-						|| requiredExtensions.end() != requiredExtensions.find( spirv::KHR_shader_subgroup ) ) );
+						|| requiredExtensions.end() != requiredExtensions.find( spirv::KHR_shader_subgroup )
+						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_shader_atomic_float_add )
+						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_mesh_shader ) ) );
 				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay && display, true );
 			}
 
@@ -514,7 +523,9 @@ namespace test
 				std::string errors;
 				auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
 
-				if ( isRayTraceStage( shader.getType() ) )
+				if ( isRayTraceStage( shader.getType() )
+					|| shader.getType() == ast::ShaderStage::eMesh
+					|| shader.getType() == ast::ShaderStage::eTask )
 				{
 					config.vulkanGlsl = true;
 				}
@@ -536,6 +547,8 @@ namespace test
 				bool isCompiled{ false };
 
 				if ( isRayTraceStage( shader.getType() )
+					|| shader.getType() == ast::ShaderStage::eMesh
+					|| shader.getType() == ast::ShaderStage::eTask
 					|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
 				{
 					try
@@ -621,8 +634,14 @@ namespace test
 			case ast::ShaderStage::eFragment:
 				model = "ps_" + model;
 				break;
+			case ast::ShaderStage::eMeshNV:
+				model = "ms_" + model;
+				break;
 			case ast::ShaderStage::eMesh:
 				model = "ms_" + model;
+				break;
+			case ast::ShaderStage::eTaskNV:
+				model = "as_" + model;
 				break;
 			case ast::ShaderStage::eTask:
 				model = "as_" + model;
@@ -759,7 +778,8 @@ namespace test
 		{
 #if SDW_HasCompilerSpirV
 
-			if ( testCounts.isSpirVInitialised( infoIndex ) )
+			if ( testCounts.isSpirVInitialised( infoIndex )
+				&& !testCounts.isSpvIgnored( infoIndex, compilers.ignoredSpv ) )
 			{
 				auto validate = [&]( bool availableExtensions )
 				{
@@ -771,6 +791,11 @@ namespace test
 
 						if ( availableExtensions )
 						{
+							if ( config.specVersion >= spirv::v1_6 )
+							{
+								extensions.emplace( spirv::EXT_mesh_shader );
+							}
+
 							if ( config.specVersion >= spirv::v1_5 )
 							{
 								extensions.emplace( spirv::KHR_terminate_invocation );
@@ -788,6 +813,16 @@ namespace test
 								extensions.emplace( spirv::EXT_descriptor_indexing );
 								extensions.emplace( spirv::EXT_physical_storage_buffer );
 								extensions.emplace( spirv::KHR_shader_subgroup );
+							}
+
+							if ( config.specVersion >= spirv::v1_2 )
+							{
+								extensions.emplace( spirv::KHR_8bit_storage );
+							}
+
+							if ( config.specVersion >= spirv::v1_1 )
+							{
+								extensions.emplace( spirv::KHR_16bit_storage );
 							}
 
 							config.availableExtensions = &extensions;
@@ -896,6 +931,10 @@ namespace test
 				return "Geometry";
 			case ast::ShaderStage::eFragment:
 				return "Fragment";
+			case ast::ShaderStage::eTaskNV:
+				return "TaskNV";
+			case ast::ShaderStage::eMeshNV:
+				return "MeshNV";
 			case ast::ShaderStage::eTask:
 				return "Task";
 			case ast::ShaderStage::eMesh:
@@ -1149,6 +1188,11 @@ namespace test
 		bool TestCounts::isSpirVInitialised( uint32_t infoIndex )const
 		{
 			return retrieveIsSpirVInitialised( *this, infoIndex );
+		}
+
+		bool TestCounts::isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const
+		{
+			return retrieveSPIRVVersion( *this, infoIndex ) == ignoredSpvVersion;
 		}
 
 		uint32_t TestCounts::getVulkanVersion( uint32_t infoIndex )const

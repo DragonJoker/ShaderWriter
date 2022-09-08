@@ -244,12 +244,12 @@ namespace spirv
 						|| builtin == ast::Builtin::eLocalInvocationID
 						|| builtin == ast::Builtin::eGlobalInvocationID
 						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
-				|| ( type == ast::ShaderStage::eMesh
+				|| ( ( type == ast::ShaderStage::eMeshNV || type == ast::ShaderStage::eMesh )
 					&& ( builtin == ast::Builtin::eWorkGroupID
 						|| builtin == ast::Builtin::eLocalInvocationID
 						|| builtin == ast::Builtin::eGlobalInvocationID
 						|| builtin == ast::Builtin::eLocalInvocationIndex ) )
-				|| ( type == ast::ShaderStage::eTask
+				|| ( ( type == ast::ShaderStage::eTaskNV || type == ast::ShaderStage::eTask )
 					&& ( builtin == ast::Builtin::eWorkGroupID
 						|| builtin == ast::Builtin::eLocalInvocationID
 						|| builtin == ast::Builtin::eGlobalInvocationID
@@ -330,7 +330,7 @@ namespace spirv
 						|| builtin == ast::Builtin::ePointSize
 						|| builtin == ast::Builtin::eClipDistance
 						|| builtin == ast::Builtin::eCullDistance ) )
-				|| ( type == ast::ShaderStage::eMesh
+				|| ( ( type == ast::ShaderStage::eMeshNV || type == ast::ShaderStage::eMesh )
 					&& ( builtin == ast::Builtin::ePosition
 						|| builtin == ast::Builtin::ePointSize
 						|| builtin == ast::Builtin::eClipDistance
@@ -518,9 +518,13 @@ namespace spirv
 			config.registerCapability( spv::CapabilityCullDistance );
 			break;
 		case ast::Builtin::ePrimitiveID:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( stage == ast::ShaderStage::eMeshNV )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingEXT );
 			}
 			else if ( !isRayTraceStage( stage ) )
 			{
@@ -532,9 +536,13 @@ namespace spirv
 			// Tessellation or Geometry
 			break;
 		case ast::Builtin::eLayer:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( stage == ast::ShaderStage::eMeshNV )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingEXT );
 			}
 			else if ( stage == ast::ShaderStage::eGeometry )
 			{
@@ -546,9 +554,13 @@ namespace spirv
 			}
 			break;
 		case ast::Builtin::eViewportIndex:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( stage == ast::ShaderStage::eMeshNV )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingEXT );
 			}
 			else
 			{
@@ -585,27 +597,16 @@ namespace spirv
 		case ast::Builtin::eWorkGroupSize:
 			break;
 		case ast::Builtin::eWorkGroupID:
-			if ( isMeshStage( stage ) )
-			{
-				config.registerCapability( spv::CapabilityMeshShadingNV );
-			}
-			break;
 		case ast::Builtin::eLocalInvocationID:
-			if ( isMeshStage( stage ) )
-			{
-				config.registerCapability( spv::CapabilityMeshShadingNV );
-			}
-			break;
 		case ast::Builtin::eGlobalInvocationID:
-			if ( isMeshStage( stage ) )
+		case ast::Builtin::eLocalInvocationIndex:
+			if ( isMeshNVStage( stage ) )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
 			}
-			break;
-		case ast::Builtin::eLocalInvocationIndex:
-			if ( isMeshStage( stage ) )
+			else if ( isMeshStage( stage ) )
 			{
-				config.registerCapability( spv::CapabilityMeshShadingNV );
+				config.registerCapability( spv::CapabilityMeshShadingEXT );
 			}
 			break;
 		case ast::Builtin::eWorkDim:
@@ -661,9 +662,13 @@ namespace spirv
 			config.registerCapability( spv::CapabilityStencilExportEXT );
 			break;
 		case ast::Builtin::eViewportMaskNV:
-			if ( stage == ast::ShaderStage::eMesh )
+			if ( stage == ast::ShaderStage::eMeshNV )
 			{
 				config.registerCapability( spv::CapabilityMeshShadingNV );
+			}
+			else if ( stage == ast::ShaderStage::eMesh )
+			{
+				config.registerCapability( spv::CapabilityMeshShadingEXT );
 			}
 			else
 			{
@@ -1315,6 +1320,9 @@ namespace spirv
 			break;
 		case spv::CapabilityImageFootprintNV:
 			break;
+		case spv::CapabilityMeshShadingEXT:
+			registerExtension( EXT_mesh_shader );
+			break;
 		case spv::CapabilityFragmentBarycentricNV:
 			break;
 		case spv::CapabilityComputeDerivativeGroupQuadsNV:
@@ -1450,6 +1458,13 @@ namespace spirv
 
 		if ( spirvConfig.specVersion < extension.specVersion )
 		{
+			if ( extension.isMarker )
+			{
+				throw std::runtime_error{ "SPIR-V specification version (" + printSpvVersion( spirvConfig.specVersion )
+					+ ") doesn't support [" + extension.name
+					+ "] (required version: " + printSpvVersion( extension.specVersion ) + ")" };
+			}
+
 			throw std::runtime_error{ "SPIR-V specification version (" + printSpvVersion( spirvConfig.specVersion )
 				+ ") doesn't support extension [" + extension.name
 				+ "] (required version: " + printSpvVersion( extension.specVersion ) + ")" };
@@ -1482,7 +1497,7 @@ namespace spirv
 
 		for ( auto & extension : requiredExtensions )
 		{
-			if ( spirvConfig.specVersion < extension.coreInVersion )
+			if ( !extension.isMarker )
 			{
 				module.registerExtension( extension.name );
 			}
@@ -1533,8 +1548,14 @@ namespace spirv
 			case ast::type::Kind::eMeshPrimitiveOutput:
 				registerParam( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 				break;
+			case ast::type::Kind::eTaskPayloadNV:
+				registerParam( param, static_cast< ast::type::TaskPayloadNV const & >( *type ) );
+				break;
 			case ast::type::Kind::eTaskPayload:
 				registerParam( param, static_cast< ast::type::TaskPayload const & >( *type ) );
+				break;
+			case ast::type::Kind::eTaskPayloadInNV:
+				registerParam( param, static_cast< ast::type::TaskPayloadInNV const & >( *type ) );
 				break;
 			case ast::type::Kind::eTaskPayloadIn:
 				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
@@ -1956,9 +1977,21 @@ namespace spirv
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TaskPayloadNV const & taskType )
+	{
+		addOutput( var );
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::TaskPayload const & taskType )
 	{
 		addOutput( var );
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::TaskPayloadInNV const & taskType )
+	{
+		addInput( var );
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
@@ -2199,6 +2232,12 @@ namespace spirv
 			return spv::BuiltInObjectToWorldKHR;
 		case ast::Builtin::eWorldToObject:
 			return spv::BuiltInWorldToObjectKHR;
+		case ast::Builtin::ePrimitivePointIndices:
+			return spv::BuiltInPrimitivePointIndicesEXT;
+		case ast::Builtin::ePrimitiveLineIndices:
+			return spv::BuiltInPrimitiveLineIndicesEXT;
+		case ast::Builtin::ePrimitiveTriangleIndices:
+			return spv::BuiltInPrimitiveTriangleIndicesEXT;
 		default:
 			AST_Failure( "Unsupported ast::Builtin" );
 			return spv::BuiltInMax;
@@ -2231,11 +2270,17 @@ namespace spirv
 		case ast::ShaderStage::eFragment:
 			result = spv::ExecutionModelFragment;
 			break;
-		case ast::ShaderStage::eTask:
+		case ast::ShaderStage::eTaskNV:
 			result = spv::ExecutionModelTaskNV;
 			break;
-		case ast::ShaderStage::eMesh:
+		case ast::ShaderStage::eTask:
+			result = spv::ExecutionModelTaskEXT;
+			break;
+		case ast::ShaderStage::eMeshNV:
 			result = spv::ExecutionModelMeshNV;
+			break;
+		case ast::ShaderStage::eMesh:
+			result = spv::ExecutionModelMeshEXT;
 			break;
 		case ast::ShaderStage::eCompute:
 			result = spv::ExecutionModelGLCompute;
@@ -2508,6 +2553,8 @@ namespace spirv
 			return "FragmentFullyCoveredEXT";
 		case spv::CapabilityMeshShadingNV:
 			return "MeshShadingNV";
+		case spv::CapabilityMeshShadingEXT:
+			return "MeshShadingEXT";
 		case spv::CapabilityImageFootprintNV:
 			return "ImageFootprintNV";
 		case spv::CapabilityFragmentBarycentricKHR:
@@ -2788,6 +2835,10 @@ namespace spirv
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( operands );
 		case spv::OpWritePackedPrimitiveIndices4x8NV:
 			return makeInstruction< WritePackedPrimitiveIndices4x8Instruction >( operands );
+		case spv::OpSetMeshOutputsEXT:
+			return makeInstruction< SetMeshOutputsInstruction >( operands );
+		case spv::OpEmitMeshTasksEXT:
+			return makeInstruction< EmitMeshTasksInstruction >( operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
@@ -3400,9 +3451,9 @@ namespace spirv
 			module.decorate( varId, spv::DecorationPerPrimitiveNV );
 		}
 
-		if ( var.isPerTask()
-			|| var.getType()->getKind() == ast::type::Kind::eTaskPayload
-			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadIn )
+		if ( var.isPerTaskNV()
+			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadNV
+			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadInNV )
 		{
 			module.decorate( varId, spv::DecorationPerTaskNV );
 		}

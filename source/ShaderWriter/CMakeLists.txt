@@ -49,6 +49,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/GeometryWriter.inl
 	${INCLUDE_DIR}/MeshWriter.hpp
 	${INCLUDE_DIR}/MeshWriter.inl
+	${INCLUDE_DIR}/MeshWriterNV.hpp
+	${INCLUDE_DIR}/MeshWriterNV.inl
 	${INCLUDE_DIR}/RayAnyHitWriter.hpp
 	${INCLUDE_DIR}/RayAnyHitWriter.inl
 	${INCLUDE_DIR}/RayClosestHitWriter.hpp
@@ -59,6 +61,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/RayMissWriter.inl
 	${INCLUDE_DIR}/TaskWriter.hpp
 	${INCLUDE_DIR}/TaskWriter.inl
+	${INCLUDE_DIR}/TaskWriterNV.hpp
+	${INCLUDE_DIR}/TaskWriterNV.inl
 	${INCLUDE_DIR}/TessellationControlWriter.hpp
 	${INCLUDE_DIR}/TessellationControlWriter.inl
 	${INCLUDE_DIR}/TessellationEvaluationWriter.hpp
@@ -74,6 +78,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/GeometryWriter.cpp
 	${SOURCE_DIR}/MeshWriter.cpp
+	${SOURCE_DIR}/MeshWriterNV.cpp
 	${SOURCE_DIR}/RayAnyHitWriter.cpp
 	${SOURCE_DIR}/RayClosestHitWriter.cpp
 	${SOURCE_DIR}/RayGenerationWriter.cpp
@@ -81,6 +86,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/RayMissWriter.cpp
 	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
 	${SOURCE_DIR}/TaskWriter.cpp
+	${SOURCE_DIR}/TaskWriterNV.cpp
 	${SOURCE_DIR}/TessellationControlWriter.cpp
 	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
 	${SOURCE_DIR}/VertexWriter.cpp
@@ -141,6 +147,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/StorageImage.inl
 	${INCLUDE_DIR}/BaseTypes/TaskPayload.hpp
 	${INCLUDE_DIR}/BaseTypes/TaskPayload.inl
+	${INCLUDE_DIR}/BaseTypes/TaskPayloadNV.hpp
+	${INCLUDE_DIR}/BaseTypes/TaskPayloadNV.inl
 	${INCLUDE_DIR}/BaseTypes/UInt.hpp
 	${INCLUDE_DIR}/BaseTypes/UInt.inl
 	${INCLUDE_DIR}/BaseTypes/Void.hpp
@@ -160,6 +168,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/Sampler.cpp
 	${SOURCE_DIR}/BaseTypes/StorageImage.cpp
 	${SOURCE_DIR}/BaseTypes/TaskPayload.cpp
+	${SOURCE_DIR}/BaseTypes/TaskPayloadNV.cpp
 	${SOURCE_DIR}/BaseTypes/UInt.cpp
 	${SOURCE_DIR}/BaseTypes/Void.cpp
 )

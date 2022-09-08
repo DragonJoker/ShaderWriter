@@ -1792,6 +1792,10 @@ namespace spirv
 			return "ConstantCompositeContinuedINTEL";
 		case spv::OpSpecConstantCompositeContinuedINTEL:
 			return "SpecConstantCompositeContinuedINTEL";
+		case spv::OpSetMeshOutputsEXT:
+			return "SetMeshOutputsEXT";
+		case spv::OpEmitMeshTasksEXT:
+			return "EmitMeshTasksEXT";
 		default:
 			assert( false );
 			return "Unknown";

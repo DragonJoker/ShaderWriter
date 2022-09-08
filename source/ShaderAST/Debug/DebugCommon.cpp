@@ -422,8 +422,14 @@ namespace ast::debug
 		case type::Kind::eMeshPrimitiveOutput:
 			result = "MESHPRIMOUT";
 			break;
+		case type::Kind::eTaskPayloadNV:
+			result = "TASKPLOUTNV";
+			break;
 		case type::Kind::eTaskPayload:
 			result = "TASKPLOUT";
+			break;
+		case type::Kind::eTaskPayloadInNV:
+			result = "TASKPLINNV";
 			break;
 		case type::Kind::eTaskPayloadIn:
 			result = "TASKPLIN";

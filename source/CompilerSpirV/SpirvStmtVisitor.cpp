@@ -184,6 +184,23 @@ namespace spirv
 		}
 	}
 
+	void StmtVisitor::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
+	{
+		ValueIdList operands;
+		operands.push_back( ExprVisitor::submit( stmt->getNumGroupsX(), m_context, m_currentBlock, m_result ) );
+		operands.push_back( ExprVisitor::submit( stmt->getNumGroupsY(), m_context, m_currentBlock, m_result ) );
+		operands.push_back( ExprVisitor::submit( stmt->getNumGroupsZ(), m_context, m_currentBlock, m_result ) );
+
+		if ( stmt->getPayload() )
+		{
+			operands.push_back( ExprVisitor::submit( stmt->getPayload(), m_context, m_currentBlock, m_result ) );
+		}
+
+		interruptBlock( m_currentBlock
+			, makeInstruction< EmitMeshTasksInstruction >( operands )
+			, true );
+	}
+
 	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
 		if ( m_moduleConfig.hasExtension( KHR_terminate_invocation ) )
@@ -570,9 +587,18 @@ namespace spirv
 
 	void StmtVisitor::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
 	{
-		m_result.registerExecutionMode( stmt->getTopology()
-			, stmt->getMaxVertices()
-			, stmt->getMaxPrimitives() );
+		if ( m_moduleConfig.stage == ast::ShaderStage::eMeshNV )
+		{
+			m_result.registerExecutionModeNV( stmt->getTopology()
+				, stmt->getMaxVertices()
+				, stmt->getMaxPrimitives() );
+		}
+		else
+		{
+			m_result.registerExecutionMode( stmt->getTopology()
+				, stmt->getMaxVertices()
+				, stmt->getMaxPrimitives() );
+		}
 	}
 
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )

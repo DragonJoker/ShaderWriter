@@ -11,6 +11,8 @@ namespace ast
 		case ast::ShaderStage::eTessellationEvaluation:
 		case ast::ShaderStage::eGeometry:
 		case ast::ShaderStage::eFragment:
+		case ast::ShaderStage::eTaskNV:
+		case ast::ShaderStage::eMeshNV:
 		case ast::ShaderStage::eTask:
 		case ast::ShaderStage::eMesh:
 			return true;
@@ -44,8 +46,22 @@ namespace ast
 	{
 		switch ( stage )
 		{
+		case ast::ShaderStage::eTaskNV:
+		case ast::ShaderStage::eMeshNV:
 		case ast::ShaderStage::eTask:
 		case ast::ShaderStage::eMesh:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool isMeshNVStage( ShaderStage stage )
+	{
+		switch ( stage )
+		{
+		case ast::ShaderStage::eTaskNV:
+		case ast::ShaderStage::eMeshNV:
 			return true;
 		default:
 			return false;
@@ -232,6 +248,14 @@ namespace ast
 			return "ObjectToWorld";
 		case ast::Builtin::eWorldToObject:
 			return "WorldToObject";
+		case ast::Builtin::eCullPrimitive:
+			return "CullPrimitiveEXT";
+		case ast::Builtin::ePrimitivePointIndices:
+			return "PrimitivePointIndicesEXT";
+		case ast::Builtin::ePrimitiveLineIndices:
+			return "PrimitiveLineIndicesEXT";
+		case ast::Builtin::ePrimitiveTriangleIndices:
+			return "PrimitiveTriangleIndicesEXT";
 		default:
 			AST_Failure( "Unsupported ast::Builtin" );
 			return "Undefined";
@@ -268,7 +292,8 @@ namespace ast
 		case ast::Builtin::eViewportIndex:
 		case ast::Builtin::eViewportMaskNV:
 		case ast::Builtin::eViewportMaskPerViewNV:
-			return stage == ShaderStage::eMesh;
+			return stage == ShaderStage::eMeshNV
+				|| stage == ShaderStage::eMesh;
 		default:
 			return false;
 		}

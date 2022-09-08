@@ -32,6 +32,7 @@ namespace ast
 		SDAST_API void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override;
 		SDAST_API void visitCommentStmt( stmt::Comment * stmt )override;
 		SDAST_API void visitCompoundStmt( stmt::Compound * stmt )override;
+		SDAST_API void visitDispatchMeshStmt( stmt::DispatchMesh * stmt )override;
 		SDAST_API void visitDoWhileStmt( stmt::DoWhile * stmt )override;
 		SDAST_API void visitElseIfStmt( stmt::ElseIf * stmt )override;
 		SDAST_API void visitElseStmt( stmt::Else * stmt )override;

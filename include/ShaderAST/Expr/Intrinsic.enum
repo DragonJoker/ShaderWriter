@@ -703,10 +703,13 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( reportIntersection, ReportIntersection ), ASTIntrParams( ASTIntrParam( type::Kind::eFloat, hitT ), ASTIntrParam( type::Kind::eUInt32, hitKind ), ASTIntrParam( type::Kind::eHitAttribute, attribs ) ) )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( executeCallable, ExecuteCallable ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, sbtRecordIndex ), ASTIntrParam( type::Kind::eCallableData, callable ) ) )
 
+	//Mesh Shader NV Functions
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( setMeshOutputCountsNV, SetMeshOutputCountsNV ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, numVertices ), ASTIntrParam( type::Kind::eUInt32, numPrimitives ) ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( dispatchMeshNV, DispatchMeshNV ), ASTIntrParams( ASTIntrParam( type::Kind::eTaskPayloadNV, payload ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, numTasks ) ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( writePackedPrimitiveIndices4x8NV, WritePackedPrimitiveIndices4x8NV ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, indexOffset ), ASTIntrParam( type::Kind::eUInt32, packedIndices ) ) )
+
 	//Mesh Shader Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( setMeshOutputCounts, SetMeshOutputCounts ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, numVertices ), ASTIntrParam( type::Kind::eUInt32, numPrimitives ) ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( dispatchMesh, DispatchMesh ), ASTIntrParams( ASTIntrParam( type::Kind::eTaskPayload, payload ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, numTasks ) ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( writePackedPrimitiveIndices4x8, WritePackedPrimitiveIndices4x8 ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, indexOffset ), ASTIntrParam( type::Kind::eUInt32, packedIndices ) ) )
 
 	//Shader Subgroup Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupBarrier, SubgroupBarrier ) )

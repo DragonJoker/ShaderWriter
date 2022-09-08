@@ -3,6 +3,7 @@
 #include "WriterCommon.hpp"
 
 #if SDW_Test_HasVulkan && SDW_HasVulkanLayer
+#	include "./vulkan/vulkan.h"
 #	include <VulkanLayer/VulkanLayer.hpp>
 #endif
 
@@ -20,6 +21,8 @@ namespace test
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex );
 	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts );
+	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex );
 	bool createSPIRVContext( sdw_test::TestCounts & testCounts );
 	void destroySPIRVContext( sdw_test::TestCounts & testCounts );
 	bool compileSpirV( ::ast::Shader const & shader

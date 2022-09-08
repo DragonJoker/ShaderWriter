@@ -162,10 +162,14 @@ namespace test
 				return EShLangTessEvaluation;
 			case ast::ShaderStage::eGeometry:
 				return EShLangGeometry;
-			case ast::ShaderStage::eTask:
+			case ast::ShaderStage::eTaskNV:
 				return EShLangTaskNV;
-			case ast::ShaderStage::eMesh:
+			case ast::ShaderStage::eMeshNV:
 				return EShLangMeshNV;
+			case ast::ShaderStage::eTask:
+				return EShLangTask;
+			case ast::ShaderStage::eMesh:
+				return EShLangMesh;
 			case ast::ShaderStage::eFragment:
 				return EShLangFragment;
 			case ast::ShaderStage::eCompute:
@@ -202,6 +206,8 @@ namespace test
 				return glslang::EShTargetSpv_1_4;
 			case 150u:
 				return glslang::EShTargetSpv_1_5;
+			case 160u:
+				return glslang::EShTargetSpv_1_6;
 			default:
 				return glslang::EShTargetSpv_1_0;
 			}

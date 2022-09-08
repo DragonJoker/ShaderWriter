@@ -75,6 +75,10 @@ namespace hlsl
 	{
 	}
 
+	void StmtConfigFiller::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
+	{
+	}
+
 	void StmtConfigFiller::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
 	}

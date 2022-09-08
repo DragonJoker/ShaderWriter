@@ -1096,11 +1096,12 @@ namespace hlsl
 			break;
 
 	//Mesh Shader Functions
+		case ast::expr::Intrinsic::eSetMeshOutputCountsNV:
 		case ast::expr::Intrinsic::eSetMeshOutputCounts:
 			result = "SetMeshOutputCounts";
 			break;
 
-		case ast::expr::Intrinsic::eDispatchMesh:
+		case ast::expr::Intrinsic::eDispatchMeshNV:
 			result = "DispatchMesh";
 			break;
 

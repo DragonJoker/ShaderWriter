@@ -3280,13 +3280,37 @@ namespace
 		sdw::Array< sdw::UInt > meshletIndices;
 	};
 
+	void testSetMeshOutputCountsNV( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSetMeshOutputCountsNV" );
+		using namespace sdw;
+		{
+			MeshWriterNV writer;
+			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshIn in
+					, TaskPayloadInNVT< PayloadT > payload
+					, MeshVertexListOutT< VoidT > vtxOut
+					, TrianglesMeshNVPrimitiveListOutT< VoidT > primOut )
+				{
+					auto index = writer.declLocale( "index"
+						, payload.meshletIndices[0_u] );
+					primOut.setMeshOutputCounts( 3_u, 1_u );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
 	void testSetMeshOutputCounts( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "testSetMeshOutputCounts" );
 		using namespace sdw;
 		{
 			MeshWriter writer;
-			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u
+			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshIn in
@@ -3297,6 +3321,28 @@ namespace
 					auto index = writer.declLocale( "index"
 						, payload.meshletIndices[0_u] );
 					primOut.setMeshOutputCounts( 3_u, 1_u );
+				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
+			test::writeShader( writer
+				, testCounts, Compilers_NoGLSL );
+		}
+		testEnd();
+	}
+
+	void testDispatchMeshNV( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testDispatchMeshNV" );
+		using namespace sdw;
+		{
+			TaskWriterNV writer;
+			writer.implementMainT< PayloadT >( 32u
+				, TaskPayloadOutNVT< PayloadT >{ writer }
+				, [&]( TaskIn in
+					, TaskPayloadOutNVT< PayloadT > payload )
+				{
+					payload.meshletIndices[0_u] = 1_u;
+					payload.dispatchMesh( 1_u );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -3310,16 +3356,18 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			writer.implementMainT< PayloadT >( 32u
+			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutT< PayloadT >{ writer }
 				, [&]( TaskIn in
 					, TaskPayloadOutT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
-					payload.dispatchMesh( 1_u );
+					writer.dispatchMesh( 1_u, 1_u, 1_u, payload );
 				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, Compilers_NoGLSL );
 		}
 		testEnd();
 	}
@@ -5324,7 +5372,9 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	//testTraceRay( testCounts );
 	//testReportIntersection( testCounts );
 	//testExecuteCallable( testCounts );
+	testSetMeshOutputCountsNV( testCounts );
 	testSetMeshOutputCounts( testCounts );
+	testDispatchMeshNV( testCounts );
 	testDispatchMesh( testCounts );
 	testHelperInvocation( testCounts );
 	testSubgroupElect( testCounts );

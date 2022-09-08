@@ -73,8 +73,15 @@ namespace
 						auto j = writer.declLocale( "j"
 							, s.getSize( 0_i ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -101,8 +108,15 @@ namespace
 						auto j = writer.declLocale( "j"
 							, s.getSize() );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -153,7 +167,7 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts
-					, { true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders } );
+					, { true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
 			}
 			testEnd();
 		}
@@ -212,8 +226,15 @@ namespace
 						auto j = writer.declLocale( "j"
 							, s.getLevels() );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -268,8 +289,15 @@ namespace
 						auto d = writer.declLocale( "d"
 							, s.sample( test::getDefault< SampleT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -299,8 +327,15 @@ namespace
 							, s.sample( test::getDefault< SampleT >( writer )
 								, 0.5_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -356,8 +391,15 @@ namespace
 							, s.sample( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -391,8 +433,15 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -443,8 +492,15 @@ namespace
 						auto d = writer.declLocale( "d"
 							, s.proj( test::getDefault< SampleProjT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -476,8 +532,15 @@ namespace
 							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -529,8 +592,15 @@ namespace
 							, s.proj( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -562,8 +632,15 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -619,8 +696,15 @@ namespace
 							, s.lod( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -653,8 +737,15 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -709,8 +800,15 @@ namespace
 							, s.sample( test::getDefault< SampleT >( writer )
 								, test::getDefault < OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -746,8 +844,15 @@ namespace
 								, 0.5_f
 								, test::getDefault < OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -803,8 +908,15 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -838,8 +950,15 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -893,8 +1012,15 @@ namespace
 							, s.fetch( test::getDefault< FetchT >( writer )
 								, 1_i ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -923,8 +1049,15 @@ namespace
 						auto d = writer.declLocale( "d"
 							, s.fetch( test::getDefault< FetchT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -980,8 +1113,15 @@ namespace
 								, 1_i
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1034,8 +1174,15 @@ namespace
 							, s.proj( test::getDefault< SampleProjT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1069,8 +1216,15 @@ namespace
 								, 0.5_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1124,8 +1278,15 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1159,8 +1320,15 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1216,8 +1384,15 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1252,8 +1427,15 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1305,8 +1487,15 @@ namespace
 							, s.projLod( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1338,8 +1527,15 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1393,8 +1589,15 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1428,8 +1631,15 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1487,8 +1697,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1524,8 +1741,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1583,8 +1807,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1623,8 +1854,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1678,8 +1916,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1714,8 +1959,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1771,8 +2023,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1809,8 +2068,15 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1863,8 +2129,15 @@ namespace
 							, s.gather( test::getDefault< GatherT >( writer )
 								, 1_i ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1898,8 +2171,15 @@ namespace
 							, s.gather( test::getDefault< GatherT >( writer )
 								, 0.5_f ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1952,8 +2232,15 @@ namespace
 								, 1_i
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -1987,8 +2274,15 @@ namespace
 								, 0.5_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -2035,8 +2329,15 @@ namespace
 								, 1_i
 								, o ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -2071,8 +2372,15 @@ namespace
 								, 0.5_f
 								, o ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -2127,8 +2435,15 @@ namespace
 								, 1_i
 								, offsets ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}
@@ -2164,8 +2479,15 @@ namespace
 								, 0.5_f
 								, offsets ) );
 					} );
-				test::writeShader( writer
-					, testCounts, CurrentCompilers );
+
+				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+				{
+					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+				}
+				else
+				{
+					test::writeShader( writer, testCounts, CurrentCompilers );
+				}
 			}
 			testEnd();
 		}

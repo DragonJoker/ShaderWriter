@@ -105,7 +105,9 @@ namespace ast::type
 		eComputeInput,
 		eMeshVertexOutput,
 		eMeshPrimitiveOutput,
+		eTaskPayloadNV,
 		eTaskPayload,
+		eTaskPayloadInNV,
 		eTaskPayloadIn,
 		eCount,
 		eInt = eInt32,
@@ -142,6 +144,7 @@ namespace ast::type
 		eIncomingRayPayload = 5342,
 		eShaderRecordBuffer = 5343,
 		ePhysicalStorageBuffer = 5349,
+		eTaskPayloadWorkgroup = 5402,
 		eCodeSection = 5605,
 		eMax = 0x7fffffff,
 	};

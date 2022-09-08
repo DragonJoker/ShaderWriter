@@ -47,8 +47,9 @@ namespace ast::var
 		eBufferReference = 1ull << 33,
 		ePerPrimitive = 1ull << 34,
 		ePerView = 1ull << 35,
-		ePerTask = 1ull << 36,
-		eShared = 1ull << 37,
+		ePerTaskNV = 1ull << 36,
+		ePerTask = 1ull << 37,
+		eShared = 1ull << 38,
 	};
 
 	inline bool hasFlag( uint64_t flags, Flag flag )
@@ -273,6 +274,11 @@ namespace ast::var
 		bool isPerView()const
 		{
 			return hasFlag( Flag::ePerView );
+		}
+
+		bool isPerTaskNV()const
+		{
+			return hasFlag( Flag::ePerTaskNV );
 		}
 
 		bool isPerTask()const

@@ -6572,6 +6572,57 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region setMeshOutputCountsNV
+	/**
+	*name
+	*	setMeshOutputCountsNV
+	*/
+	/**@{*/
+	RetVoid setMeshOutputCountsNV( UInt32 const numVertices
+		, UInt32 const numPrimitives )
+	{
+		return RetVoid{ *findWriter( numVertices, numPrimitives )
+			, expr::makeSetMeshOutputCountsNV( findTypesCache( numVertices, numPrimitives )
+					, makeExpr( numVertices )
+				, makeExpr( numPrimitives ) )
+			, areOptionalEnabled( numVertices, numPrimitives ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region dispatchMeshNV
+	/**
+	*name
+	*	dispatchMeshNV
+	*/
+	/**@{*/
+	RetVoid dispatchMeshNV( TaskPayloadNV const payload
+		, UInt32 const numTasks )
+	{
+		return RetVoid{ *findWriter( payload, numTasks )
+			, expr::makeDispatchMeshNV( findTypesCache( payload, numTasks )
+					, makeExpr( payload )
+				, makeExpr( numTasks ) )
+			, areOptionalEnabled( payload, numTasks ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region writePackedPrimitiveIndices4x8NV
+	/**
+	*name
+	*	writePackedPrimitiveIndices4x8NV
+	*/
+	/**@{*/
+	RetVoid writePackedPrimitiveIndices4x8NV( UInt32 const indexOffset
+		, UInt32 const packedIndices )
+	{
+		return RetVoid{ *findWriter( indexOffset, packedIndices )
+			, expr::makeWritePackedPrimitiveIndices4x8NV( findTypesCache( indexOffset, packedIndices )
+					, makeExpr( indexOffset )
+				, makeExpr( packedIndices ) )
+			, areOptionalEnabled( indexOffset, packedIndices ) };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region setMeshOutputCounts
 	/**
 	*name
@@ -6586,40 +6637,6 @@ namespace sdw
 					, makeExpr( numVertices )
 				, makeExpr( numPrimitives ) )
 			, areOptionalEnabled( numVertices, numPrimitives ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region dispatchMesh
-	/**
-	*name
-	*	dispatchMesh
-	*/
-	/**@{*/
-	RetVoid dispatchMesh( TaskPayload const payload
-		, UInt32 const numTasks )
-	{
-		return RetVoid{ *findWriter( payload, numTasks )
-			, expr::makeDispatchMesh( findTypesCache( payload, numTasks )
-					, makeExpr( payload )
-				, makeExpr( numTasks ) )
-			, areOptionalEnabled( payload, numTasks ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region writePackedPrimitiveIndices4x8
-	/**
-	*name
-	*	writePackedPrimitiveIndices4x8
-	*/
-	/**@{*/
-	RetVoid writePackedPrimitiveIndices4x8( UInt32 const indexOffset
-		, UInt32 const packedIndices )
-	{
-		return RetVoid{ *findWriter( indexOffset, packedIndices )
-			, expr::makeWritePackedPrimitiveIndices4x8( findTypesCache( indexOffset, packedIndices )
-					, makeExpr( indexOffset )
-				, makeExpr( packedIndices ) )
-			, areOptionalEnabled( indexOffset, packedIndices ) };
 	}
 	/**@}*/
 #pragma endregion
