@@ -1,45 +1,48 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/TaskWriter.hpp"
+#include "ShaderWriter/MeshWriterEXT.hpp"
 #include "ShaderWriter/CompositeTypes/StructInstance.hpp"
 
 namespace sdw
 {
 	//*************************************************************************
 
-	TaskIn::TaskIn( ShaderWriter & writer
+	MeshIn::MeshIn( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, drawID{ getInt32Member( *this, ast::Builtin::eDrawIndex ) }
-		, workGroupSize{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupSize ).x() }
-		, workGroupID{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupID ).x() }
-		, localInvocationID{ getU32Vec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
-		, globalInvocationID{ getU32Vec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
-		, localInvocationIndex{ getUInt32Member( *this, ast::Builtin::eLocalInvocationIndex ) }
+		, meshViewCount{ getUIntMember( *this, ast::Builtin::eMeshViewCountNV ) }
+		, meshViewIndices{ getUIntMemberArray( *this, ast::Builtin::eMeshViewIndicesNV ) }
+		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
+		, workGroupSize{ getUVec3Member( *this, ast::Builtin::eWorkGroupSize ).x() }
+		, workGroupID{ getUVec3Member( *this, ast::Builtin::eWorkGroupID ).x() }
+		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
+		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
+		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
 	{
 	}
 
-	TaskIn::TaskIn( ShaderWriter & writer
+	MeshIn::MeshIn( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: TaskIn{ writer
+		: MeshIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "taskIn"
+				, sdw::getShader( writer ).registerName( "meshIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY
-						, localSizeZ ) ) )
+						, localSizeZ )
+					, ast::var::Flag::eShaderInput ) )
 			, true }
 	{
 	}
 
-	ast::type::StructPtr TaskIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr MeshIn::makeType( ast::type::TypesCache & cache )
 	{
 		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "TaskInput"
+			, "MeshInput"
 			, ast::var::Flag::eShaderInput );
 
 		if ( !result->hasMember( ast::Builtin::eWorkGroupID ) )
@@ -59,6 +62,12 @@ namespace sdw
 			result->declMember( ast::Builtin::eLocalInvocationIndex
 				, type::Kind::eUInt32
 				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eMeshViewCountNV
+				, type::Kind::eUInt32
+				, ast::type::NotArray );
+			result->declMember( ast::Builtin::eMeshViewIndicesNV
+				, type::Kind::eUInt32
+				, ast::type::UnknownArraySize );
 			result->declMember( ast::Builtin::eDrawIndex
 				, type::Kind::eInt32
 				, ast::type::NotArray );
@@ -69,29 +78,29 @@ namespace sdw
 
 	//*************************************************************************
 
-	TaskSubgroupIn::TaskSubgroupIn( ShaderWriter & writer
+	MeshSubgroupIn::MeshSubgroupIn( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: TaskIn{ writer, std::move( expr ), enabled }
-		, numSubgroups{ getUInt32Member( *this, ast::Builtin::eNumSubgroups ) }
-		, subgroupID{ getUInt32Member( *this, ast::Builtin::eSubgroupID ) }
-		, subgroupSize{ getUInt32Member( *this, ast::Builtin::eSubgroupSize ) }
-		, subgroupInvocationID{ getUInt32Member( *this, ast::Builtin::eSubgroupLocalInvocationID ) }
-		, subgroupEqMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupEqMask ) }
-		, subgroupGeMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupGeMask ) }
-		, subgroupGtMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupGtMask ) }
-		, subgroupLeMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupLeMask ) }
-		, subgroupLtMask{ getU32Vec4Member( *this, ast::Builtin::eSubgroupLtMask ) }
+		: MeshIn{ writer, std::move( expr ), enabled }
+		, numSubgroups{ getUIntMember( *this, ast::Builtin::eNumSubgroups ) }
+		, subgroupID{ getUIntMember( *this, ast::Builtin::eSubgroupID ) }
+		, subgroupSize{ getUIntMember( *this, ast::Builtin::eSubgroupSize ) }
+		, subgroupInvocationID{ getUIntMember( *this, ast::Builtin::eSubgroupLocalInvocationID ) }
+		, subgroupEqMask{ getUVec4Member( *this, ast::Builtin::eSubgroupEqMask ) }
+		, subgroupGeMask{ getUVec4Member( *this, ast::Builtin::eSubgroupGeMask ) }
+		, subgroupGtMask{ getUVec4Member( *this, ast::Builtin::eSubgroupGtMask ) }
+		, subgroupLeMask{ getUVec4Member( *this, ast::Builtin::eSubgroupLeMask ) }
+		, subgroupLtMask{ getUVec4Member( *this, ast::Builtin::eSubgroupLtMask ) }
 	{
 	}
 
-	TaskSubgroupIn::TaskSubgroupIn( ShaderWriter & writer
+	MeshSubgroupIn::MeshSubgroupIn( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: TaskSubgroupIn{ writer
+		: MeshSubgroupIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "taskSubgroupIn"
+				, sdw::getShader( writer ).registerName( "meshSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY
@@ -100,9 +109,9 @@ namespace sdw
 	{
 	}
 
-	ast::type::StructPtr TaskSubgroupIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr MeshSubgroupIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = std::static_pointer_cast< ast::type::IOStruct >( TaskIn::makeType( cache ) );
+		auto result = std::static_pointer_cast< ast::type::IOStruct >( MeshIn::makeType( cache ) );
 
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{
@@ -140,43 +149,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	TaskWriter::TaskWriter()
-		: ShaderWriter{ ast::ShaderStage::eTask }
-	{
-	}
+	PrimitiveIndexT< ast::type::OutputTopology::ePoint >::FnType const PrimitiveIndexT< ast::type::OutputTopology::ePoint >::getMember = getUIntMember;
+	PrimitiveIndexT< ast::type::OutputTopology::eLine >::FnType const PrimitiveIndexT< ast::type::OutputTopology::eLine >::getMember = getUVec2Member;
+	PrimitiveIndexT< ast::type::OutputTopology::eTriangle >::FnType const PrimitiveIndexT< ast::type::OutputTopology::eTriangle >::getMember = getUVec3Member;
 
-	void TaskWriter::dispatchMesh( UInt numGroupsX
-		, UInt numGroupsY
-		, UInt numGroupsZ )
-	{
-		addStmt( makeDispatchMesh( makeExpr( numGroupsX )
-			, makeExpr( numGroupsY )
-			, makeExpr( numGroupsZ )
-			, nullptr ) );
-	}
+	//*************************************************************************
 
-	void TaskWriter::implementMain( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, TaskMainFunc const & function )
+	MeshWriterEXT::MeshWriterEXT()
+		: ShaderWriter{ ast::ShaderStage::eMesh }
 	{
-		implementMainT< VoidT >( localSizeX
-			, localSizeY
-			, localSizeZ
-			, TaskPayloadOut{ *this }
-			, function );
-	}
-
-	void TaskWriter::implementMain( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, TaskSubgroupMainFunc const & function )
-	{
-		implementMainT< VoidT >( localSizeX
-			, localSizeY
-			, localSizeZ
-			, TaskPayloadOut{ *this }
-			, function );
 	}
 
 	//*************************************************************************

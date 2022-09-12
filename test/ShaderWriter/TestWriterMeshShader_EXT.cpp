@@ -1,6 +1,10 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#define SDW_PreferredMeshShadingExtension SDW_MeshShadingEXT
+#include <ShaderWriter/MeshWriter.hpp>
+#include <ShaderWriter/TaskWriter.hpp>
+
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
@@ -1739,7 +1743,7 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterMeshShader )
+sdwTestSuiteMain( TestWriterMeshShaderEXT )
 {
 	sdwTestSuiteBegin();
 
@@ -1766,4 +1770,4 @@ sdwTestSuiteMain( TestWriterMeshShader )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterMeshShader )
+sdwTestSuiteLaunch( TestWriterMeshShaderEXT )

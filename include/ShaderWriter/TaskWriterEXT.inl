@@ -3,10 +3,10 @@ namespace sdw
 	//*************************************************************************
 
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	void TaskWriter::dispatchMesh( UInt numGroupsX
+	void TaskWriterEXT::dispatchMesh( UInt numGroupsX
 		, UInt numGroupsY
 		, UInt numGroupsZ
-		, TaskPayloadOutT< PayloadT > const & payload )
+		, TaskPayloadOutEXTT< PayloadT > const & payload )
 	{
 		addStmt( makeDispatchMesh( makeExpr( numGroupsX )
 			, makeExpr( numGroupsY )
@@ -15,11 +15,11 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	void TaskWriter::implementMainT( uint32_t localSizeX
+	void TaskWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadOutT< PayloadT > payload
-		, TaskMainFuncT< PayloadT > const & function )
+		, TaskPayloadOutEXTT< PayloadT > payload
+		, TaskEXTMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
@@ -29,11 +29,11 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	void TaskWriter::implementMainT( uint32_t localSizeX
+	void TaskWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadOutT< PayloadT > payload
-		, TaskSubgroupMainFuncT< PayloadT > const & function )
+		, TaskPayloadOutEXTT< PayloadT > payload
+		, TaskEXTSubgroupMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint

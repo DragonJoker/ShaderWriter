@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw
@@ -15,7 +15,7 @@ namespace sdw
 	{
 	}
 
-	void TaskPayloadNV::dispatchMesh( UInt32 taskCount )
+	void TaskPayloadNV::dispatchMesh( UInt32 taskCount )const
 	{
 		sdw::dispatchMeshNV( *this, taskCount );
 	}

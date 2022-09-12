@@ -1,6 +1,9 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#define SDW_PreferredMeshShadingExtension SDW_MeshShadingNV
+#include <ShaderWriter/TaskWriter.hpp>
+
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
@@ -457,13 +460,13 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			writer.implementMainT< PayloadT >( 32u, 1u, 1u
+			writer.implementMainT< PayloadT >( SDW_TaskLocalSize( ThreadsPerWave, 1u, 1u )
 				, TaskPayloadOutT< PayloadT >{ writer }
 				, [&]( TaskIn in
 					, TaskPayloadOutT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
-					writer.dispatchMesh( 1_u, 1_u, 1_u, payload );
+					sdw::dispatchMesh( writer, payload, 1_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -580,7 +583,7 @@ namespace
 				, InParam< Float >{ writer, "scale" }
 				, InParam< Vec3 >{ writer, "viewPos" } );
 
-			writer.implementMainT< PayloadT >( ThreadsPerWave, 1u, 1u
+			writer.implementMainT< PayloadT >( SDW_TaskLocalSize( ThreadsPerWave, 1u, 1u )
 				, TaskPayloadOutT< PayloadT >{ writer }
 				, [&]( TaskIn in
 					, TaskPayloadOutT< PayloadT > payload )
@@ -611,7 +614,7 @@ namespace
 
 					// Dispatch the required number of MS threadgroups to render the visible meshlets
 					//auto visibleCount = writer.declLocale( "visibleCount", WaveActiveCountBits( visible ) );
-					writer.dispatchMesh( 18_u/*visibleCount*/, 1_u, 1_u, payload );
+					sdw::dispatchMesh( writer, payload, 18_u/*visibleCount*/ );
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -628,13 +631,13 @@ namespace
 		using namespace sdw;
 		{
 			TaskWriter writer;
-			writer.implementMainT< PayloadT >( 32u, 1u, 1u
+			writer.implementMainT< PayloadT >( SDW_TaskLocalSize( ThreadsPerWave, 1u, 1u )
 				, TaskPayloadOutT< PayloadT >{ writer }
 			, [&]( TaskSubgroupIn in
 				, TaskPayloadOutT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;
-				writer.dispatchMesh( 1_u, 1_u, 1_u, payload );
+				sdw::dispatchMesh( writer, payload, 1_u );
 			} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -646,7 +649,7 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterTaskShader )
+sdwTestSuiteMain( TestWriterTaskShaderEXT )
 {
 	sdwTestSuiteBegin();
 
@@ -657,4 +660,4 @@ sdwTestSuiteMain( TestWriterTaskShader )
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterTaskShader )
+sdwTestSuiteLaunch( TestWriterTaskShaderEXT )

@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_TaskWriterNV_H___
 #define ___SDW_TaskWriterNV_H___
 
-#include "ShaderWriter/TaskWriter.hpp"
+#include "ShaderWriter/TaskWriterEXT.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"
 
 namespace sdw

@@ -3309,14 +3309,14 @@ namespace
 		testBegin( "testSetMeshOutputCounts" );
 		using namespace sdw;
 		{
-			MeshWriter writer;
+			MeshWriterEXT writer;
 			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
 				, [&]( MeshIn in
-					, TaskPayloadInT< PayloadT > payload
+					, TaskPayloadInEXTT< PayloadT > payload
 					, MeshVertexListOutT< VoidT > vtxOut
-					, TrianglesMeshPrimitiveListOutT< VoidT > primOut )
+					, TrianglesMeshEXTPrimitiveListOutT< VoidT > primOut )
 				{
 					auto index = writer.declLocale( "index"
 						, payload.meshletIndices[0_u] );
@@ -3355,11 +3355,11 @@ namespace
 		testBegin( "testDispatchMesh" );
 		using namespace sdw;
 		{
-			TaskWriter writer;
+			TaskWriterEXT writer;
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
-				, TaskPayloadOutT< PayloadT >{ writer }
+				, TaskPayloadOutEXTT< PayloadT >{ writer }
 				, [&]( TaskIn in
-					, TaskPayloadOutT< PayloadT > payload )
+					, TaskPayloadOutEXTT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
 					writer.dispatchMesh( 1_u, 1_u, 1_u, payload );

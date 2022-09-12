@@ -1,12 +1,12 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayloadEXT.hpp"
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw
 {
-	TaskPayload::TaskPayload( ShaderWriter & writer
+	TaskPayloadEXT::TaskPayloadEXT( ShaderWriter & writer
 		, expr::Expr * expr
 		, bool enabled )
 		: m_plWriter{ &writer }
@@ -15,7 +15,7 @@ namespace sdw
 	{
 	}
 
-	expr::ExprPtr makeExpr( TaskPayload const & value )
+	expr::ExprPtr makeExpr( TaskPayloadEXT const & value )
 	{
 		return makeExpr( *value.getWriter()
 			, value.getExpr()

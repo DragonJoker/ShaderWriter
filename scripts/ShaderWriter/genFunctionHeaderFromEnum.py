@@ -78,7 +78,6 @@ def printHeader( outs, match ):
 	outs.write( '\n#include "ShaderWriter/BaseTypes/SampledImage.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Sampler.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/StorageImage.hpp"' )
-	outs.write( '\n#include "ShaderWriter/BaseTypes/TaskPayload.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/Function.hpp"' )
 	outs.write( '\n#include "ShaderWriter/CompositeTypes/FunctionParam.hpp"' )

@@ -16,7 +16,6 @@ This file is generated, don't modify it!
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
 #include "ShaderWriter/BaseTypes/Sampler.hpp"
 #include "ShaderWriter/BaseTypes/StorageImage.hpp"
-#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"
 #include "ShaderWriter/CompositeTypes/Function.hpp"
 #include "ShaderWriter/CompositeTypes/FunctionParam.hpp"

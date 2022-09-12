@@ -4,161 +4,78 @@ See LICENSE file in root folder
 #ifndef ___SDW_TaskWriter_H___
 #define ___SDW_TaskWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
-#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
-#include "ShaderWriter/BaseTypes/UInt.hpp"
-#include "ShaderWriter/CompositeTypes/PerPrimitive.hpp"
-#include "ShaderWriter/CompositeTypes/PerVertex.hpp"
-#include "ShaderWriter/CompositeTypes/StructInstance.hpp"
-#include "ShaderWriter/VecTypes/Vec3.hpp"
+#include "ShaderWriterPrerequisites.hpp"
+
+#if !defined( SDW_PreferredMeshShadingExtension )
+#	error "You must define SDW_PreferredMeshShadingExtension to either SDW_MeshShadingEXT or SDW_MeshShadingNV"
+#endif
+
+#if SDW_PreferredMeshShadingExtension == SDW_MeshShadingEXT
+#	include "ShaderWriter/TaskWriterEXT.hpp"
+#else
+#	include "ShaderWriter/TaskWriterNV.hpp"
+#endif
 
 namespace sdw
 {
-	/**
-	*name
-	*	Task.
-	*/
-	/**@{*/
-	/**
-	*	Holds input data for a task shader.
-	*/
-	struct TaskIn
-		: public StructInstance
-	{
-		SDW_API TaskIn( ShaderWriter & writer
-			, uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ );
-		SDW_API TaskIn( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
+#if SDW_PreferredMeshShadingExtension == SDW_MeshShadingEXT
+#	define SDW_TaskLocalSize( x, y, z ) x, y, z
 
-		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
+	using TaskWriter = sdw::TaskWriterEXT;
 
-		//in uint  gl_DrawID;
-		Int32 const drawID;
-		//const uvec3 gl_WorkGroupSize;
-		UInt32 const workGroupSize;
-		//in uvec3 gl_WorkGroupID;
-		UInt32 const workGroupID;
-		//in uvec3 gl_LocalInvocationID;
-		UInt32 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
-		UInt32 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
-		UInt32 const localInvocationIndex;
-	};
-	/**
-	*	Holds input data for a task subgroup shader.
-	*/
-	struct TaskSubgroupIn
-		: private TaskIn
-	{
-		SDW_API TaskSubgroupIn( ShaderWriter & writer
-			, uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ );
-		SDW_API TaskSubgroupIn( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled = true );
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using TaskPayloadOutT = sdw::TaskPayloadOutEXTT< DataT >;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using TaskPayloadInT = sdw::TaskPayloadInEXTT< DataT >;
 
-		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
+	using TaskPayloadOut = TaskPayloadOutEXT;
+	using TaskPayloadIn = TaskPayloadInEXT;
 
-		using TaskIn::updateContainer;
-		using TaskIn::getContainer;
-		using TaskIn::updateExpr;
-		using TaskIn::getType;
-		using TaskIn::getExpr;
-		using TaskIn::getWriter;
-		using TaskIn::getShader;
-		using TaskIn::isEnabled;
-
-		//in uint  gl_DrawID;
-		using TaskIn::drawID;
-		//in uvec3 gl_WorkGroupSize;
-		using TaskIn::workGroupSize;
-		//in uvec3 gl_WorkGroupID;
-		using TaskIn::workGroupID;
-		//in uvec3 gl_LocalInvocationID;
-		using TaskIn::localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
-		using TaskIn::globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
-		using TaskIn::localInvocationIndex;
-
-		//in uint gl_NumSubgroups;
-		UInt32 const numSubgroups;
-		//in uint gl_SubgroupID;
-		UInt32 const subgroupID;
-		//in uint gl_SubgroupSize;
-		UInt32 const subgroupSize;
-		//in uint gl_SubgroupInvocationID;
-		UInt32 const subgroupInvocationID;
-		//in uvec4 gl_SubgroupEqMask;
-		U32Vec4 const subgroupEqMask;
-		//const uvec4 gl_SubgroupGeMask;
-		U32Vec4 const subgroupGeMask;
-		//const uvec4 gl_SubgroupGtMask;
-		U32Vec4 const subgroupGtMask;
-		//const uvec4 gl_SubgroupLeMask;
-		U32Vec4 const subgroupLeMask;
-		//const uvec4 gl_SubgroupLtMask;
-		U32Vec4 const subgroupLtMask;
-	};
-	/**
-	*	Entry point type
-	*/
-	/**@{*/
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	using TaskMainFuncT = std::function< void( TaskIn
-		, TaskPayloadOutT< PayloadT > ) >;
+	using TaskMainFuncT = TaskEXTMainFuncT< PayloadT >;
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	using TaskSubgroupMainFuncT = std::function< void( TaskSubgroupIn
-		, TaskPayloadOutT< PayloadT > ) >;
-	using TaskMainFunc = TaskMainFuncT< VoidT >;
-	using TaskSubgroupMainFunc = TaskSubgroupMainFuncT< VoidT >;
-	/**@}*/
+	using TaskSubgroupMainFuncT = TaskEXTSubgroupMainFuncT< PayloadT >;
 
-	class TaskWriter
-		: public ShaderWriter
+	using TaskMainFunc = TaskEXTMainFunc;
+	using TaskSubgroupMainFunc = TaskEXTSubgroupMainFunc;
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	void dispatchMesh( TaskWriter & writer
+		, TaskPayloadOutT< DataT > const & payload
+		, sdw::UInt const & numTasks )
 	{
-	public:
-		SDW_API TaskWriter();
+		writer.dispatchMesh( numTasks, 1_u, 1_u, payload );
+	}
+#else
+#	define SDW_TaskLocalSize( x, y, z ) x * y * z
 
-		SDW_API void dispatchMesh( UInt numGroupsX
-			, UInt numGroupsY
-			, UInt numGroupsZ );
-		template< template< ast::var::Flag FlagT > typename PayloadT >
-		void dispatchMesh( UInt numGroupsX
-			, UInt numGroupsY
-			, UInt numGroupsZ
-			, TaskPayloadOutT< PayloadT > const & payload );
+	using TaskWriter = sdw::TaskWriterNV;
 
-		SDW_API void implementMain( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, TaskMainFunc const & function );
-		SDW_API void implementMain( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, TaskSubgroupMainFunc const & function );
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using TaskPayloadOutT = sdw::TaskPayloadOutNVT< DataT >;
+	template< template< ast::var::Flag FlagT > typename DataT >
+	using TaskPayloadInT = sdw::TaskPayloadInNVT< DataT >;
 
-		template< template< ast::var::Flag FlagT > typename PayloadT >
-		void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, TaskPayloadOutT< PayloadT > payload
-			, TaskMainFuncT< PayloadT > const & function );
-		template< template< ast::var::Flag FlagT > typename PayloadT >
-		void implementMainT( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, TaskPayloadOutT< PayloadT > payload
-			, TaskSubgroupMainFuncT< PayloadT > const & function );
-	};
-	/**@}*/
+	using TaskPayloadOut = TaskPayloadOutNV;
+	using TaskPayloadIn = TaskPayloadInNV;
+
+	template< template< ast::var::Flag FlagT > typename PayloadT >
+	using TaskMainFuncT = TaskNVMainFuncT< PayloadT >;
+	template< template< ast::var::Flag FlagT > typename PayloadT >
+	using TaskSubgroupMainFuncT = TaskNVSubgroupMainFuncT< PayloadT >;
+
+	using TaskMainFunc = TaskNVMainFunc;
+	using TaskSubgroupMainFunc = TaskNVSubgroupMainFunc;
+
+	template< template< ast::var::Flag FlagT > typename DataT >
+	void dispatchMesh( TaskWriter & writer
+		, TaskPayloadOutT< DataT > const & payload
+		, sdw::UInt const & numTasks )
+	{
+		payload.dispatchMesh( numTasks );
+	}
+
+#endif
 }
-
-#include "TaskWriter.inl"
 
 #endif
