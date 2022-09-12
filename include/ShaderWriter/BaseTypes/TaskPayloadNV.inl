@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
+#include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"
 
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
@@ -31,7 +31,7 @@ namespace sdw
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void TaskPayloadOutNVT< DataT >::dispatchMesh( UInt32 taskCount )
+	void TaskPayloadOutNVT< DataT >::dispatchMesh( UInt32 taskCount )const
 	{
 		m_internal.dispatchMesh( taskCount );
 	}

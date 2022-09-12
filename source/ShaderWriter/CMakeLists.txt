@@ -48,7 +48,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/GeometryWriter.hpp
 	${INCLUDE_DIR}/GeometryWriter.inl
 	${INCLUDE_DIR}/MeshWriter.hpp
-	${INCLUDE_DIR}/MeshWriter.inl
+	${INCLUDE_DIR}/MeshWriterEXT.hpp
+	${INCLUDE_DIR}/MeshWriterEXT.inl
 	${INCLUDE_DIR}/MeshWriterNV.hpp
 	${INCLUDE_DIR}/MeshWriterNV.inl
 	${INCLUDE_DIR}/RayAnyHitWriter.hpp
@@ -60,7 +61,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/RayMissWriter.hpp
 	${INCLUDE_DIR}/RayMissWriter.inl
 	${INCLUDE_DIR}/TaskWriter.hpp
-	${INCLUDE_DIR}/TaskWriter.inl
+	${INCLUDE_DIR}/TaskWriterEXT.hpp
+	${INCLUDE_DIR}/TaskWriterEXT.inl
 	${INCLUDE_DIR}/TaskWriterNV.hpp
 	${INCLUDE_DIR}/TaskWriterNV.inl
 	${INCLUDE_DIR}/TessellationControlWriter.hpp
@@ -77,7 +79,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/ComputeWriter.cpp
 	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/GeometryWriter.cpp
-	${SOURCE_DIR}/MeshWriter.cpp
+	${SOURCE_DIR}/MeshWriterEXT.cpp
 	${SOURCE_DIR}/MeshWriterNV.cpp
 	${SOURCE_DIR}/RayAnyHitWriter.cpp
 	${SOURCE_DIR}/RayClosestHitWriter.cpp
@@ -85,7 +87,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/RayIntersectionWriter.cpp
 	${SOURCE_DIR}/RayMissWriter.cpp
 	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
-	${SOURCE_DIR}/TaskWriter.cpp
+	${SOURCE_DIR}/TaskWriterEXT.cpp
 	${SOURCE_DIR}/TaskWriterNV.cpp
 	${SOURCE_DIR}/TessellationControlWriter.cpp
 	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
@@ -145,8 +147,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/Sampler.inl
 	${INCLUDE_DIR}/BaseTypes/StorageImage.hpp
 	${INCLUDE_DIR}/BaseTypes/StorageImage.inl
-	${INCLUDE_DIR}/BaseTypes/TaskPayload.hpp
-	${INCLUDE_DIR}/BaseTypes/TaskPayload.inl
+	${INCLUDE_DIR}/BaseTypes/TaskPayloadEXT.hpp
+	${INCLUDE_DIR}/BaseTypes/TaskPayloadEXT.inl
 	${INCLUDE_DIR}/BaseTypes/TaskPayloadNV.hpp
 	${INCLUDE_DIR}/BaseTypes/TaskPayloadNV.inl
 	${INCLUDE_DIR}/BaseTypes/UInt.hpp
@@ -167,7 +169,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/SampledImage.cpp
 	${SOURCE_DIR}/BaseTypes/Sampler.cpp
 	${SOURCE_DIR}/BaseTypes/StorageImage.cpp
-	${SOURCE_DIR}/BaseTypes/TaskPayload.cpp
+	${SOURCE_DIR}/BaseTypes/TaskPayloadEXT.cpp
 	${SOURCE_DIR}/BaseTypes/TaskPayloadNV.cpp
 	${SOURCE_DIR}/BaseTypes/UInt.cpp
 	${SOURCE_DIR}/BaseTypes/Void.cpp

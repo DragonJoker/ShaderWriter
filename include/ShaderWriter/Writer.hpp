@@ -7,7 +7,6 @@ See LICENSE file in root folder
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/BaseTypes/SampledImage.hpp"
-#include "ShaderWriter/BaseTypes/TaskPayload.hpp"
 #include "ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp"
 #include "ShaderWriter/CompositeTypes/BufferReference.hpp"
 #include "ShaderWriter/CompositeTypes/Builtins.hpp"

@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_MeshWriterNV_H___
 #define ___SDW_MeshWriterNV_H___
 
-#include "ShaderWriter/MeshWriter.hpp"
+#include "ShaderWriter/MeshWriterEXT.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadNV.hpp"
 
 namespace sdw

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderWriter/MeshWriter.hpp"
+#include "ShaderWriter/MeshWriterEXT.hpp"
 
 #include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
@@ -85,7 +85,7 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
-	TopologyOutT< DataT, TopologyT >::TopologyOutT( ShaderWriter & writer
+	TopologyEXTOutT< DataT, TopologyT >::TopologyEXTOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< DataT >{ writer, std::move( expr ), enabled }
@@ -96,7 +96,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr TopologyOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr TopologyEXTOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
 		, ParamsT ... params )
 	{
 		ast::type::IOStructPtr result;
@@ -130,10 +130,10 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
-	MeshPrimitiveOutT< DataT, TopologyT >::MeshPrimitiveOutT( ShaderWriter & writer
+	MeshEXTPrimitiveOutT< DataT, TopologyT >::MeshEXTPrimitiveOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: TopologyOutT< DataT, TopologyT >{ writer, std::move( expr ), enabled }
+		: TopologyEXTOutT< DataT, TopologyT >{ writer, std::move( expr ), enabled }
 		, primitiveID{ getIntMember( *this, ast::Builtin::ePrimitiveID ) }
 		, layer{ getIntMember( *this, ast::Builtin::eLayer ) }
 		, viewportIndex{ getIntMember( *this, ast::Builtin::eViewportIndex ) }
@@ -145,10 +145,10 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr MeshPrimitiveOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr MeshEXTPrimitiveOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
 		, ParamsT ... params )
 	{
-		ast::type::IOStructPtr result = TopologyOutT< DataT, TopologyT >::makeType( cache
+		ast::type::IOStructPtr result = TopologyEXTOutT< DataT, TopologyT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
@@ -177,20 +177,20 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
-	MeshPrimitiveListOutT< DataT, TopologyT >::MeshPrimitiveListOutT( ShaderWriter & writer
+	MeshEXTPrimitiveListOutT< DataT, TopologyT >::MeshEXTPrimitiveListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled )
-		: Array< MeshPrimitiveOutT< DataT, TopologyT > >{ writer, std::move( expr ), enabled }
+		: Array< MeshEXTPrimitiveOutT< DataT, TopologyT > >{ writer, std::move( expr ), enabled }
 	{
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
-	MeshPrimitiveListOutT< DataT, TopologyT >::MeshPrimitiveListOutT( ShaderWriter & writer
+	MeshEXTPrimitiveListOutT< DataT, TopologyT >::MeshEXTPrimitiveListOutT( ShaderWriter & writer
 		, uint32_t maxPrimitives
 		, ParamsT ... params )
-		: MeshPrimitiveListOutT{ writer
+		: MeshEXTPrimitiveListOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "meshPrimitiveOut"
 					, ast::type::makeMeshPrimitiveOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
@@ -202,7 +202,7 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
-	void MeshPrimitiveListOutT< DataT, TopologyT >::setMeshOutputCounts( UInt32 const & numVertices
+	void MeshEXTPrimitiveListOutT< DataT, TopologyT >::setMeshOutputCounts( UInt32 const & numVertices
 		, UInt32 const & numPrimitives )
 	{
 		sdw::setMeshOutputCounts( numVertices, numPrimitives );
@@ -211,10 +211,10 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr MeshPrimitiveListOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr MeshEXTPrimitiveListOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
 		, ParamsT ... params )
 	{
-		return MeshPrimitiveOutT< DataT, TopologyT >::makeType( cache
+		return MeshEXTPrimitiveOutT< DataT, TopologyT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 
@@ -227,30 +227,30 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, PointsMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		this->implementMainT( localSizeX, localSizeY, localSizeZ
-			, TaskPayloadInT< PayloadT >{ *this }
+			, TaskPayloadInEXTT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
+			, PointsMeshEXTPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadInT< PayloadT > payloadIn
+		, TaskPayloadInEXTT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
-		, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, PointsMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, PointsMeshEXTPrimitiveListOutT< PrimitiveT > primitivesOut
+		, PointsMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
@@ -264,30 +264,30 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, PointsMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, PointsMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		this->implementMainT( localSizeX, localSizeY, localSizeZ
-			, TaskPayloadInT< PayloadT >{ *this }
+			, TaskPayloadInEXTT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, PointsMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
+			, PointsMeshEXTPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadInT< PayloadT > payloadIn
+		, TaskPayloadInEXTT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
-		, PointsMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, PointsMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, PointsMeshEXTPrimitiveListOutT< PrimitiveT > primitivesOut
+		, PointsMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
@@ -305,30 +305,30 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, LinesMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		this->implementMainT( localSizeX, localSizeY, localSizeZ
-			, TaskPayloadInT< PayloadT >{ *this }
+			, TaskPayloadInEXTT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
+			, LinesMeshEXTPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadInT< PayloadT > payloadIn
+		, TaskPayloadInEXTT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
-		, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, LinesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, LinesMeshEXTPrimitiveListOutT< PrimitiveT > primitivesOut
+		, LinesMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
@@ -342,30 +342,30 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, LinesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, LinesMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		this->implementMainT( localSizeX, localSizeY, localSizeZ
-			, TaskPayloadInT< PayloadT >{ *this }
+			, TaskPayloadInEXTT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, LinesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
+			, LinesMeshEXTPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadInT< PayloadT > payloadIn
+		, TaskPayloadInEXTT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
-		, LinesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, LinesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, LinesMeshEXTPrimitiveListOutT< PrimitiveT > primitivesOut
+		, LinesMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
@@ -383,30 +383,30 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, TrianglesMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		this->implementMainT( localSizeX, localSizeY, localSizeZ
-			, TaskPayloadInT< PayloadT >{ *this }
+			, TaskPayloadInEXTT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
+			, TrianglesMeshEXTPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadInT< PayloadT > payloadIn
+		, TaskPayloadInEXTT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
-		, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, TrianglesMeshMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, TrianglesMeshEXTPrimitiveListOutT< PrimitiveT > primitivesOut
+		, TrianglesMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint
@@ -420,30 +420,30 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
-		, TrianglesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, TrianglesMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		this->implementMainT( localSizeX, localSizeY, localSizeZ
-			, TaskPayloadInT< PayloadT >{ *this }
+			, TaskPayloadInEXTT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
-			, TrianglesMeshPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
+			, TrianglesMeshEXTPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
 			, function );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void MeshWriter::implementMainT( uint32_t localSizeX
+	void MeshWriterEXT::implementMainT( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, TaskPayloadInT< PayloadT > payloadIn
+		, TaskPayloadInEXTT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
-		, TrianglesMeshPrimitiveListOutT< PrimitiveT > primitivesOut
-		, TrianglesMeshSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
+		, TrianglesMeshEXTPrimitiveListOutT< PrimitiveT > primitivesOut
+		, TrianglesMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eEntryPoint

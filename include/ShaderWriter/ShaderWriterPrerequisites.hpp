@@ -14,6 +14,14 @@ See LICENSE file in root folder
 #include <type_traits>
 #include <vector>
 
+#if !defined( SDW_MeshShadingEXT )
+#	define SDW_MeshShadingEXT 1
+#endif
+
+#if !defined( SDW_MeshShadingNV )
+#	define SDW_MeshShadingNV 2
+#endif
+
 #define Writer_Parameter( TypeName )\
 	using P##TypeName = sdw::Param< TypeName >;\
 	using In##TypeName = sdw::InParam< TypeName >;\
