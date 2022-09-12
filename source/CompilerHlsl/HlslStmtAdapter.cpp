@@ -548,7 +548,7 @@ namespace hlsl
 
 	void StmtAdapter::declareType( ast::type::TypePtr type )
 	{
-		if ( auto structType = getStructType( type ) )
+		if ( auto structType = getStructType( getNonArrayType( type ) ) )
 		{
 			if ( m_declaredStructs.insert( structType->getName() ).second )
 			{
