@@ -774,10 +774,10 @@ namespace glsl
 
 	void StmtAdapter::declareType( ast::type::TypePtr type )
 	{
-		if ( auto structType = getStructType( type ) )
+		if ( auto structType = getStructType( getNonArrayType( type ) ) )
 		{
-			if ( type->getKind() != ast::type::Kind::eTaskPayload
-				&& type->getKind() != ast::type::Kind::eTaskPayloadIn
+			if ( type->getKind() != ast::type::Kind::eTaskPayloadNV
+				&& type->getKind() != ast::type::Kind::eTaskPayloadInNV
 				&& m_declaredStructs.insert( structType->getName() ).second )
 			{
 				m_globalsCont->addStmt( ast::stmt::makeStructureDecl( structType ) );
