@@ -187,9 +187,9 @@ namespace spirv
 	void StmtVisitor::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
 	{
 		ValueIdList operands;
-		operands.push_back( ExprVisitor::submit( stmt->getNumGroupsX(), m_context, m_currentBlock, m_result ) );
-		operands.push_back( ExprVisitor::submit( stmt->getNumGroupsY(), m_context, m_currentBlock, m_result ) );
-		operands.push_back( ExprVisitor::submit( stmt->getNumGroupsZ(), m_context, m_currentBlock, m_result ) );
+		operands.push_back( submitAndLoad( stmt->getNumGroupsX() ) );
+		operands.push_back( submitAndLoad( stmt->getNumGroupsY() ) );
+		operands.push_back( submitAndLoad( stmt->getNumGroupsZ() ) );
 
 		if ( stmt->getPayload() )
 		{
@@ -198,7 +198,7 @@ namespace spirv
 
 		interruptBlock( m_currentBlock
 			, makeInstruction< EmitMeshTasksInstruction >( operands )
-			, true );
+			, false );
 	}
 
 	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
@@ -880,6 +880,18 @@ namespace spirv
 		}
 
 		decorateVar( *var, result, m_result );
+		return result;
+	}
+
+	ValueId StmtVisitor::submitAndLoad( ast::expr::Expr * expr )
+	{
+		auto result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_result );
+
+		if ( expr->getKind() == ast::expr::Kind::eIdentifier )
+		{
+			result = m_result.loadVariable( result, m_currentBlock );
+		}
+
 		return result;
 	}
 }

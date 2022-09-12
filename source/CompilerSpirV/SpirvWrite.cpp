@@ -3096,7 +3096,7 @@ namespace spirv
 			, std::ostream & stream )
 		{
 			auto opCode = spv::Op( instruction->op.opData.opCode );
-			stream << writeId( instruction->resultId.value() ) << " =";
+			stream << writeStream( instruction->resultId.value(), names ) << " =";
 			stream << " " << spirv::getOperatorName( opCode );
 			stream << writeStream( instruction->returnTypeId.value(), names );
 

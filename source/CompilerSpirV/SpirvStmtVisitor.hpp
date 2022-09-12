@@ -98,6 +98,7 @@ namespace spirv
 			, spv::Id mergeBlockLabel
 			, spv::Id trueBlockLabel
 			, spv::Id falseBlockLabel );
+		ValueId submitAndLoad( ast::expr::Expr * expr );
 
 	private:
 		struct Control

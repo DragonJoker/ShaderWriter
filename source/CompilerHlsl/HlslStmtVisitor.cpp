@@ -406,8 +406,8 @@ namespace hlsl
 		doAppendLineEnd();
 		m_result += m_indent + "DispatchMesh";
 		m_result += "(" + doSubmit( stmt->getNumGroupsX() );
-		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
-		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsY() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsZ() );
 
 		if ( stmt->getPayload() )
 		{
