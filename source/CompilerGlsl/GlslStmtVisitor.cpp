@@ -343,8 +343,8 @@ namespace glsl
 		doAppendLineEnd();
 		m_result += m_indent + "EmitMeshTasksEXT";
 		m_result += "(" + doSubmit( stmt->getNumGroupsX() );
-		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
-		m_result += ", " + doSubmit( stmt->getNumGroupsX() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsY() );
+		m_result += ", " + doSubmit( stmt->getNumGroupsZ() );
 		m_result += ");\n";
 	}
 
