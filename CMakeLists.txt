@@ -59,6 +59,8 @@ include( CompilationFlags )
 include( AStyleUtils )
 include( ExternalDependencies )
 
+set( PROJECTS_UNITY_BUILD ${SDW_UNITY_BUILD} )
+
 # Organize projects into folders
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
 

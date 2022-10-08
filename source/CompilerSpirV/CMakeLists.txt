@@ -26,6 +26,13 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 )
 parse_subdir_files( ${SDW_SOURCE_DIR} ${_FOLDER_NAME}/spirv "spirv" )
 
+if ( ${PROJECTS_UNITY_BUILD} )
+	file( GLOB ${PROJECT_NAME}_FOLDER_SRC_FILES
+		${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/Unity/*.cxx
+	)
+	source_group( "Source Files\\Unity" FILES ${${PROJECT_NAME}_FOLDER_SRC_FILES} )
+endif ()
+
 if ( SDW_BUILD_STATIC )
 	add_library( ${PROJECT_NAME}
 		STATIC

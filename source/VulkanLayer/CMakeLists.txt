@@ -36,6 +36,14 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 		${SOURCE_DIR}/ShaderDataPtr.cpp
 		${SOURCE_DIR}/VulkanLayer.cpp
 	)
+	
+	if ( ${PROJECTS_UNITY_BUILD} )
+		file( GLOB ${PROJECT_NAME}_FOLDER_SRC_FILES
+			${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/Unity/*.cxx
+		)
+		source_group( "Source Files\\Unity" FILES ${${PROJECT_NAME}_FOLDER_SRC_FILES} )
+	endif ()
+
 	add_library( ${PROJECT_NAME}
 		STATIC
 		${${PROJECT_NAME}_HEADER_FILES}
