@@ -48,7 +48,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 	/**
 	*	Holds output patch data for shaders.
@@ -65,7 +65,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 	/**
 	*	Holds input data for shaders.
@@ -82,7 +82,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 	/**
 	*	Holds output data for shaders.
@@ -99,7 +99,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 	/**
 	*	Holds output data for shaders.
@@ -115,7 +115,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 	/**
 	*	Holds output data for shaders.
@@ -131,7 +131,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 	/**@}*/
 #pragma endregion

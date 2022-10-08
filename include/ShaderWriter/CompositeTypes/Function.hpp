@@ -45,7 +45,7 @@ namespace sdw
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnWrapperT< ReturnT > getCtorCall( ShaderWriter & writer
-		, ParamsT ... params );
+		, ParamsT && ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnWrapperT< ReturnT > getFunctionCall( ShaderWriter & writer

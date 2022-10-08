@@ -50,11 +50,11 @@ namespace sdw
 			, bool enabled = true );
 		template< typename ... ParamsT >
 		TaskPayloadOutEXTT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 	private:
 		TaskPayloadEXT m_internal;
@@ -75,11 +75,11 @@ namespace sdw
 			, bool enabled = true );
 		template< typename ... ParamsT >
 		TaskPayloadInEXTT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	using TaskPayloadInEXT = TaskPayloadInEXTT< VoidT >;

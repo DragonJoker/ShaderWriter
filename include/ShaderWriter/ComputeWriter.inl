@@ -16,7 +16,7 @@ namespace sdw
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ComputeInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "compIn"
@@ -45,7 +45,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr ComputeInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = InputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
@@ -79,7 +79,7 @@ namespace sdw
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: SubgroupInT{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "subgroupIn"
@@ -111,7 +111,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr SubgroupInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = ComputeInT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 

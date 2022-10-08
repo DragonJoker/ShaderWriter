@@ -10,7 +10,7 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, ast::type::Storage storage
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: m_writer{ writer }
 		, m_type{ BufferT::makeType( getTypesCache( writer )
 			, std::move( name )

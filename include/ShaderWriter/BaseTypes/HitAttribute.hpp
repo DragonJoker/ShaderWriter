@@ -50,7 +50,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		HitAttributeT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		HitAttributeT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled = true );
@@ -59,7 +59,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		ReturnWrapperT< Boolean > reportIntersection( Float tHit
 			, UInt32 const & hitKind );

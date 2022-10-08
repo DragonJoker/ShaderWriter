@@ -21,7 +21,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	TaskPayloadOutEXTT< DataT >::TaskPayloadOutEXTT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TaskPayloadOutEXTT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "payloadOut"
@@ -33,7 +33,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TaskPayloadOutEXTT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return PerTaskT< DataT, FlagT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -51,7 +51,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	TaskPayloadInEXTT< DataT >::TaskPayloadInEXTT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TaskPayloadInEXTT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "payloadIn"
@@ -63,7 +63,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TaskPayloadInEXTT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return PerTaskT< DataT, FlagT >::makeType( cache
 			, std::forward< ParamsT >( params )... );

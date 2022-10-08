@@ -12,7 +12,7 @@ namespace sdw
 	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
 		, ast::FragmentOrigin origin
 		, ast::FragmentCenter center
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: FragmentInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "fragIn"
@@ -26,7 +26,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: FragmentInT{ writer
 			, ast::FragmentOrigin::eUpperLeft
 			, ast::FragmentCenter::eHalfPixel
@@ -55,7 +55,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = InputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
@@ -101,7 +101,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	FragmentOutT< DataT >::FragmentOutT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: FragmentOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "fragOut"
@@ -123,7 +123,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = OutputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 

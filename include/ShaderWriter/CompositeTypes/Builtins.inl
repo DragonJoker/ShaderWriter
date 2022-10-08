@@ -46,7 +46,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr PatchInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );
@@ -65,7 +65,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr PatchOutT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );
@@ -84,7 +84,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr InputT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );
@@ -103,7 +103,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr OutputT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );
@@ -124,7 +124,7 @@ namespace sdw
 		, ast::var::Flag FlagT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr PerTaskT< DataT, FlagT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );
@@ -145,7 +145,7 @@ namespace sdw
 		, ast::var::Flag FlagT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr PerTaskNVT< DataT, FlagT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return DataT< FlagT >::makeIOType( cache
 			, std::forward< ParamsT >( params )... );

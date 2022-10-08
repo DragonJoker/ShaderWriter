@@ -54,7 +54,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		RayPayloadBaseT( ShaderWriter & writer
 			, uint32_t location
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		RayPayloadBaseT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled = true );
@@ -64,7 +64,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, uint32_t location
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		void traceRay( AccelerationStructure const & topLevel
 			, UInt32 const & rayFlags

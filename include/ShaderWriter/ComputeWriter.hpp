@@ -30,14 +30,14 @@ namespace sdw
 			, uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		ComputeInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//in uvec3 gl_NumWorkGroups;
 		U32Vec3 const numWorkGroups;
@@ -66,14 +66,14 @@ namespace sdw
 			, uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		SubgroupInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		using ComputeInT< DataT >::updateContainer;
 		using ComputeInT< DataT >::getContainer;

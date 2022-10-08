@@ -28,7 +28,7 @@ namespace sdw
 		template< typename InstanceT, typename ... ParamsT >
 		inline ast::type::BaseStructPtr makeSsboType( ShaderWriter & writer
 			, bool enabled
-			, ParamsT ... params )
+			, ParamsT && ... params )
 		{
 			auto & cache = getTypesCache( writer );
 			ast::type::BaseStructPtr result = InstanceT::makeType( cache
@@ -121,7 +121,7 @@ namespace sdw
 		, uint32_t bind
 		, uint32_t set
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ArrayStorageBufferT{ writer
 			, std::move( instanceName )
 			, details::makeSsboType< InstanceT >( writer
@@ -199,7 +199,7 @@ namespace sdw
 		, std::string instanceName
 		, LocationHelper location
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ArrayStorageBufferT{ writer
 			, std::move( instanceName )
 			, location.binding
@@ -239,7 +239,7 @@ namespace sdw
 		, std::string const & name
 		, ast::type::MemoryLayout layout
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return details::getSsboType( cache
 			, name

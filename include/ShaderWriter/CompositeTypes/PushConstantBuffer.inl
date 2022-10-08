@@ -6,7 +6,7 @@ namespace sdw
 	template< typename ValueT, typename ... ParamsT >
 	inline ValueT PushConstantBuffer::declMember( std::string name
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto type = m_info.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer )
@@ -27,7 +27,7 @@ namespace sdw
 	inline Array< ValueT > PushConstantBuffer::declMember( std::string name
 		, uint32_t dimension
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto type = m_info.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer )
@@ -48,7 +48,7 @@ namespace sdw
 	template< typename ValueT, typename ... ParamsT >
 	inline Array< ValueT > PushConstantBuffer::declMemberArray( std::string name
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto type = m_info.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer )

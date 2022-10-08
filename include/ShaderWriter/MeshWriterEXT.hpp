@@ -127,7 +127,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		// vec4  gl_Position;
 		Vec4 position;
@@ -150,14 +150,14 @@ namespace sdw
 		template< typename ... ParamsT >
 		MeshVertexListOutT( ShaderWriter & writer
 			, uint32_t maxVertices
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		MeshVertexListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	using MeshVertexListOut = MeshVertexListOutT< VoidT >;
@@ -209,7 +209,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//in uint  gl_PrimitiveIndicesNV[];
 		PrimitiveIndexTypeT< TopologyT > primitiveIndex;
@@ -230,7 +230,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		// int gl_PrimitiveID;
 		Int32 primitiveID;
@@ -256,7 +256,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		MeshEXTPrimitiveListOutT( ShaderWriter & writer
 			, uint32_t maxPrimitives
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		MeshEXTPrimitiveListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -266,7 +266,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >

@@ -25,7 +25,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		// patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		PerVertex vtx;
@@ -43,14 +43,14 @@ namespace sdw
 			, ast::type::PatchDomain domain
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		TessEvalListInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	struct TessEvalMainIn
@@ -81,14 +81,14 @@ namespace sdw
 		template< typename ... ParamsT >
 		TessPatchInT( ShaderWriter & writer
 			, uint32_t patchLocation
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		TessPatchInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//patch out float gl_TessLevelOuter[];
 		Array< Float > tessLevelOuter;
@@ -113,14 +113,14 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		explicit TessEvalDataOutT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		TessEvalDataOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//out gl_PerVertex;
 		PerVertex vtx;

@@ -37,16 +37,16 @@ namespace sdw
 		template< typename ValueT, typename ... ParamsT >
 		inline ValueT declMember( std::string name
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
 		inline Array< ValueT > declMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
 		inline Array< ValueT > declMemberArray( std::string name
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		template< typename ValueT >
 		inline ValueT getMember( std::string_view name

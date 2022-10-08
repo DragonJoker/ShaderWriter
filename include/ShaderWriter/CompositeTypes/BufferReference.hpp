@@ -19,7 +19,7 @@ namespace sdw
 			, ast::type::MemoryLayout layout
 			, ast::type::Storage storage
 			, bool enabled
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		BufferT operator()( std::string instanceName
 			, UInt64 address );

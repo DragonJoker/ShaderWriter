@@ -23,17 +23,17 @@ namespace sdw
 		FragmentInT( ShaderWriter & writer
 			, ast::FragmentOrigin origin
 			, ast::FragmentCenter center
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename ... ParamsT >
 		explicit FragmentInT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		FragmentInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//in vec4 gl_FragCoord;
 		Vec4 const fragCoord;
@@ -65,14 +65,14 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		explicit FragmentOutT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		FragmentOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//out float gl_FragDepth;
 		Float fragDepth;

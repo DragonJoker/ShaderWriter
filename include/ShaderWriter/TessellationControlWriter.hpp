@@ -24,7 +24,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		PerVertex vtx;
@@ -40,14 +40,14 @@ namespace sdw
 		template< typename ... ParamsT >
 		TessControlListInT( ShaderWriter & writer
 			, bool fromEntryPoint
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		TessControlListInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		static constexpr uint32_t MaxPoints = MaxPointsT;
 	};
@@ -101,14 +101,14 @@ namespace sdw
 			, ast::type::OutputTopology topology
 			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		TessControlListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//out gl_PerVertex gl_out[];
 		PerVertex vtx;
@@ -135,14 +135,14 @@ namespace sdw
 		template< typename ... ParamsT >
 		TessPatchOutT( ShaderWriter & writer
 			, uint32_t patchLocation
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		TessPatchOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//patch out float gl_TessLevelOuter[];
 		Array< Float > tessLevelOuter;

@@ -23,7 +23,7 @@ namespace sdw
 
 	template< typename ValueT, typename ... ParamsT >
 	inline void Struct::declMember( std::string name
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
@@ -41,7 +41,7 @@ namespace sdw
 	template< typename ValueT, typename ... ParamsT >
 	inline void Struct::declMember( std::string name
 		, uint32_t dimension
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
@@ -88,7 +88,7 @@ namespace sdw
 	template< typename ValueT, typename ... ParamsT >
 	inline void IOStructT< FlagT >::declMember( std::string name
 		, uint32_t location
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
@@ -109,7 +109,7 @@ namespace sdw
 	inline void IOStructT< FlagT >::declMember( std::string name
 		, uint32_t dimension
 		, uint32_t location
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
