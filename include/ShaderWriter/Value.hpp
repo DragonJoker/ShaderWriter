@@ -56,12 +56,12 @@ namespace sdw
 		{
 			auto result = std::move( op );
 
-			if ( result->getType()->getKind() != typeEnum< OutputT >
-				&& ( typeEnum< OutputT > != getComponentType( result->getType()->getKind() ) )
+			if ( result->getType()->getKind() != typeEnumV< OutputT >
+				&& ( typeEnumV< OutputT > != getComponentType( result->getType()->getKind() ) )
 				&& ( CountT > getComponentCount( result->getType()->getKind() ) ) )
 			{
 				auto & cache = result->getCache();
-				result = sdw::makeCast( cache.getBasicType( typeEnum< OutputT > )
+				result = sdw::makeCast( cache.getBasicType( typeEnumV< OutputT > )
 					, std::move( result ) );
 			}
 

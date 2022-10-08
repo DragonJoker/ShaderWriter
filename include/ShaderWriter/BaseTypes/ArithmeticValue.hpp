@@ -39,16 +39,16 @@ namespace sdw
 	};
 
 	template< ArithmeticT LhsT, ArithmeticT RhsT >
-	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+	ArithmeticValue< typeEnumV< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
 		, RhsT const & rhs );
 	template< ArithmeticT LhsT, ArithmeticT RhsT  >
-	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+	ArithmeticValue< typeEnumV< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
 		, RhsT const & rhs );
 	template< ArithmeticT LhsT, ArithmeticT RhsT  >
-	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+	ArithmeticValue< typeEnumV< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
 		, RhsT const & rhs );
 	template< ArithmeticT LhsT, ArithmeticT RhsT  >
-	ArithmeticValue< typeEnum< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+	ArithmeticValue< typeEnumV< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
 		, RhsT const & rhs );
 	template< ArithmeticT LhsT, ArithmeticT RhsT  >
 	Boolean operator==( LhsT const & lhs

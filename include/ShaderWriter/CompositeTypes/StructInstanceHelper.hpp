@@ -72,7 +72,7 @@ namespace sdw
 			if ( result->empty() )
 			{
 				( result->declMember( std::string( FieldsT::Name )
-					, typeEnum< typename FieldsT::TypeT >
+					, typeEnumV< typename FieldsT::TypeT >
 					, FieldsT::ArraySize )
 					, ... );
 			}

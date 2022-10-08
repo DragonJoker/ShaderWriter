@@ -12,14 +12,14 @@ namespace
 		, bool DepthT >
 	void testTexture( test::sdw_test::TestCounts & testCounts )
 	{
-		auto nameBase = sdw::debug::getName( sdw::typeEnum< sdw::CombinedImage > )
+		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::CombinedImage > )
 			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -43,7 +43,7 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -67,7 +67,7 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 1u, .set = 1u } );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -91,7 +91,7 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 2u, .set = 2u }, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -116,7 +116,7 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -138,7 +138,7 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, 6u, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -160,7 +160,7 @@ namespace
 			auto name = nameBase + "Value_1_1_opt";
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -185,7 +185,7 @@ namespace
 			auto name = nameBase + "Value_2_2_opt";
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -209,7 +209,7 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_T";
 			auto value = writer.declCombinedImg< sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > >( name, 1u, 1u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -233,7 +233,7 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_T";
 			auto value = writer.declCombinedImgArray< sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > >( name, 2u, 2u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::CombinedImage > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			check( getArraySize( value.getType() ) == 6u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );

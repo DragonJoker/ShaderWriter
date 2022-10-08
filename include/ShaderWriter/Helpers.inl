@@ -77,7 +77,7 @@ namespace sdw
 	template< typename ValueT >
 	ast::type::TypePtr makeType( ast::type::TypesCache & cache )
 	{
-		auto kind = typeEnum< ValueT >;
+		auto kind = typeEnumV< ValueT >;
 
 		switch ( kind )
 		{
