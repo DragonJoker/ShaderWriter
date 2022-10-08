@@ -13,19 +13,19 @@ namespace
 	template< typename T >
 	void testUboRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRaw" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRaw" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -54,15 +54,15 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -94,19 +94,19 @@ namespace
 	template< typename T >
 	void testUboRawArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRawArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -135,15 +135,15 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -175,21 +175,21 @@ namespace
 	template< typename T >
 	void testUboRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalDisabled" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRawOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, false );
 			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -218,17 +218,17 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, false );
 			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -260,21 +260,21 @@ namespace
 	template< typename T >
 	void testUboRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -303,17 +303,17 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
 			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -345,21 +345,21 @@ namespace
 	template< typename T >
 	void testUboRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalEnabled" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRawOptionalEnabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, true );
 			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -388,17 +388,17 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, true );
 			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -430,21 +430,21 @@ namespace
 	template< typename T >
 	void testUboRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -473,17 +473,17 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnum< T > );
+			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
 			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -517,13 +517,13 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testUboHelper" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboHelper" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
@@ -554,7 +554,7 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
@@ -590,13 +590,13 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testUboHelperArray" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testUboHelperArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
@@ -627,7 +627,7 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( retrieved.getType() ) == 4u );
 			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );

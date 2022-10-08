@@ -43,7 +43,7 @@ namespace
 			auto value = writer.declSampler< ComparisonT >( name
 				, binding
 				, set );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -63,7 +63,7 @@ namespace
 			auto name = "Value";
 			auto value = writer.declSampler< ComparisonT >( name
 				, { .binding = binding, .set = set } );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -101,7 +101,7 @@ namespace
 				, set
 				, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -122,7 +122,7 @@ namespace
 				, { .binding = binding, .set = set }
 				, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -157,7 +157,7 @@ namespace
 				, set
 				, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -179,7 +179,7 @@ namespace
 				, { .binding = binding, .set = set }
 				, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -214,7 +214,7 @@ namespace
 			auto value = writer.declSampler< sdw::SamplerT< ComparisonT > >( name
 				, binding
 				, set );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -234,7 +234,7 @@ namespace
 			auto name = "Value";
 			auto value = writer.declSampler< sdw::SamplerT< ComparisonT > >( name
 				, { .binding = binding, .set = set } );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -270,7 +270,7 @@ namespace
 				, binding
 				, set
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -293,7 +293,7 @@ namespace
 			auto value = writer.declSamplerArray< ComparisonT >( name
 				, { .binding = binding, .set = set }
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -334,7 +334,7 @@ namespace
 				, 4u
 				, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -358,7 +358,7 @@ namespace
 				, 4u
 				, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -396,7 +396,7 @@ namespace
 				, 4u
 				, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -421,7 +421,7 @@ namespace
 				, 4u
 				, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -459,7 +459,7 @@ namespace
 				, binding
 				, set
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
@@ -482,7 +482,7 @@ namespace
 			auto value = writer.declSamplerArray< sdw::SamplerT< ComparisonT > >( name
 				, { .binding = binding, .set = set }
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< sdw::Sampler > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
 			check( getArraySize( value.getType() ) == 4u );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();

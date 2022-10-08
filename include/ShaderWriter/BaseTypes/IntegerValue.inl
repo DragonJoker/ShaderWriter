@@ -172,90 +172,90 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeAdd );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeMinus );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeMinus );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeTimes );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeTimes );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeDivide );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeDivide );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeModulo );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeModulo );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeLShift );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeLShift );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeRShift );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeRShift );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitAnd );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitAnd );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitOr );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitOr );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnum< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitXor );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
+		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeBitXor );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
 	Boolean operator==( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
 	}
 
@@ -263,7 +263,7 @@ namespace sdw
 	Boolean operator!=( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
 	}
 
@@ -271,7 +271,7 @@ namespace sdw
 	Boolean operator<( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLess );
 	}
 
@@ -279,7 +279,7 @@ namespace sdw
 	Boolean operator<=( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLEqual );
 	}
 
@@ -287,7 +287,7 @@ namespace sdw
 	Boolean operator>( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGreater );
 	}
 
@@ -295,7 +295,7 @@ namespace sdw
 	Boolean operator>=( LhsT const & lhs
 		, RhsT const & rhs )
 	{
-		static_assert( typeEnum< LhsT > == typeEnum< RhsT > );
+		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeGEqual );
 	}
 

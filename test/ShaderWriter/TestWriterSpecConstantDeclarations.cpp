@@ -6,13 +6,13 @@ namespace
 	template< typename T >
 	void testSpecConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSpecConstant" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testSpecConstant" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "SpecConstantValue_0";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "SpecConstantValue_0";
 			auto value = writer.declSpecConstant( name, 0u, T{} );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -35,7 +35,7 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declSpecConstant( "value", 1u, T{}, false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -49,10 +49,10 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "SpecConstantValue_2_opt";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "SpecConstantValue_2_opt";
 			auto value = writer.declSpecConstant( name, 2u, T{}, true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );

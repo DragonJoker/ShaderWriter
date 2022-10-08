@@ -223,7 +223,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eAdd );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) - writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -232,7 +232,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eMinus );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) * writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -241,7 +241,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eTimes );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) / writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -250,7 +250,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eDivide );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 	}
 
@@ -272,7 +272,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eModulo );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) << writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -281,7 +281,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eLShift );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) >> writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -290,7 +290,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eRShift );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) | writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -299,7 +299,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitOr );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) & writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -308,7 +308,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitAnd );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = ~writer.cast< sdw::RealTypeT< RET > >( lhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -317,7 +317,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitNot );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 	}
 
@@ -405,7 +405,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eAdd );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs + rhs.x();
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -414,7 +414,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eAdd );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs - rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -423,7 +423,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eMinus );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs - rhs.x();
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -432,7 +432,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eMinus );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs * rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -441,7 +441,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eTimes );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs * rhs.x();
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -450,7 +450,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eTimes );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs / rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -459,7 +459,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eDivide );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 		ret = lhs / rhs.x();
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -468,7 +468,7 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			require( expr->getKind() == sdw::expr::Kind::eAssign );
 			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eDivide );
-			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnum< RET > );
+			check( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 	}
 

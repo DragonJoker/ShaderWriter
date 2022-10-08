@@ -6,16 +6,16 @@ namespace
 	template< typename T >
 	void testLocale( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLocale" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testLocale" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValue";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocale< T >( name );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -28,12 +28,12 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueAssigned";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueAssigned";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocale< T >( name, test::getDefault< T >( writer ) );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -46,12 +46,12 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray12";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray12";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == 6u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -64,12 +64,12 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray3";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray3";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ) );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == 3u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -88,7 +88,7 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocale< T >( "value", false );
 					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -106,7 +106,7 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocale< T >( "value", T{ writer, makeExpr( test::getDefault< T >( writer ) ), false } );
 					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -124,7 +124,7 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocale< T >( "value", test::getDefault< T >( writer ), false );
 					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -142,7 +142,7 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocaleArray< T >( "value", 6u, false );
 					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == 6u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -160,7 +160,7 @@ namespace
 					auto count = shader.getContainer()->size();
 					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ), false );
 					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == 3u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
@@ -172,13 +172,13 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValue_opt";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValue_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocale< T >( name, true );
 					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == sdw::type::NotArray );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -191,13 +191,13 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray12_opt";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray12_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u, true );
 					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == 6u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
@@ -210,13 +210,13 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "LocaleValueArray3_opt";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray3_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ), true );
 					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					check( getArraySize( value.getType() ) == 3u );
 					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );

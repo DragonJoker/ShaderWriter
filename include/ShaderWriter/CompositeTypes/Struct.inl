@@ -25,13 +25,13 @@ namespace sdw
 	inline void Struct::declMember( std::string name
 		, ParamsT && ... params )
 	{
-		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
+		static_assert( typeEnumV< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec2B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec2B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec3B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec3B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec4B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
 		m_type->declMember( std::move( name )
 			, ValueT::makeType( getTypesCache( *m_writer )
@@ -43,13 +43,13 @@ namespace sdw
 		, uint32_t dimension
 		, ParamsT && ... params )
 	{
-		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
+		static_assert( typeEnumV< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec2B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec2B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec3B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec3B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec4B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
 		m_type->declMember( std::move( name )
 			, ValueT::makeType( getTypesCache( *m_writer )
@@ -90,13 +90,13 @@ namespace sdw
 		, uint32_t location
 		, ParamsT && ... params )
 	{
-		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
+		static_assert( typeEnumV< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec2B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec2B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec3B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec3B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec4B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
 		m_type->declMember( std::move( name )
 			, ValueT::makeType( getTypesCache( *m_writer )
@@ -111,13 +111,13 @@ namespace sdw
 		, uint32_t location
 		, ParamsT && ... params )
 	{
-		static_assert( typeEnum< ValueT > != type::Kind::eBoolean
+		static_assert( typeEnumV< ValueT > != type::Kind::eBoolean
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec2B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec2B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec3B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec3B
 			, "Can't put a boolean type inside a structure" );
-		static_assert( typeEnum< ValueT > != type::Kind::eVec4B
+		static_assert( typeEnumV< ValueT > != type::Kind::eVec4B
 			, "Can't put a boolean type inside a structure" );
 		m_type->declMember( std::move( name )
 			, ValueT::makeType( getTypesCache( *m_writer )

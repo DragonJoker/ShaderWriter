@@ -42,13 +42,13 @@ namespace
 	template< typename T >
 	void testConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstant" + ast::debug::getName( sdw::typeEnum< T > ) );
+		testBegin( "testConstant" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue";
 			auto value = writer.declConstant< T >( name, test::getDefault< T >( writer ) );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
@@ -61,7 +61,7 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declConstant< T >( "value", test::getDefault< T >( writer ), false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			check( shader.getStatements()->size() == count );
 			dummyMain( writer );
@@ -70,10 +70,10 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue_opt";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue_opt";
 			auto value = writer.declConstant< T >( name, test::getDefault< T >( writer ), true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
@@ -83,9 +83,9 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue4";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue4";
 			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( writer, 4u ) );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
@@ -98,7 +98,7 @@ namespace
 			auto count = shader.getStatements()->size();
 			auto value = writer.declConstantArray< T >( "value", test::getDefaultVector< T >( writer, 4u ), false );
 			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			check( shader.getStatements()->size() == count );
 			dummyMain( writer );
@@ -107,10 +107,10 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnum< T > ) + "ConstantValue4_opt";
+			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue4_opt";
 			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( writer, 4u ), true );
 			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnum< T > );
+			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );

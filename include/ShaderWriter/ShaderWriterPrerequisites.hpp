@@ -1602,8 +1602,8 @@ namespace sdw
 	template< typename TypeT >
 	using LargestT = typename TypeTraits< TypeT >::LargestType;
 
-	template< typename T >
-	static ast::type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
+	template< typename TypeT >
+	static ast::type::Kind constexpr typeEnumV = TypeTraits< TypeT >::TypeEnum;
 
 	template< typename TypeT >
 	using ComponentTypeT = typename TypeTraits< TypeT >::ComponentType;
@@ -1674,12 +1674,12 @@ namespace sdw
 		|| KindT == ast::type::Kind::eUInt64 );
 
 	template< typename TypeT >
-	concept ArithmeticT = ( isArithmeticV< typeEnum< OperandTypeT< TypeT > > >
-		&& isSameV< ArithmeticValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
+	concept ArithmeticT = ( isArithmeticV< typeEnumV< OperandTypeT< TypeT > > >
+		&& isSameV< ArithmeticValue< typeEnumV< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
 
 	template< typename TypeT >
-	concept IntegerT = ( isIntegerV< typeEnum< OperandTypeT< TypeT > > >
-		&& isSameV< IntegerValue< typeEnum< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
+	concept IntegerT = ( isIntegerV< typeEnumV< OperandTypeT< TypeT > > >
+		&& isSameV< IntegerValue< typeEnumV< OperandTypeT< TypeT > > >, OperandTypeT< TypeT > > );
 
 	template< typename TypeT, typename ValueT >
 	concept VecCompatibleT = ( isSameV< ValueT, OperandTypeT< TypeT > > );

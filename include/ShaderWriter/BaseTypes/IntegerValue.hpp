@@ -59,34 +59,34 @@ namespace sdw
 	IntegerValue< KindT > operator~( IntegerValue< KindT > const & value );
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnum< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
+	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
 	Boolean operator==( LhsT const & lhs
