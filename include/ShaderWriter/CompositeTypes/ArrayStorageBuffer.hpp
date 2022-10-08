@@ -37,7 +37,7 @@ namespace sdw
 			, uint32_t bind
 			, uint32_t set
 			, bool enabled
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		// From a buffer reference
 		ArrayStorageBufferT( ShaderWriter & writer
@@ -63,7 +63,7 @@ namespace sdw
 			, std::string instanceName
 			, LocationHelper location
 			, bool enabled
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		InstanceT operator[]( uint32_t index )const;
 		InstanceT operator[]( UInt32 const & index )const;
@@ -78,7 +78,7 @@ namespace sdw
 			, std::string const & name
 			, ast::type::MemoryLayout layout
 			, bool enabled
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 	private:
 		ShaderWriter & m_writer;

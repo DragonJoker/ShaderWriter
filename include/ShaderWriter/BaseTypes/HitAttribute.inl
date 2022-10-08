@@ -12,7 +12,7 @@ namespace sdw
 	template< typename ValueT >
 	template< typename ... ParamsT >
 	HitAttributeT< ValueT >::HitAttributeT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: HitAttributeT{ writer
 		, makeExpr( writer
 			, sdw::registerName( writer
@@ -42,7 +42,7 @@ namespace sdw
 	template< typename ValueT >
 	template< typename ... ParamsT >
 	ast::type::TypePtr HitAttributeT< ValueT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return cache.getHitAttribute( ValueT::makeType( cache, std::forward< ParamsT >( params )... ) );
 	}

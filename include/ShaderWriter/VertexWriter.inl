@@ -25,7 +25,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	VertexInT< DataT >::VertexInT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: VertexInT< DataT >{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "vertIn"
@@ -39,7 +39,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr VertexInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = InputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -80,7 +80,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	VertexOutT< DataT >::VertexOutT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: VertexOutT< DataT >{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "vertOut"
@@ -94,7 +94,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr VertexOutT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );

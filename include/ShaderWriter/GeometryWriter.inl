@@ -21,7 +21,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr GeometryDataT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -44,7 +44,7 @@ namespace sdw
 		, type::InputLayout LayoutT >
 	template< typename ... ParamsT >
 	GeometryListT< DataT, LayoutT >::GeometryListT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: GeometryListT{ writer
 			, makeExpr( writer
 				, sdw::getShader( writer ).registerName( "geomIn"
@@ -58,7 +58,7 @@ namespace sdw
 		, type::InputLayout LayoutT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr GeometryListT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return GeometryDataT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 	}
@@ -83,7 +83,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	GeometryOutT< DataT, LayoutT >::GeometryOutT( ShaderWriter & writer
 		, uint32_t count
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: GeometryOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "geomOut"
@@ -116,7 +116,7 @@ namespace sdw
 		, type::OutputLayout LayoutT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = OutputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );

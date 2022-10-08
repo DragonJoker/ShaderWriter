@@ -27,7 +27,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		PerVertex vtx;
 	};
@@ -63,14 +63,14 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		explicit GeometryListT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		GeometryListT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -103,7 +103,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		GeometryOutT( ShaderWriter & writer
 			, uint32_t count
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		GeometryOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -113,7 +113,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		PerVertex vtx;
 		//out int gl_PrimitiveID;

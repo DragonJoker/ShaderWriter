@@ -13,7 +13,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	RayPayloadBaseT< FlagT, ValueT >::RayPayloadBaseT( ShaderWriter & writer
 		, uint32_t location
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: RayPayloadBaseT{ writer
 			, makeExpr( writer
 				, sdw::registerName( writer
@@ -53,7 +53,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	ast::type::TypePtr RayPayloadBaseT< FlagT, ValueT >::makeType( ast::type::TypesCache & cache
 		, uint32_t location
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return cache.getRayPayload( ValueT::makeType( cache, std::forward< ParamsT >( params )... )
 			, location );

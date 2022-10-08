@@ -30,7 +30,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//in uint  gl_PrimitiveIndicesNV[];
 		PrimitiveIndexTypeT< TopologyT > primitiveIndex;
@@ -51,7 +51,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		// int gl_PrimitiveID;
 		Int32 primitiveID;
@@ -75,7 +75,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		MeshNVPrimitiveListOutT( ShaderWriter & writer
 			, uint32_t maxPrimitives
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		MeshNVPrimitiveListOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -85,7 +85,7 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	template< template< ast::var::Flag FlagT > typename DataT >

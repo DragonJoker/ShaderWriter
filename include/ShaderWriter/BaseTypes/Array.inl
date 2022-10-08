@@ -53,7 +53,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	inline ast::type::ArrayPtr Array< ValueT >::makeType( ast::type::TypesCache & cache
 		, uint32_t arraySize
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return cache.getArray( ValueT::makeType( cache, std::forward< ParamsT >( params )... ), arraySize );
 	}

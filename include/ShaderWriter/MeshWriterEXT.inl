@@ -24,7 +24,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr MeshVertexOutT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -62,7 +62,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	MeshVertexListOutT< DataT >::MeshVertexListOutT( ShaderWriter & writer
 		, uint32_t maxVertices
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: MeshVertexListOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "meshVertexOut"
@@ -75,7 +75,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr MeshVertexListOutT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return MeshVertexOutT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -97,7 +97,7 @@ namespace sdw
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TopologyEXTOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result;
 
@@ -146,7 +146,7 @@ namespace sdw
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr MeshEXTPrimitiveOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = TopologyEXTOutT< DataT, TopologyT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -189,7 +189,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	MeshEXTPrimitiveListOutT< DataT, TopologyT >::MeshEXTPrimitiveListOutT( ShaderWriter & writer
 		, uint32_t maxPrimitives
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: MeshEXTPrimitiveListOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "meshPrimitiveOut"
@@ -212,7 +212,7 @@ namespace sdw
 		, ast::type::OutputTopology TopologyT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr MeshEXTPrimitiveListOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return MeshEXTPrimitiveOutT< DataT, TopologyT >::makeType( cache
 			, std::forward< ParamsT >( params )... );

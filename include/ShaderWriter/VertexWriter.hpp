@@ -24,14 +24,14 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		explicit VertexInT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		VertexInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		//in int gl_VertexIndex;
 		Int32 const vertexIndex;
@@ -55,14 +55,14 @@ namespace sdw
 
 		template< typename ... ParamsT >
 		explicit VertexOutT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		VertexOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		PerVertex vtx;
 	};

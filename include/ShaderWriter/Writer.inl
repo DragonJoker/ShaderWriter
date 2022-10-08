@@ -22,7 +22,7 @@ namespace sdw
 	*/
 	/**@{*/
 	template< typename TypeT, typename ... ParamsT >
-	inline type::StructPtr ShaderWriter::declType( ParamsT ... params )
+	inline type::StructPtr ShaderWriter::declType( ParamsT && ... params )
 	{
 		auto result = TypeT::makeType( getTypesCache()
 			, std::forward< ParamsT >( params )... );
@@ -1553,7 +1553,7 @@ namespace sdw
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return T{ *this
 			, std::move( name )
@@ -1569,7 +1569,7 @@ namespace sdw
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return declUniformBuffer< T >( std::move(name)
 			, location.binding
@@ -1592,7 +1592,7 @@ namespace sdw
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return T{ *this
 			, std::move( name )
@@ -1608,7 +1608,7 @@ namespace sdw
 		, uint32_t binding
 		, uint32_t set
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return ArrayStorageBufferT< T >{ *this
 			, std::move( name )
@@ -1623,7 +1623,7 @@ namespace sdw
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return declStorageBuffer< T >( std::move(name)
 			, location.binding
@@ -1637,7 +1637,7 @@ namespace sdw
 	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer(std::string name
 		, LocationHelper location
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return declArrayStorageBuffer< T >( std::move(name)
 			, location.binding
@@ -1658,7 +1658,7 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, ast::type::Storage storage
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return BufferReferenceT< BufferT >{ *this
 			, std::move( name )
@@ -1679,7 +1679,7 @@ namespace sdw
 	inline T ShaderWriter::declPushConstantsBuffer( std::string name
 		, ast::type::MemoryLayout layout
 		, bool enabled
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return T{ *this
 			, std::move( name )
@@ -1698,7 +1698,7 @@ namespace sdw
 	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declStruct( std::string name
 		, ast::type::MemoryLayout layout
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return T{ *this
 			, std::move( name )

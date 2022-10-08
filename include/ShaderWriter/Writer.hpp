@@ -97,7 +97,7 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename TypeT, typename ... ParamsT >
-		inline type::StructPtr declType( ParamsT ... params );
+		inline type::StructPtr declType( ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Variables registration
@@ -741,13 +741,13 @@ namespace sdw
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename T = UniformBuffer, typename ... ParamsT >
 		inline T declUniformBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Shader storage buffer declaration
@@ -762,24 +762,24 @@ namespace sdw
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename T, typename ... ParamsT >
 		inline ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename T = StorageBuffer, typename ... ParamsT >
 		inline T declStorageBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		template< typename T, typename ... ParamsT >
 		inline ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, LocationHelper location
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Buffer reference declaration
@@ -793,7 +793,7 @@ namespace sdw
 			, ast::type::MemoryLayout layout
 			, ast::type::Storage storage
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Push constants buffer declaration
@@ -806,7 +806,7 @@ namespace sdw
 		inline T declPushConstantsBuffer( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Struct declaration
@@ -818,7 +818,7 @@ namespace sdw
 		template< typename T = Struct, typename ... ParamsT >
 		inline T declStruct( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Output declaration

@@ -52,13 +52,13 @@ namespace sdw
 			, bool enabled = true );
 		template< typename ... ParamsT >
 		TaskPayloadOutNVT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		void dispatchMesh( UInt32 taskCount )const;
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 	private:
 		TaskPayloadNV m_internal;
@@ -79,11 +79,11 @@ namespace sdw
 			, bool enabled = true );
 		template< typename ... ParamsT >
 		TaskPayloadInNVT( ShaderWriter & writer
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		template< typename ... ParamsT >
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	using TaskPayloadInNV = TaskPayloadInNVT< VoidT >;

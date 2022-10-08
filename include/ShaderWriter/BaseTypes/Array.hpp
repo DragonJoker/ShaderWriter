@@ -27,7 +27,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		static inline ast::type::ArrayPtr makeType( ast::type::TypesCache & cache
 			, uint32_t arraySize = ast::type::UnknownArraySize
-			, ParamsT ... params );
+			, ParamsT && ... params );
 	};
 
 	template< typename ValueT >

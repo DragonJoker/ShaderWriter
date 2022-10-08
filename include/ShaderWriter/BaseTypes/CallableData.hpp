@@ -47,7 +47,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		CallableDataBaseT( ShaderWriter & writer
 			, uint32_t location
-			, ParamsT ... params );
+			, ParamsT && ... params );
 		CallableDataBaseT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled = true );
@@ -57,7 +57,7 @@ namespace sdw
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, uint32_t location
-			, ParamsT ... params );
+			, ParamsT && ... params );
 
 		void execute( UInt32 const & sbtRecordIndex );
 

@@ -21,7 +21,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TessControlDataInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -45,7 +45,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	TessControlListInT< DataT, MaxPointsT >::TessControlListInT( ShaderWriter & writer
 		, bool fromEntryPoint
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TessControlListInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesscIn"
@@ -58,7 +58,7 @@ namespace sdw
 		, uint32_t MaxPointsT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TessControlListInT< DataT, MaxPointsT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return TessControlDataInT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -84,7 +84,7 @@ namespace sdw
 		, ast::type::OutputTopology topology
 		, ast::type::PrimitiveOrdering vertexOrder
 		, uint32_t outputVertex
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TessControlListOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesscOut"
@@ -103,7 +103,7 @@ namespace sdw
 		, ast::type::PatchDomain DomainT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TessControlListOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -129,7 +129,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	TessPatchOutT< DataT, DomainT >::TessPatchOutT( ShaderWriter & writer
 		, uint32_t patchLocation
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TessPatchOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesscPatch"
@@ -144,7 +144,7 @@ namespace sdw
 		, ast::type::PatchDomain DomainT >
 	template< typename ... ParamsT >
 	ast::type::TypePtr TessPatchOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = PatchOutT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );

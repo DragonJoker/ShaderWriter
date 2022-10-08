@@ -21,7 +21,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TessEvalDataInT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -47,7 +47,7 @@ namespace sdw
 		, ast::type::PatchDomain domain
 		, ast::type::Partitioning partitioning
 		, ast::type::PrimitiveOrdering ordering
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TessEvalListInT{ writer
 		, makeExpr( writer
 			, getShader( writer ).registerName( "tesseListIn"
@@ -65,7 +65,7 @@ namespace sdw
 		, uint32_t InputVerticesT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TessEvalListInT< DataT, InputVerticesT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return TessEvalDataInT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -90,7 +90,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	TessPatchInT< DataT, DomainT >::TessPatchInT( ShaderWriter & writer
 		, uint32_t patchLocation
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TessPatchInT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tessePatch"
@@ -106,7 +106,7 @@ namespace sdw
 		, ast::type::PatchDomain DomainT >
 	template< typename ... ParamsT >
 	ast::type::TypePtr TessPatchInT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		auto result = PatchInT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
@@ -141,7 +141,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	TessEvalDataOutT< DataT >::TessEvalDataOutT( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: TessEvalDataOutT{ writer
 			, makeExpr( writer
 				, getShader( writer ).registerName( "tesseOut"
@@ -153,7 +153,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
 	ast::type::IOStructPtr TessEvalDataOutT< DataT >::makeType( ast::type::TypesCache & cache
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );

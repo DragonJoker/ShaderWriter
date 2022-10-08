@@ -13,7 +13,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	CallableDataBaseT< FlagT, ValueT >::CallableDataBaseT( ShaderWriter & writer
 		, uint32_t location
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: CallableDataBaseT{ writer
 			, makeExpr( writer
 				, sdw::registerName( writer
@@ -53,7 +53,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	ast::type::TypePtr CallableDataBaseT< FlagT, ValueT >::makeType( ast::type::TypesCache & cache
 		, uint32_t location
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
 		return cache.getCallableData( ValueT::makeType( cache, std::forward< ParamsT >( params )... )
 			, location );
