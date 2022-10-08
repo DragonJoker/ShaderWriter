@@ -12,16 +12,17 @@ See LICENSE file in root folder
 namespace sdw
 {
 	UniformBuffer::UniformBuffer( ShaderWriter & writer
-		, std::string name
+		, std::string blockName
+		, std::string variableName
 		, uint32_t bind
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
-		, m_stmt{ stmt::makeConstantBufferDecl( name, layout, bind, set ) }
-		, m_name{ std::move( name ) }
-		, m_interface{ m_writer.getTypesCache(), layout, m_name }
+		, m_stmt{ stmt::makeConstantBufferDecl( variableName, layout, bind, set ) }
+		, m_name{ std::move( variableName ) }
+		, m_interface{ m_writer.getTypesCache(), layout, std::move( blockName ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_var{ writer.getShader().registerName( m_name, m_info.type, var::Flag::eUniform ) }
 		, m_enabled{ enabled }

@@ -10,16 +10,29 @@ See LICENSE file in root folder
 namespace sdw
 {
 	PushConstantBuffer::PushConstantBuffer( ShaderWriter & writer
-		, std::string name
+		, std::string blockName
+		, std::string variableName
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
-		, m_stmt{ stmt::makePushConstantsBufferDecl( name, layout ) }
-		, m_name{ std::move( name ) }
-		, m_info{ writer.getTypesCache(), layout, m_name }
+		, m_stmt{ stmt::makePushConstantsBufferDecl( variableName, layout ) }
+		, m_name{ std::move( variableName ) }
+		, m_info{ writer.getTypesCache(), layout, std::move( blockName ) }
 		, m_var{ writer.getShader().registerName( m_name, m_info.getType(), var::Flag::ePushConstant ) }
 		, m_enabled{ enabled }
+	{
+	}
+
+	PushConstantBuffer::PushConstantBuffer( ShaderWriter & writer
+		, std::string name
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: PushConstantBuffer{ writer
+			, name + "Block"
+			, name
+			, layout
+			, enabled }
 	{
 	}
 

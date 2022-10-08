@@ -5,11 +5,44 @@ namespace sdw
 {
 	inline StorageBuffer::StorageBuffer( ShaderWriter & writer
 		, std::string name
+		, uint32_t bind
+		, uint32_t set
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: StorageBuffer{ writer
+			, name + "Block"
+			, name
+			, bind
+			, set
+			, layout
+			, enabled }
+	{
+	}
+
+	inline StorageBuffer::StorageBuffer( ShaderWriter & writer
+		, std::string blockName
+		, std::string variableName
+		, LocationHelper location
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: StorageBuffer{ writer
+			, std::move( blockName )
+			, std::move( variableName )
+			, location.binding
+			, location.set
+			, layout
+			, enabled }
+	{
+	}
+
+	inline StorageBuffer::StorageBuffer( ShaderWriter & writer
+		, std::string name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: StorageBuffer( writer
-			, std::move( name )
+			, name + "Block"
+			, name
 			, location.binding
 			, location.set
 			, layout

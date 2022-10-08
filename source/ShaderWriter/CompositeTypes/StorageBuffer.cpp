@@ -10,15 +10,16 @@ See LICENSE file in root folder
 namespace sdw
 {
 	StorageBuffer::StorageBuffer( ShaderWriter & writer
-		, std::string name
+		, std::string blockName
+		, std::string variableName
 		, uint32_t bind
 		, uint32_t set
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
-		, m_name{ std::move( name ) }
-		, m_interface{ writer.getTypesCache(), layout, m_name + "Block" }
+		, m_name{ std::move( variableName ) }
+		, m_interface{ writer.getTypesCache(), layout, std::move( blockName ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_var{ writer.getShader().registerName( m_name, m_interface.getType(), var::Flag::eStorageBuffer ) }
 		, m_stmt{ stmt::makeShaderBufferDecl( m_var, bind, set ) }

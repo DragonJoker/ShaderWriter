@@ -17,9 +17,22 @@ namespace sdw
 	{
 	public:
 		SDW_API UniformBuffer( ShaderWriter & writer
+			, std::string blockName
+			, std::string variableName
+			, uint32_t bind
+			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, bool enabled = true );
+		inline UniformBuffer( ShaderWriter & writer
 			, std::string name
 			, uint32_t bind
 			, uint32_t set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, bool enabled = true );
+		inline UniformBuffer( ShaderWriter & writer
+			, std::string blockName
+			, std::string variableName
+			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true );
 		inline UniformBuffer( ShaderWriter & writer
