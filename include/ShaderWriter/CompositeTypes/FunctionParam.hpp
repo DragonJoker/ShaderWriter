@@ -18,6 +18,7 @@ namespace sdw
 			, std::string name
 			, ParamsT && ... params );
 		Param( ValueT const & other );
+		Param( DefaultedT< ValueT > const & other );
 		template< typename T >
 		inline Param< ValueT > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -32,6 +33,7 @@ namespace sdw
 			, std::string name
 			, ParamsT && ... params );
 		InParam( ValueT const & other );
+		InParam( DefaultedT< ValueT > const & other );
 		template< typename T >
 		inline InParam< ValueT > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -46,6 +48,7 @@ namespace sdw
 			, std::string name
 			, ParamsT && ... params );
 		OutParam( ValueT const & other );
+		OutParam( DefaultedT< ValueT > const & other );
 		template< typename T >
 		inline OutParam< ValueT > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -60,6 +63,7 @@ namespace sdw
 			, std::string name
 			, ParamsT && ... params );
 		InOutParam( ValueT const & other );
+		InOutParam( DefaultedT< ValueT > const & other );
 		template< typename T >
 		inline InOutParam< ValueT > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -75,6 +79,7 @@ namespace sdw
 			, uint32_t arraySize
 			, ParamsT && ... params );
 		Param( Array< ValueT > const & other );
+		Param( DefaultedT< Array< ValueT > > const & other );
 		template< typename T >
 		inline Param< Array< ValueT > > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -90,6 +95,7 @@ namespace sdw
 			, uint32_t arraySize
 			, ParamsT && ... params );
 		InParam( Array< ValueT > const & other );
+		InParam( DefaultedT< Array< ValueT > > const & other );
 		template< typename T >
 		inline InParam< Array< ValueT > > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -105,6 +111,7 @@ namespace sdw
 			, uint32_t arraySize
 			, ParamsT && ... params );
 		OutParam( Array< ValueT > const & other );
+		OutParam( DefaultedT< Array< ValueT > > const & other );
 		template< typename T >
 		inline OutParam< Array< ValueT > > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );
@@ -120,6 +127,7 @@ namespace sdw
 			, uint32_t arraySize
 			, ParamsT && ... params );
 		InOutParam( Array< ValueT > const & other );
+		InOutParam( DefaultedT< Array< ValueT > > const & other );
 		template< typename T >
 		inline InOutParam< Array< ValueT > > operator=( T const & rhs );
 		inline void setVar( var::VariableList::const_iterator & var );

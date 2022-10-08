@@ -28,6 +28,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Param< ValueT >::Param( DefaultedT< ValueT > const & other )
+		: ValueT{ other.getValue() }
+	{
+	}
+
+	template< typename ValueT >
 	template< typename T >
 	Param< ValueT > Param< ValueT >::operator=( T const & rhs )
 	{
@@ -63,6 +69,12 @@ namespace sdw
 	template< typename ValueT >
 	InParam< ValueT >::InParam( ValueT const & other )
 		: ValueT{ other }
+	{
+	}
+
+	template< typename ValueT >
+	InParam< ValueT >::InParam( DefaultedT< ValueT > const & other )
+		: ValueT{ other.getValue() }
 	{
 	}
 
@@ -106,6 +118,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	OutParam< ValueT >::OutParam( DefaultedT< ValueT > const & other )
+		: ValueT{ other.getValue() }
+	{
+	}
+
+	template< typename ValueT >
 	template< typename T >
 	OutParam< ValueT > OutParam< ValueT >::operator=( T const & rhs )
 	{
@@ -141,6 +159,12 @@ namespace sdw
 	template< typename ValueT >
 	InOutParam< ValueT >::InOutParam( ValueT const & other )
 		: ValueT{ other }
+	{
+	}
+
+	template< typename ValueT >
+	InOutParam< ValueT >::InOutParam( DefaultedT< ValueT > const & other )
+		: ValueT{ other.getValue() }
 	{
 	}
 
@@ -186,6 +210,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	Param< Array< ValueT > >::Param( DefaultedT< Array< ValueT > > const & other )
+		: Array< ValueT >{ other.getValue() }
+	{
+	}
+
+	template< typename ValueT >
 	template< typename T >
 	Param< Array< ValueT > > Param< Array< ValueT > >::operator=( T const & rhs )
 	{
@@ -223,6 +253,12 @@ namespace sdw
 	template< typename ValueT >
 	InParam< Array< ValueT > >::InParam( Array< ValueT > const & other )
 		: Array< ValueT >{ other }
+	{
+	}
+
+	template< typename ValueT >
+	InParam< Array< ValueT > >::InParam( DefaultedT< Array< ValueT > > const & other )
+		: Array< ValueT >{ other.getValue() }
 	{
 	}
 
@@ -268,6 +304,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	OutParam< Array< ValueT > >::OutParam( DefaultedT< Array< ValueT > > const & other )
+		: Array< ValueT >{ other.getValue() }
+	{
+	}
+
+	template< typename ValueT >
 	template< typename T >
 	OutParam< Array< ValueT > > OutParam< Array< ValueT > >::operator=( T const & rhs )
 	{
@@ -305,6 +347,12 @@ namespace sdw
 	template< typename ValueT >
 	InOutParam< Array< ValueT > >::InOutParam( Array< ValueT > const & other )
 		: Array< ValueT >{ other }
+	{
+	}
+
+	template< typename ValueT >
+	InOutParam< Array< ValueT > >::InOutParam( DefaultedT< Array< ValueT > > const & other )
+		: Array< ValueT >{ other.getValue() }
 	{
 	}
 

@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_Value_H___
 
 #include "ShaderWriter/BaseTypes/ReturnWrapper.hpp"
+#include "ShaderWriter/BaseTypes/Defaulted.hpp"
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
