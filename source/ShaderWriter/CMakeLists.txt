@@ -123,6 +123,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/CallableData.inl
 	${INCLUDE_DIR}/BaseTypes/CombinedImage.hpp
 	${INCLUDE_DIR}/BaseTypes/CombinedImage.inl
+	${INCLUDE_DIR}/BaseTypes/Defaulted.hpp
 	${INCLUDE_DIR}/BaseTypes/Double.hpp
 	${INCLUDE_DIR}/BaseTypes/Double.inl
 	${INCLUDE_DIR}/BaseTypes/Float.hpp
