@@ -904,6 +904,10 @@ namespace sdw
 			, bool enabled = true );
 		template< typename T >
 		inline T declLocale( std::string name
+			, DefaultedT< T > rhs
+			, bool enabled = true );
+		template< typename T >
+		inline T declLocale( std::string name
 			, bool enabled
 			, ReturnWrapperT< T > defaultValue );
 		template< typename BaseT, typename DerivedT >

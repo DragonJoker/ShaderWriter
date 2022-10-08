@@ -1054,6 +1054,18 @@ namespace sdw
 		using Type = ValueT;
 	};
 
+	template< typename ValueT >
+	struct TypeTraits< DefaultedT< ValueT > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< ValueT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< ValueT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< ValueT >::CppType;
+		using OperandType = typename TypeTraits< ValueT >::OperandType;
+		using LargestType = typename TypeTraits< ValueT >::LargestType;
+		static size_t constexpr Size = TypeTraits< ValueT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< ValueT >::ComponentCount;
+		using Type = ValueT;
+	};
 	//***********************************************************************************************
 
 	template<>

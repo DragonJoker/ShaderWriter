@@ -88,6 +88,14 @@ namespace sdw
 			, true };
 	}
 
+	template< ValueT T >
+	DefaultedT< T > StructInstance::getMember( std::string_view name
+		, T optionalValue )const
+	{
+		return DefaultedT< T >( getMember< T >( std::move( name ), true )
+			, std::move( optionalValue ) );
+	}
+
 	template< typename T >
 	inline Array< T > StructInstance::getMemberArray( std::string_view name
 		, bool optional )const
@@ -156,6 +164,14 @@ namespace sdw
 				, member.type->getIndex()
 				, mbrFlags )
 			, true };
+	}
+
+	template< ValueT T >
+	inline DefaultedT< Array< T > > StructInstance::getMemberArray( std::string_view name
+		, Array< T > optionalValue )const
+	{
+		return DefaultedT< Array< T > >( getMemberArray< Array< T > >( std::move( name ), true )
+			, std::move( optionalValue ) );
 	}
 
 	inline bool StructInstance::hasMember( ast::Builtin builtin )

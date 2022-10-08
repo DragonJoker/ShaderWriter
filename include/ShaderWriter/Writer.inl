@@ -2018,6 +2018,15 @@ namespace sdw
 
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string name
+		, DefaultedT< T > rhs
+		, bool enabled )
+	{
+		enabled = enabled && areOptionalEnabled( rhs );
+		return declLocale( std::move( name ), T{ std::move( rhs ) }, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declLocale( std::string name
 		, bool enabled
 		, ReturnWrapperT< T > defaultValue )
 	{
