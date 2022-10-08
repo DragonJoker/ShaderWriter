@@ -91,6 +91,8 @@ namespace sdw
 
 	template< typename T >
 	struct Array;
+	template< typename ValueT >
+	struct DefaultedT;
 	template< typename TypeT >
 	struct Vec2T;
 	template< typename TypeT >

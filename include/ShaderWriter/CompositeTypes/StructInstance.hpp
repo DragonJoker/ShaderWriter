@@ -145,9 +145,15 @@ namespace sdw
 		template< typename T >
 		inline T getMember( std::string_view name
 			, bool optional = false )const;
+		template< ValueT T >
+		inline DefaultedT< T > getMember( std::string_view name
+			, T optionalValue )const;
 		template< typename T >
 		inline Array< T > getMemberArray( std::string_view name
 			, bool optional = false )const;
+		template< ValueT T >
+		inline DefaultedT< Array< T > > getMemberArray( std::string_view name
+			, Array< T > optionalValue )const;
 		inline bool hasMember( ast::Builtin builtin );
 		template< typename T >
 		inline T getMember( ast::Builtin builtin )const;

@@ -170,6 +170,12 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 
+	template< typename T >
+	static constexpr bool isValueT = std::is_same_v< Value, T > || std::is_base_of_v< Value, T >;
+
+	template< typename TypeT >
+	concept ValueT = ( isValueT< TypeT > );
+
 	SDW_API expr::ExprPtr getDummyExpr( ShaderWriter const & writer
 		, type::TypePtr type );
 	SDW_API expr::ExprPtr makeExpr( Value const & variable
