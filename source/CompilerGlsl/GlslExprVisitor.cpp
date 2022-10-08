@@ -289,7 +289,7 @@ namespace glsl
 		}
 		else
 		{
-			m_result += getCtorName( expr->getComposite(), expr->getComponent() );
+			m_result += getCtorName( expr->getComposite(), getScalarType( expr->getComponent() ) );
 		}
 
 		m_result += "(";

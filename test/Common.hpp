@@ -9,6 +9,7 @@
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 4068 )
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
+#pragma GCC diagnostic ignored "-Wrestrict"
 #include <atomic>
 #include <iostream>
 #include <stdexcept>

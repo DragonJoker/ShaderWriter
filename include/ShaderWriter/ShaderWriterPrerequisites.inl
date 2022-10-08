@@ -15,6 +15,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = void;
 		using LargestType = void;
+		using ComponentType = Void;
 	};
 	
 	template<>
@@ -27,6 +28,7 @@ namespace sdw
 		using CppType = bool;
 		using OperandType = Boolean;
 		using LargestType = Boolean;
+		using ComponentType = Boolean;
 	};
 
 	template<>
@@ -39,6 +41,7 @@ namespace sdw
 		using CppType = int8_t;
 		using OperandType = Int8;
 		using LargestType = Int64;
+		using ComponentType = Int8;
 	};
 
 	template<>
@@ -51,6 +54,7 @@ namespace sdw
 		using CppType = int16_t;
 		using OperandType = Int16;
 		using LargestType = Int64;
+		using ComponentType = Int16;
 	};
 
 	template<>
@@ -63,6 +67,7 @@ namespace sdw
 		using CppType = int32_t;
 		using OperandType = Int32;
 		using LargestType = Int64;
+		using ComponentType = Int32;
 	};
 
 	template<>
@@ -75,6 +80,7 @@ namespace sdw
 		using CppType = int64_t;
 		using OperandType = Int64;
 		using LargestType = Int64;
+		using ComponentType = Int64;
 	};
 
 	template<>
@@ -87,6 +93,7 @@ namespace sdw
 		using CppType = uint8_t;
 		using OperandType = UInt8;
 		using LargestType = UInt64;
+		using ComponentType = UInt8;
 	};
 
 	template<>
@@ -99,6 +106,7 @@ namespace sdw
 		using CppType = uint16_t;
 		using OperandType = UInt16;
 		using LargestType = UInt64;
+		using ComponentType = UInt16;
 	};
 
 	template<>
@@ -111,6 +119,7 @@ namespace sdw
 		using CppType = uint32_t;
 		using OperandType = UInt32;
 		using LargestType = UInt64;
+		using ComponentType = UInt32;
 	};
 
 	template<>
@@ -123,6 +132,7 @@ namespace sdw
 		using CppType = uint64_t;
 		using OperandType = UInt64;
 		using LargestType = UInt64;
+		using ComponentType = UInt64;
 	};
 
 	template<>
@@ -135,6 +145,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Float;
 		using LargestType = Double;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -147,6 +158,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = Double;
 		using LargestType = Double;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -214,6 +226,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Half;
 		using LargestType = Double;
+		using ComponentType = Half;
 	};
 
 	template<>
@@ -271,6 +284,7 @@ namespace sdw
 		using CppType = bool;
 		using OperandType = BVec2;
 		using LargestType = BVec2;
+		using ComponentType = Boolean;
 	};
 
 	template<>
@@ -283,6 +297,7 @@ namespace sdw
 		using CppType = bool;
 		using OperandType = BVec3;
 		using LargestType = BVec3;
+		using ComponentType = Boolean;
 	};
 
 	template<>
@@ -295,6 +310,7 @@ namespace sdw
 		using CppType = bool;
 		using OperandType = BVec4;
 		using LargestType = BVec4;
+		using ComponentType = Boolean;
 	};
 
 	template<>
@@ -307,6 +323,7 @@ namespace sdw
 		using CppType = int8_t;
 		using OperandType = I8Vec2;
 		using LargestType = I64Vec2;
+		using ComponentType = Int8;
 	};
 
 	template<>
@@ -319,6 +336,7 @@ namespace sdw
 		using CppType = int8_t;
 		using OperandType = I8Vec3;
 		using LargestType = I64Vec3;
+		using ComponentType = Int8;
 	};
 
 	template<>
@@ -331,6 +349,7 @@ namespace sdw
 		using CppType = int8_t;
 		using OperandType = I8Vec4;
 		using LargestType = I64Vec4;
+		using ComponentType = Int8;
 	};
 
 	template<>
@@ -343,6 +362,7 @@ namespace sdw
 		using CppType = int16_t;
 		using OperandType = I16Vec2;
 		using LargestType = I64Vec2;
+		using ComponentType = Int16;
 	};
 
 	template<>
@@ -355,6 +375,7 @@ namespace sdw
 		using CppType = int16_t;
 		using OperandType = I16Vec3;
 		using LargestType = I64Vec3;
+		using ComponentType = Int16;
 	};
 
 	template<>
@@ -367,6 +388,7 @@ namespace sdw
 		using CppType = int16_t;
 		using OperandType = I16Vec4;
 		using LargestType = I64Vec3;
+		using ComponentType = Int16;
 	};
 
 	template<>
@@ -379,6 +401,7 @@ namespace sdw
 		using CppType = int32_t;
 		using OperandType = I32Vec2;
 		using LargestType = I64Vec2;
+		using ComponentType = Int32;
 	};
 
 	template<>
@@ -391,6 +414,7 @@ namespace sdw
 		using CppType = int32_t;
 		using OperandType = I32Vec3;
 		using LargestType = I64Vec3;
+		using ComponentType = Int32;
 	};
 
 	template<>
@@ -403,6 +427,7 @@ namespace sdw
 		using CppType = int32_t;
 		using OperandType = I32Vec4;
 		using LargestType = I64Vec4;
+		using ComponentType = Int32;
 	};
 
 	template<>
@@ -415,6 +440,7 @@ namespace sdw
 		using CppType = int64_t;
 		using OperandType = I64Vec2;
 		using LargestType = I64Vec2;
+		using ComponentType = Int64;
 	};
 
 	template<>
@@ -427,6 +453,7 @@ namespace sdw
 		using CppType = int64_t;
 		using OperandType = I64Vec3;
 		using LargestType = I64Vec3;
+		using ComponentType = Int64;
 	};
 
 	template<>
@@ -439,6 +466,7 @@ namespace sdw
 		using CppType = int64_t;
 		using OperandType = I64Vec4;
 		using LargestType = I64Vec4;
+		using ComponentType = Int64;
 	};
 
 	template<>
@@ -451,6 +479,7 @@ namespace sdw
 		using CppType = uint8_t;
 		using OperandType = U8Vec2;
 		using LargestType = U64Vec2;
+		using ComponentType = UInt8;
 	};
 
 	template<>
@@ -463,6 +492,7 @@ namespace sdw
 		using CppType = uint8_t;
 		using OperandType = U8Vec3;
 		using LargestType = U64Vec3;
+		using ComponentType = UInt8;
 	};
 
 	template<>
@@ -475,6 +505,7 @@ namespace sdw
 		using CppType = uint8_t;
 		using OperandType = U8Vec4;
 		using LargestType = U64Vec4;
+		using ComponentType = UInt8;
 	};
 
 	template<>
@@ -487,6 +518,7 @@ namespace sdw
 		using CppType = uint16_t;
 		using OperandType = U16Vec2;
 		using LargestType = U64Vec2;
+		using ComponentType = UInt16;
 	};
 
 	template<>
@@ -499,6 +531,7 @@ namespace sdw
 		using CppType = uint16_t;
 		using OperandType = U16Vec3;
 		using LargestType = U64Vec3;
+		using ComponentType = UInt16;
 	};
 
 	template<>
@@ -511,6 +544,7 @@ namespace sdw
 		using CppType = uint16_t;
 		using OperandType = U16Vec4;
 		using LargestType = U64Vec4;
+		using ComponentType = UInt16;
 	};
 
 	template<>
@@ -523,6 +557,7 @@ namespace sdw
 		using CppType = uint32_t;
 		using OperandType = U32Vec2;
 		using LargestType = U64Vec2;
+		using ComponentType = UInt32;
 	};
 
 	template<>
@@ -535,6 +570,7 @@ namespace sdw
 		using CppType = uint32_t;
 		using OperandType = U32Vec3;
 		using LargestType = U64Vec3;
+		using ComponentType = UInt32;
 	};
 
 	template<>
@@ -547,6 +583,7 @@ namespace sdw
 		using CppType = uint32_t;
 		using OperandType = U32Vec4;
 		using LargestType = U64Vec4;
+		using ComponentType = UInt32;
 	};
 
 	template<>
@@ -559,6 +596,7 @@ namespace sdw
 		using CppType = uint64_t;
 		using OperandType = U64Vec2;
 		using LargestType = U64Vec2;
+		using ComponentType = UInt64;
 	};
 
 	template<>
@@ -571,6 +609,7 @@ namespace sdw
 		using CppType = uint64_t;
 		using OperandType = U64Vec3;
 		using LargestType = U64Vec3;
+		using ComponentType = UInt64;
 	};
 
 	template<>
@@ -583,6 +622,7 @@ namespace sdw
 		using CppType = uint64_t;
 		using OperandType = U64Vec4;
 		using LargestType = U64Vec4;
+		using ComponentType = UInt64;
 	};
 
 	template<>
@@ -595,6 +635,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Vec2;
 		using LargestType = DVec2;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -607,6 +648,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Vec3;
 		using LargestType = DVec3;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -619,6 +661,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Vec4;
 		using LargestType = DVec4;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -631,6 +674,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = HVec2;
 		using LargestType = DVec2;
+		using ComponentType = Half;
 	};
 
 	template<>
@@ -643,6 +687,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = HVec4;
 		using LargestType = DVec4;
+		using ComponentType = Half;
 	};
 
 	template<>
@@ -655,6 +700,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DVec2;
 		using LargestType = DVec2;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -667,6 +713,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DVec3;
 		using LargestType = DVec3;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -679,6 +726,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DVec4;
 		using LargestType = DVec4;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -691,6 +739,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat2x2;
 		using LargestType = DMat2x2;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -703,6 +752,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat2x3;
 		using LargestType = DMat2x3;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -715,6 +765,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat2x4;
 		using LargestType = DMat2x4;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -727,6 +778,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat3x2;
 		using LargestType = DMat3x2;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -739,6 +791,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat3x3;
 		using LargestType = DMat3x3;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -751,6 +804,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat3x4;
 		using LargestType = DMat3x4;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -763,6 +817,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat4x2;
 		using LargestType = DMat4x2;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -775,6 +830,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat4x3;
 		using LargestType = DMat4x3;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -787,6 +843,7 @@ namespace sdw
 		using CppType = float;
 		using OperandType = Mat4x4;
 		using LargestType = DMat4x4;
+		using ComponentType = Float;
 	};
 
 	template<>
@@ -799,6 +856,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat2x2;
 		using LargestType = DMat2x2;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -811,6 +869,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat2x3;
 		using LargestType = DMat2x3;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -823,6 +882,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat2x4;
 		using LargestType = DMat2x4;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -835,6 +895,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat3x2;
 		using LargestType = DMat3x2;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -847,6 +908,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat3x3;
 		using LargestType = DMat3x3;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -859,6 +921,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat3x4;
 		using LargestType = DMat3x4;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -871,6 +934,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat4x2;
 		using LargestType = DMat4x2;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -883,6 +947,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat4x3;
 		using LargestType = DMat4x3;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -895,6 +960,7 @@ namespace sdw
 		using CppType = double;
 		using OperandType = DMat4x4;
 		using LargestType = DMat4x4;
+		using ComponentType = Double;
 	};
 
 	template<>
@@ -907,6 +973,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
 	template<>
@@ -919,6 +986,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
 	template<>
@@ -931,6 +999,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
 	template<>
@@ -943,6 +1012,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
 	template<>
@@ -955,6 +1025,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
 	template<>
@@ -967,6 +1038,7 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
 	template<>
@@ -979,93 +1051,144 @@ namespace sdw
 		using CppType = void;
 		using OperandType = Void;
 		using LargestType = Void;
+		using ComponentType = Void;
 	};
 
-	template< typename T >
-	struct TypeTraits< NonUniformT< T > >
+	template< typename TypeT >
+	struct TypeTraits< NonUniformT< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = false;
-		using CppType = typename TypeTraits< T >::CppType;
-		using OperandType = typename TypeTraits< T >::OperandType;
-		using LargestType = typename TypeTraits< T >::LargestType;
-		static size_t constexpr Size = TypeTraits< T >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
 	};
 
-	template< typename T >
-	struct TypeTraits< Array< T > >
+	template< typename TypeT >
+	struct TypeTraits< Array< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
 		static bool constexpr HasArithmeticOperators = false;
-		using CppType = typename TypeTraits< T >::CppType;
-		using OperandType = typename TypeTraits< T >::OperandType;
-		using LargestType = typename TypeTraits< T >::LargestType;
-		static size_t constexpr Size = TypeTraits< T >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
 	};
 
-	template< typename T >
-	struct TypeTraits< InParam< T > >
+	template< typename TypeT >
+	struct TypeTraits< InParam< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< T >::CppType;
-		using OperandType = typename TypeTraits< T >::OperandType;
-		using LargestType = typename TypeTraits< T >::LargestType;
-		static size_t constexpr Size = TypeTraits< T >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
 	};
 
-	template< typename T >
-	struct TypeTraits< OutParam< T > >
+	template< typename TypeT >
+	struct TypeTraits< OutParam< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< T >::CppType;
-		using OperandType = typename TypeTraits< T >::OperandType;
-		using LargestType = typename TypeTraits< T >::LargestType;
-		static size_t constexpr Size = TypeTraits< T >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
 	};
 
-	template< typename T >
-	struct TypeTraits< InOutParam< T > >
+	template< typename TypeT >
+	struct TypeTraits< InOutParam< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< T >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< T >::CppType;
-		using OperandType = typename TypeTraits< T >::OperandType;
-		using LargestType = typename TypeTraits< T >::LargestType;
-		static size_t constexpr Size = TypeTraits< T >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< T >::ComponentCount;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
 	};
 
-	template< typename ValueT >
-	struct TypeTraits< ReturnWrapperT< ValueT > >
+	template< typename TypeT >
+	struct TypeTraits< ReturnWrapperT< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< ValueT >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< ValueT >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< ValueT >::CppType;
-		using OperandType = typename TypeTraits< ValueT >::OperandType;
-		using LargestType = typename TypeTraits< ValueT >::LargestType;
-		static size_t constexpr Size = TypeTraits< ValueT >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< ValueT >::ComponentCount;
-		using Type = ValueT;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
+		using Type = TypeT;
 	};
 
-	template< typename ValueT >
-	struct TypeTraits< DefaultedT< ValueT > >
+	template< typename TypeT >
+	struct TypeTraits< DefaultedT< TypeT > >
 	{
-		static ast::type::Kind constexpr TypeEnum = TypeTraits< ValueT >::TypeEnum;
-		static bool constexpr HasArithmeticOperators = TypeTraits< ValueT >::HasArithmeticOperators;
-		using CppType = typename TypeTraits< ValueT >::CppType;
-		using OperandType = typename TypeTraits< ValueT >::OperandType;
-		using LargestType = typename TypeTraits< ValueT >::LargestType;
-		static size_t constexpr Size = TypeTraits< ValueT >::Size;
-		static size_t constexpr ComponentCount = TypeTraits< ValueT >::ComponentCount;
-		using Type = ValueT;
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
+		using Type = TypeT;
 	};
+
+	template< ast::var::Flag FlagT, typename TypeT >
+	struct TypeTraits< RayPayloadBaseT< FlagT, TypeT > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
+		using Type = TypeT;
+	};
+
+	template< ast::var::Flag FlagT, typename TypeT >
+	struct TypeTraits< CallableDataBaseT< FlagT, TypeT > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
+		using Type = TypeT;
+	};
+
+	template< typename TypeT >
+	struct TypeTraits< HitAttributeT< TypeT > >
+	{
+		static ast::type::Kind constexpr TypeEnum = TypeTraits< TypeT >::TypeEnum;
+		static bool constexpr HasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
+		using CppType = typename TypeTraits< TypeT >::CppType;
+		using OperandType = typename TypeTraits< TypeT >::OperandType;
+		using LargestType = typename TypeTraits< TypeT >::LargestType;
+		using ComponentType = typename TypeTraits< TypeT >::ComponentType;
+		static size_t constexpr Size = TypeTraits< TypeT >::Size;
+		static size_t constexpr ComponentCount = TypeTraits< TypeT >::ComponentCount;
+		using Type = TypeT;
+	};
+
 	//***********************************************************************************************
 
 	template<>
@@ -2190,34 +2313,34 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	template< typename T >
+	template< typename TypeT >
 	struct RealTypeGetter
 	{
-		using Type = T;
+		using Type = TypeT;
 	};
 
-	template< typename T >
-	struct RealTypeGetter< InParam< T > >
+	template< typename TypeT >
+	struct RealTypeGetter< InParam< TypeT > >
 	{
-		using Type = T;
+		using Type = TypeT;
 	};
 
-	template< typename T >
-	struct RealTypeGetter< OutParam< T > >
+	template< typename TypeT >
+	struct RealTypeGetter< OutParam< TypeT > >
 	{
-		using Type = T;
+		using Type = TypeT;
 	};
 
-	template< typename T >
-	struct RealTypeGetter< InOutParam< T > >
+	template< typename TypeT >
+	struct RealTypeGetter< InOutParam< TypeT > >
 	{
-		using Type = T;
+		using Type = TypeT;
 	};
 
-	template< typename T >
-	struct RealTypeGetter< ReturnWrapperT< T > >
+	template< typename TypeT >
+	struct RealTypeGetter< ReturnWrapperT< TypeT > >
 	{
-		using Type = T;
+		using Type = TypeT;
 	};
 
 	//***********************************************************************************************

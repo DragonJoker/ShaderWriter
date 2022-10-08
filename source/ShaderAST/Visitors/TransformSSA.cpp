@@ -9,9 +9,9 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	namespace
+	namespace ssa
 	{
-		expr::CompositeType getCompositeType( uint32_t count )
+		static expr::CompositeType getCompositeType( uint32_t count )
 		{
 			using expr::CompositeType;
 			CompositeType result = CompositeType::eScalar;
@@ -32,7 +32,7 @@ namespace ast
 			return result;
 		}
 
-		ast::expr::SwizzleKind getSwizzleComponents( uint32_t count )
+		static ast::expr::SwizzleKind getSwizzleComponents( uint32_t count )
 		{
 			assert( count > 0 && count < 4 );
 
@@ -47,7 +47,7 @@ namespace ast
 			}
 		}
 
-		ast::type::TypePtr getExpectedReturnType( ast::expr::ImageAccessCall * expr )
+		static ast::type::TypePtr getExpectedReturnType( ast::expr::ImageAccessCall * expr )
 		{
 			auto result = expr->getType();
 
@@ -68,7 +68,7 @@ namespace ast
 
 		static constexpr uint32_t InvalidComponentCount = ~( 0u );
 
-		uint32_t getReturnComponentCount( ast::expr::CombinedImageAccess value )
+		static uint32_t getReturnComponentCount( ast::expr::CombinedImageAccess value )
 		{
 			switch ( value )
 			{
@@ -517,7 +517,7 @@ namespace ast
 			}
 		}
 
-		bool needsAlias( expr::Kind kind
+		static bool needsAlias( expr::Kind kind
 			, bool uniform
 			, bool param )
 		{
@@ -528,7 +528,7 @@ namespace ast
 				&& ( param || kind != Kind::eSwizzle );
 		}
 
-		bool isShaderVariable( expr::Expr const & expr )
+		static bool isShaderVariable( expr::Expr const & expr )
 		{
 			return expr.getKind() == expr::Kind::eIdentifier
 				&& ( static_cast< expr::Identifier const & >( expr ).getVariable()->isUniform()
@@ -536,7 +536,7 @@ namespace ast
 					|| static_cast< expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
 		}
 
-		bool isMatrixTimesVector( expr::Kind exprKind
+		static bool isMatrixTimesVector( expr::Kind exprKind
 			, type::Kind lhsTypeKind
 			, type::Kind rhsTypeKind
 			, bool & switchParams
@@ -563,7 +563,7 @@ namespace ast
 			}
 		}
 
-		expr::ExprPtr makeOne( type::TypesCache & cache
+		static expr::ExprPtr makeOne( type::TypesCache & cache
 			, type::Kind scalarType )
 		{
 			switch ( scalarType )
@@ -594,12 +594,12 @@ namespace ast
 			}
 		}
 
-		expr::ExprPtr makeOne( type::TypePtr type )
+		static expr::ExprPtr makeOne( type::TypePtr type )
 		{
 			return makeOne( type->getCache(), type->getKind() );
 		}
 
-		expr::ExprPtr makeZero( type::TypesCache & cache
+		static expr::ExprPtr makeZero( type::TypesCache & cache
 			, type::Kind scalarType )
 		{
 			switch ( scalarType )
@@ -630,7 +630,7 @@ namespace ast
 			}
 		}
 
-		ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr expr )
 		{
 			auto componentCount = getComponentCount( expr->getType()->getKind() );
@@ -663,7 +663,7 @@ namespace ast
 			return result;
 		}
 
-		ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
 			, ast::expr::ExprPtr expr
 			, ast::type::Kind dstScalarType )
 		{
@@ -1990,7 +1990,7 @@ namespace ast
 			void doConstructOther( ast::expr::CompositeConstruct * expr
 				, ast::expr::ExprList & args )
 			{
-				auto scalarType = expr->getComponent();
+				auto scalarType = getScalarType( expr->getComponent() );
 
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -2277,6 +2277,6 @@ namespace ast
 		, stmt::Container * container
 		, SSAData & ssaData )
 	{
-		return StmtSSAiser::submit( container, cache, ssaData );
+		return ssa::StmtSSAiser::submit( container, cache, ssaData );
 	}
 }

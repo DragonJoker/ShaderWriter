@@ -216,7 +216,7 @@ namespace hlsl
 	{
 		assert( expr->getComposite() != ast::expr::CompositeType::eCombine
 			&& "Unexpected combine() at this point" );
-		m_result += getCtorName( expr->getComposite(), expr->getComponent() ) + "(";
+		m_result += getCtorName( expr->getComposite(), getScalarType( expr->getComponent() ) ) + "(";
 		std::string sep;
 
 		for ( auto & arg : expr->getArgList() )

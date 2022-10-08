@@ -70,91 +70,6 @@ namespace sdw
 		template< typename LhsT, typename RhsT >
 		constexpr bool AreCompatibleV = AreCompatible< LhsT, RhsT >::value;
 
-		template< typename OutputT, size_t CountT, typename InputT >
-		inline Value ctorCast( InputT input )
-		{
-			if constexpr ( std::is_same_v< InputT, Value > )
-			{
-				return sdw::Value::ctorCast< OutputT, CountT >( std::move( input ) );
-			}
-			else if constexpr ( std::is_same_v< InputT, CppTypeT< InputT > > )
-			{
-				return OutputT{ CppTypeT< OutputT >( std::move( input ) ) };
-			}
-			else if constexpr ( AreCompatibleV< OutputT, InputT > )
-			{
-				return Value{ std::move( input ) };
-			}
-			else
-			{
-				return Value{ std::move( input ) };
-			}
-		}
-
-		template< typename ParamT, size_t CountT >
-		inline void getCtorCallParamsRec( ShaderWriter & writer
-			, expr::ExprList & args
-			, bool & isEnabled )
-		{
-		}
-
-		template< typename ParamT, size_t CountT, typename Param >
-		inline void getCtorCallParamsRec( ShaderWriter & writer
-			, expr::ExprList & args
-			, bool & isEnabled
-			, Param last )
-		{
-			isEnabled = isEnabled && isOptionalEnabled( last );
-			auto lastArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( last ) ) );
-
-			for ( auto & expr : lastArgs )
-			{
-				args.emplace_back( std::move( expr ) );
-			}
-		}
-
-		template< typename ParamT, size_t CountT, typename Param, typename ... Params >
-		inline void getCtorCallParamsRec( ShaderWriter & writer
-			, expr::ExprList & args
-			, bool & isEnabled
-			, Param current
-			, Params ... params )
-		{
-			isEnabled = isEnabled && isOptionalEnabled( current );
-			auto currentArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( current ) ) );
-
-			for ( auto & expr : currentArgs )
-			{
-				args.emplace_back( std::move( expr ) );
-			}
-
-			getCtorCallParamsRec< ParamT, CountT >( writer
-				, args
-				, isEnabled
-				, std::forward< Params >( params )... );
-		}
-
-		template< typename ReturnT, typename ParamT, size_t CountT >
-		struct CtorCallGetter
-		{
-			template< typename ... ParamsT >
-			static inline ReturnWrapperT< ReturnT > submit( ShaderWriter & writer
-				, ParamsT ... params )
-			{
-				expr::ExprList args;
-				bool isEnabled = true;
-				getCtorCallParamsRec< ParamT, CountT >( writer
-					, args
-					, isEnabled
-					, std::forward< ParamsT >( params )... );
-				return ReturnWrapperT< ReturnT >{ writer
-					, sdw::makeCompositeCtor( getCompositeType( typeEnum< ReturnT > )
-						, type::getScalarType( typeEnum< ReturnT > )
-						, std::move( args ) )
-					, isEnabled };
-			}
-		};
-
 		template< typename ConstructT >
 		struct CtorTraits
 		{
@@ -234,16 +149,104 @@ namespace sdw
 			static size_t constexpr count = 4u;
 		};
 		template< typename ConstructT >
-		using ParamsT = typename CtorTraits< ConstructT >::type;
+		using CtorComponentTypeT = typename CtorTraits< ConstructT >::type;
 		template< typename ConstructT >
-		inline size_t constexpr CountV = CtorTraits< ConstructT >::count;
+		inline size_t constexpr ctorComponentCountV = CtorTraits< ConstructT >::count;
+
+		template< typename OutputT, size_t CountT, typename InputT >
+		inline Value ctorCast( InputT input )
+		{
+			if constexpr ( std::is_same_v< InputT, Value > )
+			{
+				return sdw::Value::ctorCast< OutputT, CountT >( std::move( input ) );
+			}
+			else if constexpr ( std::is_same_v< InputT, CppTypeT< InputT > > )
+			{
+				return OutputT{ CppTypeT< OutputT >( std::move( input ) ) };
+			}
+			else if constexpr ( AreCompatibleV< OutputT, InputT > )
+			{
+				return Value{ std::move( input ) };
+			}
+			else
+			{
+				return Value{ std::move( input ) };
+			}
+		}
+
+		template< typename ParamT, size_t CountT >
+		inline void getCtorCallParamsRec( ShaderWriter & writer
+			, expr::ExprList & args
+			, bool & isEnabled )
+		{
+		}
+
+		template< typename ParamT, size_t CountT, typename Param >
+		inline void getCtorCallParamsRec( ShaderWriter & writer
+			, expr::ExprList & args
+			, bool & isEnabled
+			, Param last )
+		{
+			isEnabled = isEnabled && isOptionalEnabled( last );
+			auto lastArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( last ) ) );
+
+			for ( auto & expr : lastArgs )
+			{
+				args.emplace_back( std::move( expr ) );
+			}
+		}
+
+		template< typename ParamT, size_t CountT, typename Param, typename ... Params >
+		inline void getCtorCallParamsRec( ShaderWriter & writer
+			, expr::ExprList & args
+			, bool & isEnabled
+			, Param current
+			, Params ... params )
+		{
+			isEnabled = isEnabled && isOptionalEnabled( current );
+			auto currentArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( current ) ) );
+
+			for ( auto & expr : currentArgs )
+			{
+				args.emplace_back( std::move( expr ) );
+			}
+
+			getCtorCallParamsRec< ParamT, CountT >( writer
+				, args
+				, isEnabled
+				, std::forward< Params >( params )... );
+		}
+
+		template< typename ReturnT >
+		struct CtorCallGetter
+		{
+			using ComponentTypeT = details::CtorComponentTypeT< ReturnT >;
+			static constexpr size_t count = details::ctorComponentCountV< ReturnT >;
+
+			template< typename ... ParamsT >
+			static inline ReturnWrapperT< ReturnT > submit( ShaderWriter & writer
+				, ParamsT && ... params )
+			{
+				expr::ExprList args;
+				bool isEnabled = true;
+				getCtorCallParamsRec< ComponentTypeT, count >( writer
+					, args
+					, isEnabled
+					, std::forward< ParamsT >( params )... );
+				return ReturnWrapperT< ReturnT >{ writer
+					, sdw::makeCompositeCtor( getCompositeType( typeEnumV< ReturnT > )
+						, typeEnumV< ComponentTypeT >
+						, std::move( args ) )
+					, isEnabled };
+			}
+		};
 	}
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnWrapperT< ReturnT > getCtorCall( ShaderWriter & writer
-		, ParamsT ... params )
+		, ParamsT && ... params )
 	{
-		return details::CtorCallGetter< ReturnT, details::ParamsT< ReturnT >, details::CountV< ReturnT > >::submit( writer
+		return details::CtorCallGetter< ReturnT >::submit( writer
 			, std::forward< ParamsT >( params )... );
 	}
 
