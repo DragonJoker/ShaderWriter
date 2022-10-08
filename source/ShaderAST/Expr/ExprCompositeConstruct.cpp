@@ -169,7 +169,8 @@ namespace ast::expr
 		, CompositeType composite
 		, type::Kind component )
 	{
-		assert( composite != CompositeType::eCombine && isScalarType( component ) );
+		assert( composite != CompositeType::eCombine
+			&& ( isScalarType( component ) || isVectorType( component ) ) );
 		type::TypePtr result;
 
 		switch ( composite )
@@ -353,9 +354,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec2F:
 				result = cache.getMat2x2F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec2D:
 				result = cache.getMat2x2D();
 				break;
 			default:
@@ -369,9 +372,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec3F:
 				result = cache.getMat2x3F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec3D:
 				result = cache.getMat2x3D();
 				break;
 			default:
@@ -385,9 +390,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec4F:
 				result = cache.getMat2x4F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec4D:
 				result = cache.getMat2x4D();
 				break;
 			default:
@@ -401,9 +408,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec2F:
 				result = cache.getMat3x2F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec2D:
 				result = cache.getMat3x2D();
 				break;
 			default:
@@ -417,9 +426,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec3F:
 				result = cache.getMat3x3F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec3D:
 				result = cache.getMat3x3D();
 				break;
 			default:
@@ -433,9 +444,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec4F:
 				result = cache.getMat3x4F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec4D:
 				result = cache.getMat3x4D();
 				break;
 			default:
@@ -449,9 +462,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec2F:
 				result = cache.getMat4x2F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec2D:
 				result = cache.getMat4x2D();
 				break;
 			default:
@@ -465,9 +480,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec3F:
 				result = cache.getMat4x3F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec3D:
 				result = cache.getMat4x3D();
 				break;
 			default:
@@ -481,9 +498,11 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eFloat:
+			case type::Kind::eVec4F:
 				result = cache.getMat4x4F();
 				break;
 			case type::Kind::eDouble:
+			case type::Kind::eVec4D:
 				result = cache.getMat4x4D();
 				break;
 			default:

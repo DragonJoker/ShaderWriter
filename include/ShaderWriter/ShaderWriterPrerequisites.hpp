@@ -89,9 +89,9 @@ namespace sdw
 	using UInt32 = IntegerValue< ast::type::Kind::eUInt32 >;
 	using UInt64 = IntegerValue< ast::type::Kind::eUInt64 >;
 
-	template< typename T >
+	template< typename TypeT >
 	struct Array;
-	template< typename ValueT >
+	template< typename TypeT >
 	struct DefaultedT;
 	template< typename TypeT >
 	struct Vec2T;
@@ -188,6 +188,78 @@ namespace sdw
 	using UVec2 = U32Vec2;
 	using UVec3 = U32Vec3;
 	using UVec4 = U32Vec4;
+
+	using DoubleArray = Array< Double >;
+	using FloatArray = Array< Float >;
+	using Int8Array = Array< Int8 >;
+	using Int16Array = Array< Int16 >;
+	using Int32Array = Array< Int32 >;
+	using Int64Array = Array< Int64 >;
+	using UInt8Array = Array< UInt8 >;
+	using UInt16Array = Array< UInt16 >;
+	using UInt32Array = Array< UInt32 >;
+	using UInt64Array = Array< UInt64 >;
+	using BooleanArray = Array< Boolean >;
+	using Vec2Array = Array< Vec2 >;
+	using Vec3Array = Array< Vec3 >;
+	using Vec4Array = Array< Vec4 >;
+	using DVec2Array = Array< DVec2 >;
+	using DVec3Array = Array< DVec3 >;
+	using DVec4Array = Array< DVec4 >;
+	using I8Vec2Array = Array< I8Vec2 >;
+	using I8Vec3Array = Array< I8Vec3 >;
+	using I8Vec4Array = Array< I8Vec4 >;
+	using I16Vec2Array = Array< I16Vec2 >;
+	using I16Vec3Array = Array< I16Vec3 >;
+	using I16Vec4Array = Array< I16Vec4 >;
+	using I32Vec2Array = Array< I32Vec2 >;
+	using I32Vec3Array = Array< I32Vec3 >;
+	using I32Vec4Array = Array< I32Vec4 >;
+	using I64Vec2Array = Array< I64Vec2 >;
+	using I64Vec3Array = Array< I64Vec3 >;
+	using I64Vec4Array = Array< I64Vec4 >;
+	using U8Vec2Array = Array< U8Vec2 >;
+	using U8Vec3Array = Array< U8Vec3 >;
+	using U8Vec4Array = Array< U8Vec4 >;
+	using U16Vec2Array = Array< U16Vec2 >;
+	using U16Vec3Array = Array< U16Vec3 >;
+	using U16Vec4Array = Array< U16Vec4 >;
+	using U32Vec2Array = Array< U32Vec2 >;
+	using U32Vec3Array = Array< U32Vec3 >;
+	using U32Vec4Array = Array< U32Vec4 >;
+	using U64Vec2Array = Array< U64Vec2 >;
+	using U64Vec3Array = Array< U64Vec3 >;
+	using U64Vec4Array = Array< U64Vec4 >;
+	using BVec2Array = Array< BVec2 >;
+	using BVec3Array = Array< BVec3 >;
+	using BVec4Array = Array< BVec4 >;
+	using Mat2Array = Array< Mat2 >;
+	using Mat2x3Array = Array< Mat2x3 >;
+	using Mat2x4Array = Array< Mat2x4 >;
+	using Mat3Array = Array< Mat3 >;
+	using Mat3x2Array = Array< Mat3x2 >;
+	using Mat3x4Array = Array< Mat3x4 >;
+	using Mat4Array = Array< Mat4 >;
+	using Mat4x2Array = Array< Mat4x2 >;
+	using Mat4x3Array = Array< Mat4x3 >;
+	using DMat2Array = Array< DMat2 >;
+	using DMat2x3Array = Array< DMat2x3 >;
+	using DMat2x4Array = Array< DMat2x4 >;
+	using DMat3Array = Array< DMat3 >;
+	using DMat3x2Array = Array< DMat3x2 >;
+	using DMat3x4Array = Array< DMat3x4 >;
+	using DMat4Array = Array< DMat4 >;
+	using DMat4x2Array = Array< DMat4x2 >;
+	using DMat4x3Array = Array< DMat4x3 >;
+
+	using IntArray = Int32Array;
+	using UIntArray = UInt32Array;
+	using IVec2Array = I32Vec2Array;
+	using IVec3Array = I32Vec3Array;
+	using IVec4Array = I32Vec4Array;
+	using UVec2Array = U32Vec2Array;
+	using UVec3Array = U32Vec3Array;
+	using UVec4Array = U32Vec4Array;
 	/**@}*/
 #pragma endregion
 #pragma region Shader interface types
@@ -228,9 +300,9 @@ namespace sdw
 	struct InputT;
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct OutputT;
-	template< ast::var::Flag FlagT, typename ValueT >
+	template< ast::var::Flag FlagT, typename TypeT >
 	struct RayPayloadBaseT;
-	template< ast::var::Flag FlagT, typename ValueT >
+	template< ast::var::Flag FlagT, typename TypeT >
 	struct CallableDataBaseT;
 	template< typename TypeT >
 	struct HitAttributeT;
@@ -593,7 +665,7 @@ namespace sdw
 	struct OutParam;
 	template< typename TypeT >
 	struct InOutParam;
-	template< typename ValueT >
+	template< typename TypeT >
 	struct ReturnWrapperT;
 
 	Writer_Parameter( Double );
@@ -661,45 +733,68 @@ namespace sdw
 	Writer_Parameter( DMat4x2 );
 	Writer_Parameter( DMat4x3 );
 
-	Writer_ArrayParameter( Double );
-	Writer_ArrayParameter( Float );
-	Writer_ArrayParameter( Int8 );
-	Writer_ArrayParameter( UInt8 );
-	Writer_ArrayParameter( UInt64 );
-	Writer_ArrayParameter( Boolean );
-	Writer_ArrayParameter( Vec2 );
-	Writer_ArrayParameter( Vec3 );
-	Writer_ArrayParameter( Vec4 );
-	Writer_ArrayParameter( DVec2 );
-	Writer_ArrayParameter( DVec3 );
-	Writer_ArrayParameter( DVec4 );
-	Writer_ArrayParameter( I8Vec2 );
-	Writer_ArrayParameter( I8Vec3 );
-	Writer_ArrayParameter( I8Vec4 );
-	Writer_ArrayParameter( U8Vec2 );
-	Writer_ArrayParameter( U8Vec3 );
-	Writer_ArrayParameter( U8Vec4 );
-	Writer_ArrayParameter( BVec2 );
-	Writer_ArrayParameter( BVec3 );
-	Writer_ArrayParameter( BVec4 );
-	Writer_ArrayParameter( Mat2 );
-	Writer_ArrayParameter( Mat2x3 );
-	Writer_ArrayParameter( Mat2x4 );
-	Writer_ArrayParameter( Mat3 );
-	Writer_ArrayParameter( Mat3x2 );
-	Writer_ArrayParameter( Mat3x4 );
-	Writer_ArrayParameter( Mat4 );
-	Writer_ArrayParameter( Mat4x2 );
-	Writer_ArrayParameter( Mat4x3 );
-	Writer_ArrayParameter( DMat2 );
-	Writer_ArrayParameter( DMat2x3 );
-	Writer_ArrayParameter( DMat2x4 );
-	Writer_ArrayParameter( DMat3 );
-	Writer_ArrayParameter( DMat3x2 );
-	Writer_ArrayParameter( DMat3x4 );
-	Writer_ArrayParameter( DMat4 );
-	Writer_ArrayParameter( DMat4x2 );
-	Writer_ArrayParameter( DMat4x3 );
+	Writer_Parameter( DoubleArray );
+	Writer_Parameter( FloatArray );
+	Writer_Parameter( Int8Array );
+	Writer_Parameter( Int16Array );
+	Writer_Parameter( Int32Array );
+	Writer_Parameter( Int64Array );
+	Writer_Parameter( UInt8Array );
+	Writer_Parameter( UInt16Array );
+	Writer_Parameter( UInt32Array );
+	Writer_Parameter( UInt64Array );
+	Writer_Parameter( BooleanArray );
+	Writer_Parameter( Vec2Array );
+	Writer_Parameter( Vec3Array );
+	Writer_Parameter( Vec4Array );
+	Writer_Parameter( DVec2Array );
+	Writer_Parameter( DVec3Array );
+	Writer_Parameter( DVec4Array );
+	Writer_Parameter( I8Vec2Array );
+	Writer_Parameter( I8Vec3Array );
+	Writer_Parameter( I8Vec4Array );
+	Writer_Parameter( I16Vec2Array );
+	Writer_Parameter( I16Vec3Array );
+	Writer_Parameter( I16Vec4Array );
+	Writer_Parameter( I32Vec2Array );
+	Writer_Parameter( I32Vec3Array );
+	Writer_Parameter( I32Vec4Array );
+	Writer_Parameter( I64Vec2Array );
+	Writer_Parameter( I64Vec3Array );
+	Writer_Parameter( I64Vec4Array );
+	Writer_Parameter( U8Vec2Array );
+	Writer_Parameter( U8Vec3Array );
+	Writer_Parameter( U8Vec4Array );
+	Writer_Parameter( U16Vec2Array );
+	Writer_Parameter( U16Vec3Array );
+	Writer_Parameter( U16Vec4Array );
+	Writer_Parameter( U32Vec2Array );
+	Writer_Parameter( U32Vec3Array );
+	Writer_Parameter( U32Vec4Array );
+	Writer_Parameter( U64Vec2Array );
+	Writer_Parameter( U64Vec3Array );
+	Writer_Parameter( U64Vec4Array );
+	Writer_Parameter( BVec2Array );
+	Writer_Parameter( BVec3Array );
+	Writer_Parameter( BVec4Array );
+	Writer_Parameter( Mat2Array );
+	Writer_Parameter( Mat2x3Array );
+	Writer_Parameter( Mat2x4Array );
+	Writer_Parameter( Mat3Array );
+	Writer_Parameter( Mat3x2Array );
+	Writer_Parameter( Mat3x4Array );
+	Writer_Parameter( Mat4Array );
+	Writer_Parameter( Mat4x2Array );
+	Writer_Parameter( Mat4x3Array );
+	Writer_Parameter( DMat2Array );
+	Writer_Parameter( DMat2x3Array );
+	Writer_Parameter( DMat2x4Array );
+	Writer_Parameter( DMat3Array );
+	Writer_Parameter( DMat3x2Array );
+	Writer_Parameter( DMat3x4Array );
+	Writer_Parameter( DMat4Array );
+	Writer_Parameter( DMat4x2Array );
+	Writer_Parameter( DMat4x3Array );
 
 	Writer_Parameter( Int );
 	Writer_Parameter( UInt );
@@ -710,14 +805,14 @@ namespace sdw
 	Writer_Parameter( UVec3 );
 	Writer_Parameter( UVec4 );
 
-	Writer_ArrayParameter( Int );
-	Writer_ArrayParameter( UInt );
-	Writer_ArrayParameter( IVec2 );
-	Writer_ArrayParameter( IVec3 );
-	Writer_ArrayParameter( IVec4 );
-	Writer_ArrayParameter( UVec2 );
-	Writer_ArrayParameter( UVec3 );
-	Writer_ArrayParameter( UVec4 );
+	Writer_Parameter( IntArray );
+	Writer_Parameter( UIntArray );
+	Writer_Parameter( IVec2Array );
+	Writer_Parameter( IVec3Array );
+	Writer_Parameter( IVec4Array );
+	Writer_Parameter( UVec2Array );
+	Writer_Parameter( UVec3Array );
+	Writer_Parameter( UVec4Array );
 	/**@}*/
 #pragma endregion
 #pragma region Function and images related
@@ -1495,38 +1590,44 @@ namespace sdw
 	*	Traits.
 	*/
 	/**@{*/
-	template< typename T >
+	template< typename TypeT >
 	struct TypeTraits;
 
-	template< typename T >
-	using CppTypeT = typename TypeTraits< T >::CppType;
+	template< typename TypeT >
+	using CppTypeT = typename TypeTraits< TypeT >::CppType;
 
-	template< typename T >
-	using OperandTypeT = typename TypeTraits< T >::OperandType;
+	template< typename TypeT >
+	using OperandTypeT = typename TypeTraits< TypeT >::OperandType;
 
-	template< typename T >
-	using LargestT = typename TypeTraits< T >::LargestType;
+	template< typename TypeT >
+	using LargestT = typename TypeTraits< TypeT >::LargestType;
 
 	template< typename T >
 	static ast::type::Kind constexpr typeEnum = TypeTraits< T >::TypeEnum;
 
-	template< typename T >
+	template< typename TypeT >
+	using ComponentTypeT = typename TypeTraits< TypeT >::ComponentType;
+
+	template< typename TypeT >
 	struct RealTypeGetter;
 
-	template< typename T >
-	using RealTypeT = typename RealTypeGetter< T >::Type;
+	template< typename TypeT >
+	using RealTypeT = typename RealTypeGetter< TypeT >::Type;
 
-	template< typename T, typename U >
-	static bool constexpr isSameV = std::is_same< T, U >::value;
+	template< typename LhsT, typename RhsT >
+	static bool constexpr isSameV = std::is_same_v< LhsT, RhsT >;
 
-	template< typename T, typename U >
-	static bool constexpr isSameSizeV = ( TypeTraits< T >::Size == TypeTraits< U >::Size );
+	template< typename LhsT, typename RhsT >
+	static bool constexpr isBaseOfV = std::is_base_of_v< LhsT, RhsT >;
 
-	template< typename T, typename U >
-	static bool constexpr isSameComponentCountV = ( TypeTraits< T >::ComponentCount == TypeTraits< U >::ComponentCount );
+	template< typename LhsT, typename RhsT >
+	static bool constexpr isSameSizeV = ( TypeTraits< LhsT >::Size == TypeTraits< RhsT >::Size );
 
-	template< typename T >
-	static bool constexpr hasArithmeticOperators = TypeTraits< T >::HasArithmeticOperators;
+	template< typename LhsT, typename RhsT >
+	static bool constexpr isSameComponentCountV = ( TypeTraits< LhsT >::ComponentCount == TypeTraits< RhsT >::ComponentCount );
+
+	template< typename TypeT >
+	static bool constexpr hasArithmeticOperators = TypeTraits< TypeT >::HasArithmeticOperators;
 
 	template< ast::type::Kind KindT >
 	struct TypeKindTraits;
@@ -1551,6 +1652,10 @@ namespace sdw
 	*	Concepts.
 	*/
 	/**@{*/
+	template< typename TypeT >
+	static constexpr bool isValueV = isSameV< Value, TypeT >
+		|| isBaseOfV< Value, TypeT >;
+
 	template< ast::type::Kind KindT >
 	static bool constexpr isArithmeticV = ( KindT == ast::type::Kind::eInt8
 		|| KindT == ast::type::Kind::eInt32
@@ -1578,6 +1683,9 @@ namespace sdw
 
 	template< typename TypeT, typename ValueT >
 	concept VecCompatibleT = ( isSameV< ValueT, OperandTypeT< TypeT > > );
+
+	template< typename TypeT >
+	concept ValueT = ( isValueV< TypeT > );
 	/**@}*/
 #pragma endregion
 

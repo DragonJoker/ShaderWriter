@@ -10,8 +10,6 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	template< typename T > struct is_type : public std::false_type {};
-
 	struct Value
 	{
 		SDW_API Value( ShaderWriter & writer
@@ -169,12 +167,6 @@ namespace sdw
 	inline ShaderWriter & findWriterMandat( ValuesT && ... values );
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
-
-	template< typename T >
-	static constexpr bool isValueT = std::is_same_v< Value, T > || std::is_base_of_v< Value, T >;
-
-	template< typename TypeT >
-	concept ValueT = ( isValueT< TypeT > );
 
 	SDW_API expr::ExprPtr getDummyExpr( ShaderWriter const & writer
 		, type::TypePtr type );
