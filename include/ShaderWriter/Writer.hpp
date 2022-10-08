@@ -869,6 +869,10 @@ namespace sdw
 		inline T declLocale( std::string name
 			, T const & rhs
 			, bool enabled );
+		template< typename T, typename ... ParamsT >
+		inline T declLocale( std::string name
+			, bool enabled
+			, ParamsT && ... params );
 		template< typename T >
 		inline T declLocale( std::string name
 			, bool enabled
@@ -997,8 +1001,6 @@ namespace sdw
 
 	private:
 		std::unique_ptr< ast::Shader > m_shader;
-		Function< Vec2, InVec2 > m_invertVec2Y;
-		Function< Vec3, InVec3 > m_invertVec3Y;
 		std::vector< stmt::If * > m_ifStmt;
 		std::vector< stmt::Switch * > m_switchStmt;
 		std::vector< ast::stmt::ContainerPtr > m_currentStmts;

@@ -984,6 +984,7 @@ namespace ast
 				for ( auto & init : expr->getInitialisers() )
 				{
 					initialisers.push_back( doSubmit( init.get() ) );
+					assert( initialisers.back() );
 				}
 
 				if ( expr->getIdentifier() )

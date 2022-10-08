@@ -122,6 +122,32 @@ namespace ast
 			return result;
 		}
 
+		uint32_t getComponentsCount( expr::CompositeType type )
+		{
+			switch ( type )
+			{
+			case expr::CompositeType::eScalar:
+				return 1u;
+			case expr::CompositeType::eVec2:
+			case expr::CompositeType::eMat2x2:
+			case expr::CompositeType::eMat2x3:
+			case expr::CompositeType::eMat2x4:
+			case expr::CompositeType::eCombine:
+				return 2u;
+			case expr::CompositeType::eVec3:
+			case expr::CompositeType::eMat3x2:
+			case expr::CompositeType::eMat3x3:
+			case expr::CompositeType::eMat3x4:
+				return 3u;
+			case expr::CompositeType::eVec4:
+			case expr::CompositeType::eMat4x2:
+			case expr::CompositeType::eMat4x3:
+			case expr::CompositeType::eMat4x4:
+				return 4u;
+			}
+
+			return 0u;
+		}
 		template< typename OutputT >
 		struct CastLiteralTo
 		{
@@ -228,8 +254,20 @@ namespace ast
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, expr::Expr * expr )
 			{
+				bool allLiterals{ false };
+				return submit( cache
+					, literalVars
+					, expr
+					, allLiterals );
+			}
+
+			static expr::ExprPtr submit( type::TypesCache & cache
+				, std::map< var::VariablePtr, expr::Literal * > & literalVars
+				, expr::Expr * expr
+				, bool & allLiterals )
+			{
 				expr::ExprPtr result;
-				ExprSimplifier vis{ cache, literalVars, result };
+				ExprSimplifier vis{ cache, literalVars, allLiterals, result };
 				expr->accept( &vis );
 				return result;
 			}
@@ -237,18 +275,21 @@ namespace ast
 		private:
 			ExprSimplifier( type::TypesCache & cache
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
+				, bool & allLiterals
 				, expr::ExprPtr & result )
 				: ExprCloner{ result }
 				, m_cache{ cache }
 				, m_literalVars{ literalVars }
+				, m_allLiterals{ allLiterals }
 			{
 			}
 
 		private:
-			expr::ExprPtr doSubmit( expr::Expr * expr )override
+			expr::ExprPtr doSubmit( expr::Expr * expr
+				, bool & allLiterals )
 			{
 				expr::ExprPtr result;
-				ExprSimplifier vis{ m_cache, m_literalVars, result };
+				ExprSimplifier vis{ m_cache, m_literalVars, allLiterals, result };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
@@ -257,6 +298,11 @@ namespace ast
 				}
 
 				return result;
+			}
+
+			expr::ExprPtr doSubmit( expr::Expr * expr )override
+			{
+				return doSubmit( expr, m_allLiterals );
 			}
 
 			expr::ExprPtr doSubmit( expr::ExprPtr expr )
@@ -456,6 +502,103 @@ namespace ast
 				}
 			}
 
+			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+			{
+				auto allLiterals = true;
+				expr::ExprList args;
+
+				for ( auto & init : expr->getArgList() )
+				{
+					args.emplace_back( doSubmit( init.get(), allLiterals ) );
+				}
+
+				m_allLiterals = m_allLiterals && allLiterals;
+
+				if ( allLiterals )
+				{
+					// Flatten the composite constructs,
+					// to have one initialiser per result component.
+					expr::ExprList realArgs;
+
+					for ( auto & arg : args )
+					{
+						auto kind = arg->getType()->getKind();
+						bool processed = false;
+
+						if ( isScalarType( kind ) == isScalarType( expr->getComponent() )
+							&& isVectorType( kind ) == isVectorType( expr->getComponent() )
+							&& isMatrixType( kind ) == isMatrixType( expr->getComponent() ) )
+						{
+							if ( args.size() == 1u
+								&& getComponentsCount( expr->getComposite() ) > 1u )
+							{
+								processed = true;
+								// Flatten constructs in the form `vec3( 0.0 )` => `vec3( 0.0, 0.0, 0.0 )`
+								for ( auto i = 0u; i < getComponentsCount( expr->getComposite() ); ++i )
+								{
+									realArgs.emplace_back( doSubmit( arg.get() ) );
+								}
+							}
+							else if ( getComponentCount( kind ) == getComponentCount( expr->getComponent() ) )
+							{
+								processed = true;
+								// Same component type as expected by construct
+								realArgs.emplace_back( std::move( arg ) );
+							}
+						}
+
+						if ( !processed )
+						{
+							// Constructs like `vec4( vec3( 0.0 ), 1.0 )` => `vec4( 0.0, 0.0, 0.0, 0.0 )`
+							expr::ExprList work;
+							work.emplace_back( std::move( arg ) );
+
+							while ( !work.empty() )
+							{
+								auto current = std::move( work.front() );
+								work.erase( work.begin() );
+
+								expr::ExprList curArgs;
+								auto compKind = getComponentType( kind );
+								kind = compKind;
+
+								if ( current->getKind() == expr::Kind::eCompositeConstruct )
+								{
+									// `vec4( vec3( 0.0 ), 1.0 )` => `vec4( 0.0, 0.0, 0.0, 1.0 )`
+									for ( auto & param : static_cast< expr::CompositeConstruct & >( *current ).getArgList() )
+									{
+										if ( isScalarType( compKind ) == isScalarType( expr->getComponent() )
+											&& isVectorType( compKind ) == isVectorType( expr->getComponent() )
+											&& isMatrixType( compKind ) == isMatrixType( expr->getComponent() )
+											&& getComponentCount( compKind ) == getComponentCount( expr->getComponent() ) )
+										{
+											realArgs.emplace_back( doSubmit( param.get() ) );
+										}
+										else
+										{
+											work.emplace_back( doSubmit( param.get() ) );
+										}
+									}
+								}
+								else
+								{
+									realArgs.emplace_back( std::move( current ) );
+								}
+							}
+						}
+					}
+
+					m_result = expr::makeCompositeConstruct( expr->getComposite()
+						, expr->getComponent()
+						, std::move( realArgs ) );
+					
+				}
+				else
+				{
+					ExprCloner::visitCompositeConstructExpr( expr );
+				}
+			}
+
 			void visitAddExpr( expr::Add * expr )override
 			{
 				visitBinaryExpr( expr );
@@ -518,13 +661,16 @@ namespace ast
 
 				if ( !processed )
 				{
+					m_allLiterals = false;
 					ExprCloner::visitIdentifierExpr( expr );
 				}
 			}
 
 			void visitInitExpr( expr::Init * expr )override
 			{
-				auto init = doSubmit( expr->getInitialiser() );
+				auto allLiterals = true;
+				auto init = doSubmit( expr->getInitialiser(), allLiterals );
+				m_allLiterals = m_allLiterals && allLiterals;
 
 				if ( init->getKind() == expr::Kind::eLiteral
 					&& expr->getIdentifier()->getVariable()->isConstant() )
@@ -603,7 +749,9 @@ namespace ast
 
 			void visitUnaryPlusExpr( expr::UnaryPlus * expr )override
 			{
-				m_result = doSubmit( expr->getOperand() );
+				auto allLiterals = true;
+				m_result = doSubmit( expr->getOperand(), allLiterals );
+				m_allLiterals = m_allLiterals && allLiterals;
 			}
 
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override
@@ -662,20 +810,23 @@ namespace ast
 				}
 				else
 				{
+					m_allLiterals = false;
 					ExprCloner::visitArrayAccessExpr( expr );
 				}
 			}
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
+				m_allLiterals = false;
+
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eSwizzle )
 				{
-					auto & outer = static_cast< ast::expr::Swizzle const & >( *expr->getOuterExpr() );
+					auto & outer = static_cast< expr::Swizzle const & >( *expr->getOuterExpr() );
 
-					if ( ast::expr::SwizzleKind::Value( expr->getSwizzle() ) == ast::expr::SwizzleKind::Value( outer.getSwizzle() )
+					if ( expr::SwizzleKind::Value( expr->getSwizzle() ) == expr::SwizzleKind::Value( outer.getSwizzle() )
 						&& expr->getType() == outer.getType() )
 					{
-						m_result = ast::expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
+						m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
 							, outer.getSwizzle() );
 					}
 					else
@@ -722,6 +873,7 @@ namespace ast
 		private:
 			type::TypesCache & m_cache;
 			std::map< var::VariablePtr, expr::Literal * > & m_literalVars;
+			bool & m_allLiterals;
 		};
 	}
 

@@ -28,6 +28,7 @@ namespace sdw
 			return m_type;
 		}
 
+		SDW_API bool hasMember( std::string name )const;
 		template< typename ValueT, typename ... ParamsT >
 		inline void declMember( std::string name
 			, ParamsT ... params );

@@ -43,6 +43,21 @@ namespace
 			return result;
 		}
 
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eC
+				, "Colour" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, ast::type::Kind::eVec4F
+					, ast::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec4 colour;
 	};
 
@@ -74,6 +89,21 @@ namespace
 					, sdw::type::Kind::eVec4F
 					, sdw::type::NotArray
 					, 0u );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "Position" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
 			}
 
 			return result;
@@ -151,6 +181,34 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "PosNmlTexTan" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, 0u );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray
+					, 1u );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray
+					, 2u );
+				result->declMember( "tangent"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray
+					, 3u );
+			}
+
+			return result;
+		}
+
 		sdw::Vec3 position;
 		sdw::Vec3 normal;
 		sdw::Vec2 texcoord;
@@ -178,7 +236,9 @@ namespace
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
 		{
 			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, "GeomOutput"
+				, ( FlagT == ast::var::Flag::eShaderOutput
+					? std::string{ "Output" }
+					: std::string{ "Input" } ) + "VoxelGeom"
 				, FlagT );
 
 			if ( result->empty() )
@@ -204,6 +264,33 @@ namespace
 					, sdw::type::Kind::eVec4F
 					, sdw::type::NotArray
 					, index++ );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "VoxelGeom" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "axis"
+					, sdw::type::Kind::eUInt
+					, sdw::type::NotArray );
+				result->declMember( "aabb"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
 			}
 
 			return result;
@@ -237,7 +324,7 @@ namespace
 			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
 				, ( FlagT == sdw::var::Flag::eShaderOutput
 					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Data"
+					: std::string{ "Input" } ) + "VoxelData"
 				, FlagT );
 
 			if ( result->empty() )
@@ -255,6 +342,27 @@ namespace
 					, sdw::type::Kind::eVec3F
 					, sdw::type::NotArray
 					, index++ );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "VoxelData" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
 			}
 
 			return result;
@@ -337,6 +445,36 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "Surface" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "tangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "bitangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "texture"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "instance"
+					, sdw::type::Kind::eInt
+					, ast::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec3 position;
 		sdw::Vec3 normal;
 		sdw::Vec3 tangent;
@@ -406,6 +544,29 @@ namespace
 				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
 				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
 				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->end();
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "PNTriPatch" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray );
 				result->end();
 			}
 

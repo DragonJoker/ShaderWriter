@@ -12,6 +12,11 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	inline bool StructInstance::hasMember( std::string_view name )const
+	{
+		return ast::type::Struct::NotFound != m_type->findMember( name );
+	}
+
 	template< typename T >
 	inline T StructInstance::getMember( std::string_view name
 		, bool optional )const
@@ -80,7 +85,7 @@ namespace sdw
 			, sdw::makeMbrSelect( makeExpr( writer, *this )
 				, member.type->getIndex()
 				, mbrFlags )
-			, true};
+			, true };
 	}
 
 	template< typename T >
@@ -151,6 +156,11 @@ namespace sdw
 				, member.type->getIndex()
 				, mbrFlags )
 			, true };
+	}
+
+	inline bool StructInstance::hasMember( ast::Builtin builtin )
+	{
+		return ast::type::Struct::NotFound != m_type->findMember( builtin );
 	}
 
 	template< typename T >
