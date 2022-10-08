@@ -119,52 +119,6 @@ namespace
 		sdw::UInt index;
 	};
 
-	struct MyVertexOut
-		: public sdw::StructInstance
-	{
-		MyVertexOut( sdw::ShaderWriter & writer
-			, sdw::expr::ExprPtr expr
-			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, positionHS{ getMember< sdw::Vec4 >( "positionHS" ) }
-			, positionVS{ getMember< sdw::Vec3 >( "positionVS" ) }
-			, normal{ getMember< sdw::Vec3 >( "normal" ) }
-			, meshletIndex{ getMember< sdw::UInt >( "meshletIndex" ) }
-		{
-		}
-
-		SDW_DeclStructInstance( , MyVertexOut );
-
-		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-				, "VertexOut" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "positionHS"
-					, sdw::type::Kind::eVec4F
-					, sdw::type::NotArray );
-				result->declMember( "positionVS"
-					, sdw::type::Kind::eVec3F
-					, sdw::type::NotArray );
-				result->declMember( "normal"
-					, sdw::type::Kind::eVec3F
-					, sdw::type::NotArray );
-				result->declMember( "meshletIndex"
-					, sdw::type::Kind::eUInt
-					, sdw::type::NotArray );
-			}
-
-			return result;
-		}
-
-		sdw::Vec4 positionHS;
-		sdw::Vec3 positionVS;
-		sdw::Vec3 normal;
-		sdw::UInt meshletIndex;
-	};
-
 	template< sdw::var::Flag FlagT >
 	struct MyVertexOutT
 		: public sdw::StructInstance
@@ -173,6 +127,7 @@ namespace
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, positionHS{ getMember< sdw::Vec4 >( "positionHS", true ) }
 			, positionVS{ getMember< sdw::Vec3 >( "positionVS" ) }
 			, normal{ getMember< sdw::Vec3 >( "normal" ) }
 			, meshletIndex{ getMember< sdw::UInt >( "meshletIndex" ) }
@@ -209,10 +164,36 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "VertexOut" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "positionHS"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
+				result->declMember( "positionVS"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "meshletIndex"
+					, sdw::type::Kind::eUInt
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::Vec4 positionHS;
 		sdw::Vec3 positionVS;
 		sdw::Vec3 normal;
 		sdw::UInt meshletIndex;
 	};
+	using MyVertexOut = MyVertexOutT< sdw::var::Flag::eNone >;
 
 	namespace payload
 	{
@@ -244,6 +225,21 @@ namespace
 						, sdw::type::Kind::eUInt
 						, 32u
 						, ast::type::Struct::InvalidLocation );
+				}
+
+				return result;
+			}
+
+			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+					, "Payload" );
+
+				if ( result->empty() )
+				{
+					result->declMember( "meshletIndices"
+						, sdw::type::Kind::eUInt
+						, 32u );
 				}
 
 				return result;
@@ -731,6 +727,21 @@ namespace
 				return result;
 			}
 
+			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+			{
+				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+					, "Payload" );
+
+				if ( result->empty() )
+				{
+					result->declMember( "meshletIndices"
+						, sdw::type::Kind::eUInt
+						, ThreadsPerWave );
+				}
+
+				return result;
+			}
+
 			sdw::Array< sdw::UInt > meshletIndices;
 		};
 	}
@@ -764,6 +775,21 @@ namespace
 					, sdw::type::Kind::eVec4F
 					, sdw::type::NotArray
 					, index++ );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "PerVertexColour" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
 			}
 
 			return result;

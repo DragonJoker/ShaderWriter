@@ -773,7 +773,6 @@ namespace spirv
 		}
 		else
 		{
-			assert( allLiterals );
 			m_result = init;
 		}
 

@@ -18,18 +18,30 @@ namespace ast::expr
 		, m_identifier{ std::move( identifier ) }
 		, m_initialisers{ std::move( initialisers ) }
 	{
+#if !defined( NDEBUG )
+		for ( auto & init : m_initialisers )
+		{
+			assert( init );
+		}
+#endif
 	}
 
 	AggrInit::AggrInit( type::TypePtr type
 		, ExprList && initialisers )
-		: Expr{ getExprTypesCache( initialisers )
-			, std::move( type )
+		: Expr{ type->getCache()
+			, type
 			, Kind::eAggrInit
 			, ( isExprConstant( initialisers )
 				? Flag::eConstant
 				: Flag::eNone ) }
 		, m_initialisers{ std::move( initialisers ) }
 	{
+#if !defined( NDEBUG )
+		for ( auto & init : m_initialisers )
+		{
+			assert( init );
+		}
+#endif
 	}
 
 	void AggrInit::accept( VisitorPtr vis )

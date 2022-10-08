@@ -1862,6 +1862,25 @@ namespace sdw
 			, enabled };
 	}
 
+	template< typename T, typename ... ParamsT >
+	inline T ShaderWriter::declLocale( std::string name
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		auto type = T::makeType( getTypesCache(), std::forward< ParamsT >( params )... );
+		auto var = registerLocale( std::move( name )
+			, type );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( var ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string name
 		, bool enabled

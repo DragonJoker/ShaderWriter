@@ -11,6 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	SDW_API ast::expr::ExprPtr getZeroValue( ast::type::TypePtr type );
 	SDW_API Boolean getBoolMember( StructInstance const & instance
 		, ast::Builtin builtin );
 	SDW_API Int8 getInt8Member( StructInstance const & instance
@@ -140,16 +141,25 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled );
 
+		inline bool hasMember( std::string_view name )const;
 		template< typename T >
 		inline T getMember( std::string_view name
 			, bool optional = false )const;
 		template< typename T >
 		inline Array< T > getMemberArray( std::string_view name
 			, bool optional = false )const;
+		inline bool hasMember( ast::Builtin builtin );
 		template< typename T >
 		inline T getMember( ast::Builtin builtin )const;
 		template< typename T >
 		inline Array< T > getMemberArray( ast::Builtin builtin )const;
+
+	protected:
+		SDW_API static ast::expr::ExprPtr makeInitExpr( ast::type::StructPtr type
+			, StructInstance const * rhs );
+
+	private:
+		ast::expr::ExprPtr doGetMember( uint32_t mbrIndex )const;
 
 	private:
 		type::StructPtr m_type;
@@ -167,6 +177,14 @@ namespace sdw
 	{\
 		sdw::StructInstance::operator=( std::move( rhs ) );\
 		return *this;\
+	}\
+	template< typename ... ParamsT >\
+	name( sdw::StructInstance const & rhs\
+		, ParamsT && ... params )\
+		: name{ *rhs.getWriter()\
+			, sdw::StructInstance::makeInitExpr( name::makeType( sdw::findTypesCache( rhs ), std::forward< ParamsT >( params )... ), &rhs )\
+			, rhs.isEnabled() }\
+	{\
 	}\
 	expdecl name( name const & rhs ) = default;\
 	expdecl name( name && rhs ) = default

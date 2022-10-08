@@ -41,6 +41,21 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Colour" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec3 colour;
 	};
 

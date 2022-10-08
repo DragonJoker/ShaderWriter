@@ -39,6 +39,21 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Position" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec3 position;
 	};
 
@@ -75,6 +90,24 @@ namespace
 					, sdw::type::Kind::eVec2F
 					, sdw::type::NotArray
 					, 1u );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "PosTex" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+				result->declMember( "texcoord"
+					, sdw::type::Kind::eVec2F
+					, sdw::type::NotArray );
 			}
 
 			return result;
@@ -122,6 +155,24 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "PosCol" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec4 position;
 		sdw::Vec4 colour;
 	};
@@ -154,6 +205,21 @@ namespace
 					, sdw::type::Kind::eVec4F
 					, sdw::type::NotArray
 					, 0u );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Colour" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "colour"
+					, sdw::type::Kind::eVec4F
+					, sdw::type::NotArray );
 			}
 
 			return result;

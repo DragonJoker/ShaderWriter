@@ -32,6 +32,11 @@ namespace sdw
 		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
 	}
 
+	bool Struct::hasMember( std::string name )const
+	{
+		return m_type->hasMember( name );
+	}
+
 	void Struct::declMember( std::string name
 		, Struct const & type )
 	{

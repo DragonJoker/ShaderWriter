@@ -5,19 +5,292 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/Boolean.hpp"
 #include "ShaderWriter/BaseTypes/Int.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/BaseTypes/Float.hpp"
+#include "ShaderWriter/BaseTypes/Double.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
 #include "ShaderWriter/MatTypes/Mat4x3.hpp"
 #include "ShaderWriter/MatTypes/Mat3x4.hpp"
 #include "ShaderWriter/VecTypes/Vec2.hpp"
 #include "ShaderWriter/VecTypes/Vec3.hpp"
 #include "ShaderWriter/VecTypes/Vec4.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 #include <ShaderAST/Shader.hpp>
 
 namespace sdw
 {
 	//*********************************************************************************************
+
+	namespace structinst
+	{
+		template< typename Func >
+		void traverseType( ast::type::TypePtr type
+			, ast::expr::ExprPtr & result
+			, Func func )
+		{
+			auto arrayDim = getArraySize( type );
+
+			switch ( type->getRawKind() )
+			{
+			case ast::type::Kind::eArray:
+				if ( arrayDim == ast::type::UnknownArraySize )
+				{
+					throw std::runtime_error{ "Can't provide a default value for given type" };
+				}
+
+				if ( arrayDim > 1u )
+				{
+					ast::expr::ExprList inits;
+					auto arrayType = getNonArrayType( type );
+
+					for ( uint32_t i = 0u; i < arrayDim; ++i )
+					{
+						ast::expr::ExprPtr init;
+						traverseType( arrayType, init, func );
+						inits.emplace_back( std::move( init ) );
+					}
+
+					result = sdw::makeAggrInit( type, std::move( inits ) );
+				}
+				else
+				{
+					traverseType( getNonArrayType( type ), result, func );
+				}
+				break;
+			case ast::type::Kind::eStruct:
+			case ast::type::Kind::eRayDesc:
+				if ( auto structType = getStructType( type ) )
+				{
+					ast::expr::ExprList inits;
+
+					for ( auto & mbr : *structType )
+					{
+						ast::expr::ExprPtr init;
+						traverseType( mbr.type, init, func );
+						inits.emplace_back( std::move( init ) );
+					}
+
+					result = sdw::makeAggrInit( type, std::move( inits ) );
+				}
+				break;
+			case ast::type::Kind::eRayPayload:
+				traverseType( static_cast< ast::type::RayPayload const & >( *type ).getDataType(), result, func );
+				break;
+			case ast::type::Kind::eCallableData:
+				traverseType( static_cast< ast::type::CallableData const & >( *type ).getDataType(), result, func );
+				break;
+			case ast::type::Kind::eHitAttribute:
+				traverseType( static_cast< ast::type::HitAttribute const & >( *type ).getDataType(), result, func );
+				break;
+			case ast::type::Kind::ePointer:
+				traverseType( static_cast< ast::type::Pointer const & >( *type ).getPointerType(), result, func );
+				break;
+			case ast::type::Kind::eGeometryInput:
+				traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eGeometryOutput:
+				traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTessellationInputPatch:
+				traverseType( static_cast< ast::type::TessellationInputPatch const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTessellationOutputPatch:
+				traverseType( static_cast< ast::type::TessellationOutputPatch const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTessellationControlInput:
+				traverseType( static_cast< ast::type::TessellationControlInput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTessellationControlOutput:
+				traverseType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTessellationEvaluationInput:
+				traverseType( static_cast< ast::type::TessellationControlOutput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eFragmentInput:
+				traverseType( static_cast< ast::type::FragmentInput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eComputeInput:
+				traverseType( static_cast< ast::type::ComputeInput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eMeshVertexOutput:
+				traverseType( static_cast< ast::type::MeshVertexOutput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eMeshPrimitiveOutput:
+				traverseType( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTaskPayloadNV:
+				traverseType( static_cast< ast::type::TaskPayloadNV const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTaskPayload:
+				traverseType( static_cast< ast::type::TaskPayload const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTaskPayloadInNV:
+				traverseType( static_cast< ast::type::TaskPayloadInNV const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eTaskPayloadIn:
+				traverseType( static_cast< ast::type::TaskPayloadIn const & >( *type ).getType(), result, func );
+				break;
+			case ast::type::Kind::eVoid:
+			case ast::type::Kind::eUndefined:
+			case ast::type::Kind::eHalf:
+			case ast::type::Kind::eVec2H:
+			case ast::type::Kind::eVec4H:
+			case ast::type::Kind::eFunction:
+			case ast::type::Kind::eSampler:
+			case ast::type::Kind::eImage:
+			case ast::type::Kind::eCombinedImage:
+			case ast::type::Kind::eSampledImage:
+			case ast::type::Kind::eAccelerationStructure:
+				throw std::runtime_error{ "Can't provide a default value for given type" };
+				break;
+			default:
+				result = func( type );
+				break;
+			}
+		}
+	}
+
+	//*********************************************************************************************
+
+	ast::expr::ExprPtr getZeroValue( ast::type::TypePtr ptype )
+	{
+		ast::expr::ExprPtr presult;
+		structinst::traverseType( ptype, presult
+			, []( ast::type::TypePtr type ) -> ast::expr::ExprPtr
+			{
+				switch ( type->getRawKind() )
+				{
+				case ast::type::Kind::eBoolean:
+					return makeExpr( 0_b );
+				case ast::type::Kind::eInt8:
+					return makeExpr( 0_i8 );
+				case ast::type::Kind::eInt16:
+					return makeExpr( 0_i16 );
+				case ast::type::Kind::eInt32:
+					return makeExpr( 0_i32 );
+				case ast::type::Kind::eInt64:
+					return makeExpr( 0_i64 );
+				case ast::type::Kind::eUInt8:
+					return makeExpr( 0_u8 );
+				case ast::type::Kind::eUInt16:
+					return makeExpr( 0_u16 );
+				case ast::type::Kind::eUInt32:
+					return makeExpr( 0_u32 );
+				case ast::type::Kind::eUInt64:
+					return makeExpr( 0_u64 );
+				case ast::type::Kind::eFloat:
+					return makeExpr( 0.0_f );
+				case ast::type::Kind::eDouble:
+					return makeExpr( 0.0_d );
+				case ast::type::Kind::eVec2B:
+					return makeExpr( bvec2( 0_b ) );
+				case ast::type::Kind::eVec3B:
+					return makeExpr( bvec3( 0_b ) );
+				case ast::type::Kind::eVec4B:
+					return makeExpr( bvec4( 0_b ) );
+				case ast::type::Kind::eVec2I8:
+					return makeExpr( i8vec2( 0_i8 ) );
+				case ast::type::Kind::eVec3I8:
+					return makeExpr( i8vec3( 0_i8 ) );
+				case ast::type::Kind::eVec4I8:
+					return makeExpr( i8vec4( 0_i8 ) );
+				case ast::type::Kind::eVec2I16:
+					return makeExpr( i16vec2( 0_i16 ) );
+				case ast::type::Kind::eVec3I16:
+					return makeExpr( i16vec3( 0_i16 ) );
+				case ast::type::Kind::eVec4I16:
+					return makeExpr( i16vec4( 0_i16 ) );
+				case ast::type::Kind::eVec2I32:
+					return makeExpr( i32vec2( 0_i32 ) );
+				case ast::type::Kind::eVec3I32:
+					return makeExpr( i32vec3( 0_i32 ) );
+				case ast::type::Kind::eVec4I32:
+					return makeExpr( i32vec4( 0_i32 ) );
+				case ast::type::Kind::eVec2I64:
+					return makeExpr( i64vec2( 0_i64 ) );
+				case ast::type::Kind::eVec3I64:
+					return makeExpr( i64vec3( 0_i64 ) );
+				case ast::type::Kind::eVec4I64:
+					return makeExpr( i64vec4( 0_i64 ) );
+				case ast::type::Kind::eVec2U8:
+					return makeExpr( u8vec2( 0_u8 ) );
+				case ast::type::Kind::eVec3U8:
+					return makeExpr( u8vec3( 0_u8 ) );
+				case ast::type::Kind::eVec4U8:
+					return makeExpr( u8vec4( 0_u8 ) );
+				case ast::type::Kind::eVec2U16:
+					return makeExpr( u16vec2( 0_u16 ) );
+				case ast::type::Kind::eVec3U16:
+					return makeExpr( u16vec3( 0_u16 ) );
+				case ast::type::Kind::eVec4U16:
+					return makeExpr( u16vec4( 0_u16 ) );
+				case ast::type::Kind::eVec2U32:
+					return makeExpr( u32vec2( 0_u32 ) );
+				case ast::type::Kind::eVec3U32:
+					return makeExpr( u32vec3( 0_u32 ) );
+				case ast::type::Kind::eVec4U32:
+					return makeExpr( u32vec4( 0_u32 ) );
+				case ast::type::Kind::eVec2U64:
+					return makeExpr( u64vec2( 0_u64 ) );
+				case ast::type::Kind::eVec3U64:
+					return makeExpr( u64vec3( 0_u64 ) );
+				case ast::type::Kind::eVec4U64:
+					return makeExpr( u64vec4( 0_u64 ) );
+				case ast::type::Kind::eVec2F:
+					return makeExpr( vec2( 0.0_f ) );
+				case ast::type::Kind::eVec3F:
+					return makeExpr( vec3( 0.0_f ) );
+				case ast::type::Kind::eVec4F:
+					return makeExpr( vec4( 0.0_f ) );
+				case ast::type::Kind::eVec2D:
+					return makeExpr( dvec2( 0.0_d ) );
+				case ast::type::Kind::eVec3D:
+					return makeExpr( dvec3( 0.0_d ) );
+				case ast::type::Kind::eVec4D:
+					return makeExpr( dvec4( 0.0_d ) );
+				case ast::type::Kind::eMat2x2F:
+					return makeExpr( mat2x2( vec2( 0.0_f ), vec2( 0.0_f ) ) );
+				case ast::type::Kind::eMat2x3F:
+					return makeExpr( mat2x3( vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ) ) );
+				case ast::type::Kind::eMat2x4F:
+					return makeExpr( mat2x4( vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ), vec2( 0.0_f ) ) );
+				case ast::type::Kind::eMat3x2F:
+					return makeExpr( mat3x2( vec3( 0.0_f ), vec3( 0.0_f ) ) );
+				case ast::type::Kind::eMat3x3F:
+					return makeExpr( mat3x3( vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ) ) );
+				case ast::type::Kind::eMat3x4F:
+					return makeExpr( mat3x4( vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ), vec3( 0.0_f ) ) );
+				case ast::type::Kind::eMat4x2F:
+					return makeExpr( mat4x2( vec4( 0.0_f ), vec4( 0.0_f ) ) );
+				case ast::type::Kind::eMat4x3F:
+					return makeExpr( mat4x3( vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ) ) );
+				case ast::type::Kind::eMat4x4F:
+					return makeExpr( mat4x4( vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ), vec4( 0.0_f ) ) );
+				case ast::type::Kind::eMat2x2D:
+					return makeExpr( dmat2x2( dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
+				case ast::type::Kind::eMat2x3D:
+					return makeExpr( dmat2x3( dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
+				case ast::type::Kind::eMat2x4D:
+					return makeExpr( dmat2x4( dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ), dvec2( 0.0_d ) ) );
+				case ast::type::Kind::eMat3x2D:
+					return makeExpr( dmat3x2( dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
+				case ast::type::Kind::eMat3x3D:
+					return makeExpr( dmat3x3( dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
+				case ast::type::Kind::eMat3x4D:
+					return makeExpr( dmat3x4( dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ), dvec3( 0.0_d ) ) );
+				case ast::type::Kind::eMat4x2D:
+					return makeExpr( dmat4x2( dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
+				case ast::type::Kind::eMat4x3D:
+					return makeExpr( dmat4x3( dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
+				case ast::type::Kind::eMat4x4D:
+					return makeExpr( dmat4x4( dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ), dvec4( 0.0_d ) ) );
+				default:
+					return nullptr;
+				}
+			} );
+		return presult;
+	}
 
 	Boolean getBoolMember( StructInstance const & instance
 		, ast::Builtin builtin )
@@ -382,6 +655,98 @@ namespace sdw
 		, m_type{ getStructType( getType() ) }
 	{
 		assert( m_type != nullptr && "Non structure type ?" );
+	}
+
+	ast::expr::ExprPtr StructInstance::makeInitExpr( ast::type::StructPtr type
+		, StructInstance const * rhs )
+	{
+		if ( !rhs )
+		{
+			sdw::expr::ExprList initializers;
+
+			for ( size_t index{}; index < type->size(); ++index )
+			{
+				auto lhsMbr = type->getMember( uint32_t( index ) );
+				initializers.emplace_back( getZeroValue( lhsMbr.type ) );
+			}
+
+			return sdw::makeAggrInit( type, std::move( initializers ) );
+		}
+
+		if ( type == rhs->m_type )
+		{
+			return sdw::makeExpr( *rhs );
+		}
+
+		sdw::expr::ExprList initializers;
+		auto rhsType = rhs->m_type;
+
+		for ( size_t index{}; index < type->size(); ++index )
+		{
+			auto lhsMbr = type->getMember( uint32_t( index ) );
+			auto rhsIdx = rhsType->findMember( lhsMbr.name );
+
+			if ( rhsIdx != ast::type::Struct::NotFound )
+			{
+				initializers.emplace_back( rhs->doGetMember( rhsIdx ) );
+			}
+			else
+			{
+				initializers.emplace_back( getZeroValue( lhsMbr.type ) );
+			}
+		}
+
+		return sdw::makeAggrInit( type, std::move( initializers ) );
+	}
+
+	ast::expr::ExprPtr StructInstance::doGetMember( uint32_t mbrIndex )const
+	{
+		assert( m_type->getKind() == type::Kind::eStruct
+			|| m_type->getKind() == type::Kind::eRayDesc );
+		auto mbrFlags = m_type->getFlag();
+
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
+		{
+			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
+		}
+
+		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
+		{
+			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
+		}
+
+		auto member = m_type->getMember( mbrIndex );
+
+		if ( mbrFlags )
+		{
+			auto & shader = *getShader();
+
+			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
+			{
+				if ( member.builtin == ast::Builtin::eNone )
+				{
+					shader.registerInput( "in::" + member.name
+						, member.location
+						, mbrFlags
+						, member.type );
+				}
+			}
+			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput ) )
+			{
+				if ( member.builtin == ast::Builtin::eNone )
+				{
+					shader.registerOutput( "out::" + member.name
+						, member.location
+						, mbrFlags
+						, member.type );
+				}
+			}
+		}
+
+		auto & writer = findWriterMandat( *this );
+		return sdw::makeMbrSelect( makeExpr( writer, *this )
+			, member.type->getIndex()
+			, mbrFlags );
 	}
 
 	//*********************************************************************************************

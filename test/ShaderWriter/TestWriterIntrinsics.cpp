@@ -3277,6 +3277,21 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Payload" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "meshletIndices"
+					, sdw::type::Kind::eUInt
+					, 32u );
+			}
+
+			return result;
+		}
+
 		sdw::Array< sdw::UInt > meshletIndices;
 	};
 

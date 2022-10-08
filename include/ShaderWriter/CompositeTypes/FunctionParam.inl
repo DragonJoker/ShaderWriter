@@ -9,7 +9,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	Param< ValueT >::Param( ShaderWriter & writer
 		, std::string name
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -48,7 +48,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	InParam< ValueT >::InParam( ShaderWriter & writer
 		, std::string name
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -87,7 +87,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	OutParam< ValueT >::OutParam( ShaderWriter & writer
 		, std::string name
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -126,7 +126,7 @@ namespace sdw
 	template< typename ... ParamsT >
 	InOutParam< ValueT >::InOutParam( ShaderWriter & writer
 		, std::string name
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: ValueT{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -166,7 +166,7 @@ namespace sdw
 	Param< Array< ValueT > >::Param( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -207,7 +207,7 @@ namespace sdw
 	InParam< Array< ValueT > >::InParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -248,7 +248,7 @@ namespace sdw
 	OutParam< Array< ValueT > >::OutParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )
@@ -289,7 +289,7 @@ namespace sdw
 	InOutParam< Array< ValueT > >::InOutParam( ShaderWriter & writer
 		, std::string name
 		, uint32_t arraySize
-		, ParamsT ... params )
+		, ParamsT && ... params )
 		: Array< ValueT >{ writer
 			, makeExpr( writer
 				, var::makeVariable( getNextVarId( writer )

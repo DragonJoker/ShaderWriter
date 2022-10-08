@@ -41,6 +41,21 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "Position" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec3 position;
 	};
 
@@ -116,6 +131,36 @@ namespace
 			return result;
 		}
 
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "Surface" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "position"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "normal"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "tangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "bitangent"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "texture"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
+				result->declMember( "instance"
+					, sdw::type::Kind::eInt
+					, ast::type::NotArray );
+			}
+
+			return result;
+		}
+
 		sdw::Vec3 position;
 		sdw::Vec3 normal;
 		sdw::Vec3 tangent;
@@ -158,6 +203,21 @@ namespace
 					, sdw::type::Kind::eVec3F
 					, ast::type::NotArray
 					, 0u );
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "SimplePatch" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "control"
+					, sdw::type::Kind::eVec3F
+					, ast::type::NotArray );
 			}
 
 			return result;
@@ -227,6 +287,29 @@ namespace
 				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
 				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
 				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
+				result->end();
+			}
+
+			return result;
+		}
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
+				, "PNTriPatch" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray );
+				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray );
 				result->end();
 			}
 
