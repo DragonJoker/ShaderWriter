@@ -5,11 +5,44 @@ namespace sdw
 {
 	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
 		, std::string name
+		, uint32_t binding
+		, uint32_t set
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: UniformBuffer{ writer
+			, name + "Block"
+			, name
+			, binding
+			, set
+			, layout
+			, enabled }
+	{
+	}
+
+	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
+		, std::string blockName
+		, std::string variableName
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: UniformBuffer{ writer
-			, std::move( name )
+			, std::move( blockName )
+			, std::move( variableName )
+			, location.binding
+			, location.set
+			, layout
+			, enabled }
+	{
+	}
+
+	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
+		, std::string name
+		, LocationHelper location
+		, ast::type::MemoryLayout layout
+		, bool enabled )
+		: UniformBuffer{ writer
+			, name + "Block"
+			, name
 			, location.binding
 			, location.set
 			, layout

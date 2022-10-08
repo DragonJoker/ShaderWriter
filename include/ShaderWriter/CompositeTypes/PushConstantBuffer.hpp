@@ -16,6 +16,11 @@ namespace sdw
 	{
 	public:
 		SDW_API PushConstantBuffer( ShaderWriter & writer
+			, std::string blockName
+			, std::string variableName
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
+			, bool enabled = true );
+		SDW_API PushConstantBuffer( ShaderWriter & writer
 			, std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
