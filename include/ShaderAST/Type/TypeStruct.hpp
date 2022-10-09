@@ -112,13 +112,13 @@ namespace ast::type
 			, uint32_t index = InvalidLocation )const;
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
-		bool hasMember( std::string_view name )
+		bool hasMember( std::string_view name )const
 		{
 			return findMember( name ) != NotFound;
 		}
 
 		bool hasMember( Builtin builtin
-			, uint32_t index = InvalidLocation )
+			, uint32_t index = InvalidLocation )const
 		{
 			return findMember( builtin, index ) != NotFound;
 		}
