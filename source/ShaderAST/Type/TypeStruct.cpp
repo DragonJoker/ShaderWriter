@@ -489,12 +489,12 @@ namespace ast::type
 	{
 	}
 
-	Struct::Member Struct::getMember( uint32_t index )
+	Struct::Member Struct::getMember( uint32_t index )const
 	{
 		return m_members[index];
 	}
 
-	Struct::Member Struct::getMember( std::string_view name )
+	Struct::Member Struct::getMember( std::string_view name )const
 	{
 		auto it = std::find_if( m_members.begin()
 			, m_members.end()
@@ -525,7 +525,7 @@ namespace ast::type
 	}
 
 	Struct::Member Struct::getMember( Builtin builtin
-		, uint32_t index )
+		, uint32_t index )const
 	{
 		auto it = std::find_if( m_members.begin()
 			, m_members.end()

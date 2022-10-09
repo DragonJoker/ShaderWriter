@@ -103,11 +103,11 @@ namespace ast::type
 			, Kind kind = Kind::eStruct );
 
 	public:
-		SDAST_API Member getMember( uint32_t index );
-		SDAST_API Member getMember( std::string_view name );
+		SDAST_API Member getMember( uint32_t index )const;
+		SDAST_API Member getMember( std::string_view name )const;
 		SDAST_API uint32_t findMember( std::string_view name )const;
 		SDAST_API Member getMember( Builtin builtin
-			, uint32_t index = InvalidLocation );
+			, uint32_t index = InvalidLocation )const;
 		SDAST_API uint32_t findMember( Builtin builtin
 			, uint32_t index = InvalidLocation )const;
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
