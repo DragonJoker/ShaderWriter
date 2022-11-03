@@ -1890,20 +1890,24 @@ namespace spirv
 				, false
 				, type
 				, sourceInfo );
-			m_result = varInfo.id;
-			result = sourceInfo.isAlias;
 
-			if ( init )
+			if ( varInfo.id.id != 0u )
 			{
-				m_module.storeVariable( m_result
-					, init
-					, m_currentBlock );
-			}
-			else if ( sourceInfo.needsStoreOnPromote() )
-			{
-				m_module.storePromoted( m_result
-					, sourceInfo
-					, m_currentBlock );
+				m_result = varInfo.id;
+				result = sourceInfo.isAlias;
+
+				if ( init )
+				{
+					m_module.storeVariable( m_result
+						, init
+						, m_currentBlock );
+				}
+				else if ( sourceInfo.needsStoreOnPromote() )
+				{
+					m_module.storePromoted( m_result
+						, sourceInfo
+						, m_currentBlock );
+				}
 			}
 		}
 

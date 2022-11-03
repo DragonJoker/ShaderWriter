@@ -673,6 +673,11 @@ namespace spirv
 			{
 				if ( auto structType = getStructType( type ) )
 				{
+					if ( structType->empty() )
+					{
+						return VariableInfo{};
+					}
+
 					if ( getArraySize( structType->back().type ) == ast::type::UnknownArraySize )
 					{
 						auto typeId = registerType( type );
