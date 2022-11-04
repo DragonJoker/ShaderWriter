@@ -72,7 +72,7 @@ namespace sdw
 			if ( result->empty() )
 			{
 				( result->declMember( std::string( FieldsT::Name )
-					, typeEnumV< typename FieldsT::TypeT >
+					, FieldsT::TypeT::makeType( cache )
 					, FieldsT::ArraySize
 					, FieldsT::Location )
 					, ... );
