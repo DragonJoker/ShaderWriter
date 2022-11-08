@@ -506,8 +506,14 @@ namespace spirv
 				return "ShaderRecordBuffer";
 			case spv::StorageClassPhysicalStorageBuffer:
 				return "PhysicalStorageBuffer";
+			case spv::StorageClassTaskPayloadWorkgroupEXT:
+				return "TaskPayloadWorkgroupEXT";
 			case spv::StorageClassCodeSectionINTEL:
 				return "CodeSectionINTEL";
+			case spv::StorageClassDeviceOnlyINTEL:
+				return "DeviceOnlyINTEL";
+			case spv::StorageClassHostOnlyINTEL:
+				return "HostOnlyINTEL";
 			default:
 				AST_Failure( "Unsupported StorageClass" );
 				return "Undefined";

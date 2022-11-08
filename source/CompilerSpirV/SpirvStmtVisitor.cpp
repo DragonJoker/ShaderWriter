@@ -109,7 +109,7 @@ namespace spirv
 			{
 				m_inputs.push_back( m_result.registerVariable( adaptName( input->getName() )
 					, input->getBuiltin()
-					, spv::StorageClassInput
+					, getStorageClass( m_result.getVersion(), input, spv::StorageClassInput )
 					, input->isAlias()
 					, input->isParam()
 					, input->isOutputParam()
@@ -122,7 +122,7 @@ namespace spirv
 		{
 			m_outputs.push_back( m_result.registerVariable( adaptName( output->getName() )
 				, output->getBuiltin()
-				, spv::StorageClassOutput
+				, getStorageClass( m_result.getVersion(), output, spv::StorageClassOutput )
 				, output->isAlias()
 				, output->isParam()
 				, output->isOutputParam()

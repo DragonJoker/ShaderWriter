@@ -313,10 +313,11 @@ namespace spirv
 	}
 
 	spv::StorageClass getStorageClass( uint32_t version
-		 , ast::var::VariablePtr var )
+		 , ast::var::VariablePtr var
+		, spv::StorageClass fallback )
 	{
 		var = getOutermost( var );
-		spv::StorageClass result = spv::StorageClassFunction;
+		spv::StorageClass result = fallback;
 
 		if ( var->isHitAttribute() )
 		{
