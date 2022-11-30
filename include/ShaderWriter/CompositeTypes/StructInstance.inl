@@ -5,11 +5,6 @@ See LICENSE file in root folder
 
 #include <stdexcept>
 
-#pragma warning( push )
-#pragma warning( disable:4365 )
-#include <iostream>
-#pragma warning( pop )
-
 namespace sdw
 {
 	inline bool StructInstance::hasMember( std::string_view name )const

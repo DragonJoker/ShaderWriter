@@ -10,9 +10,12 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeGeometryIO.hpp>
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 5262 )
 #include <map>
 #include <type_traits>
 #include <vector>
+#pragma warning( pop )
 
 #if !defined( SDW_MeshShadingEXT )
 #	define SDW_MeshShadingEXT 1

@@ -7,9 +7,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
-#pragma warning( disable: 4365 )
-#include <sstream>
-
 namespace spirv
 {
 	namespace

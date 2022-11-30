@@ -5,11 +5,12 @@ See LICENSE file in root folder
 #define ___AST_Prerequisites_H___
 #pragma once
 
+#pragma warning( push )
+#pragma warning( disable: 4365 )
+#pragma warning( disable: 5262 )
 #include <cassert>
 #include <cstdint>
 
-#pragma warning( push )
-#pragma warning( disable: 4365 )
 #include <functional>
 #include <memory>
 #include <string>
