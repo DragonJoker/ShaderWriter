@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "HlslExprVisitor.hpp"
 
 #pragma warning( disable:4365 )
+#pragma warning( disable:5262 )
 #include <sstream>
 
 namespace hlsl

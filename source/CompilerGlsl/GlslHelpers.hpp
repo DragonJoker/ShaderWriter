@@ -13,8 +13,11 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Stmt/PreprocExtension.hpp>
 
+#pragma warning( push )
+#pragma warning( disable:5262 )
 #include <sstream>
 #include <locale>
+#pragma warning( pop )
 
 namespace glsl
 {
