@@ -5,20 +5,6 @@ namespace sdw
 {
 	//*************************************************************************
 
-	template< typename T >
-	inline Boolean & Boolean::operator=( T const & rhs )
-	{
-		updateContainer( rhs );
-		auto & writer = findWriterMandat( *this, rhs );
-		addStmt( writer
-			, sdw::makeSimple( sdw::makeAssign( getTypesCache( writer ).getBool()
-				, sdw::makeExpr( writer, *this )
-				, sdw::makeExpr( writer, rhs ) ) ) );
-		return *this;
-	}
-
-	//*************************************************************************
-
 	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
 	inline RetT writeComparator( LhsT const & lhs
 		, RhsT const & rhs
