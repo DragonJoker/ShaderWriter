@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <d3dcompiler.h>
 
+#pragma warning( disable: 5262 )
 #include <string>
 #include <string_view>
 #include <iostream>

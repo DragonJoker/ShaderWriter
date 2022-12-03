@@ -17,6 +17,7 @@
 #include <GL/gl.h>
 #endif
 
+#pragma warning( disable: 5262 )
 #include <iostream>
 #include <sstream>
 

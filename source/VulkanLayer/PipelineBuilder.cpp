@@ -11,10 +11,11 @@ See LICENSE file in root folder
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
+#pragma warning( disable: 5262 )
 #include <iostream>
+#include <sstream>
 #pragma warning( pop )
 #include <optional>
-#include <sstream>
 
 #if defined( WIN32 )
 #	include <Windows.h>
