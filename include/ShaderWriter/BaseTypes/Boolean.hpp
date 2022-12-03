@@ -20,8 +20,6 @@ namespace sdw
 		SDW_API explicit Boolean( bool value );
 		SDW_API explicit Boolean( Value rhs );
 
-		template< typename T >
-		inline Boolean & operator=( T const & rhs );
 		SDW_API Boolean & operator=( bool rhs );
 		SDW_API Boolean operator!()const;
 		SDW_API operator bool();
