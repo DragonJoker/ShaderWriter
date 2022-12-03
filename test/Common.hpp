@@ -8,6 +8,8 @@
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 4068 )
+#pragma warning( disable: 5262 )
+#pragma warning( disable: 5264 )
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma GCC diagnostic ignored "-Wrestrict"
 #include <atomic>

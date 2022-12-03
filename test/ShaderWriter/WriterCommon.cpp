@@ -33,6 +33,7 @@
 #endif
 #pragma GCC diagnostic pop
 
+#pragma warning( disable: 5262 )
 #include <iomanip>
 
 namespace test

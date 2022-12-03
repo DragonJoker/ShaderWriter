@@ -9,12 +9,13 @@ See LICENSE file in root folder
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
+#pragma warning( disable: 5262 )
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 #pragma warning( pop )
 #include <algorithm>
-#include <iomanip>
 #include <optional>
-#include <sstream>
 
 namespace ast::vk
 {

@@ -3,6 +3,7 @@
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 4464 )
+#pragma warning( disable: 5262 )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #pragma GCC diagnostic ignored "-Wuseless-cast"

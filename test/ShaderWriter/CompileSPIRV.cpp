@@ -4,6 +4,8 @@
 
 #if SDW_Test_HasVulkan
 
+#pragma warning( disable: 5262 )
+
 #include "./vulkan/vulkan.h"
 
 #if SDW_HasVulkanLayer
@@ -11,7 +13,6 @@
 #	include <VulkanLayer/ProgramPipeline.hpp>
 #	include <VulkanLayer/MakeVkType.hpp>
 #endif
-
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
