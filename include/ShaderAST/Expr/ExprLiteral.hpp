@@ -96,6 +96,9 @@ namespace ast::expr
 	template< LiteralType T >
 	using LiteralValueType = typename LiteralValueTraits< T >::type;
 
+	class Literal;
+	using LiteralPtr = std::unique_ptr< Literal >;
+
 	union LiteralValue
 	{
 		bool boolv;
@@ -146,6 +149,8 @@ namespace ast::expr
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
+		SDAST_API LiteralPtr castTo( LiteralType type )const;
+
 		inline LiteralType getLiteralType()const
 		{
 			return m_valueType;
@@ -158,7 +163,6 @@ namespace ast::expr
 		LiteralType m_valueType;
 		LiteralValue m_value;
 	};
-	using LiteralPtr = std::unique_ptr< Literal >;
 
 	template< typename T >
 	inline LiteralPtr makeLiteral( type::TypesCache & cache

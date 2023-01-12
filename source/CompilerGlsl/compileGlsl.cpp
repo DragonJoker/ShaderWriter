@@ -165,7 +165,7 @@ namespace glsl
 		auto statements = ast::transformSSA( shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
-		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+		statements = ast::simplify( shader.getTypesCache()
 			, statements.get() );
 		glsl::AdaptationData adaptationData{ shader.getType()
 			, writerConfig
@@ -175,7 +175,7 @@ namespace glsl
 			, statements.get()
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
-		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+		statements = ast::simplify( shader.getTypesCache()
 			, statements.get() );
 		statements = ast::StmtSpecialiser::submit( shader.getTypesCache(), statements.get(), specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;

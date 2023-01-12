@@ -8,9 +8,9 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	namespace
+	namespace simpl
 	{
-		expr::LiteralType getLiteralType( type::Type const & type )
+		static expr::LiteralType getLiteralType( type::Type const & type )
 		{
 			type::Kind kind = type.getKind();
 
@@ -44,7 +44,7 @@ namespace ast
 			}
 		}
 
-		std::vector< expr::SwizzleKind > getSwizzleValues( expr::SwizzleKind swizzle )
+		static std::vector< expr::SwizzleKind > getSwizzleValues( expr::SwizzleKind swizzle )
 		{
 			auto count = swizzle.getComponentsCount();
 			std::vector< expr::SwizzleKind > result;
@@ -68,7 +68,7 @@ namespace ast
 			return result;
 		}
 
-		uint32_t getSwizzleIndex( expr::SwizzleKind swizzle )
+		static uint32_t getSwizzleIndex( expr::SwizzleKind swizzle )
 		{
 			assert( swizzle.isOneComponent()
 				&& "Invalid swizzle for components indexing" );
@@ -82,7 +82,7 @@ namespace ast
 						: 3u ) );
 		}
 
-		std::vector< uint32_t > getSwizzleIndices( expr::SwizzleKind swizzle )
+		static std::vector< uint32_t > getSwizzleIndices( expr::SwizzleKind swizzle )
 		{
 			std::vector< uint32_t > result;
 			result.push_back( getSwizzleIndex( swizzle.getFirstValue() ) );
@@ -106,7 +106,7 @@ namespace ast
 			return result;
 		}
 
-		expr::SwizzleKind getFinalSwizzle( std::vector< expr::SwizzleKind > const & values
+		static expr::SwizzleKind getFinalSwizzle( std::vector< expr::SwizzleKind > const & values
 			, std::vector< uint32_t > const & indices )
 		{
 			expr::SwizzleKind result;
@@ -122,7 +122,7 @@ namespace ast
 			return result;
 		}
 
-		uint32_t getComponentsCount( expr::CompositeType type )
+		static uint32_t getComponentsCount( expr::CompositeType type )
 		{
 			switch ( type )
 			{
@@ -148,103 +148,6 @@ namespace ast
 
 			return 0u;
 		}
-		template< typename OutputT >
-		struct CastLiteralTo
-		{
-			template< typename InputT >
-			static expr::LiteralPtr castLiteral( type::TypesCache & cache
-				, InputT const & value )
-			{
-				return expr::makeLiteral( cache, OutputT( value ) );
-			}
-
-			static expr::LiteralPtr castLiteral( type::TypesCache & cache
-				, bool const & value )
-			{
-				return expr::makeLiteral( cache, value ? OutputT{ 1 } : OutputT{ 0 } );
-			}
-
-			static expr::LiteralPtr cast( type::TypesCache & cache
-				, expr::Literal const & operand )
-			{
-				switch ( operand.getLiteralType() )
-				{
-				case expr::LiteralType::eBool:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eBool >() );
-				case expr::LiteralType::eInt8:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eInt8 >() );
-				case expr::LiteralType::eInt16:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eInt16 >() );
-				case expr::LiteralType::eInt32:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eInt32 >() );
-				case expr::LiteralType::eInt64:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eInt64 >() );
-				case expr::LiteralType::eUInt8:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eUInt8 >() );
-				case expr::LiteralType::eUInt16:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eUInt16 >() );
-				case expr::LiteralType::eUInt32:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eUInt32 >() );
-				case expr::LiteralType::eUInt64:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eUInt64 >() );
-				case expr::LiteralType::eFloat:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eFloat >() );
-				case expr::LiteralType::eDouble:
-					return castLiteral( cache
-						, operand.getValue< expr::LiteralType::eDouble >() );
-				default:
-					AST_Failure( "Unexpected operand type for unary not" );
-					return nullptr;
-				}
-			}
-		};
-		
-		struct CastLiteral
-		{
-			static expr::LiteralPtr replace( type::TypesCache & cache
-				, expr::LiteralType output
-				, expr::Literal const & operand )
-			{
-				switch ( output )
-				{
-				case expr::LiteralType::eBool:
-					return CastLiteralTo< bool >::cast( cache, operand );
-				case expr::LiteralType::eInt8:
-					return CastLiteralTo< int8_t >::cast( cache, operand );
-				case expr::LiteralType::eInt16:
-					return CastLiteralTo< int16_t >::cast( cache, operand );
-				case expr::LiteralType::eInt32:
-					return CastLiteralTo< int32_t >::cast( cache, operand );
-				case expr::LiteralType::eInt64:
-					return CastLiteralTo< int64_t >::cast( cache, operand );
-				case expr::LiteralType::eUInt8:
-					return CastLiteralTo< uint8_t >::cast( cache, operand );
-				case expr::LiteralType::eUInt16:
-					return CastLiteralTo< uint16_t >::cast( cache, operand );
-				case expr::LiteralType::eUInt32:
-					return CastLiteralTo< uint32_t >::cast( cache, operand );
-				case expr::LiteralType::eUInt64:
-					return CastLiteralTo< uint64_t >::cast( cache, operand );
-				case expr::LiteralType::eFloat:
-					return CastLiteralTo< float >::cast( cache, operand );
-				case expr::LiteralType::eDouble:
-					return CastLiteralTo< double >::cast( cache, operand );
-				default:
-					AST_Failure( "Unexpected operand type for unary not" );
-					return nullptr;
-				}
-			}
-		};
 
 		class ExprSimplifier
 			: public ExprCloner
@@ -331,6 +234,9 @@ namespace ast
 						break;
 					case expr::Kind::eLogNot:
 						m_result = !literal;
+						break;
+					case expr::Kind::eCast:
+						m_result = literal.castTo( getLiteralType( *expr->getType() ) );
 						break;
 					default:
 						AST_Failure( "Unexpected unary expression" );
@@ -487,18 +393,13 @@ namespace ast
 			{
 				auto operand = doSubmit( expr->getOperand() );
 
-				if ( operand->getKind() == expr::Kind::eLiteral
-					&& getComponentType( expr->getType() ) != type::Kind::eHalf )
+				if ( getComponentType( expr->getType() ) != type::Kind::eHalf )
 				{
-					auto & literal = static_cast< expr::Literal const & >( *operand );
-					m_result = expr::details::replaceLiteral< CastLiteral >( expr->getCache()
-						, getLiteralType( *expr->getType() )
-						, literal );
+					visitUnaryExpr( expr );
 				}
 				else
 				{
-					m_result = expr::makeCast( expr->getType()
-						, std::move( operand ) );
+					m_result = ExprCloner::submit( expr );
 				}
 			}
 
@@ -675,7 +576,8 @@ namespace ast
 				if ( init->getKind() == expr::Kind::eLiteral
 					&& expr->getIdentifier()->getVariable()->isConstant() )
 				{
-					m_literalVars.emplace( expr->getIdentifier()->getVariable(), static_cast< expr::Literal * >( init.get() ) );
+					m_literalVars.emplace( expr->getIdentifier()->getVariable()
+						, static_cast< expr::Literal * >( init.get() ) );
 				}
 
 				m_result = expr::makeInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
@@ -875,36 +777,258 @@ namespace ast
 			std::map< var::VariablePtr, expr::Literal * > & m_literalVars;
 			bool & m_allLiterals;
 		};
+
+		class StmtSimplifier
+			: public StmtCloner
+		{
+		public:
+			static stmt::ContainerPtr submit( type::TypesCache & cache
+				, stmt::Container * stmt )
+			{
+				std::map< var::VariablePtr, expr::Literal * > literalVars;
+				std::vector< stmt::Container * > contStack;
+				return submit( cache, stmt, contStack, literalVars );
+			}
+
+		private:
+			static stmt::ContainerPtr submit( type::TypesCache & cache
+				, stmt::Container * stmt
+				, std::vector< stmt::Container * > & contStack
+				, std::map< var::VariablePtr, expr::Literal * > & literalVars )
+			{
+				auto result = stmt::makeContainer();
+				StmtSimplifier vis{ cache, contStack, literalVars, result };
+				stmt->accept( &vis );
+				return result;
+			}
+
+		private:
+			StmtSimplifier( type::TypesCache & cache
+				, std::vector< stmt::Container * > & contStack
+				, std::map< var::VariablePtr, expr::Literal * > & literalVars
+				, stmt::ContainerPtr & result )
+				: StmtCloner{ result }
+				, m_cache{ cache }
+				, m_contStack{ contStack }
+				, m_literalVars{ literalVars }
+			{
+			}
+
+			expr::ExprPtr doSubmit( expr::Expr * expr )
+			{
+				bool allLiterals{ true };
+				return doSubmit( expr, allLiterals );
+			}
+
+			expr::ExprPtr doSubmit( expr::Expr * expr, bool & allLiterals )
+			{
+				return ExprSimplifier::submit( m_cache, m_literalVars, expr, allLiterals );
+			}
+
+			void processIfStmt( stmt::Container * stmt
+				, ast::expr::ExprPtr ctrlExpr
+				, bool & first
+				, bool & stopped
+				, uint32_t & ifs
+				, uint32_t & elses )
+			{
+				if ( stopped )
+				{
+					return;
+				}
+
+				auto save = m_current;
+				auto cont = stmt::makeContainer();
+				m_current = cont.get();
+				visitContainerStmt( stmt );
+				m_current = save;
+
+				if ( cont->empty() )
+				{
+					auto ifStmt = stmt::makeIf( expr::makeLogNot( m_cache
+						, std::move( ctrlExpr ) ) );
+
+					m_ifStmts.push_back( ifStmt.get() );
+					m_current->addStmt( std::move( ifStmt ) );
+					++ifs;
+					first = true;
+				}
+				else
+				{
+					auto ifStmt = stmt::makeIf( std::move( ctrlExpr ) );
+					m_current = ifStmt.get();
+					visitContainerStmt( cont.get() );
+					m_current = save;
+
+					m_ifStmts.push_back( ifStmt.get() );
+					m_current->addStmt( std::move( ifStmt ) );
+					++ifs;
+					first = false;
+				}
+			}
+
+			void processElseIfStmt( stmt::ElseIf * stmt
+				, bool & first
+				, bool & stopped
+				, uint32_t & ifs
+				, uint32_t & elses )
+			{
+				if ( stopped )
+				{
+					return;
+				}
+
+				bool allLiterals{ true };
+				auto ctrlExpr = doSubmit( stmt->getCtrlExpr(), allLiterals );
+
+				if ( ctrlExpr->getKind() == ast::expr::Kind::eLiteral )
+				{
+					auto & ctrlValue = static_cast< ast::expr::Literal const & >( *ctrlExpr );
+
+					if ( ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
+					{
+						processElseStmt( stmt, first, stopped, ifs, elses );
+						stopped = true;
+					}
+				}
+				else if ( first )
+				{
+					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs, elses );
+				}
+				else
+				{
+					auto save = m_current;
+					auto cont = stmt::makeContainer();
+					m_current = cont.get();
+					visitContainerStmt( stmt );
+					m_current = save;
+
+					if ( cont->empty() )
+					{
+						auto elseStmt = m_ifStmts.back()->createElse();
+						m_current = elseStmt;
+						auto ifStmt = stmt::makeIf( expr::makeLogNot( m_cache
+							, std::move( ctrlExpr ) ) );
+
+						m_ifStmts.push_back( ifStmt.get() );
+						m_current->addStmt( std::move( ifStmt ) );
+						m_contStack.push_back( save );
+						++ifs;
+						++elses;
+						m_current = save;
+						first = true;
+					}
+					else
+					{
+						auto elseStmt = m_ifStmts.back()->createElseIf( std::move( ctrlExpr ) );
+						m_current = elseStmt;
+						visitContainerStmt( cont.get() );
+						m_current = save;
+					}
+				}
+			}
+
+			void processElseStmt( stmt::Container * stmt
+				, bool & first
+				, bool & stopped
+				, uint32_t & ifs
+				, uint32_t & elses )
+			{
+				if ( stopped )
+				{
+					return;
+				}
+
+				if ( first )
+				{
+					visitContainerStmt( stmt );
+					first = false;
+				}
+				else
+				{
+					auto save = m_current;
+					auto cont = stmt::makeContainer();
+					m_current = cont.get();
+					visitContainerStmt( stmt );
+					m_current = save;
+
+					if ( !cont->empty() )
+					{
+						auto elseStmt = m_ifStmts.back()->createElse();
+						m_current = elseStmt;
+						visitContainerStmt( cont.get() );
+						m_current = save;
+					}
+				}
+			}
+
+		private:
+			void visitIfStmt( stmt::If * stmt )
+			{
+				bool allLiterals{ true };
+				auto ctrlExpr = doSubmit( stmt->getCtrlExpr(), allLiterals );
+				bool first = true;
+				bool stopped = false;
+				uint32_t ifs{};
+				uint32_t elses{};
+
+				if ( ctrlExpr->getKind() == ast::expr::Kind::eLiteral )
+				{
+					auto & ctrlValue = static_cast< ast::expr::Literal const & >( *ctrlExpr );
+
+					if ( ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
+					{
+						visitContainerStmt( stmt );
+						return;
+					}
+
+					if ( stmt->getElseIfList().empty() )
+					{
+						if ( stmt->getElse() )
+						{
+							visitContainerStmt( stmt->getElse() );
+						}
+
+						return;
+					}
+				}
+				else
+				{
+					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs, elses );
+				}
+
+				for ( auto & elseIf : stmt->getElseIfList() )
+				{
+					processElseIfStmt( elseIf.get(), first, stopped, ifs, elses );
+				}
+
+				if ( stmt->getElse() )
+				{
+					processElseStmt( stmt->getElse(), first, stopped, ifs, elses );
+				}
+
+				while ( ifs-- )
+				{
+					m_ifStmts.pop_back();
+				}
+
+				while ( elses-- )
+				{
+					m_current = m_contStack.back();
+					m_contStack.pop_back();
+				}
+			}
+
+		private:
+			type::TypesCache & m_cache;
+			std::vector< stmt::Container * > & m_contStack;
+			std::map< var::VariablePtr, expr::Literal * > & m_literalVars;
+		};
 	}
 
-	stmt::ContainerPtr StmtSimplifier::submit( type::TypesCache & cache
+	stmt::ContainerPtr simplify( type::TypesCache & cache
 		, stmt::Container * stmt )
 	{
-		std::map< var::VariablePtr, expr::Literal * > literalVars;
-		return submit( cache, stmt, literalVars );
-	}
-
-	stmt::ContainerPtr StmtSimplifier::submit( type::TypesCache & cache
-		, stmt::Container * stmt
-		, std::map< var::VariablePtr, expr::Literal * > & literalVars )
-	{
-		auto result = stmt::makeContainer();
-		StmtSimplifier vis{ cache, literalVars, result };
-		stmt->accept( &vis );
-		return result;
-	}
-
-	StmtSimplifier::StmtSimplifier( type::TypesCache & cache
-		, std::map< var::VariablePtr, expr::Literal * > & literalVars
-		, stmt::ContainerPtr & result )
-		: StmtCloner{ result }
-		, m_cache{ cache }
-		, m_literalVars{ literalVars }
-	{
-	}
-
-	expr::ExprPtr StmtSimplifier::doSubmit( expr::Expr * expr )
-	{
-		return ExprSimplifier::submit( m_cache, m_literalVars, expr );
+		return simpl::StmtSimplifier::submit( cache, stmt );
 	}
 }

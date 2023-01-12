@@ -99,6 +99,11 @@ namespace ast::expr
 			}
 		}
 
+		template< expr::LiteralType TargetT, typename SourceT >
+		LiteralPtr literalCast( SourceT const & operand )
+		{
+		}
+
 		template< typename T = void >
 		struct lshift
 		{
@@ -630,6 +635,104 @@ namespace ast::expr
 				case expr::LiteralType::eDouble:
 					return expr::makeLiteral( cache
 						, operand.getValue< expr::LiteralType::eDouble >() == 0.0 );
+				default:
+					AST_Failure( "Unexpected operand type for unary not" );
+					return nullptr;
+				}
+			}
+		};
+
+		struct CastLiteral
+		{
+			template< typename OutputT >
+			struct CastTo
+			{
+				template< typename InputT >
+				static expr::LiteralPtr castLiteral( type::TypesCache & cache
+					, InputT const & value )
+				{
+					return expr::makeLiteral( cache, OutputT( value ) );
+				}
+
+				static expr::LiteralPtr castLiteral( type::TypesCache & cache
+					, bool const & value )
+				{
+					return expr::makeLiteral( cache, value ? OutputT{ 1 } : OutputT{ 0 } );
+				}
+
+				static expr::LiteralPtr cast( type::TypesCache & cache
+					, expr::Literal const & operand )
+				{
+					switch ( operand.getLiteralType() )
+					{
+					case expr::LiteralType::eBool:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eBool >() );
+					case expr::LiteralType::eInt8:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eInt8 >() );
+					case expr::LiteralType::eInt16:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eInt16 >() );
+					case expr::LiteralType::eInt32:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eInt32 >() );
+					case expr::LiteralType::eInt64:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eInt64 >() );
+					case expr::LiteralType::eUInt8:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eUInt8 >() );
+					case expr::LiteralType::eUInt16:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eUInt16 >() );
+					case expr::LiteralType::eUInt32:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eUInt32 >() );
+					case expr::LiteralType::eUInt64:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eUInt64 >() );
+					case expr::LiteralType::eFloat:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eFloat >() );
+					case expr::LiteralType::eDouble:
+						return castLiteral( cache
+							, operand.getValue< expr::LiteralType::eDouble >() );
+					default:
+						AST_Failure( "Unexpected operand type for unary not" );
+						return nullptr;
+					}
+				}
+			};
+
+			static expr::LiteralPtr replace( type::TypesCache & cache
+				, expr::LiteralType output
+				, expr::Literal const & operand )
+			{
+				switch ( output )
+				{
+				case expr::LiteralType::eBool:
+					return CastTo< bool >::cast( cache, operand );
+				case expr::LiteralType::eInt8:
+					return CastTo< int8_t >::cast( cache, operand );
+				case expr::LiteralType::eInt16:
+					return CastTo< int16_t >::cast( cache, operand );
+				case expr::LiteralType::eInt32:
+					return CastTo< int32_t >::cast( cache, operand );
+				case expr::LiteralType::eInt64:
+					return CastTo< int64_t >::cast( cache, operand );
+				case expr::LiteralType::eUInt8:
+					return CastTo< uint8_t >::cast( cache, operand );
+				case expr::LiteralType::eUInt16:
+					return CastTo< uint16_t >::cast( cache, operand );
+				case expr::LiteralType::eUInt32:
+					return CastTo< uint32_t >::cast( cache, operand );
+				case expr::LiteralType::eUInt64:
+					return CastTo< uint64_t >::cast( cache, operand );
+				case expr::LiteralType::eFloat:
+					return CastTo< float >::cast( cache, operand );
+				case expr::LiteralType::eDouble:
+					return CastTo< double >::cast( cache, operand );
 				default:
 					AST_Failure( "Unexpected operand type for unary not" );
 					return nullptr;

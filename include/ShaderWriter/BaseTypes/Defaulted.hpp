@@ -51,6 +51,11 @@ namespace sdw
 			return value();
 		}
 
+		operator bool()const
+		{
+			return m_wasEnabled;
+		}
+
 		ValueT const & getDefault()const
 		{
 			return m_default;
