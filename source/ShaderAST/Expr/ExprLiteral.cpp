@@ -194,6 +194,13 @@ namespace ast::expr
 		vis->visitLiteralExpr( this );
 	}
 
+	LiteralPtr Literal::castTo( LiteralType type )const
+	{
+		return details::replaceLiteral< details::CastLiteral >( getCache()
+			, type
+			, *this );
+	}
+
 	LiteralPtr operator~( Literal const & operand )
 	{
 		return details::replaceLiteral< details::BitNegateLiteral >( operand.getCache()

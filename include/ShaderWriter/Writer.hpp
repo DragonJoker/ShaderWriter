@@ -211,9 +211,17 @@ namespace sdw
 			, std::function< void() > function );
 		SDW_API void doWhileStmt( expr::ExprPtr condition
 			, std::function< void() > function );
+		SDW_API void doWhileStmt( sdw::Boolean
+			, std::function< void() > function );
 		SDW_API void whileStmt( expr::ExprPtr condition
 			, std::function< void() > function );
+		SDW_API void whileStmt( sdw::Boolean
+			, std::function< void() > function );
+		SDW_API ShaderWriter & ifStmt( sdw::Boolean condition
+			, std::function< void() > function );
 		SDW_API ShaderWriter & ifStmt( expr::ExprPtr condition
+			, std::function< void() > function );
+		SDW_API ShaderWriter & elseIfStmt( sdw::Boolean condition
 			, std::function< void() > function );
 		SDW_API ShaderWriter & elseIfStmt( expr::ExprPtr condition
 			, std::function< void() > function );

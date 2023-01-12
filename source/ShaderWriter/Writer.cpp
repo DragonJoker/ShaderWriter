@@ -185,12 +185,24 @@ namespace sdw
 		popScope();
 	}
 
+	void ShaderWriter::doWhileStmt( sdw::Boolean condition
+		, std::function< void() > function )
+	{
+		return doWhileStmt( makeCondition( condition ), function );
+	}
+
 	void ShaderWriter::whileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
 		doPushScope( stmt::makeWhile( std::move( condition ) ) );
 		function();
 		popScope();
+	}
+
+	void ShaderWriter::whileStmt( sdw::Boolean condition
+		, std::function< void() > function )
+	{
+		return whileStmt( makeCondition( condition ), function );
 	}
 
 	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
@@ -204,6 +216,12 @@ namespace sdw
 		return *this;
 	}
 
+	ShaderWriter & ShaderWriter::ifStmt( sdw::Boolean condition
+		, std::function< void() > function )
+	{
+		return ifStmt( makeCondition( condition ), function );
+	}
+
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
@@ -212,6 +230,12 @@ namespace sdw
 		function();
 		doPopScope();
 		return *this;
+	}
+
+	ShaderWriter & ShaderWriter::elseIfStmt( sdw::Boolean condition
+		, std::function< void() > function )
+	{
+		return ifStmt( makeCondition( condition ), function );
 	}
 
 	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )

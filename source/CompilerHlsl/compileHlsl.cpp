@@ -103,7 +103,7 @@ namespace hlsl
 		auto statements = ast::transformSSA( shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
-		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+		statements = ast::simplify( shader.getTypesCache()
 			, statements.get() );
 		HlslShader hlslShader{ shader };
 		AdaptationData adaptationData{ hlslShader };
@@ -120,7 +120,7 @@ namespace hlsl
 			, config
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
-		statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+		statements = ast::simplify( shader.getTypesCache()
 			, statements.get() );
 		statements = ast::StmtSpecialiser::submit( shader.getTypesCache()
 			, statements.get()

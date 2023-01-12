@@ -28,7 +28,7 @@ namespace spirv
 			auto statements = ast::transformSSA( shader.getTypesCache()
 				, shader.getStatements()
 				, ssaData );
-			statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			statements = ast::simplify( shader.getTypesCache()
 				, statements.get() );
 			ModuleConfig moduleConfig{ config
 				, shader.getTypesCache()
@@ -42,7 +42,7 @@ namespace spirv
 			statements = spirv::StmtAdapter::submit( statements.get()
 				, adaptationData );
 			// Simplify again, since adaptation can introduce complexity
-			statements = ast::StmtSimplifier::submit( shader.getTypesCache()
+			statements = ast::simplify( shader.getTypesCache()
 				, statements.get() );
 			auto actions = listActions( statements.get() );
 			return spirv::StmtVisitor::submit( shader.getTypesCache()
