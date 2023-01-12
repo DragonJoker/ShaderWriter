@@ -814,7 +814,7 @@ namespace ast
 			{
 			}
 
-			expr::ExprPtr doSubmit( expr::Expr * expr )
+			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				bool allLiterals{ true };
 				return doSubmit( expr, allLiterals );
@@ -963,7 +963,7 @@ namespace ast
 			}
 
 		private:
-			void visitIfStmt( stmt::If * stmt )
+			void visitIfStmt( stmt::If * stmt )override
 			{
 				bool allLiterals{ true };
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr(), allLiterals );
