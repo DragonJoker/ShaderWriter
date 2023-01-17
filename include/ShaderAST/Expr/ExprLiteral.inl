@@ -99,11 +99,6 @@ namespace ast::expr
 			}
 		}
 
-		template< expr::LiteralType TargetT, typename SourceT >
-		LiteralPtr literalCast( SourceT const & operand )
-		{
-		}
-
 		template< typename T = void >
 		struct lshift
 		{
