@@ -15,6 +15,8 @@ See LICENSE file in root folder
 #include <sstream>
 #pragma warning( pop )
 
+#pragma GCC diagnostic ignored "-Wrestrict"
+
 namespace hlsl
 {
 	namespace

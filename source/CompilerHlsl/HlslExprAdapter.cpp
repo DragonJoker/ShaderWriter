@@ -17,6 +17,9 @@ See LICENSE file in root folder
 #include <algorithm>
 #include <stdexcept>
 
+#pragma GCC diagnostic ignored "-Wrestrict"
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+
 namespace hlsl
 {
 	namespace HlslExprAdapterInternal

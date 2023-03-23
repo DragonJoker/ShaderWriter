@@ -430,7 +430,16 @@ namespace ast::debug
 	void ExprVisitor::visitIdentifierExpr( expr::Identifier * expr )
 	{
 		m_result += getName( expr->getKind() ) + " ";
-		m_result += expr->getVariable()->getName();
+		auto var = expr->getVariable();
+		auto name = var->getName();
+
+		while ( var->getOuter() )
+		{
+			var = var->getOuter();
+			name = var->getName() + "::" + name;
+		}
+
+		m_result += name;
 	}
 
 	void ExprVisitor::visitInitExpr( expr::Init * expr )

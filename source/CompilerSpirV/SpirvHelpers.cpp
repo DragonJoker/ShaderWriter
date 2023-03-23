@@ -754,7 +754,7 @@ namespace spirv
 	void IOMapping::addPending( ast::var::VariablePtr pendingVar
 		, uint32_t location )
 	{
-		auto ires = m_pending.emplace( pendingVar->getName(), PendingIO{} );
+		auto ires = m_pending.emplace( pendingVar->getEntityName(), PendingIO{} );
 
 		if ( ires.second )
 		{
@@ -938,7 +938,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	ast::expr::ExprPtr IOMapping::processPending( std::string const & name
+	ast::expr::ExprPtr IOMapping::processPending( ast::EntityName const & name
 		, ast::stmt::Container * cont )
 	{
 		auto it = m_pending.find( name );
@@ -970,7 +970,7 @@ namespace spirv
 	ast::expr::ExprPtr IOMapping::processPending( ast::var::VariablePtr srcVar
 		, ast::stmt::Container * cont )
 	{
-		auto result = processPending( srcVar->getName()
+		auto result = processPending( srcVar->getEntityName()
 			, cont );
 
 		if ( result )

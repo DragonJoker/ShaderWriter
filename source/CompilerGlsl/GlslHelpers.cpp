@@ -8,6 +8,8 @@ See LICENSE file in root folder
 
 #include <stdexcept>
 
+#pragma GCC diagnostic ignored "-Wrestrict"
+
 namespace glsl
 {
 	namespace GlslHelpersInternal

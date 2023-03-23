@@ -306,6 +306,20 @@ namespace glsl
 		ExprCloner::visitArrayAccessExpr( expr );
 	}
 
+	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
+	{
+		auto it = m_adaptationData.aliases.find( expr->getVariable() );
+
+		if ( it != m_adaptationData.aliases.end() )
+		{
+			m_result = ast::expr::makeIdentifier( expr->getCache(), it->second );
+		}
+		else
+		{
+			ExprCloner::visitIdentifierExpr( expr );
+		}
+	}
+
 	void ExprAdapter::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
 	{
 		if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF

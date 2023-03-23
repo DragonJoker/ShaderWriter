@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #include "ShaderAST/Debug/DebugCommon.hpp"
 #include "ShaderAST/Debug/DebugExprVisitor.hpp"
 
+#pragma GCC diagnostic ignored "-Wrestrict"
+
 namespace ast::debug
 {
 	namespace

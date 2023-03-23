@@ -83,7 +83,7 @@ namespace spirv
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
 			, uint32_t arraySize );
-		ast::expr::ExprPtr processPending( std::string const & name
+		ast::expr::ExprPtr processPending( ast::EntityName const & name
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPending( ast::Builtin builtin
 			, ExprAdapter & adapter
@@ -123,7 +123,15 @@ namespace spirv
 			, ast::stmt::Container * cont );
 
 	private:
-		std::map< std::string, PendingIO > m_pending;
+		struct MapComp
+		{
+			bool operator()( ast::EntityName const & lhs
+				, ast::EntityName const & rhs )const noexcept
+			{
+				return lhs.id < rhs.id;
+			}
+		};
+		std::map< ast::EntityName, PendingIO, MapComp > m_pending;
 		struct PendingMbrIO
 		{
 			ast::var::VariablePtr outer;
@@ -220,7 +228,7 @@ namespace spirv
 				, arraySize );
 		}
 
-		ast::expr::ExprPtr processPendingInput( std::string const & name
+		ast::expr::ExprPtr processPendingInput( ast::EntityName const & name
 			, ast::stmt::Container * cont )
 		{
 			return inputs.processPending( name
@@ -291,7 +299,7 @@ namespace spirv
 				, arraySize );
 		}
 
-		ast::expr::ExprPtr processPendingOutput( std::string const & name
+		ast::expr::ExprPtr processPendingOutput( ast::EntityName const & name
 			, ast::stmt::Container * cont )
 		{
 			return outputs.processPending( name

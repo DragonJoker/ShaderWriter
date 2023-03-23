@@ -653,23 +653,29 @@ namespace glsl
 			throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
 		}
 
+		auto save = m_current;
+		ast::stmt::ContainerPtr cont;
+
 		if ( m_adaptationData.writerConfig.vulkanGlsl )
 		{
-			ast::StmtCloner::visitPushConstantsBufferDeclStmt( stmt );
+			cont = ast::stmt::makePushConstantsBufferDecl( stmt->getName()
+				, stmt->getMemoryLayout() );
 		}
 		else
 		{
 			// PCB are not supported, implement them as UBO.
-			auto save = m_current;
-			auto cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
+			cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
 				, InvalidIndex
 				, InvalidIndex );
-			m_current = cont.get();
-			visitContainerStmt( stmt );
-			m_current = save;
-			m_current->addStmt( std::move( cont ) );
 		}
+
+		m_current = cont.get();
+		m_inPCB = true;
+		visitContainerStmt( stmt );
+		m_inPCB = false;
+		m_current = save;
+		m_current->addStmt( std::move( cont ) );
 	}
 
 	void StmtAdapter::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
@@ -756,8 +762,20 @@ namespace glsl
 
 	void StmtAdapter::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
-		declareType( stmt->getVariable()->getType() );
-		ast::StmtCloner::visitVariableDeclStmt( stmt );
+		auto var = stmt->getVariable();
+		declareType( var->getType() );
+
+		if ( m_inPCB )
+		{
+			var = m_adaptationData.aliases.emplace( var
+				, ast::var::makeVariable( { ++m_adaptationData.nextVarId, "pcb_" + var->getName() }
+					, var->getType() ) ).first->second;
+			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		}
+		else
+		{
+			ast::StmtCloner::visitVariableDeclStmt( stmt );
+		}
 	}
 
 	void StmtAdapter::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
