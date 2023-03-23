@@ -3,6 +3,7 @@
 
 #include <ShaderWriter/CompositeTypes/IOStructHelper.hpp>
 #include <ShaderWriter/CompositeTypes/IOStructInstanceHelper.hpp>
+#include <ShaderWriter/CompositeTypes/PushConstantBuffer.hpp>
 
 #pragma warning( disable:5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"
@@ -1802,6 +1803,39 @@ namespace
 		}
 		testEnd();
 	}
+
+	void pcbHelper( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "pcbHelper" );
+		using namespace sdw;
+		{
+			using PcbParent = sdw::PushConstantBufferHelperT< sdw::type::MemoryLayout::eC
+				, sdw::Vec4Field< "color" > >;
+			class Pcb : public PcbParent
+			{
+			public:
+				using PcbParent::PcbParent;
+
+				auto color() {
+					return getMember<"color">();
+				}
+			};
+
+			FragmentWriter writer;
+			auto color = writer.declOutput< Vec4 >( "color", 0u );
+
+			Pcb pcb{ writer, "pcb" };
+
+			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+				{
+					color = pcb.color();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
@@ -1823,6 +1857,7 @@ sdwTestSuiteMain( TestWriterShader )
 	voxelPipeline( testCounts );
 	tessellationPipeline( testCounts );
 	arraySsboTextureLookup( testCounts );
+	pcbHelper( testCounts );
 	sdwTestSuiteEnd();
 }
 

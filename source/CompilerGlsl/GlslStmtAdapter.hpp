@@ -57,6 +57,7 @@ namespace glsl
 		uint32_t nextVarId;
 		IOVars inputs{};
 		IOVars outputs{};
+		std::map< ast::var::VariablePtr, ast::var::VariablePtr > aliases{};
 	};
 
 	class StmtAdapter
@@ -166,6 +167,7 @@ namespace glsl
 		ast::type::MeshVertexOutput const * m_meshVtxType{};
 		ast::var::VariablePtr m_meshPrimVar{};
 		ast::type::MeshPrimitiveOutput const * m_meshPrimType{};
+		bool m_inPCB{};
 	};
 }
 

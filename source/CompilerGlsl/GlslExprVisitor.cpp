@@ -15,6 +15,8 @@ See LICENSE file in root folder
 #pragma warning( pop )
 #include <iomanip>
 
+#pragma GCC diagnostic ignored "-Wrestrict"
+
 namespace glsl
 {
 	namespace
