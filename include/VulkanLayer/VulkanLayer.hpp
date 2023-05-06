@@ -5,7 +5,10 @@ See LICENSE file in root folder
 #define ___SDWVK_VulkanLayer_H___
 
 #define VK_NO_PROTOYPES
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <vulkan/vulkan.h>
+#pragma GCC diagnostic pop
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
 

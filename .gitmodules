@@ -1,15 +1,6 @@
 [submodule "CMake"]
 	path = CMake
 	url = https://github.com/DragonJoker/CMakeUtils.git
-[submodule "external/SPIRV-Cross"]
-	path = external/SPIRV-Cross
-	url = https://github.com/KhronosGroup/SPIRV-Cross.git
-[submodule "external/glslang"]
-	path = external/glslang
-	url = https://github.com/KhronosGroup/glslang.git
-[submodule "external/SPIRV-Tools"]
-	path = external/SPIRV-Tools
-	url = https://github.com/KhronosGroup/SPIRV-Tools.git
-[submodule "external/SPIRV-Headers"]
-	path = external/SPIRV-Headers
-	url = https://github.com/KhronosGroup/SPIRV-Headers.git
+[submodule "external/vcpkg"]
+	path = external/vcpkg
+	url = https://github.com/microsoft/vcpkg.git

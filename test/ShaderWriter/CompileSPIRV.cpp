@@ -27,15 +27,10 @@
 #endif
 #pragma GCC diagnostic pop
 
-#define SDW_Test_ForceVkVersion 1
-
 namespace test
 {
 	namespace
 	{
-		// Used when SDW_Test_ForceVkVersion is non zero
-		static constexpr uint32_t wantedVulkanVersion = VK_MAKE_API_VERSION( 0, 1, 1, 0 );
-
 		struct LayerProperties
 		{
 			VkLayerProperties properties;
@@ -356,7 +351,7 @@ namespace test
 	#pragma warning( push )
 	#pragma warning( disable: 4191 )
 				info.dbgCreateDebugUtilsMessenger =
-					( PFN_vkCreateDebugUtilsMessengerEXT )vkGetInstanceProcAddr( info.instance, "vkCreateDebugUtilsMessengerEXT" );
+					PFN_vkCreateDebugUtilsMessengerEXT( vkGetInstanceProcAddr( info.instance, "vkCreateDebugUtilsMessengerEXT" ) );
 				if ( !info.dbgCreateDebugUtilsMessenger )
 				{
 					std::cout << "GetInstanceProcAddr: Unable to find "
@@ -366,7 +361,7 @@ namespace test
 				}
 
 				info.dbgDestroyDebugUtilsMessenger =
-					( PFN_vkDestroyDebugUtilsMessengerEXT )vkGetInstanceProcAddr( info.instance, "vkDestroyDebugUtilsMessengerEXT" );
+					PFN_vkDestroyDebugUtilsMessengerEXT( vkGetInstanceProcAddr( info.instance, "vkDestroyDebugUtilsMessengerEXT" ) );
 				if ( !info.dbgDestroyDebugUtilsMessenger )
 				{
 					std::cout << "GetInstanceProcAddr: Unable to find "
@@ -400,11 +395,9 @@ namespace test
 				case VK_ERROR_OUT_OF_HOST_MEMORY:
 					std::cout << "dbgCreateDebugUtilsMessenger: out of host memory\n" << std::endl;
 					exit( 1 );
-					break;
 				default:
 					std::cout << "dbgCreateDebugUtilsMessenger: unknown failure\n" << std::endl;
 					exit( 1 );
-					break;
 				}
 			}
 
@@ -484,7 +477,6 @@ namespace test
 					auto demoteFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT >();
 					auto terminateFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
 					auto meshNVFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
-					auto meshEXTFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesEXT >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
 					bool hasFloatControls = false;
@@ -717,7 +709,7 @@ namespace test
 		static constexpr uint32_t vk1_2 = VK_MAKE_API_VERSION( 0, 1, 2, 0 );
 		static constexpr uint32_t vk1_3 = VK_MAKE_API_VERSION( 0, 1, 3, 0 );
 
-		uint32_t getMaxSpvVersion( uint32_t vkVersion )
+		static uint32_t getMaxSpvVersion( uint32_t vkVersion )
 		{
 			uint32_t result{ spv1_0 };
 

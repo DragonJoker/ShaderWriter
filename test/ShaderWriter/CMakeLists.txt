@@ -5,243 +5,9 @@ if ( ${CMAKE_VERSION} VERSION_GREATER "3.10.2" )
 endif()
 
 option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
-option( SDW_TESTS_SUBMODULE_GLSLANG "Force use of glslang submodule" OFF )
 
-if ( SDW_TESTS_ENABLE_VALIDATION )
-	set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
-	set( CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "" Release )
-	find_package( OpenGL )
-	find_package( Vulkan )
-
-	set( OptionalCompileDefinitions )
-
-	if ( ( TARGET CompilerGlsl )
-		AND ( OpenGL_FOUND OR OPENGL_FOUND )
-		AND ( WIN32 ) )
-		if ( WIN32 )
-			set( TargetLinkLibraries
-				${TargetLinkLibraries}
-				OpenGL::GL
-			)
-		else ()
-			find_package( X11 )
-			set( TargetLinkLibraries
-				${TargetLinkLibraries}
-				${X11_X11_LIB}
-				OpenGL::GLX
-				OpenGL::OpenGL
-			)
-		endif ()
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasOpenGL=1
-		)
-	endif ()
-
-	if ( ( TARGET CompilerSpirV )
-		AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
-		set( TargetIncludeDirectories
-			${TargetIncludeDirectories}
-			${Vulkan_INCLUDE_DIR}
-		)
-		set( TargetLinkLibraries
-			${TargetLinkLibraries}
-			${Vulkan_LIBRARY}
-		)
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasVulkan=1
-		)
-		if ( SDW_BUILD_VULKAN_LAYER )
-			set( TargetLinkLibraries
-				${TargetLinkLibraries}
-				sdw::VulkanLayer
-			)
-		endif ()
-	endif ()
-
-	if ( ( TARGET CompilerHlsl ) AND WIN32 )
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasDirect3D11=1
-		)
-		find_package( DXC )
-		if ( DXC_FOUND )
-			set( OptionalCompileDefinitions
-				${OptionalCompileDefinitions}
-				SDW_Test_HasDXC=1
-			)
-			set( TargetLinkLibraries
-				${TargetLinkLibraries}
-				DXC::dxc
-			)
-		endif ()
-	endif ()
-endif ()
-
-if ( VCPKG_TOOLCHAIN AND NOT SDW_TESTS_SUBMODULE_GLSLANG )
-	find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
-	get_target_property( glslang_INCLUDE_DIR SPIRV INTERFACE_INCLUDE_DIRECTORIES )
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		OSDependent
-		glslang
-		OGLCompiler
-		SPIRV
-		SPVRemapper
-	)
-elseif ( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang/ )
-	set( glslang_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external )
-	if ( NOT TARGET glslang )
-		set( ENABLE_GLSLANG_BINARIES FALSE CACHE BOOL "Builds glslangValidator and spirv-remap" FORCE )
-		set( ENABLE_AMD_EXTENSIONS FALSE CACHE BOOL "Enables support of AMD-specific extensions" FORCE )
-		set( ENABLE_NV_EXTENSIONS FALSE CACHE BOOL "Enables support of Nvidia-specific extensions" FORCE )
-		set( ENABLE_HLSL FALSE CACHE BOOL "Enables HLSL input support" FORCE )
-		set( ENABLE_CTEST FALSE CACHE BOOL "Enables testing" FORCE )
-		set( BUILD_TESTING OFF )
-		set( SKIP_GLSLANG_INSTALL ON )
-		add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/../../external/glslang ${CMAKE_BINARY_DIR}/external/glslang )
-		set_property( TARGET glslang PROPERTY FOLDER "External/glslang" )
-		set_property( TARGET GenericCodeGen PROPERTY FOLDER "External/glslang" )
-		set_property( TARGET MachineIndependent PROPERTY FOLDER "External/glslang" )
-		set_property( TARGET OGLCompiler PROPERTY FOLDER "External/glslang" )
-		set_property( TARGET OSDependent PROPERTY FOLDER "External/glslang" )
-		set_property( TARGET SPIRV PROPERTY FOLDER "External/glslang" )
-		set_property( TARGET SPVRemapper PROPERTY FOLDER "External/glslang" )
-	endif ()
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		OSDependent
-		glslang
-		OGLCompiler
-		SPIRV
-		SPVRemapper
-	)
-else ()
-	message( FATAL_ERROR "glslang_INCLUDE_DIR couldn't be defined." )
-endif ()
-
-set( SPIRV_TOOLS_DIR
-	${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Tools
-)
-if ( EXISTS ${SPIRV_TOOLS_DIR}/include/spirv-tools/libspirv.hpp )
-	set( SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE )
-	set( SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE )
-	set( SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE )
-	set( SPIRV_WERROR OFF CACHE BOOL "" FORCE )
-	set( SPIRV_WARN_EVERYTHING OFF CACHE BOOL "" FORCE )
-	set( SPIRV-Headers_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Headers )
-	add_subdirectory( ${SPIRV_TOOLS_DIR} ${CMAKE_BINARY_DIR}/external/SPIRV-Tools )
-	set_property( TARGET core_tables PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET enum_string_mapping PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET extinst_tables PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-build-version PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-header-DebugInfo PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-header-NonSemanticShaderDebugInfo100 PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-header-OpenCLDebugInfo100 PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-cldi100 PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-clspvreflection PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-debuginfo PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-shdi100 PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-spv-amd-gs PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-spv-amd-sb PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-spv-amd-sevp PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spv-tools-spv-amd-stm PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-pkg-config PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-shared-pkg-config PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET spirv-tools-vimsyntax PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-diff PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-link PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-lint PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-opt PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-reduce PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-shared PROPERTY FOLDER "External/SPIRV-Tools" )
-	set_property( TARGET SPIRV-Tools-static PROPERTY FOLDER "External/SPIRV-Tools" )
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		SPIRV-Tools-static
-	)
-	set( OptionalCompileDefinitions
-		${OptionalCompileDefinitions}
-		SDW_Test_HasSpirVTools=1
-	)
-elseif ( VCPKG_TOOLCHAIN )
-	find_package( SPIRV-Tools CONFIG )
-	if ( SPIRV-Tools_FOUND )
-		set( TargetLinkLibraries
-			${TargetLinkLibraries}
-			SPIRV-Tools-static
-		)
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasSpirVTools=1
-		)
-	endif ()
-else ()
-	find_package( SPIRV-Tools )
-	if ( SPIRV-Tools_FOUND )
-		set( TargetLinkLibraries
-			${TargetLinkLibraries}
-			SPIRV-Tools
-		)
-		set( OptionalCompileDefinitions
-			${OptionalCompileDefinitions}
-			SDW_Test_HasSpirVTools=1
-		)
-	endif ()
-endif ()
-
-set( SPIRV_CROSS_DIR
-	${CMAKE_CURRENT_SOURCE_DIR}/../../external/SPIRV-Cross
-)
-if ( EXISTS ${SPIRV_CROSS_DIR}/spirv.hpp )
-	set( SPIRV_CROSS_HEADER_FILES
-		${SPIRV_CROSS_DIR}/GLSL.std.450.h
-		${SPIRV_CROSS_DIR}/spirv_common.hpp
-		${SPIRV_CROSS_DIR}/spirv.hpp
-		${SPIRV_CROSS_DIR}/spirv_cross.hpp
-		${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.hpp
-		${SPIRV_CROSS_DIR}/spirv_parser.hpp
-		${SPIRV_CROSS_DIR}/spirv_cfg.hpp
-		${SPIRV_CROSS_DIR}/spirv_glsl.hpp
-		${SPIRV_CROSS_DIR}/spirv_hlsl.hpp
-	)
-	set( SPIRV_CROSS_SOURCE_FILES
-		${SPIRV_CROSS_DIR}/spirv_cross.cpp
-		${SPIRV_CROSS_DIR}/spirv_cross_parsed_ir.cpp
-		${SPIRV_CROSS_DIR}/spirv_parser.cpp
-		${SPIRV_CROSS_DIR}/spirv_cfg.cpp
-		${SPIRV_CROSS_DIR}/spirv_glsl.cpp
-		${SPIRV_CROSS_DIR}/spirv_hlsl.cpp
-	)
-	add_library( SdwSpirvCross
-		STATIC
-		${SPIRV_CROSS_HEADER_FILES}
-		${SPIRV_CROSS_SOURCE_FILES}
-	)
-	add_library( sdw::test::SpirvCross
-		ALIAS
-		SdwSpirvCross
-	)
-	target_include_directories( SdwSpirvCross
-		PUBLIC
-			${SPIRV_CROSS_DIR}
-	)
-	set_target_properties( SdwSpirvCross
-		PROPERTIES
-			CXX_STANDARD 20
-			FOLDER "Tests/ShaderWriter"
-	)
-	set( TargetLinkLibraries
-		${TargetLinkLibraries}
-		sdw::test::SpirvCross
-	)
-	set( OptionalCompileDefinitions
-		${OptionalCompileDefinitions}
-		SDW_Test_HasSpirVCross=1
-	)
-endif ()
-
+find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
+find_package( Threads REQUIRED )
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
@@ -271,25 +37,72 @@ target_link_libraries( TestWriterCommon
 		sdw::ShaderWriter
 		sdw::test::Common
 		${BinLibraries}
-		${TargetLinkLibraries}
-)
-target_compile_definitions( TestWriterCommon
-	PUBLIC
-		${OptionalCompileDefinitions}
-)
-target_include_directories( TestWriterCommon
-	PUBLIC
-		${GLSLANG_DIR}
-		${glslang_INCLUDE_DIR}
+		glslang::OSDependent
+		glslang::glslang
+		glslang::OGLCompiler
+		glslang::SPIRV
+		glslang::SPVRemapper
+		Threads::Threads
 )
 target_add_compilation_flags( TestWriterCommon )
+
+if ( SDW_TESTS_ENABLE_VALIDATION )
+	set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
+	set( CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "" Release )
+	find_package( OpenGL )
+	find_package( Vulkan )
+
+	if ( ( TARGET CompilerGlsl )
+		AND ( OpenGL_FOUND OR OPENGL_FOUND )
+		AND ( WIN32 ) )
+		if ( WIN32 )
+			target_link_libraries( TestWriterCommon PUBLIC OpenGL::GL )
+		else ()
+			find_package( X11 )
+			target_link_libraries( TestWriterCommon PUBLIC ${X11_X11_LIB} OpenGL::GLX OpenGL::OpenGL )
+		endif ()
+		target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasOpenGL=1 )
+	endif ()
+
+	if ( ( TARGET CompilerSpirV )
+		AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
+		target_include_directories( TestWriterCommon PUBLIC ${Vulkan_INCLUDE_DIR} )
+		target_link_libraries( TestWriterCommon PUBLIC ${Vulkan_LIBRARY} )
+		target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasVulkan=1 )
+		if ( SDW_BUILD_VULKAN_LAYER )
+			target_link_libraries( TestWriterCommon PUBLIC sdw::VulkanLayer )
+		endif ()
+	endif ()
+
+	if ( ( TARGET CompilerHlsl ) AND WIN32 )
+		target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasDirect3D11=1 )
+		find_package( DXC )
+		if ( DXC_FOUND )
+			target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasDXC=1 )
+			target_link_libraries( TestWriterCommon PUBLIC DXC::dxc )
+		endif ()
+	endif ()
+endif ()
 set_target_properties( TestWriterCommon
 	PROPERTIES
 		CXX_STANDARD 20
 		FOLDER "Tests/ShaderWriter"
 )
+find_package( spirv_cross_core CONFIG )
+find_package( spirv_cross_glsl CONFIG )
+find_package( spirv_cross_hlsl CONFIG )
+if ( spirv_cross_core AND spirv_cross_glsl AND spirv_cross_hlsl )
+	target_link_libraries( TestWriterCommon PUBLIC spirv-cross-core spirv-cross-glsl spirv-cross-hlsl )
+	target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasSpirVCross=1 )
+endif ()
+
+find_package( SPIRV-Tools CONFIG )
+if ( SPIRV-Tools_FOUND )
+	target_link_libraries( TestWriterCommon PUBLIC SPIRV-Tools-static )
+	target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasSpirVTools=1 )
+endif ()
+
 set( TargetLinkLibraries
-	sdw::test::WriterCommon
 )
 
 if ( PROJECTS_COVERAGE )
@@ -404,13 +217,9 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 		${TEST_FILE}
 	)
 	target_link_libraries( ${REAL_TEST_NAME} PRIVATE
-		${TargetLinkLibraries}
-	)
-	target_include_directories( ${REAL_TEST_NAME} PRIVATE
-		${TargetIncludeDirectories}
+		sdw::test::WriterCommon
 	)
 	target_compile_definitions( ${REAL_TEST_NAME} PRIVATE
-		${TargetCompileDefinitions}
 		${ADDITIONAL_DEFINITIONS}
 		SDW_COMPILE_TESTS
 	)

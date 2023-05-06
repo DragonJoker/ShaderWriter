@@ -5,6 +5,7 @@
 /doc/coverage
 /doc/x86
 /doc/x64
+/vcpkg_installed
 /.gitattributes
 *.csproj
 *.user

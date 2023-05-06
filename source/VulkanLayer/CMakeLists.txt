@@ -36,7 +36,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 		${SOURCE_DIR}/ShaderDataPtr.cpp
 		${SOURCE_DIR}/VulkanLayer.cpp
 	)
-	
+
 	if ( ${PROJECTS_UNITY_BUILD} )
 		file( GLOB ${PROJECT_NAME}_FOLDER_SRC_FILES
 			${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/Unity/*.cxx
@@ -72,7 +72,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 			CXX_STANDARD 20
 			PREFIX sdw
 			FOLDER "${SDW_BASE_DIR}/Core"
-			UNITY_BUILD "${SDW_UNITY_BUILD}"
+			UNITY_BUILD "${PROJECTS_UNITY_BUILD}"
 	)
 	target_include_directories( ${PROJECT_NAME}
 		PRIVATE

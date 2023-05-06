@@ -619,7 +619,7 @@ set_target_properties( ${PROJECT_NAME}
 		CXX_STANDARD 20
 		PREFIX ${SDW_LIB_PREFIX}
 		FOLDER "${SDW_BASE_DIR}/Core"
-		UNITY_BUILD "${SDW_UNITY_BUILD}"
+		UNITY_BUILD "${PROJECTS_UNITY_BUILD}"
 )
 target_add_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}/ShaderASTPch.hpp

@@ -6,6 +6,9 @@ See LICENSE file in root folder
 
 #include "VulkanLayer.hpp"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
 namespace ast::vk
 {
 	template< typename AshesType >
@@ -908,5 +911,7 @@ namespace ast::vk
 			, std::forward< ParamsT >( params )... };
 	}
 }
+
+#pragma GCC diagnostic pop
 
 #endif
