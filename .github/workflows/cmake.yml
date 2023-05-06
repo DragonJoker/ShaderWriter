@@ -19,61 +19,67 @@ jobs:
       matrix:
         os: [[windows-latest,x64-windows,msvc]]
         buildType: [Release]
-
     runs-on: ${{ matrix.os[0] }}
-
     steps:
     - uses: actions/checkout@v2
-
     - name: Checkout submodules
       run: |
         git submodule update --init -- "CMake"
-        git submodule update --init -- "external/glslang"
-        git submodule update --init -- "external/SPIRV-Cross"
-        git submodule update --init -- "external/SPIRV-Headers"
-        git submodule update --init -- "external/SPIRV-Tools"
-
+        git submodule update --init -- "external/vcpkg"
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v10
+      with:
+        vcpkgDirectory: '${{ github.workspace }}/external/vcpkg'
+        vcpkgJsonGlob: 'vcpkg.json'
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
-
+      run: |
+        cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
     - name: Configure Warnings as errors (OFF)
-      if: github.event_name == 'push'
+      if: (github.event_name == 'push')
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: echo "PROJ_WAE=OFF" >> $GITHUB_ENV
-
+      run: |
+        echo "PROJ_WAE=OFF" >> $GITHUB_ENV
     - name: Configure Warnings as errors (ON)
-      if: github.event_name != 'push'
+      if: (github.event_name != 'push')
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: echo "PROJ_WAE=ON" >> $GITHUB_ENV
-
+      run: |
+        echo "PROJ_WAE=ON" >> $GITHUB_ENV
     - name: Configure CMake
+      id: configure
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
-
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/external/vcpkg/scripts/buildsystems/vcpkg.cmake -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
     - name: Build
+      if: (steps.configure.conclusion == 'success')
+      id: build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: cmake --build . --parallel 2 --config ${{ matrix.buildType }}
-
+      run: |
+        cmake --build . --parallel 2 --config ${{ matrix.buildType }}
     - name: Test
+      if: (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: ctest -C ${{ matrix.buildType }}
-
-    - name: Prepare package
-      if: github.event_name == 'push'
+      run: |
+        ctest -C ${{ matrix.buildType }}
+    - name: Prepare success package
+      if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: |
         cmake --install . --config ${{ matrix.buildType }}
-        cmake --build . --config ${{ matrix.buildType }} --target clean
         7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
-
-    - name: Upload package
-      if: github.event_name == 'push'
+    - name: Clean build folder
+      if: (steps.build.conclusion == 'success')
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: |
+        cmake --build . --config ${{ matrix.buildType }} --target clean
+    - name: Upload success package
+      if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       uses: actions/upload-artifact@v2
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip
@@ -85,52 +91,61 @@ jobs:
       matrix:
         os: [[macos-latest,x64-osx,clang]]
         buildType: [Release]
-
     runs-on: ${{ matrix.os[0] }}
-
     steps:
     - uses: actions/checkout@v2
-
     - name: Checkout submodules
       run: |
         git submodule update --init -- "CMake"
-
+        git submodule update --init -- "external/vcpkg"
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v10
+      with:
+        vcpkgDirectory: '${{ github.workspace }}/external/vcpkg'
+        vcpkgJsonGlob: 'vcpkg.json'
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
-
+      run: |
+        cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
     - name: Configure Warnings as errors (OFF)
-      if: github.event_name == 'push'
+      if: (github.event_name == 'push')
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: echo "PROJ_WAE=OFF" >> $GITHUB_ENV
-
+      run: |
+        echo "PROJ_WAE=OFF" >> $GITHUB_ENV
     - name: Configure Warnings as errors (ON)
-      if: github.event_name != 'push'
+      if: (github.event_name != 'push')
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: echo "PROJ_WAE=ON" >> $GITHUB_ENV
-
+      run: |
+        echo "PROJ_WAE=ON" >> $GITHUB_ENV
     - name: Configure CMake
+      id: configure
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
-
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/external/vcpkg/scripts/buildsystems/vcpkg.cmake -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=OFF
     - name: Build
+      if: (steps.configure.conclusion == 'success')
+      id: build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: cmake --build . --parallel 2 --config ${{ matrix.buildType }}
-
-    - name: Prepare package
-      if: github.event_name == 'push'
+      run: |
+        cmake --build . --parallel 2 --config ${{ matrix.buildType }}
+    - name: Prepare success package
+      if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: |
         cmake --install . --config ${{ matrix.buildType }}
-        cmake --build . --config ${{ matrix.buildType }} --target clean
         7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
-
-    - name: Upload package
-      if: github.event_name == 'push'
+    - name: Clean build folder
+      if: (steps.build.conclusion == 'success')
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: |
+        cmake --build . --config ${{ matrix.buildType }} --target clean
+    - name: Upload success package
+      if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       uses: actions/upload-artifact@v2
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip
@@ -142,69 +157,74 @@ jobs:
       matrix:
         os: [[ubuntu-latest,x64-linux,clang]]
         buildType: [Release]
-
     runs-on: ${{ matrix.os[0] }}
-
     steps:
     - uses: actions/checkout@v2
-
     - name: Checkout submodules
       run: |
         git submodule update --init -- "CMake"
-        git submodule update --init -- "external/glslang"
-        git submodule update --init -- "external/SPIRV-Cross"
-        git submodule update --init -- "external/SPIRV-Headers"
-        git submodule update --init -- "external/SPIRV-Tools"
-
+        git submodule update --init -- "external/vcpkg"
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v10
+      with:
+        vcpkgDirectory: '${{ github.workspace }}/external/vcpkg'
+        vcpkgJsonGlob: 'vcpkg.json'
+    - name: Install necessary Clang++ version
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends ccache clang-14 clang++-14
+        echo "CC=clang-14" >> $GITHUB_ENV
+        echo "CXX=clang++-14" >> $GITHUB_ENV
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
-
+      run: |
+        cmake -E make_directory ${{runner.workspace}}/build-${{ matrix.buildType }}
     - name: Configure Warnings as errors (OFF)
-      if: github.event_name == 'push'
-      shell: bash
-      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: echo "PROJ_WAE=OFF" >> $GITHUB_ENV
-
-    - name: Configure Warnings as errors (ON)
-      if: github.event_name != 'push'
-      shell: bash
-      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: echo "PROJ_WAE=ON" >> $GITHUB_ENV
-
-    - name: Configure Clang
-      if: runner.os == 'Linux' && matrix.os[2] == 'clang'
+      if: (github.event_name == 'push')
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        echo "CC=clang-12" >> $GITHUB_ENV
-        echo "CXX=clang++-12" >> $GITHUB_ENV
-
+        echo "PROJ_WAE=OFF" >> $GITHUB_ENV
+    - name: Configure Warnings as errors (ON)
+      if: (github.event_name != 'push')
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      run: |
+        echo "PROJ_WAE=ON" >> $GITHUB_ENV
     - name: Configure CMake
+      id: configure
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
-
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/external/vcpkg/scripts/buildsystems/vcpkg.cmake -DSDW_TESTS_SUBMODULE_GLSLANG=ON -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF
     - name: Build
+      if: (steps.configure.conclusion == 'success')
+      id: build
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: cmake --build . --parallel 2 --config ${{ matrix.buildType }}
-
+      run: |
+        cmake --build . --parallel 2 --config ${{ matrix.buildType }}
     - name: Test
+      if: (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
-      run: ctest -C ${{ matrix.buildType }}
-
-    - name: Prepare package
-      if: github.event_name == 'push'
+      run: |
+        ctest -C ${{ matrix.buildType }}
+    - name: Prepare success package
+      if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       shell: bash
       run: |
         cmake --install . --config ${{ matrix.buildType }}
-        cmake --build . --config ${{ matrix.buildType }} --target clean
         7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
-
-    - name: Upload package
-      if: github.event_name == 'push'
+    - name: Clean build folder
+      if: (steps.build.conclusion == 'success')
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: |
+        cmake --build . --config ${{ matrix.buildType }} --target clean
+    - name: Upload success package
+      if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       uses: actions/upload-artifact@v2
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip

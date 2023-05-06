@@ -20,6 +20,7 @@ See LICENSE file in root folder
 #pragma warning( pop )
 
 #pragma GCC diagnostic ignored "-Wrestrict"
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
 
 namespace ast::debug
 {

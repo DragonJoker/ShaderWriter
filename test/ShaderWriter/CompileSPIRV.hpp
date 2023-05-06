@@ -3,8 +3,11 @@
 #include "WriterCommon.hpp"
 
 #if SDW_Test_HasVulkan && SDW_HasVulkanLayer
-#	include "./vulkan/vulkan.h"
+#	pragma GCC diagnostic push
+#	pragma GCC diagnostic ignored "-Wold-style-cast"
+#	include <vulkan/vulkan.h>
 #	include <VulkanLayer/VulkanLayer.hpp>
+#	pragma GCC diagnostic pop
 #endif
 
 namespace test

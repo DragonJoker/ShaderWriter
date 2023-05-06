@@ -1,0 +1,79 @@
+{
+	"version": 3,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 21,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "user-base",
+			"hidden": true,
+			"installDir": "${sourceDir}/package/ShaderWriter",
+			"cacheVariables": {
+				"SDW_BUILD_EXPORTERS": true,
+				"SDW_BUILD_EXPORTER_GLSL": true,
+				"SDW_BUILD_EXPORTER_HLSL": true,
+				"SDW_BUILD_EXPORTER_SPIRV": true,
+				"SDW_BUILD_TESTS": false,
+				"SDW_BUILD_VULKAN_LAYER": true,
+				"SDW_BUILD_STATIC_EXPORTERS": false,
+				"SDW_BUILD_STATIC_SDAST": false,
+				"SDW_BUILD_STATIC_SDW": false,
+				"SDW_BUILD_STATIC": false,
+				"SDW_GENERATE_SOURCE": false,
+				"SDW_UNITY_BUILD": true,
+				"PROJECTS_OUTPUT_DIR": "${sourceDir}"
+			}
+		},
+		{
+			"name": "user-msvc",
+			"displayName": "ShaderWriter User Visual Studio Config",
+			"description": "Build configuration using Visual Studio, for ShaderWriter users",
+			"inherits": "user-base",
+			"generator": "Visual Studio 17 2022"
+		},
+		{
+			"name": "user-ninja",
+			"displayName": "ShaderWriter User Ninja Config",
+			"description": "Build configuration using Ninja, for ShaderWriter users",
+			"inherits": "user-base",
+			"generator": "Ninja"
+		},
+		{
+			"name": "dev-base",
+			"hidden": true,
+			"installDir": "${sourceDir}/package/ShaderWriter",
+			"cacheVariables": {
+				"SDW_BUILD_EXPORTERS": true,
+				"SDW_BUILD_EXPORTER_GLSL": true,
+				"SDW_BUILD_EXPORTER_HLSL": true,
+				"SDW_BUILD_EXPORTER_SPIRV": true,
+				"SDW_BUILD_TESTS": true,
+				"SDW_BUILD_VULKAN_LAYER": true,
+				"SDW_BUILD_STATIC_EXPORTERS": false,
+				"SDW_BUILD_STATIC_SDAST": false,
+				"SDW_BUILD_STATIC_SDW": false,
+				"SDW_BUILD_STATIC": false,
+				"SDW_GENERATE_SOURCE": true,
+				"SDW_UNITY_BUILD": false,
+				"PROJECTS_WARNINGS_AS_ERRORS": true,
+				"PROJECTS_OUTPUT_DIR": "${sourceDir}"
+			}
+		},
+		{
+			"name": "dev-msvc",
+			"displayName": "ShaderWriter Developer Visual Studio Config",
+			"description": "Build configuration using Visual Studio, for ShaderWriter developers",
+			"inherits": "dev-base",
+			"generator": "Visual Studio 17 2022"
+		},
+		{
+			"name": "dev-ninja",
+			"displayName": "ShaderWriter Developer Ninja Config",
+			"description": "Build configuration using Ninja, for ShaderWriter developers",
+			"inherits": "dev-base",
+			"generator": "Ninja"
+		}
+	]
+}

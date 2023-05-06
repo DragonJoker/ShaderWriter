@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "shaderwriter",
+  "version": "2.6.1",
+  "builtin-baseline": "6accd15d644e93cec849ea346a147828437928b3",
+  "default-features": [
+    "glsl",
+    "hlsl",
+    "spirv",
+    "tests",
+    "vklayer"
+  ],
+  "features": {
+    "glsl": {
+      "description": "Compiles GLSL exporter."
+    },
+    "hlsl": {
+      "description": "Compiles HLSL exporter."
+    },
+    "spirv": {
+      "description": "Compiles SPIR-V exporter."
+    },
+    "tests": {
+      "description": "Unit tests.",
+      "dependencies": [
+        "glslang",
+        "spirv-cross",
+        "spirv-tools"
+      ]
+    },
+    "vklayer": {
+      "description": "Unit tests.",
+      "dependencies": [
+        "vulkan-headers"
+      ]
+    }
+  }
+}

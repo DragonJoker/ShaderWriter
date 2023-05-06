@@ -41,8 +41,6 @@ endif ()
 set( CMAKE_TEMPLATES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CMake/Templates )
 set( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
-set( CMAKE_POSITION_INDEPENDENT_CODE ON )
-
 include( PrecompiledHeaders )
 
 set( CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo" CACHE STRING "The configuration types" FORCE )

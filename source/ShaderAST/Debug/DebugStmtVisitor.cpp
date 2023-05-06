@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Debug/DebugExprVisitor.hpp"
 
 #pragma GCC diagnostic ignored "-Wrestrict"
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
 
 namespace ast::debug
 {

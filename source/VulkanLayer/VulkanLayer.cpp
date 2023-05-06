@@ -110,6 +110,14 @@ namespace ast::vk
 #if VK_HEADER_VERSION < 140
 		case VK_RESULT_RANGE_SIZE: stream << "vk_result_range_size"; break;
 #endif
+#if VK_KHR_video_queue
+		case VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR: stream << "vk_error_image_usage_not_supported"; break;
+		case VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR: stream << "vk_error_video_picture_layout_not_supported"; break;
+		case VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR: stream << "vk_error_video_profile_operation_not_supported"; break;
+		case VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR: stream << "vk_error_video_profile_format_not_supported"; break;
+		case VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR: stream << "vk_error_video_profile_codec_not_supported"; break;
+		case VK_ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR: stream << "vk_error_video_std_version_not_supported"; break;
+#endif
 		case VK_RESULT_MAX_ENUM: stream << "vk_result_max_enum"; break;
 		}
 
