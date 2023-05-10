@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_ComputeWriter_H___
 
 #include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 namespace sdw
 {
@@ -185,6 +186,11 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename DataT >
 		inline void implementMainT( SubgroupInT< DataT > in
 			, SubgroupMainFuncT< DataT > const & function );
+
+		void barrier()
+		{
+			sdw::barrier( *this );
+		}
 	};
 	/**@}*/
 }

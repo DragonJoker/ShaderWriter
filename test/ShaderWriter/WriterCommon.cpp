@@ -824,6 +824,7 @@ namespace test
 							if ( config.specVersion >= spirv::v1_1 )
 							{
 								extensions.emplace( spirv::KHR_16bit_storage );
+								extensions.emplace( spirv::KHR_shader_ballot );
 							}
 
 							config.availableExtensions = &extensions;

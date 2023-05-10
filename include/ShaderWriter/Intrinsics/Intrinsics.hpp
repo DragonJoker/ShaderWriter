@@ -197,6 +197,122 @@ namespace sdw
 	{
 		return dmat4x4( std::forward< ValuesT >( values )... );
 	}
+
+	// Idiomatic SPIR-V style.
+	SDW_API RetVoid controlBarrier( ShaderWriter & writer
+		, type::Scope executionScope
+		, type::Scope memoryScope
+		, type::MemorySemantics semantics );
+	SDW_API RetVoid memoryBarrier( ShaderWriter & writer
+		, type::Scope memoryScope
+		, type::MemorySemantics semantics );
+
+	// Old school GLSL style.
+	inline RetVoid barrier( ShaderWriter & writer )
+	{
+		if ( getShader( writer ).getType() == ast::ShaderStage::eCompute )
+		{
+			return controlBarrier( writer
+				, type::Scope::eWorkgroup
+				, type::Scope::eWorkgroup
+				, ( type::MemorySemanticsMask::eAcquireRelease
+					| type::MemorySemanticsMask::eWorkgroupMemory ) );
+		}
+
+		return controlBarrier( writer
+			, type::Scope::eWorkgroup
+			, type::Scope::eInvocation
+			, ( type::MemorySemanticsMask::eNone ) );
+	}
+
+	inline RetVoid memoryBarrier( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eDevice
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eUniformMemory
+				| type::MemorySemanticsMask::eWorkgroupMemory
+				| type::MemorySemanticsMask::eImageMemory ) );
+	}
+
+	inline RetVoid memoryBarrierBuffer( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eDevice
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eUniformMemory ) );
+	}
+
+	inline RetVoid memoryBarrierShared( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eDevice
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eWorkgroupMemory ) );
+	}
+
+	inline RetVoid memoryBarrierImage( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eDevice
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eImageMemory ) );
+	}
+
+	inline RetVoid groupMemoryBarrier( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eWorkgroup
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eUniformMemory
+				| type::MemorySemanticsMask::eWorkgroupMemory
+				| type::MemorySemanticsMask::eImageMemory ) );
+	}
+
+	inline RetVoid subgroupBarrier( ShaderWriter & writer )
+	{
+		return controlBarrier( writer
+			, type::Scope::eSubgroup
+			, type::Scope::eSubgroup
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eUniformMemory
+				| type::MemorySemanticsMask::eWorkgroupMemory
+				| type::MemorySemanticsMask::eImageMemory ) );
+	}
+
+	inline RetVoid subgroupMemoryBarrier( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eSubgroup
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eUniformMemory
+				| type::MemorySemanticsMask::eWorkgroupMemory
+				| type::MemorySemanticsMask::eImageMemory ) );
+	}
+
+	inline RetVoid subgroupMemoryBarrierBuffer( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eSubgroup
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eUniformMemory ) );
+	}
+
+	inline RetVoid subgroupMemoryBarrierShared( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eSubgroup
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eWorkgroupMemory ) );
+	}
+
+	inline RetVoid subgroupMemoryBarrierImage( ShaderWriter & writer )
+	{
+		return memoryBarrier( writer
+			, type::Scope::eSubgroup
+			, ( type::MemorySemanticsMask::eAcquireRelease
+				| type::MemorySemanticsMask::eImageMemory ) );
+	}
 }
 
 #include "Intrinsics.inl"

@@ -149,6 +149,16 @@ namespace sdw
 		return true;
 	}
 
+	inline bool isOptionalEnabled( type::Scope const & value )
+	{
+		return true;
+	}
+
+	inline bool isOptionalEnabled( type::MemorySemantics const & value )
+	{
+		return true;
+	}
+
 	inline bool isOptionalEnabled( ShaderWriter const & value )
 	{
 		return true;

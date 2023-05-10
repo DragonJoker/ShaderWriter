@@ -11443,18 +11443,7 @@ namespace ast::expr
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
 			, Intrinsic::eEndPrimitive );
 	}
-	// Shader Invocation Control Functions
-
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeBarrier( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eBarrier );
-	}
-	// Miscellaneous FUnctions
+	// Miscellaneous Functions
 
 	/**
 	*@return
@@ -11465,53 +11454,8 @@ namespace ast::expr
 		return makeIntrinsicCall( cache.getBasicType( type::Kind::eBoolean )
 			, Intrinsic::eHelperInvocation );
 	}
-	// Shader Memory Control Functions
+	// Shader Invocation and Memory Control Functions
 
-	/**
-	*@return
-	*	uint32
-	*/
-	inline IntrinsicCallPtr makeMemoryBarrier( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eUInt32 )
-			, Intrinsic::eMemoryBarrier );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeMemoryBarrierBuffer( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eMemoryBarrierBuffer );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeMemoryBarrierShared( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eMemoryBarrierShared );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeMemoryBarrierImage( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eMemoryBarrierImage );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeGroupMemoryBarrier( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eGroupMemoryBarrier );
-	}
 	// Ray tracing Shader Functions
 
 	/**
@@ -11688,51 +11632,6 @@ namespace ast::expr
 	}
 	//Shader Subgroup Functions
 
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeSubgroupBarrier( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eSubgroupBarrier );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeSubgroupMemoryBarrier( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eSubgroupMemoryBarrier );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeSubgroupMemoryBarrierBuffer( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eSubgroupMemoryBarrierBuffer );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeSubgroupMemoryBarrierShared( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eSubgroupMemoryBarrierShared );
-	}
-	/**
-	*@return
-	*	void
-	*/
-	inline IntrinsicCallPtr makeSubgroupMemoryBarrierImage( type::TypesCache & cache )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eSubgroupMemoryBarrierImage );
-	}
 	/**
 	*@return
 	*	boolean

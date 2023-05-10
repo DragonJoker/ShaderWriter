@@ -177,6 +177,8 @@ namespace ast::expr
 	expr::LiteralPtr replaceLiterals( type::TypesCache & cache
 		, expr::Literal const & lhs
 		, expr::Literal const & rhs );
+	template< LiteralType T >
+	LiteralValueType< T > getLiteralValue( ExprPtr const & expr );
 
 	SDAST_API LiteralPtr operator~( Literal const & operand );
 	SDAST_API LiteralPtr operator|( Literal const & lhs, Literal const & rhs );

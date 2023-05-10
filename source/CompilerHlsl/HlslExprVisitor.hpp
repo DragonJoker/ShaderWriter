@@ -15,11 +15,13 @@ namespace hlsl
 		: public ast::expr::SimpleVisitor
 	{
 	public:
-		static std::string submit( ast::expr::Expr * expr
+		static std::string submit( HlslConfig const & writerConfig
+			, ast::expr::Expr * expr
 			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases );
 
 	private:
-		ExprVisitor( std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+		ExprVisitor( HlslConfig const & writerConfig
+			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string & result );
 		std::string doSubmit( ast::expr::Expr * expr );
 		void wrap( ast::expr::Expr * expr );
@@ -62,6 +64,7 @@ namespace hlsl
 		void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr );
 
 	private:
+		HlslConfig const & m_writerConfig;
 		std::string & m_result;
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 	};

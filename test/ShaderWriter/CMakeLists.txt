@@ -4,6 +4,7 @@ if ( ${CMAKE_VERSION} VERSION_GREATER "3.10.2" )
 	cmake_policy( SET CMP0072 NEW )
 endif()
 
+option( SDW_ALL_TESTS "Builds all tests (relative to data type and image pixel formats)" ON )
 option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
 
 find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
@@ -112,93 +113,123 @@ if ( PROJECTS_COVERAGE )
 	)
 endif ()
 
-set( IMAGE_FORMATS
-	eRgba32f
-	eRgba16f
-	eRg32f
-	eRg16f
-	eR32f
-	eR16f
-	eRgba32i
-	eRgba16i
-	eRgba8i
-	eRg32i
-	eRg16i
-	eRg8i
-	eR32i
-	eR16i
-	eR8i
-	eRgba32u
-	eRgba16u
-	eRgba8u
-	eRg32u
-	eRg16u
-	eRg8u
-	eR32u
-	eR16u
-	eR8u
-)
+if ( SDW_ALL_TESTS )
+	set( IMAGE_FORMATS
+		eRgba32f
+		eRgba16f
+		eRg32f
+		eRg16f
+		eR32f
+		eR16f
+		eRgba32i
+		eRgba16i
+		eRgba8i
+		eRg32i
+		eRg16i
+		eRg8i
+		eR32i
+		eR16i
+		eR8i
+		eRgba32u
+		eRgba16u
+		eRgba8u
+		eRg32u
+		eRg16u
+		eRg8u
+		eR32u
+		eR16u
+		eR8u
+	)
 
-set( BO_TYPES
-	Int8
-	Int16
-	Int32
-	Int64
-	UInt8
-	UInt16
-	UInt32
-	UInt64
-	Float
-	Double
-	Vec2
-	Vec3
-	Vec4
-	DVec2
-	DVec3
-	DVec4
-	I8Vec2
-	I8Vec3
-	I8Vec4
-	I16Vec2
-	I16Vec3
-	I16Vec4
-	I32Vec2
-	I32Vec3
-	I32Vec4
-	I64Vec2
-	I64Vec3
-	I64Vec4
-	U8Vec2
-	U8Vec3
-	U8Vec4
-	U16Vec2
-	U16Vec3
-	U16Vec4
-	U32Vec2
-	U32Vec3
-	U32Vec4
-	U64Vec2
-	U64Vec3
-	U64Vec4
-	Mat2x2
-	Mat2x3
-	Mat2x4
-	Mat3x2
-	Mat3x3
-	Mat3x4
-	Mat4x2
-	Mat4x3
-	Mat4x4
-	DMat2x2
-	DMat2x3
-	DMat2x4
-	DMat3x2
-	DMat3x3
-	DMat3x4
-	DMat4x2
-	DMat4x3
-	DMat4x4
-)
+	set( BO_TYPES
+		Int8
+		Int16
+		Int32
+		Int64
+		UInt8
+		UInt16
+		UInt32
+		UInt64
+		Float
+		Double
+		Vec2
+		Vec3
+		Vec4
+		DVec2
+		DVec3
+		DVec4
+		I8Vec2
+		I8Vec3
+		I8Vec4
+		I16Vec2
+		I16Vec3
+		I16Vec4
+		I32Vec2
+		I32Vec3
+		I32Vec4
+		I64Vec2
+		I64Vec3
+		I64Vec4
+		U8Vec2
+		U8Vec3
+		U8Vec4
+		U16Vec2
+		U16Vec3
+		U16Vec4
+		U32Vec2
+		U32Vec3
+		U32Vec4
+		U64Vec2
+		U64Vec3
+		U64Vec4
+		Mat2x2
+		Mat2x3
+		Mat2x4
+		Mat3x2
+		Mat3x3
+		Mat3x4
+		Mat4x2
+		Mat4x3
+		Mat4x4
+		DMat2x2
+		DMat2x3
+		DMat2x4
+		DMat3x2
+		DMat3x3
+		DMat3x4
+		DMat4x2
+		DMat4x3
+		DMat4x4
+	)
+else ()
+	set( IMAGE_FORMATS
+		eRgba32f
+		eRg16f
+		eR32f
+		eRgba16i
+		eRg8i
+		eR32i
+		eRgba8u
+		eRg32u
+		eR16u
+	)
+
+	set( BO_TYPES
+		Int8
+		UInt16
+		Float
+		Vec4
+		DVec3
+		I8Vec2
+		I16Vec3
+		I32Vec4
+		U64Vec2
+		Mat2x3
+		Mat4x4
+		DMat3x2
+		DMat3x3
+	)
+endif ()
 
 function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	set( REAL_TEST_NAME ${TEST_NAME}${NAME_SUFFIX} )

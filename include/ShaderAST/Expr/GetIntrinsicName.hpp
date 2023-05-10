@@ -2692,37 +2692,19 @@ namespace ast::expr
 			break;
 
 
-	// Shader Invocation Control Functions
-		case Intrinsic::eBarrier:
-			result = "BARRIER";
-			break;
-
-
-	// Miscellaneous FUnctions
+	// Miscellaneous Functions
 		case Intrinsic::eHelperInvocation:
 			result = "HELPERINVOCATION";
 			break;
 
 
-	// Shader Memory Control Functions
+	// Shader Invocation and Memory Control Functions
+		case Intrinsic::eControlBarrier:
+			result = "CONTROLBARRIER";
+			break;
+
 		case Intrinsic::eMemoryBarrier:
 			result = "MEMORYBARRIER";
-			break;
-
-		case Intrinsic::eMemoryBarrierBuffer:
-			result = "MEMORYBARRIERBUFFER";
-			break;
-
-		case Intrinsic::eMemoryBarrierShared:
-			result = "MEMORYBARRIERSHARED";
-			break;
-
-		case Intrinsic::eMemoryBarrierImage:
-			result = "MEMORYBARRIERIMAGE";
-			break;
-
-		case Intrinsic::eGroupMemoryBarrier:
-			result = "GROUPMEMORYBARRIER";
 			break;
 
 
@@ -2761,26 +2743,6 @@ namespace ast::expr
 
 
 	//Shader Subgroup Functions
-		case Intrinsic::eSubgroupBarrier:
-			result = "SUBGROUPBARRIER";
-			break;
-
-		case Intrinsic::eSubgroupMemoryBarrier:
-			result = "SUBGROUPMEMORYBARRIER";
-			break;
-
-		case Intrinsic::eSubgroupMemoryBarrierBuffer:
-			result = "SUBGROUPMEMORYBARRIERBUFFER";
-			break;
-
-		case Intrinsic::eSubgroupMemoryBarrierShared:
-			result = "SUBGROUPMEMORYBARRIERSHARED";
-			break;
-
-		case Intrinsic::eSubgroupMemoryBarrierImage:
-			result = "SUBGROUPMEMORYBARRIERIMAGE";
-			break;
-
 		case Intrinsic::eSubgroupElect:
 			result = "SUBGROUPELECT";
 			break;

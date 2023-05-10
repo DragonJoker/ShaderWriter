@@ -4,6 +4,7 @@ See LICENSE file in root folder
 /*
 This file is generated, don't modify it!
 */
+#include "ShaderWriter/Helpers.hpp"
 #include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 #include "ShaderWriter/BaseTypes/Void.hpp"
 #include "ShaderWriter/BaseTypes/Array.hpp"
@@ -6409,20 +6410,6 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region barrier
-	/**
-	*name
-	*	barrier
-	*/
-	/**@{*/
-	RetVoid barrier( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeBarrier( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
 #pragma region helperInvocation
 	/**
 	*name
@@ -6437,73 +6424,39 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region controlBarrier
+	/**
+	*name
+	*	controlBarrier
+	*/
+	/**@{*/
+	RetVoid controlBarrier( type::Scope  executionScope
+		, type::Scope  memoryScope
+		, type::MemorySemantics  semantics )
+	{
+		return RetVoid{ *findWriter( executionScope, memoryScope, semantics )
+			, expr::makeControlBarrier( findTypesCache( executionScope, memoryScope, semantics )
+					, executionScope
+				, memoryScope
+				, semantics )
+			, areOptionalEnabled( executionScope, memoryScope, semantics ) };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region memoryBarrier
 	/**
 	*name
 	*	memoryBarrier
 	*/
 	/**@{*/
-	RetUInt32 memoryBarrier( ShaderWriter & writer )
+	RetVoid memoryBarrier( type::Scope  memoryScope
+		, type::MemorySemantics  semantics )
 	{
-		return RetUInt32{ *findWriter( writer )
-			, expr::makeMemoryBarrier( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region memoryBarrierBuffer
-	/**
-	*name
-	*	memoryBarrierBuffer
-	*/
-	/**@{*/
-	RetVoid memoryBarrierBuffer( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeMemoryBarrierBuffer( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region memoryBarrierShared
-	/**
-	*name
-	*	memoryBarrierShared
-	*/
-	/**@{*/
-	RetVoid memoryBarrierShared( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeMemoryBarrierShared( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region memoryBarrierImage
-	/**
-	*name
-	*	memoryBarrierImage
-	*/
-	/**@{*/
-	RetVoid memoryBarrierImage( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeMemoryBarrierImage( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region groupMemoryBarrier
-	/**
-	*name
-	*	groupMemoryBarrier
-	*/
-	/**@{*/
-	RetVoid groupMemoryBarrier( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeGroupMemoryBarrier( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
+		return RetVoid{ *findWriter( memoryScope, semantics )
+			, expr::makeMemoryBarrier( findTypesCache( memoryScope, semantics )
+					, memoryScope
+				, semantics )
+			, areOptionalEnabled( memoryScope, semantics ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -6637,76 +6590,6 @@ namespace sdw
 					, makeExpr( numVertices )
 				, makeExpr( numPrimitives ) )
 			, areOptionalEnabled( numVertices, numPrimitives ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region subgroupBarrier
-	/**
-	*name
-	*	subgroupBarrier
-	*/
-	/**@{*/
-	RetVoid subgroupBarrier( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeSubgroupBarrier( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrier
-	/**
-	*name
-	*	subgroupMemoryBarrier
-	*/
-	/**@{*/
-	RetVoid subgroupMemoryBarrier( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeSubgroupMemoryBarrier( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrierBuffer
-	/**
-	*name
-	*	subgroupMemoryBarrierBuffer
-	*/
-	/**@{*/
-	RetVoid subgroupMemoryBarrierBuffer( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeSubgroupMemoryBarrierBuffer( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrierShared
-	/**
-	*name
-	*	subgroupMemoryBarrierShared
-	*/
-	/**@{*/
-	RetVoid subgroupMemoryBarrierShared( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeSubgroupMemoryBarrierShared( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrierImage
-	/**
-	*name
-	*	subgroupMemoryBarrierImage
-	*/
-	/**@{*/
-	RetVoid subgroupMemoryBarrierImage( ShaderWriter & writer )
-	{
-		return RetVoid{ *findWriter( writer )
-			, expr::makeSubgroupMemoryBarrierImage( findTypesCache( writer ) )
-			, areOptionalEnabled( writer ) };
 	}
 	/**@}*/
 #pragma endregion

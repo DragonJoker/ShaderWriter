@@ -50,25 +50,28 @@ namespace hlsl
 		}
 	}
 
-	std::string ExprVisitor::submit( ast::expr::Expr * expr
+	std::string ExprVisitor::submit( HlslConfig const & writerConfig
+		, ast::expr::Expr * expr
 		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases )
 	{
 		std::string result;
-		ExprVisitor vis{ aliases, result };
+		ExprVisitor vis{ writerConfig, aliases, result };
 		expr->accept( &vis );
 		return result;
 	}
 
-	ExprVisitor::ExprVisitor( std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+	ExprVisitor::ExprVisitor( HlslConfig const & writerConfig
+		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 		, std::string & result )
-		: m_result{ result }
+		: m_writerConfig{ writerConfig }
+		, m_result{ result }
 		, m_aliases{ aliases }
 	{
 	}
 
 	std::string ExprVisitor::doSubmit( ast::expr::Expr * expr )
 	{
-		return submit( expr, m_aliases );
+		return submit( m_writerConfig, expr, m_aliases );
 	}
 
 	void ExprVisitor::wrap( ast::expr::Expr * expr )
@@ -420,6 +423,76 @@ namespace hlsl
 				}
 
 				m_result += "))";
+			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier )
+			{
+				if ( expr->getArgList().size() < 3u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+				}
+
+				auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+				auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+
+				if ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl )
+				{
+					if ( memory == ast::type::Scope::eWorkgroup
+						|| memory == ast::type::Scope::eSubgroup )
+					{
+						m_result += "GroupMemoryBarrier()";
+					}
+					else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
+						|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
+					{
+						m_result += "AllMemoryBarrier()";
+					}
+					else
+					{
+						m_result += "DeviceMemoryBarrier()";
+					}
+				}
+				else
+				{
+					if ( memory == ast::type::Scope::eWorkgroup
+						|| memory == ast::type::Scope::eSubgroup )
+					{
+						m_result += "GroupMemoryBarrierWithGroupSync()";
+					}
+					else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
+						|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
+					{
+						m_result += "AllMemoryBarrierWithGroupSync()";
+					}
+					else
+					{
+						m_result += "DeviceMemoryBarrierWithGroupSync()";
+					}
+				}
+			}
+			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
+			{
+				if ( expr->getArgList().size() < 2u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+				}
+
+				auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
+				auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+
+				if ( memory == ast::type::Scope::eWorkgroup
+					|| memory == ast::type::Scope::eSubgroup )
+				{
+					m_result += "GroupMemoryBarrier()";
+				}
+				else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
+					|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
+				{
+					m_result += "AllMemoryBarrier()";
+				}
+				else
+				{
+					m_result += "DeviceMemoryBarrier()";
+				}
 			}
 			else
 			{

@@ -1040,18 +1040,9 @@ namespace spirv
 			break;
 
 
-	// Shader Invocation Control Functions
-		case ast::expr::Intrinsic::eBarrier:
-			config.isExtension = false;
-			break;
-
-
-	// Shader Memory Control Functions
+	// Shader Invocation and Memory Control Functions
+		case ast::expr::Intrinsic::eControlBarrier:
 		case ast::expr::Intrinsic::eMemoryBarrier:
-		case ast::expr::Intrinsic::eMemoryBarrierBuffer:
-		case ast::expr::Intrinsic::eMemoryBarrierShared:
-		case ast::expr::Intrinsic::eMemoryBarrierImage:
-		case ast::expr::Intrinsic::eGroupMemoryBarrier:
 			config.isExtension = false;
 			break;
 
@@ -1070,11 +1061,6 @@ namespace spirv
 
 
 	//Shader Subgroup Functions
-		case ast::expr::Intrinsic::eSubgroupBarrier:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrier:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierShared:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierImage:
 		case ast::expr::Intrinsic::eSubgroupElect:
 		case ast::expr::Intrinsic::eSubgroupAll:
 		case ast::expr::Intrinsic::eSubgroupAny:

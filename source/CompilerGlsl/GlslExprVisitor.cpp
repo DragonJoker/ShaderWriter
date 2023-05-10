@@ -395,17 +395,113 @@ namespace glsl
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
-		m_result += getGlslName( expr->getIntrinsic() ) + "(";
-		std::string sep;
-
-		for ( auto & arg : expr->getArgList() )
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
 		{
-			m_result += sep;
-			m_result += doSubmit( arg.get() );
-			sep = ", ";
-		}
+			ast::type::Scope memory;
+			ast::type::MemorySemantics semantics;
+			bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
 
-		m_result += ")";
+			if ( isControlBarrier )
+			{
+				if ( expr->getArgList().size() < 3u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+				}
+
+				memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+				semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+			}
+			else
+			{
+				if ( expr->getArgList().size() < 2u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+				}
+
+				memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
+				semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+			}
+
+			if ( memory == ast::type::Scope::eWorkgroup )
+			{
+				if ( checkAllMemoryBarrier( semantics ) )
+				{
+					m_result = "groupMemoryBarrier()";
+				}
+				else
+				{
+					m_result = "barrier()";
+				}
+			}
+			else if ( memory == ast::type::Scope::eSubgroup )
+			{
+				if ( checkAllMemoryBarrier( semantics ) )
+				{
+					if ( isControlBarrier )
+					{
+						m_result = "subgroupBarrier()";
+					}
+					else
+					{
+						m_result = "subgroupMemoryBarrier()";
+					}
+				}
+				else if ( checkBufferMemoryBarrier( semantics ) )
+				{
+					m_result = "subgroupMemoryBarrierBuffer()";
+				}
+				else if ( checkSharedMemoryBarrier( semantics ) )
+				{
+					m_result = "subgroupMemoryBarrierShared()";
+				}
+				else if ( checkImageMemoryBarrier( semantics ) )
+				{
+					m_result = "subgroupMemoryBarrierImage()";
+				}
+				else
+				{
+					m_result = "subgroupBarrier()";
+				}
+			}
+			else
+			{
+				if ( checkAllMemoryBarrier( semantics ) )
+				{
+					m_result = "memoryBarrier()";
+				}
+				else if ( checkBufferMemoryBarrier( semantics ) )
+				{
+					m_result = "memoryBarrierBuffer()";
+				}
+				else if ( checkSharedMemoryBarrier( semantics ) )
+				{
+					m_result = "memoryBarrierShared()";
+				}
+				else if ( checkImageMemoryBarrier( semantics ) )
+				{
+					m_result = "memoryBarrierImage()";
+				}
+				else
+				{
+					m_result = "barrier()";
+				}
+			}
+		}
+		else
+		{
+			m_result += getGlslName( expr->getIntrinsic() ) + "(";
+			std::string sep;
+
+			for ( auto & arg : expr->getArgList() )
+			{
+				m_result += sep;
+				m_result += doSubmit( arg.get() );
+				sep = ", ";
+			}
+
+			m_result += ")";
+		}
 	}
 
 	void ExprVisitor::visitLiteralExpr( ast::expr::Literal * expr )

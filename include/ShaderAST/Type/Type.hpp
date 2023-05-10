@@ -149,6 +149,126 @@ namespace ast::type
 		eMax = 0x7fffffff,
 	};
 
+	enum class MemorySemanticsMask : uint32_t
+	{
+		eNone = 0,
+		eAcquire = 0x00000002,
+		eRelease = 0x00000004,
+		eAcquireRelease = 0x00000008,
+		eSequentiallyConsistent = 0x00000010,
+		eUniformMemory = 0x00000040,
+		eSubgroupMemory = 0x00000080,
+		eWorkgroupMemory = 0x00000100,
+		eCrossWorkgroupMemory = 0x00000200,
+		eAtomicCounterMemory = 0x00000400,
+		eImageMemory = 0x00000800,
+		eOutputMemory = 0x00001000,
+		eMakeAvailable = 0x00002000,
+		eMakeVisible = 0x00004000,
+		eVolatile = 0x00008000,
+	};
+
+	enum class Scope : uint32_t
+	{
+		eCrossDevice = 0,
+		eDevice = 1,
+		eWorkgroup = 2,
+		eSubgroup = 3,
+		eInvocation = 4,
+		eQueueFamily = 5,
+		eShaderCall = 6,
+	};
+
+	struct MemorySemantics
+	{
+		inline constexpr MemorySemantics()noexcept
+			: value{}
+		{
+		}
+
+		inline constexpr MemorySemantics( MemorySemanticsMask v )noexcept
+			: value{ uint32_t( v ) }
+		{
+		}
+
+		inline constexpr MemorySemantics( uint32_t v )noexcept
+			: value{ v }
+		{
+		}
+
+		inline constexpr operator uint32_t & ( )noexcept
+		{
+			return value;
+		}
+
+		inline constexpr operator uint32_t const & ( )const noexcept
+		{
+			return value;
+		}
+
+		uint32_t value;
+	};
+
+	inline constexpr MemorySemantics operator|( MemorySemanticsMask lhs, MemorySemanticsMask rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator|( MemorySemanticsMask lhs, MemorySemantics rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator|( MemorySemantics lhs, MemorySemanticsMask rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator|( MemorySemantics lhs, MemorySemantics rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator&( MemorySemanticsMask lhs, MemorySemanticsMask rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator&( MemorySemanticsMask lhs, MemorySemantics rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator&( MemorySemantics lhs, MemorySemanticsMask rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
+	}
+
+	inline constexpr MemorySemantics operator&( MemorySemantics lhs, MemorySemantics rhs )
+	{
+		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
+	}
+
+	inline constexpr bool operator==( MemorySemanticsMask lhs, MemorySemanticsMask rhs )
+	{
+		return uint32_t( lhs ) == uint32_t( rhs );
+	}
+
+	inline constexpr bool operator==( MemorySemanticsMask lhs, MemorySemantics rhs )
+	{
+		return uint32_t( lhs ) == uint32_t( rhs );
+	}
+
+	inline constexpr bool operator==( MemorySemantics lhs, MemorySemanticsMask rhs )
+	{
+		return uint32_t( lhs ) == uint32_t( rhs );
+	}
+
+	inline constexpr bool operator==( MemorySemantics lhs, MemorySemantics rhs )
+	{
+		return uint32_t( lhs ) == uint32_t( rhs );
+	}
+
 	class Type
 	{
 	private:

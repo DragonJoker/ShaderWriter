@@ -350,7 +350,7 @@ namespace hlsl
 
 	std::string StmtVisitor::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprVisitor::submit( expr, m_aliases );
+		return ExprVisitor::submit( m_writerConfig, expr, m_aliases );
 	}
 
 	void StmtVisitor::doAppendLineEnd()
