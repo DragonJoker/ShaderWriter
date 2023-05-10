@@ -90,12 +90,17 @@ def computeParams( params, sep ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
-			result += sep + " ExprPtr "
-			index += 2
+			if resParam[index] == "ASTCppParam":
+				index += 1
+				result += sep + resParam[index] + " "
+				index += 1
+			else:
+				result += sep + " ExprPtr "
+				index += 2
 			result += discardArray( resParam[index] )
 			sep = "\n\t\t,"
 			index += 2
@@ -106,7 +111,7 @@ def computeParamsDoc( paramsGroup ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( paramsGroup )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -127,7 +132,7 @@ def computeParamsDocEx( paramsGroup, lastTypeKind ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( paramsGroup )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -140,10 +145,8 @@ def computeParamsDocEx( paramsGroup, lastTypeKind ):
 			index += 1
 			curIndex = index
 			index += 2
-
 			if len( resParam ) <= index:
 				typeName = typeKindToGlslType( lastTypeKind )
-
 			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[curIndex] )
 			result += "\n\t*\t" + typeName
 	return result
@@ -153,21 +156,24 @@ def assertParams( params, tabs ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index + 2:
-			index += 1
-			paramType = resParam[index]
-			index += 1
-			paramName = discardArray( resParam[index] )
-			if isArray( resParam[index] ):
-				index += 2
-				result += tabs + "assert( " + paramName + "->getType()->getRawKind() == type::Kind::eArray );\n"
-				result += tabs + "assert( type::getNonArrayType( " + paramName + "->getType() )->getRawKind() == " + paramType + " );\n"
+			if resParam[index] == "ASTCppParam":
+				index += 4
 			else:
-				index += 2
-				result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
+				index += 1
+				paramType = resParam[index]
+				index += 1
+				paramName = discardArray( resParam[index] )
+				if isArray( resParam[index] ):
+					index += 2
+					result += tabs + "assert( " + paramName + "->getType()->getRawKind() == type::Kind::eArray );\n"
+					result += tabs + "assert( type::getNonArrayType( " + paramName + "->getType() )->getRawKind() == " + paramType + " );\n"
+				else:
+					index += 2
+					result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
 	return result
 
 def assertParamsEx( params, tabs, lastType ):
@@ -175,20 +181,21 @@ def assertParamsEx( params, tabs, lastType ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index + 2:
-			index += 1
-			paramType = resParam[index]
-			index += 1
-			paramName = discardArray( resParam[index] )
-			index += 2
-
-			if len( resParam ) <= index + 2:
-				paramType = lastType
-
-			result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
+			if resParam[index] == "ASTCppParam":
+				index += 4
+			else:
+				index += 1
+				paramType = resParam[index]
+				index += 1
+				paramName = discardArray( resParam[index] )
+				index += 2
+				if len( resParam ) <= index + 2:
+					paramType = lastType
+				result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
 	return result
 
 def computeArgs( args ):
@@ -196,7 +203,7 @@ def computeArgs( args ):
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
@@ -538,14 +545,17 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( "\t}" )
 
 def printFunction( outs, enumName, match ):
-	if enumName == "CombinedImageAccess":
-		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
-	elif enumName == "SampledImageAccess":
-		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
-	elif enumName == "StorageImageAccess":
-		printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image", "\n\t\t\t, std::move( image )", match )
-	else:
-		printIntrinsic( outs, enumName, match )
+	functionGroup = match.group( 2 )
+	intrinsicName = computeIntrinsicName( functionGroup )
+	if intrinsicName.find( "Barrier" ) == -1:
+		if enumName == "CombinedImageAccess":
+			printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
+		elif enumName == "SampledImageAccess":
+			printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
+		elif enumName == "StorageImageAccess":
+			printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image", "\n\t\t\t, std::move( image )", match )
+		else:
+			printIntrinsic( outs, enumName, match )
 
 def printFooter( outs ):
 	outs.write( "\n}" )

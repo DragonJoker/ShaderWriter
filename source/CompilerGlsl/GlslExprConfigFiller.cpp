@@ -256,6 +256,74 @@ namespace glsl
 			m_config.requiredExtensions.insert( KHR_shader_subgroup );
 			m_config.requiredExtensions.insert( KHR_shader_subgroup_quad );
 		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
+		{
+			ast::type::Scope memory;
+			ast::type::MemorySemantics semantics;
+			bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
+
+			if ( isControlBarrier )
+			{
+				if ( expr->getArgList().size() < 3u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+				}
+
+				memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+				semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+			}
+			else
+			{
+				if ( expr->getArgList().size() < 2u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+				}
+
+				memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
+				semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+			}
+
+			if ( memory == ast::type::Scope::eWorkgroup )
+			{
+				if ( checkAllMemoryBarrier( semantics ) )
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+				else
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+			}
+			else if ( memory == ast::type::Scope::eSubgroup )
+			{
+				m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+				m_config.requiredExtensions.insert( KHR_shader_subgroup_basic );
+			}
+			else
+			{
+				if ( checkAllMemoryBarrier( semantics ) )
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+				else if ( checkBufferMemoryBarrier( semantics ) )
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+				else if ( checkSharedMemoryBarrier( semantics ) )
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+				else if ( checkImageMemoryBarrier( semantics ) )
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+				else
+				{
+					m_config.requiredExtensions.insert( ARB_compute_shader );
+				}
+			}
+		}
 
 		switch ( expr->getIntrinsic() )
 		{

@@ -66,6 +66,7 @@ def printHeader( outs, match ):
 	outs.write( "\n/*" )
 	outs.write( "\nThis file is generated, don't modify it!" )
 	outs.write( "\n*/" )
+	outs.write( '\n#include "ShaderWriter/Helpers.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Void.hpp"' )
 	outs.write( '\n#include "ShaderWriter/BaseTypes/Array.hpp"' )
@@ -192,7 +193,7 @@ def computeParams( params, sep, allowEmpty ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -224,7 +225,7 @@ def computeParamsEx( params, sep, lastType ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -259,7 +260,7 @@ def listParams( params, sep, allowEmpty ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 2
 		while len( resParam ) > index:
@@ -276,12 +277,15 @@ def computeArgs( args, indent, sep ):
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
 			index += 1
-			result += sep + " makeExpr( " + discardArray( resArg[index] ) + " )"
+			if resArg[index - 2] == "ASTCppParam":
+				result += sep + " " + discardArray( resArg[index] )
+			else:
+				result += sep + " makeExpr( " + discardArray( resArg[index] ) + " )"
 			sep = "\n" + indent + ","
 			index += 3
 	return result

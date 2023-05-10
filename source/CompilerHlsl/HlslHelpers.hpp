@@ -960,6 +960,8 @@ namespace hlsl
 		bool requiresSubgroupAllEqual4D{ false };
 
 		bool requiresWaveOps{ false };
+		bool requiresControlBarrier{ false };
+		bool requiresMemoryBarrier{ false };
 	};
 	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );

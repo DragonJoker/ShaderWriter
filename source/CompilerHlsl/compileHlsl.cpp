@@ -33,6 +33,13 @@ namespace hlsl
 				throw std::runtime_error{ "Unsupported Wave ops for this shader model" };
 			}
 
+			if ( intrinsicsConfig.requiresControlBarrier
+				&& writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
+				&& writerConfig.shaderModel < hlsl::v6_0 )
+			{
+				throw std::runtime_error{ "Unsupported control barrier for this shader model" };
+			}
+
 			if ( writerConfig.shaderModel < hlsl::v5_0
 				&& ( writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 					|| writerConfig.shaderStage == ast::ShaderStage::eTessellationEvaluation ) )

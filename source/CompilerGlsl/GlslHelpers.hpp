@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "compileGlsl.hpp"
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
+#include <ShaderAST/Expr/ExprLiteral.hpp>
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 
@@ -83,6 +84,31 @@ namespace glsl
 		stream.imbue( std::locale{ "C" } );
 		stream << v;
 		return stream.str();
+	}
+
+	inline bool checkBufferMemoryBarrier( ast::type::MemorySemantics semantics )
+	{
+		return ( semantics & ast::type::MemorySemanticsMask::eUniformMemory ) == ast::type::MemorySemanticsMask::eUniformMemory;
+	}
+
+	inline bool checkSharedMemoryBarrier( ast::type::MemorySemantics semantics )
+	{
+		return ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory;
+	}
+
+	inline bool checkImageMemoryBarrier( ast::type::MemorySemantics semantics )
+	{
+		return ( semantics & ast::type::MemorySemanticsMask::eImageMemory ) == ast::type::MemorySemanticsMask::eImageMemory;
+	}
+
+	inline bool checkAllMemoryBarrier( ast::type::MemorySemantics semantics )
+	{
+		return checkBufferMemoryBarrier( semantics ) && checkSharedMemoryBarrier( semantics ) && checkImageMemoryBarrier( semantics );
+	}
+
+	inline bool checkAnyMemoryBarrier( ast::type::MemorySemantics semantics )
+	{
+		return checkBufferMemoryBarrier( semantics ) || checkSharedMemoryBarrier( semantics ) || checkImageMemoryBarrier( semantics );
 	}
 }
 

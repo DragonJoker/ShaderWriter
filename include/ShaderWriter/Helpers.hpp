@@ -92,6 +92,12 @@ namespace sdw
 		, long double value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, type::Scope value
+		, bool force = true );
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, type::MemorySemantics value
+		, bool force = true );
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, ast::expr::Expr * expr
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer

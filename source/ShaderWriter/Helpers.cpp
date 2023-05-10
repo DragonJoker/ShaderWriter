@@ -242,6 +242,20 @@ namespace sdw
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, type::Scope value
+		, bool force )
+	{
+		return makeLiteral( writer, uint32_t( value ) );
+	}
+
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, type::MemorySemantics value
+		, bool force )
+	{
+		return makeLiteral( writer, uint32_t( value ) );
+	}
+
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, expr::ExprPtr const & expr
 		, bool force )
 	{

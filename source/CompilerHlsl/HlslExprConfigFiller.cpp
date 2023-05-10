@@ -207,6 +207,46 @@ namespace hlsl
 		{
 			arg->accept( this );
 		}
+
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
+		{
+			ast::type::Scope memory;
+			bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
+
+			if ( isControlBarrier )
+			{
+				if ( expr->getArgList().size() < 3u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+				}
+
+				memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+			}
+			else
+			{
+				if ( expr->getArgList().size() < 2u )
+				{
+					throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+				}
+
+				memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
+			}
+
+			if ( memory == ast::type::Scope::eSubgroup )
+			{
+				m_config.requiresWaveOps = true;
+			}
+
+			if ( isControlBarrier )
+			{
+				m_config.requiresControlBarrier = true;
+			}
+			else
+			{
+				m_config.requiresMemoryBarrier = true;
+			}
+		}
 	}
 
 	void ExprConfigFiller::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )

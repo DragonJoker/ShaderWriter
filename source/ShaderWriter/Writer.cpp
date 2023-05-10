@@ -293,6 +293,73 @@ namespace sdw
 		addStmt( ast::stmt::makeContinue() );
 	}
 
+#pragma region Constant declaration
+
+	void ShaderWriter::controlBarrier( type::Scope executionScope
+		, type::Scope memoryScope
+		, type::MemorySemantics semantics )
+	{
+		sdw::controlBarrier( *this, executionScope, memoryScope, semantics );
+	}
+
+	void ShaderWriter::memoryBarrier( type::Scope memoryScope
+		, type::MemorySemantics semantics )
+	{
+		sdw::memoryBarrier( *this, memoryScope, semantics );
+	}
+
+	void ShaderWriter::memoryBarrier()
+	{
+		sdw::memoryBarrier( *this );
+	}
+
+	void ShaderWriter::memoryBarrierBuffer()
+	{
+		sdw::memoryBarrierBuffer( *this );
+	}
+
+	void ShaderWriter::memoryBarrierShared()
+	{
+		sdw::memoryBarrierShared( *this );
+	}
+
+	void ShaderWriter::memoryBarrierImage()
+	{
+		sdw::memoryBarrierImage( *this );
+	}
+
+	void ShaderWriter::groupMemoryBarrier()
+	{
+		sdw::groupMemoryBarrier( *this );
+	}
+
+	void ShaderWriter::subgroupBarrier()
+	{
+		sdw::subgroupBarrier( *this );
+	}
+
+	void ShaderWriter::subgroupMemoryBarrier()
+	{
+		sdw::subgroupMemoryBarrier( *this );
+	}
+
+	void ShaderWriter::subgroupMemoryBarrierBuffer()
+	{
+		sdw::subgroupMemoryBarrierBuffer( *this );
+	}
+
+	void ShaderWriter::subgroupMemoryBarrierShared()
+	{
+		sdw::subgroupMemoryBarrierShared( *this );
+	}
+
+	void ShaderWriter::subgroupMemoryBarrierImage()
+	{
+		sdw::subgroupMemoryBarrierImage( *this );
+	}
+
+#pragma endregion
+
 	Boolean ShaderWriter::declSpecConstant( std::string name
 		, uint32_t location
 		, bool rhs

@@ -696,18 +696,12 @@ namespace ast::expr
 		eEmitVertex,
 		eEndPrimitive,
 
-	// Shader Invocation Control Functions
-		eBarrier,
-
-	// Miscellaneous FUnctions
+	// Miscellaneous Functions
 		eHelperInvocation,
 
-	// Shader Memory Control Functions
+	// Shader Invocation and Memory Control Functions
+		eControlBarrier,
 		eMemoryBarrier,
-		eMemoryBarrierBuffer,
-		eMemoryBarrierShared,
-		eMemoryBarrierImage,
-		eGroupMemoryBarrier,
 
 	// Ray tracing Shader Functions
 		eTraceRay,
@@ -723,11 +717,6 @@ namespace ast::expr
 		eSetMeshOutputCounts,
 
 	//Shader Subgroup Functions
-		eSubgroupBarrier,
-		eSubgroupMemoryBarrier,
-		eSubgroupMemoryBarrierBuffer,
-		eSubgroupMemoryBarrierShared,
-		eSubgroupMemoryBarrierImage,
 		eSubgroupElect,
 		eSubgroupAll,
 		eSubgroupAny,

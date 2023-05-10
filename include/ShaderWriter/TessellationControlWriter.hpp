@@ -5,6 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_TessellationControlWriter_H___
 
 #include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/Intrinsics/Intrinsics.hpp"
+
 namespace sdw
 {
 	/**
@@ -322,6 +324,11 @@ namespace sdw
 			, QuadsTessControlListOutT< OutT > out
 			, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function );
 		/**@}*/
+
+		void barrier()
+		{
+			sdw::barrier( *this );
+		}
 	};
 	/**@}*/
 }

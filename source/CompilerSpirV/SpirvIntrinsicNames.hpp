@@ -1099,27 +1099,22 @@ namespace spirv
 			break;
 
 
-	// Shader Invocation Control Functions
-		case ast::expr::Intrinsic::eBarrier:
-			result = spv::Id( spv::OpControlBarrier );
-			break;
-
-
 	// Miscellaneous Functions
 		case ast::expr::Intrinsic::eHelperInvocation:
 			result = spv::Id( spv::OpIsHelperInvocationEXT );
 			break;
 
 
-	// Shader Memory Control Functions
+	// Shader Invocation and Memory Control Functions
+		case ast::expr::Intrinsic::eControlBarrier:
+			result = spv::Id( spv::OpControlBarrier );
+			break;
+
 		case ast::expr::Intrinsic::eMemoryBarrier:
-		case ast::expr::Intrinsic::eMemoryBarrierBuffer:
-		case ast::expr::Intrinsic::eMemoryBarrierShared:
-		case ast::expr::Intrinsic::eMemoryBarrierImage:
-		case ast::expr::Intrinsic::eGroupMemoryBarrier:
 			result = spv::Id( spv::OpMemoryBarrier );
 			break;
 
+	// Ray tracing Shader Functions
 		case ast::expr::Intrinsic::eTraceRay:
 			result = spv::Id( spv::OpTraceRayKHR );
 			break;
@@ -1146,17 +1141,6 @@ namespace spirv
 
 
 	//Shader Subgroup Functions
-		case ast::expr::Intrinsic::eSubgroupBarrier:
-			result = spv::Id( spv::OpControlBarrier );
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrier:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierShared:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierImage:
-			result = spv::Id( spv::OpMemoryBarrier );
-			break;
-
 		case ast::expr::Intrinsic::eSubgroupElect:
 			result = spv::Id( spv::OpGroupNonUniformElect );
 			break;

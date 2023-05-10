@@ -685,18 +685,12 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( EmitVertex, EmitVertex ) )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( EndPrimitive, EndPrimitive ) )
 
-	// Shader Invocation Control Functions
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( barrier, Barrier ) )
-
-	// Miscellaneous FUnctions
+	// Miscellaneous Functions
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( helperInvocation, HelperInvocation ) )
 
-	// Shader Memory Control Functions
-	ASTIntrValue( type::Kind::eUInt32, ASTIntrName( memoryBarrier, MemoryBarrier ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( memoryBarrierBuffer, MemoryBarrierBuffer ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( memoryBarrierShared, MemoryBarrierShared ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( memoryBarrierImage, MemoryBarrierImage ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( groupMemoryBarrier, GroupMemoryBarrier ) )
+	// Shader Invocation and Memory Control Functions
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( controlBarrier, ControlBarrier ), ASTIntrParams( ASTCppParam( type::Scope, executionScope ), ASTCppParam( type::Scope, memoryScope ), ASTCppParam( type::MemorySemantics, semantics ) ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( memoryBarrier, MemoryBarrier ), ASTIntrParams( ASTCppParam( type::Scope, memoryScope ), ASTCppParam( type::MemorySemantics, semantics ) ) )
 
 	// Ray tracing Shader Functions
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( traceRay, TraceRay ), ASTIntrParams( ASTIntrParam( type::Kind::eAccelerationStructure, topLevel ), ASTIntrParam( type::Kind::eUInt32, rayFlags ), ASTIntrParam( type::Kind::eUInt32, cullMask ), ASTIntrParam( type::Kind::eUInt32, sbtRecordOffset ), ASTIntrParam( type::Kind::eUInt32, sbtRecordStride ), ASTIntrParam( type::Kind::eUInt32, missIndex ), ASTIntrParam( type::Kind::eRayDesc, rayDesc ), ASTIntrParam( type::Kind::eRayPayload, payload ) ) )
@@ -712,11 +706,6 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eVoid, ASTIntrName( setMeshOutputCounts, SetMeshOutputCounts ), ASTIntrParams( ASTIntrParam( type::Kind::eUInt32, numVertices ), ASTIntrParam( type::Kind::eUInt32, numPrimitives ) ) )
 
 	//Shader Subgroup Functions
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupBarrier, SubgroupBarrier ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupMemoryBarrier, SubgroupMemoryBarrier ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupMemoryBarrierBuffer, SubgroupMemoryBarrierBuffer ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupMemoryBarrierShared, SubgroupMemoryBarrierShared ) )
-	ASTIntrValue( type::Kind::eVoid, ASTIntrName( subgroupMemoryBarrierImage, SubgroupMemoryBarrierImage ) )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( subgroupElect, SubgroupElect ) )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( subgroupAll, SubgroupAll ), ASTIntrParams( ASTIntrParam( type::Kind::eBoolean, value ) ) )
 	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( subgroupAny, SubgroupAny ), ASTIntrParams( ASTIntrParam( type::Kind::eBoolean, value ) ) )

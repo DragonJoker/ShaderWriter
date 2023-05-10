@@ -1037,37 +1037,9 @@ namespace glsl
 			break;
 
 
-	// Shader Invocation Control Functions
-		case ast::expr::Intrinsic::eBarrier:
-			result = "barrier";
-			break;
-
-
 	// Miscellaneous Functions
 		case ast::expr::Intrinsic::eHelperInvocation:
 			result = "helperInvocationEXT";
-			break;
-
-
-	// Shader Memory Control Functions
-		case ast::expr::Intrinsic::eMemoryBarrier:
-			result = "memoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eMemoryBarrierBuffer:
-			result = "memoryBarrierBuffer";
-			break;
-
-		case ast::expr::Intrinsic::eMemoryBarrierShared:
-			result = "memoryBarrierShared";
-			break;
-
-		case ast::expr::Intrinsic::eMemoryBarrierImage:
-			result = "memoryBarrierImage";
-			break;
-
-		case ast::expr::Intrinsic::eGroupMemoryBarrier:
-			result = "groupMemoryBarrier";
 			break;
 
 		case ast::expr::Intrinsic::eTraceRay:
@@ -1094,26 +1066,6 @@ namespace glsl
 
 
 	//Shader Subgroup Functions
-		case ast::expr::Intrinsic::eSubgroupBarrier:
-			result = "subgroupBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrier:
-			result = "subgroupMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer:
-			result = "subgroupMemoryBarrierBuffer";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierShared:
-			result = "subgroupMemoryBarrierShared";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierImage:
-			result = "subgroupMemoryBarrierImage";
-			break;
-
 		case ast::expr::Intrinsic::eSubgroupElect:
 			result = "subgroupElect";
 			break;

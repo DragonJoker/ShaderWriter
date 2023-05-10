@@ -1054,34 +1054,6 @@ namespace hlsl
 			result = "HelperInvocation";
 			break;
 
-
-	// Shader Invocation Control Functions
-		case ast::expr::Intrinsic::eBarrier:
-			result = "AllMemoryBarrierWithGroupSync";
-			break;
-
-
-	// Shader Memory Control Functions
-		case ast::expr::Intrinsic::eMemoryBarrier:
-			result = "AllMemoryBarrierWithGroupSync";
-			break;
-
-		case ast::expr::Intrinsic::eMemoryBarrierBuffer:
-			result = "DeviceMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eMemoryBarrierShared:
-			result = "AllMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eMemoryBarrierImage:
-			result = "DeviceMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eGroupMemoryBarrier:
-			result = "GroupMemoryBarrier";
-			break;
-
 	// Ray tracing Shader Functions
 		case ast::expr::Intrinsic::eTraceRay:
 			result = "TraceRay";
@@ -1107,26 +1079,6 @@ namespace hlsl
 
 
 	//Shader Subgroup Functions
-		case ast::expr::Intrinsic::eSubgroupBarrier:
-			result = "GroupMemoryBarrierWithGroupSync";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrier:
-			result = "GroupMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer:
-			result = "GroupMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierShared:
-			result = "GroupMemoryBarrier";
-			break;
-
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierImage:
-			result = "GroupMemoryBarrier";
-			break;
-
 		case ast::expr::Intrinsic::eSubgroupElect:
 			result = "WaveIsFirstLane";
 			break;

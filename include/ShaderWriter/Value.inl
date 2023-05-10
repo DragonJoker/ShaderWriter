@@ -174,6 +174,16 @@ namespace sdw
 			return &getCurrentWriter();
 		}
 
+		inline ShaderWriter * getWriter( type::Scope const & value )
+		{
+			return &getCurrentWriter();
+		}
+
+		inline ShaderWriter * getWriter( type::MemorySemantics const & value )
+		{
+			return &getCurrentWriter();
+		}
+
 		template< typename ValueT >
 		inline ShaderWriter * getWriter( ValueT const & value )
 		{

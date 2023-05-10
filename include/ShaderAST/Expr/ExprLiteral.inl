@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include <functional>
+#include <stdexcept>
 
 namespace ast::expr
 {
@@ -793,6 +794,17 @@ namespace ast::expr
 	{
 		assert( m_valueType == T );
 		return details::valueGetter< T >( m_value );
+	}
+
+	template< LiteralType T >
+	LiteralValueType< T > getLiteralValue( ExprPtr const & expr )
+	{
+		if ( expr->getKind() != Kind::eLiteral )
+		{
+			throw std::runtime_error{ "Expected a literal expression" };
+		}
+
+		return static_cast< Literal const & >( *expr ).getValue< T >();
 	}
 
 	//*********************************************************************************************

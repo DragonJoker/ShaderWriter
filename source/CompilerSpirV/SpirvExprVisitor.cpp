@@ -1120,11 +1120,8 @@ namespace spirv
 			{
 				handleMulExtendedIntrinsicCallExpr( opCode, expr );
 			}
-			else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eBarrier
-				|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eMemoryBarrier
-					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eGroupMemoryBarrier )
-				|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupBarrier
-					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupMemoryBarrierImage ) )
+			else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eControlBarrier
+				&& expr->getIntrinsic() <= ast::expr::Intrinsic::eMemoryBarrier )
 			{
 				handleBarrierIntrinsicCallExpr( opCode, expr );
 			}
@@ -1503,80 +1500,26 @@ namespace spirv
 	{
 		ValueIdList params;
 
-		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eBarrier )
+		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier )
 		{
-			params.push_back( m_module.registerLiteral( spv::ScopeWorkgroup ) );
-			params.push_back( m_module.registerLiteral( spv::ScopeWorkgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsMaskNone ) );
+			if ( expr->getArgList().size() < 3u )
+			{
+				throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+			}
+
+			params.push_back( m_module.registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
+			params.push_back( m_module.registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) ) ) );
 		}
 		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
 		{
-			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsUniformMemoryMask
-				| spv::MemorySemanticsWorkgroupMemoryMask
-				| spv::MemorySemanticsImageMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrierBuffer )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsUniformMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrierShared )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsWorkgroupMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrierImage )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeInvocation ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsImageMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eGroupMemoryBarrier )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeWorkgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsUniformMemoryMask
-				| spv::MemorySemanticsWorkgroupMemoryMask
-				| spv::MemorySemanticsImageMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBarrier )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
-			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsUniformMemoryMask
-				| spv::MemorySemanticsWorkgroupMemoryMask
-				| spv::MemorySemanticsImageMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrier )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsUniformMemoryMask
-				| spv::MemorySemanticsWorkgroupMemoryMask
-				| spv::MemorySemanticsImageMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrierShared )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsWorkgroupMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsUniformMemoryMask ) );
-		}
-		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupMemoryBarrierImage )
-		{
-			params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
-			params.push_back( m_module.registerLiteral( spv::MemorySemanticsAcquireReleaseMask
-				| spv::MemorySemanticsImageMemoryMask ) );
+			if ( expr->getArgList().size() < 2u )
+			{
+				throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+			}
+
+			params.push_back( m_module.registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
+			params.push_back( m_module.registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
 		}
 
 		m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( opCode
@@ -1833,7 +1776,7 @@ namespace spirv
 	{
 		VariableInfo info;
 		info.rvalue = true;
-		auto result = m_module.registerVariable( "functmp_" + std::to_string( m_aliasId++ )
+		auto result = m_module.registerVariable( "functmp_" + std::to_string( uintptr_t( type.get() ) ) + std::to_string( m_aliasId++ )
 			, ast::Builtin::eNone
 			, spv::StorageClassFunction
 			, false

@@ -1597,15 +1597,6 @@ namespace sdw
 	SDW_API RetVoid EndPrimitive( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
-#pragma region barrier
-	/**
-	*name
-	*	barrier
-	*/
-	/**@{*/
-	SDW_API RetVoid barrier( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
 #pragma region helperInvocation
 	/**
 	*name
@@ -1615,49 +1606,22 @@ namespace sdw
 	SDW_API RetBoolean helperInvocation( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
+#pragma region controlBarrier
+	/**
+	*name
+	*	controlBarrier
+	*/
+	/**@{*/
+	SDW_API RetVoid controlBarrier( type::Scope  executionScope, type::Scope  memoryScope, type::MemorySemantics  semantics );
+	/**@}*/
+#pragma endregion
 #pragma region memoryBarrier
 	/**
 	*name
 	*	memoryBarrier
 	*/
 	/**@{*/
-	SDW_API RetUInt32 memoryBarrier( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region memoryBarrierBuffer
-	/**
-	*name
-	*	memoryBarrierBuffer
-	*/
-	/**@{*/
-	SDW_API RetVoid memoryBarrierBuffer( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region memoryBarrierShared
-	/**
-	*name
-	*	memoryBarrierShared
-	*/
-	/**@{*/
-	SDW_API RetVoid memoryBarrierShared( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region memoryBarrierImage
-	/**
-	*name
-	*	memoryBarrierImage
-	*/
-	/**@{*/
-	SDW_API RetVoid memoryBarrierImage( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region groupMemoryBarrier
-	/**
-	*name
-	*	groupMemoryBarrier
-	*/
-	/**@{*/
-	SDW_API RetVoid groupMemoryBarrier( ShaderWriter & writer );
+	SDW_API RetVoid memoryBarrier( type::Scope  memoryScope, type::MemorySemantics  semantics );
 	/**@}*/
 #pragma endregion
 #pragma region traceRay
@@ -1721,51 +1685,6 @@ namespace sdw
 	*/
 	/**@{*/
 	SDW_API RetVoid setMeshOutputCounts( UInt32 const numVertices, UInt32 const numPrimitives );
-	/**@}*/
-#pragma endregion
-#pragma region subgroupBarrier
-	/**
-	*name
-	*	subgroupBarrier
-	*/
-	/**@{*/
-	SDW_API RetVoid subgroupBarrier( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrier
-	/**
-	*name
-	*	subgroupMemoryBarrier
-	*/
-	/**@{*/
-	SDW_API RetVoid subgroupMemoryBarrier( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrierBuffer
-	/**
-	*name
-	*	subgroupMemoryBarrierBuffer
-	*/
-	/**@{*/
-	SDW_API RetVoid subgroupMemoryBarrierBuffer( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrierShared
-	/**
-	*name
-	*	subgroupMemoryBarrierShared
-	*/
-	/**@{*/
-	SDW_API RetVoid subgroupMemoryBarrierShared( ShaderWriter & writer );
-	/**@}*/
-#pragma endregion
-#pragma region subgroupMemoryBarrierImage
-	/**
-	*name
-	*	subgroupMemoryBarrierImage
-	*/
-	/**@{*/
-	SDW_API RetVoid subgroupMemoryBarrierImage( ShaderWriter & writer );
 	/**@}*/
 #pragma endregion
 #pragma region subgroupElect

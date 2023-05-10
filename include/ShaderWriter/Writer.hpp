@@ -240,6 +240,32 @@ namespace sdw
 #pragma region Constant declaration
 		/**
 		*name
+		*	Shader invocation and memory control.
+		*/
+		/**@{*/
+		SDW_API void controlBarrier( type::Scope executionScope
+			, type::Scope memoryScope
+			, type::MemorySemantics semantics );
+		SDW_API void memoryBarrier( type::Scope memoryScope
+			, type::MemorySemantics semantics );
+
+		SDW_API void memoryBarrier();
+		SDW_API void memoryBarrierBuffer();
+		SDW_API void memoryBarrierShared();
+		SDW_API void memoryBarrierImage();
+		SDW_API void groupMemoryBarrier();
+
+		SDW_API void subgroupBarrier();
+		SDW_API void subgroupMemoryBarrier();
+		SDW_API void subgroupMemoryBarrierBuffer();
+		SDW_API void subgroupMemoryBarrierShared();
+		SDW_API void subgroupMemoryBarrierImage();
+
+		/**@}*/
+#pragma endregion
+#pragma region Constant declaration
+		/**
+		*name
 		*	Constant declaration (#define name value).
 		*/
 		/**@{*/

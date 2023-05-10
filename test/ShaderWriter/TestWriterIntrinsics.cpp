@@ -3244,6 +3244,151 @@ namespace
 		testInterpolateAtOffsetT< sdw::Vec4 >( "4", testCounts );
 	}
 
+	void testBarrier( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testBarrier" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.barrier();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		{
+			static constexpr uint32_t MaxPoints = 1u;
+			TessellationControlWriter writer;
+
+			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
+				, [&]( TessControlPatchRoutineIn in
+					, TessControlListInT< VoidT, MaxPoints > listIn
+					, TrianglesTessPatchOutT< VoidT > patchOut )
+				{
+					patchOut.tessLevelOuter[0] = listIn[in.primitiveID].vtx.position.w();
+					patchOut.tessLevelOuter[0] = listIn[0].vtx.position.w();
+					patchOut.tessLevelOuter[1] = 2.0_f;
+					patchOut.tessLevelOuter[2] = 4.0_f;
+					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[1];
+				} );
+
+			writer.implementMainT< VoidT, MaxPoints, VoidT >( ast::type::Partitioning::eEqual
+				, ast::type::OutputTopology::ePoint
+				, ast::type::PrimitiveOrdering::eCCW
+				, 1u
+				, [&]( TessControlMainIn in
+					, TessControlListInT< VoidT, MaxPoints > listIn
+					, TrianglesTessControlListOutT< VoidT > listOut )
+				{
+					writer.barrier();
+					listOut.vtx.position = listIn[in.invocationID].vtx.position * 2.0_f;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testMemoryBarrier( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testMemoryBarrier" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.memoryBarrier();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testMemoryBarrierBuffer( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testMemoryBarrierBuffer" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.memoryBarrierBuffer();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testMemoryBarrierShared( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testMemoryBarrierShared" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.memoryBarrierShared();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testMemoryBarrierImage( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testMemoryBarrierImage" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.memoryBarrierImage();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testGroupMemoryBarrier( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testGroupMemoryBarrier" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.groupMemoryBarrier();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
 	template< sdw::var::Flag FlagT >
 	struct PayloadT
 		: public sdw::StructInstance
@@ -3402,6 +3547,101 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, Compilers_SPIRV );
+		}
+		testEnd();
+	}
+
+	void testSubgroupBarrier( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupBarrier" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.subgroupBarrier();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMemoryBarrier( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupMemoryBarrier" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.subgroupMemoryBarrier();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMemoryBarrierBuffer( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupMemoryBarrierBuffer" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.subgroupMemoryBarrierBuffer();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMemoryBarrierShared( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupMemoryBarrierShared" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.subgroupMemoryBarrierShared();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testSubgroupMemoryBarrierImage( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testSubgroupMemoryBarrierImage" );
+		using namespace sdw;
+		{
+			ComputeWriter writer;
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					writer.subgroupMemoryBarrierImage();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -5378,12 +5618,12 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	//testEndStreamPrimitive( testCounts );
 	//testEmitVertex( testCounts );
 	//testEndPrimitive( testCounts );
-	//testBarrier( testCounts );
-	//testMemoryBarrier( testCounts );
-	//testMemoryBarrierBuffer( testCounts );
-	//testMemoryBarrierShared( testCounts );
-	//testMemoryBarrierImage( testCounts );
-	//testGroupMemoryBarrier( testCounts );
+	testBarrier( testCounts );
+	testMemoryBarrier( testCounts );
+	testMemoryBarrierBuffer( testCounts );
+	testMemoryBarrierShared( testCounts );
+	testMemoryBarrierImage( testCounts );
+	testGroupMemoryBarrier( testCounts );
 	//testTraceRay( testCounts );
 	//testReportIntersection( testCounts );
 	//testExecuteCallable( testCounts );
@@ -5392,6 +5632,11 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	testDispatchMeshNV( testCounts );
 	testDispatchMesh( testCounts );
 	testHelperInvocation( testCounts );
+	testSubgroupBarrier( testCounts );
+	testSubgroupMemoryBarrier( testCounts );
+	testSubgroupMemoryBarrierBuffer( testCounts );
+	testSubgroupMemoryBarrierShared( testCounts );
+	testSubgroupMemoryBarrierImage( testCounts );
 	testSubgroupElect( testCounts );
 	testSubgroupAll( testCounts );
 	testSubgroupAny( testCounts );

@@ -585,11 +585,6 @@ namespace hlsl
 
 
 	//Shader Subgroup Functions
-		case ast::expr::Intrinsic::eSubgroupBarrier:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrier:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierBuffer:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierShared:
-		case ast::expr::Intrinsic::eSubgroupMemoryBarrierImage:
 		case ast::expr::Intrinsic::eSubgroupElect:
 		case ast::expr::Intrinsic::eSubgroupAll:
 		case ast::expr::Intrinsic::eSubgroupAny:

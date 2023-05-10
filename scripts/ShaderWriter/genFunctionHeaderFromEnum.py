@@ -208,7 +208,7 @@ def computeParams( params, sep, allowEmpty ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -240,7 +240,7 @@ def computeParamsEx( params, sep, lastType ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -275,7 +275,7 @@ def listParams( params, sep ):
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 2
 		while len( resParam ) > index:
@@ -290,7 +290,7 @@ def computeArgs( args, sep ):
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("(ASTIntrParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
