@@ -723,13 +723,15 @@ namespace sdw
 		*	Shared variables declaration.
 		*/
 		/**@{*/
-		template< typename T >
+		template< typename T, typename ... ParamsT >
 		T declSharedVariable( std::string name
-			, bool enabled = true );
-		template< typename T >
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
 		Array< T > declSharedVariable( std::string name
 			, uint32_t dimension
-			, bool enabled = true );
+			, bool enabled = true
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Ray tracing variables declaration

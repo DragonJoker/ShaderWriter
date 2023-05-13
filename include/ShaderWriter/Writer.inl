@@ -1360,11 +1360,13 @@ namespace sdw
 	*	Shared variables declaration.
 	*/
 	/**@{*/
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	T ShaderWriter::declSharedVariable( std::string name
-		, bool enabled )
+		, bool enabled
+		, ParamsT && ... params )
 	{
-		auto type = T::makeType( getTypesCache() );
+		auto type = T::makeType( getTypesCache()
+			, std::forward< ParamsT >( params )... );
 		auto var = registerName( name
 			, type
 			, uint64_t( ast::var::Flag::eShared ) );
@@ -1379,12 +1381,14 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename ... ParamsT >
 	Array< T > ShaderWriter::declSharedVariable( std::string name
 		, uint32_t dimension
-		, bool enabled )
+		, bool enabled
+		, ParamsT && ... params )
 	{
-		auto type = getTypesCache().getArray( T::makeType( getTypesCache() )
+		auto type = getTypesCache().getArray( T::makeType( getTypesCache()
+				, std::forward< ParamsT >( params )... )
 			, dimension );
 		auto var = registerName( name
 			, type
