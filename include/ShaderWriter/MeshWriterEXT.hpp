@@ -35,6 +35,7 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
+		//in uint  gl_MeshViewCountNV;
 		UInt32 const meshViewCount;
 		//in uint  gl_MeshViewIndicesNV[];
 		Array< UInt32 > const meshViewIndices;
@@ -42,15 +43,14 @@ namespace sdw
 		Int32 const drawID;
 		//const uvec3 gl_WorkGroupSize;
 		UInt32 const workGroupSize;
-		//in uvec3 gl_WorkGroupID;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
 		UInt32 const workGroupID;
-		//in uvec3 gl_LocalInvocationID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		UInt32 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		UInt32 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
-		//in uint  gl_MeshViewCountNV;
 	};
 	/**
 	*	Holds input data for a mesh subgroup shader.
@@ -84,13 +84,13 @@ namespace sdw
 		using MeshIn::drawID;
 		//const uvec3 gl_WorkGroupSize;
 		using MeshIn::workGroupSize;
-		//in uvec3 gl_WorkGroupID;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
 		using MeshIn::workGroupID;
-		//in uvec3 gl_LocalInvocationID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		using MeshIn::localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		using MeshIn::globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		using MeshIn::localInvocationIndex;
 
 		//in uint gl_NumSubgroups;
@@ -129,13 +129,13 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		// vec4  gl_Position;
+		// vec4  gl_Position / SV_Position;
 		Vec4 position;
 		// float gl_PointSize;
 		Float pointSize;
-		// float gl_ClipDistance[];
+		// float gl_ClipDistance[] / SV_ClipDistance;
 		Array< Float > clipDistance;
-		// float gl_CullDistance[];
+		// float gl_CullDistance[] / SV_CullDistance;
 		Array< Float > cullDistance;
 	};
 	/**
@@ -232,11 +232,11 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		// int gl_PrimitiveID;
+		// int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
-		// int gl_Layer;
+		// int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 layer;
-		// int gl_ViewportIndex;
+		// int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 viewportIndex;
 		// int gl_CullPrimitiveEXT;
 		Int32 cullPrimitive;

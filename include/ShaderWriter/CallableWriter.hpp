@@ -28,9 +28,9 @@ namespace sdw
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		// Work dimensions
-		//in uvec3 gl_LaunchIDEXT;
+		//in uvec3 gl_LaunchIDEXT / DispatchRaysIndex;
 		U32Vec3 launchID;
-		//in uvec3 gl_LaunchSizeEXT;
+		//in uvec3 gl_LaunchSizeEXT / DispatchRaysDimensions;
 		U32Vec3 launchSize;
 	};
 

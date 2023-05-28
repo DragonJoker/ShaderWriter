@@ -33,9 +33,9 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//in int gl_VertexIndex;
+		//in int gl_VertexIndex / SV_VertexID;
 		Int32 const vertexIndex;
-		//in int gl_InstanceIndex;
+		//in int gl_InstanceIndex / SV_InstanceID;
 		Int32 const instanceIndex;
 		//in int gl_DrawID;
 		Int32 const drawID;

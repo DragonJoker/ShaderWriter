@@ -42,13 +42,13 @@ namespace sdw
 
 		//in uvec3 gl_NumWorkGroups;
 		U32Vec3 const numWorkGroups;
-		//in uvec3 gl_WorkGroupID;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
 		U32Vec3 const workGroupID;
-		//in uvec3 gl_LocalInvocationID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		U32Vec3 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		U32Vec3 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
 		//const uvec3 gl_WorkGroupSize;
 		U32Vec3 const workGroupSize;

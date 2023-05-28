@@ -39,13 +39,13 @@ namespace sdw
 		Int32 const drawID;
 		//const uvec3 gl_WorkGroupSize;
 		UInt32 const workGroupSize;
-		//in uvec3 gl_WorkGroupID;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
 		UInt32 const workGroupID;
-		//in uvec3 gl_LocalInvocationID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		UInt32 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		UInt32 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
 	};
 	/**
@@ -77,13 +77,13 @@ namespace sdw
 		using TaskIn::drawID;
 		//in uvec3 gl_WorkGroupSize;
 		using TaskIn::workGroupSize;
-		//in uvec3 gl_WorkGroupID;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
 		using TaskIn::workGroupID;
-		//in uvec3 gl_LocalInvocationID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		using TaskIn::localInvocationID;
-		//in uvec3 gl_GlobalInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		using TaskIn::globalInvocationID;
-		//in uint  gl_LocalInvocationIndex;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		using TaskIn::localInvocationIndex;
 
 		//in uint gl_NumSubgroups;
