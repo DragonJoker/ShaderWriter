@@ -68,7 +68,7 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in int gl_PrimitiveID;
+		//in int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
 	};
 
@@ -84,9 +84,9 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in int gl_PrimitiveID;
+		//in int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
-		//in int gl_InvocationID;
+		//in int gl_InvocationID / SV_OutputControlPointID;
 		Int32 invocationID;
 	};
 
@@ -146,9 +146,9 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//patch out float gl_TessLevelOuter[];
+		//patch out float gl_TessLevelOuter[] /SV_TessFactor;
 		Array< Float > tessLevelOuter;
-		//patch out float gl_TessLevelInner[];
+		//patch out float gl_TessLevelInner[] / SV_InsideTessFactor;
 		Array< Float > tessLevelInner;
 	};
 

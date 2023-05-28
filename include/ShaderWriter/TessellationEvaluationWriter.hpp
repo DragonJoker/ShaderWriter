@@ -67,7 +67,7 @@ namespace sdw
 
 		//in int gl_PatchVerticesIn;
 		Int32 patchVerticesIn;
-		//in int gl_PrimitiveID;
+		//in int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
 	};
 

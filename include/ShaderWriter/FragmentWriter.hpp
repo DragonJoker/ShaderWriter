@@ -35,25 +35,25 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//in vec4 gl_FragCoord;
+		//in vec4 gl_FragCoord / SV_Position;
 		Vec4 const fragCoord;
-		//in bool gl_FrontFacing;
+		//in bool gl_FrontFacing / SV_IsFrontFace;
 		Boolean const frontFacing;
 		//in vec2 gl_PointCoord;
 		Vec2 const pointCoord;
-		//in int gl_SampleID;
+		//in int gl_SampleID / SV_SampleIndex;
 		Int32 const sampleID;
 		//in vec2 gl_SamplePosition;
 		Vec2 const samplePosition;
-		//in int gl_SampleMaskIn[];
+		//in int gl_SampleMaskIn[] / SV_Coverage;
 		Array< Int32 > const sampleMask;
-		//in float gl_ClipDistance[];
+		//in float gl_ClipDistance[] / SV_ClipDistance;
 		Array < Float > const clipDistance;
-		//in int gl_PrimitiveID;
+		//in int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 const primitiveID;
-		//in int gl_Layer;
+		//in int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 const layer;
-		//in int gl_ViewportIndex;
+		//in int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 const viewportIndex;
 	};
 
@@ -74,9 +74,9 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//out float gl_FragDepth;
+		//out float gl_FragDepth / SV_Depth;
 		Float fragDepth;
-		//out int gl_SampleMask[];
+		//out int gl_SampleMask[] / SV_Coverage;
 		Array< Int32 > sampleMask;
 	};
 

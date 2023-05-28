@@ -53,11 +53,11 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		// int gl_PrimitiveID;
+		// int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
-		// int gl_Layer;
+		// int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 layer;
-		// int gl_ViewportIndex;
+		// int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 viewportIndex;
 		// int gl_ViewportMask[];          // NV_viewport_array2
 		Array< Int32 > viewportMask;

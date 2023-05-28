@@ -48,7 +48,7 @@ namespace sdw
 
 		//in int gl_PrimitiveIDIn;
 		Int32 const primitiveID;
-		//in int gl_InvocationID;
+		//in int gl_InvocationID / SV_OutputControlPointID;
 		Int32 const invocationID;
 	};
 	/**
@@ -116,11 +116,11 @@ namespace sdw
 			, ParamsT && ... params );
 
 		PerVertex vtx;
-		//out int gl_PrimitiveID;
+		//out int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
-		//out int gl_Layer;
+		//out int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 layer;
-		//out int gl_ViewportIndex;
+		//out int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 viewportIndex;
 	};
 
