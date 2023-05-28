@@ -163,6 +163,30 @@ namespace sdw
 		return cache.getBasicType( KindT );
 	}
 
+	template< ast::type::Kind KindT >
+	Vec2T< IntegerValue< KindT > > IntegerValue< KindT >::xx()const
+	{
+		return Vec2T< IntegerValue< KindT > >{ *getWriter()
+			, sdw::makeExpr( *this )
+			, isEnabled() };
+	}
+
+	template< ast::type::Kind KindT >
+	Vec3T< IntegerValue< KindT > > IntegerValue< KindT >::xxx()const
+	{
+		return Vec3T< IntegerValue< KindT > >{ *getWriter()
+			, sdw::makeExpr( *this )
+			, isEnabled() };
+	}
+
+	template< ast::type::Kind KindT >
+	Vec4T< IntegerValue< KindT > > IntegerValue< KindT >::xxxx()const
+	{
+		return Vec4T< IntegerValue< KindT > >{ *getWriter()
+			, sdw::makeExpr( *this )
+			, isEnabled() };
+	}
+
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >

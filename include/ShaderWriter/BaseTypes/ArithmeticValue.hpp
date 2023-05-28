@@ -35,6 +35,10 @@ namespace sdw
 		ArithmeticValue operator-()const;
 		ArithmeticValue operator+()const;
 
+		Vec2T< ArithmeticValue > xx()const;
+		Vec3T< ArithmeticValue > xxx()const;
+		Vec4T< ArithmeticValue > xxxx()const;
+
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
