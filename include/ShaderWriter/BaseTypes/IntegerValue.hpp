@@ -52,6 +52,10 @@ namespace sdw
 		IntegerValue operator-()const;
 		IntegerValue operator+()const;
 
+		Vec2T< IntegerValue > xx()const;
+		Vec3T< IntegerValue > xxx()const;
+		Vec4T< IntegerValue > xxxx()const;
+
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 

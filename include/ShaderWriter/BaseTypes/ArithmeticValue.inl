@@ -89,6 +89,30 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
+	Vec2T< ArithmeticValue< KindT > > ArithmeticValue< KindT >::xx()const
+	{
+		return Vec2T< ArithmeticValue< KindT > >{ *getWriter()
+			, sdw::makeExpr( this )
+			, isEnabled() };
+	}
+
+	template< ast::type::Kind KindT >
+	Vec3T< ArithmeticValue< KindT > > ArithmeticValue< KindT >::xxx()const
+	{
+		return Vec3T< ArithmeticValue< KindT > >{ *getWriter()
+			, sdw::makeExpr( this )
+			, isEnabled() };
+	}
+
+	template< ast::type::Kind KindT >
+	Vec4T< ArithmeticValue< KindT > > ArithmeticValue< KindT >::xxxx()const
+	{
+		return Vec4T< ArithmeticValue< KindT > >{ *getWriter()
+			, sdw::makeExpr( this )
+			, isEnabled() };
+	}
+
+	template< ast::type::Kind KindT >
 	ast::type::TypePtr ArithmeticValue< KindT >::makeType( ast::type::TypesCache & cache )
 	{
 		return cache.getBasicType( KindT );
