@@ -27,5 +27,15 @@ namespace sdw
 			, makeParam( std::move( payload ) ) );
 	}
 
+
+	template< template< ast::var::Flag FlagT > typename PayloadT >
+	void TaskWriterNV::dispatchMesh( UInt numGroups
+		, TaskPayloadOutNVT< PayloadT > const & payload )
+	{
+		addStmt( ast::stmt::makeSimple( ast::expr::makeDispatchMeshNV( getTypesCache()
+			, makesExpr( payload )
+			, makeExpr( numGroups ) ) ) );
+	}
+
 	//*************************************************************************
 }
