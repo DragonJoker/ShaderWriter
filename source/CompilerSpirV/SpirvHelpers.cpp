@@ -2059,6 +2059,7 @@ namespace spirv
 	//*************************************************************************
 
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
+		, spv::ExecutionModel executionModel
 		, std::vector< spv::Decoration > & additionalDecorations )
 	{
 		switch ( builtin )
@@ -2072,13 +2073,29 @@ namespace spirv
 		case ast::Builtin::eCullDistance:
 			return spv::BuiltInCullDistance;
 		case ast::Builtin::ePrimitiveID:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
+			return spv::BuiltInPrimitiveId;
 		case ast::Builtin::ePrimitiveIDIn:
 			return spv::BuiltInPrimitiveId;
 		case ast::Builtin::eInvocationID:
 			return spv::BuiltInInvocationId;
 		case ast::Builtin::eLayer:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
 			return spv::BuiltInLayer;
 		case ast::Builtin::eViewportIndex:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
 			return spv::BuiltInViewportIndex;
 		case ast::Builtin::eTessLevelOuter:
 			return spv::BuiltInTessLevelOuter;
@@ -2179,26 +2196,52 @@ namespace spirv
 		case ast::Builtin::eFragStencilRefEXT:
 			return spv::BuiltInFragStencilRefEXT;
 		case ast::Builtin::eViewportMaskNV:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
 			return spv::BuiltInViewportMaskNV;
 		case ast::Builtin::eSecondaryPositionNV:
 			return spv::BuiltInSecondaryPositionNV;
 		case ast::Builtin::eSecondaryViewportMaskNV:
 			return spv::BuiltInSecondaryViewportMaskNV;
 		case ast::Builtin::ePositionPerViewNV:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
+			additionalDecorations.push_back( spv::DecorationPerViewNV );
 			return spv::BuiltInPositionPerViewNV;
 		case ast::Builtin::eViewportMaskPerViewNV:
+			additionalDecorations.push_back( spv::DecorationPerViewNV );
 			return spv::BuiltInViewportMaskPerViewNV;
 		case ast::Builtin::ePrimitiveIndicesNV:
+			additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
 			return spv::BuiltInPrimitiveIndicesNV;
 		case ast::Builtin::ePrimitiveCountNV:
 			return spv::BuiltInPrimitiveCountNV;
 		case ast::Builtin::eTaskCountNV:
 			return spv::BuiltInTaskCountNV;
 		case ast::Builtin::eClipDistancePerViewNV:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
+			additionalDecorations.push_back( spv::DecorationPerViewNV );
 			return spv::BuiltInClipDistancePerViewNV;
 		case ast::Builtin::eCullDistancePerViewNV:
+			if ( executionModel == spv::ExecutionModelMeshEXT
+				|| executionModel == spv::ExecutionModelMeshNV )
+			{
+				additionalDecorations.push_back( spv::DecorationPerPrimitiveNV );
+			}
+			additionalDecorations.push_back( spv::DecorationPerViewNV );
 			return spv::BuiltInCullDistancePerViewNV;
 		case ast::Builtin::eLayerPerViewNV:
+			additionalDecorations.push_back( spv::DecorationPerViewNV );
 			return spv::BuiltInLayerPerViewNV;
 		case ast::Builtin::eMeshViewCountNV:
 			return spv::BuiltInMeshViewCountNV;

@@ -1136,6 +1136,7 @@ namespace
 					IF( writer, gtid < m.primCount )
 					{
 						primOut[gtid].primitiveIndex = getPrimitive( m, gtid );
+						primOut[gtid].primitiveID = gtid;
 					}
 					FI;
 
@@ -1614,6 +1615,7 @@ namespace
 					{
 						auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + gtid].index );
 						primOut[gtid].primitiveIndex = uvec3( primIndices );
+						primOut[gtid].primitiveID = gtid;
 					}
 					FI;
 				} );

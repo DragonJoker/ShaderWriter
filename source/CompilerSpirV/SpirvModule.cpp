@@ -2161,7 +2161,7 @@ namespace spirv
 		, ValueId id )
 	{
 		std::vector< spv::Decoration > additionalDecorations;
-		auto builtin = getBuiltin( pbuiltin, additionalDecorations );
+		auto builtin = getBuiltin( pbuiltin, m_model, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
 		{
@@ -2180,7 +2180,7 @@ namespace spirv
 	{
 		bool result = false;
 		std::vector< spv::Decoration > additionalDecorations;
-		auto builtin = getBuiltin( pbuiltin, additionalDecorations );
+		auto builtin = getBuiltin( pbuiltin, m_model, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
 		{

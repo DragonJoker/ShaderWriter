@@ -439,6 +439,7 @@ namespace spirv
 	void checkType( ast::type::TypePtr type
 		, ModuleConfig & config );
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
+		, spv::ExecutionModel executionModel
 		, std::vector< spv::Decoration > & additionalDecorations );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
