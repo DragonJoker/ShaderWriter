@@ -20,6 +20,7 @@ namespace sdw
 {
 #if SDW_PreferredMeshShadingExtension == SDW_MeshShadingEXT
 #	define SDW_TaskLocalSize( x, y, z ) x, y, z
+#	define SDW_TaskDispatch( x, y, z ) x, y, z
 
 	using TaskWriter = sdw::TaskWriterEXT;
 
@@ -44,10 +45,11 @@ namespace sdw
 		, TaskPayloadOutT< DataT > const & payload
 		, sdw::UInt const & numTasks )
 	{
-		writer.dispatchMesh( numTasks, 1_u, 1_u, payload );
+		payload.dispatchMesh( numTasks, 1_u, 1_u );
 	}
 #else
 #	define SDW_TaskLocalSize( x, y, z ) x * y * z
+#	define SDW_TaskDispatch( x, y, z ) x * y * z
 
 	using TaskWriter = sdw::TaskWriterNV;
 

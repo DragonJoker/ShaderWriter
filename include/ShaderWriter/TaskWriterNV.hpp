@@ -39,7 +39,6 @@ namespace sdw
 		SDW_API void implementMain( uint32_t localSizeX
 			, TaskNVSubgroupMainFunc const & function );
 
-		SDW_API void dispatchMesh( UInt numGroups );
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void dispatchMesh( UInt numGroups
 			, TaskPayloadOutNVT< PayloadT > const & payload );

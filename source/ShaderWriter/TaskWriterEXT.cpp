@@ -145,16 +145,6 @@ namespace sdw
 	{
 	}
 
-	void TaskWriterEXT::dispatchMesh( UInt numGroupsX
-		, UInt numGroupsY
-		, UInt numGroupsZ )
-	{
-		addStmt( makeDispatchMesh( makeExpr( numGroupsX )
-			, makeExpr( numGroupsY )
-			, makeExpr( numGroupsZ )
-			, nullptr ) );
-	}
-
 	void TaskWriterEXT::implementMain( uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ

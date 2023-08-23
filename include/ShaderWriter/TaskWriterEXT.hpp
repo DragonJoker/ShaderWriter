@@ -125,9 +125,6 @@ namespace sdw
 	public:
 		SDW_API TaskWriterEXT();
 
-		SDW_API void dispatchMesh( UInt numGroupsX
-			, UInt numGroupsY
-			, UInt numGroupsZ );
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void dispatchMesh( UInt numGroupsX
 			, UInt numGroupsY

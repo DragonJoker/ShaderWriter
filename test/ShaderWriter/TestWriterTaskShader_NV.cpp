@@ -468,7 +468,7 @@ namespace
 				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoGLSL );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -616,7 +616,7 @@ namespace
 				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoGLSL );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -639,7 +639,53 @@ namespace
 				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoGLSL );
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void subgroupBasicXDispatchFromPayload( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupBasicXDispatchFromPayload" );
+		using namespace sdw;
+		{
+			TaskWriter writer;
+			writer.implementMainT< PayloadT >( SDW_TaskLocalSize( ThreadsPerWave, 1u, 1u )
+				, TaskPayloadOutT< PayloadT >{ writer }
+			, [&]( TaskSubgroupIn in
+				, TaskPayloadOutT< PayloadT > payload )
+			{
+				payload.meshletIndices[0_u] = 1_u;
+				payload.dispatchMesh( SDW_TaskDispatch( 1_u, 1_u, 1_u ) );
+			} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void subgroupBasicXDispatchFromWriter( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupBasicXDispatchFromWriter" );
+		using namespace sdw;
+		{
+			TaskWriter writer;
+			writer.implementMainT< PayloadT >( SDW_TaskLocalSize( ThreadsPerWave, 1u, 1u )
+				, TaskPayloadOutT< PayloadT >{ writer }
+			, [&]( TaskSubgroupIn in
+				, TaskPayloadOutT< PayloadT > payload )
+			{
+				payload.meshletIndices[0_u] = 1_u;
+				writer.dispatchMesh( SDW_TaskDispatch( 1_u, 1_u, 1_u ), payload );
+			} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -652,6 +698,8 @@ sdwTestSuiteMain( TestWriterTaskShaderEXT )
 	basicX( testCounts );
 	cullMeshlet( testCounts );
 	subgroupBasicX( testCounts );
+	subgroupBasicXDispatchFromPayload( testCounts );
+	subgroupBasicXDispatchFromWriter( testCounts );
 
 	sdwTestSuiteEnd();
 }

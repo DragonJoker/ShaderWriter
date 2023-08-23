@@ -1,3 +1,4 @@
+#include "ShaderWriter/Helpers.hpp"
 
 namespace sdw
 {
@@ -32,8 +33,8 @@ namespace sdw
 	void TaskWriterNV::dispatchMesh( UInt numGroups
 		, TaskPayloadOutNVT< PayloadT > const & payload )
 	{
-		addStmt( ast::stmt::makeSimple( ast::expr::makeDispatchMeshNV( getTypesCache()
-			, makesExpr( payload )
+		addStmt( sdw::makeSimple( sdw::makeDispatchMeshNV( getTypesCache()
+			, makeExpr( payload )
 			, makeExpr( numGroups ) ) ) );
 	}
 

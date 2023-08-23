@@ -26,12 +26,5 @@ namespace sdw
 			, function );
 	}
 
-	void TaskWriterNV::dispatchMesh( UInt numGroups )
-	{
-		addStmt( ast::stmt::makeSimple( ast::expr::makeDispatchMeshNV( getTypesCache()
-				, nullptr
-				, makeExpr( numGroups ) ) ) );
-	}
-
 	//*************************************************************************
 }

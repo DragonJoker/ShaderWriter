@@ -765,6 +765,15 @@ namespace sdw
 		return expr::makeIdentifier( cache, std::move( var ) );
 	}
 
+	expr::ExprPtr makeDispatchMeshNV( type::TypesCache & cache
+		, expr::ExprPtr payload
+		, expr::ExprPtr numTasks )
+	{
+		return expr::makeDispatchMeshNV( cache
+			, std::move( payload )
+			, std::move( numTasks ) );
+	}
+
 	stmt::StmtPtr makeSimple( expr::ExprPtr expr )
 	{
 		return stmt::makeSimple( std::move( expr ) );

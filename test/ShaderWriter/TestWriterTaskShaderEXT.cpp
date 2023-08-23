@@ -465,7 +465,7 @@ namespace
 				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoGLSL );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -613,14 +613,37 @@ namespace
 				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoGLSL );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
 
-	void subgroupBasicX( test::sdw_test::TestCounts & testCounts )
+	void subgroupBasicXDispatchFromPayload( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupBasicX" );
+		testBegin( "subgroupBasicXDispatchFromPayload" );
+		using namespace sdw;
+		{
+			TaskWriterEXT writer;
+			writer.implementMainT< PayloadT >( 32u, 1u, 1u
+				, TaskPayloadOutEXTT< PayloadT >{ writer }
+			, [&]( TaskSubgroupIn in
+				, TaskPayloadOutEXTT< PayloadT > payload )
+			{
+				payload.meshletIndices[0_u] = 1_u;
+				payload.dispatchMesh( 1_u, 1_u, 1_u );
+			} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void subgroupBasicXDispatchFromWriter( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;
 		{
 			TaskWriterEXT writer;
@@ -636,7 +659,7 @@ namespace
 				, testCounts );
 			test::writeShader( writer
 				, testCounts
-				, Compilers_NoGLSL );
+				, CurrentCompilers );
 		}
 		testEnd();
 	}
@@ -648,7 +671,8 @@ sdwTestSuiteMain( TestWriterTaskShaderEXT )
 
 	basicX( testCounts );
 	cullMeshlet( testCounts );
-	subgroupBasicX( testCounts );
+	subgroupBasicXDispatchFromPayload( testCounts );
+	subgroupBasicXDispatchFromWriter( testCounts );
 
 	sdwTestSuiteEnd();
 }

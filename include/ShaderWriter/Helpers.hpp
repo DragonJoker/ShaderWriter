@@ -252,6 +252,9 @@ namespace sdw
 		, expr::ExprPtr operand );
 	SDW_API expr::IdentifierPtr makeIdent( type::TypesCache & cache
 		, var::VariablePtr var );
+	SDW_API expr::ExprPtr makeDispatchMeshNV( type::TypesCache & cache
+		, expr::ExprPtr payload
+		, expr::ExprPtr numTasks );
 
 	SDW_API stmt::StmtPtr makeSimple( expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
