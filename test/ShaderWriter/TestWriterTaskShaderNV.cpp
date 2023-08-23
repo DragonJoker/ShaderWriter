@@ -614,9 +614,9 @@ namespace
 		testEnd();
 	}
 
-	void subgroupBasicX( test::sdw_test::TestCounts & testCounts )
+	void subgroupBasicXDispatchFromPayload( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupBasicX" );
+		testBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
 		{
 			TaskWriterNV writer;
@@ -634,6 +634,27 @@ namespace
 		}
 		testEnd();
 	}
+
+	void subgroupBasicXDispatchFromWriter( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "subgroupBasicXDispatchFromWriter" );
+		using namespace sdw;
+		{
+			TaskWriterNV writer;
+			writer.implementMainT< PayloadT >( 32u
+				, TaskPayloadOutNVT< PayloadT >{ writer }
+			, [&]( TaskSubgroupIn in
+				, TaskPayloadOutNVT< PayloadT > payload )
+			{
+				payload.meshletIndices[0_u] = 1_u;
+				writer.dispatchMesh( 1_u, payload );
+			} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterTaskShaderNV )
@@ -642,7 +663,8 @@ sdwTestSuiteMain( TestWriterTaskShaderNV )
 
 	basicX( testCounts );
 	cullMeshlet( testCounts );
-	subgroupBasicX( testCounts );
+	subgroupBasicXDispatchFromPayload( testCounts );
+	subgroupBasicXDispatchFromWriter( testCounts );
 
 	sdwTestSuiteEnd();
 }
