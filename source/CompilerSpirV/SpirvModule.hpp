@@ -225,6 +225,13 @@ namespace spirv
 			, uint32_t mbrIndex
 			, ValueId parentId
 			, uint32_t arrayStride );
+		void replaceDecoration( ValueId id
+			, spv::Decoration oldDecoration
+			, spv::Decoration newDecoration );
+		void replaceMemberDecoration( ValueId id
+			, uint32_t index
+			, spv::Decoration oldDecoration
+			, spv::Decoration newDecoration );
 
 	private:
 		void initialiseHeader( Header const & header );
@@ -284,14 +291,12 @@ namespace spirv
 		std::unordered_map< spv::Id, ValueId > m_busyIntermediates;
 		spv::ExecutionModel m_model;
 		InstructionList m_pendingExecutionModes;
-		std::map< spv::Id, IdSet > m_varDecorations;
-		std::map< spv::Id, IdSet > m_mbrDecorations;
 		ValueIdSet m_entryPointIO;
-		using DecorationSet = std::unordered_set< ValueIdList, ValueIdListHasher >;
-		using DecorationSetIdMap = std::map< ValueId, DecorationSet >;
-		DecorationSetIdMap varDecorations;
-		using DecorationSetMbrMap = std::unordered_map< ValueIdList, DecorationSet, ValueIdListHasher >;
-		DecorationSetMbrMap mbrDecorations;
+		using DecorationMap = std::unordered_map< ValueIdList, size_t, ValueIdListHasher >;
+		using DecorationMapIdMap = std::map< ValueId, DecorationMap >;
+		DecorationMapIdMap varDecorations;
+		using DecorationMapMbrMap = std::unordered_map< ValueIdList, DecorationMap, ValueIdListHasher >;
+		DecorationMapMbrMap mbrDecorations;
 	};
 }
 
