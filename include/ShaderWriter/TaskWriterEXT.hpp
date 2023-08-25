@@ -131,15 +131,6 @@ namespace sdw
 			, UInt numGroupsZ
 			, TaskPayloadOutEXTT< PayloadT > const & payload );
 
-		SDW_API void implementMain( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, TaskEXTMainFunc const & function );
-		SDW_API void implementMain( uint32_t localSizeX
-			, uint32_t localSizeY
-			, uint32_t localSizeZ
-			, TaskEXTSubgroupMainFunc const & function );
-
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY

@@ -34,11 +34,6 @@ namespace sdw
 	public:
 		SDW_API TaskWriterNV();
 
-		SDW_API void implementMain( uint32_t localSizeX
-			, TaskNVMainFunc const & function );
-		SDW_API void implementMain( uint32_t localSizeX
-			, TaskNVSubgroupMainFunc const & function );
-
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void dispatchMesh( UInt numGroups
 			, TaskPayloadOutNVT< PayloadT > const & payload );
