@@ -341,20 +341,30 @@ namespace spirv
 
 	void Module::decorate( ValueId id, spv::Decoration decoration )
 	{
-		decorate( id, { spv::Id( decoration ) } );
+		if ( decoration == spv::DecorationBufferBlock )
+		{
+			// Since we can't have both Block and BufferBlock decorations, replace the former with the latter.
+			replaceDecoration( id, spv::DecorationBlock, decoration );
+		}
+		else
+		{
+			decorate( id, { spv::Id( decoration ) } );
+		}
 	}
 
 	void Module::decorate( ValueId id
 		, IdList const & pdecorations )
 	{
-		auto it = varDecorations.emplace( id, DecorationSet{} ).first;
+		auto it = varDecorations.emplace( id, DecorationMap{} ).first;
 		auto decos = convert( pdecorations );
+		auto ires = it->second.emplace( decos, 0u );
 
-		if ( it->second.insert( decos ).second )
+		if ( ires.second )
 		{
 			ValueIdList operands;
 			operands.push_back( id );
 			operands.insert( operands.end(), decos.begin(), decos.end() );
+			ires.first->second = decorations.size();
 			decorations.push_back( makeInstruction< DecorateInstruction >( operands ) );
 		}
 	}
@@ -363,22 +373,32 @@ namespace spirv
 		, uint32_t index
 		, spv::Decoration decoration )
 	{
-		decorateMember( id, index, IdList{ spv::Id( decoration ) } );
+		if ( decoration == spv::DecorationBufferBlock )
+		{
+			// Since we can't have both Block and BufferBlock decorations, replace the former with the latter.
+			replaceMemberDecoration( id, index, spv::DecorationBlock, decoration );
+		}
+		else
+		{
+			decorateMember( id, index, IdList{ spv::Id( decoration ) } );
+		}
 	}
 
 	void Module::decorateMember( ValueId id
 		, uint32_t index
 		, IdList const & pdecorations )
 	{
-		auto it = mbrDecorations.emplace( ValueIdList{ id, ValueId{ index } }, DecorationSet{} ).first;
+		auto it = mbrDecorations.emplace( ValueIdList{ id, ValueId{ index } }, DecorationMap{} ).first;
 		auto decos = convert( pdecorations );
+		auto ires = it->second.emplace( decos, 0u );
 
-		if ( it->second.insert( decos ).second )
+		if ( ires.second )
 		{
 			ValueIdList operands;
 			operands.push_back( id );
 			operands.push_back( { index } );
 			operands.insert( operands.end(), decos.begin(), decos.end() );
+			ires.first->second = decorations.size();
 			decorations.push_back( makeInstruction< MemberDecorateInstruction >( operands ) );
 		}
 	}
@@ -681,7 +701,18 @@ namespace spirv
 					if ( getArraySize( structType->back().type ) == ast::type::UnknownArraySize )
 					{
 						auto typeId = registerType( type );
-						decorate( typeId, spv::DecorationBlock );
+
+						if ( storage == spv::StorageClassPhysicalStorageBuffer
+							|| storage == spv::StorageClassUniform
+							|| storage == spv::StorageClassStorageBuffer )
+						{
+							decorate( typeId, spv::DecorationBlock );
+						}
+						else
+						{
+							decorate( typeId, spv::DecorationBlock );
+						}
+
 						varType = type->getCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
 						varType = type->getCache().getPointerType( varType, typeStorage );
 						typeStorage = ast::type::Storage::ePhysicalStorageBuffer;
@@ -1953,6 +1984,7 @@ namespace spirv
 		globalDeclarations.push_back( makeInstruction< StructTypeInstruction >( result, subTypes ) );
 		debug.push_back( makeInstruction< NameInstruction >( result, type->getName() ) );
 		bool hasBuiltin = false;
+		bool hasDynarray = false;
 
 		for ( auto & member : *type )
 		{
@@ -1972,6 +2004,12 @@ namespace spirv
 			}
 
 			auto kind = getNonArrayKind( member.type );
+			auto arraySize = getArraySize( member.type );
+
+			if ( arraySize == ast::type::UnknownArraySize )
+			{
+				hasDynarray = true;
+			}
 
 			if ( isMatrixType( kind ) )
 			{
@@ -1996,8 +2034,7 @@ namespace spirv
 			}
 		}
 
-		if ( hasBuiltin
-			/*|| hasDynarray*/ )
+		if ( hasBuiltin || hasDynarray )
 		{
 			decorate( result, spv::DecorationBlock );
 		}
@@ -2065,6 +2102,101 @@ namespace spirv
 		}
 
 		return result;
+	}
+
+	void Module::replaceDecoration( ValueId id
+		, spv::Decoration oldDecoration
+		, spv::Decoration newDecoration )
+	{
+		auto varIt = varDecorations.find( id );
+		bool processed = false;
+
+		if ( varIt != varDecorations.end() )
+		{
+			size_t dist;
+			auto listIt = std::find_if( varIt->second.begin(), varIt->second.end()
+				, [&oldDecoration, &dist]( DecorationMap::value_type const & listIdx )
+				{
+					auto result = std::find_if( listIdx.first.begin(), listIdx.first.end()
+						, [&oldDecoration]( ValueId const & lookup )
+						{
+							return spv::Id( oldDecoration ) == lookup.id;
+						} );
+
+					if ( result != listIdx.first.end() )
+					{
+						dist = size_t( std::distance( listIdx.first.begin(), result ) );
+					}
+
+					return result != listIdx.first.end();
+				} );
+
+			if ( listIt != varIt->second.end() )
+			{
+				auto list = listIt->first;
+				auto idx = listIt->second;
+				varIt->second.erase( listIt );
+				list[dist] = { spv::Id( newDecoration ) };
+				decorations[idx]->operands[dist + 1u] = spv::Id( newDecoration );
+				varIt->second.emplace( list, idx );
+				processed = true;
+			}
+		}
+
+		if ( !processed )
+		{
+			IdList list;
+			list.push_back( spv::Id( newDecoration ) );
+			decorate( id, list );
+		}
+	}
+
+	void Module::replaceMemberDecoration( ValueId id
+		, uint32_t index
+		, spv::Decoration oldDecoration
+		, spv::Decoration newDecoration )
+	{
+		auto mbrIt = mbrDecorations.find( ValueIdList{ id, ValueId{ index } } );
+		bool processed = false;
+
+		if ( mbrIt != mbrDecorations.end() )
+		{
+			size_t dist;
+			auto listIt = std::find_if( mbrIt->second.begin(), mbrIt->second.end()
+				, [&oldDecoration, &dist]( DecorationMap::value_type const & listIdx )
+				{
+					auto result = std::find_if( listIdx.first.begin(), listIdx.first.end()
+						, [&oldDecoration]( ValueId const & lookup )
+						{
+							return spv::Id( oldDecoration ) == lookup.id;
+						} );
+
+					if ( result != listIdx.first.end() )
+					{
+						dist = size_t( std::distance( listIdx.first.begin(), result ) );
+					}
+
+					return result != listIdx.first.end();
+				} );
+
+			if ( listIt != mbrIt->second.end() )
+			{
+				auto list = listIt->first;
+				auto idx = listIt->second;
+				mbrIt->second.erase( listIt );
+				list[dist] = { spv::Id( newDecoration ) };
+				decorations[idx]->operands[dist + 2u] = spv::Id( newDecoration );
+				mbrIt->second.emplace( list, idx );
+				processed = true;
+			}
+		}
+
+		if ( !processed )
+		{
+			IdList list;
+			list.push_back( spv::Id( newDecoration ) );
+			decorateMember( id, index, list );
+		}
 	}
 
 	spv::Id Module::getNextId()
