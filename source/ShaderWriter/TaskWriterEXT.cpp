@@ -145,29 +145,5 @@ namespace sdw
 	{
 	}
 
-	void TaskWriterEXT::implementMain( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, TaskEXTMainFunc const & function )
-	{
-		implementMainT< VoidT >( localSizeX
-			, localSizeY
-			, localSizeZ
-			, TaskPayloadOutEXT{ *this }
-			, function );
-	}
-
-	void TaskWriterEXT::implementMain( uint32_t localSizeX
-		, uint32_t localSizeY
-		, uint32_t localSizeZ
-		, TaskEXTSubgroupMainFunc const & function )
-	{
-		implementMainT< VoidT >( localSizeX
-			, localSizeY
-			, localSizeZ
-			, TaskPayloadOutEXT{ *this }
-			, function );
-	}
-
 	//*************************************************************************
 }
